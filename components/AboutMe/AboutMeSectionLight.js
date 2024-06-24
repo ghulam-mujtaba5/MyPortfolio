@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { useTheme } from '../../context/ThemeContext';
-import Head from 'next/head';
+
 import commonStyles from './AboutMeSectionCommon.module.css';
 import lightStyles from './AboutMeSectionLight.module.css';
 import darkStyles from './AboutMeSectionDark.module.css';
@@ -32,10 +32,7 @@ const AboutMeSection = () => {
 
   return (
     <>
-      <Head>
-     
-        <meta name="description" content="About me section of Ghulam Mujtaba" />
-      </Head>
+
       <section className={containerClass}>
         <div className={sectionClass}>
           <h2 className={titleClass}>ABOUT ME</h2>
