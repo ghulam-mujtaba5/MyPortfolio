@@ -1,0 +1,181 @@
+
+/* ProjectCard1Parent container */
+.projectCard1Parent {
+  width: 100%;
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  text-align: left;
+  font-size: 16px;
+  font-family: Poppins;
+  padding-bottom: 20px;
+  margin-bottom: 20px;
+}
+
+/* Frame title */
+.frameTitle {
+  text-align: left;
+  font-family: Open Sans;
+ 
+}
+
+/* Project card */
+.projectCard1 {
+  width: 356px;
+  position: relative;
+  height: 570px;
+  border-radius: 20px;
+  overflow: hidden;
+  transition: transform 0.3s ease; /* Smooth transition for transform */
+  cursor: pointer;
+  
+}
+
+/* Hover effect */
+.projectCard1:hover {
+  transform: translateY(-5px); /* Move the card 5px up on hover */
+  box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1); /* Add shadow on hover for elevation effect */
+}
+.projectCard1Child {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 0%;
+  right: 0%;
+  bottom: 0%;
+  left: 0%;
+  border-radius: 20px;
+
+}
+
+.livePreview {
+  position: absolute;
+  top: 91.05%;
+  left: 16%;
+  text-decoration: underline;
+  line-height: 26px;
+
+}
+
+.viewCode {
+  position: absolute;
+  top: 91.05%;
+  left: 62.93%;
+  text-decoration: underline;
+  line-height: 26px;
+
+}
+
+.projectImg1 {
+  position: absolute;
+  height: 45%;
+  width: 100%;
+  top: 0%;
+  right: 0%;
+  bottom: 54%;
+  left: 0%;
+  border-radius: 20px 20px 0px 0px;
+  max-width: 100%;
+  overflow: hidden;
+  max-height: 100%;
+  object-fit:fill;
+  
+}
+
+.projectTileGoes {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 0%;
+  right: 0%;
+  text-align: center;
+  font-size: 28px;
+  line-height: 26px;
+  font-weight: 500;
+  font-family: inherit;
+  white-space: pre-wrap;
+
+}
+
+.thisIsSample {
+  position: absolute;
+  width: 85%;
+  top: 55%;
+  left: 8%;
+  font-size: 18px;
+  line-height: 24px;
+  font-weight: 300;
+  display: flex;
+  text-align: justify;
+  align-items: center;
+
+}
+
+
+
+.javaJavaFxMavenSpring {
+  font-size: 14px;
+  font-weight: 300;
+  
+}
+
+
+
+.techStackContainer {
+  position: absolute;
+  width: 85%;
+  left: 8%;
+  top: 82%;
+  font-size: 16px;
+  line-height: 20px;
+  display: flex;
+  align-items: center;
+
+}
+
+.githubIcon {
+  position: absolute;
+  height: 20px;
+  width: 20px;
+  top: 92%;
+  right: 40%;
+  bottom: 5%;
+  left: 55%;
+  
+}
+
+.previewIcon1 {
+  position: absolute;
+  height: 15px;
+  width: 15px;
+  top: 92%;
+  right: 87%;
+  bottom: 5%;
+  left: 9%;
+  
+}
+
+/* Media query for small screens */
+@media (max-width: 576px) {
+  .projectCard1Parent {
+    justify-content: center;
+    height: auto; /* Adjust height for small screens */
+    align-items: center; /* Center align items */
+  }
+
+  .projectCard1 {
+    width: 100%;
+    max-width: 90%; /* Allow cards to take up more space on small screens */
+    margin: 20px 0; /* Margin between cards for small screens */
+  }
+
+  .projectTileGoes {
+    font-size: 24px; /* Slightly reduce title size on small screens */
+  }
+  .techStackContainer {
+    top: 84%;
+    
+  }
+}

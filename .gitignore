@@ -1,0 +1,29 @@
+# dependencies
+node_modules/
+.next/
+out/
+build/
+coverage/
+
+# production
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# misc
+.DS_Store
+*.log*
+npm-debug.log*
+
+
+# IDE files
+.idea/
+.vscode/
+*.code-workspace
+
+# Next.js specific
+*.pnp.*
+.next
+.cache
+.next.js

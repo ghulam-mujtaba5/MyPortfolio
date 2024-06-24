@@ -1,0 +1,106 @@
+.container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    padding-top: 15%; 
+    padding-left: 5%;
+    height: 150px;
+    
+  }
+  
+  .textContainer {
+    width: 45%; /* Take full width */
+   
+  }
+  
+  .text {
+    font-size: 38px;
+    margin-bottom: 10px;
+    font-weight: bold;
+    font-family: 'Open Sans', sans-serif;
+    
+    
+  }
+  
+  .paragraph {
+    font-size: 38px;
+    font-weight: lighter;
+    font-family: 'Open Sans', sans-serif;
+  }
+  
+  .softBuilt {
+    font-weight: bold;
+    color: #4573df;
+  }
+  
+  /* Media query for tablets */
+  @media (max-width: 1024px) {
+
+    .container {
+      padding-left: 6%;
+    }
+      
+    .textContainer {
+      width: 100%; /* Take full width */
+      text-align: center; /* Center text in mobile view */
+      padding-top: 5%;
+    }
+  
+
+  }
+  
+  /* Media query for mobile screens */
+  @media (max-width: 768px) {
+    .container {
+      flex-direction: column;
+      align-items: center; /* Center items vertically */
+      padding: 10px;
+    
+      height: auto; /* Adjust height automatically */
+    }
+  
+    .textContainer {
+      width: 100%; /* Take full width */
+      text-align: center; /* Center text in mobile view */
+      padding-top: 10%;
+    }
+  
+    .text {
+      font-size: 32px;
+      margin-bottom: 10px;
+      font-weight: bold;
+      font-family: 'Open Sans', sans-serif;
+
+    }
+  
+    .paragraph {
+      font-size: 32px;
+      font-weight: lighter;
+      font-family: 'Open Sans', sans-serif;
+      margin-left: 0; /* Reset margin-left */
+      text-align: center; /* Center text in mobile view */
+    }
+  }
+  
+  /* Media query for smaller mobile screens */
+  @media (max-width: 576px) {
+    .container {
+        padding-top: 25%; /* Further increase margin-top for very small screens */
+        padding: 8px; /* Decrease padding for more compact layout */
+        padding: 5px;
+
+      }
+      .textContainer {
+       
+        padding-top: 25%; 
+      }
+       .text {
+      font-size: 30px;
+      margin-bottom: 1px;
+    }
+    .paragraph {
+        font-size: 30px;
+  
+      }
+    }

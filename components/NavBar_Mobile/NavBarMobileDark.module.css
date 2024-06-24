@@ -1,0 +1,30 @@
+.navBar {
+  background-color: #1d2127;
+  color: #fff;
+}
+
+
+
+.menuIcon:nth-child(1) {
+  background: #fff;
+}
+
+.menuIcon:nth-child(2) {
+  background: #fff;
+}
+
+.menuIcon:nth-child(3) {
+  background: #fff;
+}
+
+.menuContainer {
+  background-color: #272c34;
+}
+
+.menuItem {
+  color: #fff;
+}
+
+.menuItem:hover {
+  background-color: #3a3f47;
+}

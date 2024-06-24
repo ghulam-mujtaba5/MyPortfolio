@@ -1,0 +1,132 @@
+.navBar {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    font-family: "Open Sans", sans-serif;
+    display: none; /* Initially hide the navbar */
+    font-size: 22px;
+    
+  }
+  
+  /* Media query to show the navbar on screens less than 768px */
+  @media (max-width: 768px) {
+    .navBar {
+      display: block; /* Show the navbar on smaller screens */
+    }
+  }
+  
+  .menuList {
+    list-style: none; /* Hide the dot markers */
+    padding: 0;
+    margin: 0;
+}
+  /* Menu toggle button */
+  .menuToggle {
+    margin-top: 10px;
+    width: 30px;
+    height: 30px;
+    position: relative;
+    top: 25px;
+    right: 30px;
+    transform: rotate(0deg);
+    transition: .5s ease-in-out;
+    cursor: pointer;
+    z-index: 3; /* Ensure the button is above the menu list */
+    background-color: transparent; /* Background color of the button */
+    border: none; /* Remove default border */
+    outline: no
+  }
+  
+  /* Styles for the hamburger icon lines */
+  .menuIcon {
+    display: block;
+    position: absolute;
+    margin-top: 3px;
+    height: 3px;
+    width: 100%;
+    border-radius: 1px;
+    opacity: 1;
+    left: 0;
+    transition: .25s ease-in-out;
+  }
+  
+
+  /* Hamburger icon styles */
+.menuIcon:nth-child(1) {
+    top: 0px;
+   
+  }
+  
+  .menuIcon:nth-child(2) {
+    top: 9px;
+   
+  }
+  
+  .menuIcon:nth-child(3) {
+    top: 18px;
+    
+  }
+  /* Open state styles for the hamburger icon */
+  .menuToggle.open .menuIcon:nth-child(1) {
+    top: 8px;
+    transform: rotate(135deg);
+  }
+  
+  .menuToggle.open .menuIcon:nth-child(2) {
+    opacity: 0;
+  }
+  
+  .menuToggle.open .menuIcon:nth-child(3) {
+    top: 8px;
+    transform: rotate(-135deg);
+  }
+  
+  /* Styles for the menu container */
+  .menuContainer {
+    position: absolute;
+    margin-top: 15px;  /* for postion */
+    margin-right: 15px;
+
+    padding-top: 50px;
+    padding-bottom: 10px;  /* f0r top and bottom empty space */
+    top: 0;
+    right: 0;
+    height: auto;
+    width: 140px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    opacity: 0;
+    transform: translateX(10px);
+    pointer-events: none;
+    z-index: 2;
+  }
+  
+  /* Styles for individual menu items */
+  .menuItem {
+    padding: 8px 20px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+  /* Menu item hover effect */
+  .menuItem:hover {
+    background-color: #a9b1b5;
+  }
+  
+  /* Open state styles */
+  .menuContainer.open {
+    opacity: 1;
+    transform: translateY(0px);
+    pointer-events: all;
+  }
+
+  .themeToggle {
+  
+    margin-top: 5px;
+    margin-left: 75px;
+    
+}
+
+
+

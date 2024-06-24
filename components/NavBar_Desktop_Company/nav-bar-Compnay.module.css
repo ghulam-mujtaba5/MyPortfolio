@@ -1,0 +1,234 @@
+/* Styles for the Home button text */
+.homeText {
+  position: relative;
+  font-size: 20px;
+  letter-spacing: -0.01em;
+  display: inline-block;
+  font-family: "Open Sans";
+  color: #fff;
+  text-align: left;
+  min-width: 59px;
+}
+
+/* Styles for the Home button */
+.home {
+  cursor: pointer;
+  border: 0;
+  padding: 20px 40px;
+  background-color: #4573df;
+  border-radius: 60px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Hover effect for all elements */
+.about:hover,
+.skills:hover,
+.resume:hover,
+.project:hover,
+.contact:hover {
+  background-color: #33373c; /* Change to darker color on hover */
+}
+
+/* Styles for the About section text */
+.aboutText {
+  position: relative;
+  letter-spacing: -0.01em;
+  display: inline-block;
+  min-width: 56px;
+}
+
+/* Styles for the About section */
+.about {
+  border-radius: 60px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 40px;
+}
+
+/* Styles for the Skills section text */
+.skillsText {
+  position: relative;
+  letter-spacing: -0.01em;
+  display: inline-block;
+  min-width: 45px;
+}
+
+/* Styles for the Skills section */
+.skills {
+  border-radius: 60px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 40px;
+}
+
+/* Styles for the Logo icon */
+.logoIcon {
+  width: 40px;
+  height: 40px;
+  position: relative;
+  
+}
+
+/* Styles for the Logo button container */
+.logo {
+  cursor: pointer;
+  border: 0;
+  padding: 14.4px 5.5px 14.3px;
+  background-color: #272c34;
+  height: 45px;
+  width: 45px;
+  border-radius: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  transition: transform 0.3s ease; /* Add transition for smooth animation */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 5px #4573df, 0 0 10px #4573df, 0 0 15px #4573df;
+}
+
+.logoHover {
+  background-color: #4573df;
+  transform: scale(1.03);
+  box-shadow:none;
+  box-shadow:none;
+}
+
+/* Styles for the Name animation icon */
+.nameIcon {
+  height: 20.3px;
+  width: 140px;
+  position: relative;
+}
+
+/* Styles for the Logo and Name animation container */
+.logoAnimation,
+.typo {
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  /* width: 250px;  *//*make all uton stick ot places when hoverred*/ 
+}
+
+/* Additional styles for the Logo and Name animation container */
+.logoAnimation {
+  border-radius: 60px;
+  padding: 20px 28px;
+  gap: 10px;
+}
+
+/* Animation for hovering on the Name animation container */
+.typo:hover .nameIcon {
+  opacity: 0; /* Hide the Name animation icon on hover */
+}
+
+
+/* Styles for the Resume section text */
+.resumeText {
+  position: relative;
+  letter-spacing: -0.01em;
+  display: inline-block;
+  min-width: 74px;
+}
+
+/* Styles for the Resume section */
+.resume {
+  border-radius: 60px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 40px;
+}
+
+/* Styles for the Project section text */
+.projectText {
+  position: relative;
+  letter-spacing: -0.01em;
+  display: inline-block;
+  min-width: 64px;
+}
+
+/* Styles for the Project section */
+.project {
+  border-radius: 60px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 40px;
+}
+
+/* Styles for the Contact section text */
+.contactText {
+  position: relative;
+  letter-spacing: -0.01em;
+  display: inline-block;
+  min-width: 71px;
+}
+
+/* Styles for the Contact section */
+.contact,
+.header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+/* Additional styles for the Contact section */
+.contact {
+  border-radius: 60px;
+  overflow: hidden;
+  justify-content: center;
+  padding: 20px 40px;
+}
+
+/* Styles for the header container */
+.header {
+  flex: 1;
+  backdrop-filter: blur(15px);
+  border-radius: 50px;
+  background-color: #1d2127;
+  border: 1px solid #fff;
+  box-sizing: border-box;
+  justify-content: space-between;
+  padding: 0 10px;
+  top: 0;
+  z-index: 99;
+  max-width: 100%;
+  gap: 20px;
+  text-align: left;
+  font-size: 20px;
+  color: #fff;
+  font-family: "Open Sans";
+  margin: 0 20px; /* Add margin */
+}
+.alternativeNameIcon{
+
+  width: 200px;
+  position: relative;
+
+}
+/* Media query for smaller screens */
+@media screen and (max-width: 768px) {
+  /* Hide the header on smaller screens */
+  .header {
+    display: none;
+  }
+}

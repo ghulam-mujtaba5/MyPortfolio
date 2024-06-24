@@ -1,0 +1,17 @@
+.container {
+  background-color: #ffffff;
+}
+
+
+
+.text {
+  color: #000000; /* Black text for light mode */
+}
+
+.paragraph {
+  color: #000000; /* Black text for light mode */
+}
+
+.softBuilt {
+  color: #4573df; /* Blue color for light mode */
+}

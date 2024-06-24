@@ -1,0 +1,98 @@
+/* Dark mode styles for Project1 component */
+
+/* ProjectCard1Parent container */
+.projectCard1Parent {
+  width: 100%;
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  text-align: left;
+  font-size: 16px;
+  font-family: Poppins;
+  padding-bottom: 20px;
+  margin-bottom: 20px;
+  color: #fff;
+ 
+}
+
+/* Frame title */
+.frameTitle {
+ 
+  color: #fff; /* White text for dark mode */
+}
+
+/* Project card */
+.projectCard1 {
+
+  background-color: #1d2127; /* Dark background */
+}
+
+.projectCard1Child {
+
+  box-shadow: 2px 2px 100px #1d2127; /* Darker shadow */
+
+  background-color: #272c34; /* Darker background */
+}
+
+.livePreview {
+
+  color: #fff; /* Light blue text */
+}
+
+.viewCode {
+
+  color: #fff; /* Light blue text */
+}
+
+
+
+.projectTileGoes {
+
+  color: #fff; /* White text */
+}
+
+.thisIsSample {
+
+  color: #dcdcdc; /* Light grey text */
+}
+
+.span {
+  color: #aaa; /* Light grey */
+}
+
+.javaJavaFxMavenSpring {
+
+  color: #fff; /* White text */
+}
+
+
+
+.techStackContainer {
+
+  color: #1e90ff; /* Light blue text */
+}
+
+
+
+
+
+/* Media query for small screens */
+@media (max-width: 460px) {
+  .projectCard1Parent {
+    justify-content: center;
+    height: auto; /* Adjust height for small screens */
+    align-items: center; /* Center align items */
+  }
+
+  .projectCard1 {
+    width: 100%;
+    max-width: 90%; /* Allow cards to take up more space on small screens */
+    margin: 20px 0; /* Margin between cards for small screens */
+  }
+
+  .projectTileGoes {
+    font-size: 24px; /* Slightly reduce title size on small screens */
+  }
+}

@@ -1,0 +1,124 @@
+
+.image-container {
+  position: relative; /* Ensuring .image-container is positioned */
+  top: 90px;
+  right: 0;
+  height: 500px;
+}
+
+/* Style for the image */
+.image {
+  position: absolute; /* Positioning .image relative to .image-container */
+  max-width: 500px;
+  height: auto;
+  left: 78%;
+  margin-top:25%;
+  transform: translate(-50%, -50%);
+  padding-bottom: 0;
+  z-Index: 1;
+}
+
+.imageContainer:hover .image {
+  transform: translate(-50%, -48%); /* Move the image down slightly on hover */
+  transition: transform 0.1s ease-in-out 0.1s;
+}
+
+/* Style for the ellipses */
+.ellipseDiv {
+  border-radius: 50%;
+  position: absolute; /* Positioning .ellipseDiv relative to .image-container */
+  top: 55%;
+  right: 23%;
+  transform: translate(50%, -50%);
+  z-Index: 0;
+  animation: popUp 0.5s forwards; /* Apply the animation */
+}
+/* Keyframes for the pop-up animation */
+@keyframes popUp {
+  0% {
+    opacity: 0;
+    transform: translate(50%, -50%) scale(0); /* Keep centered and scaled down */
+  }
+  100% {
+    opacity: 1;
+    transform: translate(50%, -50%) scale(1); /* Keep centered and scaled up */
+  }
+}
+@media (max-width: 980px) {
+  .image-container {
+    top: 0;
+    height: 400px; /* Adjust height for tablet screen */
+  }
+
+  .image {
+    margin-top: 35%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .ellipseDiv {
+    top: 50%;
+    right: 50%;
+    transform: translate(50%, -50%);
+  }
+
+  .imageContainer:hover .image {
+    transform: translate(-50%, -48%); /* Move the image down slightly on hover */
+    transition: transform 0.1s ease-in-out 0.1s;
+  }
+}
+/* Responsive adjustments for screens with a max width of 768px */
+@media (max-width: 768px) {
+  .image-container {
+    top: 0;
+  }
+
+  .image {
+    margin-top: 60px;
+  
+    left: 0%;
+    transform: none;
+   
+  }
+
+  .ellipseDiv {
+    
+    margin-top: 50%;
+    margin-right: 50%;
+   
+
+    top: 4%;
+    right: 0%;
+    
+  }
+
+  .imageContainer:hover .image {
+    transform: none; /* Move the image down slightly on hover */
+    transition: none;
+  }
+
+}
+
+@media (max-width: 576px) {
+  .image-container {
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    height: 400px; /* Adjust height for mobile screen */
+    position: relative;
+  }
+  
+
+  .image {
+    width: 400px;
+    height: auto;
+    left: 0%;
+  }
+
+  /* Style for the ellipses */
+.ellipseDiv {
+  
+  animation: popUp 2s ease-in-out; /* Apply the animation */
+}
+  
+}

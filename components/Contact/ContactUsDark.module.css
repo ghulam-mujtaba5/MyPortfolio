@@ -1,0 +1,139 @@
+
+.contactSection {
+
+    color: #fff;
+ 
+}
+
+/* Absolute Positioned Components */
+.contactFormBackground {
+  
+    background-color: #272b32;
+  
+}
+
+.nameInput,
+.emailInput,
+.messageInput {
+
+    border: 1px solid #fff;
+  
+    background-color: #fff;
+  
+}
+
+.sendButtonBorder {
+ 
+    background-color: #1d2127;
+    
+}
+
+.sendLabel {
+    color: #fff;
+    
+}
+
+.sendButton {
+
+    color: #fff;
+    background-color: #1d2127;
+    
+   
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.sendButton:hover {
+    background-color: #1d2127;
+    border: 1.5px solid #4573df;
+}
+
+.darkModeButton {
+    color: #fff;
+  
+  }
+
+.darkModeButtonBorder {
+    
+    box-shadow: 0px 0px 14px rgba(0, 0, 0, 0.13);
+
+    background-color: #1d2127;
+}
+
+
+.buttonState {
+    position: absolute;
+    height: 34.09%;
+    width: 22.45%;
+    top: 31.82%;
+    right: 8.16%;
+    bottom: 34.09%;
+    left: 69.39%;
+    box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.16) inset;
+    border-radius: 10.5px;
+    background-color: #f5f5f5;
+}
+
+.buttonState1 {
+    position: absolute;
+    height: 38.64%;
+    width: 10.88%;
+    top: 29.55%;
+    right: 8.16%;
+    bottom: 31.82%;
+    left: 80.95%;
+    box-shadow: 0px 0px 7px rgba(0, 0, 0, 0.21) inset, 0px 0px 3px rgba(0, 0, 0, 0.31);
+    border-radius: 50%;
+    background-color: #00c7bb;
+}
+
+.successMessage {
+    color: #34a853;
+}
+
+.errorMessage {
+    color: #e81123;
+}
+  
+/* Media query for screens of width 430px and height 932px */
+@media (max-width: 768px)  {
+    .contactSection {
+       
+      
+        background-color: #272c34;
+       
+    }
+     
+    /* Adjust contact form for mobile */
+    .contactForm {
+
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.4); /* Shadow effect for dark screens */
+        background-color: #272c34;
+      
+    }
+
+    /* Adjust input fields for mobile */
+    .nameInput,
+    .emailInput,
+    .messageInput {
+        
+        border: 1px solid #ccc;
+       
+    }
+
+     /* Adjust send button for mobile */
+    .sendButton {
+    
+        background-color: #1d2127;
+       
+        color: #fff;
+        
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Adjust send button hover effect for mobile */
+    .sendButton:hover {
+        background-color: #1d2127;
+    }
+ 
+
+}

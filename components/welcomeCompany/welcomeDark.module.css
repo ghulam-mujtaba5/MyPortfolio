@@ -1,0 +1,15 @@
+.darkContainer {
+  background-color: #1d2127; /* Dark background color */
+}
+
+.darkContainer .text {
+  color: #ffffff; /* White text for dark mode */
+}
+
+.darkContainer .paragraph {
+  color: #ffffff; /* White text for dark mode */
+}
+
+.darkContainer .softBuilt {
+  color: #8cd5ff; /* Light blue color for dark mode */
+}

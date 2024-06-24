@@ -1,0 +1,74 @@
+/* Styles for SkillFrame component in dark mode */
+
+/* SkillFrame container */
+.skillFrame {
+
+    background-color: #1d2127; /* Dark background */
+}
+
+/* Skills section title */
+.skillsTitle {
+   
+    color: #ffffff; /* White text */
+   
+}
+
+/* Individual skill card */
+.skillCard {
+   
+    background-color: #272c34; /* Background color of the skill card */
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.4); /* Shadow effect for dark screens */
+}
+
+/* Header styling */
+.header {
+ 
+    color: #ffffff; /* White text */
+   
+}
+
+
+
+
+/* Container for skill name and progress bar */
+.skillNameContainer {
+  
+    background-color: #1d2127; /* Background color for the skill name container */
+
+}
+
+/* Skill name text */
+.skillName {
+
+    color: #ffffff; /* White text */
+}
+
+/* Progress bar */
+.progress {
+
+    background-color: rgba(255, 255, 255, 0.9); /* White background */
+
+}
+
+/* Progress bar widths */
+.progress70 { width: 70%; }
+.progress80 { width: 80%; }
+.progress60 { width: 60%; }
+.progress90 { width: 90%; }
+.progress85 { width: 85%; }
+.progress75 { width: 75%; }
+.progress65 { width: 65%; }
+
+
+
+/* Media query for smaller screens */
+@media (max-width: 768px) {
+    /* Adjustments for smaller screens */
+    .skillFrame {
+        justify-content: center; /* Center align skill cards */
+    }
+    
+    .skillsTitle {
+        padding-left: 3%; /* Adjust padding for smaller screens */
+    }
+}

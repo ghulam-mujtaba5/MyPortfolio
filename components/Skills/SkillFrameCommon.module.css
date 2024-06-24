@@ -1,0 +1,142 @@
+/* SkillFrame container */
+.skillFrame {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 20px; /* Padding around the skill cards */
+    box-sizing: border-box;
+    gap: 20px; /* Gap between skill cards */
+    padding-left: 6%; /* Left padding */
+    padding-right: 6%; /* Right padding */
+}
+
+/* Skills section title */
+.skillsTitle {
+    width: 100%;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 24px; /* Adjust font size */
+    font-weight: bold;
+    margin-bottom: 20px; /* Space between the title and the skill cards */
+    text-align: left;
+    box-sizing: border-box;
+}
+
+/* Individual skill card */
+.skillCard {
+    width: 100%;
+    max-width: 336px; /* Maximum width of the skill card */
+    border-radius: 8px; /* Rounded corners */
+    padding: 25px; /* Padding inside the skill card */
+    padding-top: 40px;
+    padding-left: 35px;
+    padding-right: 35px;
+    box-sizing: border-box;
+    position: relative;
+    margin-top: 20px; /* Adding margin from the top */
+    transition: transform 0.3s ease; /* Smooth transition for transform */
+}
+
+/* Header styling */
+.header {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    width: 100%; /* Adjusted width for mobile */
+    height: 27px;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center align on mobile */
+    justify-content: center; /* Center align on mobile */
+    font-size: 20px;
+    font-family: 'Open Sans';
+}
+
+/* Title styling */
+.title {
+    width: 100%; /* Adjusted width for mobile */
+    margin: 0;
+    text-align: center;
+}
+
+/* Skill row container */
+.skillRow {
+    display: flex;
+    align-items: center;
+    margin-top: 12px;
+    position: relative;
+}
+
+/* Container for skill name and progress bar */
+.skillNameContainer {
+    display: flex;
+    flex-direction: column;
+    margin-left: auto; /* Move skill name container to the right */
+    position: relative;
+    border-radius: 3px;
+    padding: 2px 3px;
+    box-sizing: border-box;
+    width: 100px; /* Width of the skill name container */
+    height: 25px; /* Height of the skill name container */
+}
+
+/* Skill name text */
+.skillName {
+    font-weight: 600;
+    font-size: 15px;
+}
+
+/* Progress bar */
+.progress {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    border-radius: 8px;
+    height: 1px; /* Height of the progress bar */
+    z-index: 0;
+}
+
+/* Progress bar widths */
+.progress70 { width: 70%; }
+.progress80 { width: 80%; }
+.progress60 { width: 60%; }
+.progress90 { width: 90%; }
+.progress85 { width: 85%; }
+.progress75 { width: 75%; }
+.progress65 { width: 65%; }
+
+/* Icons container */
+.icons {
+    display: flex;
+    justify-content: space-around;
+}
+
+/* Individual icon */
+.icon {
+    width: auto;
+    max-width: 97px; /* Maximum width of the icon */
+    height: 30px; /* Height of the icon */
+    object-fit: contain;
+}
+
+/* Hover effect */
+.skillCard:hover {
+    transform: translateY(-5px); /* Move the card 5px up on hover */
+}
+
+/* Media query for smaller screens */
+@media (max-width: 768px) {
+    /* Adjustments for smaller screens */
+    .skillFrame {
+        justify-content: center; /* Center align skill cards */
+    }
+    
+    .skillsTitle {
+        padding-left: 3%; /* Adjust padding for smaller screens */
+    }
+    
+    .skillName {
+        font-size: 14px;
+    }
+}

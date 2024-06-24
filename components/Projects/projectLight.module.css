@@ -1,0 +1,174 @@
+/* Project1.module.css */
+
+.projectCard1Parent {
+  width: 100%;
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  text-align: left;
+  font-size: 16px;
+  color: #000;
+  font-family: Poppins;
+  padding-bottom: 20px;
+  margin-bottom: 20px;
+}
+
+.frameTitle {
+  text-align: left;
+  font-family: Open Sans;
+ 
+}
+
+.projectCard1 {
+  width: 356px;
+  position: relative;
+  height: 570px;
+
+}
+
+.projectCard1Child {
+  position: absolute;
+  height: 99.47%;
+  width: 99.47%;
+  top: 0.53%;
+  right: 0%;
+  bottom: 0%;
+  left: 0.53%;
+  box-shadow: 2px 2px 100px rgba(0, 0, 0, 0.2);
+  border-radius: 20px;
+  background-color: #e8ebee;
+  
+}
+
+.livePreview {
+  position: absolute;
+  top: 91.05%;
+  left: 16%;
+  text-decoration: underline;
+  line-height: 26px;
+  color: inherit;
+}
+
+.viewCode {
+  position: absolute;
+  top: 91.05%;
+  left: 62.93%;
+  text-decoration: underline;
+  line-height: 26px;
+  color: inherit;
+}
+
+
+.projectImg1 {
+  position: absolute;
+  height: 45.61%;
+  width: 100%;
+  top: 0%;
+  right: 0%;
+  bottom: 54.39%;
+  left: 0%;
+  border-radius: 20px 20px 0px 0px;
+  max-width: 100%;
+  overflow: hidden;
+  max-height: 100%;
+  object-fit: cover;
+}
+
+.projectTileGoes {
+  margin: 0;
+  position: absolute;
+  top: 50.35%;
+  left: 16.43%;
+  font-size: 28px;
+  line-height: 26px;
+  font-weight: 500;
+  font-family: inherit;
+  white-space: pre-wrap;
+  text-align: center;
+}
+
+.thisIsSample {
+  position: absolute;
+  width: 83.74%;
+  top: 55.61%;
+  left: 8%;
+  font-size: 18px;
+  line-height: 26px;
+  font-weight: 300;
+  display: flex;
+  align-items: center;
+}
+
+.span {
+  color: #666;
+}
+
+.javaJavaFxMavenSpring {
+  font-size: 14px;
+  font-weight: 300;
+  color: #000;
+}
+
+.techStackContainer1 {
+  width: 100%;
+}
+
+.techStackContainer {
+  position: absolute;
+  width: 83.74%;
+  top: 82.81%;
+  left: 8%;
+  line-height: 26px;
+  display: flex;
+  align-items: center;
+  color: #4573df;
+}
+
+.githubIcon {
+  position: absolute;
+  height: 3.51%;
+  width: 5.34%;
+  top: 91.58%;
+  right: 40.26%;
+  bottom: 4.91%;
+  left: 54.4%;
+  max-width: 100%;
+  overflow: hidden;
+  max-height: 100%;
+}
+
+.previewIcon1 {
+  position: absolute;
+  height: 2.63%;
+  width: 3.99%;
+  top: 92.11%;
+  right: 87.21%;
+  bottom: 5.26%;
+  left: 8.8%;
+  max-width: 100%;
+  overflow: hidden;
+  max-height: 100%;
+}
+
+/* Media query for small screens */
+@media (max-width: 460px) {
+
+  .projectCard1Parent {
+    justify-content: center;
+    height: auto; /* Adjust height for small screens */
+    align-items: center; /* Center align items */
+  }
+
+  .projectCard1 {
+    width: 100%;
+    max-width: 90%; /* Allow cards to take up more space on small screens */
+    margin: 20px 0; /* Margin between cards for small screens */
+  }
+
+  .projectTileGoes {
+    font-size: 24px; /* Slightly reduce title size on small screens */
+  }
+
+}
