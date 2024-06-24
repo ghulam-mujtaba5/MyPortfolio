@@ -3,16 +3,14 @@ import { useTheme } from '../../context/ThemeContext'; // Import the useTheme ho
 import commonStyles from './LanguagesCommon.module.css'; // Import common styles
 import lightStyles from './LanguagesLight.module.css'; // Import light mode styles
 import darkStyles from './LanguagesDark.module.css'; // Import dark mode styles
-import Head from 'next/head';
+
 
 const Frame = () => {
   const { theme } = useTheme(); // Destructure theme from the context
 
   return (
     <>
-    <Head>
-        <html lang="en" />
-      </Head>
+ 
       <section className={`${commonStyles.frameContainer} ${theme === 'dark' ? darkStyles.frameContainer : lightStyles.frameContainer}`} aria-labelledby="languages-title">
         <h2 id="languages-title" className={commonStyles.title}>Languages</h2>
         <div className={commonStyles.iconContainer} >
