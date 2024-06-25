@@ -28,7 +28,7 @@ const ResumePage = () => {
       <main style={pageStyle}>
         <h1>Resume - Ghulam Mujtaba</h1>
         <embed
-          src="resume.pdf"
+          src="Resume.pdf"
           width="100%"
           height="800px"
           type="application/pdf"
