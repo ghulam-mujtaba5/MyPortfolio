@@ -10,10 +10,12 @@ app.prepare().then(() => {
 
   // Handle requests for softbuilt.ghulammujtaba.com
   server.get('*', (req, res) => {
-    if (req.hostname === 'softbuilt.ghulammujtaba.com') {
-      // Serve the SoftBuilt section
-      return app.render(req, res, '/SoftBuilt', req.query);
+    const hostname = req.hostname.toLowerCase(); // Normalize hostname to lowercase
+    if (hostname === 'softbuilt.ghulammujtaba.com') {
+      // Render the SoftBuilt page
+      return app.render(req, res, '/softbuilt', req.query);
     }
+    // For all other requests, use Next.js default handler
     return handle(req, res);
   });
 

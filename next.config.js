@@ -37,6 +37,10 @@ const nextConfig = {
   async rewrites() {
     return [
       {
+        source: '/:path*', // Default source for main domain
+        destination: '/:path*', // Default rewrite for main domain
+      },
+      {
         source: '/:path*',
         has: [
           {
@@ -45,10 +49,6 @@ const nextConfig = {
           },
         ],
         destination: '/softbuilt/:path*', // Rewrite to /softbuilt for subdomain
-      },
-      {
-        source: '/:path*', // Default source for main domain
-        destination: '/:path*', // Default rewrite for main domain
       },
     ];
   },
