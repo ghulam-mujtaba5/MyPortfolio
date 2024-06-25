@@ -99,7 +99,7 @@ const ContactSection = ({
           name="user_name"
           id="name"
           placeholder="Name"
-          autocomplete="name"
+          autoComplete="name"
           value={name}
           onChange={handleNameChange}
           required
@@ -111,7 +111,7 @@ const ContactSection = ({
           name="user_email"
           id="email"
           placeholder="Email"
-          autocomplete="email"
+          autoComplete="email"
           value={emailInput}
           onChange={handleEmailChange}
           required
@@ -122,7 +122,7 @@ const ContactSection = ({
           name="message"
           id="message"
           placeholder="Message"
-          autocomplete="off"
+          autoComplete="off"
           value={message}
           onChange={handleMessageChange}
           required
