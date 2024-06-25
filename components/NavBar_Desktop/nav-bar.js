@@ -1,6 +1,3 @@
-
-
-
 import styles from "./nav-bar.module.css";
 import { useState } from "react";
 import { useRouter } from "next/router";
@@ -10,7 +7,11 @@ const NavBar = () => {
   const router = useRouter();
 
   const handleNavigation = (path) => {
-    router.push(path);
+    if (path === "/SoftBuilt") {
+      window.location.href = "http://softbuilt.ghulammujtaba.com";
+    } else {
+      router.push(path);
+    }
   };
 
   const handleMouseHover = (state) => {
