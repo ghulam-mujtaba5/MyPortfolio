@@ -18,7 +18,7 @@ const Frame = () => {
           <img className={commonStyles.icon} alt="Python programming language" src="python icon.svg" />
           <img className={commonStyles.icon} alt="R programming language" src="r icon.svg"  />
           <img className={commonStyles.icon} alt="C programming language" src="c language icon.svg"  />
-          <img className={commonStyles.icon} alt="C++ programming language" src="c++ language icon.png" />
+          <img className={commonStyles.icon} alt="C++ programming language" src="c++language icon.png" />
           <img className={commonStyles.icon} alt="JavaScript programming language" src="javscript icon.svg" />
           <img className={commonStyles.icon} alt="HTML markup language" src="html icon.svg"  />
           <img className={commonStyles.icon} alt="CSS styling language" src="css icon.svg"  />

@@ -57,7 +57,7 @@ const Footer = ({
         <img 
           className={commonStyles.githubIcon} 
           alt="GitHub" 
-          src={theme === 'dark' ? "GithubDark.svg" : "Github_icon.svg"} 
+          src={theme === 'dark' ? "GithubDark.svg" : "github_icon.svg"} 
           onClick={onGithubIconClick} 
           role="button"
           aria-label="GitHub"
