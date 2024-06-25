@@ -7,7 +7,7 @@ const NavBar = () => {
   const router = useRouter();
 
   const handleNavigation = (path) => {
-    if (path === "/SoftBuilt") {
+    if (path === "/softbuilt") {
       window.location.href = "http://softbuilt.ghulammujtaba.com";
     } else {
       router.push(path);
@@ -56,7 +56,7 @@ const NavBar = () => {
         className={styles.logoAnimation}
         onMouseEnter={() => handleMouseHover(true)}
         onMouseLeave={() => handleMouseHover(false)}
-        onClick={() => handleNavigation("/SoftBuilt")}
+        onClick={() => handleNavigation("/softbuilt")}
       >
         <button className={`${styles.logo} ${hover ? styles.logoHover : ""}`}>
           <img

@@ -1,3 +1,5 @@
+//softbuilt.js page
+
 import React, { useCallback } from 'react';
 import Head from 'next/head';
 import { useTheme } from '../context/ThemeContext'; // Import the useTheme hook
