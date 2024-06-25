@@ -14,18 +14,18 @@ const nextConfig = {
   async rewrites() {
     return [
       {
-        source: '/:path*', // Default source for main domain
-        destination: '/:path*', // Default rewrite for main domain
-      },
-      {
-        source: '/:path*',
+        source: '/softbuilt/:path*',
         has: [
           {
             type: 'host',
             value: 'softbuilt.ghulammujtaba.com',
           },
         ],
-        destination: '/softbuilt/:path*', // Rewrite to /softbuilt for subdomain
+        destination: '/:path*',
+      },
+      {
+        source: '/:path*',
+        destination: '/:path*',
       },
     ];
   },
