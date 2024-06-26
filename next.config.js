@@ -1,16 +1,12 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: true, // Enable React Strict Mode
-
+  reactStrictMode: true,
   webpack: (config, { isServer }) => {
-    // Important: Add support for source maps
     if (!isServer) {
       config.devtool = 'source-map';
     }
-
     return config;
   },
-
   async rewrites() {
     return [
       {
@@ -21,10 +17,16 @@ const nextConfig = {
             value: 'softbuilt.ghulammujtaba.com',
           },
         ],
-        destination: '/:path*',
+        destination: '/softbuilt/:path*',
       },
       {
         source: '/:path*',
+        has: [
+          {
+            type: 'host',
+            value: 'ghulammujtaba.com',
+          },
+        ],
         destination: '/:path*',
       },
     ];

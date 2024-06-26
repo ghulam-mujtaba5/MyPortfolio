@@ -11,10 +11,12 @@ app.prepare().then(() => {
   // Handle requests for softbuilt.ghulammujtaba.com
   server.get('*', (req, res) => {
     const hostname = req.hostname.toLowerCase(); // Normalize hostname to lowercase
+
     if (hostname === 'softbuilt.ghulammujtaba.com') {
       // Render the SoftBuilt page
       return app.render(req, res, '/softbuilt', req.query);
     }
+
     // For all other requests, use Next.js default handler
     return handle(req, res);
   });

@@ -1,22 +1,22 @@
 {
   "rewrites": [
     {
-      "source": "/(.*)",
-      "destination": "/$1",
-      "has": [
-        {
-          "type": "host",
-          "value": "ghulammujtaba.com"
-        }
-      ]
-    },
-    {
-      "source": "/(.*)",
-      "destination": "/softbuilt",
+      "source": "/softbuilt/:path*",
+      "destination": "/softbuilt/:path*",
       "has": [
         {
           "type": "host",
           "value": "softbuilt.ghulammujtaba.com"
+        }
+      ]
+    },
+    {
+      "source": "/:path*",
+      "destination": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "ghulammujtaba.com"
         }
       ]
     }
