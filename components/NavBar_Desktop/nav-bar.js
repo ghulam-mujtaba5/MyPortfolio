@@ -8,8 +8,8 @@ const NavBar = () => {
 
   const handleNavigation = (path) => {
     if (path === "/softbuilt") {
-      // window.location.href = "http://softbuilt.ghulammujtaba.com";
-      router.push(path);
+      window.location.href = "http://softbuilt.ghulammujtaba.com";
+     
     } else {
       router.push(path);
     }
