@@ -202,7 +202,7 @@
 /* Styles for the header container */
 .header {
   flex: 1;
-  backdrop-filter: blur(15px);
+ 
   border-radius: 50px;
   background-color: #1d2127;
   border: 1px solid #fff;
