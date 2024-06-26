@@ -7,8 +7,7 @@ const NavBar = () => {
   const router = useRouter();
 
   const handleLogoClick = () => {
-    // Redirect to the home page of www.ghulammujtaba.com
-    window.location.href = "http://www.ghulammujtaba.com";
+    router.push("/HomePortfolio");
   };
 
   const handleMouseEnter = () => {
@@ -145,3 +144,5 @@ const NavBar = () => {
 };
 
 export default NavBar;
+
+

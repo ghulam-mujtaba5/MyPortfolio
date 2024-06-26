@@ -9,9 +9,8 @@ const ThemeToggleIcon = () => {
   const router = useRouter();
 
   const handleIconClick = useCallback(() => {
-    // Navigate to the main domain's HomePortfolio page
-    window.location.href = "http://www.ghulammujtaba.com/HomePortfolio";
-  }, []);
+    router.push("/HomePortfolio");
+  }, [router]);
 
   const iconClass = useMemo(() => {
     return `${styles['theme-toggle-icon']} ${theme === 'light' ? styles.light : styles.dark}`;

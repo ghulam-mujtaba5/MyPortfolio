@@ -1,3 +1,6 @@
+
+
+
 import styles from "./nav-bar.module.css";
 import { useState } from "react";
 import { useRouter } from "next/router";
@@ -7,12 +10,7 @@ const NavBar = () => {
   const router = useRouter();
 
   const handleNavigation = (path) => {
-    if (path === "/softbuilt") {
-      window.location.href = "http://softbuilt.ghulammujtaba.com";
-     
-    } else {
-      router.push(path);
-    }
+    router.push(path);
   };
 
   const handleMouseHover = (state) => {
@@ -57,7 +55,7 @@ const NavBar = () => {
         className={styles.logoAnimation}
         onMouseEnter={() => handleMouseHover(true)}
         onMouseLeave={() => handleMouseHover(false)}
-        onClick={() => handleNavigation("/softbuilt")}
+        onClick={() => handleNavigation("/SoftBuilt")}
       >
         <button className={`${styles.logo} ${hover ? styles.logoHover : ""}`}>
           <img

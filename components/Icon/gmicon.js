@@ -9,16 +9,15 @@ const ThemeToggleIcon = () => {
   const router = useRouter();
 
   const handleIconClick = useCallback(() => {
-    // Navigate to the subdomain softbuilt.ghulammujtaba.com
-    window.location.href = "http://softbuilt.ghulammujtaba.com";
-  }, []);
+    router.push("/SoftBuilt");
+  }, [router]);
 
   const iconClass = useMemo(() => {
     return `${styles['theme-toggle-icon']} ${theme === 'light' ? styles.light : styles.dark}`;
   }, [theme, styles]);
 
   const iconSrc = useMemo(() => {
-    return theme === 'light' ? "/gmVector.svg" : "/gmVectorDark.svg";
+    return theme === 'light' ? "gmVector.svg" : "gmVectorDark.svg";
   }, [theme]);
 
   return (
