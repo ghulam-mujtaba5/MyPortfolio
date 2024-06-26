@@ -1,5 +1,24 @@
 {
-    "redirects": [
-      { "source": "/softbuilt", "destination": "https://softbuilt.ghulammujtaba.com" }
-    ]
-  }
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/$1",
+      "has": [
+        {
+          "type": "host",
+          "value": "ghulammujtaba.com"
+        }
+      ]
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/softbuilt",
+      "has": [
+        {
+          "type": "host",
+          "value": "softbuilt.ghulammujtaba.com"
+        }
+      ]
+    }
+  ]
+}
