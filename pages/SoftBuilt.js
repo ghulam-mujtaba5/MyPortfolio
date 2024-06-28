@@ -49,13 +49,16 @@ export default function CompanyHome() {
         <title>Soft Built Company </title>
         <meta name="description" content="Welcome to SoftBuilt, founded by Ghulam Mujtaba, specializing in Desktop, Web, and Mobile applications, data science, and AI solutions. Partner with us to turn your project ideas into reality." />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="faviconsb.svg" /> 
+
+        <link rel="icon" href="/faviconsb.svg" type="image/svg+xml" />
+        <link rel="icon" href="/faviconsb.png" type="image/png" sizes="32x32" />
         <script type="application/ld+json">
           {JSON.stringify({
             "@context": "http://schema.org",
             "@type": "Organization",
             "name": "Soft Built",
-            "url": "http://www.softbuilt.ghulammujtaba.com",
+            "url": "http://www.ghulammujtaba.com",
+             "logo": "https://ghulammujtaba.com/favicon.png",
             "sameAs": [
               linkedinUrl,
               instagramUrl,

@@ -7,7 +7,7 @@ const NavBar = () => {
   const router = useRouter();
 
   const handleLogoClick = () => {
-    router.push("/HomePortfolio");
+    router.push('/');
   };
 
   const handleMouseEnter = () => {

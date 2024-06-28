@@ -9,7 +9,7 @@ const ThemeToggleIcon = () => {
   const router = useRouter();
 
   const handleIconClick = useCallback(() => {
-    router.push("/HomePortfolio");
+    router.push('/');
   }, [router]);
 
   const iconClass = useMemo(() => {
