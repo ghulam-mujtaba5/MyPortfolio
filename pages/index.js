@@ -1,3 +1,4 @@
+
 import React from 'react';
 import NavBarDesktop from '../components/NavBar_Desktop/nav-bar';
 import NavBarMobile from '../components/NavBar_Mobile/NavBar-mobile';
@@ -40,7 +41,6 @@ const Home = () => {
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
         <link rel="icon" href="/favicon.png" type="image/png" sizes="32x32" />
 
-
         {/* Structured Data */}
         <script type="application/ld+json">
           {JSON.stringify({
@@ -59,15 +59,21 @@ const Home = () => {
       <div style={{ backgroundColor: theme === 'dark' ? '#1d2127' : '#ffffff' }}>
         {/* Skip Link for Accessibility */}
         <a href="#main-content" className="skip-link" style={{ position: 'absolute', top: '-40px', left: '0', background: '#000', color: '#fff', padding: '8px', zIndex: '100' }}>Skip to main content</a>
-        
-        {/* Theme Toggle Icon */}
-        <ThemeToggleIcon style={{ width: '100%', height: 'auto' }} />
 
-        {/* Desktop NavBar */}
-        <NavBarDesktop style={{ width: '100%', height: '80px' }} />
+        <header>
+          {/* Theme Toggle Icon */}
+          <ThemeToggleIcon style={{ width: '100%', height: 'auto' }} />
 
-        {/* Mobile NavBar */}
-        <NavBarMobile style={{ width: '100%', height: '60px' }} sections={sections} />
+          {/* Desktop NavBar */}
+          <nav>
+            <NavBarDesktop style={{ width: '100%', height: '80px' }} />
+          </nav>
+
+          {/* Mobile NavBar */}
+          <nav>
+            <NavBarMobile style={{ width: '100%', height: '60px' }} sections={sections} />
+          </nav>
+        </header>
 
         {/* Main content sections */}
         <main id="main-content">
@@ -106,7 +112,9 @@ const Home = () => {
         </main>
 
         {/* Footer */}
-        <Footer style={{ width: '100%', height: '100px' }} />
+        <footer>
+          <Footer style={{ width: '100%', height: '100px' }} />
+        </footer>
       </div>
       <style jsx>{`
         .skip-link:focus {
