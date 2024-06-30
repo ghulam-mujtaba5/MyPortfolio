@@ -52,6 +52,7 @@ export default function CompanyHome() {
 
         <link rel="icon" href="/faviconsb.svg" type="image/svg+xml" />
         <link rel="icon" href="/faviconsb.png" type="image/png" sizes="32x32" />
+        <link rel="icon" href="/faviconsb.ico" type="image/x-icon" />
         <script type="application/ld+json">
           {JSON.stringify({
             "@context": "http://schema.org",

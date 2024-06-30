@@ -40,7 +40,7 @@ const Home = () => {
         <meta name="viewport" content="width=device-width, initial-scale=1" /> 
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
         <link rel="icon" href="/favicon.png" type="image/png" sizes="32x32" />
-
+        <link rel="icon" href="/favicon.ico" type="image/x-icon" />
         {/* Structured Data */}
         <script type="application/ld+json">
           {JSON.stringify({
