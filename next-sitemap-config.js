@@ -3,12 +3,12 @@ module.exports = {
   generateRobotsTxt: true, // Generate robots.txt file
   transform: async (config, path) => {
     // Default change frequency and priority
-    let changefreq = 'weekly'; // Default for most pages
+    let changefreq = 'daily'; // Default for most pages
     let priority = 0.7; // Default priority
 
     // Custom frequency and priority settings for resume
     if (path === '/resume') {
-      changefreq = 'monthly';
+      changefreq = 'weekly';
     }
 
     return {
