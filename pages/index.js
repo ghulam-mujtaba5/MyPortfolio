@@ -43,18 +43,19 @@ const Home = () => {
         <link rel="icon" href="/favicon.ico" type="image/x-icon" />
         {/* Structured Data */}
         <script type="application/ld+json">
-          {JSON.stringify({
-            "@context": "http://schema.org",
-            "@type": "Person",
-            "name": "Ghulam Mujtaba",
-            "url": "https://ghulammujtaba.com",
-            "sameAs": [
-              "https://www.linkedin.com/in/ghulamujtabaofficial",
-              "https://www.instagram.com/ghulamujtabaofficial/",
-              "https://github.com/ghulam-mujtaba5"
-            ]
-          })}
-        </script>
+  {JSON.stringify({
+    "@context": "http://schema.org",
+    "@type": "Person",
+    "name": "Ghulam Mujtaba",
+    "url": "https://ghulammujtaba.com",
+    "sameAs": [
+      "https://www.linkedin.com/in/ghulamujtabaofficial",
+      "https://www.instagram.com/ghulamujtabaofficial/",
+      "https://github.com/ghulam-mujtaba5"
+    ]
+  })}
+</script>
+
       </Head>
       <div style={{ backgroundColor: theme === 'dark' ? '#1d2127' : '#ffffff' }}>
         {/* Skip Link for Accessibility */}
