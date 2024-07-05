@@ -1,5 +1,3 @@
-//softbuilt.js page
-
 import React, { useCallback } from 'react';
 import Head from 'next/head';
 import { useTheme } from '../context/ThemeContext'; // Import the useTheme hook
@@ -28,25 +26,17 @@ export default function CompanyHome() {
   const contactPhoneNumber = "+123 456 7890";
 
   // Sample menu list override
-  const sampleMenuList = [
-    "Home",
-    "About",
-    "Services",
-    "Projects",
-    "Contact"
-  ];
   const sections = [
     { id: 'home-section', label: 'Home' },
     { id: 'about-section', label: 'About' },
     { id: 'services-section', label: 'Services' },
-    { id: 'project-section', label: 'Projects' },
     { id: 'contact-section', label: 'Contact' }
   ];
 
   return (
-    <div style={{ backgroundColor: theme === 'dark' ? '#1d2127' : '#ffffff' }}>
+    <div style={{ backgroundColor: theme === 'dark' ? '#1d2127' : '#ffffff', overflowX: 'hidden' }}>
       <Head>
-        <title>Soft Built Company </title>
+        <title>Soft Built Company</title>
         <meta name="description" content="Welcome to SoftBuilt, founded by Ghulam Mujtaba, specializing in Desktop, Web, and Mobile applications, data science, and AI solutions. Partner with us to turn your project ideas into reality." />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
@@ -59,7 +49,7 @@ export default function CompanyHome() {
             "@type": "Organization",
             "name": "Soft Built",
             "url": "http://www.ghulammujtaba.com",
-             "logo": "https://ghulammujtaba.com/favicon.png",
+            "logo": "https://ghulammujtaba.com/favicon.png",
             "sameAs": [
               linkedinUrl,
               instagramUrl,
@@ -85,22 +75,22 @@ export default function CompanyHome() {
       </nav>
 
       {/* Welcome Frame */}
-      <section id="welcome-frame" aria-labelledby="welcome-heading">
+      <section id="welcome-section" aria-labelledby="welcome-heading" style={{ width: '100%', overflow: 'hidden' }}>
         <WelcomeFrame style={{ width: '100%', height: '400px', display: 'flex', alignItems: 'center', justifyContent: 'center' }} />
       </section>
       
       {/* About Me Section */}
-      <section id="about-section" aria-labelledby="about-heading">
+      <section id="about-section" aria-labelledby="about-heading" style={{ width: '100%', overflow: 'hidden' }}>
         <AboutMeSection style={{ width: '100%', padding: '20px', textAlign: 'center' }} />
       </section>
 
       {/* Services Frame */}
-      <section id="services-section" aria-labelledby="services-heading">
+      <section id="services-section" aria-labelledby="services-heading" style={{ width: '100%', overflow: 'hidden' }}>
         <ServicesFrame style={{ width: '100%', padding: '20px' }} />
       </section>
 
       {/* Contact Section */}
-      <section id="contact-section" aria-labelledby="contact-heading">
+      <section id="contact-section" aria-labelledby="contact-heading" style={{ width: '100%', overflow: 'hidden' }}>
         <ContactSection 
           style={{ width: '100%', padding: '20px' }}
           email={contactEmail}
@@ -110,7 +100,7 @@ export default function CompanyHome() {
       </section>
       
       {/* Footer */}
-      <footer id="footer-section" aria-label="Footer">
+      <footer id="footer-section" aria-label="Footer" style={{ width: '100%', overflow: 'hidden' }}>
         <Footer 
           style={{ width: '100%', height: '100px', padding: '20px' }}
           linkedinUrl={linkedinUrl}

@@ -1,0 +1,134 @@
+.resumeContainer {
+  margin: 20px;
+  font-family: Arial, sans-serif;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Enhanced shadow */
+}
+
+
+.resumeHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #45818e;
+  padding-bottom: 10px;
+}
+
+.headerContent {
+  text-align: left;
+}
+
+.name {
+  font-size: 24px;
+  font-weight: bold;
+  color: #45818e;
+}
+
+.jobTitle {
+  font-size: 18px;
+}
+
+.contactDetails {
+  margin-top: 10px;
+}
+
+.contactDetails a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.location, .phone, .email, .linkedin {
+  display: inline-block;
+  margin-right: 10px;
+  
+}
+
+.headerImage img {
+  border: 2px solid #45818e;
+  border-radius: 50%;
+  width: 150px;
+  height: 150px;
+}
+
+.resumeMain {
+  margin-top: 20px;
+}
+
+.section {
+  margin-bottom: 20px;
+}
+
+.sectionHeading {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #45818e;
+}
+
+.sectionDivider {
+  border: none;
+  border-top: 2px solid #45818e;
+  margin-bottom: 10px;
+}
+
+.item {
+  margin-bottom: 10px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  font-weight: bold;
+}
+
+.date {
+  font-style: italic;
+}
+
+.role {
+  margin-top: 5px;
+}
+
+/* Media Queries for Responsive Design */
+
+@media (max-width: 560px) {
+  .resumeContainer{
+    margin: 0px;
+  }
+  .resumeHeader {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+ 
+
+  .headerImage {
+    position: absolute;
+    top: 30px; /* Adjust top positioning */
+    right: 30px; /* Adjust right positioning */
+  }
+
+  .headerImage img {
+    width: 80px;
+    height: 80px;
+  }
+
+  .contactDetails {
+    text-align: left;
+    max-width: 80%;
+  }
+
+  .sectionHeading {
+    font-size: 18px;
+  }
+  .date {
+
+    font-style: italic;
+    font-size: 14px;
+ 
+  }
+  
+  
+}

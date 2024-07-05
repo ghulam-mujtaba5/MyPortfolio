@@ -1,4 +1,4 @@
-
+/*profile picture image css*/
 .image-container {
   position: relative; /* Ensuring .image-container is positioned */
   top: 90px;
@@ -48,6 +48,7 @@
   .image-container {
     top: 0;
     height: 400px; /* Adjust height for tablet screen */
+    max-width: 100%; /* Ensure container does not exceed viewport */
   }
 
   .image {
@@ -71,6 +72,8 @@
 @media (max-width: 768px) {
   .image-container {
     top: 0;
+    max-width: 100%; /* Ensure container does not exceed viewport */
+
   }
 
   .image {
@@ -106,13 +109,18 @@
     align-items: center; /* Center vertically */
     height: 400px; /* Adjust height for mobile screen */
     position: relative;
+    max-width: 100%; /* Ensure container does not exceed viewport */
+
   }
   
 
   .image {
+    margin-top: 85px;
     width: 400px;
     height: auto;
     left: 0%;
+    max-width: 100%; /* Ensure container does not exceed viewport */
+
   }
 
   /* Style for the ellipses */
