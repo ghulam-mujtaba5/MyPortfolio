@@ -1,4 +1,3 @@
-
 import React from 'react';
 import NavBarDesktop from '../components/NavBar_Desktop/nav-bar';
 import NavBarMobile from '../components/NavBar_Mobile/NavBar-mobile';

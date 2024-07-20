@@ -55,7 +55,7 @@ const NavBar = () => {
         className={styles.logoAnimation}
         onMouseEnter={() => handleMouseHover(true)}
         onMouseLeave={() => handleMouseHover(false)}
-        onClick={() => handleNavigation("/SoftBuilt")}
+        onClick={() => handleNavigation("/softbuilt")}
       >
         <button className={`${styles.logo} ${hover ? styles.logoHover : ""}`}>
           <img

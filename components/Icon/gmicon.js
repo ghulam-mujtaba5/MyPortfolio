@@ -9,7 +9,7 @@ const ThemeToggleIcon = () => {
   const router = useRouter();
 
   const handleIconClick = useCallback(() => {
-    router.push("/SoftBuilt");
+    router.push("/softbuilt");
   }, [router]);
 
   const iconClass = useMemo(() => {
