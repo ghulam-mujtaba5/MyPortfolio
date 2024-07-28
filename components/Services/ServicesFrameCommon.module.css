@@ -10,7 +10,7 @@
     padding-left: 6%; /* Left padding */
     padding-right: 6%; /* Right padding */
     padding-bottom: 5%;
-
+    
 }
 
 /* Skills section title */
@@ -107,7 +107,7 @@
     padding: 2px 3px;
     box-sizing: border-box;
     width: 210px; 
-    height: 30px; 
+    height: 30px;   
 }
 
 /* Skill name text */

@@ -6,7 +6,6 @@
     padding-top: 15%; 
     padding-left: 5%;
     height: 150px;
-    
   }
   
   .textContainer {
@@ -58,6 +57,7 @@
       padding: 10px;
     
       height: auto; /* Adjust height automatically */
+     
     }
   
     .textContainer {
@@ -89,7 +89,7 @@
         padding-top: 25%; /* Further increase margin-top for very small screens */
         padding: 8px; /* Decrease padding for more compact layout */
         padding: 5px;
-
+       
       }
       .textContainer {
        

@@ -1,34 +1,58 @@
-    .theme-toggle-icon {
-    display: none; /* Hide by default */
+/* Define the keyframes for the animation */
+@keyframes zoomInWithShadowAndGlow {
+  0% {
+    transform: scale(0.7);
+    opacity: 0;
+    box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+    filter: brightness(1) blur(0px);
   }
-  
-  .theme-toggle-icon img {
-    width: 30px; /* Adjust size as needed */
-    height: auto;
+  50% {
+    opacity: 1;
+    transform: scale(1.1);
+    box-shadow: 0 8px 35px rgba(0, 0, 0, 0.4); /* Slightly more prominent shadow */
+    filter: brightness(1.2) blur(0px);
   }
-  
-  /* Media query for smaller screens */
-  @media screen and (max-width: 768px) {
-    .theme-toggle-icon {
-      display: block; /* Show on small screens */
-      position: absolute;
-      top: 25px;
-      left: 25px;
-      z-index: 1000; /* Ensure it appears on top of other elements */
-      border-radius: 50%; /* Make it a circle */
-      width: 45px; /* Fixed width */
-      height: 45px; /* Fixed height */
-      display: flex; /* Center the image */
-      justify-content: center; /* Center the image */
-      align-items: center; /* Center the image */
-    }
-  
-    .theme-toggle-icon.light {
-      background-color: #272c34; /* Light theme background color */
-    }
-  
-    .theme-toggle-icon.dark {
-      background-color: #272c34; /* Dark theme background color */
-    }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3); /* Softer shadow for final state */
+    filter: brightness(1.1) blur(0px);
   }
-  
+}
+
+.theme-toggle-icon {
+  display: none; /* Hide by default */
+}
+
+.theme-toggle-icon img {
+  width: 30px; /* Adjust size as needed */
+  height: auto;
+}
+
+/* Media query for smaller screens */
+@media screen and (max-width: 768px) {
+  .theme-toggle-icon {
+    display: block; /* Show on small screens */
+    position: absolute;
+    top: 25px;
+    left: 25px;
+    z-index: 1000; /* Ensure it appears on top of other elements */
+    border-radius: 50%; /* Make it a circle */
+    width: 45px; /* Fixed width */
+    height: 45px; /* Fixed height */
+    display: flex; /* Center the image */
+    justify-content: center; /* Center the image */
+    align-items: center; /* Center the image */
+  }
+
+  .theme-toggle-icon.light {
+    background-color: #1d2127; /* Light theme background color */
+  }
+
+  .theme-toggle-icon.dark {
+    background-color: #272c34; /* Dark theme background color */
+  }
+
+  .animate {
+    animation: zoomInWithShadowAndGlow 1s ease-out forwards; /* Apply the enhanced animation */
+  }
+}
