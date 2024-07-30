@@ -52,6 +52,10 @@
     border-radius: 5px;
     mix-blend-mode: normal;
 }
+.sendButton:hover {
+    background-color: #f1f1f1;
+  
+}
 
 .sendLabel {
     position: absolute;
@@ -243,8 +247,21 @@
     width: 105px;
     height: 105px;
     object-fit: cover;
+    transition: transform 0.3s ease;
 }
-
+.certificationBadgeIcon2 {
+    position: absolute;
+    top: 165px;
+    left: 125px;
+    width: 105px;
+    height: 105px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+.certificationBadgeIcon:hover,
+.certificationBadgeIcon2:hover {
+    transform: scale(1.1);
+}
 .contactDetails {
     position: absolute;
     top: 48px;
@@ -407,6 +424,7 @@
     .contactPhoneNo,
     .contactEmail,
    .certificationBadgeIcon,
+   .certificationBadgeIcon2,
    .darkModeButton,
    .darkModeButtonBorder,
    .buttonState,

@@ -31,7 +31,7 @@ const Resume = () => {
           </div>
         </div>
         <div className={commonStyles.headerImage}>
-          <img src="/resume-photo.png" alt="Ghulam Mujtaba" className={commonStyles.profilePic} />
+          <img src="resume-photo.png" alt="Ghulam Mujtaba" className={commonStyles.profilePic} />
         </div>
       </div>
 

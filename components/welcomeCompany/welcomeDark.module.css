@@ -1,15 +1,27 @@
-.darkContainer {
-  background-color: #1d2127; /* Dark background color */
+/* Dark Mode Styles */
+
+.container {
+  background: #1d2127; /* Dark mode background gradient */
 }
 
-.darkContainer .text {
-  color: #ffffff; /* White text for dark mode */
+.text {
+  color: #ffffff; /* Light text color for dark mode */
 }
 
-.darkContainer .paragraph {
-  color: #ffffff; /* White text for dark mode */
+.paragraph {
+  color: #cccccc; /* Lighter text color for paragraphs */
 }
 
-.darkContainer .softBuilt {
-  color: #8cd5ff; /* Light blue color for dark mode */
+.softBuilt {
+  color: #4573df; /* Highlighted color */
+}
+
+@media (max-width: 1024px) {
+  .text {
+    color: #ffffff;
+  }
+
+  .paragraph {
+    color: #cccccc;
+  }
 }

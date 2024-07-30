@@ -1,7 +1,10 @@
+/* Dark Mode Styles */
+
 .container {
     background-color: #272c34;
+    color: #ffffff; /* Ensure text is visible on dark background */
 }
 
 .aboutMeSection {
-    color: #ffffff;
+    color: #ffffff; /* Ensure text is visible on dark background */
 }

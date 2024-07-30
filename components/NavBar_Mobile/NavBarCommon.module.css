@@ -8,6 +8,7 @@
     
   }
   
+  
   /* Media query to show the navbar on screens less than 768px */
   @media (max-width: 768px) {
     .navBar {
@@ -31,7 +32,7 @@
     transform: rotate(0deg);
     transition: .5s ease-in-out;
     cursor: pointer;
-    z-index: 3; /* Ensure the button is above the menu list */
+    z-index: 4; /* Ensure the button is above the menu list */
     background-color: transparent; /* Background color of the button */
     border: none; /* Remove default border */
     outline: no
@@ -100,7 +101,7 @@
     opacity: 0;
     transform: translateX(10px);
     pointer-events: none;
-    z-index: 2;
+    z-index: 3;
   }
   
   /* Styles for individual menu items */
@@ -127,6 +128,3 @@
     margin-left: 70px;
     
 }
-
-
-

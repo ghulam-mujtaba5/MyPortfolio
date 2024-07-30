@@ -1,72 +1,91 @@
+/* LanguagesCommon.module.css */
+
+/* Keyframe animation for fading in, moving up, and scaling up */
+@keyframes fadeInUpScale {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.5); /* Start with smaller size */
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1); /* Scale to original size */
+  }
+}
+
+/* Animation for the icon container */
+.animate {
+  animation: fadeInUpScale 1s ease-out forwards;
+}
+
 .frameContainer {
-    width: 100%;
-    text-align: center;
-  }
-  
-  .title {
-    font-family: 'Open Sans', sans-serif;
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 20px;
-    text-align: left;
-    margin-left: 6%;
-  }
-  
-  .iconContainer {
-    width: 100%;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-around;
-    padding: 20px;
-    box-sizing: border-box;
-  }
-  
-  .icon {
-    width: 100px;
-    height: 100px;
-    object-fit: contain;
-    margin: 10px;
-    transition: transform 0.3s ease; 
-  }
-  /* Hover effect */
+  width: 100%;
+  text-align: center;
+}
+
+.title {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  text-align: left;
+  margin-left: 6%;
+}
+
+.iconContainer {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-around;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.icon {
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
+  margin: 10px;
+  transition: transform 0.3s ease;
+}
+
+/* Hover effect */
 .icon:hover {
   transform: scale(1.1) translateY(-5px); /* Scale up and move up slightly on hover */
 }
-  
-  /* Responsive styles for tablets and small screens */
-  @media (max-width: 768px) {
-    .title {
-      font-size: 22px;
-      margin-left: 8%;
-    }
-  
-    .icon {
-      width: 80px;
-      height: 80px;
-    }
-  
-    .iconContainer {
-      justify-content: space-evenly;
-    }
+
+/* Responsive styles for tablets and small screens */
+@media (max-width: 768px) {
+  .title {
+    font-size: 22px;
+    margin-left: 8%;
   }
-  
-  /* Responsive styles for mobile devices */
-  @media (max-width: 576px) {
-    .title {
-      font-size: 18px;
-      margin-left: 8%;
-      margin-bottom: 10px;
-    }
-  
-    .icon {
-      width: 60px;
-      height: 55px;
-    }
-  
-    .iconContainer {
-      justify-content: space-between;
-      padding: 20px;
-    }
+
+  .icon {
+    width: 80px;
+    height: 80px;
   }
-  
+
+  .iconContainer {
+    justify-content: space-evenly;
+  }
+}
+
+/* Responsive styles for mobile devices */
+@media (max-width: 576px) {
+  .title {
+    font-size: 18px;
+    margin-left: 8%;
+    margin-bottom: 10px;
+  }
+
+  .icon {
+    width: 60px;
+    height: 55px;
+  }
+
+  .iconContainer {
+    justify-content: space-between;
+    padding: 20px;
+  }
+}

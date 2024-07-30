@@ -1,142 +1,185 @@
-/* SkillFrame container */
-.skillFrame {
+/* Keyframe animation for scaling and fading in */
+@keyframes scaleInFade {
+    0% {
+      opacity: 0;
+      transform: scale(0.9);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  
+  /* Animation for skill frame */
+  .skillFrame.animate {
+    animation: scaleInFade 1s ease-out;
+    animation-fill-mode: forwards; /* Keeps the final state of the animation */
+  }
+  
+  /* Animation for individual skill cards */
+  .skillCard.animate {
+    animation: scaleInFade 1s ease-out;
+    animation-fill-mode: forwards; /* Keeps the final state of the animation */
+  }
+  
+  /* Keyframe animation for skill rows */
+  @keyframes skillRowFade {
+    0% {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* Skill row container */
+  .skillRow.animate {
+    animation: skillRowFade 1s ease-out;
+    animation-fill-mode: forwards; /* Keeps the final state of the animation */
+  }
+  
+  /* Base styles for container and title */
+  .skillFrame {
     width: 100%;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    padding: 20px; /* Padding around the skill cards */
+    padding: 20px;
     box-sizing: border-box;
-    gap: 20px; /* Gap between skill cards */
-    padding-left: 6%; /* Left padding */
-    padding-right: 6%; /* Right padding */
-}
-
-/* Skills section title */
-.skillsTitle {
+    gap: 20px;
+    padding-left: 6%;
+    padding-right: 6%;
+    opacity: 1; /* Ensure opacity is always 1 */
+  }
+  
+  /* Skills section title */
+  .skillsTitle {
     width: 100%;
     font-family: 'Open Sans', sans-serif;
-    font-size: 24px; /* Adjust font size */
+    font-size: 24px;
     font-weight: bold;
-    margin-bottom: 20px; /* Space between the title and the skill cards */
+    margin-bottom: 20px;
     text-align: left;
     box-sizing: border-box;
-}
-
-/* Individual skill card */
-.skillCard {
+  }
+  
+  /* Individual skill card */
+  .skillCard {
     width: 100%;
-    max-width: 336px; /* Maximum width of the skill card */
-    border-radius: 8px; /* Rounded corners */
-    padding: 25px; /* Padding inside the skill card */
+    max-width: 336px;
+    border-radius: 8px;
+    padding: 25px;
     padding-top: 40px;
     padding-left: 35px;
     padding-right: 35px;
     box-sizing: border-box;
     position: relative;
-    margin-top: 20px; /* Adding margin from the top */
-    transition: transform 0.3s ease; /* Smooth transition for transform */
-}
-
-/* Header styling */
-.header {
+    margin-top: 20px;
+    transition: transform 0.3s ease;
+  }
+  
+  /* Header styling */
+  .header {
     position: absolute;
     top: 16px;
     left: 16px;
-    width: 100%; /* Adjusted width for mobile */
+    width: 100%;
     height: 27px;
     display: flex;
     flex-direction: column;
-    align-items: center; /* Center align on mobile */
-    justify-content: center; /* Center align on mobile */
+    align-items: center;
+    justify-content: center;
     font-size: 20px;
     font-family: 'Open Sans';
-}
-
-/* Title styling */
-.title {
-    width: 100%; /* Adjusted width for mobile */
+  }
+  
+  /* Title styling */
+  .title {
+    width: 100%;
     margin: 0;
     text-align: center;
-}
-
-/* Skill row container */
-.skillRow {
+  }
+  
+  /* Skill row container */
+  .skillRow {
     display: flex;
     align-items: center;
     margin-top: 12px;
     position: relative;
-}
-
-/* Container for skill name and progress bar */
-.skillNameContainer {
+  }
+  
+  /* Container for skill name and progress bar */
+  .skillNameContainer {
     display: flex;
     flex-direction: column;
-    margin-left: auto; /* Move skill name container to the right */
+    margin-left: auto;
     position: relative;
     border-radius: 3px;
     padding: 2px 3px;
     box-sizing: border-box;
-    width: 100px; /* Width of the skill name container */
-    height: 25px; /* Height of the skill name container */
-}
-
-/* Skill name text */
-.skillName {
+    width: 100px;
+    height: 25px;
+  }
+  
+  /* Skill name text */
+  .skillName {
     font-weight: 600;
     font-size: 15px;
-}
-
-/* Progress bar */
-.progress {
+  }
+  
+  /* Progress bar */
+  .progress {
     position: absolute;
     bottom: 0;
     left: 0;
     width: 100%;
     border-radius: 8px;
-    height: 1px; /* Height of the progress bar */
+    height: 1px;
     z-index: 0;
-}
-
-/* Progress bar widths */
-.progress70 { width: 70%; }
-.progress80 { width: 80%; }
-.progress60 { width: 60%; }
-.progress90 { width: 90%; }
-.progress85 { width: 85%; }
-.progress75 { width: 75%; }
-.progress65 { width: 65%; }
-
-/* Icons container */
-.icons {
+  }
+  
+  /* Progress bar widths */
+  .progress70 { width: 70%; }
+  .progress80 { width: 80%; }
+  .progress60 { width: 60%; }
+  .progress90 { width: 90%; }
+  .progress85 { width: 85%; }
+  .progress75 { width: 75%; }
+  .progress65 { width: 65%; }
+  
+  /* Icons container */
+  .icons {
     display: flex;
     justify-content: space-around;
-}
-
-/* Individual icon */
-.icon {
+  }
+  
+  /* Individual icon */
+  .icon {
     width: auto;
-    max-width: 97px; /* Maximum width of the icon */
-    height: 30px; /* Height of the icon */
+    max-width: 97px;
+    height: 30px;
     object-fit: contain;
-}
-
-/* Hover effect */
-.skillCard:hover {
-    transform: translateY(-5px); /* Move the card 5px up on hover */
-}
-
-/* Media query for smaller screens */
-@media (max-width: 768px) {
-    /* Adjustments for smaller screens */
+  }
+  
+  /* Hover effect */
+  .skillCard:hover {
+    transform: translateY(-5px);
+  }
+  
+  /* Media query for smaller screens */
+  @media (max-width: 768px) {
     .skillFrame {
-        justify-content: center; /* Center align skill cards */
+      justify-content: center;
     }
-    
+  
     .skillsTitle {
-        padding-left: 3%; /* Adjust padding for smaller screens */
+      padding-left: 3%;
     }
-    
+  
     .skillName {
-        font-size: 14px;
+      font-size: 14px;
     }
-}
+  }
+  

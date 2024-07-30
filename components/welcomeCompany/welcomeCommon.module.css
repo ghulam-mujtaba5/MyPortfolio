@@ -1,106 +1,105 @@
+/* Common Styles */
+
 .container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px;
-    padding-top: 15%; 
-    padding-left: 5%;
-    height: 150px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  padding-top: 15%;
+  padding-left: 5%;
+  height: 150px; /* Fixed height to ensure layout stability */
+  position: relative; /* Allows for absolute positioning of child elements */
+}
+
+.textContainer {
+  width: 45%; /* Take full width */
+  position: relative; /* Relative positioning to control absolute child elements */
+  min-height: 300px; /* Adjust this value to ensure space for animations */
+}
+
+.text {
+  font-size: 38px;
+  margin-bottom: 10px;
+  font-weight: bold;
+  font-family: 'Open Sans', sans-serif;
+  transition: transform 0.4s ease; /* Smooth transition for scaling effect */
+}
+
+.paragraph {
+  font-size: 38px;
+  font-weight: lighter;
+  font-family: 'Open Sans', sans-serif;
+  margin: 0; /* Remove default margin to avoid layout shifts */
+}
+
+.softBuilt {
+  font-weight: bold;
+  color: #4573df;
+  display: inline-block; /* Allows for smooth scaling effect */
+  transition: transform 0.4s ease, color 0.4s ease; /* Smooth transition for scaling and color */
+  transform-origin: center; /* Scale from the center */
+}
+
+/* Media query for tablets */
+@media (max-width: 1024px) {
+  .container {
+    padding-left: 6%;
   }
-  
+
   .textContainer {
-    width: 45%; /* Take full width */
-   
+    width: 100%; /* Take full width */
+    text-align: center; /* Center text in mobile view */
+    padding-top: 5%;
+    min-height: 0px; /* Adjust this value to ensure space for animations */
+
   }
-  
+}
+
+/* Media query for mobile screens */
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+    align-items: center; /* Center items vertically */
+    padding: 10px;
+    height: auto; /* Adjust height automatically */
+  }
+
+  .textContainer {
+    width: 100%; /* Take full width */
+    text-align: center; /* Center text in mobile view */
+    padding-top: 10%;
+    min-height: 200px; /* Adjust this value to ensure space for animations */
+  }
+
   .text {
-    font-size: 38px;
+    font-size: 32px;
     margin-bottom: 10px;
-    font-weight: bold;
-    font-family: 'Open Sans', sans-serif;
-    
-    
   }
-  
+
   .paragraph {
-    font-size: 38px;
-    font-weight: lighter;
-    font-family: 'Open Sans', sans-serif;
+    font-size: 32px;
+    text-align: center; /* Center text in mobile view */
   }
-  
-  .softBuilt {
-    font-weight: bold;
-    color: #4573df;
-  }
-  
-  /* Media query for tablets */
-  @media (max-width: 1024px) {
+}
 
-    .container {
-      padding-left: 6%;
-    }
-      
-    .textContainer {
-      width: 100%; /* Take full width */
-      text-align: center; /* Center text in mobile view */
-      padding-top: 5%;
-    }
-  
-
+/* Media query for smaller mobile screens */
+@media (max-width: 576px) {
+  .container {
+    padding-top: 25%; /* Increase top padding for small screens */
+    padding: 5px; /* Decrease padding for more compact layout */
   }
-  
-  /* Media query for mobile screens */
-  @media (max-width: 768px) {
-    .container {
-      flex-direction: column;
-      align-items: center; /* Center items vertically */
-      padding: 10px;
-    
-      height: auto; /* Adjust height automatically */
-     
-    }
-  
-    .textContainer {
-      width: 100%; /* Take full width */
-      text-align: center; /* Center text in mobile view */
-      padding-top: 10%;
-    }
-  
-    .text {
-      font-size: 32px;
-      margin-bottom: 10px;
-      font-weight: bold;
-      font-family: 'Open Sans', sans-serif;
 
-    }
-  
-    .paragraph {
-      font-size: 32px;
-      font-weight: lighter;
-      font-family: 'Open Sans', sans-serif;
-      margin-left: 0; /* Reset margin-left */
-      text-align: center; /* Center text in mobile view */
-    }
+  .textContainer {
+    padding-top: 25%;
+    min-height: 160px; /* Adjust this value to ensure space for animations */
   }
-  
-  /* Media query for smaller mobile screens */
-  @media (max-width: 576px) {
-    .container {
-        padding-top: 25%; /* Further increase margin-top for very small screens */
-        padding: 8px; /* Decrease padding for more compact layout */
-        padding: 5px;
-       
-      }
-      .textContainer {
-       
-        padding-top: 25%; 
-      }
-       .text {
-      font-size: 30px;
-      margin-bottom: 1px;
-    }
-    .paragraph {
-        font-size: 30px;
-  
-      }
-    }
+
+  .text {
+    font-size: 30px;
+    margin-bottom: 1px; /* Reduce margin for small screens */
+  }
+
+  .paragraph {
+    font-size: 30px;
+  }
+}

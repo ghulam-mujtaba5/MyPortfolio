@@ -1,5 +1,5 @@
 
-
+import React, { useEffect, useRef, useState } from 'react';
 import { useTheme } from '../../context/ThemeContext';
 import commonStyles from './SkillFrameCommon.module.css';
 import lightStyles from './SkillFrame.module.css';
@@ -8,6 +8,44 @@ import darkStyles from './SkillFrameDark.module.css';
 const SkillFrame = () => {
   const { theme } = useTheme();
   const frameStyles = theme === 'dark' ? darkStyles : lightStyles;
+
+  const [isVisible, setIsVisible] = useState(false);
+  const frameRef = useRef(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+        } else {
+          setIsVisible(false);
+        }
+      },
+      {
+        threshold: 0.1,
+      }
+    );
+
+    if (frameRef.current) {
+      observer.observe(frameRef.current);
+    }
+
+    return () => {
+      if (frameRef.current) {
+        observer.unobserve(frameRef.current);
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    if (isVisible) {
+      const timer = setTimeout(() => {
+        setIsVisible(false); // Reset visibility after animation
+      }, 1000); // Duration of the animation in milliseconds
+
+      return () => clearTimeout(timer);
+    }
+  }, [isVisible]);
 
   const skillsData = [
     {
@@ -41,15 +79,21 @@ const SkillFrame = () => {
   ];
 
   return (
-    <div className={`${commonStyles.skillFrame} ${frameStyles.skillFrame}`}>
+    <div
+      ref={frameRef}
+      className={`${commonStyles.skillFrame} ${frameStyles.skillFrame} ${isVisible ? commonStyles.animate : ''}`}
+    >
       <h2 className={`${commonStyles.skillsTitle} ${frameStyles.skillsTitle}`}>Skills</h2>
       {skillsData.map((category, index) => (
-        <div className={`${commonStyles.skillCard} ${frameStyles.skillCard}`} key={index}>
+        <div
+          className={`${commonStyles.skillCard} ${frameStyles.skillCard} ${isVisible ? commonStyles.animate : ''}`}
+          key={index}
+        >
           <div className={`${commonStyles.header} ${frameStyles.header}`}>
             <b className={`${commonStyles.title} ${frameStyles.title}`}>{category.title}</b>
           </div>
           {category.skills.map((skill, index) => (
-            <div key={index} className={`${commonStyles.skillRow} ${frameStyles.skillRow}`}>
+            <div key={index} className={`${commonStyles.skillRow} ${frameStyles.skillRow} ${isVisible ? commonStyles.animate : ''}`}>
               <img className={`${commonStyles.icon} ${frameStyles.icon}`} alt={skill.name} src={skill.icon} />
               <div className={`${commonStyles.skillNameContainer} ${frameStyles.skillNameContainer}`}>
                 <div className={`${commonStyles.skillName} ${frameStyles.skillName}`}>{skill.name}</div>

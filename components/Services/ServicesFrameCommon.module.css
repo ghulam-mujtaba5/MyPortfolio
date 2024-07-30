@@ -130,6 +130,35 @@
     object-fit: contain;
 }
 
+
+  /* Keyframes for fade-in animation */
+@keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* Animation class to apply */
+  .animateIn {
+    animation: fadeInUp 0.6s ease-out;
+  }
+  
+  /* Ensure cards are initially invisible until animated */
+  .skillCard {
+    opacity: 0; /* Initial state */
+    transition: opacity 0.6s ease-out; /* Transition effect for opacity */
+  }
+  
+  /* Once animated, the card remains visible */
+  .skillCard.animateIn {
+    opacity: 1;
+  }
+  
 /* Media query for smaller screens */
 @media (max-width: 768px) {
     /* Adjustments for smaller screens */
@@ -140,4 +169,7 @@
     .skillsTitle {
         padding-left: 3%; /* Adjust padding for smaller screens */
     }
+
+
+    
 }

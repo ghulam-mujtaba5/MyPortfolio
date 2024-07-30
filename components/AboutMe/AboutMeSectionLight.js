@@ -1,6 +1,53 @@
-import { useMemo } from 'react';
-import { useTheme } from '../../context/ThemeContext';
+// import { useMemo } from 'react';
+// import { useTheme } from '../../context/ThemeContext';
+// import commonStyles from './AboutMeSectionCommon.module.css';
+// import lightStyles from './AboutMeSectionLight.module.css';
+// import darkStyles from './AboutMeSectionDark.module.css';
 
+// const AboutMeSection = () => {
+//   const { theme } = useTheme();
+
+//   const themeStyles = theme === 'dark' ? darkStyles : lightStyles;
+
+//   const containerClass = useMemo(
+//     () => `${commonStyles.container} ${themeStyles.container}`,
+//     [theme, themeStyles.container]
+//   );
+
+//   const sectionClass = useMemo(
+//     () => `${commonStyles.aboutMeSection} ${themeStyles.aboutMeSection}`,
+//     [theme, themeStyles.aboutMeSection]
+//   );
+
+//   const titleClass = useMemo(
+//     () => `${commonStyles.title} ${themeStyles.title}`,
+//     [theme, themeStyles.title]
+//   );
+
+//   const descriptionClass = useMemo(
+//     () => `${commonStyles.description} ${themeStyles.description}`,
+//     [theme, themeStyles.description]
+//   );
+
+//   return (
+//     <>
+
+//       <section className={containerClass}>
+//         <div className={sectionClass}>
+//           <h2 className={titleClass}>ABOUT ME</h2>
+//           <p className={descriptionClass}>
+//           I am a Software Engineer with expertise in Developing Software solutions that integrate Emerging Technologies such as Data Science, Machine Learning and AI Development. Dedicated to achieving excellence from ideation and design to development and seamless integration.
+//           </p>
+//         </div>
+//       </section>
+//     </>
+//   );
+// };
+
+// export default AboutMeSection;
+import React, { useMemo, useEffect, useRef } from 'react'; 
+import { useTheme } from '../../context/ThemeContext';
+import { motion, useAnimation, useInView } from 'framer-motion';
 import commonStyles from './AboutMeSectionCommon.module.css';
 import lightStyles from './AboutMeSectionLight.module.css';
 import darkStyles from './AboutMeSectionDark.module.css';
@@ -30,18 +77,44 @@ const AboutMeSection = () => {
     [theme, themeStyles.description]
   );
 
-  return (
-    <>
+  const controls = useAnimation();
+  const ref = useRef(null);
+  const isInView = useInView(ref, { threshold: 0.1 });
 
-      <section className={containerClass}>
-        <div className={sectionClass}>
-          <h2 className={titleClass}>ABOUT ME</h2>
-          <p className={descriptionClass}>
-          I am a Software Engineer with expertise in Developing Software solutions that integrate Emerging Technologies such as Data Science, Machine Learning and AI Development. Dedicated to achieving excellence from ideation and design to development and seamless integration. I ensure each project exemplifies precision and innovation. My commitment to excellence guarantees that every project is executed with the highest standards of quality, achieving optimal results.
-          </p>
-        </div>
-      </section>
-    </>
+  useEffect(() => {
+    if (isInView) {
+      controls.start({ opacity: 1, y: 0, transition: { duration: 0.8, ease: 'easeOut' } });
+    } else {
+      controls.start({ opacity: 0, y: 50 });
+    }
+  }, [isInView, controls]);
+
+  return (
+    <motion.section
+      className={containerClass}
+      initial={{ opacity: 0, y: 50 }}
+      animate={controls}
+      ref={ref}
+    >
+      <div className={sectionClass}>
+        <motion.h2
+          className={titleClass}
+          initial={{ opacity: 0, y: -30 }}
+          animate={controls}
+          transition={{ duration: 0.5, delay: 0.2, ease: 'easeOut' }}
+        >
+          ABOUT ME
+        </motion.h2>
+        <motion.p
+          className={descriptionClass}
+          initial={{ opacity: 0, y: 20 }}
+          animate={controls}
+          transition={{ duration: 0.5, delay: 0.4, ease: 'easeOut' }}
+        >
+          I am a Software Engineer with expertise in developing software solutions that integrate emerging technologies such as Data Science, Machine Learning, and AI Development. Dedicated to achieving excellence from ideation and design to development and seamless integration.
+        </motion.p>
+      </div>
+    </motion.section>
   );
 };
 

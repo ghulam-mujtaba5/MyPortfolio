@@ -1,6 +1,10 @@
+/* Light Mode Styles */
+
 .container {
- 
   background-color: #e8ebee;
+  color: #000000; /* Ensure text is visible on light background */
 }
 
-
+.aboutMeSection {
+  color: #000000; /* Ensure text is visible on light background */
+}

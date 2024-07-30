@@ -7,6 +7,7 @@
   justify-content: flex-start;
   align-items: flex-start;
   text-align: left;
+  position: relative; /* Ensure animations are relative to the container */
 }
 
 .textContainer {
@@ -14,17 +15,39 @@
   padding-top: 200px;
   opacity: 0;
   animation: fadeIn 5s forwards;
+  position: absolute; /* Keep text container in place during animation */
+  top: 0;
+  left: 0;
 }
 
 .text {
-  font-family: 'Open Sans';
+  font-family: 'Open Sans', sans-serif; /* Ensure the font-family is applied */
   margin-bottom: 10px;
-  font-size: 28px; /* Increase the text size as desired */
+  font-size: 28px;
   font-weight: bold;
 }
 
 .visible {
   opacity: 1;
+}
+
+.ghulamMujtaba {
+  font-family: 'Open Sans', sans-serif; /* Ensure the font-family is applied */
+  font-size: 52px;
+  font-weight: 600;
+  animation: letterAnimation 2s forwards;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.paragraph {
+  font-size: 28px;
+  font-weight: lighter;
+  padding-top: 0;
+  margin-bottom: 0;
+  margin-top: 0;
+  font-family: 'Open Sans', sans-serif; /* Ensure the font-family is applied */
+  text-align: justify;
 }
 
 @keyframes fadeIn {
@@ -36,26 +59,6 @@
   }
 }
 
-.ghulamMujtaba {
-  font-family: 'Open Sans';
-  font-size: 52px;
-  font-weight: 600;
-  animation: letterAnimation 2s forwards;
-  
-  margin-top: 0px;
-  margin-bottom: 0px;
-}
-
-.paragraph {
-  font-size: 28px;
-  font-weight: lighter;
-  padding-top: 0px;
-  margin-bottom: 0px;
-  margin-top: 0px;
-  font-family: 'Open Sans';
-  text-align: justify ;
-}
-
 @keyframes letterAnimation {
   0% {
     opacity: 0;
@@ -65,75 +68,58 @@
   }
 }
 
-@keyframes wordAnimation {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
-}
 
 @media screen and (max-width: 980px) {
   .container {
-    width: 100%; /* Adjust width to fit smaller screens */
-    height: auto; /* Let height be determined by content */
-    display: flex;
-    flex-direction: column; /* Stack items vertically on smaller screens */
-    align-items: center; /* Center items horizontally on smaller screens */
-    text-align: left; /* Center text horizontally on smaller screens */
-
+    width: 100%;
+    height: auto;
+    flex-direction: column;
+    align-items: center;
+    text-align: center; /* Center text horizontally on smaller screens */
   }
 
   .textContainer {
-    padding-left: 10%; /* Remove left padding */
+    padding-left: 10%;
     margin-right: 10%;
-    margin-top: 400px; /* Adjust top padding for better spacing */
-    opacity: 1; /* Set opacity to 1 by default for smaller screens */
-    
+    margin-top: 400px; /* Adjust as needed */
+    opacity: 1;
+    position: static; /* Reset position for responsive design */
   }
-
-
-
 }
 
 @media screen and (max-width: 576px) {
   .container {
-    width: 100%; /* Adjust width to fit smaller screens */
-    height: auto; /* Let height be determined by content */
-    display: flex;
-    flex-direction: column; /* Stack items vertically on smaller screens */
-    align-items: center; /* Center items horizontally on smaller screens */
-    text-align: left; /* Center text horizontally on smaller screens */
+    width: 100%;
+   
+    height: auto;
+    flex-direction: column;
+    align-items: center;
+    text-align: center; /* Center text horizontally on smaller screens */
   }
 
   .textContainer {
-    padding-left: 35px; /* Remove left padding */
+    padding-left: 35px;
     margin-right: 35px;
-    margin-top: 270px; /* Adjust top padding for better spacing */
-    opacity: 1; /* Set opacity to 1 by default for smaller screens */
+    min-height: 230px;
+    margin-top: 270px; /* Adjust as needed */
+    opacity: 1;
+    position: static; /* Reset position for responsive design */
   }
 
   .text {
-    font-family: 'Open Sans';
-    margin-bottom: 0px;
-   
-    font-size: 24px; /* Decrease text size for better readability on smaller screens */
+    font-size: 24px;
     font-weight: bold;
-    
-
   }
 
   .ghulamMujtaba {
-    font-size: 30px; /* Decrease font size for better readability on smaller screens */
-    margin-bottom: 0px;
-    margin-top: 0px;
+    font-size: 30px;
+    margin-bottom: 0;
+    margin-top: 0;
     animation: letterAnimation 2s forwards;
-    
   }
 
   .paragraph {
-    font-size: 18px; /* Decrease font size for better readability on smaller screens */
+    font-size: 18px;
     font-weight: normal;
   }
 }

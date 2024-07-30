@@ -1,14 +1,16 @@
-import React, { useState, useCallback, useMemo } from 'react';
+import React, { useState, useCallback, useMemo, useRef, useEffect } from 'react';
 import emailjs from 'emailjs-com';
 import { useTheme } from '../../context/ThemeContext';
 import commonStyles from './ContactUsCommon.module.css';
 import lightStyles from './ContactUsLight.module.css';
 import darkStyles from './ContactUsDark.module.css';
+import { motion, useAnimation } from 'framer-motion';
 
 const ContactSection = ({
   email = "ghulammujtaba0454@gmail.com",
   phoneNumber = "+92 317 7107849",
-  showCertificationBadge = true
+  showCertificationBadge = true,
+  showAdditionalCertificationBadge = true
 }) => {
   const [name, setName] = useState('');
   const [emailInput, setEmailInput] = useState('');
@@ -84,13 +86,43 @@ const ContactSection = ({
 
   const themeStyles = useMemo(() => (theme === 'light' ? lightStyles : darkStyles), [theme]);
 
+  // Framer Motion animation setup
+  const controls = useAnimation();
+  const ref = useRef(null);
+
+  const handleScroll = useCallback(() => {
+    if (ref.current) {
+      const observer = new IntersectionObserver(([entry]) => {
+        if (entry.isIntersecting) {
+          controls.start({ opacity: 1, y: 0 });
+        } else {
+          controls.start({ opacity: 0, y: 50 });
+        }
+      }, { threshold: 0.1 });
+
+      observer.observe(ref.current);
+
+      return () => {
+        observer.disconnect();
+      };
+    }
+  }, [controls]);
+
+  useEffect(() => {
+    handleScroll();
+  }, [handleScroll]);
+
   return (
     <section className={`${commonStyles.contactSection} ${themeStyles.contactSection}`}>
       <div className={`${commonStyles.contactFormBackground} ${themeStyles.contactFormBackground}`} />
-      <form
+      <motion.form
         className={`${commonStyles.contactForm} ${themeStyles.contactForm}`}
         onSubmit={handleSubmit}
         aria-label="Contact form"
+        ref={ref}
+        initial={{ opacity: 0, y: 50 }}
+        animate={controls}
+        transition={{ duration: 0.5 }}
       >
         <label className={`${commonStyles.nameLabel} ${themeStyles.nameLabel}`} htmlFor="name">Name</label>
         <input
@@ -137,7 +169,7 @@ const ContactSection = ({
             {isSending ? 'Sending...' : 'SEND'}
           </div>
         </button>
-      </form>
+      </motion.form>
       {error && (
         <p className={`${commonStyles.message} ${themeStyles.errorMessage}`} role="alert">
           {error}
@@ -181,12 +213,26 @@ const ContactSection = ({
           </b>
         </button>
         {showCertificationBadge && (
+    <a href="https://www.credly.com/badges/9bd08c36-473a-43a4-bd93-77352b3205c5/public_url" target="_blank" rel="noopener noreferrer">
+
           <img
             className={`${commonStyles.certificationBadgeIcon} ${themeStyles.certificationBadgeIcon}`}
-            alt="UX Certificate"
+            alt="UX Certificate Badge"
             src="ux-certificate.png"
             loading="lazy"
           />
+          </a>
+        )}
+        {showAdditionalCertificationBadge && (
+     <a href="https://www.credly.com/badges/541285d6-1075-47ba-94df-c497ecd15253/public_url" target="_blank" rel="noopener noreferrer">
+
+          <img
+            className={`${commonStyles.certificationBadgeIcon2} ${themeStyles.certificationBadgeIcon2}`}
+            alt="Google Data Analytics Certification Badge"
+            src="ds-certificate.png"
+            loading="lazy"
+          />
+           </a>
         )}
       </div>
     </section>
@@ -194,3 +240,5 @@ const ContactSection = ({
 };
 
 export default ContactSection;
+
+

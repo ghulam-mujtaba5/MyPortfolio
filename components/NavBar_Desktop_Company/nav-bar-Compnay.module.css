@@ -1,4 +1,9 @@
 /* Styles for the Home button text */
+
+
+.header * {
+  transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+}
 .homeText {
   position: relative;
   font-size: 20px;
@@ -31,6 +36,8 @@
 .project:hover,
 .contact:hover {
   background-color: #33373c; /* Change to darker color on hover */
+  transform: scale(1.05); /* Slight scale effect on hover */
+
 }
 
 /* Styles for the About section text */
@@ -102,7 +109,8 @@
   background-color: #4573df;
   transform: scale(1.03);
   box-shadow:none;
-  box-shadow:none;
+  transition: opacity 0.3s ease; /* Smooth opacity transition */
+
 }
 
 /* Styles for the Name animation icon */
@@ -110,6 +118,8 @@
   height: 20.3px;
   width: 140px;
   position: relative;
+  transition: opacity 0.3s ease; /* Smooth opacity transition */
+
 }
 
 /* Styles for the Logo and Name animation container */
@@ -134,6 +144,8 @@
 /* Animation for hovering on the Name animation container */
 .typo:hover .nameIcon {
   opacity: 0; /* Hide the Name animation icon on hover */
+  transition: opacity 0.3s ease; /* Smooth opacity transition */
+
 }
 
 

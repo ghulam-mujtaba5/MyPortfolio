@@ -1,17 +1,27 @@
+/* Light Mode Styles */
+
 .container {
-  background-color: #ffffff;
+  background: #fff; /* Light mode background gradient */
 }
 
-
-
 .text {
-  color: #000000; /* Black text for light mode */
+  color: #333; /* Dark text color for light mode */
 }
 
 .paragraph {
-  color: #000000; /* Black text for light mode */
+  color: #666; /* Lighter text color for paragraphs */
 }
 
 .softBuilt {
-  color: #4573df; /* Blue color for light mode */
+  color: #4573df; /* Highlighted color */
+}
+
+@media (max-width: 1024px) {
+  .text {
+    color: #333;
+  }
+
+  .paragraph {
+    color: #666;
+  }
 }

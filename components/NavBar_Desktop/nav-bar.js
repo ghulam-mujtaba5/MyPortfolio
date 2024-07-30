@@ -1,6 +1,3 @@
-
-
-
 import styles from "./nav-bar.module.css";
 import { useState } from "react";
 import { useRouter } from "next/router";
