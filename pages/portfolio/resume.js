@@ -1,8 +1,8 @@
 import React from 'react';
 import Head from 'next/head';
-import { useTheme } from '../context/ThemeContext'; // Assuming ThemeProvider is in a separate file and exported correctly
-import Resume from '../components/Resume/Resume'; // Import the Resume component
-import Footer from '../components/Footer/Footer'; // Import the Footer component
+import { useTheme } from '../../context/ThemeContext'; // Assuming ThemeProvider is in a separate file and exported correctly
+import Resume from '../../components/Resume/Resume'; // Import the Resume component
+import Footer from '../../components/Footer/Footer'; // Import the Footer component
 
 const ResumePage = () => {
   const { theme } = useTheme();

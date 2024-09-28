@@ -1,14 +1,14 @@
 import React, { useCallback } from 'react';
 import Head from 'next/head';
-import { useTheme } from '../context/ThemeContext'; // Import the useTheme hook
-import NavBarDesktop from '../components/NavBar_Desktop_Company/nav-bar-Company';
-import NavBarMobile from '../components/NavBar_Mobile/NavBar-mobile';
-import WelcomeFrame from '../components/welcomeCompany/welcome';
-import AboutMeSection from '../components/AboutMeCompany/AboutMeSectionLight';
-import ServicesFrame from '../components/Services/ServicesFrame';
-import ContactSection from '../components/Contact/ConatctUs';
-import Footer from '../components/Footer/Footer';
-import ThemeToggleIcon from '../components/Icon/sbicon'; // Import the ThemeToggleIcon component
+import { useTheme } from '../../context/ThemeContext'; // Import the useTheme hook
+import NavBarDesktop from '../../components/NavBar_Desktop_Company/nav-bar-Company';
+import NavBarMobile from '../../components/NavBar_Mobile/NavBar-mobile';
+import WelcomeFrame from '../../components/welcomeCompany/welcome';
+import AboutMeSection from '../../components/AboutMeCompany/AboutMeSectionLight';
+import ServicesFrame from '../../components/Services/ServicesFrame';
+import ContactSection from '../../components/Contact/ConatctUs';
+import Footer from '../../components/Footer/Footer';
+import ThemeToggleIcon from '../../components/Icon/sbicon'; // Import the ThemeToggleIcon component
 
 export default function CompanyHome() {
   const { theme } = useTheme(); // Destructure theme from the context

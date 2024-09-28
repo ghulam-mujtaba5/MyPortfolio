@@ -1,16 +1,16 @@
 import React from 'react';
-import NavBarDesktop from '../components/NavBar_Desktop/nav-bar';
-import NavBarMobile from '../components/NavBar_Mobile/NavBar-mobile';
-import WelcomeFrame from '../components/welcome/welcome';
-import PortfolioPictureImage from '../components/profile-picture-desktop/PortfolioPictureImage';
-import AboutMeSection from '../components/AboutMe/AboutMeSectionLight';
-import Languages from '../components/Languages/Languages';
-import SkillFrame from '../components/Skills/SkillFrame';
-import Project from "../components/Projects/Project1";
-import Footer from "../components/Footer/Footer";
-import ContactSection from "../components/Contact/ConatctUs";
-import { useTheme } from '../context/ThemeContext'; // Import the useTheme hook
-import ThemeToggleIcon from '../components/Icon/gmicon'; // Import the ThemeToggleIcon component
+import NavBarDesktop from '../../components/NavBar_Desktop/nav-bar';
+import NavBarMobile from '../../components/NavBar_Mobile/NavBar-mobile';
+import WelcomeFrame from '../../components/welcome/welcome';
+import PortfolioPictureImage from '../../components/profile-picture-desktop/PortfolioPictureImage';
+import AboutMeSection from '../../components/AboutMe/AboutMeSectionLight';
+import Languages from '../../components/Languages/Languages';
+import SkillFrame from '../../components/Skills/SkillFrame';
+import Project from "../../components/Projects/Project1";
+import Footer from "../../components/Footer/Footer";
+import ContactSection from "../../components/Contact/ConatctUs";
+import { useTheme } from '../../context/ThemeContext'; // Import the useTheme hook
+import ThemeToggleIcon from '../../components/Icon/gmicon'; // Import the ThemeToggleIcon component
 
 import Head from 'next/head';
 
