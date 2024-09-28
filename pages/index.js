@@ -5,10 +5,11 @@ const Home = () => {
     const router = useRouter();
 
     useEffect(() => {
+        // Redirects to '/portfolio'
         router.push('/portfolio');
     }, [router]);
 
-    return null;
+    return null; // No need to render anything
 };
 
 export default Home;
