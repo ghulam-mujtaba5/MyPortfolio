@@ -230,6 +230,7 @@
 // };
 
 // export default NavBar;
+
 import styles from "./nav-bar.module.css";
 import { useState } from "react";
 import { useRouter } from "next/router"; // Import useRouter from Next.js
@@ -280,45 +281,45 @@ const NavBar = () => {
       </div>
 
       {/* Logo and Name Animation */}
-      <div
-        className={styles.logoAnimation}
-        onMouseEnter={() => handleMouseHover(true)}
-        onMouseLeave={() => handleMouseHover(false)}
-        onClick={() => handleNavigation("/softbuilt")} // Navigate on click
-      >
-        <button className={`${styles.logo} ${hover ? styles.logoHover : ""}`}>
-          <img
-            className={styles.logoIcon}
-            alt="Logo"
-            src={hover ? "sb.svg" : "gmVectorDark.svg"} // Different SVG based on hover state
-            style={{
-              width: hover ? "30px" : "40px", // Adjust width based on hover state
-              height: hover ? "30px" : "40px", // Adjust height based on hover state
-            }}
-          />
-        </button>
-        <div className={styles.typo}>
-          {!hover && (
+      <Link href="http://softbuilt.ghulammujtaba.com" passHref>
+        <div
+          className={styles.logoAnimation}
+          onMouseEnter={() => handleMouseHover(true)}
+          onMouseLeave={() => handleMouseHover(false)}
+        >
+          <button className={`${styles.logo} ${hover ? styles.logoHover : ""}`}>
             <img
-              className={styles.nameIcon}
-              loading="lazy"
-              alt="Ghulam Mujtaba"
-              src="/ghulam-mujtaba.svg"
-              style={{ maxWidth: "100%", height: "auto" }} // Make the image responsive
+              className={styles.logoIcon}
+              alt="Logo"
+              src={hover ? "sb.svg" : "gmVectorDark.svg"} // Different SVG based on hover state
+              style={{
+                width: hover ? "30px" : "40px", // Adjust width based on hover state
+                height: hover ? "30px" : "40px", // Adjust height based on hover state
+              }}
             />
-          )}
-          {hover && (
-            <img
-              className={styles.alternativeNameIcon}
-              loading="lazy"
-              alt="SoftBuilt"
-              src="/sbname.svg" // Alternative SVG on hover
-              style={{ maxWidth: "100%", height: "auto" }} // Make the image responsive
-            />
-          )}
+          </button>
+          <div className={styles.typo}>
+            {!hover && (
+              <img
+                className={styles.nameIcon}
+                loading="lazy"
+                alt="Ghulam Mujtaba"
+                src="/ghulam-mujtaba.svg"
+                style={{ maxWidth: "100%", height: "auto" }} // Make the image responsive
+              />
+            )}
+            {hover && (
+              <img
+                className={styles.alternativeNameIcon}
+                loading="lazy"
+                alt="SoftBuilt"
+                src="/sbname.svg" // Alternative SVG on hover
+                style={{ maxWidth: "100%", height: "auto" }} // Make the image responsive
+              />
+            )}
+          </div>
         </div>
-      </div>
-
+      </Link>
       {/* Resume section */}
       <div className={styles.resume} onClick={() => handleNavigation("/resume")}>
         <div className={styles.resumeText}>Resume</div>
