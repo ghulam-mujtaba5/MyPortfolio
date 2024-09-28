@@ -230,10 +230,10 @@
 // };
 
 // export default NavBar;
-
 import styles from "./nav-bar.module.css";
 import { useState } from "react";
 import { useRouter } from "next/router"; // Import useRouter from Next.js
+import Link from "next/link"; // Import Link from Next.js
 
 const NavBar = () => {
   const [hover, setHover] = useState(false);
@@ -320,6 +320,7 @@ const NavBar = () => {
           </div>
         </div>
       </Link>
+
       {/* Resume section */}
       <div className={styles.resume} onClick={() => handleNavigation("/resume")}>
         <div className={styles.resumeText}>Resume</div>
