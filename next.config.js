@@ -33,7 +33,7 @@ const nextConfig = {
         has: [
           {
             type: 'host',
-            value: 'ghulammujtaba.com', // Main website on localhost
+            value: 'www.ghulammujtaba.com', // Main website on localhost
           },
         ],
       },
