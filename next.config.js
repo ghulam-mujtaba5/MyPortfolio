@@ -1,25 +1,25 @@
-// /** @type {import('next').NextConfig} */
-// const nextConfig = {
-//   reactStrictMode: true, // Enable React Strict Mode
+// // /** @type {import('next').NextConfig} */
+// // const nextConfig = {
+// //   reactStrictMode: true, // Enable React Strict Mode
 
-//   // Define other configurations as needed
-//   webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
-//     // Important: Add support for source maps
-//     if (!isServer) {
-//       config.devtool = 'source-map';
-//     }
+// //   // Define other configurations as needed
+// //   webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
+// //     // Important: Add support for source maps
+// //     if (!isServer) {
+// //       config.devtool = 'source-map';
+// //     }
 
-//     // Example: Add any additional webpack plugins or loaders
-//     // config.plugins.push(new webpack.IgnorePlugin(/\/__tests__\//));
+// //     // Example: Add any additional webpack plugins or loaders
+// //     // config.plugins.push(new webpack.IgnorePlugin(/\/__tests__\//));
 
-//     return config;
-//   },
+// //     return config;
+// //   },
 
-//   // Example: Define other Next.js configurations
-//   // e.g., basePath, assetPrefix, images, redirects, headers, etc.
-// };
+// //   // Example: Define other Next.js configurations
+// //   // e.g., basePath, assetPrefix, images, redirects, headers, etc.
+// // };
 
-// module.exports = nextConfig;
+// // module.exports = nextConfig;
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -64,3 +64,22 @@ const nextConfig = {
 };
 
 module.exports = nextConfig;
+
+
+// //for run on loclhost//
+// /** @type {import('next').NextConfig} */
+// const nextConfig = {
+//   reactStrictMode: true,
+
+//   async redirects() {
+//     return [
+//       {
+//         source: '/',
+//         destination: '/portfolio',
+//         permanent: false,
+//       },
+//     ];
+//   },
+// };
+
+// module.exports = nextConfig;
