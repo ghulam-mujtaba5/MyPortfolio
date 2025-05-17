@@ -1,0 +1,118 @@
+/* Enhanced 404 page styles for modern UI/UX, theme support, and animation */
+.wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: var(--background, #fff);
+  transition: background 0.3s;
+  padding: 0 16px;
+}
+
+[data-theme='dark'] .wrapper {
+  background: #1d2127;
+}
+
+.logoContainer {
+  margin-bottom: 1.5rem;
+  filter: drop-shadow(0 4px 24px rgba(69, 115, 223, 0.15));
+  animation: logoPop 1.2s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+@keyframes logoPop {
+  0% { transform: scale(0.7); opacity: 0; }
+  60% { transform: scale(1.1); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.logo {
+  border-radius: 18px;
+  background: transparent;
+}
+
+.title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #222;
+  margin-bottom: 0.5rem;
+  font-family: 'Open Sans', sans-serif;
+  letter-spacing: -0.01em;
+  text-align: center;
+  transition: color 0.3s;
+}
+[data-theme='dark'] .title {
+  color: #fff;
+}
+
+.description {
+  font-size: 1.25rem;
+  color: #666;
+  margin-bottom: 2.5rem;
+  text-align: center;
+  max-width: 420px;
+  line-height: 1.6;
+  font-family: 'Open Sans', sans-serif;
+  transition: color 0.3s;
+}
+[data-theme='dark'] .description {
+  color: #ccc;
+}
+
+.homeLink {
+  position: relative;
+  display: inline-block;
+  padding: 0;
+  border-radius: 8px;
+  overflow: hidden;
+  text-decoration: none;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 600;
+  font-size: 1.1rem;
+  cursor: pointer;
+  outline: none;
+  border: none;
+  background: none;
+}
+
+.homeBtnBg {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, #4573df 0%, #33a552 100%);
+  opacity: 0.9;
+  z-index: 0;
+  transition: opacity 0.2s;
+}
+
+.homeLink:hover .homeBtnBg,
+.homeLink:focus .homeBtnBg {
+  opacity: 1;
+  filter: brightness(1.1) drop-shadow(0 2px 8px #4573df44);
+}
+
+.homeBtnText {
+  position: relative;
+  z-index: 1;
+  color: #fff;
+  padding: 0.85rem 2.2rem;
+  display: inline-block;
+  border-radius: 8px;
+  transition: color 0.2s;
+}
+
+@media (max-width: 600px) {
+  .title {
+    font-size: 1.6rem;
+  }
+  .description {
+    font-size: 1rem;
+    max-width: 95vw;
+  }
+  .logoContainer {
+    margin-bottom: 1rem;
+  }
+  .homeBtnText {
+    padding: 0.7rem 1.5rem;
+    font-size: 1rem;
+  }
+}
