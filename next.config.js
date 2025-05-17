@@ -47,6 +47,11 @@ const nextConfig = {
           },
         ],
       },
+      // Fallback for preview deployments or any other domain
+      {
+        source: '/:path*',
+        destination: '/portfolio/:path*',
+      },
     ];
   },
 
