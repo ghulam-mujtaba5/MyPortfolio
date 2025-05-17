@@ -16,7 +16,7 @@ export default function Custom404() {
         transition={{ duration: 0.8, ease: 'easeOut' }}
       >
         <Image
-          src={theme === 'dark' ? '/gmVectorDark.svg' : '/sb.svg'}
+          src={theme === 'dark' ? '/gmVectorDark.svg' : '/gmVectorDark.svg'}
           alt="Logo"
           width={80}
           height={80}
