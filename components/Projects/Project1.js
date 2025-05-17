@@ -1,3 +1,4 @@
+
 import React, { useEffect, useRef, useState } from 'react';
 import { useTheme } from '../../context/ThemeContext'; 
 import styles from './projectLight.module.css';
@@ -126,8 +127,7 @@ const Frame = () => {
 
   return (
     <div style={{ margin: '0 6%' }}>
-      <h2 className="visually-hidden" id="projects-section-title">Projects Section</h2>
-      <h3 className={frameStyles.frameTitle} tabIndex={0} aria-labelledby="projects-section-title">Projects</h3>
+      <h2 className={frameStyles.frameTitle}>Projects</h2>
       <div className={frameStyles.projectCard1Parent} role="list">
         {projects.map((project, index) => (
           <ProjectCard key={index} project={project} frameStyles={frameStyles} theme={theme} />

@@ -260,8 +260,6 @@ const NavBar = () => {
       <button
         className={styles.home}
         onClick={() => handleScrollToSection("home-section")}
-        aria-label="Go to Home section"
-        tabIndex={0}
       >
         <b className={styles.homeText}>Home</b>
       </button>
@@ -270,10 +268,6 @@ const NavBar = () => {
       <div
         className={styles.about}
         onClick={() => handleScrollToSection("about-section")}
-        role="button"
-        tabIndex={0}
-        aria-label="Go to About section"
-        onKeyPress={e => (e.key === 'Enter' || e.key === ' ') && handleScrollToSection("about-section")}
       >
         <div className={styles.aboutText}>About</div>
       </div>
@@ -282,33 +276,25 @@ const NavBar = () => {
       <div
         className={styles.skills}
         onClick={() => handleScrollToSection("languages-section")}
-        role="button"
-        tabIndex={0}
-        aria-label="Go to Skills section"
-        onKeyPress={e => (e.key === 'Enter' || e.key === ' ') && handleScrollToSection("languages-section")}
       >
         <div className={styles.skillsText}>Skills</div>
       </div>
 
       {/* Logo and Name Animation */}
-      <Link href="http://softbuilt.ghulammujtaba.com" passHref legacyBehavior>
+      <Link href="http://softbuilt.ghulammujtaba.com" passHref>
         <div
           className={styles.logoAnimation}
           onMouseEnter={() => handleMouseHover(true)}
           onMouseLeave={() => handleMouseHover(false)}
-          role="button"
-          tabIndex={0}
-          aria-label="Go to SoftBuilt Home"
-          onKeyPress={e => (e.key === 'Enter' || e.key === ' ') && window.open('http://softbuilt.ghulammujtaba.com', '_blank')}
         >
-          <button className={`${styles.logo} ${hover ? styles.logoHover : ""}`} tabIndex={-1} aria-hidden="true">
+          <button className={`${styles.logo} ${hover ? styles.logoHover : ""}`}>
             <img
               className={styles.logoIcon}
               alt="Logo"
-              src={hover ? "sb.svg" : "gmVectorDark.svg"}
+              src={hover ? "sb.svg" : "gmVectorDark.svg"} // Different SVG based on hover state
               style={{
-                width: hover ? "30px" : "40px",
-                height: hover ? "30px" : "40px",
+                width: hover ? "30px" : "40px", // Adjust width based on hover state
+                height: hover ? "30px" : "40px", // Adjust height based on hover state
               }}
             />
           </button>
@@ -319,7 +305,7 @@ const NavBar = () => {
                 loading="lazy"
                 alt="Ghulam Mujtaba"
                 src="/ghulam-mujtaba.svg"
-                style={{ maxWidth: "100%", height: "auto" }}
+                style={{ maxWidth: "100%", height: "auto" }} // Make the image responsive
               />
             )}
             {hover && (
@@ -327,8 +313,8 @@ const NavBar = () => {
                 className={styles.alternativeNameIcon}
                 loading="lazy"
                 alt="SoftBuilt"
-                src="/sbname.svg"
-                style={{ maxWidth: "100%", height: "auto" }}
+                src="/sbname.svg" // Alternative SVG on hover
+                style={{ maxWidth: "100%", height: "auto" }} // Make the image responsive
               />
             )}
           </div>
@@ -336,14 +322,7 @@ const NavBar = () => {
       </Link>
 
       {/* Resume section */}
-      <div
-        className={styles.resume}
-        onClick={() => handleNavigation("/resume")}
-        role="button"
-        tabIndex={0}
-        aria-label="Go to Resume page"
-        onKeyPress={e => (e.key === 'Enter' || e.key === ' ') && handleNavigation("/resume")}
-      >
+      <div className={styles.resume} onClick={() => handleNavigation("/resume")}>
         <div className={styles.resumeText}>Resume</div>
       </div>
 
@@ -351,10 +330,6 @@ const NavBar = () => {
       <div
         className={styles.project}
         onClick={() => handleScrollToSection("project-section")}
-        role="button"
-        tabIndex={0}
-        aria-label="Go to Project section"
-        onKeyPress={e => (e.key === 'Enter' || e.key === ' ') && handleScrollToSection("project-section")}
       >
         <div className={styles.projectText}>Project</div>
       </div>
@@ -363,10 +338,6 @@ const NavBar = () => {
       <div
         className={styles.contact}
         onClick={() => handleScrollToSection("contact-section")}
-        role="button"
-        tabIndex={0}
-        aria-label="Go to Contact section"
-        onKeyPress={e => (e.key === 'Enter' || e.key === ' ') && handleScrollToSection("contact-section")}
       >
         <div className={styles.contactText}>Contact</div>
       </div>

@@ -9,7 +9,6 @@ export default function Custom404() {
 
   return (
     <div className={styles.wrapper} data-theme={theme}>
-      <h1 className="visually-hidden">404 - Page Not Found</h1>
       <motion.div
         className={styles.logoContainer}
         initial={{ scale: 0.7, opacity: 0 }}
@@ -18,7 +17,7 @@ export default function Custom404() {
       >
         <Image
           src={theme === 'dark' ? '/gmVectorDark.svg' : '/gmVector.svg'}
-          alt="Ghulam Mujtaba Logo"
+          alt="Logo"
           width={80}
           height={80}
           className={styles.logo}
@@ -30,7 +29,6 @@ export default function Custom404() {
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7, delay: 0.2, ease: 'easeOut' }}
-        tabIndex={0}
       >
         404 - Page Not Found
       </motion.h1>
@@ -39,7 +37,6 @@ export default function Custom404() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7, delay: 0.4, ease: 'easeOut' }}
-        tabIndex={0}
       >
         Oops! The page you are looking for doesn’t exist or has been moved.<br />
         Let’s get you back to something awesome.
@@ -50,7 +47,7 @@ export default function Custom404() {
         transition={{ duration: 0.6, delay: 0.6, ease: 'easeOut' }}
       >
         <Link href="/" legacyBehavior>
-          <a className={styles.homeLink} aria-label="Go back home" tabIndex={0}>
+          <a className={styles.homeLink} aria-label="Go back home">
             <span className={styles.homeBtnBg} />
             <span className={styles.homeBtnText}>Go Back Home</span>
           </a>
