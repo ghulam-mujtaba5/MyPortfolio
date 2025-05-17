@@ -47,11 +47,6 @@ const nextConfig = {
           },
         ],
       },
-      // Fallback for preview deployments or any other domain this add for vercel preview
-      {
-        source: '/:path*',
-        destination: '/portfolio/:path*',
-      },
     ];
   },
 
