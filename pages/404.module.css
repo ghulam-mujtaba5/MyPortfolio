@@ -90,6 +90,12 @@
   filter: brightness(1.1) drop-shadow(0 2px 8px #4573df44);
 }
 
+.homeLink:focus {
+  outline: 2px solid #4573df;
+  outline-offset: 2px;
+  background: rgba(69, 115, 223, 0.08);
+}
+
 .homeBtnText {
   position: relative;
   z-index: 1;
@@ -98,6 +104,22 @@
   display: inline-block;
   border-radius: 8px;
   transition: color 0.2s;
+}
+
+.homeBtnText:focus {
+  outline: none;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 @media (max-width: 600px) {

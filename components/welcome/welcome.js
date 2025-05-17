@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState, useRef } from 'react';
 import { useTheme } from '../../context/ThemeContext';
 import { motion, useAnimation } from 'framer-motion';
@@ -78,16 +77,18 @@ const Introduction = () => {
       className={`${commonStyles.container} ${theme === 'dark' ? darkStyles.container : lightStyles.container}`}
       aria-label="Introduction"
     >
+      <h1 className="visually-hidden">Welcome to Ghulam Mujtaba Portfolio</h1>
       <div
         ref={ref}
         className={`${commonStyles.textContainer} ${theme === 'dark' ? darkStyles.textContainer : lightStyles.textContainer}`}
       >
-        <motion.h1
+        <motion.h2
           className={`${commonStyles.text} ${theme === 'dark' ? darkStyles.text : lightStyles.text}`}
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, ease: 'easeOut' }}
-          whileHover={{ scale: 1.05, color: '#4573df', transition: { duration: 0.3 } }} // Adjust hover effect
+          whileHover={{ scale: 1.05, color: '#4573df', transition: { duration: 0.3 } }}
+          tabIndex={0}
         >
           {helloText}
           <br />
@@ -96,16 +97,17 @@ const Introduction = () => {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 2, ease: 'easeOut', delay: (helloText.length * 40) / 1000 + 0.5 }}
-            whileHover={{ scale: 1.1, color: '#4573df', transition: { duration: 0.3 } }} // Adjust hover effect
+            whileHover={{ scale: 1.1, color: '#4573df', transition: { duration: 0.3 } }}
           >
             {nameText}
           </motion.span>
-        </motion.h1>
+        </motion.h2>
         <motion.p
           className={`${commonStyles.paragraph} ${theme === 'dark' ? darkStyles.paragraph : lightStyles.paragraph}`}
           initial={{ opacity: 0, y: 30 }}
           animate={controls}
           transition={{ duration: 2, ease: 'easeOut', delay: (helloText.length * 40 + 500 + nameText.length * 40) / 1000 + 1 }}
+          tabIndex={0}
         >
           {descriptionText}
         </motion.p>

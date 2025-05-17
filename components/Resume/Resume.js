@@ -1,5 +1,3 @@
-
-
 import React from 'react';
 import commonStyles from './common.module.css'; // Common styles
 import lightStyles from './light.module.css'; // Light theme styles
@@ -11,7 +9,10 @@ const Resume = () => {
   const themeStyles = theme === 'dark' ? darkStyles : lightStyles;
 
   return (
-    <div className={`${commonStyles.resumeContainer} ${themeStyles.resumeContainer}`}>
+    <div className={`${commonStyles.resumeContainer} ${themeStyles.resumeContainer}`}
+      aria-labelledby="resume-main-title"
+    >
+      <h1 className="visually-hidden" id="resume-main-title">Resume of Ghulam Mujtaba</h1>
       <div className={commonStyles.resumeHeader}>
         <div className={commonStyles.headerContent}>
           <div className={commonStyles.name}>Ghulam Mujtaba</div>
@@ -31,10 +32,9 @@ const Resume = () => {
           </div>
         </div>
         <div className={commonStyles.headerImage}>
-          <img src="resume-photo.png" alt="Ghulam Mujtaba" className={commonStyles.profilePic} />
+          <img src="resume-photo.png" alt="Ghulam Mujtaba profile photo" className={commonStyles.profilePic} />
         </div>
       </div>
-
       <div className={commonStyles.resumeMain}>
         <div className={commonStyles.section}>
           <div className={commonStyles.sectionHeading}>EDUCATION</div>

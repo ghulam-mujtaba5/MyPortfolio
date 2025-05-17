@@ -123,6 +123,7 @@ const ContactSection = ({
         initial={{ opacity: 0, y: 50 }}
         animate={controls}
         transition={{ duration: 0.5 }}
+        noValidate
       >
         <label className={`${commonStyles.nameLabel} ${themeStyles.nameLabel}`} htmlFor="name">Name</label>
         <input
@@ -135,6 +136,7 @@ const ContactSection = ({
           value={name}
           onChange={handleNameChange}
           required
+          aria-required="true"
         />
         <label className={`${commonStyles.emailLabel} ${themeStyles.emailLabel}`} htmlFor="email">Email</label>
         <input
@@ -147,6 +149,8 @@ const ContactSection = ({
           value={emailInput}
           onChange={handleEmailChange}
           required
+          aria-required="true"
+          aria-invalid={!!error && !validateEmail(emailInput)}
         />
         <label className={`${commonStyles.messageLabel} ${themeStyles.messageLabel}`} htmlFor="message">Message</label>
         <textarea
@@ -158,11 +162,13 @@ const ContactSection = ({
           value={message}
           onChange={handleMessageChange}
           required
+          aria-required="true"
         ></textarea>
         <button
           type="submit"
           className={`${commonStyles.sendButton} ${themeStyles.sendButton}`}
           disabled={isSending}
+          aria-busy={isSending}
         >
           <div className={`${commonStyles.sendButtonBorder} ${themeStyles.sendButtonBorder}`} />
           <div className={`${commonStyles.sendLabel} ${themeStyles.sendLabel}`}>
@@ -170,16 +176,18 @@ const ContactSection = ({
           </div>
         </button>
       </motion.form>
-      {error && (
-        <p className={`${commonStyles.message} ${themeStyles.errorMessage}`} role="alert">
-          {error}
-        </p>
-      )}
-      {response && (
-        <p className={`${commonStyles.message} ${themeStyles.successMessage}`} role="status">
-          {response}
-        </p>
-      )}
+      <div aria-live="polite" aria-atomic="true">
+        {error && (
+          <p className={`${commonStyles.message} ${themeStyles.errorMessage}`} role="alert">
+            {error}
+          </p>
+        )}
+        {response && (
+          <p className={`${commonStyles.message} ${themeStyles.successMessage}`} role="status">
+            {response}
+          </p>
+        )}
+      </div>
       <div className={`${commonStyles.contactDetails} ${themeStyles.contactDetails}`}>
         <p className={`${commonStyles.contactEmail} ${themeStyles.contactEmail}`}>{email}</p>
         <div className={`${commonStyles.contactPhoneNo} ${themeStyles.contactPhoneNo}`}>{phoneNumber}</div>

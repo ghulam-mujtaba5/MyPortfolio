@@ -95,21 +95,25 @@ const AboutMeSection = () => {
       initial={{ opacity: 0, y: 50 }}
       animate={controls}
       ref={ref}
+      aria-labelledby="about-me-title"
     >
+      <h2 className="visually-hidden" id="about-me-title">About Me Section</h2>
       <div className={sectionClass}>
-        <motion.h2
+        <motion.h3
           className={titleClass}
           initial={{ opacity: 0, y: -30 }}
           animate={controls}
           transition={{ duration: 0.5, delay: 0.2, ease: 'easeOut' }}
+          tabIndex={0}
         >
           ABOUT ME
-        </motion.h2>
+        </motion.h3>
         <motion.p
           className={descriptionClass}
           initial={{ opacity: 0, y: 20 }}
           animate={controls}
           transition={{ duration: 0.5, delay: 0.4, ease: 'easeOut' }}
+          tabIndex={0}
         >
           I am a Software Engineer with expertise in developing software solutions that integrate emerging technologies such as Data Science, Machine Learning, and AI Development. Dedicated to achieving excellence from ideation and design to development and seamless integration.
         </motion.p>
