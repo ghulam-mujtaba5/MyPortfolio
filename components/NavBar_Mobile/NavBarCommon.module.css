@@ -122,9 +122,79 @@
     pointer-events: all;
   }
 
-  .themeToggle {
-  
-    margin-top: 5px;
-    margin-left: 70px;
-    
+
+.themeToggleContainer {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 18px 18px 8px 0;
+  min-height: 56px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.premiumSwitch {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  outline: none;
+  padding: 0.15em 0.15em;
+  border-radius: 2em;
+  transition: box-shadow 0.2s, background 0.2s;
+  min-width: 0;
+  box-shadow: 0 2px 8px #b0bec522;
+  position: relative;
+}
+.premiumSwitch:focus-visible {
+  box-shadow: 0 0 0 2px #90a4ae99, 0 2px 8px #b0bec522;
+}
+.premiumSwitchTrack {
+  width: 2.7em;
+  height: 1.4em;
+  background: linear-gradient(90deg, #f5f7fa 0%, #cfd8dc 100%);
+  border-radius: 1.4em;
+  position: relative;
+  transition: background 0.2s, border 0.2s;
+  flex-shrink: 0;
+  border: 1.5px solid #b0bec5;
+  box-shadow: 0 2px 8px #b0bec522;
+}
+.premiumSwitch[aria-checked="true"] .premiumSwitchTrack {
+  background: linear-gradient(90deg, #23272f 0%, #3a3f47 100%);
+  border: 1.5px solid #607d8b;
+  box-shadow: 0 2px 8px #607d8b33;
+}
+.premiumSwitchThumb {
+  position: absolute;
+  top: 0.08em;
+  left: 0.08em;
+  width: 1.22em;
+  height: 1.22em;
+  border-radius: 50%;
+  background: linear-gradient(145deg, #fff 60%, #e8ebee 100%);
+  box-shadow: 0 2px 6px #b0bec522, 0 1px 2px #fff8;
+  border: 1.5px solid #b0bec5;
+  transition: left 0.25s, background 0.25s, border 0.25s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.premiumSwitchThumb[data-checked="true"] {
+  left: 1.4em;
+  background: linear-gradient(145deg, #90a4ae 60%, #607d8b 100%);
+  border: 1.5px solid #607d8b;
+  box-shadow: 0 2px 6px #607d8b88, 0 1px 2px #23252644;
+}
+.premiumSwitchIcon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 1.1em;
+  height: 1.1em;
+  pointer-events: none;
+  transition: opacity 0.3s;
 }
