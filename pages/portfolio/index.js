@@ -21,30 +21,7 @@ import { useEffect, useState } from 'react';
 const Home = () => {
   const { theme } = useTheme();
 
-  // PWA install prompt
-  const [deferredPrompt, setDeferredPrompt] = useState(null);
-  const [showInstall, setShowInstall] = useState(false);
 
-  useEffect(() => {
-    if (typeof window === 'undefined') return;
-    const handler = (e) => {
-      e.preventDefault();
-      setDeferredPrompt(e);
-      setShowInstall(true);
-    };
-    window.addEventListener('beforeinstallprompt', handler);
-    return () => window.removeEventListener('beforeinstallprompt', handler);
-  }, []);
-
-  const handleInstallClick = async () => {
-    if (deferredPrompt) {
-      deferredPrompt.prompt();
-      const { outcome } = await deferredPrompt.userChoice;
-      if (outcome === 'accepted') {
-        setShowInstall(false);
-      }
-    }
-  };
 
   const sections = [
     { id: 'home-section', label: 'Home' },
@@ -57,26 +34,6 @@ const Home = () => {
 
   return (
     <>
-      {showInstall && (
-        <div style={{ position: 'fixed', bottom: 24, right: 24, zIndex: 9999 }}>
-          <button
-            onClick={handleInstallClick}
-            style={{
-              background: '#1976d2',
-              color: '#fff',
-              border: 'none',
-              borderRadius: 8,
-              padding: '12px 24px',
-              fontSize: 16,
-              boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
-              cursor: 'pointer',
-            }}
-            aria-label="Install this app on Chrome"
-          >
-            Install this app on Chrome
-          </button>
-        </div>
-      )}
       <Head>
         <title>Ghulam Mujtaba - Software Engineer Portfolio</title>
         <meta name="description" content="Software engineer specializing in emerging technologies with expertise in Software Development, Data Science and AI." />
