@@ -61,7 +61,14 @@
 // export default MyApp;
 // pages/_app.js
 
-//New code for avoid anlytics in devlopment mode
+// Suppress PWA install prompt as early as possible, but only in production
+if (typeof window !== "undefined" && process.env.NODE_ENV === 'production') {
+  window.addEventListener("beforeinstallprompt", (e) => {
+    e.preventDefault();
+    return false;
+  });
+}
+
 import { Fragment, useEffect } from "react";
 import Head from "next/head";
 import { ThemeProvider } from '../context/ThemeContext';
@@ -98,6 +105,8 @@ function MyApp({ Component, pageProps }) {
       };
     }
   }, [router.events, router.pathname]);
+
+  // ...existing code...
 
   return (
     <Fragment>
