@@ -1,0 +1,16 @@
+{
+  "name": "Ghulam Mujtaba Portfolio",
+  "short_name": "Portfolio",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#1d2127",
+  "description": "Software engineer specializing in emerging technologies.",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}

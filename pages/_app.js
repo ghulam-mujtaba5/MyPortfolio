@@ -70,6 +70,13 @@ import { useRouter } from 'next/router';
 import * as gtag from '../lib/gtag';
 import './global.css';
 
+// Register service worker for PWA
+if (typeof window !== 'undefined' && 'serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/service-worker.js');
+  });
+}
+
 function MyApp({ Component, pageProps }) {
   const router = useRouter();
 
@@ -100,6 +107,8 @@ function MyApp({ Component, pageProps }) {
           name="viewport"
           content="minimum-scale=1, initial-scale=1, width=device-width"
         />
+        <link rel="manifest" href="/manifest.json" />
+        <meta name="theme-color" content="#1d2127" />
       </Head>
 
       {process.env.NODE_ENV === 'production' && (
