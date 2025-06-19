@@ -8,9 +8,7 @@ import { motion, useAnimation } from 'framer-motion';
 
 const ContactSection = ({
   email = "ghulammujtaba0454@gmail.com",
-  phoneNumber = "+92 317 7107849",
-  showCertificationBadge = true,
-  showAdditionalCertificationBadge = true
+  phoneNumber = "+92 317 7107849"
 }) => {
   const [name, setName] = useState('');
   const [emailInput, setEmailInput] = useState('');
@@ -212,28 +210,7 @@ const ContactSection = ({
             {theme === 'light' ? 'Light Mode' : 'Dark Mode'}
           </b>
         </button>
-        {showCertificationBadge && (
-    <a href="https://www.credly.com/badges/9bd08c36-473a-43a4-bd93-77352b3205c5/public_url" target="_blank" rel="noopener noreferrer">
-
-          <img
-            className={`${commonStyles.certificationBadgeIcon} ${themeStyles.certificationBadgeIcon}`}
-            alt="UX Certificate Badge"
-            src="ux-certificate.png"
-            loading="lazy"
-          />
-          </a>
-        )}
-        {showAdditionalCertificationBadge && (
-     <a href="https://www.credly.com/badges/541285d6-1075-47ba-94df-c497ecd15253/public_url" target="_blank" rel="noopener noreferrer">
-
-          <img
-            className={`${commonStyles.certificationBadgeIcon2} ${themeStyles.certificationBadgeIcon2}`}
-            alt="Google Data Analytics Certification Badge"
-            src="ds-certificate.png"
-            loading="lazy"
-          />
-           </a>
-        )}
+        {/* Badges removed as requested */}
       </div>
     </section>
   );
