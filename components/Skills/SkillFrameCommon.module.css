@@ -1,17 +1,24 @@
-/* Modern card appearance for SkillFrame */
-.skillCardEnhanced {
-  border-radius: 18px;
-  box-shadow: 0 2px 12px 0 rgba(30, 34, 90, 0.10), 0 1.5px 6px 0 rgba(30, 34, 90, 0.08);
-  transition: box-shadow 0.25s cubic-bezier(0.4,0,0.2,1), transform 0.18s cubic-bezier(0.4,0,0.2,1);
-  background: var(--card-bg, #fff);
-}
 
-.skillCardEnhanced:hover,
-.skillCardEnhanced:focus {
-  box-shadow: 0 6px 24px 0 rgba(30, 34, 90, 0.18), 0 3px 12px 0 rgba(30, 34, 90, 0.13);
-  transform: translateY(-2px) scale(1.015);
-  background: var(--card-hover-bg, #f7f8fa);
-  outline: none;
+
+@keyframes glassyPop {
+  0% {
+    transform: translateY(0) scale(1) rotate(0deg);
+    box-shadow: 0 2px 12px 0 rgba(30, 34, 90, 0.10), 0 1.5px 6px 0 rgba(30, 34, 90, 0.08);
+    background: var(--card-bg, #fff);
+    border: 1px solid #ececec;
+  }
+  60% {
+    transform: translateY(-18px) scale(1.07) rotate(-2deg);
+    box-shadow: 0 16px 48px 0 rgba(106,130,251,0.18), 0 8px 24px 0 rgba(30, 34, 90, 0.18);
+    background: rgba(255,255,255,0.45);
+    border: 2px solid rgba(106,130,251,0.22);
+  }
+  100% {
+    transform: translateY(-14px) scale(1.045) rotate(-1.5deg);
+    box-shadow: 0 12px 36px 0 rgba(30, 34, 90, 0.22), 0 6px 18px 0 rgba(30, 34, 90, 0.16), 0 0 0 4px rgba(106,130,251,0.10);
+    background: rgba(255,255,255,0.38);
+    border: 1.5px solid rgba(106,130,251,0.18);
+  }
 }
 
 /* Optional: smooth border for skill icons */
@@ -31,16 +38,29 @@
 /* Enhanced card look */
 .skillCardEnhanced {
   background: var(--card-bg, #fff);
-  box-shadow: 0 4px 24px 0 rgba(0,0,0,0.10), 0 1.5px 4px 0 rgba(0,0,0,0.08);
+  box-shadow: 0 4px 24px 0 rgba(30, 34, 90, 0.10), 0 1.5px 4px 0 rgba(30, 34, 90, 0.08);
   border-radius: 18px;
-  transition: box-shadow 0.3s, transform 0.3s;
+  transition: box-shadow 0.45s cubic-bezier(.22,1.12,.58,1),
+              transform 0.45s cubic-bezier(.22,1.12,.58,1),
+              background 0.45s cubic-bezier(.22,1.12,.58,1),
+              border 0.45s cubic-bezier(.22,1.12,.58,1),
+              backdrop-filter 0.45s cubic-bezier(.22,1.12,.58,1);
   border: 1px solid #ececec;
   min-height: 260px;
+  position: relative;
+  z-index: 1;
 }
-.skillCardEnhanced:hover, .skillCardEnhanced:focus {
-  box-shadow: 0 8px 32px 0 rgba(0,0,0,0.16), 0 3px 8px 0 rgba(0,0,0,0.12);
-  transform: translateY(-8px) scale(1.03);
+.skillCardEnhanced:hover,
+.skillCardEnhanced:focus {
+  box-shadow: 0 12px 36px 0 rgba(106,130,251,0.18), 0 6px 18px 0 rgba(30, 34, 90, 0.16), 0 0 0 4px rgba(106,130,251,0.10);
+  transform: translateY(-14px) scale(1.045) rotate(-1.5deg);
+  background: rgba(255, 255, 255, 0.38);
+  backdrop-filter: blur(16px) saturate(1.5);
+  -webkit-backdrop-filter: blur(16px) saturate(1.5);
+  border: 1.5px solid rgba(106,130,251,0.18);
   outline: none;
+  animation: glassyPop 0.45s cubic-bezier(.22,1.12,.58,1) both;
+  z-index: 2;
 }
 
 /* Enhanced skill row */
