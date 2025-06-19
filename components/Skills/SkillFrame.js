@@ -79,31 +79,42 @@ const SkillFrame = () => {
   ];
 
   return (
-    <div
+    <section
       ref={frameRef}
       className={`${commonStyles.skillFrame} ${frameStyles.skillFrame} ${isVisible ? commonStyles.animate : ''}`}
+      aria-label="Skills Section"
     >
       <h2 className={`${commonStyles.skillsTitle} ${frameStyles.skillsTitle}`}>Skills</h2>
-      {skillsData.map((category, index) => (
-        <div
-          className={`${commonStyles.skillCard} ${frameStyles.skillCard} ${isVisible ? commonStyles.animate : ''}`}
-          key={index}
-        >
-          <div className={`${commonStyles.header} ${frameStyles.header}`}>
-            <b className={`${commonStyles.title} ${frameStyles.title}`}>{category.title}</b>
-          </div>
-          {category.skills.map((skill, index) => (
-            <div key={index} className={`${commonStyles.skillRow} ${frameStyles.skillRow} ${isVisible ? commonStyles.animate : ''}`}>
-              <img className={`${commonStyles.icon} ${frameStyles.icon}`} alt={skill.name} src={skill.icon} />
-              <div className={`${commonStyles.skillNameContainer} ${frameStyles.skillNameContainer}`}>
-                <div className={`${commonStyles.skillName} ${frameStyles.skillName}`}>{skill.name}</div>
-                <div className={`${commonStyles.progress} ${skill.progressClass}`} />
-              </div>
+      <div className={commonStyles.skillsGrid}>
+        {skillsData.map((category, catIdx) => (
+          <article
+            className={`${commonStyles.skillCard} ${frameStyles.skillCard} skillCardEnhanced ${isVisible ? commonStyles.animate : ''}`}
+            key={catIdx}
+            tabIndex={0}
+            aria-label={category.title}
+          >
+            <header className={`${commonStyles.header} ${frameStyles.header}`}>
+              <span className={`${commonStyles.title} ${frameStyles.title}`}>{category.title}</span>
+            </header>
+            <div className={commonStyles.skillList}>
+              {category.skills.map((skill, skillIdx) => (
+                <div key={skillIdx} className={`${commonStyles.skillRow} ${frameStyles.skillRow} skillRowEnhanced ${isVisible ? commonStyles.animate : ''}`} tabIndex={0} aria-label={skill.name}>
+                  <div className="iconWrapper">
+                    <img className={`${commonStyles.icon} ${frameStyles.icon} skillIconEnhanced`} alt={skill.name} src={skill.icon} />
+                  </div>
+                  <div className={`${commonStyles.skillNameContainer} ${frameStyles.skillNameContainer}`}>
+                    <div className={`${commonStyles.skillName} ${frameStyles.skillName}`}>{skill.name}</div>
+                    <div className={`progressBarContainer`}>
+                      <div className={`${commonStyles.progress} ${skill.progressClass} progressBarEnhanced`} />
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
-      ))}
-    </div>
+          </article>
+        ))}
+      </div>
+    </section>
   );
 };
 
