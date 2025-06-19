@@ -76,21 +76,25 @@ export default function CompanyHome() {
 
       {/* Welcome Frame */}
       <section id="welcome-section" aria-labelledby="welcome-heading" style={{ width: '100%', overflow: 'hidden' }}>
+        <h1 id="welcome-heading" className="visually-hidden">Welcome</h1>
         <WelcomeFrame style={{ width: '100%', height: '400px', display: 'flex', alignItems: 'center', justifyContent: 'center' }} />
       </section>
       
       {/* About Me Section */}
       <section id="about-section" aria-labelledby="about-heading" style={{ width: '100%', overflow: 'hidden' }}>
+        <h2 id="about-heading" className="visually-hidden">About Me</h2>
         <AboutMeSection style={{ width: '100%', padding: '20px', textAlign: 'center' }} />
       </section>
 
       {/* Services Frame */}
       <section id="services-section" aria-labelledby="services-heading" style={{ width: '100%', overflow: 'hidden' }}>
+        <h2 id="services-heading" className="visually-hidden">Services</h2>
         <ServicesFrame style={{ width: '100%', padding: '20px' }} />
       </section>
 
       {/* Contact Section */}
       <section id="contact-section" aria-labelledby="contact-heading" style={{ width: '100%', overflow: 'hidden' }}>
+        <h2 id="contact-heading" className="visually-hidden">Contact</h2>
         <ContactSection 
           style={{ width: '100%', padding: '20px' }}
           email={contactEmail}

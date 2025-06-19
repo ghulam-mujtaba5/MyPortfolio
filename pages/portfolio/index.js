@@ -87,7 +87,7 @@ const Home = () => {
           </section>
 
           <section id="languages-section" aria-labelledby="languages-section-heading" style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
-            <h2 id="languages-section-heading" className="visually-hidden">Skills</h2>
+            <h2 id="languages-section-heading" className="visually-hidden">Languages</h2>
             <Languages />
           </section>
 
