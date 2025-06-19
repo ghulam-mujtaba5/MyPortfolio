@@ -4,6 +4,7 @@ import { useTheme } from '../../context/ThemeContext';
 import commonStyles from './ContactUsCommon.module.css';
 import lightStyles from './ContactUsLight.module.css';
 import darkStyles from './ContactUsDark.module.css';
+import animationStyles from './ContactUsAnimations.module.css';
 import { motion, useAnimation } from 'framer-motion';
 
 const ContactSection = ({
@@ -16,18 +17,19 @@ const ContactSection = ({
   const [response, setResponse] = useState(null);
   const [error, setError] = useState(null);
   const [isSending, setIsSending] = useState(false);
+  const [validFields, setValidFields] = useState({
+    name: true,
+    email: true,
+    message: true
+  });
   const { theme, toggleTheme } = useTheme();
+  
+  const formRef = useRef(null);
+  const parallaxRef = useRef(null);
+  const controls = useAnimation();
 
-  const handleNameChange = useCallback((event) => {
-    setName(event.target.value);
-  }, []);
-
-  const handleEmailChange = useCallback((event) => {
-    setEmailInput(event.target.value);
-  }, []);
-
-  const handleMessageChange = useCallback((event) => {
-    setMessage(event.target.value);
+  const validateName = useCallback((name) => {
+    return name.length >= 2;
   }, []);
 
   const validateEmail = useCallback((email) => {
@@ -35,19 +37,50 @@ const ContactSection = ({
     return re.test(email);
   }, []);
 
+  const validateMessage = useCallback((message) => {
+    return message.length >= 10;
+  }, []);
+
+  const handleNameChange = useCallback((event) => {
+    const value = event.target.value;
+    setName(value);
+    setValidFields(prev => ({
+      ...prev,
+      name: validateName(value)
+    }));
+  }, [validateName]);
+
+  const handleEmailChange = useCallback((event) => {
+    const value = event.target.value;
+    setEmailInput(value);
+    setValidFields(prev => ({
+      ...prev,
+      email: validateEmail(value)
+    }));
+  }, [validateEmail]);
+
+  const handleMessageChange = useCallback((event) => {
+    const value = event.target.value;
+    setMessage(value);
+    setValidFields(prev => ({
+      ...prev,
+      message: validateMessage(value)
+    }));
+  }, [validateMessage]);
+
   const sendEmail = useCallback(async () => {
     setIsSending(true);
 
     try {
       const result = await emailjs.send(
-        'service_ewji0vl', // Replace with your EmailJS service ID
-        'template_3kv9gje', // Replace with your EmailJS template ID
+        'service_ewji0vl',
+        'template_3kv9gje',
         {
           user_name: name,
           user_email: emailInput,
           message: message,
         },
-        'LFm2JfW5ThGTsvKYr' // Replace with your EmailJS user ID (public key)
+        'LFm2JfW5ThGTsvKYr'
       );
 
       console.log('Email sent!', result);
@@ -67,16 +100,25 @@ const ContactSection = ({
 
   const handleSubmit = useCallback(async (event) => {
     event.preventDefault();
+    
+    const isNameValid = validateName(name);
+    const isEmailValid = validateEmail(emailInput);
+    const isMessageValid = validateMessage(message);
 
-    setError(null);
+    setValidFields({
+      name: isNameValid,
+      email: isEmailValid,
+      message: isMessageValid
+    });
 
-    if (!validateEmail(emailInput)) {
-      setError('Please enter a valid email address.');
+    if (!isNameValid || !isEmailValid || !isMessageValid) {
+      setError('Please fill all fields correctly.');
       return;
     }
 
+    setError(null);
     await sendEmail();
-  }, [emailInput, sendEmail, validateEmail]);
+  }, [name, emailInput, message, sendEmail, validateEmail, validateName, validateMessage]);
 
   const handleDarkModeButtonClick = useCallback(() => {
     toggleTheme();
@@ -84,51 +126,62 @@ const ContactSection = ({
 
   const themeStyles = useMemo(() => (theme === 'light' ? lightStyles : darkStyles), [theme]);
 
-  // Framer Motion animation setup
-  const controls = useAnimation();
-  const ref = useRef(null);
+  useEffect(() => {
+    const handleScroll = () => {
+      if (formRef.current) {
+        const observer = new IntersectionObserver(([entry]) => {
+          if (entry.isIntersecting) {
+            controls.start({ opacity: 1, y: 0 });
+          } else {
+            controls.start({ opacity: 0, y: 50 });
+          }
+        }, { threshold: 0.1 });
 
-  const handleScroll = useCallback(() => {
-    if (ref.current) {
-      const observer = new IntersectionObserver(([entry]) => {
-        if (entry.isIntersecting) {
-          controls.start({ opacity: 1, y: 0 });
-        } else {
-          controls.start({ opacity: 0, y: 50 });
-        }
-      }, { threshold: 0.1 });
+        observer.observe(formRef.current);
+        return () => observer.disconnect();
+      }
+    };
 
-      observer.observe(ref.current);
-
-      return () => {
-        observer.disconnect();
-      };
-    }
+    handleScroll();
   }, [controls]);
 
   useEffect(() => {
-    handleScroll();
-  }, [handleScroll]);
+    const handleMouseMove = (e) => {
+      if (parallaxRef.current) {
+        const { clientX, clientY } = e;
+        const moveX = (clientX - window.innerWidth / 2) * 0.01;
+        const moveY = (clientY - window.innerHeight / 2) * 0.01;
+        parallaxRef.current.style.transform = `translate(${moveX}px, ${moveY}px)`;
+      }
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, []);
 
   return (
     <section className={`${commonStyles.contactSection} ${themeStyles.contactSection}`}>
-      <div className={`${commonStyles.contactFormBackground} ${themeStyles.contactFormBackground}`} />
+      <div 
+        ref={parallaxRef}
+        className={`${commonStyles.contactFormBackground} ${themeStyles.contactFormBackground}`} 
+      />
       <motion.form
-        className={`${commonStyles.contactForm} ${themeStyles.contactForm}`}
+        ref={formRef}
+        className={`${commonStyles.contactForm} ${themeStyles.contactForm} ${animationStyles.formWrapper}`}
         onSubmit={handleSubmit}
         aria-label="Contact form"
-        ref={ref}
         initial={{ opacity: 0, y: 50 }}
         animate={controls}
         transition={{ duration: 0.5 }}
       >
         <label className={`${commonStyles.nameLabel} ${themeStyles.nameLabel}`} htmlFor="name">Name</label>
         <input
-          className={`${commonStyles.nameInput} ${themeStyles.nameInput}`}
+          className={`${commonStyles.nameInput} ${themeStyles.nameInput} ${animationStyles.inputField}
+            ${!validFields.name ? animationStyles.inputInvalid : name ? animationStyles.inputValid : ''}`}
           type="text"
           name="user_name"
           id="name"
-          placeholder="Name"
+          placeholder="Enter your name"
           autoComplete="name"
           value={name}
           onChange={handleNameChange}
@@ -136,11 +189,12 @@ const ContactSection = ({
         />
         <label className={`${commonStyles.emailLabel} ${themeStyles.emailLabel}`} htmlFor="email">Email</label>
         <input
-          className={`${commonStyles.emailInput} ${themeStyles.emailInput}`}
+          className={`${commonStyles.emailInput} ${themeStyles.emailInput} ${animationStyles.inputField}
+            ${!validFields.email ? animationStyles.inputInvalid : emailInput ? animationStyles.inputValid : ''}`}
           type="email"
           name="user_email"
           id="email"
-          placeholder="Email"
+          placeholder="Enter your email"
           autoComplete="email"
           value={emailInput}
           onChange={handleEmailChange}
@@ -148,10 +202,11 @@ const ContactSection = ({
         />
         <label className={`${commonStyles.messageLabel} ${themeStyles.messageLabel}`} htmlFor="message">Message</label>
         <textarea
-          className={`${commonStyles.messageInput} ${themeStyles.messageInput}`}
+          className={`${commonStyles.messageInput} ${themeStyles.messageInput} ${animationStyles.inputField}
+            ${!validFields.message ? animationStyles.inputInvalid : message ? animationStyles.inputValid : ''}`}
           name="message"
           id="message"
-          placeholder="Message"
+          placeholder="Type your message here..."
           autoComplete="off"
           value={message}
           onChange={handleMessageChange}
@@ -159,7 +214,8 @@ const ContactSection = ({
         ></textarea>
         <button
           type="submit"
-          className={`${commonStyles.sendButton} ${themeStyles.sendButton}`}
+          className={`${commonStyles.sendButton} ${themeStyles.sendButton} 
+            ${isSending ? animationStyles.sendButtonLoading : ''}`}
           disabled={isSending}
         >
           <div className={`${commonStyles.sendButtonBorder} ${themeStyles.sendButtonBorder}`} />
@@ -169,12 +225,12 @@ const ContactSection = ({
         </button>
       </motion.form>
       {error && (
-        <p className={`${commonStyles.message} ${themeStyles.errorMessage}`} role="alert">
+        <p className={`${commonStyles.message} ${themeStyles.errorMessage} ${animationStyles.errorMessage}`} role="alert">
           {error}
         </p>
       )}
       {response && (
-        <p className={`${commonStyles.message} ${themeStyles.successMessage}`} role="status">
+        <p className={`${commonStyles.message} ${themeStyles.successMessage} ${animationStyles.successMessage}`} role="status">
           {response}
         </p>
       )}
@@ -184,7 +240,7 @@ const ContactSection = ({
         <h2 className={`${commonStyles.contactMeDescription} ${themeStyles.contactMeDescription}`}>Contact Me</h2>
         <div className={`${commonStyles.contactMeLabel} ${themeStyles.contactMeLabel}`}>
           <p className={`${commonStyles.doYouHave} ${themeStyles.doYouHave}`}>Do you have any project idea?</p>
-          <p className={`${commonStyles.doyouHave} ${themeStyles.doyouHave}`}>Let’s discuss and turn them into reality!</p>
+          <p className={`${commonStyles.doyouHave} ${themeStyles.doyouHave}`}>Let's discuss and turn them into reality!</p>
         </div>
         <img
           className={`${commonStyles.emailIcon} ${themeStyles.emailIcon}`}
@@ -210,7 +266,6 @@ const ContactSection = ({
             {theme === 'light' ? 'Light Mode' : 'Dark Mode'}
           </b>
         </button>
-        {/* Badges removed as requested */}
       </div>
     </section>
   );
