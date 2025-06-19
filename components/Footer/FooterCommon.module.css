@@ -4,29 +4,34 @@
     left: 0;
     width: 100%;
     height: 80px;
+    transition: background-color 0.3s ease;
 }
 
 .copyrightIcon {
     position: absolute;
     height: 32%;
-    top: 40%;
+    top: 50%;
     left: 57px;
     max-height: 100%;
     width: 32px;
     overflow: hidden;
+    transform: translateY(-50%);
+    transition: opacity 0.2s ease;
 }
 
 .copyrightLabel {
     margin: 0;
     position: absolute;
     height: 44%;
-    top: 27%;
+    top: 50%;
     left: 96px;
     font-size: inherit;
     line-height: 182.02%;
     font-weight: 400;
     font-family: inherit;
-    display: inline-block;
+    display: flex;
+    align-items: center;
+    transform: translateY(-50%);
 }
 
 .linkedinIcon,
@@ -34,10 +39,19 @@
 .githubIcon {
     position: absolute;
     height: 24%;
-    top: 39%;
+    top: 50%;
     max-height: 100%;
     width: 22.4px;
     cursor: pointer;
+    transform: translateY(-50%);
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.linkedinIcon:hover,
+.instagramIcon:hover,
+.githubIcon:hover {
+    transform: translateY(-50%) scale(1.1);
+    opacity: 0.8;
 }
 
 .linkedinIcon {
@@ -45,11 +59,11 @@
 }
 
 .githubIcon {
-    right: 100px; /* Changed from 140px to 100px */
+    right: 100px;
 }
 
 .instagramIcon {
-    right: 140px; /* Changed from 100px to 140px */
+    right: 140px;
 }
 
 .footerFrame {
@@ -59,8 +73,10 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    /* padding: 0 20px; */
     box-sizing: border-box;
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 20px;
 }
 
 .footer {
@@ -80,44 +96,55 @@
 
     .footerFrame {
         height: 65px;
-        padding: 0;
+        padding: 0 15px;
     }
 
     .copyrightIcon {
         height: 38.46%;
-        top: 32.31%;
+        top: 50%;
         left: 21px;
         width: 25px;
     }
 
     .copyrightLabel {
         height: 38.46%;
-        top: 32.31%;
+        top: 50%;
         left: 51px;
         font-size: 12px;
-        width: 57%;
-        display: flex;
-        align-items: center;
+        width: calc(100% - 180px);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .linkedinIcon,
+    .instagramIcon,
+    .githubIcon {
+        height: 36.92%;
+        top: 50%;
+        width: 22.4px;
     }
 
     .linkedinIcon {
-        height: 36.92%;
-        top: 32.31%;
         right: 25px;
-        width: 22.4px;
-    }
-
-    .instagramIcon {
-        height: 36.92%;
-        top: 32.31%;
-        right: 85px; /* Adjusted for responsiveness */
-        width: 22.4px;
     }
 
     .githubIcon {
-        height: 36.92%;
-        top: 32.31%;
-        right: 55px; /* Adjusted for responsiveness */
-        width: 22.4px;
+        right: 55px;
+    }
+
+    .instagramIcon {
+        right: 85px;
+    }
+}
+
+/* Media query for medium screens */
+@media (min-width: 577px) and (max-width: 768px) {
+    .footerFrame {
+        padding: 0 30px;
+    }
+
+    .copyrightLabel {
+        width: calc(100% - 250px);
     }
 }
