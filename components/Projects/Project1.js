@@ -27,6 +27,13 @@ const ProjectCard = React.memo(({ project, frameStyles, theme }) => {
 
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+  const handleCardClick = (e) => {
+    // Don't trigger card click if clicking on links
+    if (e.target.closest('a')) return;
+    
+    // Open the live preview link when clicking the card
+    window.open(project.livePreviewLink, '_blank', 'noopener,noreferrer');
+  };
 
   return (
     <article
@@ -34,6 +41,9 @@ const ProjectCard = React.memo(({ project, frameStyles, theme }) => {
       role="article"
       aria-labelledby={`project-title-${project.title}`}
       ref={cardRef}
+      onClick={handleCardClick}
+      onKeyPress={(e) => e.key === 'Enter' && handleCardClick(e)}
+      tabIndex="0"
     >
       <div className={`${commonStyles.projectCard1Child} ${frameStyles.projectCard1Child}`} />
       <a

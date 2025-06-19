@@ -16,9 +16,18 @@
 
 /* Frame title */
 .frameTitle {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 24px;
+  font-weight: bold;
+  margin-top: 40px;
+  margin-bottom: 30px;
+  margin-left: 6%;
   text-align: left;
-  font-family: Open Sans;
- 
+  color: var(--text-color);
+  width: 94%;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
 }
 
 /* Project card */
@@ -30,13 +39,19 @@
   overflow: hidden;
   transition: all 0.3s ease-in-out; /* Smoother transition for all properties */
   cursor: pointer;
+  transform-origin: center;
+  -webkit-tap-highlight-color: transparent; /* Remove tap highlight on mobile */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05); /* Subtle initial shadow */
 }
 
 /* Hover effect */
 .projectCard1:hover {
-  transform: translateY(-8px); /* Slightly more pronounced hover effect */
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15); /* Enhanced shadow on hover */
+  transform: translateY(-5px); /* Slightly more pronounced hover effect */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1); /* Enhanced shadow on hover */
+}
+.projectCard1:active {
+  transform: translateY(-2px); /* Less lift when clicking */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Smaller shadow when clicking */
 }
 .projectCard1Child {
   position: absolute;
@@ -97,11 +112,11 @@
   text-align: center;
   font-size: 28px;
   line-height: 26px;
-  font-weight: 600; /* Slightly bolder title */
+  font-weight: 500; /* Changed to semi-bold */
   font-family: inherit;
   white-space: pre-wrap;
   margin-bottom: 10px;
-
+  letter-spacing: 0.3px; /* Added for better readability */
 }
 
 .thisIsSample {
