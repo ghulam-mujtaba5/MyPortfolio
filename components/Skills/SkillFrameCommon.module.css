@@ -1,3 +1,24 @@
+/* Modern card appearance for SkillFrame */
+.skillCardEnhanced {
+  border-radius: 18px;
+  box-shadow: 0 2px 12px 0 rgba(30, 34, 90, 0.10), 0 1.5px 6px 0 rgba(30, 34, 90, 0.08);
+  transition: box-shadow 0.25s cubic-bezier(0.4,0,0.2,1), transform 0.18s cubic-bezier(0.4,0,0.2,1);
+  background: var(--card-bg, #fff);
+}
+
+.skillCardEnhanced:hover,
+.skillCardEnhanced:focus {
+  box-shadow: 0 6px 24px 0 rgba(30, 34, 90, 0.18), 0 3px 12px 0 rgba(30, 34, 90, 0.13);
+  transform: translateY(-2px) scale(1.015);
+  background: var(--card-hover-bg, #f7f8fa);
+  outline: none;
+}
+
+/* Optional: smooth border for skill icons */
+.skillIconEnhanced {
+  border-radius: 10px;
+  background: rgba(240,240,255,0.18);
+}
 /* Enhanced grid for skill cards */
 .skillsGrid {
   display: flex;
