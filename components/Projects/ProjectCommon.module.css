@@ -1,4 +1,3 @@
-
 /* ProjectCard1Parent container */
 .projectCard1Parent {
   width: 100%;
@@ -12,6 +11,7 @@
   font-family: Poppins;
   padding-bottom: 20px;
   margin-bottom: 20px;
+  gap: 30px; /* Add gap between cards */
 }
 
 /* Frame title */
@@ -28,15 +28,15 @@
   height: 570px;
   border-radius: 20px;
   overflow: hidden;
-  transition: transform 0.3s ease; /* Smooth transition for transform */
+  transition: all 0.3s ease-in-out; /* Smoother transition for all properties */
   cursor: pointer;
-  
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05); /* Subtle initial shadow */
 }
 
 /* Hover effect */
 .projectCard1:hover {
-  transform: translateY(-5px); /* Move the card 5px up on hover */
-  box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1); /* Add shadow on hover for elevation effect */
+  transform: translateY(-8px); /* Slightly more pronounced hover effect */
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15); /* Enhanced shadow on hover */
 }
 .projectCard1Child {
   position: absolute;
@@ -81,7 +81,11 @@
   overflow: hidden;
   max-height: 100%;
   object-fit:fill;
-  
+  transition: transform 0.5s ease; /* Add transition to image */
+}
+
+.projectCard1:hover .projectImg1 {
+  transform: scale(1.03); /* Subtle zoom effect on hover */
 }
 
 .projectTileGoes {
@@ -93,9 +97,10 @@
   text-align: center;
   font-size: 28px;
   line-height: 26px;
-  font-weight: 500;
+  font-weight: 600; /* Slightly bolder title */
   font-family: inherit;
   white-space: pre-wrap;
+  margin-bottom: 10px;
 
 }
 
@@ -132,7 +137,7 @@
   line-height: 20px;
   display: flex;
   align-items: center;
-
+  gap: 8px; /* Add spacing between tech stack items */
 }
 
 .githubIcon {
@@ -163,12 +168,15 @@
     justify-content: center;
     height: auto; /* Adjust height for small screens */
     align-items: center; /* Center align items */
+    padding: 0 15px; /* Add some padding on mobile */
   }
 
   .projectCard1 {
     width: 100%;
     max-width: 90%; /* Allow cards to take up more space on small screens */
     margin: 20px 0; /* Margin between cards for small screens */
+    height: auto; /* Make height responsive */
+    min-height: 570px; /* Maintain minimum height */
   }
 
   .projectTileGoes {
