@@ -10,7 +10,7 @@ import SkillFrame from '../../components/Skills/SkillFrame';
 import BadgeScroll from "../../components/Badges/BadgeScroll"; // ✅ Imported BadgeScroll
 import Project from "../../components/Projects/Project1";
 import Footer from "../../components/Footer/Footer";
-import ContactSection from "../../components/Contact/ConatctUs";
+import ContactSection from "../../components/Contact/ContactUs";
 import { useTheme } from '../../context/ThemeContext';
 import ThemeToggleIcon from '../../components/Icon/gmicon';
 
