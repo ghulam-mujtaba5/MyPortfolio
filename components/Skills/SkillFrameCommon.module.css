@@ -67,14 +67,6 @@
     visibility: visible;
 }
 
-/* Staggered animation delays for consecutive cards */
-.skillCard:nth-child(1).animate { animation-delay: 0.1s; }
-.skillCard:nth-child(2).animate { animation-delay: 0.2s; }
-.skillCard:nth-child(3).animate { animation-delay: 0.3s; }
-.skillCard:nth-child(4).animate { animation-delay: 0.4s; }
-.skillCard:nth-child(5).animate { animation-delay: 0.5s; }
-.skillCard:nth-child(6).animate { animation-delay: 0.6s; }
-
 /* Keyframe animation for skill rows */
 @keyframes skillRowFade {
     0% {
@@ -254,25 +246,7 @@
         max-width: 320px;
     }
 
-    /* Mobile animation adjustments */
     .skillCard.animate {
-        animation-duration: 0.6s;
-    }
-
-    /* Mobile stagger timing */
-    .skillCard:nth-child(1).animate { animation-delay: 0.1s; }
-    .skillCard:nth-child(2).animate { animation-delay: 0.2s; }
-    .skillCard:nth-child(3).animate { animation-delay: 0.3s; }
-    .skillCard:nth-child(4).animate { animation-delay: 0.4s; }
-    .skillCard:nth-child(5).animate { animation-delay: 0.5s; }
-    .skillCard:nth-child(6).animate { animation-delay: 0.6s; }
-
-    .skillName {
-        font-size: 14px;
-    }
-
-    .icon {
-        max-width: 85px;
-        height: 28px;
+        animation-duration: 0.5s;
     }
   }
