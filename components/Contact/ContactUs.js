@@ -73,14 +73,14 @@ const ContactSection = ({
 
     try {
       const result = await emailjs.send(
-        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID,
-        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID,
+        'service_ewji0vl',
+        'template_3kv9gje',
         {
           user_name: name,
           user_email: emailInput,
           message: message,
         },
-        process.env.NEXT_PUBLIC_EMAILJS_USER_ID
+        'LFm2JfW5ThGTsvKYr'
       );
 
       console.log('Email sent!', result);
@@ -186,7 +186,6 @@ const ContactSection = ({
           value={name}
           onChange={handleNameChange}
           required
-          aria-invalid={!validFields.name}
         />
         <label className={`${commonStyles.emailLabel} ${themeStyles.emailLabel}`} htmlFor="email">Email</label>
         <input
@@ -200,7 +199,6 @@ const ContactSection = ({
           value={emailInput}
           onChange={handleEmailChange}
           required
-          aria-invalid={!validFields.email}
         />
         <label className={`${commonStyles.messageLabel} ${themeStyles.messageLabel}`} htmlFor="message">Message</label>
         <textarea
@@ -213,7 +211,6 @@ const ContactSection = ({
           value={message}
           onChange={handleMessageChange}
           required
-          aria-invalid={!validFields.message}
         ></textarea>
         <button
           type="submit"
