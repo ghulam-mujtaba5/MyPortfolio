@@ -1,5 +1,6 @@
 
 import React, { useEffect, useRef, useState } from 'react';
+import Image from 'next/image';
 import { useTheme } from '../../context/ThemeContext'; // Theme context
 import commonStyles from './BadgeCommon.module.css'; // Common styles
 import lightStyles from './BadgeLight.module.css';   // Light theme styles
@@ -108,11 +109,13 @@ const BadgeScroll = ({
                 rel="noopener noreferrer"
                 aria-label={`View ${badge.alt}`}
               >
-                <img
+                <Image
                   src={badge.src}
                   alt={badge.alt}
                   title={badge.description}
                   className={commonStyles.badgeImage}
+                  width={80}
+                  height={80}
                   loading="lazy"
                 />
               </a>

@@ -1,6 +1,7 @@
 
 
 import React, { useState, useEffect, useCallback } from 'react';
+import Image from 'next/image';
 import styles from './profile-picture.module.css'; // Adjust path as per your project structure
 
 const debounce = (func, delay) => {
@@ -80,12 +81,13 @@ const ImageWithEllipsesBackground = () => {
 
   return (
     <div className={styles.imageContainer} onMouseEnter={handleHover} onMouseLeave={handleHover}>
-      <img
+      <Image
         className={styles.image}
         alt="Professional portrait of Ghulam Mujtaba"
-        src="images/portfolio-picture.png" // Adjust image source as per your project
+        src="/images/portfolio-picture.png"
         width={imageSize}
         height={imageSize}
+        priority
       />
       {(hovered || isMobile) && !shouldHideEllipses && renderEllipses()}
     </div>
