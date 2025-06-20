@@ -1,6 +1,5 @@
 
 import React, { useEffect, useRef, useState } from 'react';
-import Image from 'next/image';
 import { useTheme } from '../../context/ThemeContext'; 
 import styles from './projectLight.module.css';
 import darkStyles from './ProjectDark.module.css';
@@ -65,12 +64,10 @@ const ProjectCard = React.memo(({ project, frameStyles, theme }) => {
       >
         View Code
       </a>
-      <Image
+      <img
         className={`${commonStyles.projectImg1} ${frameStyles.projectImg1}`}
         alt={`${project.title} screenshot`}
-        src={`/${project.imgSrc}`}
-        width={400}
-        height={250}
+        src={project.imgSrc}
         loading="lazy"
       />
       <h3
@@ -91,20 +88,16 @@ const ProjectCard = React.memo(({ project, frameStyles, theme }) => {
           </span>
         </span>
       </div>
-      <Image
+      <img
         className={`${commonStyles.githubIcon} ${frameStyles.githubIcon}`}
         alt="GitHub icon"
-        src={theme === 'dark' ? '/GithubDark.svg' : '/github_icon.svg'}
-        width={24}
-        height={24}
+        src={theme === 'dark' ? 'GithubDark.svg' : 'github_icon.svg'}
         loading="lazy"
       />
-      <Image
+      <img
         className={`${commonStyles.previewIcon1} ${frameStyles.previewIcon1}`}
         alt="Preview icon"
-        src={theme === 'dark' ? '/PreviewDark.svg' : '/preview_icon1.svg'}
-        width={24}
-        height={24}
+        src={theme === 'dark' ? 'PreviewDark.svg' : 'preview_icon1.svg'}
         loading="lazy"
       />
     </article>

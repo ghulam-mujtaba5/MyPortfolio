@@ -1,6 +1,5 @@
 
 import React, { useEffect, useRef, useState } from 'react';
-import Image from 'next/image';
 import { useTheme } from '../../context/ThemeContext'; // Import the useTheme hook
 import commonStyles from './LanguagesCommon.module.css'; // Import common styles
 import lightStyles from './LanguagesLight.module.css'; // Import light mode styles
@@ -44,14 +43,14 @@ const Frame = () => {
     >
       <h2 id="languages-title" className={commonStyles.title}>Languages</h2>
       <div className={`${commonStyles.iconContainer} ${isVisible ? commonStyles.animate : ''}`}>
-        <Image className={`${commonStyles.icon} ${isVisible ? commonStyles.animate : ''}`} alt="Java programming language" src="/java.png" width={48} height={48} />
-        <Image className={`${commonStyles.icon} ${isVisible ? commonStyles.animate : ''}`} alt="Python programming language" src="/python icon.svg" width={48} height={48} />
-        <Image className={`${commonStyles.icon} ${isVisible ? commonStyles.animate : ''}`} alt="R programming language" src="/r icon.svg" width={48} height={48} />
-        <Image className={`${commonStyles.icon} ${isVisible ? commonStyles.animate : ''}`} alt="C programming language" src="/c language icon.svg" width={48} height={48} />
-        <Image className={`${commonStyles.icon} ${isVisible ? commonStyles.animate : ''}`} alt="C++ programming language" src="/cpluslanguage icon.png" width={48} height={48} />
-        <Image className={`${commonStyles.icon} ${isVisible ? commonStyles.animate : ''}`} alt="JavaScript programming language" src="/javscript icon.svg" width={48} height={48} />
-        <Image className={`${commonStyles.icon} ${isVisible ? commonStyles.animate : ''}`} alt="HTML markup language" src="/html icon.svg" width={48} height={48} />
-        <Image className={`${commonStyles.icon} ${isVisible ? commonStyles.animate : ''}`} alt="CSS styling language" src="/css icon.svg" width={48} height={48} />
+        <img className={`${commonStyles.icon} ${isVisible ? commonStyles.animate : ''}`} alt="Java programming language" src="java.png" />
+        <img className={`${commonStyles.icon} ${isVisible ? commonStyles.animate : ''}`} alt="Python programming language" src="python icon.svg" />
+        <img className={`${commonStyles.icon} ${isVisible ? commonStyles.animate : ''}`} alt="R programming language" src="r icon.svg" />
+        <img className={`${commonStyles.icon} ${isVisible ? commonStyles.animate : ''}`} alt="C programming language" src="c language icon.svg" />
+        <img className={`${commonStyles.icon} ${isVisible ? commonStyles.animate : ''}`} alt="C++ programming language" src="cpluslanguage icon.png" />
+        <img className={`${commonStyles.icon} ${isVisible ? commonStyles.animate : ''}`} alt="JavaScript programming language" src="javscript icon.svg" />
+        <img className={`${commonStyles.icon} ${isVisible ? commonStyles.animate : ''}`} alt="HTML markup language" src="html icon.svg" />
+        <img className={`${commonStyles.icon} ${isVisible ? commonStyles.animate : ''}`} alt="CSS styling language" src="css icon.svg" />
       </div>
     </section>
   );
