@@ -65,43 +65,45 @@ const ProjectsPage = () => {
         <title>Projects | Ghulam Mujtaba</title>
         <meta name="description" content="Showcase of advanced, modern, and professional projects by Ghulam Mujtaba. Explore software, web, and UI/UX work." />
       </Head>
-      <NavBar />
-      <div className={`projects-page-bg ${theme}`}>
-        <section className={`project-hero`}>
-          <h1 className="project-hero-title">My Projects</h1>
-          <p className="project-hero-desc">
-            Explore a curated selection of my best work, from full-stack applications to creative UI/UX designs. Each project demonstrates advanced skills, modern technologies, and a passion for building impactful digital experiences.
-          </p>
-        </section>
-        <div className="project-tags">
-          {TAGS.map(tag => (
-            <button
-              key={tag}
-              className={`project-tag-btn${selectedTag === tag ? ' active' : ''}`}
-              onClick={() => setSelectedTag(tag)}
-              aria-pressed={selectedTag === tag}
-            >
-              {tag}
-            </button>
-          ))}
+      <div style={{ backgroundColor: theme === 'dark' ? '#1d2127' : '#ffffff', overflowX: 'hidden' }}>
+        <NavBar />
+        <div className={`projects-page-bg ${theme}`}>
+          <section className={`project-hero`}>
+            <h1 className="project-hero-title">My Projects</h1>
+            <p className="project-hero-desc">
+              Explore a curated selection of my best work, from full-stack applications to creative UI/UX designs. Each project demonstrates advanced skills, modern technologies, and a passion for building impactful digital experiences.
+            </p>
+          </section>
+          <div className="project-tags">
+            {TAGS.map(tag => (
+              <button
+                key={tag}
+                className={`project-tag-btn${selectedTag === tag ? ' active' : ''}`}
+                onClick={() => setSelectedTag(tag)}
+                aria-pressed={selectedTag === tag}
+              >
+                {tag}
+              </button>
+            ))}
+          </div>
+          <div className="project-grid">
+            {filteredProjects.map((project, idx) => (
+              <div key={project.title} className="project-grid-card">
+                <Project1 projectOverride={project} />
+              </div>
+            ))}
+          </div>
+          <Footer />
         </div>
-        <div className="project-grid">
-          {filteredProjects.map((project, idx) => (
-            <div key={project.title} className="project-grid-card">
-              <Project1 projectOverride={project} />
-            </div>
-          ))}
-        </div>
-        <Footer />
       </div>
       <style jsx>{`
         .projects-page-bg {
           min-height: 100vh;
-          background: #f8fafc;
+          background: #ffffff;
           transition: background 0.3s;
         }
         .projects-page-bg.dark {
-          background: #181c20;
+          background: #1d2127;
         }
         .project-hero {
           padding: 3.5rem 0 1.5rem 0;
