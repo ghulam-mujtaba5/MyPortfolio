@@ -11,13 +11,12 @@ const Project1 = dynamic(() => import('../../components/Projects/Project1'), { s
 
 const TAGS = [
   'All',
-  'Java',
-  'Next.js',
-  'React',
-  'Figma',
-  'Spring',
-  'Maven',
+  'Software Development',
+  'Web Development',
+  'AI',
+  'Data Science',
   'UI/UX',
+  'Others',
 ];
 
 const ProjectsPage = () => {
@@ -33,7 +32,7 @@ const ProjectsPage = () => {
       imgSrc: 'project img 1.png',
       livePreviewLink: 'https://github.com/ghulam-mujtaba5/java-semester-billing-software',
       viewCodeLink: 'https://github.com/ghulam-mujtaba5/java-semester-billing-software',
-      tags: ['Java', 'Spring', 'Maven'],
+      tags: ['Software Development'],
     },
     {
       title: 'My Portfolio Project',
@@ -42,7 +41,7 @@ const ProjectsPage = () => {
       imgSrc: 'project-2.png',
       livePreviewLink: 'https://ghulammujtaba.com/',
       viewCodeLink: 'https://github.com/ghulam-mujtaba5',
-      tags: ['Next.js', 'React', 'Figma', 'UI/UX'],
+      tags: ['Web Development', 'UI/UX'],
     },
     {
       title: 'Portfolio v1',
@@ -51,7 +50,7 @@ const ProjectsPage = () => {
       imgSrc: 'project img 3.png',
       livePreviewLink: 'https://www.ghulammujtaba.tech/',
       viewCodeLink: 'https://github.com/ghulam-mujtaba5/portfolioversion1.2',
-      tags: ['React', 'Figma', 'UI/UX'],
+      tags: ['Web Development', 'UI/UX'],
     },
   ];
 
@@ -68,19 +67,20 @@ const ProjectsPage = () => {
       <div style={{ backgroundColor: theme === 'dark' ? '#1d2127' : '#ffffff', overflowX: 'hidden' }}>
         <NavBar />
         <div className={`projects-page-bg ${theme}`}>
-          <section className={`project-hero`}>
+          <section className={`project-hero fade-in`}>
             <h1 className="project-hero-title">My Projects</h1>
             <p className="project-hero-desc">
               Explore a curated selection of my best work, from full-stack applications to creative UI/UX designs. Each project demonstrates advanced skills, modern technologies, and a passion for building impactful digital experiences.
             </p>
           </section>
-          <div className="project-tags">
-            {TAGS.map(tag => (
+          <div className="project-tags fade-in-up">
+            {TAGS.map((tag, i) => (
               <button
                 key={tag}
                 className={`project-tag-btn${selectedTag === tag ? ' active' : ''}`}
                 onClick={() => setSelectedTag(tag)}
                 aria-pressed={selectedTag === tag}
+                style={{ transitionDelay: `${i * 60}ms` }}
               >
                 {tag}
               </button>
@@ -88,7 +88,11 @@ const ProjectsPage = () => {
           </div>
           <div className="project-grid">
             {filteredProjects.map((project, idx) => (
-              <div key={project.title} className="project-grid-card">
+              <div
+                key={project.title}
+                className="project-grid-card card-animate"
+                style={{ animationDelay: `${idx * 120}ms` }}
+              >
                 <Project1 projectOverride={project} />
               </div>
             ))}
@@ -97,6 +101,48 @@ const ProjectsPage = () => {
         </div>
       </div>
       <style jsx>{`
+        .fade-in {
+          opacity: 0;
+          animation: fadeIn 0.8s ease forwards;
+        }
+        .fade-in-up {
+          opacity: 0;
+          transform: translateY(30px);
+          animation: fadeInUp 0.7s cubic-bezier(.39,.575,.565,1.000) forwards;
+        }
+        .fade-in-up .project-tag-btn {
+          opacity: 0;
+          transform: translateY(20px);
+          animation: fadeInUp 0.5s cubic-bezier(.39,.575,.565,1.000) forwards;
+        }
+        .fade-in-up .project-tag-btn {
+          animation-delay: inherit;
+        }
+        @keyframes fadeIn {
+          to { opacity: 1; }
+        }
+        @keyframes fadeInUp {
+          to {
+            opacity: 1;
+            transform: none;
+          }
+        }
+        .card-animate {
+          opacity: 0;
+          transform: translateY(40px) scale(0.98);
+          animation: cardFadeIn 0.7s cubic-bezier(.39,.575,.565,1.000) forwards;
+        }
+        .card-animate:hover {
+          transform: translateY(-8px) scale(1.03);
+          box-shadow: 0 8px 32px 0 rgba(60,60,100,0.18);
+          transition: box-shadow 0.3s, transform 0.3s;
+        }
+        @keyframes cardFadeIn {
+          to {
+            opacity: 1;
+            transform: none;
+          }
+        }
         .projects-page-bg {
           min-height: 100vh;
           background: #ffffff;
@@ -140,12 +186,15 @@ const ProjectsPage = () => {
           font-size: 1rem;
           font-weight: 500;
           cursor: pointer;
-          transition: all 0.2s;
+          transition: all 0.2s, box-shadow 0.3s;
+          box-shadow: 0 2px 8px 0 rgba(60,60,100,0.06);
         }
         .project-tag-btn.active, .project-tag-btn:hover {
           background: #22223b;
           color: #fff;
           border-color: #22223b;
+          box-shadow: 0 4px 16px 0 rgba(34,34,59,0.18);
+          transform: translateY(-2px) scale(1.05);
         }
         .projects-page-bg.dark .project-tag-btn {
           background: #23272f;
