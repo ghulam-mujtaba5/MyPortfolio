@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import Head from 'next/head';
 import { useTheme } from '../../context/ThemeContext';
@@ -20,6 +20,18 @@ const TAGS = [
 ];
 
 const ProjectsPage = () => {
+  // Parallax effect for hero globe
+  useEffect(() => {
+    const globe = document.getElementById('hero-globe-parallax');
+    if (!globe) return;
+    const handleMove = (e) => {
+      const x = (e.clientX / window.innerWidth - 0.5) * 30;
+      const y = (e.clientY / window.innerHeight - 0.5) * 30;
+      globe.style.transform = `translate(-50%, -50%) rotateX(${y}deg) rotateY(${-x}deg)`;
+    };
+    window.addEventListener('mousemove', handleMove);
+    return () => window.removeEventListener('mousemove', handleMove);
+  }, []);
   const { theme } = useTheme();
   const [selectedTag, setSelectedTag] = useState('All');
 
@@ -68,10 +80,43 @@ const ProjectsPage = () => {
         <NavBar />
         <div className={`projects-page-bg ${theme}`}>
           <section className={`project-hero fade-in`}>
-            <h1 className="project-hero-title">My Projects</h1>
+            <div className="hero-bg-visual" aria-hidden="true" id="hero-globe-parallax">
+              {/* Animated SVG Globe with Dots */}
+              <svg className="hero-globe" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                  <radialGradient id="globeGradient" cx="50%" cy="50%" r="50%">
+                    <stop offset="0%" stopColor="#5e60ce" stopOpacity="0.18" />
+                    <stop offset="100%" stopColor="#48bfe3" stopOpacity="0.05" />
+                  </radialGradient>
+                  <linearGradient id="dotGradient" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0%" stopColor="#5e60ce" />
+                    <stop offset="100%" stopColor="#48bfe3" />
+                  </linearGradient>
+                </defs>
+                <circle cx="250" cy="250" r="200" fill="url(#globeGradient)" />
+                <g className="globe-lines">
+                  <ellipse cx="250" cy="250" rx="180" ry="60" stroke="#5e60ce" strokeWidth="1.5" opacity="0.18" />
+                  <ellipse cx="250" cy="250" rx="120" ry="180" stroke="#48bfe3" strokeWidth="1.2" opacity="0.13" />
+                  <ellipse cx="250" cy="250" rx="160" ry="100" stroke="#3a3a7c" strokeWidth="1.2" opacity="0.10" />
+                </g>
+                {/* Animated Dots for Locations */}
+                <g className="globe-dots">
+                  <circle className="globe-dot" cx="370" cy="180" r="7" fill="url(#dotGradient)" />
+                  <circle className="globe-dot" cx="140" cy="320" r="6" fill="url(#dotGradient)" />
+                  <circle className="globe-dot" cx="320" cy="340" r="5" fill="url(#dotGradient)" />
+                  <circle className="globe-dot" cx="220" cy="120" r="5.5" fill="url(#dotGradient)" />
+                  <circle className="globe-dot" cx="270" cy="400" r="4.5" fill="url(#dotGradient)" />
+                  <circle className="globe-dot" cx="90" cy="200" r="4" fill="url(#dotGradient)" />
+                </g>
+              </svg>
+            </div>
+            <h1 className="project-hero-title gradient-text shimmer-on-hover">Building Impactful Digital Solutions — Globally.</h1>
+            <div className="project-hero-subtitle">From AI to UI, I craft experiences that drive results and delight users.</div>
             <p className="project-hero-desc">
-              Explore a curated selection of my best work, from full-stack applications to creative UI/UX designs. Each project demonstrates advanced skills, modern technologies, and a passion for building impactful digital experiences.
+              Explore a curated portfolio of innovative software, intelligent AI, and beautiful web experiences. Trusted by clients worldwide, my work blends technology and creativity for real-world impact.<br /><br />
+              <span className="project-hero-highlight">Explore. Get inspired. See what’s possible.</span>
             </p>
+            <button className="hero-cta" aria-label="View my work">View My Work</button>
           </section>
           <div className="project-tags fade-in-up">
             {TAGS.map((tag, i) => (
@@ -152,24 +197,163 @@ const ProjectsPage = () => {
           background: #1d2127;
         }
         .project-hero {
-          padding: 3.5rem 0 1.5rem 0;
+          position: relative;
+          padding: 5.5rem 0 2.7rem 0;
           text-align: center;
-          background: transparent;
+          background: linear-gradient(120deg,rgba(34,34,59,0.04) 0%,rgba(0,0,0,0) 100%);
+          border-radius: 0 0 32px 32px;
+          box-shadow: 0 4px 32px 0 rgba(60,60,100,0.10);
+          overflow: hidden;
+        }
+        .hero-bg-visual {
+        /* Animated globe dots */
+        .globe-dot {
+          opacity: 0.85;
+          filter: drop-shadow(0 0 8px #5e60ce88);
+          transform-origin: 50% 50%;
+          animation: dotPulse 2.2s infinite alternate;
+        }
+        .globe-dot:nth-child(1) { animation-delay: 0s; }
+        .globe-dot:nth-child(2) { animation-delay: 0.5s; }
+        .globe-dot:nth-child(3) { animation-delay: 1s; }
+        .globe-dot:nth-child(4) { animation-delay: 1.5s; }
+        .globe-dot:nth-child(5) { animation-delay: 0.8s; }
+        .globe-dot:nth-child(6) { animation-delay: 1.2s; }
+        @keyframes dotPulse {
+          0% { r: 4.5; opacity: 0.7; }
+          50% { r: 7.5; opacity: 1; }
+          100% { r: 4.5; opacity: 0.7; }
+        }
+          position: absolute;
+          left: 50%;
+          top: 50%;
+          transform: translate(-50%, -50%);
+          width: 600px;
+          height: 600px;
+          z-index: 0;
+          pointer-events: none;
+          opacity: 0.7;
+          filter: blur(0.5px);
+          animation: globeFloat 8s ease-in-out infinite alternate;
+        }
+        .hero-globe {
+          width: 100%;
+          height: 100%;
+          display: block;
+        }
+        .globe-lines ellipse {
+          transform-origin: 50% 50%;
+          animation: globeSpin 16s linear infinite;
+        }
+        @keyframes globeSpin {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+        }
+        @keyframes globeFloat {
+          0% { transform: translate(-50%, -50%) scale(1); }
+          100% { transform: translate(-50%, -52%) scale(1.04); }
         }
         .project-hero-title {
-          font-size: 2.8rem;
-          font-weight: 800;
-          margin-bottom: 0.5rem;
-          letter-spacing: -1px;
+          font-size: 3.3rem;
+          font-weight: 900;
+          margin-bottom: 0.7rem;
+          letter-spacing: -2px;
+          line-height: 1.1;
+          z-index: 2;
+          position: relative;
+          text-shadow: 0 4px 32px rgba(60,60,100,0.13);
+        }
+        .gradient-text {
+          background: linear-gradient(90deg,#3a3a7c 10%,#5e60ce 50%,#48bfe3 90%);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+          text-fill-color: transparent;
+          transition: background-position 0.7s cubic-bezier(.39,.575,.565,1.000);
+          background-size: 200% 100%;
+          background-position: 0% 50%;
+        }
+        .shimmer-on-hover:hover {
+          background-position: 100% 50%;
+          filter: brightness(1.08) drop-shadow(0 2px 16px #5e60ce33);
+        }
+        .project-hero-subtitle {
+          font-size: 1.28rem;
+          color: #5e60ce;
+          font-weight: 600;
+          margin-bottom: 1.1rem;
+          letter-spacing: 0.5px;
+          z-index: 2;
+          position: relative;
         }
         .project-hero-desc {
-          font-size: 1.2rem;
-          color: #666;
-          max-width: 600px;
-          margin: 0 auto;
+          font-size: 1.18rem;
+          color: #444;
+          max-width: 700px;
+          margin: 0 auto 1.5rem auto;
+          line-height: 1.7;
+          font-weight: 400;
+          z-index: 2;
+          position: relative;
+        }
+        .project-hero-highlight {
+          display: inline-block;
+          margin-top: 0.7rem;
+          font-size: 1.08rem;
+          color: #22223b;
+          background: #e0e7ff;
+          border-radius: 8px;
+          padding: 0.18em 0.7em;
+          font-weight: 600;
+          letter-spacing: 0.2px;
+        }
+        .hero-cta {
+          margin-top: 1.2rem;
+          padding: 0.85em 2.2em;
+          font-size: 1.13rem;
+          font-weight: 700;
+          border-radius: 30px;
+          border: none;
+          background: linear-gradient(90deg,#5e60ce 10%,#48bfe3 90%);
+          color: #fff;
+          box-shadow: 0 4px 24px 0 rgba(60,60,100,0.13);
+          cursor: pointer;
+          transition: background 0.3s, box-shadow 0.3s, transform 0.2s;
+          z-index: 2;
+          position: relative;
+        }
+        .hero-cta:hover, .hero-cta:focus {
+          background: linear-gradient(90deg,#48bfe3 10%,#5e60ce 90%);
+          box-shadow: 0 8px 32px 0 rgba(60,96,206,0.18);
+          transform: translateY(-2px) scale(1.04);
+          outline: 2px solid #5e60ce;
+        }
+        .projects-page-bg.dark .project-hero-title.gradient-text {
+          background: linear-gradient(90deg,#b8c0ff 10%,#5e60ce 50%,#48bfe3 90%);
+        }
+        .projects-page-bg.dark .project-hero-subtitle {
+          color: #b8c0ff;
         }
         .projects-page-bg.dark .project-hero-desc {
           color: #bbb;
+        }
+        .projects-page-bg.dark .project-hero-highlight {
+          color: #181c20;
+          background: #b8c0ff;
+        }
+        .projects-page-bg.dark .hero-cta {
+          background: linear-gradient(90deg,#b8c0ff 10%,#48bfe3 90%);
+          color: #181c20;
+        }
+        .projects-page-bg.dark .hero-cta:hover, .projects-page-bg.dark .hero-cta:focus {
+          background: linear-gradient(90deg,#48bfe3 10%,#b8c0ff 90%);
+          color: #181c20;
+        }
+        @media (max-width: 600px) {
+          .project-hero-title { font-size: 2.1rem; }
+          .project-hero-subtitle { font-size: 1.05rem; }
+          .project-hero { padding: 2.2rem 0 1.2rem 0; border-radius: 0 0 18px 18px; }
+          .hero-bg-visual { width: 320px; height: 320px; }
         }
         .project-tags {
           display: flex;
