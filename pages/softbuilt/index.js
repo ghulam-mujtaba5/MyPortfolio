@@ -7,7 +7,7 @@ import NavBarMobile from '../../components/NavBar_Mobile/NavBar-mobile';
 import WelcomeFrame from '../../components/welcomeCompany/welcome';
 import AboutMeSection from '../../components/AboutMeCompany/AboutMeSectionLight';
 import ServicesFrame from '../../components/Services/ServicesFrame';
-import ContactSection from '../../components/Contact/ConatctUs';
+import ContactSection from '../../components/Contact/ContactUs';
 import Footer from '../../components/Footer/Footer';
 import ThemeToggleIcon from '../../components/Icon/sbicon'; // Import the ThemeToggleIcon component
 

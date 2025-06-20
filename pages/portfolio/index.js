@@ -8,10 +8,10 @@ import PortfolioPictureImage from '../../components/profile-picture-desktop/Port
 import AboutMeSection from '../../components/AboutMe/AboutMeSectionLight';
 import Languages from '../../components/Languages/Languages';
 import SkillFrame from '../../components/Skills/SkillFrame';
-const BadgeScroll = dynamic(() => import('../../components/Badges/BadgeScroll'));
-const Project = dynamic(() => import('../../components/Projects/Project1'));
-const Footer = dynamic(() => import('../../components/Footer/Footer'));
-const ContactSection = dynamic(() => import('../../components/Contact/ContactUs'));
+const BadgeScroll = dynamic(() => import('../../components/Badges/BadgeScroll'), { ssr: false });
+const Project = dynamic(() => import('../../components/Projects/Project1'), { ssr: false });
+const Footer = dynamic(() => import('../../components/Footer/Footer'), { ssr: false });
+const ContactSection = dynamic(() => import('../../components/Contact/ContactUs'), { ssr: false });
 import { useTheme } from '../../context/ThemeContext';
 import ThemeToggleIcon from '../../components/Icon/gmicon';
 
@@ -81,7 +81,7 @@ const Home = () => {
           <section id="home-section" aria-labelledby="home-section-heading" style={{ width: '100%' }}>
             <h1 id="home-section-heading" className="visually-hidden">Ghulam Mujtaba | Full Stack Developer, Data Scientist, AI Specialist</h1>
             <div id="portfolio-picture" style={{ width: '100%', textAlign: 'center' }}>
-              <PortfolioPictureImage style={{ width: '200px', height: '200px', margin: '20px auto', display: 'block' }} alt="Ghulam Mujtaba Portfolio Picture" />
+              <PortfolioPictureImage style={{ width: '200px', height: '200px', margin: '20px auto', display: 'block' }} alt="Ghulam Mujtaba Portfolio Picture" priority />
             </div>
             <WelcomeFrame style={{ width: '100%', height: '400px', display: 'flex', alignItems: 'center', justifyContent: 'center' }} />
           </section>

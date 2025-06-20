@@ -64,7 +64,7 @@ const Resume = () => {
           </div>
           <div className={commonStyles.item}>
             <strong>Ecommerce Store</strong>
-            <p>Web Application using Next.js, React, Node.js, Express.js and MongoDB demonstrating my proficiency in modern web development framework and technologies.</p>
+            <p>Web Application using Next.js, React, Node.js, and MongoDB demonstrating my proficiency in modern web development frameworks and technologies.</p>
           </div>
           <div className={commonStyles.item}>
             <strong>My Portfolio</strong>
