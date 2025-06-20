@@ -56,7 +56,7 @@ const NavBar = ({ sections }) => {
                     {sections?.length > 0 ? (
                         sections.map((section) => (
                             <li
-                                key={section.id}
+                                key={section.id || section.route}
                                 className={`${commonStyles.menuItem} ${themeStyles.menuItem}`}
                                 onClick={() => handleScrollOrRoute(section.id || section.route)}
                                 role="menuitem"
