@@ -37,7 +37,7 @@ const Home = () => {
   return (
     <>
       <SEO
-        title="Ghulam Mujtaba | Full Stack Developer, Data Scientist, AI Specialist"
+        title="Ghulam Mujtaba | Portfolio"
         description="Ghulam Mujtaba is a Full Stack Developer, Data Scientist, and AI Specialist. Explore projects, skills, and contact information. Based in Pakistan."
         url="https://ghulammujtaba.com"
         image="https://ghulammujtaba.com/og-image.png"
