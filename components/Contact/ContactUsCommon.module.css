@@ -90,6 +90,13 @@
 
 .sendButton:focus {
     outline: none;
+    box-shadow: 0 0 0 2px #4573df55;
+}
+
+.sendButton:active {
+    transform: scale(0.97);
+    background: #e6e6e6;
+    transition: background 0.2s, transform 0.1s;
 }
 
 .pulse-animation {
@@ -289,10 +296,12 @@
 
 .successMessage {
     color: #34a853;
+    animation: popSuccess 0.5s;
 }
 
 .errorMessage {
     color: #e81123;
+    animation: popError 0.5s;
 }
 
 @keyframes fadeSlideIn {
@@ -304,6 +313,33 @@
         opacity: 1;
         transform: translateY(0);
     }
+}
+
+@keyframes fadeInSection {
+    0% { opacity: 0; transform: translateY(40px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInBg {
+    0% { opacity: 0; }
+    100% { opacity: 0.15; }
+}
+
+@keyframes fadeInContact {
+    0% { opacity: 0; transform: translateY(20px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes popSuccess {
+    0% { transform: scale(0.9); opacity: 0.5; }
+    60% { transform: scale(1.1); opacity: 1; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes popError {
+    0% { transform: scale(0.9); opacity: 0.5; }
+    60% { transform: scale(1.1); opacity: 1; }
+    100% { transform: scale(1); opacity: 1; }
 }
 
 /* Media query for tablets (min-width: 768px and max-width: 1024px) */
