@@ -49,6 +49,8 @@ function MyApp({ Component, pageProps }) {
           name="viewport"
           content="minimum-scale=1, initial-scale=1, width=device-width"
         />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="true" />
         <link rel="manifest" href="/manifest.json" />
         <meta name="theme-color" content="#1d2127" />
       </Head>

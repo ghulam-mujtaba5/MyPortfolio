@@ -1,16 +1,17 @@
 
 import React from 'react';
-import NavBarDesktop from '../../components/NavBar_Desktop/nav-bar';
-import NavBarMobile from '../../components/NavBar_Mobile/NavBar-mobile';
-import WelcomeFrame from '../../components/welcome/welcome';
-import PortfolioPictureImage from '../../components/profile-picture-desktop/PortfolioPictureImage';
-import AboutMeSection from '../../components/AboutMe/AboutMeSectionLight';
-import Languages from '../../components/Languages/Languages';
-import SkillFrame from '../../components/Skills/SkillFrame';
-import BadgeScroll from "../../components/Badges/BadgeScroll"; // ✅ Imported BadgeScroll
-import Project from "../../components/Projects/Project1";
-import Footer from "../../components/Footer/Footer";
-import ContactSection from "../../components/Contact/ContactUs";
+import dynamic from 'next/dynamic';
+const NavBarDesktop = dynamic(() => import('../../components/NavBar_Desktop/nav-bar'));
+const NavBarMobile = dynamic(() => import('../../components/NavBar_Mobile/NavBar-mobile'));
+const WelcomeFrame = dynamic(() => import('../../components/welcome/welcome'));
+const PortfolioPictureImage = dynamic(() => import('../../components/profile-picture-desktop/PortfolioPictureImage'));
+const AboutMeSection = dynamic(() => import('../../components/AboutMe/AboutMeSectionLight'));
+const Languages = dynamic(() => import('../../components/Languages/Languages'));
+const SkillFrame = dynamic(() => import('../../components/Skills/SkillFrame'));
+const BadgeScroll = dynamic(() => import('../../components/Badges/BadgeScroll'));
+const Project = dynamic(() => import('../../components/Projects/Project1'));
+const Footer = dynamic(() => import('../../components/Footer/Footer'));
+const ContactSection = dynamic(() => import('../../components/Contact/ContactUs'));
 import { useTheme } from '../../context/ThemeContext';
 import ThemeToggleIcon from '../../components/Icon/gmicon';
 

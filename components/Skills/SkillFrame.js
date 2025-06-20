@@ -1,5 +1,6 @@
 
 import React, { useEffect, useRef, useState } from 'react';
+import Image from 'next/image';
 import { useTheme } from '../../context/ThemeContext';
 import commonStyles from './SkillFrameCommon.module.css';
 import lightStyles from './SkillFrame.module.css';
@@ -94,7 +95,14 @@ const SkillFrame = () => {
           </div>
           {category.skills.map((skill, index) => (
             <div key={index} className={`${commonStyles.skillRow} ${frameStyles.skillRow} ${isVisible ? commonStyles.animate : ''}`}>
-              <img className={`${commonStyles.icon} ${frameStyles.icon}`} alt={skill.name} src={skill.icon} />
+              <Image
+                className={`${commonStyles.icon} ${frameStyles.icon}`}
+                alt={skill.name}
+                src={`/${skill.icon}`}
+                width={40}
+                height={40}
+                loading="lazy"
+              />
               <div className={`${commonStyles.skillNameContainer} ${frameStyles.skillNameContainer}`}>
                 <div className={`${commonStyles.skillName} ${frameStyles.skillName}`}>{skill.name}</div>
                 <div className={`${commonStyles.progress} ${skill.progressClass}`} />
