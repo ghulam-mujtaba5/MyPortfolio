@@ -111,47 +111,16 @@ const ProjectCard = React.memo(({ project, frameStyles, theme }) => {
   );
 });
 
-const Frame = () => {
+
+// Accepts either props.projectOverride or falls back to props.project (for compatibility)
+const Project1 = ({ projectOverride, project }) => {
   const { theme } = useTheme();
   const frameStyles = theme === 'dark' ? darkStyles : styles;
-
-  const projects = [
-    {
-      title: "Billing Application",
-      description: "I developed a Desktop bookshop billing software using Java, JavaFX, Maven, and Spring, showcasing my skills in full-stack development and software architecture.",
-      techStack: "Java, Java Fx, Maven, Spring",
-      imgSrc: "project img 1.png",
-      livePreviewLink: "https://github.com/ghulam-mujtaba5/java-semester-billing-software",
-      viewCodeLink: "https://github.com/ghulam-mujtaba5/java-semester-billing-software"
-    },
-    {
-      title: "My Portfolio Project",
-      description: "Developed a personal portfolio website using Next.js, React.js, Context API, Styled Components, and Node.js. Optimized for performance and responsive design.",
-      techStack: "Next Js, Context API, Figma",
-      imgSrc: "project-2.png",
-      livePreviewLink: "https://ghulammujtaba.com/",
-      viewCodeLink: "https://github.com/ghulam-mujtaba5"
-    },
-    {
-      title: "My Portfolio Project",
-      description: "Crafted a dynamic web portfolio showcasing creative UI/UX designs and diligently coded functionalities to deliver an immersive user experience.",
-      techStack: "React, JavaScript, Html, Figma",
-      imgSrc: "project img 3.png",
-      livePreviewLink: "https://www.ghulammujtaba.tech/",
-      viewCodeLink: "https://github.com/ghulam-mujtaba5/portfolioversion1.2"
-    }
-  ];
-
+  const cardProject = projectOverride || project;
+  if (!cardProject) return null;
   return (
-    <div style={{ margin: '0 6%' }}>
-      <h2 className={frameStyles.frameTitle}>Projects</h2>
-      <div className={frameStyles.projectCard1Parent} role="list">
-        {projects.map((project, index) => (
-          <ProjectCard key={index} project={project} frameStyles={frameStyles} theme={theme} />
-        ))}
-      </div>
-    </div>
+    <ProjectCard project={cardProject} frameStyles={frameStyles} theme={theme} />
   );
 };
 
-export default Frame;
+export default Project1;

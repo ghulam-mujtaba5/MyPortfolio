@@ -1,82 +1,178 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import dynamic from 'next/dynamic';
-import SEO from '../../components/SEO';
+import Head from 'next/head';
+import { useTheme } from '../../context/ThemeContext';
 import NavBar from '../../components/NavBar_Desktop/nav-bar';
 import Footer from '../../components/Footer/Footer';
 
-// Dynamically import Project1 to avoid SSR issues with useTheme
+// Dynamically import Project1 to avoid SSR issues with next/image
 const Project1 = dynamic(() => import('../../components/Projects/Project1'), { ssr: false });
 
+const TAGS = [
+  'All',
+  'Java',
+  'Next.js',
+  'React',
+  'Figma',
+  'Spring',
+  'Maven',
+  'UI/UX',
+];
+
 const ProjectsPage = () => {
+  const { theme } = useTheme();
+  const [selectedTag, setSelectedTag] = useState('All');
+
+  // Project data (should match Project1's internal data for demo)
+  const projects = [
+    {
+      title: 'Billing Application',
+      description: 'I developed a Desktop bookshop billing software using Java, JavaFX, Maven, and Spring, showcasing my skills in full-stack development and software architecture.',
+      techStack: 'Java, Java Fx, Maven, Spring',
+      imgSrc: 'project img 1.png',
+      livePreviewLink: 'https://github.com/ghulam-mujtaba5/java-semester-billing-software',
+      viewCodeLink: 'https://github.com/ghulam-mujtaba5/java-semester-billing-software',
+      tags: ['Java', 'Spring', 'Maven'],
+    },
+    {
+      title: 'My Portfolio Project',
+      description: 'Developed a personal portfolio website using Next.js, React.js, Context API, Styled Components, and Node.js. Optimized for performance and responsive design.',
+      techStack: 'Next Js, Context API, Figma',
+      imgSrc: 'project-2.png',
+      livePreviewLink: 'https://ghulammujtaba.com/',
+      viewCodeLink: 'https://github.com/ghulam-mujtaba5',
+      tags: ['Next.js', 'React', 'Figma', 'UI/UX'],
+    },
+    {
+      title: 'Portfolio v1',
+      description: 'Crafted a dynamic web portfolio showcasing creative UI/UX designs and diligently coded functionalities to deliver an immersive user experience.',
+      techStack: 'React, JavaScript, Html, Figma',
+      imgSrc: 'project img 3.png',
+      livePreviewLink: 'https://www.ghulammujtaba.tech/',
+      viewCodeLink: 'https://github.com/ghulam-mujtaba5/portfolioversion1.2',
+      tags: ['React', 'Figma', 'UI/UX'],
+    },
+  ];
+
+  const filteredProjects = selectedTag === 'All'
+    ? projects
+    : projects.filter(p => p.tags.includes(selectedTag));
+
   return (
     <>
-      <SEO
-        title="Projects | Ghulam Mujtaba Portfolio"
-        description="Explore a curated selection of software engineering projects by Ghulam Mujtaba, showcasing expertise in full-stack development, UI/UX, and modern web technologies."
-        url="https://ghulammujtaba.com/portfolio/projects"
-        image="/og-image.png"
-        type="website"
-        canonical="https://ghulammujtaba.com/portfolio/projects"
-        keywords="Ghulam Mujtaba, Portfolio, Projects, Software Engineer, Full Stack, React, Next.js, Java, UI/UX"
-      />
+      <Head>
+        <title>Projects | Ghulam Mujtaba</title>
+        <meta name="description" content="Showcase of advanced, modern, and professional projects by Ghulam Mujtaba. Explore software, web, and UI/UX work." />
+      </Head>
       <NavBar />
-      <main
-        style={{
-          minHeight: '100vh',
-          background: 'linear-gradient(135deg, #f9f9f9 60%, #e3e8f0 100%)',
-          paddingTop: 40,
-          paddingBottom: 40,
-        }}
-        aria-label="Projects Section"
-      >
-        <section
-          style={{
-            maxWidth: 1200,
-            margin: '0 auto',
-            padding: '0 16px',
-            background: 'rgba(255,255,255,0.95)',
-            borderRadius: 18,
-            boxShadow: '0 4px 32px 0 rgba(60,60,60,0.07)',
-            border: '1px solid #e3e8f0',
-          }}
-        >
-          <header style={{ marginBottom: 36, textAlign: 'center', paddingTop: 32 }}>
-            <h1
-              style={{
-                fontFamily: 'Open Sans, sans-serif',
-                fontWeight: 800,
-                fontSize: 40,
-                margin: 0,
-                letterSpacing: '-0.5px',
-                color: '#1d2127',
-              }}
-              tabIndex={0}
-            >
-              Projects
-            </h1>
-            <p
-              style={{
-                fontFamily: 'Poppins, sans-serif',
-                color: '#3a3a3a',
-                fontSize: 20,
-                marginTop: 16,
-                marginBottom: 0,
-                maxWidth: 700,
-                marginLeft: 'auto',
-                marginRight: 'auto',
-                lineHeight: 1.6,
-              }}
-              tabIndex={0}
-            >
-              Explore a curated gallery of impactful software engineering projects. From robust full-stack applications to elegant UI/UX solutions, each project highlights my technical expertise, creative problem-solving, and dedication to delivering value.
-            </p>
-          </header>
-          <hr style={{ border: 'none', borderTop: '1.5px solid #e3e8f0', margin: '0 0 36px 0' }} />
-          <Project1 />
+      <div className={`projects-page-bg ${theme}`}>
+        <section className={`project-hero`}>
+          <h1 className="project-hero-title">My Projects</h1>
+          <p className="project-hero-desc">
+            Explore a curated selection of my best work, from full-stack applications to creative UI/UX designs. Each project demonstrates advanced skills, modern technologies, and a passion for building impactful digital experiences.
+          </p>
         </section>
-      </main>
-      <Footer />
+        <div className="project-tags">
+          {TAGS.map(tag => (
+            <button
+              key={tag}
+              className={`project-tag-btn${selectedTag === tag ? ' active' : ''}`}
+              onClick={() => setSelectedTag(tag)}
+              aria-pressed={selectedTag === tag}
+            >
+              {tag}
+            </button>
+          ))}
+        </div>
+        <div className="project-grid">
+          {filteredProjects.map((project, idx) => (
+            <div key={project.title} className="project-grid-card">
+              <Project1 projectOverride={project} />
+            </div>
+          ))}
+        </div>
+        <Footer />
+      </div>
+      <style jsx>{`
+        .projects-page-bg {
+          min-height: 100vh;
+          background: #f8fafc;
+          transition: background 0.3s;
+        }
+        .projects-page-bg.dark {
+          background: #181c20;
+        }
+        .project-hero {
+          padding: 3.5rem 0 1.5rem 0;
+          text-align: center;
+          background: transparent;
+        }
+        .project-hero-title {
+          font-size: 2.8rem;
+          font-weight: 800;
+          margin-bottom: 0.5rem;
+          letter-spacing: -1px;
+        }
+        .project-hero-desc {
+          font-size: 1.2rem;
+          color: #666;
+          max-width: 600px;
+          margin: 0 auto;
+        }
+        .projects-page-bg.dark .project-hero-desc {
+          color: #bbb;
+        }
+        .project-tags {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 0.7rem;
+          justify-content: center;
+          margin: 2rem 0 1.5rem 0;
+        }
+        .project-tag-btn {
+          background: #fff;
+          border: 1.5px solid #e0e0e0;
+          border-radius: 20px;
+          padding: 0.5rem 1.3rem;
+          font-size: 1rem;
+          font-weight: 500;
+          cursor: pointer;
+          transition: all 0.2s;
+        }
+        .project-tag-btn.active, .project-tag-btn:hover {
+          background: #22223b;
+          color: #fff;
+          border-color: #22223b;
+        }
+        .projects-page-bg.dark .project-tag-btn {
+          background: #23272f;
+          color: #eee;
+          border-color: #23272f;
+        }
+        .projects-page-bg.dark .project-tag-btn.active, .projects-page-bg.dark .project-tag-btn:hover {
+          background: #fff;
+          color: #22223b;
+          border-color: #fff;
+        }
+        .project-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+          gap: 2.5rem;
+          padding: 2rem 0;
+          width: 100%;
+          max-width: 1200px;
+          margin: 0 auto;
+        }
+        .project-grid-card {
+          display: flex;
+          align-items: stretch;
+        }
+        @media (max-width: 600px) {
+          .project-hero-title { font-size: 2rem; }
+          .project-grid { grid-template-columns: 1fr; padding: 1rem 0; }
+        }
+      `}</style>
     </>
   );
 };
