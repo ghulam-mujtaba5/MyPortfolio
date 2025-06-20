@@ -168,25 +168,18 @@
     font-weight: bold;
 }
 
-/* Optimized for performance and maintainability */
 .contactMeDescription {
+    margin: 0;
     position: absolute;
     top: 0;
     left: 0;
-    width: 100%;
-    margin: 0;
-    padding-top: 20px;
-    padding-left: 8%;
     font-size: 32px;
-    line-height: 1.1;
+    line-height: 26px;
     font-weight: 600;
     font-family: inherit;
-    text-align: left;
     opacity: 0;
     transform: translateY(30px);
     animation: fadeSlideIn 1s ease-out 0.2s forwards;
-    box-sizing: border-box;
-    /* Remove redundant or conflicting rules */
 }
 
 .contactMeLabel {
@@ -400,20 +393,18 @@
 
     .contactMeDescription {
         position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        margin: 0;
-        padding-top: 20px;
-        padding-left: 8%;
+       padding-top: 20px;
+        padding-left:8%;
         font-size: 24px;
-        line-height: 1.1;
+        line-height: 26px;
         font-weight: 600;
         text-align: left;
+        margin-top: 0px;
+        width: 100%;
+        top:0px;
         opacity: 0;
         transform: translateY(30px);
         animation: fadeSlideIn 1s ease-out 0.2s forwards;
-        box-sizing: border-box;
     }
 
 
