@@ -15,6 +15,7 @@ import { useTheme } from '../../context/ThemeContext';
 import ThemeToggleIcon from '../../components/Icon/gmicon';
 
 import Head from 'next/head';
+import SEO from '../../components/SEO';
 
 import { useEffect, useState } from 'react';
 
@@ -34,18 +35,15 @@ const Home = () => {
 
   return (
     <>
-      <Head>
-        <title>Ghulam Mujtaba - Software Engineer Portfolio</title>
-        <meta name="description" content="Software engineer specializing in emerging technologies with expertise in Software Development, Data Science and AI." />
-        <meta property="og:title" content="Ghulam Mujtaba - Software Engineer Portfolio" />
-        <meta property="og:description" content="" />
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://ghulammujtaba.com" />
-        <meta property="og:image" content="https://ghulammujtaba.com/og-image.png" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-        <link rel="icon" href="/favicon.png" type="image/png" sizes="32x32" />
-        <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+      <SEO
+        title="Ghulam Mujtaba | Full Stack Developer, Data Scientist, AI Specialist"
+        description="Ghulam Mujtaba is a Full Stack Developer, Data Scientist, and AI Specialist. Explore projects, skills, and contact information. Based in Pakistan."
+        url="https://ghulammujtaba.com"
+        image="https://ghulammujtaba.com/og-image.png"
+        type="website"
+        canonical="https://ghulammujtaba.com/portfolio"
+        keywords="Ghulam Mujtaba, Full Stack Developer, Data Scientist, AI Specialist, Portfolio, Pakistan"
+      >
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
           "@context": "http://schema.org",
           "@type": "Person",
@@ -55,9 +53,15 @@ const Home = () => {
             "https://www.linkedin.com/in/ghulamujtabaofficial",
             "https://www.instagram.com/ghulamujtabaofficial/",
             "https://github.com/ghulam-mujtaba5"
-          ]
+          ],
+          "jobTitle": "Full Stack Developer, Data Scientist, AI Specialist",
+          "address": {
+            "@type": "PostalAddress",
+            "addressCountry": "PK"
+          },
+          "image": "https://ghulammujtaba.com/og-image.png"
         }) }} />
-      </Head>
+      </SEO>
 
       <div style={{ backgroundColor: theme === 'dark' ? '#1d2127' : '#ffffff', overflowX: 'hidden' }}>
         <a href="#main-content" className="skip-link" style={{ position: 'absolute', top: '-40px', left: '0', background: '#000', color: '#fff', padding: '8px', zIndex: '100' }}>Skip to main content</a>
@@ -74,9 +78,9 @@ const Home = () => {
 
         <main id="main-content">
           <section id="home-section" aria-labelledby="home-section-heading" style={{ width: '100%' }}>
-            <h1 id="home-section-heading" className="visually-hidden">Home Section</h1>
+            <h1 id="home-section-heading" className="visually-hidden">Ghulam Mujtaba | Full Stack Developer, Data Scientist, AI Specialist</h1>
             <div id="portfolio-picture" style={{ width: '100%', textAlign: 'center' }}>
-              <PortfolioPictureImage style={{ width: '200px', height: '200px', margin: '20px auto', display: 'block' }} alt="Portfolio Picture" />
+              <PortfolioPictureImage style={{ width: '200px', height: '200px', margin: '20px auto', display: 'block' }} alt="Ghulam Mujtaba Portfolio Picture" />
             </div>
             <WelcomeFrame style={{ width: '100%', height: '400px', display: 'flex', alignItems: 'center', justifyContent: 'center' }} />
           </section>

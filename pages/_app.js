@@ -3,6 +3,7 @@
 
 import { Fragment, useEffect } from "react";
 import Head from "next/head";
+import SEO from '../components/SEO';
 import { ThemeProvider } from '../context/ThemeContext';
 import Script from 'next/script';
 import { useRouter } from 'next/router';
@@ -42,6 +43,7 @@ function MyApp({ Component, pageProps }) {
 
   return (
     <Fragment>
+      <SEO />
       <Head>
         <meta
           name="viewport"
