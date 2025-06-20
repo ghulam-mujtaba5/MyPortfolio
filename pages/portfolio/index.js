@@ -38,12 +38,12 @@ const Home = () => {
     <>
       <SEO
         title="Ghulam Mujtaba | Portfolio"
-        description="Ghulam Mujtaba is a Full Stack Developer, Data Scientist, and AI Specialist. Explore projects, skills, and contact information. Based in Pakistan."
+        description="Portfolio of Ghulam Mujtaba – Full Stack Developer, Data Scientist, and AI Specialist based in Pakistan. Projects, skills, and contact."
         url="https://ghulammujtaba.com"
         image="https://ghulammujtaba.com/og-image.png"
         type="website"
         canonical="https://ghulammujtaba.com/portfolio"
-        keywords="Ghulam Mujtaba, Full Stack Developer, Data Scientist, AI Specialist, Portfolio, Pakistan"
+        keywords="Ghulam Mujtaba, Portfolio, Developer, Data Scientist, AI, Pakistan"
       >
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
           "@context": "http://schema.org",
