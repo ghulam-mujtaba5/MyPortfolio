@@ -206,6 +206,18 @@ const ProjectsPage = () => {
           overflow: hidden;
         }
         .hero-bg-visual {
+          position: absolute;
+          left: 50%;
+          top: 50%;
+          transform: translate(-50%, -50%);
+          width: 600px;
+          height: 600px;
+          z-index: 0;
+          pointer-events: none;
+          opacity: 0.7;
+          filter: blur(0.5px);
+          animation: globeFloat 8s ease-in-out infinite alternate;
+        }
         /* Animated globe dots */
         .globe-dot {
           opacity: 0.85;
@@ -223,18 +235,6 @@ const ProjectsPage = () => {
           0% { r: 4.5; opacity: 0.7; }
           50% { r: 7.5; opacity: 1; }
           100% { r: 4.5; opacity: 0.7; }
-        }
-          position: absolute;
-          left: 50%;
-          top: 50%;
-          transform: translate(-50%, -50%);
-          width: 600px;
-          height: 600px;
-          z-index: 0;
-          pointer-events: none;
-          opacity: 0.7;
-          filter: blur(0.5px);
-          animation: globeFloat 8s ease-in-out infinite alternate;
         }
         .hero-globe {
           width: 100%;
