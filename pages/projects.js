@@ -98,6 +98,39 @@ const ProjectsPage = () => {
       <Head>
         <title>Projects | Ghulam Mujtaba</title>
         <meta name="description" content="Showcase of advanced, modern, and professional projects by Ghulam Mujtaba. Explore software, web, mobile, AI, data science, and UI/UX work." />
+        {/* Open Graph Meta Tags */}
+        <meta property="og:title" content="Projects | Ghulam Mujtaba" />
+        <meta property="og:description" content="Showcase of advanced, modern, and professional projects by Ghulam Mujtaba. Explore software, web, mobile, AI, data science, and UI/UX work." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://ghulammujtaba.com/projects" />
+        <meta property="og:image" content="/og-image.png" />
+        {/* Twitter Card Meta Tags */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Projects | Ghulam Mujtaba" />
+        <meta name="twitter:description" content="Showcase of advanced, modern, and professional projects by Ghulam Mujtaba. Explore software, web, mobile, AI, data science, and UI/UX work." />
+        <meta name="twitter:image" content="/og-image.png" />
+        {/* Canonical URL */}
+        <link rel="canonical" href="https://ghulammujtaba.com/projects" />
+        {/* JSON-LD Structured Data for Projects */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'ItemList',
+              name: 'Projects',
+              url: 'https://ghulammujtaba.com/projects',
+              itemListElement: projects.map((project, idx) => ({
+                '@type': 'CreativeWork',
+                position: idx + 1,
+                name: project.title,
+                description: project.description,
+                url: project.livePreviewLink,
+                image: `/` + project.imgSrc,
+              })),
+            })
+          }}
+        />
       </Head>
       <div style={{ backgroundColor: theme === 'dark' ? '#1d2127' : '#ffffff', overflowX: 'hidden', minHeight: '100vh' }}>
         {/* Desktop NavBar */}
@@ -166,7 +199,8 @@ const ProjectsPage = () => {
                 className="project-grid-card card-animate"
                 style={{ animationDelay: `${idx * 120}ms` }}
               >
-                <Project1 projectOverride={project} />
+                {/* Ensure images have alt text for SEO */}
+                <Project1 projectOverride={{ ...project, imgAlt: project.title + ' screenshot' }} />
               </div>
             ))}
           </div>
