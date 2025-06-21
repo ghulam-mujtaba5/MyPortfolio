@@ -111,7 +111,7 @@ const ProjectsPage = () => {
             </div>
             <div className="mobile-hamburger-align">
               {/* Ensure menu is always visible in NavBarMobile */}
-              <NavBarMobile showMenu hideLogo={false} sections={sections} />
+              <NavBarMobile sections={sections} />
             </div>
           </div>
         </div>
