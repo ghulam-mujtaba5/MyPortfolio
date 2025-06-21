@@ -1,9 +1,12 @@
+import Icon from '../components/Icon/gmicon';
 
 import React, { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import Head from 'next/head';
 import { useTheme } from '../context/ThemeContext';
 import NavBar from '../components/NavBar_Desktop/nav-bar';
+import NavBarMobile from '../components/NavBar_Mobile/NavBar-mobile';
+
 import Footer from '../components/Footer/Footer';
 
 // Dynamically import Project1 to avoid SSR issues with next/image
@@ -17,6 +20,16 @@ const TAGS = [
   'Data Science',
   'UI/UX',
   'Others',
+];
+
+// Sections for NavBarMobile navigation
+const sections = [
+  { id: 'home-section', label: 'Home' },
+  { id: 'about-section', label: 'About' },
+  { id: 'languages-section', label: 'Skills' },
+  { route: '/resume', label: 'Resume' },
+  { route: '/projects', label: 'Projects' },
+  { id: 'contact-section', label: 'Contact' }
 ];
 
 const ProjectsPage = () => {
@@ -85,8 +98,23 @@ const ProjectsPage = () => {
         <title>Projects | Ghulam Mujtaba</title>
         <meta name="description" content="Showcase of advanced, modern, and professional projects by Ghulam Mujtaba. Explore software, web, mobile, AI, data science, and UI/UX work." />
       </Head>
-      <div style={{ backgroundColor: theme === 'dark' ? '#1d2127' : '#ffffff', overflowX: 'hidden' }}>
-        <NavBar />
+      <div style={{ backgroundColor: theme === 'dark' ? '#1d2127' : '#ffffff', overflowX: 'hidden', minHeight: '100vh' }}>
+        {/* Desktop NavBar */}
+        <div className="hide-on-mobile">
+          <NavBar />
+        </div>
+        {/* Mobile NavBar with top-left icon and hamburger alignment (logo only here, not in NavBarMobile) */}
+        <div className="show-on-mobile mobile-navbar-container">
+          <div className="mobile-navbar-row">
+            <div className="mobile-logo-align">
+              <Icon name="sbicon" size={32} />
+            </div>
+            <div className="mobile-hamburger-align">
+              {/* Ensure menu is always visible in NavBarMobile */}
+              <NavBarMobile showMenu hideLogo={false} sections={sections} />
+            </div>
+          </div>
+        </div>
         <div className={`projects-page-bg ${theme}`}>
           <section className={`project-hero fade-in`}>
             <div className="hero-bg-visual-soft" aria-hidden="true">
@@ -105,6 +133,9 @@ const ProjectsPage = () => {
               <h1 className="refined-intro-main animated-gradient-headline">
                 <span>Featured Projects & Digital Solutions</span>
               </h1>
+              <div className="project-icons-row">
+                {/* Icons removed as per request */}
+              </div>
               <h2 className="refined-intro-sub animated-fadein">
                 Innovating Across Web, Mobile, Desktop, AI, and Data Science
               </h2>
@@ -142,6 +173,63 @@ const ProjectsPage = () => {
         </div>
       </div>
       <style jsx>{`
+        .mobile-navbar-container {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100vw;
+          z-index: 100;
+        }
+        .mobile-navbar-row {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          justify-content: space-between;
+          width: 100vw;
+          padding: 0.7rem 1.1rem 0.7rem 1.1rem;
+          background: #fff;
+          box-shadow: 0 2px 8px 0 rgba(60,60,100,0.07);
+        }
+        .projects-page-bg.dark .mobile-navbar-row {
+          background: #23272f;
+          box-shadow: 0 2px 8px 0 rgba(34,34,59,0.13);
+        }
+        .mobile-logo-align {
+          display: flex;
+          align-items: center;
+        }
+        .mobile-hamburger-align {
+          display: flex;
+          align-items: center;
+        }
+        @media (max-width: 600px) {
+          .mobile-navbar-row {
+            padding: 0.7rem 0.7rem 0.7rem 0.7rem;
+          }
+        }
+        @media (max-width: 800px) {
+          .mobile-navbar-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            z-index: 100;
+            background: transparent;
+          }
+        }
+        .hide-on-mobile { display: block; }
+        .show-on-mobile { display: none; }
+        @media (max-width: 800px) {
+          .hide-on-mobile { display: none !important; }
+          .show-on-mobile { display: block !important; }
+        }
+        .project-icons-row {
+          display: flex;
+          gap: 0.5rem;
+          margin: 0.7rem 0 0.2rem 0;
+          justify-content: center;
+          align-items: center;
+        }
         .animated-gradient-headline span {
           display: inline-block;
           background: linear-gradient(270deg, #2563eb, #60a5fa, #a5b4fc, #2563eb);
@@ -224,6 +312,13 @@ const ProjectsPage = () => {
           background: none;
           border-radius: 0 0 24px 24px;
           overflow: hidden;
+        }
+        @media (max-width: 600px) {
+          .project-hero {
+            margin-top: 4.2rem;
+            padding: 3.5rem 0 1.1rem 0;
+            border-radius: 0 0 12px 12px;
+          }
         }
         .hero-bg-visual-soft {
           position: absolute;
@@ -309,16 +404,29 @@ const ProjectsPage = () => {
           justify-content: center;
           margin: 2rem 0 1.5rem 0;
         }
+        @media (max-width: 600px) {
+          .project-tags {
+            gap: 0.4rem;
+            margin: 1.2rem 0 1.1rem 0;
+          }
+        }
         .project-tag-btn {
           background: #fff;
           border: 1.5px solid #e0e0e0;
           border-radius: 20px;
-          padding: 0.5rem 1.3rem;
+          padding: 0.5rem 1.1rem;
           font-size: 1rem;
           font-weight: 500;
           cursor: pointer;
           transition: all 0.2s, box-shadow 0.3s;
           box-shadow: 0 2px 8px 0 rgba(60,60,100,0.06);
+        }
+        @media (max-width: 600px) {
+          .project-tag-btn {
+            font-size: 0.93rem;
+            padding: 0.38rem 0.7rem;
+            margin-bottom: 0.2rem;
+          }
         }
         .project-tag-btn.active, .project-tag-btn:hover {
           background: #22223b;
@@ -346,15 +454,44 @@ const ProjectsPage = () => {
           max-width: 1200px;
           margin: 0 auto;
         }
+        @media (max-width: 900px) {
+          .project-grid {
+            grid-template-columns: 1fr;
+            gap: 1.2rem;
+            padding: 1.2rem 0.5rem;
+          }
+        }
+        @media (max-width: 600px) {
+          .project-grid {
+            grid-template-columns: 1fr;
+            gap: 1.2rem;
+            padding: 1.8rem 0.1rem 1.2rem 0.1rem;
+            justify-items: center;
+          }
+        }
         .project-grid-card {
           display: flex;
           align-items: stretch;
           background: none !important;
           box-shadow: none !important;
+          min-width: 0;
+          width: 100%;
+          max-width: 420px;
         }
         @media (max-width: 600px) {
-          .project-hero-title { font-size: 2rem; }
-          .project-grid { grid-template-columns: 1fr; padding: 1rem 0; }
+          .project-grid-card {
+            max-width: 98vw;
+            width: 100%;
+            margin: 0 auto;
+            border-radius: 16px;
+            box-shadow: 0 2px 12px 0 rgba(60,60,100,0.10);
+            background: #fff;
+            justify-content: center;
+          }
+          .projects-page-bg.dark .project-grid-card {
+            background: #23272f;
+            box-shadow: 0 2px 12px 0 rgba(34,34,59,0.16);
+          }
         }
       `}</style>
     </>
