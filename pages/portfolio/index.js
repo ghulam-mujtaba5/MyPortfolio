@@ -31,7 +31,7 @@ const Home = () => {
     { id: 'about-section', label: 'About' },
     { id: 'languages-section', label: 'Skills' },
     { route: '/resume', label: 'Resume' },
-    { route: '/portfolio/projects', label: 'Projects' },
+    { route: '/projects', label: 'Projects' },
     { id: 'contact-section', label: 'Contact' }
   ];
 
