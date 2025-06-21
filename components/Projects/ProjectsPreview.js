@@ -2,7 +2,10 @@ import React from 'react';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { useTheme } from '../../context/ThemeContext';
-import styles from './ProjectsPreview.module.css';
+
+import commonStyles from './ProjectsPreviewCommon.module.css';
+import lightStyles from './ProjectsPreviewLight.module.css';
+import darkStyles from './ProjectsPreviewDark.module.css';
 
 // Dynamically import Project1 to avoid SSR issues
 const Project1 = dynamic(() => import('./Project1'), { ssr: false });
@@ -49,21 +52,20 @@ const projects = [
 
 const ProjectsPreview = () => {
   const { theme } = useTheme();
+
+  // Pick theme-specific styles
+
+  // Pick theme-specific styles and theme class
+  const themeStyles = theme === 'dark' ? darkStyles : lightStyles;
+  const themeClass = theme === 'dark' ? darkStyles.darkTheme : lightStyles.lightTheme;
+
   return (
-    <section className={styles.section} style={{ width: '100%', maxWidth: 1200, margin: '0 auto', padding: '3.5rem 0 2.5rem 0' }}>
-      <div className={styles.headerRow} style={{ width: '100%', marginBottom: '2.2rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <h2 className={styles.title}>Projects</h2>
+    <section className={`${commonStyles.section} ${themeClass}`}>
+      <div className={commonStyles.headerRow}>
+        <h2 className={`${commonStyles.title} ${themeStyles.title}`}>Projects</h2>
       </div>
-      <div className={styles.grid} style={{
-        display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))',
-        gap: '2.5rem',
-        width: '100%',
-        margin: '0 auto',
-        justifyItems: 'center',
-        alignItems: 'stretch',
-      }}>
-        {projects.slice(0, 3).map((project, idx) => (
+      <div className={commonStyles.grid}>
+        {projects.slice(0, 3).map((project) => (
           <div
             key={project.title}
             style={{
@@ -85,16 +87,15 @@ const ProjectsPreview = () => {
         ))}
       </div>
       <div style={{ width: '100%', display: 'flex', justifyContent: 'center', marginTop: '2.5rem' }}>
-        <Link href="/portfolio/projects" legacyBehavior>
+        <Link href="/projects" legacyBehavior>
           <a
-            className={styles.viewAll}
+            className={`${commonStyles.viewAll} ${themeStyles.viewAll}`}
             tabIndex={0}
           >
             View All
           </a>
         </Link>
       </div>
-      {/* Mobile-specific styles are now in ProjectsPreview.module.css */}
     </section>
   );
 };
