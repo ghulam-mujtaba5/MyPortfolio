@@ -98,7 +98,7 @@ const NavBar = () => {
       {/* Project section */}
       <div
         className={styles.project}
-        onClick={() => handleNavigation("/portfolio/projects")}
+        onClick={() => handleNavigation("/projects")}
       >
         <div className={styles.projectText}>Project</div>
       </div>

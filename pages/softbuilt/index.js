@@ -36,7 +36,7 @@ export default function CompanyHome() {
   return (
     <div style={{ backgroundColor: theme === 'dark' ? '#1d2127' : '#ffffff', overflowX: 'hidden', minHeight: '100vh' }}>
       <Head>
-        <title>Soft Built Company | Ghulam Mujtaba</title>
+        <title>Soft Built | Ghulam Mujtaba</title>
         <meta name="description" content="Soft Built by Ghulam Mujtaba: Desktop, Web, Mobile apps, Data Science & AI solutions. Partner with us to turn your ideas into reality." />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="keywords" content="Soft Built, Ghulam Mujtaba, Company, Web Development, Mobile Apps, Data Science, AI, Portfolio" />
