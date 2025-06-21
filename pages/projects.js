@@ -180,15 +180,10 @@ const ProjectsPage = () => {
           width: 100vw;
           z-index: 100;
         }
-        .mobile-navbar-row {
-          display: flex;
-          flex-direction: row;
-          align-items: center;
-          justify-content: space-between;
-          width: 100vw;
-          padding: 0.7rem 1.1rem 0.7rem 1.1rem;
-          background: #fff;
-          box-shadow: 0 2px 8px 0 rgba(60,60,100,0.07);
+  
+        .projects-page-bg.dark .mobile-navbar-row {
+          background: #23272f !important;
+          box-shadow: 0 2px 8px 0 rgba(34,34,59,0.13);
         }
         .projects-page-bg.dark .mobile-navbar-row {
           background: #23272f;
