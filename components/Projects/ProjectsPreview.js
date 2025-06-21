@@ -50,8 +50,8 @@ const projects = [
 const ProjectsPreview = () => {
   const { theme } = useTheme();
   return (
-    <section style={{ width: '100%', maxWidth: 1200, margin: '0 auto', padding: '3.5rem 0 2.5rem 0' }}>
-      <div style={{ width: '100%', marginBottom: '2.2rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+    <section className={styles.section} style={{ width: '100%', maxWidth: 1200, margin: '0 auto', padding: '3.5rem 0 2.5rem 0' }}>
+      <div className={styles.headerRow} style={{ width: '100%', marginBottom: '2.2rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <h2 className={styles.title}>Projects</h2>
         <Link href="/portfolio/projects" legacyBehavior>
           <a
@@ -62,7 +62,7 @@ const ProjectsPreview = () => {
           </a>
         </Link>
       </div>
-      <div style={{
+      <div className={styles.grid} style={{
         display: 'grid',
         gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))',
         gap: '2.5rem',
@@ -92,26 +92,7 @@ const ProjectsPreview = () => {
           </div>
         ))}
       </div>
-      <style jsx>{`
-        @keyframes gradientMove {
-          0% { background-position: 0% 50%; }
-          50% { background-position: 100% 50%; }
-          100% { background-position: 0% 50%; }
-        }
-        @media (max-width: 600px) {
-          .${styles.viewAll} {
-            font-size: 0.98rem !important;
-            margin-left: 0 !important;
-            padding: 0.5rem 1.1rem !important;
-            border-radius: 16px !important;
-            display: inline-block !important;
-            background: #f3f4f6 !important;
-            color: #2563eb !important;
-            box-shadow: 0 1px 4px 0 rgba(60,60,100,0.06) !important;
-            font-weight: 600 !important;
-          }
-        }
-      `}</style>
+      {/* Mobile-specific styles are now in ProjectsPreview.module.css */}
     </section>
   );
 };
