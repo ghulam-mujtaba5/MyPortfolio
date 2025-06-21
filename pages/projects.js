@@ -24,12 +24,12 @@ const TAGS = [
 
 // Sections for NavBarMobile navigation
 const sections = [
-  { id: 'home-section', label: 'Home' },
-  { id: 'about-section', label: 'About' },
-  { id: 'languages-section', label: 'Skills' },
+  { route: '/#home-section', label: 'Home' },
+  { route: '/#about-section', label: 'About' },
+  { route: '/#languages-section', label: 'Skills' },
   { route: '/resume', label: 'Resume' },
   { route: '/projects', label: 'Projects' },
-  { id: 'contact-section', label: 'Contact' }
+  { route: '/#contact-section', label: 'Contact' }
 ];
 
 const ProjectsPage = () => {
