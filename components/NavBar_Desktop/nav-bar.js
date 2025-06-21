@@ -28,11 +28,20 @@ const NavBar = () => {
     router.push(path); // Use router to navigate to the specified path
   };
 
+  // Determine active/selected state
+  const hash = typeof window !== 'undefined' ? window.location.hash : '';
+  const isHome = router.pathname === '/' && (!hash || hash === '#home-section');
+  const isAbout = router.pathname === '/' && hash === '#about-section';
+  const isSkills = router.pathname === '/' && hash === '#languages-section';
+  const isResume = router.pathname === '/resume';
+  const isProjects = router.pathname === '/projects';
+  const isContact = router.pathname === '/' && hash === '#contact-section';
+
   return (
     <header className={styles.header}>
       {/* Home button */}
       <button
-        className={styles.home}
+        className={`${styles.home} ${isHome ? styles.active : ''}`}
         onClick={() => handleScrollToSection("home-section")}
       >
         <b className={styles.homeText}>Home</b>
@@ -40,7 +49,7 @@ const NavBar = () => {
 
       {/* About section */}
       <div
-        className={styles.about}
+        className={`${styles.about} ${isAbout ? styles.active : ''}`}
         onClick={() => handleScrollToSection("about-section")}
       >
         <div className={styles.aboutText}>About</div>
@@ -48,7 +57,7 @@ const NavBar = () => {
 
       {/* Skills section */}
       <div
-        className={styles.skills}
+        className={`${styles.skills} ${isSkills ? styles.active : ''}`}
         onClick={() => handleScrollToSection("languages-section")}
       >
         <div className={styles.skillsText}>Skills</div>
@@ -65,10 +74,10 @@ const NavBar = () => {
             <img
               className={styles.logoIcon}
               alt="Logo"
-              src={hover ? "sb.svg" : "gmVectorDark.svg"} // Different SVG based on hover state
+              src={hover ? "sb.svg" : "gmVectorDark.svg"}
               style={{
-                width: hover ? "30px" : "40px", // Adjust width based on hover state
-                height: hover ? "30px" : "40px", // Adjust height based on hover state
+                width: hover ? "30px" : "40px",
+                height: hover ? "30px" : "40px",
               }}
             />
           </button>
@@ -79,7 +88,7 @@ const NavBar = () => {
                 loading="lazy"
                 alt="Ghulam Mujtaba"
                 src="/ghulam-mujtaba.svg"
-                style={{ maxWidth: "100%", height: "auto" }} // Make the image responsive
+                style={{ maxWidth: "100%", height: "auto" }}
               />
             )}
             {hover && (
@@ -87,8 +96,8 @@ const NavBar = () => {
                 className={styles.alternativeNameIcon}
                 loading="lazy"
                 alt="SoftBuilt"
-                src="/sbname.svg" // Alternative SVG on hover
-                style={{ maxWidth: "100%", height: "auto" }} // Make the image responsive
+                src="/sbname.svg"
+                style={{ maxWidth: "100%", height: "auto" }}
               />
             )}
           </div>
@@ -96,13 +105,13 @@ const NavBar = () => {
       </Link>
 
       {/* Resume section */}
-      <div className={styles.resume} onClick={() => handleNavigation("/resume")}>
+      <div className={`${styles.resume} ${isResume ? styles.active : ''}`} onClick={() => handleNavigation("/resume")}>
         <div className={styles.resumeText}>Resume</div>
       </div>
 
       {/* Project section */}
       <div
-        className={styles.project}
+        className={`${styles.project} ${isProjects ? styles.active : ''}`}
         onClick={() => handleNavigation("/projects")}
       >
         <div className={styles.projectText}>Project</div>
@@ -110,7 +119,7 @@ const NavBar = () => {
 
       {/* Contact section */}
       <div
-        className={styles.contact}
+        className={`${styles.contact} ${isContact ? styles.active : ''}`}
         onClick={() => handleScrollToSection("contact-section")}
       >
         <div className={styles.contactText}>Contact</div>

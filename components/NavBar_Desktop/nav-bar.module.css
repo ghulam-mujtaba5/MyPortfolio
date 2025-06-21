@@ -1,3 +1,11 @@
+/* Active/selected state for nav buttons */
+/* Active/selected state for nav buttons */
+.active {
+  background-color: #4573df !important;
+  color: #fff !important;
+  box-shadow: 0 4px 16px 0 rgba(34,34,59,0.18);
+  transform: scale(1.05);
+}
 /* Styles for the Home button text */
 
 .header * {
@@ -20,7 +28,7 @@
   cursor: pointer;
   border: 0;
   padding: 20px 40px;
-  background-color: #4573df;
+  background-color: transparent;
   border-radius: 60px;
   overflow: hidden;
   display: flex;
