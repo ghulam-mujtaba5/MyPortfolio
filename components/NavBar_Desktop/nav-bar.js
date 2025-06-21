@@ -13,9 +13,14 @@ const NavBar = () => {
   };
 
   const handleScrollToSection = (sectionId) => {
-    const section = document.getElementById(sectionId);
-    if (section) {
-      section.scrollIntoView({ behavior: "smooth" });
+    // If on the projects page, navigate to the home page with hash
+    if (router.pathname === '/projects') {
+      router.push('/#' + sectionId);
+    } else {
+      const section = document.getElementById(sectionId);
+      if (section) {
+        section.scrollIntoView({ behavior: "smooth" });
+      }
     }
   };
 
