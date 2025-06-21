@@ -174,12 +174,12 @@ const ProjectsPage = () => {
       </div>
       <style jsx>{`
         .mobile-navbar-container {
-          position: fixed;
-          top: 0;
-          left: 0;
           width: 100vw;
           z-index: 100;
         }
+          /* position: fixed; */
+          /* top: 0; */
+          /* left: 0; */
   
         .projects-page-bg.dark .mobile-navbar-row {
           background: #23272f !important;
@@ -204,13 +204,13 @@ const ProjectsPage = () => {
         }
         @media (max-width: 800px) {
           .mobile-navbar-container {
-            position: fixed;
-            top: 0;
-            left: 0;
             width: 100vw;
             z-index: 100;
             background: transparent;
           }
+            /* position: fixed; */
+            /* top: 0; */
+            /* left: 0; */
         }
         .hide-on-mobile { display: block; }
         .show-on-mobile { display: none; }

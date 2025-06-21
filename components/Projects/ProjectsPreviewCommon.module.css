@@ -67,10 +67,10 @@
   .grid {
     grid-template-columns: 1fr;
     gap: 1.2rem;
-    place-items: center;
     width: 100%;
     margin: 0 auto;
     padding: 0;
+    place-items: center;
   }
   .viewAll {
     width: 80vw;
