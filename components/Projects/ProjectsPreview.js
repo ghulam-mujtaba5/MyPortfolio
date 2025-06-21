@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { useTheme } from '../../context/ThemeContext';
@@ -49,66 +49,101 @@ const projects = [
 
 const ProjectsPreview = () => {
   const { theme } = useTheme();
+  // Animation: track which cards are visible
+  const [visible, setVisible] = useState([false, false, false]);
+  const cardRefs = [useRef(null), useRef(null), useRef(null)];
+
+  useEffect(() => {
+    const observers = cardRefs.map((ref, idx) => {
+      if (!ref.current) return null;
+      return new window.IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            setVisible(v => {
+              if (v[idx]) return v;
+              const updated = [...v];
+              updated[idx] = true;
+              return updated;
+            });
+          }
+        },
+        { threshold: 0.2 }
+      );
+    });
+    observers.forEach((observer, idx) => {
+      if (observer && cardRefs[idx].current) {
+        observer.observe(cardRefs[idx].current);
+      }
+    });
+    return () => {
+      observers.forEach((observer, idx) => {
+        if (observer && cardRefs[idx].current) {
+          observer.unobserve(cardRefs[idx].current);
+        }
+      });
+    };
+    // eslint-disable-next-line
+  }, []);
+
   return (
     <section style={{ width: '100%', maxWidth: 1200, margin: '0 auto', padding: '3.5rem 0 2.5rem 0' }}>
       <div style={{ width: '100%', marginBottom: '2.2rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <h2 className={styles.title}>Projects</h2>
-        <Link href="/portfolio/projects" legacyBehavior>
+        <h2 style={{
+          fontSize: '2.1rem',
+          fontWeight: 800,
+          letterSpacing: '-1px',
+          color: theme === 'dark' ? '#fff' : '#18181b',
+          margin: 0,
+          textShadow: theme === 'dark' ? '0 2px 8px #0002' : '0 2px 8px #fff2',
+        }}>Projects</h2>
+        <Link href="/projects" legacyBehavior>
           <a
             className={styles.viewAll}
             tabIndex={0}
+            style={{
+              fontSize: '1.05rem',
+              marginLeft: 0,
+              padding: '0.55rem 1.3rem',
+              borderRadius: 18,
+              display: 'inline-block',
+              background: theme === 'dark' ? '#23272f' : '#f3f4f6',
+              color: theme === 'dark' ? '#60a5fa' : '#2563eb',
+              boxShadow: '0 1px 6px 0 rgba(60,60,100,0.09)',
+              fontWeight: 700,
+              border: 'none',
+              transition: 'background 0.2s, color 0.2s',
+            }}
           >
             View All
           </a>
         </Link>
       </div>
-      <div style={{
-        display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))',
-        gap: '2.5rem',
-        width: '100%',
-        margin: '0 auto',
-        justifyItems: 'center',
-        alignItems: 'stretch',
-      }}>
+      <div className={styles.projectGrid}>
         {projects.slice(0, 3).map((project, idx) => (
           <div
             key={project.title}
-            style={{
-              borderRadius: '20px',
-              overflow: 'hidden',
-              background: 'none',
-              boxShadow: 'none',
-              transition: 'box-shadow 0.3s',
-              display: 'flex',
-              alignItems: 'stretch',
-              minHeight: 340,
-              maxWidth: 420,
-              width: '100%',
-              margin: '0 auto',
-            }}
+            className={
+              styles.projectCard +
+              ' ' + (visible[idx] ? styles.cardVisible : styles.cardHidden)
+            }
+            ref={cardRefs[idx]}
+            style={{ background: 'none', boxShadow: 'none', border: 'none', padding: 0 }}
           >
             <Project1 projectOverride={project} />
           </div>
         ))}
       </div>
       <style jsx>{`
-        @keyframes gradientMove {
-          0% { background-position: 0% 50%; }
-          50% { background-position: 100% 50%; }
-          100% { background-position: 0% 50%; }
-        }
         @media (max-width: 600px) {
           .${styles.viewAll} {
-            font-size: 0.98rem !important;
-            margin-left: 0 !important;
+            font-size: 1rem !important;
             padding: 0.5rem 1.1rem !important;
             border-radius: 16px !important;
             display: inline-block !important;
-            background: #f3f4f6 !important;
-            color: #2563eb !important;
-            box-shadow: 0 1px 4px 0 rgba(60,60,100,0.06) !important;
-            font-weight: 600 !important;
+            background: #23272f !important;
+            color: #60a5fa !important;
+            box-shadow: 0 1px 4px 0 rgba(60,60,100,0.09) !important;
+            font-weight: 700 !important;
           }
         }
       `}</style>
