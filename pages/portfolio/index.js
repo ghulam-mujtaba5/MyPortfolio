@@ -1,6 +1,7 @@
 
 import React from 'react';
 import dynamic from 'next/dynamic';
+import ProjectsPreview from '../../components/Projects/ProjectsPreview';
 import NavBarDesktop from '../../components/NavBar_Desktop/nav-bar';
 import NavBarMobile from '../../components/NavBar_Mobile/NavBar-mobile';
 import WelcomeFrame from '../../components/welcome/welcome';
@@ -9,7 +10,7 @@ import AboutMeSection from '../../components/AboutMe/AboutMeSectionLight';
 import Languages from '../../components/Languages/Languages';
 import SkillFrame from '../../components/Skills/SkillFrame';
 const BadgeScroll = dynamic(() => import('../../components/Badges/BadgeScroll'), { ssr: false });
-const Project = dynamic(() => import('../../components/Projects/Project1'), { ssr: false });
+// const Project = dynamic(() => import('../../components/Projects/Project1'), { ssr: false });
 const Footer = dynamic(() => import('../../components/Footer/Footer'), { ssr: false });
 const ContactSection = dynamic(() => import('../../components/Contact/ContactUs'), { ssr: false });
 import { useTheme } from '../../context/ThemeContext';
@@ -109,7 +110,7 @@ const Home = () => {
 
           <section id="project-section" aria-labelledby="project-section-heading" style={{ width: '100%' }}>
             <h2 id="project-section-heading" className="visually-hidden">Projects</h2>
-            <Project />
+            <ProjectsPreview />
           </section>
 
           <section id="contact-section" aria-labelledby="contact-section-heading" style={{ width: '100%' }}>

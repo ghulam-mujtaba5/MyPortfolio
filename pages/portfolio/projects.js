@@ -64,6 +64,15 @@ const ProjectsPage = () => {
       viewCodeLink: 'https://github.com/ghulam-mujtaba5/portfolioversion1.2',
       tags: ['Web Development', 'UI/UX'],
     },
+    {
+      title: 'AI Chatbot Assistant',
+      description: 'Built an AI-powered chatbot assistant using Python, TensorFlow, and NLP techniques to automate customer support and enhance user engagement.',
+      techStack: 'Python, TensorFlow, NLP',
+      imgSrc: 'DeepMind.png',
+      livePreviewLink: 'https://github.com/ghulam-mujtaba5/ai-chatbot-assistant',
+      viewCodeLink: 'https://github.com/ghulam-mujtaba5/ai-chatbot-assistant',
+      tags: ['AI', 'Data Science'],
+    },
   ];
 
   const filteredProjects = selectedTag === 'All'
