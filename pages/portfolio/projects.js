@@ -340,6 +340,8 @@ const ProjectsPage = () => {
         .project-grid-card {
           display: flex;
           align-items: stretch;
+          background: none !important;
+          box-shadow: none !important;
         }
         @media (max-width: 600px) {
           .project-hero-title { font-size: 2rem; }
