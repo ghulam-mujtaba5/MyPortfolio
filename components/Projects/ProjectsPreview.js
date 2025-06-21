@@ -2,6 +2,7 @@ import React from 'react';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { useTheme } from '../../context/ThemeContext';
+import styles from './ProjectsPreview.module.css';
 
 // Dynamically import Project1 to avoid SSR issues
 const Project1 = dynamic(() => import('./Project1'), { ssr: false });
@@ -49,20 +50,68 @@ const projects = [
 const ProjectsPreview = () => {
   const { theme } = useTheme();
   return (
-    <section style={{ width: '100%', margin: '0 auto', padding: '2rem 0' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.2rem' }}>
-        <h2 style={{ fontSize: '2rem', fontWeight: 700, margin: 0, color: theme === 'dark' ? '#60a5fa' : '#2563eb' }}>Featured Projects</h2>
+    <section style={{ width: '100%', maxWidth: 1200, margin: '0 auto', padding: '3.5rem 0 2.5rem 0' }}>
+      <div style={{ width: '100%', marginBottom: '2.2rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <h2 className={styles.title}>Projects</h2>
         <Link href="/portfolio/projects" legacyBehavior>
-          <a style={{ color: theme === 'dark' ? '#fff' : '#2563eb', fontWeight: 500, textDecoration: 'underline', fontSize: '1rem' }}>View All</a>
+          <a
+            className={styles.viewAll}
+            tabIndex={0}
+          >
+            View All
+          </a>
         </Link>
       </div>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '2rem', width: '100%' }}>
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))',
+        gap: '2.5rem',
+        width: '100%',
+        margin: '0 auto',
+        justifyItems: 'center',
+        alignItems: 'stretch',
+      }}>
         {projects.slice(0, 3).map((project, idx) => (
-          <div key={project.title} style={{ borderRadius: '18px', overflow: 'hidden', background: theme === 'dark' ? '#23272f' : '#f8fafc', boxShadow: '0 2px 16px 0 rgba(60,60,100,0.08)', transition: 'box-shadow 0.3s', display: 'flex', alignItems: 'stretch' }}>
+          <div
+            key={project.title}
+            style={{
+              borderRadius: '20px',
+              overflow: 'hidden',
+              background: 'none',
+              boxShadow: 'none',
+              transition: 'box-shadow 0.3s',
+              display: 'flex',
+              alignItems: 'stretch',
+              minHeight: 340,
+              maxWidth: 420,
+              width: '100%',
+              margin: '0 auto',
+            }}
+          >
             <Project1 projectOverride={project} />
           </div>
         ))}
       </div>
+      <style jsx>{`
+        @keyframes gradientMove {
+          0% { background-position: 0% 50%; }
+          50% { background-position: 100% 50%; }
+          100% { background-position: 0% 50%; }
+        }
+        @media (max-width: 600px) {
+          .${styles.viewAll} {
+            font-size: 0.98rem !important;
+            margin-left: 0 !important;
+            padding: 0.5rem 1.1rem !important;
+            border-radius: 16px !important;
+            display: inline-block !important;
+            background: #f3f4f6 !important;
+            color: #2563eb !important;
+            box-shadow: 0 1px 4px 0 rgba(60,60,100,0.06) !important;
+            font-weight: 600 !important;
+          }
+        }
+      `}</style>
     </section>
   );
 };
