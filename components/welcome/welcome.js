@@ -42,35 +42,32 @@ const Introduction = () => {
   }, [inView, controls]);
 
   useEffect(() => {
+    let isMounted = true;
     const animateText = async () => {
       try {
         // Animate hello text
         for (let i = 0; i <= helloTextToDisplay.length; i++) {
+          if (!isMounted) return;
           setHelloText(helloTextToDisplay.slice(0, i));
-          await new Promise(resolve => setTimeout(resolve, 40)); // Adjust for smooth typing effect
+          await new Promise(resolve => setTimeout(resolve, 40));
         }
-
-        // Pause before adding name text
         await new Promise(resolve => setTimeout(resolve, 400));
-
-        // Animate name text
         for (let i = 0; i <= nameTextToDisplay.length; i++) {
+          if (!isMounted) return;
           setNameText(nameTextToDisplay.slice(0, i));
-          await new Promise(resolve => setTimeout(resolve, 40)); // Adjust for smooth typing effect
+          await new Promise(resolve => setTimeout(resolve, 40));
         }
-
-        // Reduce pause before showing description text
-        await new Promise(resolve => setTimeout(resolve,300)); // Reduced from 1000ms to 500ms
-
-        // Animate description text with smooth reveal effect
-        controls.start({ opacity: 1, y: 0, transition: { duration: 2, ease: 'easeOut' } });
-        setDescriptionText(descriptionTextToDisplay);
+        await new Promise(resolve => setTimeout(resolve, 300));
+        if (isMounted) {
+          controls.start({ opacity: 1, y: 0, transition: { duration: 2, ease: 'easeOut' } });
+          setDescriptionText(descriptionTextToDisplay);
+        }
       } catch (error) {
         console.error('Error in animation:', error);
       }
     };
-
     animateText();
+    return () => { isMounted = false; };
   }, [controls]);
 
   return (

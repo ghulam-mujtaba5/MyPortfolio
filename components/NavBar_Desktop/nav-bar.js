@@ -98,7 +98,7 @@ const NavBar = () => {
       {/* Project section */}
       <div
         className={styles.project}
-        onClick={() => handleScrollToSection("project-section")}
+        onClick={() => handleNavigation("/portfolio/projects")}
       >
         <div className={styles.projectText}>Project</div>
       </div>
