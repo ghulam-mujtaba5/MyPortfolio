@@ -87,10 +87,14 @@
 
 @media (max-width: 600px) {
   .viewAll {
-    width: 92vw;
-    font-size: 1rem;
-    padding: 0.7rem 0;
-    margin-top: 1.2rem;
-    border-radius: 15px;
+    width: 80vw;
+    font-size: 0.95rem;
+    padding: 0.55rem 0;
+    margin: 1.2rem auto 0 auto;
+    border-radius: 13px;
+    display: block;
+    text-align: center;
+    box-sizing: border-box;
+    max-width: 340px;
   }
 }
