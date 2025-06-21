@@ -53,14 +53,6 @@ const ProjectsPreview = () => {
     <section className={styles.section} style={{ width: '100%', maxWidth: 1200, margin: '0 auto', padding: '3.5rem 0 2.5rem 0' }}>
       <div className={styles.headerRow} style={{ width: '100%', marginBottom: '2.2rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <h2 className={styles.title}>Projects</h2>
-        <Link href="/portfolio/projects" legacyBehavior>
-          <a
-            className={styles.viewAll}
-            tabIndex={0}
-          >
-            View All
-          </a>
-        </Link>
       </div>
       <div className={styles.grid} style={{
         display: 'grid',
@@ -91,6 +83,16 @@ const ProjectsPreview = () => {
             <Project1 projectOverride={project} />
           </div>
         ))}
+      </div>
+      <div style={{ width: '100%', display: 'flex', justifyContent: 'center', marginTop: '2.5rem' }}>
+        <Link href="/portfolio/projects" legacyBehavior>
+          <a
+            className={styles.viewAll}
+            tabIndex={0}
+          >
+            View All
+          </a>
+        </Link>
       </div>
       {/* Mobile-specific styles are now in ProjectsPreview.module.css */}
     </section>
