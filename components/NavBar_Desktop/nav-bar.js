@@ -30,11 +30,11 @@ const NavBar = () => {
 
   // Determine active/selected state
   const hash = typeof window !== 'undefined' ? window.location.hash : '';
-  const isHome = router.pathname === '/' && (!hash || hash === '#home-section');
+  const isProjects = router.pathname === '/projects';
+  const isHome = !isProjects;
   const isAbout = router.pathname === '/' && hash === '#about-section';
   const isSkills = router.pathname === '/' && hash === '#languages-section';
   const isResume = router.pathname === '/resume';
-  const isProjects = router.pathname === '/projects';
   const isContact = router.pathname === '/' && hash === '#contact-section';
 
   return (
