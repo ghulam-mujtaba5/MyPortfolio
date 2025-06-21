@@ -93,45 +93,13 @@ const ProjectsPage = () => {
               </svg>
             </div>
             <div className="project-hero-intro refined-intro refined-intro-centered">
-              <h1 className="refined-intro-main gradient-headline" style={{
-                fontSize: '2.8rem',
-                fontWeight: 800,
-                letterSpacing: '-1px',
-                marginBottom: '0.5rem',
-                lineHeight: 1.1,
-                textShadow: '0 4px 24px rgba(60,100,200,0.10)'
-              }}>
-                <span style={{
-                  display: 'inline-block',
-                  background: 'linear-gradient(90deg, #2563eb 30%, #60a5fa 70%)',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  backgroundClip: 'text',
-                  textFillColor: 'transparent'
-                }}>
-                  Featured Projects & Digital Solutions
-                </span>
+              <h1 className="refined-intro-main animated-gradient-headline">
+                <span>Featured Projects & Digital Solutions</span>
               </h1>
-              <h2 className="refined-intro-sub" style={{
-                fontSize: '1.35rem',
-                color: '#3b82f6',
-                fontWeight: 600,
-                marginBottom: '0.7rem',
-                letterSpacing: '0.02em',
-                textShadow: '0 2px 12px rgba(60,100,200,0.08)'
-              }}>
+              <h2 className="refined-intro-sub animated-fadein">
                 Innovating Across Web, Mobile, Desktop, AI, and Data Science
               </h2>
-              <p className="refined-intro-desc" style={{
-                fontSize: '1.13rem',
-                color: '#4b5563',
-                fontWeight: 400,
-                maxWidth: '540px',
-                margin: '0 auto',
-                lineHeight: 1.6,
-                letterSpacing: '0.01em',
-                textShadow: '0 1px 6px rgba(60,100,200,0.06)'
-              }}>
+              <p className="refined-intro-desc animated-fadein-delayed">
                 Explore impactful projects where technology, design, and problem solving converge—each a testament to innovation and quality.
               </p>
             </div>
@@ -165,6 +133,31 @@ const ProjectsPage = () => {
         </div>
       </div>
       <style jsx>{`
+        .animated-gradient-headline span {
+          display: inline-block;
+          background: linear-gradient(270deg, #2563eb, #60a5fa, #a5b4fc, #2563eb);
+          background-size: 200% 200%;
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+          text-fill-color: transparent;
+          animation: gradientMove 3.5s ease-in-out infinite;
+        }
+        @keyframes gradientMove {
+          0% { background-position: 0% 50%; }
+          50% { background-position: 100% 50%; }
+          100% { background-position: 0% 50%; }
+        }
+        .animated-fadein {
+          opacity: 0;
+          transform: translateY(18px);
+          animation: fadeInUp 1.1s cubic-bezier(.39,.575,.565,1.000) 0.3s forwards;
+        }
+        .animated-fadein-delayed {
+          opacity: 0;
+          transform: translateY(18px);
+          animation: fadeInUp 1.1s cubic-bezier(.39,.575,.565,1.000) 0.7s forwards;
+        }
         .fade-in {
           opacity: 0;
           animation: fadeIn 0.8s ease forwards;
@@ -246,31 +239,30 @@ const ProjectsPage = () => {
           margin-top: 1.2rem;
         }
         .refined-intro-main {
-          font-size: 2.4rem;
-          font-weight: 700;
-          letter-spacing: -0.5px;
-          margin-bottom: 0.3rem;
-          color: #2563eb;
-        }
-        .gradient-headline {
-          background: linear-gradient(90deg, #2563eb 30%, #60a5fa 70%);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          background-clip: text;
-          text-fill-color: transparent;
+          font-size: 2.8rem;
+          font-weight: 800;
+          letter-spacing: -1px;
+          margin-bottom: 0.5rem;
+          line-height: 1.1;
+          text-shadow: 0 4px 24px rgba(60,100,200,0.10);
         }
         .refined-intro-sub {
-          font-size: 1.18rem;
-          color: #b3b9c9;
-          font-weight: 500;
-          margin-bottom: 0.5rem;
-          letter-spacing: 0.01em;
+          font-size: 1.35rem;
+          color: #3b82f6;
+          font-weight: 600;
+          margin-bottom: 0.7rem;
+          letter-spacing: 0.02em;
+          text-shadow: 0 2px 12px rgba(60,100,200,0.08);
         }
         .refined-intro-desc {
-          font-size: 1.05rem;
-          color: #7a7e87;
+          font-size: 1.13rem;
+          color: #4b5563;
           font-weight: 400;
-          letter-spacing: 0.1px;
+          max-width: 540px;
+          margin: 0 auto;
+          line-height: 1.6;
+          letter-spacing: 0.01em;
+          text-shadow: 0 1px 6px rgba(60,100,200,0.06);
         }
         .refined-intro-centered {
           align-items: center;
