@@ -68,18 +68,16 @@ const ProjectsPreview = () => {
         {projects.slice(0, 3).map((project) => (
           <div
             key={project.title}
+            className={commonStyles.projectCard}
             style={{
               borderRadius: '20px',
               overflow: 'hidden',
               background: 'none',
               boxShadow: 'none',
               transition: 'box-shadow 0.3s',
-              display: 'flex',
-              alignItems: 'stretch',
               minHeight: 340,
               maxWidth: 420,
               width: '100%',
-              margin: '0 auto',
             }}
           >
             <Project1 projectOverride={project} />

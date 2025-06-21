@@ -67,10 +67,11 @@
   .grid {
     grid-template-columns: 1fr;
     gap: 1.2rem;
-    width: 100%;
+    width: 100vw;
     margin: 0 auto;
     padding: 0;
-    place-items: center;
+    justify-items: center;
+    align-items: center;
   }
   .viewAll {
     width: 80vw;
@@ -82,5 +83,13 @@
     text-align: center;
     box-sizing: border-box;
     max-width: 340px;
+  }
+  .projectCard {
+    max-width: 340px;
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
   }
 }
