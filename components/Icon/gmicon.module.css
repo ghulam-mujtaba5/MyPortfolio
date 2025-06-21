@@ -22,40 +22,63 @@
 
 .theme-toggle-icon {
   display: none; /* Hide by default */
-  
+  transition: box-shadow 0.3s, background 0.3s, transform 0.2s;
+  box-shadow: 0 2px 8px rgba(40, 60, 90, 0.08);
+  cursor: pointer;
 }
 
 .theme-toggle-icon img {
-  width: 35px; /* Adjust size as needed */
-  height: auto;
+  width: 32px; /* Slightly smaller for better balance */
+  height: 32px;
+  object-fit: contain;
+  transition: filter 0.3s;
 }
 
 /* Media query for smaller screens */
+
 @media screen and (max-width: 768px) {
   .theme-toggle-icon {
-    display: block; /* Show on small screens */
+    display: flex; /* Show on small screens */
     position: absolute;
-    top: 25px;
-    left: 25px;
-    z-index: 1000; /* Ensure it appears on top of other elements */
-    border-radius: 50%; /* Make it a circle */
-    width: 45px; /* Fixed width */
-    height: 45px; /* Fixed height */
-    display: flex; /* Center the image */
-    justify-content: center; /* Center the image */
-    align-items: center; /* Center the image */
+    top: 18px;
+    left: 18px;
+    z-index: 1000;
+    border-radius: 50%;
+    width: 44px;
+    height: 44px;
+    box-shadow: 0 4px 16px rgba(40, 60, 90, 0.13);
+    background: rgba(255,255,255,0.85);
+    backdrop-filter: blur(2px);
+    justify-content: center;
+    align-items: center;
+    transition: box-shadow 0.3s, background 0.3s, transform 0.2s;
   }
+
 
   .theme-toggle-icon.light {
-    background-color: #e8ebee; /* Light theme background color */
-
+    background: linear-gradient(135deg, #f5f7fa 60%, #c3cfe2 100%);
+    box-shadow: 0 2px 12px rgba(180, 200, 255, 0.13);
   }
 
+
   .theme-toggle-icon.dark {
-    background-color: #272c34; /* Dark theme background color */
+    background: linear-gradient(135deg, #23272f 60%, #3a3f47 100%);
+    box-shadow: 0 2px 12px rgba(30, 40, 60, 0.18);
   }
 
   .animate {
-    animation: zoomInWithShadowAndGlow 1s ease-out forwards; /* Apply the enhanced animation */
+    animation: zoomInWithShadowAndGlow 0.7s cubic-bezier(0.4, 0.8, 0.2, 1) forwards;
+  }
+
+  .theme-toggle-icon:hover,
+  .theme-toggle-icon:focus {
+    box-shadow: 0 6px 24px rgba(40, 60, 90, 0.18);
+    transform: scale(1.07);
+    outline: none;
+  }
+
+  .theme-toggle-icon img:hover,
+  .theme-toggle-icon img:focus {
+    filter: brightness(1.15) drop-shadow(0 2px 8px #a0bfff);
   }
 }
