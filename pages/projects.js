@@ -94,10 +94,34 @@ const ProjectsPage = () => {
 
   return (
     <>
-      <Head>
-        <title>Projects | Ghulam Mujtaba</title>
-        <meta name="description" content="Showcase of advanced, modern, and professional projects by Ghulam Mujtaba. Explore software, web, mobile, AI, data science, and UI/UX work." />
-      </Head>
+      <SEO
+        title="Projects | Ghulam Mujtaba"
+        description="Explore a showcase of projects by Ghulam Mujtaba, including web, desktop, and AI solutions."
+        url="https://ghulammujtaba.com/projects"
+        image="https://ghulammujtaba.com/og-image.png"
+        type="website"
+        canonical="https://ghulammujtaba.com/projects"
+        keywords="Ghulam Mujtaba, Projects, Portfolio, Web Development, AI, Software"
+      >
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Home",
+              "item": "https://ghulammujtaba.com/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Projects",
+              "item": "https://ghulammujtaba.com/projects"
+            }
+          ]
+        }) }} />
+      </SEO>
       <div style={{ backgroundColor: theme === 'dark' ? '#1d2127' : '#ffffff', overflowX: 'hidden', minHeight: '100vh' }}>
         {/* Desktop NavBar */}
         <div className="hide-on-mobile">

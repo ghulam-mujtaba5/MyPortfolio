@@ -39,91 +39,98 @@ const NavBar = () => {
 
   return (
     <header className={styles.header}>
-      {/* Home button */}
-      <button
-        className={`${styles.home} ${isHome ? styles.active : ''}`}
-        onClick={() => handleScrollToSection("home-section")}
-      >
-        <b className={styles.homeText}>Home</b>
-      </button>
-
-      {/* About section */}
-      <div
-        className={`${styles.about} ${isAbout ? styles.active : ''}`}
-        onClick={() => handleScrollToSection("about-section")}
-      >
-        <div className={styles.aboutText}>About</div>
-      </div>
-
-      {/* Skills section */}
-      <div
-        className={`${styles.skills} ${isSkills ? styles.active : ''}`}
-        onClick={() => handleScrollToSection("languages-section")}
-      >
-        <div className={styles.skillsText}>Skills</div>
-      </div>
-
-      {/* Logo and Name Animation */}
-      <Link href="http://softbuilt.ghulammujtaba.com" passHref>
-        <div
-          className={styles.logoAnimation}
-          onMouseEnter={() => handleMouseHover(true)}
-          onMouseLeave={() => handleMouseHover(false)}
+      <nav aria-label="Main Navigation">
+        {/* Home link */}
+        <a
+          href="#home-section"
+          className={`${styles.home} ${isHome ? styles.active : ''}`}
+          onClick={e => { e.preventDefault(); handleScrollToSection("home-section"); }}
         >
-          <button className={`${styles.logo} ${hover ? styles.logoHover : ""}`}>
-            <img
-              className={styles.logoIcon}
-              alt="Logo"
-              src={hover ? "sb.svg" : "gmVectorDark.svg"}
-              style={{
-                width: hover ? "30px" : "40px",
-                height: hover ? "30px" : "40px",
-              }}
-            />
-          </button>
-          <div className={styles.typo}>
-            {!hover && (
+          <b className={styles.homeText}>Home</b>
+        </a>
+
+        {/* About section */}
+        <a
+          href="#about-section"
+          className={`${styles.about} ${isAbout ? styles.active : ''}`}
+          onClick={e => { e.preventDefault(); handleScrollToSection("about-section"); }}
+        >
+          <span className={styles.aboutText}>About</span>
+        </a>
+
+        {/* Skills section */}
+        <a
+          href="#languages-section"
+          className={`${styles.skills} ${isSkills ? styles.active : ''}`}
+          onClick={e => { e.preventDefault(); handleScrollToSection("languages-section"); }}
+        >
+          <span className={styles.skillsText}>Skills</span>
+        </a>
+
+        {/* Logo and Name Animation */}
+        <Link href="http://softbuilt.ghulammujtaba.com" passHref legacyBehavior>
+          <a className={styles.logoAnimation} onMouseEnter={() => handleMouseHover(true)} onMouseLeave={() => handleMouseHover(false)} aria-label="SoftBuilt Home">
+            <span className={`${styles.logo} ${hover ? styles.logoHover : ""}`}>
               <img
-                className={styles.nameIcon}
-                loading="lazy"
-                alt="Ghulam Mujtaba"
-                src="/ghulam-mujtaba.svg"
-                style={{ maxWidth: "100%", height: "auto" }}
+                className={styles.logoIcon}
+                alt="Logo"
+                src={hover ? "sb.svg" : "gmVectorDark.svg"}
+                style={{
+                  width: hover ? "30px" : "40px",
+                  height: hover ? "30px" : "40px",
+                }}
               />
-            )}
-            {hover && (
-              <img
-                className={styles.alternativeNameIcon}
-                loading="lazy"
-                alt="SoftBuilt"
-                src="/sbname.svg"
-                style={{ maxWidth: "100%", height: "auto" }}
-              />
-            )}
-          </div>
-        </div>
-      </Link>
+            </span>
+            <span className={styles.typo}>
+              {!hover && (
+                <img
+                  className={styles.nameIcon}
+                  loading="lazy"
+                  alt="Ghulam Mujtaba"
+                  src="/ghulam-mujtaba.svg"
+                  style={{ maxWidth: "100%", height: "auto" }}
+                />
+              )}
+              {hover && (
+                <img
+                  className={styles.alternativeNameIcon}
+                  loading="lazy"
+                  alt="SoftBuilt"
+                  src="/sbname.svg"
+                  style={{ maxWidth: "100%", height: "auto" }}
+                />
+              )}
+            </span>
+          </a>
+        </Link>
 
-      {/* Resume section */}
-      <div className={`${styles.resume} ${isResume ? styles.active : ''}`} onClick={() => handleNavigation("/resume")}>
-        <div className={styles.resumeText}>Resume</div>
-      </div>
+        {/* Resume section */}
+        <a
+          href="/resume"
+          className={`${styles.resume} ${isResume ? styles.active : ''}`}
+          onClick={e => { e.preventDefault(); handleNavigation("/resume"); }}
+        >
+          <span className={styles.resumeText}>Resume</span>
+        </a>
 
-      {/* Project section */}
-      <div
-        className={`${styles.project} ${isProjects ? styles.active : ''}`}
-        onClick={() => handleNavigation("/projects")}
-      >
-        <div className={styles.projectText}>Project</div>
-      </div>
+        {/* Project section */}
+        <a
+          href="/projects"
+          className={`${styles.project} ${isProjects ? styles.active : ''}`}
+          onClick={e => { e.preventDefault(); handleNavigation("/projects"); }}
+        >
+          <span className={styles.projectText}>Project</span>
+        </a>
 
-      {/* Contact section */}
-      <div
-        className={`${styles.contact} ${isContact ? styles.active : ''}`}
-        onClick={() => handleScrollToSection("contact-section")}
-      >
-        <div className={styles.contactText}>Contact</div>
-      </div>
+        {/* Contact section */}
+        <a
+          href="#contact-section"
+          className={`${styles.contact} ${isContact ? styles.active : ''}`}
+          onClick={e => { e.preventDefault(); handleScrollToSection("contact-section"); }}
+        >
+          <span className={styles.contactText}>Contact</span>
+        </a>
+      </nav>
     </header>
   );
 };

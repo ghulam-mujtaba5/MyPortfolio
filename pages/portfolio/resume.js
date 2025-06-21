@@ -1,5 +1,5 @@
 import React from 'react';
-import Head from 'next/head';
+import SEO from '../../components/SEO';
 import { useTheme } from '../../context/ThemeContext'; // Assuming ThemeProvider is in a separate file and exported correctly
 import Resume from '../../components/Resume/Resume'; // Import the Resume component
 import Footer from '../../components/Footer/Footer'; // Import the Footer component
@@ -8,28 +8,41 @@ const ResumePage = () => {
   const { theme } = useTheme();
 
   return (
-    <div>
-      <Head>
-        <title>Ghulam Mujtaba's Resume | Software Engineer</title>
-        <meta
-          name="description"
-          content="Explore my professional journey and skills in detail as a Software Engineer specializing in emerging technologies on my resume page."
-        />
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
-        {/* Ensure no horizontal scrolling with overflow-x: hidden */}
-        <style>{`
-          body {
-            overflow-x: hidden;
-          }
-        `}</style>
-      </Head>
+    <>
+      <SEO
+        title="Ghulam Mujtaba's Resume | Software Engineer"
+        description="Explore my professional journey and skills in detail as a Software Engineer specializing in emerging technologies on my resume page."
+        url="https://ghulammujtaba.com/portfolio/resume"
+        image="https://ghulammujtaba.com/og-image.png"
+        type="profile"
+        canonical="https://ghulammujtaba.com/portfolio/resume"
+        keywords="Ghulam Mujtaba, Resume, Software Engineer, Portfolio, Skills, Experience"
+      >
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
+          "@context": "http://schema.org",
+          "@type": "Person",
+          "name": "Ghulam Mujtaba",
+          "url": "https://ghulammujtaba.com/portfolio/resume",
+          "sameAs": [
+            "https://www.linkedin.com/in/ghulamujtabaofficial",
+            "https://www.instagram.com/ghulamujtabaofficial/",
+            "https://github.com/ghulam-mujtaba5"
+          ],
+          "jobTitle": "Software Engineer, Full Stack Developer, Data Scientist, AI Specialist",
+          "address": {
+            "@type": "PostalAddress",
+            "addressCountry": "PK"
+          },
+          "image": "https://ghulammujtaba.com/og-image.png"
+        }) }} />
+      </SEO>
       <main className={theme === 'dark' ? 'darkTheme' : 'lightTheme'}>
         <Resume />
         <a href="/Resume.pdf" download className="downloadButton">
           Download Resume PDF
         </a>
       </main>
-      <Footer /> {/* Reuse the Footer component */}
+      <Footer />
       <style jsx>{`
         .downloadButton {
           display: inline-block;
@@ -73,7 +86,7 @@ const ResumePage = () => {
           }
         }
       `}</style>
-    </div>
+    </>
   );
 };
 
