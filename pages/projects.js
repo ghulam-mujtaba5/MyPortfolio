@@ -174,7 +174,9 @@ const ProjectsPage = () => {
       </div>
       <style jsx>{`
         .mobile-navbar-container {
-          position: static;
+          position: fixed;
+          top: 0;
+          left: 0;
           width: 100vw;
           z-index: 100;
         }
@@ -202,7 +204,9 @@ const ProjectsPage = () => {
         }
         @media (max-width: 800px) {
           .mobile-navbar-container {
-            position: static;
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100vw;
             z-index: 100;
             background: transparent;

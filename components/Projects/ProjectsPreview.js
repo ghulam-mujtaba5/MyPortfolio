@@ -87,14 +87,14 @@ const ProjectsPreview = () => {
         ))}
       </div>
       <div style={{ width: '100%', display: 'flex', justifyContent: 'center', marginTop: '2.5rem' }}>
-        <Link href="/projects" legacyBehavior>
-          <a
-            className={`${commonStyles.viewAll} ${themeStyles.viewAll}`}
-            tabIndex={0}
-          >
-            View All
-          </a>
-        </Link>
+        <button
+          className={`${commonStyles.viewAll} ${themeStyles.viewAll}`}
+          tabIndex={0}
+          type="button"
+          onClick={() => window.open('/portfolio/projects', '_blank', 'noopener,noreferrer')}
+        >
+          View All
+        </button>
       </div>
     </section>
   );

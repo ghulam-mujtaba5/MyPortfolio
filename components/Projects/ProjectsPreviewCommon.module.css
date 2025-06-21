@@ -70,16 +70,6 @@
     width: 100vw;
     margin: 0;
     padding: 0;
-    justify-items: center;
-    align-items: center;
-  }
-  .grid > div {
-    margin: 0 auto !important;
-    width: 100% !important;
-    max-width: 95vw !important;
-    display: flex;
-    justify-content: center;
-    align-items: stretch;
   }
   .viewAll {
     width: 80vw;

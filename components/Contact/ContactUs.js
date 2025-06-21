@@ -127,19 +127,22 @@ const ContactSection = ({
   const themeStyles = useMemo(() => (theme === 'light' ? lightStyles : darkStyles), [theme]);
 
   useEffect(() => {
-    if (!formRef.current) return;
-    const observer = new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting) {
-        controls.start({ opacity: 1, y: 0 });
-      } else {
-        controls.start({ opacity: 0, y: 50 });
-      }
-    }, { threshold: 0.1 });
+    const handleScroll = () => {
+      if (formRef.current) {
+        const observer = new IntersectionObserver(([entry]) => {
+          if (entry.isIntersecting) {
+            controls.start({ opacity: 1, y: 0 });
+          } else {
+            controls.start({ opacity: 0, y: 50 });
+          }
+        }, { threshold: 0.1 });
 
-    observer.observe(formRef.current);
-    return () => {
-      observer.disconnect();
+        observer.observe(formRef.current);
+        return () => observer.disconnect();
+      }
     };
+
+    handleScroll();
   }, [controls]);
 
   useEffect(() => {
