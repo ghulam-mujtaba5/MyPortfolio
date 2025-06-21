@@ -88,14 +88,7 @@ const ProjectsPreview = () => {
   return (
     <section style={{ width: '100%', maxWidth: 1200, margin: '0 auto', padding: '3.5rem 0 2.5rem 0' }}>
       <div style={{ width: '100%', marginBottom: '2.2rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <h2 style={{
-          fontSize: '2.1rem',
-          fontWeight: 800,
-          letterSpacing: '-1px',
-          color: theme === 'dark' ? '#fff' : '#18181b',
-          margin: 0,
-          textShadow: theme === 'dark' ? '0 2px 8px #0002' : '0 2px 8px #fff2',
-        }}>Projects</h2>
+        <h2 className={styles.title} id="projects-title">Projects</h2>
         <Link href="/projects" legacyBehavior>
           <a
             className={styles.viewAll}

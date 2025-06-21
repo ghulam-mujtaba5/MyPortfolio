@@ -1,3 +1,65 @@
+/* Consistent section title style (matches Certifications) */
+
+.title {
+  font-family: 'Open Sans', 'Poppins', Arial, sans-serif;
+  font-size: 2rem;
+  font-weight: 800;
+  margin-bottom: 22px;
+  text-align: left;
+  color: var(--text-color, #18181b);
+  margin-top: 0;
+  margin-left: 0;
+  letter-spacing: -1px;
+  line-height: 1.18;
+  transition: color 0.2s;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  padding-left: 0;
+  padding-right: 0;
+  border-radius: 8px;
+  background: none;
+  box-sizing: border-box;
+}
+
+@media (prefers-color-scheme: dark) {
+  .title {
+    color: #fff;
+    text-shadow: 0 2px 8px #0002;
+  }
+}
+
+@media (max-width: 600px) {
+  .title {
+    font-size: 1.25rem;
+    margin-bottom: 14px;
+    text-align: left;
+    padding-left: 18px;
+    padding-right: 18px;
+    box-sizing: border-box;
+    width: 100%;
+    border-radius: 8px;
+    background: rgba(36,42,50,0.04);
+    font-weight: 800;
+    letter-spacing: -0.5px;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .title {
+    color: #fff;
+  }
+}
+
+@media (max-width: 600px) {
+  .title {
+    font-size: 20px;
+    margin-bottom: 16px;
+    text-align: left;
+    padding-left: 16px;
+    padding-right: 16px;
+    box-sizing: border-box;
+    width: 100%;
+  }
+}
 /* Animation for project cards */
 .cardHidden {
   opacity: 0;
