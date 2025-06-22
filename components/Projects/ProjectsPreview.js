@@ -89,7 +89,7 @@ const ProjectsPreview = () => {
           className={`${commonStyles.viewAll} ${themeStyles.viewAll}`}
           tabIndex={0}
           type="button"
-          onClick={() => window.open('/portfolio/projects', '_blank', 'noopener,noreferrer')}
+          onClick={() => window.open('/projects', '_blank', 'noopener,noreferrer')}
         >
           View All
         </button>
