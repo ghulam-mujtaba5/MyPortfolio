@@ -46,11 +46,9 @@ export default function Custom404() {
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.6, delay: 0.6, ease: 'easeOut' }}
       >
-        <Link href="/" legacyBehavior>
-          <a className={styles.homeLink} aria-label="Go back home">
-            <span className={styles.homeBtnBg} />
-            <span className={styles.homeBtnText}>Go Back Home</span>
-          </a>
+        <Link href="/" className={styles.homeLink} aria-label="Go back home">
+          <span className={styles.homeBtnBg} />
+          <span className={styles.homeBtnText}>Go Back Home</span>
         </Link>
       </motion.div>
     </div>
