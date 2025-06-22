@@ -1,4 +1,7 @@
 
+import NavBar from '../components/NavBar_Mobile/NavBar-mobile';
+import Footer from '../components/Footer/Footer';
+
 import React, { useMemo } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
@@ -12,8 +15,16 @@ import { useTheme } from '../context/ThemeContext';
 const PrivacyPolicy = () => {
   const { theme } = useTheme();
   const themeClass = useMemo(() => theme === 'dark' ? styles.darkTheme : styles.lightTheme, [theme]);
+  // Example sections for the mobile navbar; adjust as needed
+  const sections = [
+    { label: 'Home', route: '/' },
+    { label: 'Projects', route: '/projects' },
+    { label: 'Contact', route: '/#contact-section' },
+    { label: 'Privacy Policy', route: '/privacy-policy' }
+  ];
   return (
-    <div style={{ backgroundColor: theme === 'dark' ? '#1d2127' : '#ffffff', overflowX: 'hidden', minHeight: '100vh', width: '100vw', position: 'relative', zIndex: 0, boxSizing: 'border-box', transition: 'background 0.3s', WebkitTransition: 'background 0.3s', MozTransition: 'background 0.3s', backgroundImage: 'none', backgroundColor: `${theme === 'dark' ? '#1d2127 !important' : '#ffffff !important'}` }}>
+    <div style={{ backgroundColor: theme === 'dark' ? '#1d2127' : '#ffffff', overflowX: 'hidden', minHeight: '100vh', width: '100vw', position: 'relative', zIndex: 0, boxSizing: 'border-box', transition: 'background 0.3s', WebkitTransition: 'background 0.3s', MozTransition: 'background 0.3s', backgroundImage: 'none' }}>
+      <NavBar sections={sections} />
       <main className={`${styles.privacyMain} ${themeClass}`}>
         <Head>
           <title>Privacy Policy | Ghulam Mujtaba Portfolio</title>
@@ -113,6 +124,7 @@ const PrivacyPolicy = () => {
           </p>
         </section>
       </main>
+      <Footer />
     </div>
   );
 };
