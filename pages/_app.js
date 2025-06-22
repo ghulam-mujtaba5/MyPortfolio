@@ -1,7 +1,8 @@
 
 
 
-import { Fragment, useEffect } from "react";
+import { Fragment, useEffect, useState } from "react";
+import { hasAcceptedCookies } from '../utils/cookieConsent';
 import Head from "next/head";
 import SEO from '../components/SEO';
 import { ThemeProvider } from '../context/ThemeContext';
@@ -18,8 +19,18 @@ if (typeof window !== 'undefined' && 'serviceWorker' in navigator) {
   });
 }
 
+
 function MyApp({ Component, pageProps }) {
   const router = useRouter();
+  const [cookiesAccepted, setCookiesAccepted] = useState(false);
+
+  useEffect(() => {
+    setCookiesAccepted(hasAcceptedCookies());
+    // Listen for changes to cookie consent
+    const onStorage = () => setCookiesAccepted(hasAcceptedCookies());
+    window.addEventListener('storage', onStorage);
+    return () => window.removeEventListener('storage', onStorage);
+  }, []);
 
   useEffect(() => {
     if (process.env.NODE_ENV === 'production') {
@@ -56,26 +67,25 @@ function MyApp({ Component, pageProps }) {
         <meta name="theme-color" content="#1d2127" />
       </Head>
 
-      {process.env.NODE_ENV === 'production' && (
+      {process.env.NODE_ENV === 'production' && cookiesAccepted && (
         <>
           <Script
             id="google-analytics"
             src={`https://www.googletagmanager.com/gtag/js?id=${gtag.GA_TRACKING_ID}`}
             strategy="afterInteractive"
           />
-      <Script id="gtag-init" strategy="afterInteractive">
-        {`
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-          gtag('config', '${gtag.GA_TRACKING_ID}', {
-            page_path: window.location.pathname,
-            cookie_domain: 'ghulammujtaba.com',
-            cookie_flags: 'SameSite=None; Secure'
-          });
-        `}
-      </Script>
-      {/* TODO: Add cookie consent banner for GDPR/CCPA compliance if required */}
+          <Script id="gtag-init" strategy="afterInteractive">
+            {`
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', '${gtag.GA_TRACKING_ID}', {
+                page_path: window.location.pathname,
+                cookie_domain: 'ghulammujtaba.com',
+                cookie_flags: 'SameSite=None; Secure'
+              });
+            `}
+          </Script>
         </>
       )}
 
