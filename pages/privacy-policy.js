@@ -1,4 +1,6 @@
 
+
+import SEO from '../components/SEO';
 import NavBar from '../components/NavBar_Mobile/NavBar-mobile';
 import Footer from '../components/Footer/Footer';
 
@@ -23,21 +25,25 @@ const PrivacyPolicy = () => {
     { label: 'Privacy Policy', route: '/privacy-policy' }
   ];
   return (
-    <div style={{ backgroundColor: theme === 'dark' ? '#1d2127' : '#ffffff', overflowX: 'hidden', minHeight: '100vh', width: '100vw', position: 'relative', zIndex: 0, boxSizing: 'border-box', transition: 'background 0.3s', WebkitTransition: 'background 0.3s', MozTransition: 'background 0.3s', backgroundImage: 'none' }}>
-      <NavBar sections={sections} />
-      <main className={`${styles.privacyMain} ${themeClass}`}>
-        <Head>
-          <title>Privacy Policy | Ghulam Mujtaba Portfolio</title>
-          <meta name="description" content="Privacy Policy for Ghulam Mujtaba's Portfolio website. Learn how we collect, use, and protect your information." />
-        </Head>
-        <section className={styles.section} aria-labelledby="privacy-policy-title">
-          <h1 id="privacy-policy-title" className={styles.heading}>Privacy Policy</h1>
-          <p className={styles.date}><em>Last updated: June 22, 2025</em></p>
-        </section>
-        <section className={styles.section}>
-          <h2 className={styles.subheading}>1. Introduction</h2>
-          <p>
-            Welcome to the personal portfolio of <strong>Ghulam Mujtaba</strong> (<a href="https://ghulammujtaba.com" target="_blank" rel="noopener noreferrer">ghulammujtaba.com</a>). This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit this website, including any related services, features, or content. Ghulam Mujtaba is committed to protecting your privacy and ensuring transparency.
+    <>
+      <SEO
+        title="Privacy Policy | Ghulam Mujtaba Portfolio"
+        description="Privacy Policy for Ghulam Mujtaba's Portfolio website. Learn how we collect, use, and protect your information."
+        url="https://ghulammujtaba.com/privacy-policy"
+        canonical="https://ghulammujtaba.com/privacy-policy"
+        keywords="Privacy Policy, Ghulam Mujtaba, Portfolio, Data Protection, User Data"
+      />
+      <div style={{ backgroundColor: theme === 'dark' ? '#1d2127' : '#ffffff', overflowX: 'hidden', minHeight: '100vh', width: '100vw', position: 'relative', zIndex: 0, boxSizing: 'border-box', transition: 'background 0.3s', WebkitTransition: 'background 0.3s', MozTransition: 'background 0.3s', backgroundImage: 'none' }}>
+        <NavBar sections={sections} />
+        <main className={`${styles.privacyMain} ${themeClass}`}>
+          <section className={styles.section} aria-labelledby="privacy-policy-title">
+            <h1 id="privacy-policy-title" className={styles.heading}>Privacy Policy</h1>
+            <p className={styles.date}><em>Last updated: June 22, 2025</em></p>
+          </section>
+          <section className={styles.section}>
+            <h2 className={styles.subheading}>1. Introduction</h2>
+            <p>
+              Welcome to the personal portfolio of <strong>Ghulam Mujtaba</strong> (<a href="https://ghulammujtaba.com" target="_blank" rel="noopener noreferrer">ghulammujtaba.com</a>). This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit this website, including any related services, features, or content. Ghulam Mujtaba is committed to protecting your privacy and ensuring transparency.
           </p>
         </section>
         <section className={styles.section}>
@@ -123,9 +129,10 @@ const PrivacyPolicy = () => {
             You may also <Link href="/#contact-section">contact me via the contact form</Link> for any privacy-related requests or feedback.
           </p>
         </section>
-      </main>
-      <Footer />
-    </div>
+        </main>
+        <Footer />
+      </div>
+    </>
   );
 };
 
