@@ -5,6 +5,7 @@ import { Fragment, useEffect } from "react";
 import Head from "next/head";
 import SEO from '../components/SEO';
 import { ThemeProvider } from '../context/ThemeContext';
+import CookieConsentBanner from '../components/CookieConsentBanner/CookieConsentBanner';
 import Script from 'next/script';
 import { useRouter } from 'next/router';
 import * as gtag from '../lib/gtag';
@@ -62,22 +63,26 @@ function MyApp({ Component, pageProps }) {
             src={`https://www.googletagmanager.com/gtag/js?id=${gtag.GA_TRACKING_ID}`}
             strategy="afterInteractive"
           />
-          <Script id="gtag-init" strategy="afterInteractive">
-            {`
-              window.dataLayer = window.dataLayer || [];
-              function gtag(){dataLayer.push(arguments);}
-              gtag('js', new Date());
-              gtag('config', '${gtag.GA_TRACKING_ID}', {
-                page_path: window.location.pathname,
-              });
-            `}
-          </Script>
+      <Script id="gtag-init" strategy="afterInteractive">
+        {`
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', '${gtag.GA_TRACKING_ID}', {
+            page_path: window.location.pathname,
+            cookie_domain: 'ghulammujtaba.com',
+            cookie_flags: 'SameSite=None; Secure'
+          });
+        `}
+      </Script>
+      {/* TODO: Add cookie consent banner for GDPR/CCPA compliance if required */}
         </>
       )}
 
       <ThemeProvider>
         <Component {...pageProps} />
       </ThemeProvider>
+      <CookieConsentBanner />
     </Fragment>
   );
 }
