@@ -121,16 +121,7 @@
   }
 }
 
-@media (prefers-color-scheme: dark) {
-  .privacyMain, .section {
-    --bg: #181a1b;
-    --text: #e5e5e5;
-    --heading: #fff;
-    --subheading: #b3b3b3;
-    --link: #60aaff;
-    --link-hover: #3388cc;
-  }
-}
+
 
 
 /* Remove unused .container rules and improve theme contrast */
