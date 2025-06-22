@@ -1,0 +1,33 @@
+.root {
+  background: #181c23;
+  color: #f3f6fa;
+  border: 1px solid #23272f;
+  box-shadow: 0 4px 32px rgba(20,30,50,0.22);
+}
+.banner {
+  background: #232a36;
+  color: #f3f6fa;
+  border: 1px solid #23272f;
+  box-shadow: 0 4px 32px rgba(20,30,50,0.22);
+}
+.dark .buttonSecondary {
+  color: #7ab4ff;
+  border-color: #7ab4ff;
+  background: rgba(34, 45, 65, 0.7);
+}
+
+.dark .buttonSecondary:hover {
+  background: #1a2230;
+  color: #fff;
+  border-color: #fff;
+}
+
+.dark .button {
+  background: linear-gradient(90deg, #2d4a7a 0%, #4573df 100%);
+  color: #fff;
+  box-shadow: 0 2px 12px rgba(69, 115, 223, 0.18);
+}
+
+.dark .link {
+  color: #7ab4ff;
+}

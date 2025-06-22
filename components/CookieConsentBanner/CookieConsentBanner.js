@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import styles from './CookieConsentBanner.module.css';
+import commonStyles from './CookieConsentBannerCommon.module.css';
+import lightStyles from './CookieConsentBannerLight.module.css';
+import darkStyles from './CookieConsentBannerDark.module.css';
 import { useTheme } from '../../context/ThemeContext';
 
 const CookieConsentBanner = () => {
@@ -12,6 +14,7 @@ const CookieConsentBanner = () => {
   } catch (e) {
     // fallback to light if ThemeProvider is missing
   }
+
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -39,24 +42,39 @@ const CookieConsentBanner = () => {
     setVisible(false);
   };
 
+  const frameStyles = theme === 'dark' ? darkStyles : lightStyles;
+
   if (!visible) return null;
 
   return (
-    <div className={`${styles.banner} ${theme === 'dark' ? styles.dark : styles.light}`}> 
-      <span className={styles.text}>
+    <div className={`${commonStyles.banner} ${frameStyles.banner}`}>
+      <span className={`${commonStyles.text} ${frameStyles.text}`}>
         This site uses cookies for a better experience.{' '}
-        <a href="/privacy-policy" className={styles.link} target="_blank" rel="noopener noreferrer">Learn more</a>.
+        <a
+          href="/privacy-policy"
+          className={`${commonStyles.link} ${frameStyles.link}`}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Learn more
+        </a>.
       </span>
-      <div className={styles.actions}>
-        <button className={styles.button} onClick={acceptCookies}>
+      <div className={`${commonStyles.actions} ${frameStyles.actions}`}>
+        <button
+          className={`${commonStyles.button} ${frameStyles.button}`}
+          onClick={acceptCookies}
+        >
           Accept
         </button>
-        <button className={styles.buttonSecondary} onClick={declineCookies}>
+        <button
+          className={`${commonStyles.buttonSecondary} ${frameStyles.buttonSecondary}`}
+          onClick={declineCookies}
+        >
           Decline
         </button>
       </div>
     </div>
   );
-};
+}
 
 export default CookieConsentBanner;

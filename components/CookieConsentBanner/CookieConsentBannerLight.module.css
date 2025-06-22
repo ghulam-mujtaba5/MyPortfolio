@@ -1,0 +1,38 @@
+.banner {
+  background: #f5f7fa;
+  color: #23272f;
+  border: 1px solid #e3e6ea;
+}
+.root {
+  --banner-bg: #f7f9fb;
+  --banner-color: #222;
+  --banner-border: #e3e6ea;
+  --button-bg: linear-gradient(90deg, #4573df 0%, #0070f3 100%);
+  --button-color: #fff;
+  --button-hover-bg: linear-gradient(90deg, #005bb5 0%, #4573df 100%);
+  --button-secondary-bg: transparent;
+  --button-secondary-color: #4573df;
+  --button-secondary-border: #4573df;
+  --button-secondary-hover-bg: #e8ebee;
+  --button-secondary-hover-color: #005bb5;
+  --button-secondary-hover-border: #005bb5;
+  --link-color: #4573df;
+  --link-hover: #005bb5;
+}
+.root {
+  background: #f7f9fb;
+  color: #222;
+  border: 1px solid #e3e6ea;
+}
+
+.link {
+  color: #4573df;
+  text-decoration: underline;
+  margin-left: 0.5em;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.link:hover {
+  color: #005bb5;
+}
