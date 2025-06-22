@@ -81,8 +81,8 @@ function MyApp({ Component, pageProps }) {
 
       <ThemeProvider>
         <Component {...pageProps} />
+        <CookieConsentBanner />
       </ThemeProvider>
-      <CookieConsentBanner />
     </Fragment>
   );
 }

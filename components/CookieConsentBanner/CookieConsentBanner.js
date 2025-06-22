@@ -6,14 +6,8 @@ import { useTheme } from '../../context/ThemeContext';
 
 const CookieConsentBanner = () => {
   const [visible, setVisible] = useState(false);
-  let theme = 'light';
-  let themeCtx;
-  try {
-    themeCtx = useTheme();
-    if (themeCtx && themeCtx.theme) theme = themeCtx.theme;
-  } catch (e) {
-    // fallback to light if ThemeProvider is missing
-  }
+
+  const { theme = 'light' } = useTheme() || {};
 
 
   useEffect(() => {
