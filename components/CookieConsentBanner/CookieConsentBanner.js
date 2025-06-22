@@ -58,7 +58,6 @@ const CookieConsentBanner = () => {
         >
           Learn more
         </a>.
-        <span style={{ fontSize: '1.3em', marginLeft: '0.4em', verticalAlign: 'middle' }}>🍪</span>
       </span>
       <div className={`${commonStyles.actions} ${frameStyles.actions}`}>
         <button
