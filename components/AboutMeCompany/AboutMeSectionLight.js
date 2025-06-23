@@ -45,7 +45,7 @@ const AboutMeSection = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2, ease: 'easeOut' }}
         >
-          ABOUT US
+          About us
         </motion.h2>
         <motion.p
           className={descriptionClass}
