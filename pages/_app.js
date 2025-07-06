@@ -55,7 +55,6 @@ function MyApp({ Component, pageProps }) {
 
   return (
     <Fragment>
-      <SEO />
       <Head>
         <meta
           name="viewport"
