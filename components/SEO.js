@@ -10,6 +10,7 @@ export default function SEO({
   keywords = 'Ghulam Mujtaba, Portfolio, Full Stack Developer, Data Scientist, AI, Projects, Resume',
   children
 }) {
+  // Only render one canonical tag per page. Pass the correct canonical prop from each page.
   return (
     <Head>
       <title>{title}</title>
@@ -26,7 +27,7 @@ export default function SEO({
       <meta name="twitter:title" content={title} />
       <meta name="twitter:description" content={description} />
       <meta name="twitter:image" content={image} />
-      <link rel="canonical" href={canonical} />
+      {canonical && <link rel="canonical" href={canonical} />}
       <link rel="icon" href="/favicon.ico" />
       {children}
     </Head>
