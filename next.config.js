@@ -56,6 +56,18 @@ const nextConfig = {
     ];
   },
 
+  async redirects() {
+    return [
+      // Redirect www to non-www
+      {
+        source: '/:path*',
+        has: [{ type: 'host', value: 'www.ghulammujtaba.com' }],
+        destination: 'https://ghulammujtaba.com/:path*',
+        permanent: true,
+      },
+    ];
+  },
+
   webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
     // Important: Add support for source maps
     if (!isServer) {
@@ -91,6 +103,11 @@ const nextConfig = {
           {
             key: 'X-Frame-Options',
             value: 'DENY'
+          },
+          // Canonical header for SEO
+          {
+            key: 'Link',
+            value: '<https://ghulammujtaba.com>; rel="canonical"'
           },
         ],
       },
