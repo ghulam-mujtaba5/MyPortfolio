@@ -40,7 +40,7 @@ export default function CompanyHome() {
         <meta name="description" content="Soft Built by Ghulam Mujtaba: Desktop, Web, Mobile apps, Data Science & AI solutions. Partner with us to turn your ideas into reality." />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="keywords" content="Soft Built, Ghulam Mujtaba, Company, Web Development, Mobile Apps, Data Science, AI, Portfolio" />
-        <link rel="canonical" href="https://ghulammujtaba.com/softbuilt" />
+        <link rel="canonical" href="https://softbuilt.ghulammujtaba.com/softbuilt" />
         <link rel="icon" href="/faviconsb.svg" type="image/svg+xml" />
         <link rel="icon" href="/faviconsb.png" type="image/png" sizes="32x32" />
         <link rel="icon" href="/faviconsb.ico" type="image/x-icon" />
