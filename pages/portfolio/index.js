@@ -65,7 +65,7 @@ const Home = () => {
         }) }} />
       </SEO>
 
-      <div style={{ backgroundColor: theme === 'dark' ? '#1d2127' : '#ffffff', overflowX: 'hidden' }}>
+      <div className="portfolio-main-container" style={{ backgroundColor: theme === 'dark' ? '#1d2127' : '#ffffff', overflowX: 'hidden' }}>
         <a href="#main-content" className="skip-link" style={{ position: 'absolute', top: '-40px', left: '0', background: '#000', color: '#fff', padding: '8px', zIndex: '100' }}>Skip to main content</a>
 
         <header>
@@ -124,7 +124,13 @@ const Home = () => {
         </footer>
       </div>
 
-      <style jsx>{`
+      <style jsx global>{`
+        .portfolio-main-container {
+          font-family: var(--font-primary);
+          font-size: var(--font-size-base);
+          line-height: var(--line-height-base);
+          color: #222;
+        }
         .skip-link:focus {
           top: 0;
         }

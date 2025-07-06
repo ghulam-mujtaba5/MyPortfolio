@@ -50,7 +50,7 @@ const CookieConsentBanner = () => {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Learn more
+          Privacy Policy
         </a>.
       </span>
       <div className={`${commonStyles.actions} ${frameStyles.actions}`}>
