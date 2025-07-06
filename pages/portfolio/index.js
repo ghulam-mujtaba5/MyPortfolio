@@ -143,6 +143,7 @@ const Home = () => {
           overflow: hidden;
           clip: rect(0, 0, 0, 0);
           border: 0;
+          font-size: 2em; /* Ensures h1 keeps a heading-appropriate size for accessibility */
         }
       `}</style>
     </>

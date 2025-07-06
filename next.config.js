@@ -24,6 +24,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true, // Enable React Strict Mode
+  productionBrowserSourceMaps: true, // Enable production source maps for better debugging
 
   async rewrites() {
     return [
@@ -65,6 +66,35 @@ const nextConfig = {
     // config.plugins.push(new webpack.IgnorePlugin(/\/__tests__\//));
 
     return config;
+  },
+  async headers() {
+    return [
+      {
+        source: '/(.*)',
+        headers: [
+          // Content Security Policy (CSP)
+          {
+            key: 'Content-Security-Policy',
+            value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://ghulammujtaba.com; connect-src 'self' https://www.google-analytics.com; frame-ancestors 'none'; object-src 'none'; base-uri 'self';"
+          },
+          // HTTP Strict Transport Security (HSTS)
+          {
+            key: 'Strict-Transport-Security',
+            value: 'max-age=63072000; includeSubDomains; preload'
+          },
+          // Cross-Origin-Opener-Policy (COOP)
+          {
+            key: 'Cross-Origin-Opener-Policy',
+            value: 'same-origin'
+          },
+          // X-Frame-Options (XFO)
+          {
+            key: 'X-Frame-Options',
+            value: 'DENY'
+          },
+        ],
+      },
+    ];
   },
 };
 
