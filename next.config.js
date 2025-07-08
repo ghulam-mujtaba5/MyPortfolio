@@ -56,17 +56,7 @@ const nextConfig = {
     ];
   },
 
-  async redirects() {
-    return [
-      // Redirect www to non-www
-      {
-        source: '/:path*',
-        has: [{ type: 'host', value: 'www.ghulammujtaba.com' }],
-        destination: 'https://ghulammujtaba.com/:path*',
-        permanent: true,
-      },
-    ];
-  },
+  // Removed custom www to non-www redirect. Vercel will handle this automatically.
 
   webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
     // Important: Add support for source maps
