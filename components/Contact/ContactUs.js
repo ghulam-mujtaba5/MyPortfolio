@@ -11,6 +11,22 @@ const ContactSection = ({
   email = "hello@ghulammujtaba.com",
   phoneNumber = "+92 317 7107849"
 }) => {
+  // Add state for call feedback
+  const [callFeedback, setCallFeedback] = useState("");
+  const [emailFeedback, setEmailFeedback] = useState("");
+  // Handler for email click
+  const handleEmailClick = useCallback(() => {
+    window.location.href = `mailto:${email}`;
+    setEmailFeedback("Opening your email client...");
+    setTimeout(() => setEmailFeedback(""), 4000);
+  }, [email]);
+
+  // Handler for phone click
+  const handlePhoneClick = useCallback(() => {
+    window.location.href = `tel:${phoneNumber.replace(/\s+/g, "")}`;
+    setCallFeedback("Calling... If your device supports calls, your dialer will open.");
+    setTimeout(() => setCallFeedback(""), 4000);
+  }, [phoneNumber]);
   const [name, setName] = useState('');
   const [emailInput, setEmailInput] = useState('');
   const [message, setMessage] = useState('');
@@ -235,17 +251,40 @@ const ContactSection = ({
         </p>
       )}
       <div className={`${commonStyles.contactDetails} ${themeStyles.contactDetails}`}>
-        <p className={`${commonStyles.contactEmail} ${themeStyles.contactEmail}`}>
-          <a 
-            href={`mailto:${email}?subject=Project%20Inquiry`} 
-            style={{ textDecoration: 'none', color: 'inherit', cursor: 'pointer' }}
-          >
-            {email}
-          </a>
+        <p
+          className={`${commonStyles.contactEmail} ${themeStyles.contactEmail}`}
+          style={{ cursor: "pointer" }}
+          onClick={handleEmailClick}
+          title="Click to email"
+          tabIndex={0}
+          role="button"
+          aria-label={`Email ${email}`}
+          onKeyPress={e => { if (e.key === 'Enter' || e.key === ' ') handleEmailClick(); }}
+        >
+          {email}
         </p>
-        <div className={`${commonStyles.contactPhoneNo} ${themeStyles.contactPhoneNo}`}>
-          <a href={`tel:${phoneNumber.replace(/\s+/g, '')}`} style={{ textDecoration: 'none', color: 'inherit' }}>{phoneNumber}</a>
+        {emailFeedback && (
+          <p className={`${commonStyles.message} ${themeStyles.successMessage} ${animationStyles.successMessage}`} role="status">
+            {emailFeedback}
+          </p>
+        )}
+        <div
+          className={`${commonStyles.contactPhoneNo} ${themeStyles.contactPhoneNo}`}
+          style={{ cursor: "pointer" }}
+          onClick={handlePhoneClick}
+          title="Click to call"
+          tabIndex={0}
+          role="button"
+          aria-label={`Call ${phoneNumber}`}
+          onKeyPress={e => { if (e.key === 'Enter' || e.key === ' ') handlePhoneClick(); }}
+        >
+          {phoneNumber}
         </div>
+        {callFeedback && (
+          <p className={`${commonStyles.message} ${themeStyles.successMessage} ${animationStyles.successMessage}`} role="status">
+            {callFeedback}
+          </p>
+        )}
         <h2 className={`${commonStyles.contactMeDescription} ${themeStyles.contactMeDescription}`}>Contact Me</h2>
         <div className={`${commonStyles.contactMeLabel} ${themeStyles.contactMeLabel}`}>
           <p className={`${commonStyles.doYouHave} ${themeStyles.doYouHave}`}>Do you have any project idea?</p>
