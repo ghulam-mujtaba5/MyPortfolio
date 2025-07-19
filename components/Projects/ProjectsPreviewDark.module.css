@@ -2,12 +2,12 @@
 
 .darkTheme {
   --text-color: #f5f5f5;
-  --button-text: #f5f5f5;
-  --button-bg: #222;
-  --button-border: #444;
-  --button-hover-bg: #222b3a;
-  --button-hover-text: #4fc3f7;
-  --button-hover-border: #1976d2;
+  --button-text: #4573df;
+  --button-bg: transparent;
+  --button-border: #4573df;
+  --button-hover-bg: #4573df;
+  --button-hover-text: #ffffff;
+  --button-hover-border: #4573df;
 }
 
 .title {
@@ -21,10 +21,15 @@
 }
 
 .viewAll:hover, .viewAll:focus {
-  background: var(--button-hover-bg);
-  color: var(--button-hover-text);
-  border-color: var(--button-hover-border);
-  box-shadow: 0 4px 18px rgba(25,118,210,0.13);
+  background: #4573df;
+  color: #ffffff;
+  border-color: #4573df;
   outline: none;
-  transform: translateY(-2px) scale(1.03);
+  transform: translateY(-2px);
+  box-shadow: none;
+}
+
+.viewAll:active {
+  transform: translateY(0);
+  opacity: 0.9;
 }
