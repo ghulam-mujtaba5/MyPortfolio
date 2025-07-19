@@ -5,7 +5,7 @@
     font-family: "Open Sans", sans-serif;
     display: none; /* Initially hide the navbar */
     font-size: 22px;
-    
+    z-index: 1000;
   }
   
   
@@ -26,16 +26,16 @@
     margin-top: 10px;
     width: 30px;
     height: 30px;
-    position: relative;
+    position: absolute;
     top: 25px;
     right: 30px;
     transform: rotate(0deg);
     transition: .5s ease-in-out;
     cursor: pointer;
-    z-index: 4; /* Ensure the button is above the menu list */
-    background-color: transparent; /* Background color of the button */
-    border: none; /* Remove default border */
-    outline: no
+    z-index: 1000; /* Increased z-index to ensure it's above all content */
+    background-color: transparent;
+    border: none;
+    outline: none;
   }
   
   /* Styles for the hamburger icon lines */
@@ -102,8 +102,9 @@
     opacity: 0;
     transform: translateX(10px);
     pointer-events: none;
-    z-index: 3;
+    z-index: 999;
     border: 1px solid rgba(255, 255, 255, 0.1);
+    position: absolute;
   }
   
   /* Styles for individual menu items */
