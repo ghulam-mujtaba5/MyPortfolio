@@ -8,7 +8,7 @@ import animationStyles from './ContactUsAnimations.module.css';
 import { motion, useAnimation } from 'framer-motion';
 
 const ContactSection = ({
-  email = "ghulammujtaba0454@gmail.com",
+  email = "hello@ghulammujtaba.com",
   phoneNumber = "+92 317 7107849"
 }) => {
   const [name, setName] = useState('');
@@ -235,8 +235,17 @@ const ContactSection = ({
         </p>
       )}
       <div className={`${commonStyles.contactDetails} ${themeStyles.contactDetails}`}>
-        <p className={`${commonStyles.contactEmail} ${themeStyles.contactEmail}`}>{email}</p>
-        <div className={`${commonStyles.contactPhoneNo} ${themeStyles.contactPhoneNo}`}>{phoneNumber}</div>
+        <p className={`${commonStyles.contactEmail} ${themeStyles.contactEmail}`}>
+          <a 
+            href={`mailto:${email}?subject=Project%20Inquiry`} 
+            style={{ textDecoration: 'none', color: 'inherit', cursor: 'pointer' }}
+          >
+            {email}
+          </a>
+        </p>
+        <div className={`${commonStyles.contactPhoneNo} ${themeStyles.contactPhoneNo}`}>
+          <a href={`tel:${phoneNumber.replace(/\s+/g, '')}`} style={{ textDecoration: 'none', color: 'inherit' }}>{phoneNumber}</a>
+        </div>
         <h2 className={`${commonStyles.contactMeDescription} ${themeStyles.contactMeDescription}`}>Contact Me</h2>
         <div className={`${commonStyles.contactMeLabel} ${themeStyles.contactMeLabel}`}>
           <p className={`${commonStyles.doYouHave} ${themeStyles.doYouHave}`}>Do you have any project idea?</p>

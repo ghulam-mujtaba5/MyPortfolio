@@ -49,7 +49,7 @@ const PrivacyPolicy = () => {
         <section className={styles.section}>
           <h2 className={styles.subheading}>2. Information We Collect</h2>
           <ul>
-            <li><strong>Personal Information:</strong> If you contact Ghulam Mujtaba via the contact form or email (ghulammujtaba0454@gmail.com), your name, email address, and message content are collected solely for communication purposes.</li>
+            <li><strong>Personal Information:</strong> If you contact Ghulam Mujtaba via the contact form or email (hello@ghulammujtaba.com), your name, email address, and message content are collected solely for communication purposes.</li>
             <li><strong>Resume & Projects:</strong> If you download the resume or view project details, no additional personal data is collected unless you reach out directly.</li>
             <li><strong>Usage Data:</strong> Information about your visit (such as pages viewed, time spent, browser/device info) is collected via cookies and analytics tools (e.g., Google Analytics) to improve the site.</li>
             <li><strong>Cookies:</strong> Cookies are used to enhance your experience, remember preferences, and manage consent. You can accept or decline cookies via the cookie consent banner at any time.</li>
@@ -61,7 +61,7 @@ const PrivacyPolicy = () => {
           <ul>
             <li>To provide, operate, and maintain this portfolio website and its features.</li>
             <li>To improve and personalize your experience based on your preferences and usage.</li>
-            <li>To respond to your inquiries, requests, or feedback sent to <a href="mailto:ghulammujtaba0454@gmail.com">ghulammujtaba0454@gmail.com</a>.</li>
+            <li>To respond to your inquiries, requests, or feedback sent to <a href="mailto:hello@ghulammujtaba.com">hello@ghulammujtaba.com</a>.</li>
             <li>To analyze usage and trends to improve the site and services.</li>
             <li>To comply with legal obligations and protect the rights of Ghulam Mujtaba.</li>
           </ul>
@@ -120,7 +120,7 @@ const PrivacyPolicy = () => {
           </p>
           <ul>
             <li><strong>Name:</strong> Ghulam Mujtaba</li>
-            <li><strong>Email:</strong> <a href="mailto:ghulammujtaba0454@gmail.com">ghulammujtaba0454@gmail.com</a></li>
+            <li><strong>Email:</strong> <a href="mailto:hello@ghulammujtaba.com">hello@ghulammujtaba.com</a></li>
             <li><strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/ghulamujtabaofficial" target="_blank" rel="noopener noreferrer">ghulamujtabaofficial</a></li>
             <li><strong>Instagram:</strong> <a href="https://www.instagram.com/ghulamujtabaofficial/" target="_blank" rel="noopener noreferrer">ghulamujtabaofficial</a></li>
             <li><strong>GitHub:</strong> <a href="https://github.com/ghulam-mujtaba5" target="_blank" rel="noopener noreferrer">ghulam-mujtaba5</a></li>
