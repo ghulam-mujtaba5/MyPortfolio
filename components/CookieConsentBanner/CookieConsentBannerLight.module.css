@@ -1,7 +1,7 @@
 .banner {
-  background: #f5f7fa;
+  background: rgba(245, 247, 250, 0.85);
   color: #23272f;
-  border: 1px solid #e3e6ea;
+  border: 1px solid rgba(227, 230, 234, 0.3);
 }
 .root {
   --banner-bg: #f7f9fb;

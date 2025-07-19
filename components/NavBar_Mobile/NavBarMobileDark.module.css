@@ -18,13 +18,14 @@
 }
 
 .menuContainer {
-  background-color: #272c34;
+  background-color: rgba(39, 44, 52, 0.85);
 }
 
 .menuItem {
   color: #fff;
+  transition: all 0.3s ease;
 }
 
 .menuItem:hover {
-  background-color: #3a3f47;
+  background-color: rgba(58, 63, 71, 0.7);
 }
