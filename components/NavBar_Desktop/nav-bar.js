@@ -33,7 +33,6 @@ const NavBar = () => {
   const isProjects = router.pathname === '/projects';
   const isHome = !isProjects;
   const isAbout = router.pathname === '/' && hash === '#about-section';
-  const isSkills = router.pathname === '/' && hash === '#languages-section';
   const isResume = router.pathname === '/resume';
   const isContact = router.pathname === '/' && hash === '#contact-section';
 
@@ -53,14 +52,6 @@ const NavBar = () => {
         onClick={() => handleScrollToSection("about-section")}
       >
         <div className={styles.aboutText}>About</div>
-      </div>
-
-      {/* Skills section */}
-      <div
-        className={`${styles.skills} ${isSkills ? styles.active : ''}`}
-        onClick={() => handleScrollToSection("languages-section")}
-      >
-        <div className={styles.skillsText}>Skills</div>
       </div>
 
       {/* Logo and Name Animation */}

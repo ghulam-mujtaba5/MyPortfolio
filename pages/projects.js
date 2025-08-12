@@ -27,7 +27,6 @@ const TAGS = [
 const sections = [
   { route: '/#home-section', label: 'Home' },
   { route: '/#about-section', label: 'About' },
-  { route: '/#languages-section', label: 'Skills' },
   { route: '/resume', label: 'Resume' },
   { route: '/projects', label: 'Projects' },
   { route: '/#contact-section', label: 'Contact' }

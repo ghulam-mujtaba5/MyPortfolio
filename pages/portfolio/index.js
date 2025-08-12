@@ -29,7 +29,6 @@ const Home = () => {
   const sections = [
     { id: 'home-section', label: 'Home' },
     { id: 'about-section', label: 'About' },
-    { id: 'languages-section', label: 'Skills' },
     { route: '/resume', label: 'Resume' },
     { route: '/projects', label: 'Projects' },
     { id: 'contact-section', label: 'Contact' }
