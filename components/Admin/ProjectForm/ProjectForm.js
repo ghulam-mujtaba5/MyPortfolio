@@ -11,7 +11,7 @@ import commonStyles from './ProjectForm.module.css';
 import lightStyles from './ProjectForm.light.module.css';
 import darkStyles from './ProjectForm.dark.module.css';
 
-const ProjectForm = ({ onSave, onPreview, project = {}, serverErrors = {}, isSubmitting }) => {
+const ProjectForm = ({ onSave, onPreview, project = {}, serverErrors = {}, isSubmitting, onDataChange }) => {
   const { theme } = useTheme();
   const themeStyles = theme === 'dark' ? darkStyles : lightStyles;
 
@@ -28,6 +28,9 @@ const ProjectForm = ({ onSave, onPreview, project = {}, serverErrors = {}, isSub
       showImage: project.showImage !== undefined ? project.showImage : true,
       published: project.published || false,
       featuredOnHome: project.featuredOnHome || false,
+      metaTitle: project.metaTitle || '',
+      metaDescription: project.metaDescription || '',
+      ogImage: project.ogImage || '',
     },
   });
 
@@ -35,7 +38,19 @@ const ProjectForm = ({ onSave, onPreview, project = {}, serverErrors = {}, isSub
     for (const key in serverErrors) {
       setError(key, { type: 'server', message: serverErrors[key] });
     }
-  }, [serverErrors, setError]);
+    }, [serverErrors, setError]);
+
+  const watchedData = watch();
+
+  useEffect(() => {
+    if (onDataChange) {
+      const formattedData = {
+        ...watchedData,
+        tags: watchedData.tags.split(',').map(tag => tag.trim()).filter(Boolean),
+      };
+      onDataChange(formattedData);
+    }
+  }, [watchedData, onDataChange]);
 
   const onSubmit = (data) => {
     const submittedData = {
@@ -51,6 +66,10 @@ const ProjectForm = ({ onSave, onPreview, project = {}, serverErrors = {}, isSub
 
   const handleImageUsageChange = (useImage) => {
     setValue('showImage', useImage, { shouldValidate: true });
+  };
+
+  const handleOgImageUpdate = (imageUrl) => {
+    setValue('ogImage', imageUrl, { shouldValidate: true });
   };
 
   return (
@@ -105,6 +124,30 @@ const ProjectForm = ({ onSave, onPreview, project = {}, serverErrors = {}, isSub
         />
         {errors.image && <p className={commonStyles.error}>{errors.image.message}</p>}
       </div>
+
+      <details className={`${commonStyles.details} ${themeStyles.details}`}>
+        <summary className={`${commonStyles.summary} ${themeStyles.summary}`}>SEO Settings</summary>
+        <div className={commonStyles.detailsContent}>
+          <div className={`${commonStyles.formGroup} ${commonStyles.fullWidth}`}>
+            <label htmlFor="metaTitle" className={`${commonStyles.label} ${themeStyles.label}`}>Meta Title</label>
+            <input id="metaTitle" {...register('metaTitle')} className={`${commonStyles.input} ${themeStyles.input}`} placeholder="Optimal length: 50-60 characters" />
+            {errors.metaTitle && <p className={commonStyles.error}>{errors.metaTitle.message}</p>}
+          </div>
+
+          <div className={`${commonStyles.formGroup} ${commonStyles.fullWidth}`}>
+            <label htmlFor="metaDescription" className={`${commonStyles.label} ${themeStyles.label}`}>Meta Description</label>
+            <textarea id="metaDescription" {...register('metaDescription')} className={`${commonStyles.textarea} ${themeStyles.textarea}`} placeholder="Optimal length: 150-160 characters" rows="3"></textarea>
+            {errors.metaDescription && <p className={commonStyles.error}>{errors.metaDescription.message}</p>}
+          </div>
+
+          <div className={`${commonStyles.formGroup} ${commonStyles.fullWidth}`}>
+            <label className={`${commonStyles.label} ${themeStyles.label}`}>Open Graph Image (for social sharing)</label>
+            <ImageUploader onUpload={handleOgImageUpdate} initialImageUrl={watch('ogImage')} />
+            <p className={commonStyles.helpText}>Recommended size: 1200x630px.</p>
+            {errors.ogImage && <p className={commonStyles.error}>{errors.ogImage.message}</p>}
+          </div>
+        </div>
+      </details>
 
       <div className={`${commonStyles.formGroup} ${commonStyles.fullWidth}`}>
         <label className={`${commonStyles.label} ${themeStyles.label}`}>

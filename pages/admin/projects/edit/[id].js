@@ -2,11 +2,15 @@ import { useRouter } from 'next/router';
 import toast from 'react-hot-toast';
 import AdminLayout from '../../../../components/Admin/AdminLayout/AdminLayout';
 import ProjectForm from '../../../../components/Admin/ProjectForm/ProjectForm';
+import Project1 from '../../../../components/Projects/Project1';
 import dbConnect from '../../../../lib/mongoose';
 import Project from '../../../../models/Project';
 
+import { useState, useEffect } from 'react';
+
 export default function EditProjectPage({ project, previewSecret }) {
-  const router = useRouter();
+    const router = useRouter();
+  const [previewData, setPreviewData] = useState(project);
 
   const handleSave = async (data) => {
     const response = await fetch(`/api/projects/${project._id}`, {
@@ -32,7 +36,22 @@ export default function EditProjectPage({ project, previewSecret }) {
   return (
     <AdminLayout title={`Edit: ${project.title}`}>
       <h1>Edit Project</h1>
-      <ProjectForm project={project} onSave={handleSave} onPreview={handlePreview} />
+            <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '2rem' }}>
+        <div>
+          <ProjectForm 
+            project={project} 
+            onSave={handleSave} 
+            onPreview={handlePreview} 
+            onDataChange={setPreviewData} 
+          />
+        </div>
+        <div>
+          <h3>Live Preview</h3>
+          <div style={{ transform: 'scale(0.9)', transformOrigin: 'top left' }}>
+            <Project1 projectOverride={previewData} />
+          </div>
+        </div>
+      </div>
     </AdminLayout>
   );
 }

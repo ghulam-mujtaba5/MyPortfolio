@@ -1,11 +1,33 @@
 .card {
   position: relative;
-  border: 2px solid transparent; /* For selection indicator */
+  border: 2px solid transparent;
   transition: border-color 0.2s;
+  border-radius: 8px;
+  overflow: hidden;
+  height: 250px;
+  display: flex;
+  align-items: flex-end;
+  background-color: #f3f4f6; /* Fallback color */
+}
+
+.card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0) 60%);
+  z-index: 2;
+  transition: background 0.3s;
+}
+
+.card:hover::after {
+  background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.1) 70%);
 }
 
 .selected {
-  border-color: #3B82F6; /* blue-500 */
+  border-color: #3B82F6;
 }
 
 .checkbox {
@@ -17,9 +39,50 @@
   z-index: 10;
 }
 
+.imageContainer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.content {
+  position: relative;
+  z-index: 3;
+  padding: 1rem;
+  width: 100%;
+  color: white;
+}
+
+.title {
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  height: 40px; /* Limit height */
+  overflow: hidden;
+}
+
+.tag {
+  background: rgba(255, 255, 255, 0.15);
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
 .links {
-  justify-content: flex-end; /* Push buttons to the right */
-  margin-top: 1rem;
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
 }
 
 .button {
@@ -32,20 +95,19 @@
 }
 
 .editButton {
-  background-color: #3B82F6; /* blue-500 */
+  background-color: #3B82F6;
   color: white;
-  margin-right: 0.5rem;
 }
 
 .editButton:hover {
-  background-color: #2563EB; /* blue-600 */
+  background-color: #2563EB;
 }
 
 .deleteButton {
-  background-color: #EF4444; /* red-500 */
+  background-color: #EF4444;
   color: white;
 }
 
 .deleteButton:hover {
-  background-color: #DC2626; /* red-600 */
+  background-color: #DC2626;
 }

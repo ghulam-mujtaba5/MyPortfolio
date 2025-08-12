@@ -1,0 +1,19 @@
+.modal {
+  background-color: #ffffff;
+}
+
+.header {
+  border-color: #e5e7eb; /* gray-200 */
+}
+
+.title {
+  color: #111827; /* gray-900 */
+}
+
+.closeButton {
+  color: #6b7280; /* gray-500 */
+}
+
+.closeButton:hover {
+  color: #111827; /* gray-900 */
+}

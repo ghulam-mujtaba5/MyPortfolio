@@ -1,10 +1,14 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import Image from 'next/image';
 import { useTheme } from '../../../context/ThemeContext';
+import axios from 'axios';
+import toast from 'react-hot-toast';
 
 import commonStyles from './ImageUploader.module.css';
 import lightStyles from './ImageUploader.light.module.css';
 import darkStyles from './ImageUploader.dark.module.css';
+import Modal from '../Modal/Modal';
+import MediaLibrary from '../MediaLibrary/MediaLibrary';
 
 export default function ImageUploader({ onUpload, initialImageUrl = '', onImageUsageChange, useImage: initialUseImage = true }) {
   const { theme } = useTheme();
@@ -17,43 +21,42 @@ export default function ImageUploader({ onUpload, initialImageUrl = '', onImageU
   const [uploadMethod, setUploadMethod] = useState('file'); // 'file' or 'url'
   const [imageUrl, setImageUrl] = useState('');
   const [useImage, setUseImage] = useState(initialUseImage);
-  const fileInputRef = useRef(null);
+    const fileInputRef = useRef(null);
+  const [isLibraryOpen, setIsLibraryOpen] = useState(false);
 
   useEffect(() => {
     setPreview(initialImageUrl);
     setUseImage(initialUseImage);
   }, [initialImageUrl, initialUseImage]);
 
-  const handleUpload = useCallback(async (file) => {
+    const handleUpload = useCallback(async (file) => {
     if (!file) return;
+
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('altText', file.name);
 
     setUploading(true);
     setError(null);
 
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onloadend = async () => {
-      try {
-        const response = await fetch('/api/upload', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ file: reader.result }),
-        });
-
-        if (!response.ok) {
-          const errorData = await response.json();
-          throw new Error(errorData.message || 'Upload failed');
+    try {
+      const { data } = await toast.promise(
+        axios.post('/api/media', formData, {
+          headers: { 'Content-Type': 'multipart/form-data' },
+        }),
+        {
+          loading: 'Uploading...',
+          success: 'Image uploaded successfully!',
+          error: 'Upload failed.',
         }
-
-        const data = await response.json();
-        setPreview(data.url);
-        onUpload(data.url);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setUploading(false);
-      }
-    };
+      );
+      setPreview(data.asset.url);
+      onUpload(data.asset.url);
+    } catch (err) {
+      setError(err.response?.data?.message || 'An error occurred.');
+    } finally {
+      setUploading(false);
+    }
   }, [onUpload]);
 
   const handleFileChange = (e) => {
@@ -94,10 +97,16 @@ export default function ImageUploader({ onUpload, initialImageUrl = '', onImageU
     }
   };
   
-  const handleRemoveImage = () => {
+    const handleRemoveImage = () => {
     setPreview('');
     onUpload('');
     setImageUrl('');
+  };
+
+  const handleSelectFromLibrary = (asset) => {
+    setPreview(asset.url);
+    onUpload(asset.url);
+    setIsLibraryOpen(false);
   };
 
   const uploaderBoxClasses = `
@@ -115,14 +124,25 @@ export default function ImageUploader({ onUpload, initialImageUrl = '', onImageU
         </label>
       </div>
 
-      {useImage && (
+            {useImage && (
         <>
+          <Modal
+            isOpen={isLibraryOpen}
+            onClose={() => setIsLibraryOpen(false)}
+            title="Select from Media Library"
+          >
+            <MediaLibrary onSelect={handleSelectFromLibrary} isModal={true} />
+          </Modal>
+
           <div className={commonStyles.methodSelector}>
             <button onClick={() => setUploadMethod('file')} className={`${commonStyles.methodButton} ${uploadMethod === 'file' ? commonStyles.activeMethod : ''}`}>
               Upload File
             </button>
-            <button onClick={() => setUploadMethod('url')} className={`${commonStyles.methodButton} ${uploadMethod === 'url' ? commonStyles.activeMethod : ''}`}>
+                        <button onClick={() => setUploadMethod('url')} className={`${commonStyles.methodButton} ${uploadMethod === 'url' ? commonStyles.activeMethod : ''}`}>
               From URL
+            </button>
+            <button onClick={() => setIsLibraryOpen(true)} className={`${commonStyles.methodButton}`}>
+              From Media Library
             </button>
           </div>
 

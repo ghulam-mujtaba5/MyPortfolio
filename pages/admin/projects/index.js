@@ -46,18 +46,22 @@ const ProjectsPage = () => {
     const handleDelete = async (id) => {
         if (!window.confirm('Are you sure you want to delete this project?')) return;
 
-        try {
-            const res = await fetch(`/api/admin/projects/${id}`, { method: 'DELETE' });
-            const data = await res.json();
+        const originalProjects = [...projects];
+        const newProjects = projects.filter(p => p._id !== id);
+        setProjects(newProjects);
 
-            if (res.ok) {
-                toast.success('Project deleted successfully.');
-                fetchData(); // Refresh data
-            } else {
+        try {
+            const res = await fetch(`/api/projects/${id}`, { method: 'DELETE' });
+
+            if (!res.ok) {
+                const data = await res.json().catch(() => ({}));
                 throw new Error(data.message || 'Failed to delete project');
             }
+            toast.success('Project deleted successfully.');
+            // No need to fetchData, UI is already updated
         } catch (error) {
             toast.error(error.message);
+            setProjects(originalProjects); // Revert on error
         }
     };
 

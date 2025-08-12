@@ -36,6 +36,7 @@ const sections = [
 ];
 
 import Link from 'next/link';
+import LoadingAnimation from '../components/LoadingAnimation/LoadingAnimation';
 
 const ProjectsPage = ({ projects }) => {
   const { theme } = useTheme();
@@ -148,11 +149,9 @@ const ProjectsPage = ({ projects }) => {
             ))}
           </div>
           <div className="project-grid">
-            {loading && <p>Loading projects...</p>}
-            {error && <p style={{ color: '#ef4444' }}>Error: {error}</p>}
-            {!loading && !error && filteredProjects.map((project) => (
-              <div key={project._id} className="project-grid-card card-animate" style={{ animationDelay: `${filteredProjects.indexOf(project) * 120}ms` }}>
-                <Project1 project={project} />
+            {filteredProjects.map(project => (
+              <div key={project._id} className="project-grid-card">
+                <Project1 {...project} />
               </div>
             ))}
           </div>

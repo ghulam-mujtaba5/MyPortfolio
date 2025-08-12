@@ -18,6 +18,7 @@ export default function AdminLayout({ children, title }) {
     { href: '/admin/dashboard', label: 'Dashboard' },
     { href: '/admin/articles', label: 'Articles' },
     { href: '/admin/projects', label: 'Projects' },
+    { href: '/admin/media', label: 'Media' },
     { href: '/admin/users', label: 'Users' },
     { href: '/admin/analytics', label: 'Analytics' },
     { href: '/admin/audit-logs', label: 'Audit Logs' },
@@ -35,7 +36,7 @@ export default function AdminLayout({ children, title }) {
             {navItems.map((item) => (
               <li key={item.href}>
                 <Link href={item.href} className={`${router.pathname === item.href ? `${commonStyles.active} ${themeStyles.active}` : ''}`}>
-                    {item.label}
+                  {item.label}
                 </Link>
               </li>
             ))}

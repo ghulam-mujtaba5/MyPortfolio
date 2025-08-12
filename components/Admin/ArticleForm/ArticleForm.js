@@ -30,6 +30,9 @@ export default function ArticleForm({ article = {}, onSave, onPreview, serverErr
       coverImage: article.coverImage || '',
       showCoverImage: article.showCoverImage !== undefined ? article.showCoverImage : true,
       slug: article.slug || '',
+      metaTitle: article.metaTitle || '',
+      metaDescription: article.metaDescription || '',
+      ogImage: article.ogImage || '',
     },
   });
 
@@ -53,6 +56,10 @@ export default function ArticleForm({ article = {}, onSave, onPreview, serverErr
 
   const handleImageUsageChange = (useImage) => {
     setValue('showCoverImage', useImage, { shouldValidate: true });
+  };
+
+  const handleOgImageUpdate = (imageUrl) => {
+    setValue('ogImage', imageUrl, { shouldValidate: true });
   };
 
   return (
@@ -101,6 +108,30 @@ export default function ArticleForm({ article = {}, onSave, onPreview, serverErr
           />
           {errors.content && <p className={`${commonStyles.error} ${themeStyles.error}`}>{errors.content.message}</p>}
         </div>
+
+        <details className={`${commonStyles.details} ${themeStyles.details}`}>
+          <summary className={`${commonStyles.summary} ${themeStyles.summary}`}>SEO Settings</summary>
+          <div className={commonStyles.detailsContent}>
+            <div className={`${commonStyles.formGroup} ${commonStyles.fullWidth}`}>
+              <label htmlFor="metaTitle" className={`${commonStyles.label} ${themeStyles.label}`}>Meta Title</label>
+              <input id="metaTitle" {...register('metaTitle')} className={`${commonStyles.input} ${themeStyles.input}`} placeholder="Optimal length: 50-60 characters" />
+              {errors.metaTitle && <p className={`${commonStyles.error} ${themeStyles.error}`}>{errors.metaTitle.message}</p>}
+            </div>
+
+            <div className={`${commonStyles.formGroup} ${commonStyles.fullWidth}`}>
+              <label htmlFor="metaDescription" className={`${commonStyles.label} ${themeStyles.label}`}>Meta Description</label>
+              <textarea id="metaDescription" {...register('metaDescription')} className={`${commonStyles.textarea} ${themeStyles.textarea}`} placeholder="Optimal length: 150-160 characters" rows="3"></textarea>
+              {errors.metaDescription && <p className={`${commonStyles.error} ${themeStyles.error}`}>{errors.metaDescription.message}</p>}
+            </div>
+
+            <div className={`${commonStyles.formGroup} ${commonStyles.fullWidth}`}>
+              <label className={`${commonStyles.label} ${themeStyles.label}`}>Open Graph Image (for social sharing)</label>
+              <ImageUploader onUpload={handleOgImageUpdate} initialImageUrl={watch('ogImage')} />
+              <p className={commonStyles.helpText}>Recommended size: 1200x630px.</p>
+              {errors.ogImage && <p className={`${commonStyles.error} ${themeStyles.error}`}>{errors.ogImage.message}</p>}
+            </div>
+          </div>
+        </details>
 
         <div className={`${commonStyles.formGroup} ${commonStyles.fullWidth}`}>
           <label className={`${commonStyles.checkboxContainer} ${themeStyles.label}`}>

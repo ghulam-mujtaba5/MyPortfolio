@@ -48,6 +48,18 @@ const ProjectSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  metaTitle: {
+    type: String,
+    trim: true,
+  },
+  metaDescription: {
+    type: String,
+    trim: true,
+  },
+  ogImage: {
+    type: String, // URL to the Open Graph image
+    trim: true,
+  },
 }, { timestamps: true });
 
 export default mongoose.models.Project || mongoose.model('Project', ProjectSchema);

@@ -1,0 +1,116 @@
+.container {
+  --loader-bg: #ffffff;
+  --orbit-color-1: #4573df; /* Brand Blue */
+  --orbit-color-2: #7aa0e8; /* Lighter Blue */
+  --orbit-color-3: #a8c0f0; /* Lightest Blue */
+  --core-color: #222222;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: var(--loader-bg);
+  transition: background-color 0.3s ease;
+}
+
+.container[data-theme='dark'] {
+  --loader-bg: #1d2127;
+  --orbit-color-1: #4573df; /* Brand Blue */
+  --orbit-color-2: #7aa0e8; /* Lighter Blue */
+  --orbit-color-3: #a8c0f0; /* Lightest Blue */
+  --core-color: #ffffff;
+}
+
+.spinnerBox {
+  width: 200px;
+  height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: transparent;
+}
+
+.orbit {
+  position: absolute;
+  width: 150px;
+  height: 150px;
+  border: 2px solid;
+  border-radius: 50%;
+  perspective: 1000px;
+}
+
+.orbit1 {
+  border-color: var(--orbit-color-1);
+  animation: rotate3d-1 3s linear infinite;
+}
+
+.orbit2 {
+  border-color: var(--orbit-color-2);
+  animation: rotate3d-2 3s linear infinite;
+}
+
+.orbit3 {
+  border-color: var(--orbit-color-3);
+  animation: rotate3d-3 3s linear infinite;
+}
+
+.electron {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  background-color: currentColor;
+  border-radius: 50%;
+  top: 50%;
+  left: -6px;
+  transform: translateY(-50%);
+  box-shadow: 0 0 15px currentColor;
+}
+
+.centralCore {
+  width: 20px;
+  height: 20px;
+  background-color: var(--core-color);
+  border-radius: 50%;
+  box-shadow: 0 0 20px var(--core-color);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  animation: pulse 2s infinite ease-in-out;
+}
+
+@keyframes rotate3d-1 {
+  0% { transform: rotate3d(1, 1, 1, 0deg); }
+  100% { transform: rotate3d(1, 1, 1, 360deg); }
+}
+
+@keyframes rotate3d-2 {
+  0% { transform: rotate3d(1, -1, 1, 0deg); }
+  100% { transform: rotate3d(1, -1, 1, 360deg); }
+}
+
+@keyframes rotate3d-3 {
+  0% { transform: rotate3d(-1, 1, 1, 0deg); }
+  100% { transform: rotate3d(-1, 1, 1, 360deg); }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 20px var(--core-color);
+  }
+  50% {
+    transform: scale(1.1);
+    box-shadow: 0 0 30px var(--core-color);
+  }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .orbit1, .orbit2, .orbit3 {
+    animation: fadeIn 1.5s ease-in-out infinite alternate;
+  }
+  .orbit1 { animation-delay: 0s; }
+  .orbit2 { animation-delay: 0.5s; }
+  .orbit3 { animation-delay: 1s; }
+}

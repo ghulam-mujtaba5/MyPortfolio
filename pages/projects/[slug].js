@@ -29,11 +29,20 @@ const ProjectPage = ({ project, preview }) => {
   return (
     <div>
       <Head>
-        <title>{`${project.title} | Project by Ghulam Mujtaba`}</title>
-        <meta name="description" content={project.description.substring(0, 160)} />
-        <meta property="og:title" content={project.title} />
-        <meta property="og:description" content={project.description.substring(0, 160)} />
-        {project.image && <meta property="og:image" content={project.image} />}
+        <title>{project.metaTitle || `${project.title} | Project by Ghulam Mujtaba`}</title>
+        <meta name="description" content={project.metaDescription || project.description.substring(0, 160)} />
+        
+        {/* Open Graph / Facebook */}
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content={project.metaTitle || project.title} />
+        <meta property="og:description" content={project.metaDescription || project.description.substring(0, 160)} />
+        <meta property="og:image" content={project.ogImage || project.image} />
+
+        {/* Twitter */}
+        <meta property="twitter:card" content="summary_large_image" />
+        <meta property="twitter:title" content={project.metaTitle || project.title} />
+        <meta property="twitter:description" content={project.metaDescription || project.description.substring(0, 160)} />
+        <meta property="twitter:image" content={project.ogImage || project.image} />
       </Head>
 
       {isMobile ? <NavBarMobile /> : <NavBarDesktop />}

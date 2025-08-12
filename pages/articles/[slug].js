@@ -1,6 +1,6 @@
 import React from 'react';
 import Head from 'next/head';
-import SEO from '../../components/SEO';
+
 import NavBarDesktop from '../../components/NavBar_Desktop/nav-bar';
 import NavBarMobile from '../../components/NavBar_Mobile/NavBar-mobile';
 import Footer from '../../components/Footer/Footer';
@@ -26,18 +26,26 @@ export default function ArticleDetailPage({ article, preview }) {
     return <div>Article not found.</div>;
   }
 
-  const title = `${article.title} | Articles`;
-  const desc = article.excerpt || 'An article by Ghulam Mujtaba';
-
   return (
     <>
-      <SEO
-        title={title}
-        description={desc}
-        url={`https://ghulammujtaba.com/articles/${article.slug || ''}`}
-        canonical={`https://ghulammujtaba.com/articles/${article.slug || ''}`}
-        keywords="Articles, Blog, Ghulam Mujtaba, Software, Data Science, AI"
-      />
+      <Head>
+        <title>{article.metaTitle || `${article.title} | Ghulam Mujtaba`}</title>
+        <meta name="description" content={article.metaDescription || article.excerpt} />
+        <link rel="canonical" href={`https://ghulammujtaba.com/articles/${article.slug}`} />
+
+        {/* Open Graph / Facebook */}
+        <meta property="og:type" content="article" />
+        <meta property="og:title" content={article.metaTitle || article.title} />
+        <meta property="og:description" content={article.metaDescription || article.excerpt} />
+        <meta property="og:image" content={article.ogImage || article.coverImage} />
+        <meta property="og:url" content={`https://ghulammujtaba.com/articles/${article.slug}`} />
+
+        {/* Twitter */}
+        <meta property="twitter:card" content="summary_large_image" />
+        <meta property="twitter:title" content={article.metaTitle || article.title} />
+        <meta property="twitter:description" content={article.metaDescription || article.excerpt} />
+        <meta property="twitter:image" content={article.ogImage || article.coverImage} />
+      </Head>
       <div style={{ backgroundColor: theme === 'dark' ? '#1d2127' : '#ffffff', minHeight: '100vh', overflowX: 'hidden' }}>
         <header>
           <NavBarDesktop />

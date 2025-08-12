@@ -1,0 +1,153 @@
+.toggle {
+  position: fixed;
+  left: 20px;
+  bottom: 20px;
+  z-index: 1000;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: transform 0.15s ease, background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-backdrop-filter: saturate(140%) blur(8px);
+  backdrop-filter: saturate(140%) blur(8px);
+  animation: tg-fade-in-up 260ms ease-out both;
+  will-change: transform, box-shadow, background, border-color;
+  isolation: isolate;
+  transform: translate(calc(var(--tx, 0) * 1px), calc(var(--ty, 0) * 1px)) scale(var(--sc, 1));
+  position: fixed;
+}
+
+.toggle:active {
+  transform: translateY(1px);
+}
+
+.iconWrap {
+  display: inline-flex;
+  width: 20px;
+  height: 20px;
+  transition: transform 220ms ease, opacity 200ms ease;
+  position: relative;
+  z-index: 1; /* above bg and ring */
+}
+
+/* Crossfade both icons for a morph-like effect */
+.sunIcon,
+.moonIcon {
+  position: absolute;
+  inset: 0;
+  transition: opacity 220ms ease, transform 220ms ease;
+  pointer-events: none;
+}
+
+[data-mode="light"] .sunIcon { opacity: 1; transform: scale(1); }
+[data-mode="light"] .moonIcon { opacity: 0; transform: scale(0.92); }
+[data-mode="dark"]  .sunIcon { opacity: 0; transform: scale(0.92); }
+[data-mode="dark"]  .moonIcon { opacity: 1; transform: scale(1); }
+
+.toggle:hover .iconWrap {
+  transform: translateY(-1px) scale(1.02);
+}
+
+.toggle:hover { --sc: 1.03; }
+
+/* Translucent circular background behind the icon */
+.iconBg {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  opacity: 0.76;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.25), 0 1px 2px rgba(0,0,0,0.06);
+  -webkit-backdrop-filter: blur(6px) saturate(160%);
+  backdrop-filter: blur(6px) saturate(160%);
+  transition: opacity 200ms ease, transform 220ms ease, background-color 220ms ease, border-color 220ms ease, box-shadow 220ms ease;
+  z-index: 0;
+}
+.toggle:hover .iconBg { opacity: 0.9; transform: scale(1.03); }
+
+/* Ambient halo behind the button (very subtle) */
+.halo {
+  position: absolute;
+  inset: -8px;
+  border-radius: 999px;
+  background: radial-gradient(50% 50% at 50% 50%, rgba(69,115,223,0.18) 0%, rgba(51,165,82,0.12) 45%, transparent 80%);
+  filter: blur(10px) saturate(120%);
+  opacity: 0.12;
+  pointer-events: none;
+  z-index: -1;
+  transition: opacity 220ms ease, filter 220ms ease;
+}
+.toggle:hover .halo { opacity: 0.2; filter: blur(12px) saturate(130%); }
+
+/* Gradient border ring using pseudo-element */
+.toggle::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px; /* thickness of the ring */
+  background: conic-gradient(from 0deg, #4573df, #33a552, #4573df);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+          mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+  opacity: 0.22;
+  pointer-events: none;
+  transition: opacity 0.25s ease, filter 0.25s ease;
+  animation: tg-spin 3.5s linear infinite;
+}
+.toggle:hover::before { opacity: 0.4; animation-duration: 2.1s; }
+.toggle:focus-visible::before { opacity: 0.9; }
+
+/* Focus ring for a11y */
+.toggle:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(69,115,223,0.25);
+}
+
+/* Click ripple pulse using ::after */
+.toggle::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(closest-side, currentColor 0%, transparent 70%);
+  opacity: 0;
+  transform: scale(0.6);
+  transition: opacity 300ms ease, transform 300ms ease;
+  pointer-events: none;
+}
+
+.pulse::after {
+  opacity: 0.18;
+  transform: scale(1.15);
+}
+
+/* Entrance animation */
+@keyframes tg-fade-in-up {
+  from { opacity: 0; transform: translate3d(0, 8px, 0); }
+  to   { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+
+@keyframes tg-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Reduce motion */
+@media (prefers-reduced-motion: reduce) {
+  .toggle { animation: none; transition: none; }
+}
+
+/* Hide on small screens (exclude mobile) */
+@media (max-width: 767px) {
+  .toggle { display: none; }
+}

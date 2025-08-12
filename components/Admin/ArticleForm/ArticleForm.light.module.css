@@ -14,7 +14,36 @@
 }
 
 .error {
-  color: var(--color-error-light);
+  color: #b91c1c;
+}
+
+.details {
+  border-color: #e2e8f0;
+}
+
+.summary {
+  background-color: #f8fafc;
+  color: #1e293b;
+}
+
+.summary:hover {
+  background-color: #f1f5f9;
+}
+
+.detailsContent {
+  background-color: #ffffff;
+  border-top-color: #e2e8f0;
+}
+
+.textarea {
+  background-color: #ffffff;
+  border-color: #cbd5e1;
+  color: #1e293b;
+}
+
+.textarea:focus {
+  border-color: var(--primary-color-light);
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
 }
 
 .button {
