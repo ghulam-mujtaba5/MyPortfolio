@@ -1,0 +1,34 @@
+.statCard {
+  background-color: #1f1f1f;
+  border: 1px solid #303030;
+}
+
+.statCard h3 {
+  color: #a6a6a6;
+}
+
+.statCard p {
+  color: #d9d9d9;
+}
+
+.chartContainer {
+  background-color: #1f1f1f;
+  border: 1px solid #303030;
+}
+
+.recentActivity ul li {
+  border-bottom: 1px solid #303030;
+}
+
+.recentActivity ul li:last-child {
+  border-bottom: none;
+}
+
+.quickActions button {
+    background-color: #177ddc;
+    color: white;
+}
+
+.quickActions button:hover {
+    background-color: #1765ad;
+}

@@ -1,0 +1,30 @@
+.form {
+    background-color: #212529;
+    border: 1px solid #495057;
+    padding: 2rem;
+    border-radius: 8px;
+}
+
+.input, .textarea {
+    background-color: #343a40;
+    color: #f8f9fa;
+    border: 1px solid #495057;
+}
+
+.input:focus, .textarea:focus {
+    border-color: #86b7fe;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+.label {
+    color: #f8f9fa;
+}
+
+.button {
+    background-color: #0d6efd;
+    color: white;
+}
+
+.button:hover {
+    background-color: #0b5ed7;
+}

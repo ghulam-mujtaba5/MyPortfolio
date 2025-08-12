@@ -1,11 +1,12 @@
 
 
-
 import { Fragment, useEffect, useState } from "react";
 import { hasAcceptedCookies } from '../utils/cookieConsent';
 import Head from "next/head";
 import SEO from '../components/SEO';
 import { ThemeProvider } from '../context/ThemeContext';
+import { SessionProvider } from 'next-auth/react';
+import { Toaster } from 'react-hot-toast';
 import CookieConsentBanner from '../components/CookieConsentBanner/CookieConsentBanner';
 import Script from 'next/script';
 import { useRouter } from 'next/router';
@@ -19,8 +20,7 @@ if (typeof window !== 'undefined' && 'serviceWorker' in navigator) {
   });
 }
 
-
-function MyApp({ Component, pageProps }) {
+function MyApp({ Component, pageProps, session }) {
   const router = useRouter();
   const [cookiesAccepted, setCookiesAccepted] = useState(false);
 
@@ -50,8 +50,6 @@ function MyApp({ Component, pageProps }) {
       };
     }
   }, [router.events, router.pathname]);
-
-  // ...existing code...
 
   return (
     <Fragment>
@@ -88,10 +86,29 @@ function MyApp({ Component, pageProps }) {
         </>
       )}
 
-      <ThemeProvider>
-        <Component {...pageProps} />
-        <CookieConsentBanner />
-      </ThemeProvider>
+      <SessionProvider session={session}>
+        <Toaster
+          position="top-right"
+          toastOptions={{
+            success: {
+              style: {
+                background: '#10B981', // A modern green
+                color: 'white',
+              },
+            },
+            error: {
+              style: {
+                background: '#EF4444', // A modern red
+                color: 'white',
+              },
+            },
+          }}
+        />
+        <ThemeProvider>
+          <Component {...pageProps} />
+          <CookieConsentBanner />
+        </ThemeProvider>
+      </SessionProvider>
     </Fragment>
   );
 }

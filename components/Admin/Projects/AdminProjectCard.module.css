@@ -1,0 +1,51 @@
+.card {
+  position: relative;
+  border: 2px solid transparent; /* For selection indicator */
+  transition: border-color 0.2s;
+}
+
+.selected {
+  border-color: #3B82F6; /* blue-500 */
+}
+
+.checkbox {
+  position: absolute;
+  top: 0.75rem;
+  left: 0.75rem;
+  width: 1.25rem;
+  height: 1.25rem;
+  z-index: 10;
+}
+
+.links {
+  justify-content: flex-end; /* Push buttons to the right */
+  margin-top: 1rem;
+}
+
+.button {
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  font-weight: 600;
+  transition: background-color 0.2s;
+  border: none;
+  cursor: pointer;
+}
+
+.editButton {
+  background-color: #3B82F6; /* blue-500 */
+  color: white;
+  margin-right: 0.5rem;
+}
+
+.editButton:hover {
+  background-color: #2563EB; /* blue-600 */
+}
+
+.deleteButton {
+  background-color: #EF4444; /* red-500 */
+  color: white;
+}
+
+.deleteButton:hover {
+  background-color: #DC2626; /* red-600 */
+}

@@ -1,0 +1,39 @@
+.widgetContainer {
+  display: flex;
+  align-items: center;
+  padding: 1.5rem; /* 24px */
+  border-radius: 0.5rem; /* 8px */
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+}
+
+.iconContainer {
+  margin-right: 1rem; /* 16px */
+  padding: 0.75rem; /* 12px */
+  border-radius: 9999px; /* full */
+}
+
+.title {
+  font-size: 0.875rem; /* 14px */
+}
+
+.value {
+  font-size: 1.5rem; /* 24px */
+  font-weight: 700;
+}
+
+/* Color variants for the icon background */
+.blue {
+  background-color: #3B82F6; /* blue-500 */
+}
+
+.green {
+  background-color: #10B981; /* green-500 */
+}
+
+.purple {
+  background-color: #8B5CF6; /* purple-500 */
+}
+
+.yellow {
+  background-color: #F59E0B; /* amber-500 */
+}

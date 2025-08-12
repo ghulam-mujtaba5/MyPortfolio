@@ -21,6 +21,7 @@ const PrivacyPolicy = () => {
   const sections = [
     { label: 'Home', route: '/' },
     { label: 'Projects', route: '/projects' },
+    { label: 'Articles', route: '/articles' },
     { label: 'Contact', route: '/#contact-section' },
     { label: 'Privacy Policy', route: '/privacy-policy' }
   ];

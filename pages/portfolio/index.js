@@ -21,7 +21,7 @@ import SEO from '../../components/SEO';
 
 import { useEffect, useState } from 'react';
 
-const Home = () => {
+const Home = ({ previewProjects = [] }) => {
   const { theme } = useTheme();
 
 
@@ -31,6 +31,7 @@ const Home = () => {
     { id: 'about-section', label: 'About' },
     { route: '/resume', label: 'Resume' },
     { route: '/projects', label: 'Projects' },
+    { route: '/articles', label: 'Articles' },
     { id: 'contact-section', label: 'Contact' }
   ];
 
@@ -109,7 +110,7 @@ const Home = () => {
 
           <section id="project-section" aria-labelledby="project-section-heading" style={{ width: '100%' }}>
             <h2 id="project-section-heading" className="visually-hidden">Projects</h2>
-            <ProjectsPreview />
+            <ProjectsPreview projects={previewProjects} />
           </section>
 
           <section id="contact-section" aria-labelledby="contact-section-heading" style={{ width: '100%' }}>
@@ -150,3 +151,33 @@ const Home = () => {
 };
 
 export default Home;
+
+// Server-side fetch of latest published projects for the homepage preview
+import dbConnect from '../../lib/mongoose';
+import Project from '../../models/Project';
+
+export async function getServerSideProps() {
+  try {
+    await dbConnect();
+    let docs = await Project.find({ published: true, featuredOnHome: true })
+      .sort({ createdAt: -1 })
+      .limit(3)
+      .lean();
+
+    // Fallback: if no featured projects, show latest published
+    if (!docs || docs.length === 0) {
+      docs = await Project.find({ published: true })
+        .sort({ createdAt: -1 })
+        .limit(3)
+        .lean();
+    }
+
+    return {
+      props: {
+        previewProjects: JSON.parse(JSON.stringify(docs)),
+      },
+    };
+  } catch (e) {
+    return { props: { previewProjects: [] } };
+  }
+}

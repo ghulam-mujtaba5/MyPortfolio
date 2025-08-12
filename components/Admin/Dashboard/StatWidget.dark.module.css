@@ -1,0 +1,11 @@
+.widgetContainer {
+  background-color: #1f2937; /* gray-800 */
+}
+
+.title {
+  color: #9CA3AF; /* gray-400 */
+}
+
+.value {
+  color: #F9FAFB; /* gray-50 */
+}

@@ -1,7 +1,9 @@
 import Icon from '../components/Icon/gmicon';
 import SEO from '../components/SEO';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import dbConnect from '../lib/mongoose';
+import Project from '../models/Project';
 import dynamic from 'next/dynamic';
 import Head from 'next/head';
 import { useTheme } from '../context/ThemeContext';
@@ -11,7 +13,7 @@ import NavBarMobile from '../components/NavBar_Mobile/NavBar-mobile';
 import Footer from '../components/Footer/Footer';
 
 // Dynamically import Project1 to avoid SSR issues with next/image
-const Project1 = dynamic(() => import('../components/Projects/Project1'), { ssr: false });
+import Project1 from '../components/Projects/Project1';
 
 const TAGS = [
   'All',
@@ -29,64 +31,18 @@ const sections = [
   { route: '/#about-section', label: 'About' },
   { route: '/resume', label: 'Resume' },
   { route: '/projects', label: 'Projects' },
+  { route: '/articles', label: 'Articles' },
   { route: '/#contact-section', label: 'Contact' }
 ];
 
-const ProjectsPage = () => {
-  // Parallax effect for hero globe
-  useEffect(() => {
-    const globe = document.getElementById('hero-globe-parallax');
-    if (!globe) return;
-    const handleMove = (e) => {
-      const x = (e.clientX / window.innerWidth - 0.5) * 30;
-      const y = (e.clientY / window.innerHeight - 0.5) * 30;
-      globe.style.transform = `translate(-50%, -50%) rotateX(${y}deg) rotateY(${-x}deg)`;
-    };
-    window.addEventListener('mousemove', handleMove);
-    return () => window.removeEventListener('mousemove', handleMove);
-  }, []);
+import Link from 'next/link';
+
+const ProjectsPage = ({ projects }) => {
   const { theme } = useTheme();
   const [selectedTag, setSelectedTag] = useState('All');
-
-  // Project data (should match Project1's internal data for demo)
-  const projects = [
-    {
-      title: 'Billing Application',
-      description: 'I developed a Desktop bookshop billing software using Java, JavaFX, Maven, and Spring, showcasing my skills in full-stack development and software architecture.',
-      techStack: 'Java, Java Fx, Maven, Spring',
-      imgSrc: 'project img 1.png',
-      livePreviewLink: 'https://github.com/ghulam-mujtaba5/java-semester-billing-software',
-      viewCodeLink: 'https://github.com/ghulam-mujtaba5/java-semester-billing-software',
-      tags: ['Software Development'],
-    },
-    {
-      title: 'My Portfolio Project',
-      description: 'Developed a personal portfolio website using Next.js, React.js, Context API, Styled Components, and Node.js. Optimized for performance and responsive design.',
-      techStack: 'Next Js, Context API, Figma',
-      imgSrc: 'project-2.png',
-      livePreviewLink: 'https://ghulammujtaba.com/',
-      viewCodeLink: 'https://github.com/ghulam-mujtaba5',
-      tags: ['Web Development', 'UI/UX'],
-    },
-    {
-      title: 'Portfolio v1',
-      description: 'Crafted a dynamic web portfolio showcasing creative UI/UX designs and diligently coded functionalities to deliver an immersive user experience.',
-      techStack: 'React, JavaScript, Html, Figma',
-      imgSrc: 'project img 3.png',
-      livePreviewLink: 'https://www.ghulammujtaba.tech/',
-      viewCodeLink: 'https://github.com/ghulam-mujtaba5/portfolioversion1.2',
-      tags: ['Web Development', 'UI/UX'],
-    },
-    {
-      title: 'AI Chatbot Assistant',
-      description: 'Built an AI-powered chatbot assistant using Python, TensorFlow, and NLP techniques to automate customer support and enhance user engagement.',
-      techStack: 'Python, TensorFlow, NLP',
-      imgSrc: 'DeepMind.png',
-      livePreviewLink: 'https://github.com/ghulam-mujtaba5/ai-chatbot-assistant',
-      viewCodeLink: 'https://github.com/ghulam-mujtaba5/ai-chatbot-assistant',
-      tags: ['AI', 'Data Science'],
-    },
-  ];
+  // Since this page uses SSR via getServerSideProps, default to not loading and no error.
+  const [loading] = useState(false);
+  const [error] = useState(null);
 
   const filteredProjects = selectedTag === 'All'
     ? projects
@@ -124,8 +80,8 @@ const ProjectsPage = () => {
                 position: idx + 1,
                 name: project.title,
                 description: project.description,
-                url: project.livePreviewLink,
-                image: `/` + project.imgSrc,
+                url: project?.links?.live || '',
+                image: project?.image || '',
               })),
             })
           }}
@@ -192,14 +148,11 @@ const ProjectsPage = () => {
             ))}
           </div>
           <div className="project-grid">
-            {filteredProjects.map((project, idx) => (
-              <div
-                key={project.title}
-                className="project-grid-card card-animate"
-                style={{ animationDelay: `${idx * 120}ms` }}
-              >
-                {/* Ensure images have alt text for SEO */}
-                <Project1 projectOverride={{ ...project, imgAlt: project.title + ' screenshot' }} />
+            {loading && <p>Loading projects...</p>}
+            {error && <p style={{ color: '#ef4444' }}>Error: {error}</p>}
+            {!loading && !error && filteredProjects.map((project) => (
+              <div key={project._id} className="project-grid-card card-animate" style={{ animationDelay: `${filteredProjects.indexOf(project) * 120}ms` }}>
+                <Project1 project={project} />
               </div>
             ))}
           </div>
@@ -526,5 +479,17 @@ const ProjectsPage = () => {
     </>
   );
 };
+
+export async function getServerSideProps() {
+  await dbConnect();
+
+  const projects = await Project.find({ published: true }).sort({ createdAt: -1 }).lean();
+
+  return {
+    props: {
+      projects: JSON.parse(JSON.stringify(projects)),
+    },
+  };
+}
 
 export default ProjectsPage;

@@ -33,7 +33,10 @@ const ProjectCard = React.memo(({ project, frameStyles, theme }) => {
     if (e.target.closest('a')) return;
     
     // Open the live preview link when clicking the card
-    window.open(project.livePreviewLink, '_blank', 'noopener,noreferrer');
+    const live = project?.links?.live;
+    if (live) {
+      window.open(live, '_blank', 'noopener,noreferrer');
+    }
   };
 
   return (
@@ -49,7 +52,7 @@ const ProjectCard = React.memo(({ project, frameStyles, theme }) => {
       <div className={`${commonStyles.projectCard1Child} ${frameStyles.projectCard1Child}`} />
       <a
         className={`${commonStyles.livePreview} ${frameStyles.livePreview}`}
-        href={project.livePreviewLink}
+        href={project?.links?.live || '#'}
         target="_blank"
         rel="noopener noreferrer"
         aria-label={`Live Preview of ${project.title}`}
@@ -58,7 +61,7 @@ const ProjectCard = React.memo(({ project, frameStyles, theme }) => {
       </a>
       <a
         className={`${commonStyles.viewCode} ${frameStyles.viewCode}`}
-        href={project.viewCodeLink}
+        href={project?.links?.github || '#'}
         target="_blank"
         rel="noopener noreferrer"
         aria-label={`View Code of ${project.title}`}
@@ -68,7 +71,7 @@ const ProjectCard = React.memo(({ project, frameStyles, theme }) => {
       <Image
         className={`${commonStyles.projectImg1} ${frameStyles.projectImg1}`}
         alt={`${project.title} screenshot`}
-        src={`/${project.imgSrc}`}
+        src={(project?.image || '').startsWith('/') ? (project.image || '') : `/${project?.image || ''}`}
         width={400}
         height={250}
         loading="lazy"
@@ -87,7 +90,7 @@ const ProjectCard = React.memo(({ project, frameStyles, theme }) => {
           <span>Tech stack :</span>
           <span className={`${commonStyles.javaJavaFxMavenSpring} ${frameStyles.javaJavaFxMavenSpring}`}>
             <span className={commonStyles.span}>{` `}</span>
-            <span>{project.techStack}</span>
+            <span>{Array.isArray(project?.tags) ? project.tags.join(', ') : ''}</span>
           </span>
         </span>
       </div>

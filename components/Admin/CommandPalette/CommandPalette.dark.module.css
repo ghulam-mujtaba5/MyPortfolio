@@ -1,0 +1,27 @@
+.overlay {
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.modal {
+  background-color: #1f2937; /* gray-800 */
+  border: 1px solid #4b5563; /* gray-600 */
+}
+
+.input {
+  background-color: #1f2937; /* gray-800 */
+  color: #f3f4f6; /* gray-100 */
+}
+
+.resultItem {
+  border-top-color: #4b5563; /* gray-600 */
+  color: #d1d5db; /* gray-300 */
+}
+
+.resultItem:hover, .activeItem {
+  background-color: #374151; /* gray-700 */
+}
+
+.resultType {
+  background-color: #4b5563; /* gray-600 */
+  color: #f9fafb; /* gray-50 */
+}

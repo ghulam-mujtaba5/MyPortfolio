@@ -1,0 +1,31 @@
+.label {
+  color: var(--color-text-primary-light);
+}
+
+.uploaderBox {
+  border-color: var(--color-border-light);
+  background-color: var(--color-bg-secondary-light);
+}
+
+.uploaderBox:hover {
+  background-color: var(--color-bg-tertiary-light);
+}
+
+.error {
+  color: var(--color-error-light);
+}
+
+.dragOver {
+  border-color: var(--color-primary-light);
+  background-color: var(--color-primary-light-accent);
+}
+
+.uploadButton, .button {
+  background-color: var(--color-primary-light);
+  color: var(--color-text-button-light);
+  border-color: var(--color-primary-light);
+}
+
+.uploadButton:hover, .button:hover {
+  background-color: var(--color-primary-hover-light);
+}

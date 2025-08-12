@@ -220,7 +220,6 @@
 /* Styles for the header container */
 .header {
   flex: 1;
-
   border-radius: 50px;
   background-color: #1d2127;
   border: 1px solid #fff;
@@ -230,12 +229,21 @@
   top: 0;
   z-index: 99;
   max-width: 100%;
-  gap: 20px;
+  gap: 10px; /* Adjusted gap */
   text-align: left;
   font-size: 20px;
   color: #fff;
   font-family: "Open Sans";
   margin: 0 20px; /* Add margin */
+}
+
+.leftNavigation,
+.rightNavigation {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 5px; /* Adjust gap between items */
 }
 .alternativeNameIcon{
 

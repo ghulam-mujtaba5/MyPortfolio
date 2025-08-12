@@ -34,25 +34,37 @@ const NavBar = () => {
   const isHome = !isProjects;
   const isAbout = router.pathname === '/' && hash === '#about-section';
   const isResume = router.pathname === '/resume';
+  const isArticles = router.pathname === '/articles';
   const isContact = router.pathname === '/' && hash === '#contact-section';
 
   return (
     <header className={styles.header}>
-      {/* Home button */}
-      <button
-        className={`${styles.home} ${isHome ? styles.active : ''}`}
-        onClick={() => handleScrollToSection("home-section")}
-      >
-        <b className={styles.homeText}>Home</b>
-      </button>
+      {/* Left side navigation */}
+      <div className={styles.leftNavigation}>
+        {/* Home button */}
+        <button
+          className={`${styles.home} ${isHome ? styles.active : ''}`}
+          onClick={() => handleScrollToSection("home-section")}
+        >
+          <b className={styles.homeText}>Home</b>
+        </button>
 
-      {/* About section */}
-      <div
-        className={`${styles.about} ${isAbout ? styles.active : ''}`}
-        onClick={() => handleScrollToSection("about-section")}
-      >
-        <div className={styles.aboutText}>About</div>
+        {/* About section */}
+        <div
+          className={`${styles.about} ${isAbout ? styles.active : ''}`}
+          onClick={() => handleScrollToSection("about-section")}
+        >
+          <div className={styles.aboutText}>About</div>
+        </div>
       </div>
+      
+        {/* Articles section */}
+        <div
+          className={`${styles.project} ${isArticles ? styles.active : ''}`}
+          onClick={() => handleNavigation("/articles")}
+        >
+          <div className={styles.projectText}>Articles</div>
+        </div>
 
       {/* Logo and Name Animation */}
       <Link href="http://softbuilt.ghulammujtaba.com" passHref>
@@ -95,25 +107,26 @@ const NavBar = () => {
         </div>
       </Link>
 
-      {/* Resume section */}
-      <div className={`${styles.resume} ${isResume ? styles.active : ''}`} onClick={() => handleNavigation("/resume")}>
-        <div className={styles.resumeText}>Resume</div>
-      </div>
+      {/* Right side navigation */}
+      <div className={styles.rightNavigation}>
+        {/* Resume section */}
+        <div className={`${styles.resume} ${isResume ? styles.active : ''}`} onClick={() => handleNavigation("/resume")}>
+          <div className={styles.resumeText}>Resume</div>
+        </div>
 
-      {/* Project section */}
-      <div
-        className={`${styles.project} ${isProjects ? styles.active : ''}`}
-        onClick={() => handleNavigation("/projects")}
-      >
-        <div className={styles.projectText}>Project</div>
-      </div>
 
-      {/* Contact section */}
-      <div
-        className={`${styles.contact} ${isContact ? styles.active : ''}`}
-        onClick={() => handleScrollToSection("contact-section")}
-      >
-        <div className={styles.contactText}>Contact</div>
+        {/* Project section */}
+        <div
+          className={`${styles.project} ${isProjects ? styles.active : ''}`}
+          onClick={() => handleNavigation("/projects")}
+        >
+          <div className={styles.projectText}>Project</div>
+        </div>
+
+        {/* Contact section */}
+        <div className={`${styles.contact} ${isContact ? styles.active : ''}`} onClick={() => handleScrollToSection("contact-section")}>
+          <div className={styles.contactText}>Contact</div>
+        </div>
       </div>
     </header>
   );

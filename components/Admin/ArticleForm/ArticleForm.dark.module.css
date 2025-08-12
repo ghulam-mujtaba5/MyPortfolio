@@ -1,0 +1,27 @@
+.label {
+  color: var(--color-text-primary-dark);
+}
+
+.input {
+  background-color: var(--color-bg-primary-dark);
+  border-color: var(--color-border-dark);
+  color: var(--color-text-primary-dark);
+}
+
+.input:focus {
+  border-color: var(--color-primary-dark);
+  box-shadow: 0 0 0 3px var(--color-primary-dark-focus);
+}
+
+.error {
+  color: var(--color-error-dark);
+}
+
+.button {
+  background-color: var(--color-primary-dark);
+  color: var(--color-text-button-dark);
+}
+
+.button:hover {
+  background-color: var(--color-primary-hover-dark);
+}

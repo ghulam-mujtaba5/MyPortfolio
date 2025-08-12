@@ -1,0 +1,7 @@
+.card { background: #111827; }
+.content { background: #111827; color: #e5e7eb; }
+.title { color: #f3f4f6; }
+.excerpt { color: #9ca3af; }
+.tag { color: #93c5fd; background: rgba(147, 197, 253, 0.08); border-color: rgba(147, 197, 253, 0.3); }
+.readMore { color: #93c5fd; }
+.readMore:hover { background: rgba(147, 197, 253, 0.12); border-color: rgba(147, 197, 253, 0.25); }

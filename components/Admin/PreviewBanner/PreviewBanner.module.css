@@ -1,0 +1,14 @@
+.banner {
+  width: 100%;
+  padding: 1rem;
+  text-align: center;
+  font-weight: bold;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.link {
+  text-decoration: underline;
+  cursor: pointer;
+}

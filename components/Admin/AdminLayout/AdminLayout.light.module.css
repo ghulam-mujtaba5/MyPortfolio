@@ -1,0 +1,27 @@
+.container {
+  background-color: #f0f2f5;
+}
+
+.sidebar {
+  background-color: #ffffff;
+  border-right: 1px solid #e0e0e0;
+}
+
+.sidebar a, .sidebar button {
+  color: #333;
+}
+
+.sidebar a:hover, .sidebar button:hover {
+  background-color: #f0f2f5;
+}
+
+.sidebar .active {
+  background-color: #e6f7ff;
+  border-right: 3px solid #1890ff;
+  color: #1890ff;
+}
+
+.mainContent {
+  background-color: #ffffff;
+  color: #333;
+}

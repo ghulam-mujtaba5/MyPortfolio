@@ -1,0 +1,47 @@
+.container {
+  padding: 1.5rem;
+  border-radius: 8px;
+}
+
+.title {
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.activityList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.activityItem {
+  display: flex;
+  align-items: center;
+  padding: 1rem 0;
+  border-bottom: 1px solid;
+}
+
+.activityItem:last-child {
+  border-bottom: none;
+}
+
+.icon {
+  font-size: 1.5rem;
+  margin-right: 1rem;
+}
+
+.activityDetails {
+  flex-grow: 1;
+}
+
+.activityText {
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.activityTime {
+  margin: 0.25rem 0 0;
+  font-size: 0.8rem;
+}

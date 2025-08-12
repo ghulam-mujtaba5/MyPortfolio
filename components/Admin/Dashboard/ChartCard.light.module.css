@@ -1,0 +1,11 @@
+.cardContainer {
+  background-color: #ffffff; /* white */
+}
+
+.title {
+  color: #111827; /* gray-900 */
+}
+
+.noDataText {
+  color: #6B7280; /* gray-500 */
+}

@@ -1,0 +1,53 @@
+import mongoose from 'mongoose';
+
+const ProjectSchema = new mongoose.Schema({
+  views: {
+    type: Number,
+    default: 0,
+  },
+  title: {
+    type: String,
+    required: [true, 'Title is required.'],
+    trim: true,
+  },
+  slug: {
+    type: String,
+    required: [true, 'Slug is required.'],
+    unique: true,
+    trim: true,
+  },
+  description: {
+    type: String,
+    required: [true, 'Description is required.'],
+  },
+  image: {
+    type: String, // URL to the image from upload or direct link
+    default: '',
+  },
+  showImage: {
+    type: Boolean,
+    default: true,
+  },
+  tags: {
+    type: [String],
+    required: true,
+  },
+  category: {
+    type: String,
+    required: true,
+  },
+  links: {
+    live: String,
+    github: String,
+  },
+  published: {
+    type: Boolean,
+    default: true,
+  },
+  featuredOnHome: {
+    type: Boolean,
+    default: false,
+  },
+}, { timestamps: true });
+
+export default mongoose.models.Project || mongoose.model('Project', ProjectSchema);

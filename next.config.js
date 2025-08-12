@@ -29,7 +29,7 @@ const nextConfig = {
   async rewrites() {
     return [
       {
-        source: '/:path*',  // Catch all paths
+        source: '/:path((?!api/).*)',  // Catch all paths except API routes
         destination: '/portfolio/:path*', // Redirect to the portfolio folder for localhost
         has: [
           {
@@ -39,7 +39,7 @@ const nextConfig = {
         ],
       },
       {
-        source: '/:path*', // SoftBuilt subdomain routes
+        source: '/:path((?!api/).*)', // SoftBuilt subdomain routes
         destination: '/softbuilt/:path*', // Map to the softbuilt folder
         has: [
           {
@@ -50,7 +50,7 @@ const nextConfig = {
       },
       // Fallback for preview deployments or any other domain for preview of vercel
       {
-        source: '/:path*',
+        source: '/:path((?!api/).*)',
         destination: '/portfolio/:path*',
       },
     ];
