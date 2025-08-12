@@ -57,3 +57,11 @@ Feel free to reach out via [LinkedIn](https://www.linkedin.com/in/ghulamujtabaof
 ---
 
 > Designed & built by [Ghulam Mujtaba].
+
+
+monogo dbpassword
+WrcWcCgjICZC5k7L
+
+monogo dbusername
+ghulammujtaba1005
+
