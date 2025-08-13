@@ -101,3 +101,135 @@ info  - Need to disable some ESLint rules? Learn more here: https://nextjs.org/d
  Ô£ô Generating static pages (18/18)
    Finalizing page optimization ...
    Collecting build traces ...
+
+Route (pages)                                   Size  First Load JS
+Ôöî   /_app                                        0 B         116 kB
+Ôö£ Ôùï /404 (2252 ms)                             975 B         161 kB
+Ôö£   Ôöö css/dbb10a6240b92b94.css                 903 B
+Ôö£ ãÆ /admin                                     287 B         116 kB
+Ôö£ Ôùï /admin/analytics (1537 ms)               10.9 kB         199 kB
+Ôö£   Ôöö css/3912ffcc34fb3506.css               1.94 kB
+Ôö£ Ôùï /admin/articles (776 ms)                 5.84 kB         169 kB
+Ôö£   Ôöö css/5a50e0a28aa53df9.css               4.89 kB
+Ôö£ ãÆ /admin/articles/edit/[id]                  671 B         182 kB
+Ôö£ Ôùï /admin/articles/new (2256 ms)              574 B         182 kB
+Ôö£ Ôùï /admin/articles/preview/[slug] (845 ms)  2.52 kB         124 kB
+Ôö£   Ôöö css/86025f27a8b99a96.css               2.65 kB
+Ôö£ Ôùï /admin/articles/redesigned (840 ms)        347 B         116 kB
+Ôö£ Ôùï /admin/audit-logs (2254 ms)              3.67 kB         167 kB
+Ôö£   Ôöö css/47828ddbbeaf5a51.css               3.28 kB
+Ôö£ Ôùï /admin/dashboard (776 ms)                5.45 kB         238 kB
+Ôö£   Ôöö css/fb317015a77082b8.css               2.75 kB
+Ôö£ ãÆ /admin/login                             1.01 kB         117 kB
+Ôö£   Ôöö css/154faff5574aaa13.css                 616 B
+Ôö£ Ôùï /admin/media (2255 ms)                     654 B         147 kB
+Ôö£   Ôöö css/a0eeb0b68094d669.css               3.13 kB
+Ôö£ Ôùï /admin/projects (1203 ms)                4.28 kB         134 kB
+Ôö£   Ôöö css/075a5d130933a26e.css               3.92 kB
+Ôö£ ãÆ /admin/projects/edit/[id]                2.59 kB         299 kB
+Ôö£   Ôöö css/e1b0319fe44129f8.css               1.66 kB
+Ôö£ Ôùï /admin/projects/new (1192 ms)              756 B         297 kB
+Ôö£ Ôùï /admin/search (778 ms)                   2.98 kB         125 kB
+Ôö£   Ôöö css/f64a0e8aee576ed6.css               3.03 kB
+Ôö£ Ôùï /admin/users (777 ms)                    3.47 kB         126 kB
+Ôö£   Ôöö css/5f380b22618205c8.css               1.97 kB
+Ôö£ ãÆ /api/admin/activity                          0 B         116 kB
+Ôö£ ãÆ /api/admin/adjust-tone                       0 B         116 kB
+Ôö£ ãÆ /api/admin/analytics                         0 B         116 kB
+Ôö£ ãÆ /api/admin/article-versions                  0 B         116 kB
+Ôö£ ãÆ /api/admin/articles                          0 B         116 kB
+Ôö£ ãÆ /api/admin/articles/preview/[slug]           0 B         116 kB
+Ôö£ ãÆ /api/admin/check-existence                   0 B         116 kB
+Ôö£ ãÆ /api/admin/generate-alt-text                 0 B         116 kB
+Ôö£ ãÆ /api/admin/grammar-check                     0 B         116 kB
+Ôö£ ãÆ /api/admin/notes                             0 B         116 kB
+Ôö£ ãÆ /api/admin/pin-item                          0 B         116 kB
+Ôö£ ãÆ /api/admin/pinned-items                      0 B         116 kB
+Ôö£ ãÆ /api/admin/projects                          0 B         116 kB
+Ôö£ ãÆ /api/admin/saved-searches                    0 B         116 kB
+Ôö£ ãÆ /api/admin/scheduler/publish                 0 B         116 kB
+Ôö£ ãÆ /api/admin/search                            0 B         116 kB
+Ôö£ ãÆ /api/admin/snippets                          0 B         116 kB
+Ôö£ ãÆ /api/admin/stats                             0 B         116 kB
+Ôö£ ãÆ /api/admin/suggest-headlines                 0 B         116 kB
+Ôö£ ãÆ /api/admin/suggest-tags                      0 B         116 kB
+Ôö£ ãÆ /api/analytics/stats                         0 B         116 kB
+Ôö£ ãÆ /api/articles                                0 B         116 kB
+Ôö£ ãÆ /api/articles/[slug]                         0 B         116 kB
+Ôö£ ãÆ /api/articles/bulk-action                    0 B         116 kB
+Ôö£ ãÆ /api/articles/bulk-delete                    0 B         116 kB
+Ôö£ ãÆ /api/articles/bulk-metadata                  0 B         116 kB
+Ôö£ ãÆ /api/articles/check-duplicate                0 B         116 kB
+Ôö£ ãÆ /api/articles/search                         0 B         116 kB
+Ôö£ ãÆ /api/articles/topcategories                  0 B         116 kB
+Ôö£ ãÆ /api/articles/toptags                        0 B         116 kB
+Ôö£ ãÆ /api/audit-logs                              0 B         116 kB
+Ôö£ ãÆ /api/auth/[...nextauth]                      0 B         116 kB
+Ôö£ ãÆ /api/db-ping                                 0 B         116 kB
+Ôö£ ãÆ /api/exit-preview                            0 B         116 kB
+Ôö£ ãÆ /api/media                                   0 B         116 kB
+Ôö£ ãÆ /api/media/[id]                              0 B         116 kB
+Ôö£ ãÆ /api/media/file/[id]                         0 B         116 kB
+Ôö£ ãÆ /api/preview                                 0 B         116 kB
+Ôö£ ãÆ /api/projects                                0 B         116 kB
+Ôö£ ãÆ /api/projects/[id]                           0 B         116 kB
+Ôö£ ãÆ /api/projects/bulk-action                    0 B         116 kB
+Ôö£ ãÆ /api/projects/bulk-delete                    0 B         116 kB
+Ôö£ ãÆ /api/projects/check-duplicate                0 B         116 kB
+Ôö£ ãÆ /api/track-view                              0 B         116 kB
+Ôö£ ãÆ /api/upload                                  0 B         116 kB
+Ôö£ ãÆ /api/users                                   0 B         116 kB
+Ôö£ ãÆ /api/users/[id]                              0 B         116 kB
+Ôö£ Ôùï /articles (774 ms)                       5.73 kB         128 kB
+Ôö£   Ôöö css/5254a1d84cc87e56.css               4.22 kB
+Ôö£ ãÆ /articles/[slug]                         5.35 kB         128 kB
+Ôö£   Ôöö css/5ee33b1d4f89579a.css               3.33 kB
+Ôö£ ãÆ /portfolio                               7.12 kB         176 kB
+Ôö£   Ôöö css/c69cd505df2bae48.css               3.49 kB
+Ôö£ Ôùï /portfolio/resume (766 ms)               5.92 kB         126 kB
+Ôö£   Ôöö css/f73b469f3d0c3b23.css               1.46 kB
+Ôö£ Ôùï /privacy-policy (774 ms)                 4.95 kB         127 kB
+Ôö£   Ôöö css/13114c50a8f688df.css                2.8 kB
+Ôö£ ãÆ /projects                                4.43 kB         135 kB
+Ôö£   Ôöö css/3474382843ade0c8.css                 841 B
+Ôö£ ãÆ /projects/[slug]                          2.9 kB         123 kB
+Ôö£   Ôöö css/8051719e17dabc7e.css                 520 B
+Ôöö Ôùï /softbuilt                                 11 kB         171 kB
+    Ôöö css/e209643b2e231bfc.css               6.49 kB
++ First Load JS shared by all                 119 kB
+  Ôö£ chunks/framework-2d627758acfc2496.js     57.8 kB
+  Ôö£ chunks/main-d1283f951b165c99.js          36.8 kB
+  Ôö£ chunks/pages/_app-f60412f6ba2b3398.js    18.2 kB
+  Ôöö other shared chunks (total)              6.03 kB
+
+ãÆ Middleware                                 33.5 kB
+
+Ôùï  (Static)   prerendered as static content
+ãÆ  (Dynamic)  server-rendered on demand
+
+
+> postbuild
+> next-sitemap --config next-sitemap-config.js
+
+Ô£¿ [next-sitemap] Loading next-sitemap config: file:///E:/temp/MyPortfolio/next-sitemap-config.js
+Ô£à [next-sitemap] Generation completed
+ÔöîÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔö¼ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÉ
+Ôöé (index)       Ôöé Values Ôöé
+Ôö£ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔö╝ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöñ
+Ôöé indexSitemaps Ôöé 1      Ôöé
+Ôöé sitemaps      Ôöé 1      Ôöé
+ÔööÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔö┤ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÿ
+-----------------------------------------------------
+ SITEMAP INDICES 
+-----------------------------------------------------
+
+   Ôùï http://ghulammujtaba.com/sitemap.xml
+
+
+-----------------------------------------------------
+ SITEMAPS 
+-----------------------------------------------------
+
+   Ôùï http://ghulammujtaba.com/sitemap-0.xml
+
+
