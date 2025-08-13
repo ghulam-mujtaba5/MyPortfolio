@@ -1,5 +1,8 @@
 import React, { Children, cloneElement, isValidElement, useId } from "react";
-import styles from "./Tooltip.module.css";
+import commonStyles from "./Tooltip.module.css";
+import lightStyles from "./Tooltip.light.module.css";
+import darkStyles from "./Tooltip.dark.module.css";
+import { useTheme } from "../../../context/ThemeContext";
 
 const Tooltip = ({ content, placement = "top", children }) => {
   const id = useId();
@@ -10,10 +13,13 @@ const Tooltip = ({ content, placement = "top", children }) => {
       })
     : onlyChild;
 
+  const { theme } = useTheme();
+  const themeStyles = theme === "dark" ? darkStyles : lightStyles;
+
   return (
-    <span className={`${styles.wrapper} ${styles[placement]}`}>
+    <span className={`${commonStyles.wrapper} ${commonStyles[placement]}`}>
       {trigger}
-      <span role="tooltip" id={id} className={styles.bubble}>
+      <span role="tooltip" id={id} className={`${commonStyles.bubble} ${themeStyles.bubble}`}>
         {content}
       </span>
     </span>

@@ -2,8 +2,11 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import toast from "react-hot-toast";
 import Icon from "../Icon/Icon";
-import styles from "./Dashboard.module.css";
+import commonStyles from "./Dashboard.module.css";
+import lightStyles from "./Dashboard.light.module.css";
+import darkStyles from "./Dashboard.dark.module.css";
 import { formatDistanceToNow } from "date-fns";
+import { useTheme } from "../../../context/ThemeContext";
 
 const PinnedItems = () => {
   const [items, setItems] = useState([]);
@@ -45,33 +48,36 @@ const PinnedItems = () => {
     }
   };
 
+  const { theme } = useTheme();
+  const themeStyles = theme === "dark" ? darkStyles : lightStyles;
+
   return (
-    <div className={styles.widgetCard}>
-      <h3 className={styles.widgetTitle}>Pinned Items</h3>
+    <div className={`${commonStyles.widgetCard} ${themeStyles.widgetCard}`}>
+      <h3 className={`${commonStyles.widgetTitle} ${themeStyles.widgetTitle}`}>Pinned Items</h3>
       {loading ? (
         <p>Loading...</p>
       ) : items.length === 0 ? (
-        <p className={styles.emptyText}>No items have been pinned yet.</p>
+        <p className={`${commonStyles.emptyText} ${themeStyles.emptyText}`}>No items have been pinned yet.</p>
       ) : (
-        <ul className={styles.itemList}>
+        <ul className={`${commonStyles.itemList} ${themeStyles.itemList}`}>
           {items.map((item) => (
-            <li key={`${item.type}-${item._id}`} className={styles.item}>
+            <li key={`${item.type}-${item._id}`} className={`${commonStyles.item} ${themeStyles.item}`}>
               <Link
                 href={`/admin/${item.type}s/edit/${item._id}`}
-                className={styles.itemLink}
+                className={`${commonStyles.itemLink} ${themeStyles.itemLink}`}
               >
-                <span className={styles.itemType}>{item.type}</span>
-                <span className={styles.itemTitle}>{item.title}</span>
+                <span className={`${commonStyles.itemType} ${themeStyles.itemType}`}>{item.type}</span>
+                <span className={`${commonStyles.itemTitle} ${themeStyles.itemTitle}`}>{item.title}</span>
               </Link>
-              <div className={styles.itemMeta}>
-                <span className={styles.itemDate}>
+              <div className={`${commonStyles.itemMeta} ${themeStyles.itemMeta}`}>
+                <span className={`${commonStyles.itemDate} ${themeStyles.itemDate}`}>
                   {formatDistanceToNow(new Date(item.updatedAt), {
                     addSuffix: true,
                   })}
                 </span>
                 <button
                   onClick={() => handleUnpin(item._id, item.type)}
-                  className={styles.unpinButton}
+                  className={`${commonStyles.unpinButton} ${themeStyles.unpinButton}`}
                 >
                   <Icon name="pin" />
                 </button>

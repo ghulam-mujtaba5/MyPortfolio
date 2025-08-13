@@ -1,9 +1,14 @@
+  const { theme } = useTheme();
+  const themeStyles = theme === "dark" ? darkStyles : lightStyles;
 import { useState, useEffect } from "react";
 import AdminLayout from "../../components/Admin/AdminLayout/AdminLayout";
 import withAdminAuth from "../../lib/withAdminAuth";
 import toast from "react-hot-toast";
 import { FiEdit, FiTrash2 } from "react-icons/fi";
-import styles from "./users.module.css"; // Import the new stylesheet
+import commonStyles from "./users.module.css";
+import lightStyles from "./users.light.module.css";
+import darkStyles from "./users.dark.module.css";
+import { useTheme } from "../../context/ThemeContext";
 
 // Edit User Modal Component
 const EditUserModal = ({ user, onClose, onUserUpdate }) => {
@@ -227,8 +232,8 @@ const UsersPage = () => {
             {loading && <p>Loading users...</p>}
             {error && <p className="text-red-500">Error: {error}</p>}
             {!loading && !error && (
-              <div className={styles.tableWrapper}>
-                <table className={styles.table}>
+              <div className={`${commonStyles.tableWrapper} ${themeStyles.tableWrapper}`}>
+                <table className={`${commonStyles.table} ${themeStyles.table}`}>
                   <thead>
                     <tr>
                       <th>Name</th>
@@ -243,16 +248,16 @@ const UsersPage = () => {
                         <td>{user.name}</td>
                         <td>{user.email}</td>
                         <td className="capitalize">{user.role}</td>
-                        <td className={styles.actions}>
+                        <td className={`${commonStyles.actions} ${themeStyles.actions}`}>
                           <button
                             onClick={() => openEditModal(user)}
-                            className={styles.actionButton}
+                            className={`${commonStyles.actionButton} ${themeStyles.actionButton}`}
                           >
                             <FiEdit />
                           </button>
                           <button
                             onClick={() => handleDeleteUser(user._id)}
-                            className={styles.deleteButton}
+                            className={`${commonStyles.deleteButton} ${themeStyles.deleteButton}`}
                           >
                             <FiTrash2 />
                           </button>

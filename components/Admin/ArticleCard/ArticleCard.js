@@ -4,10 +4,13 @@ import { motion } from 'framer-motion';
 import Icon from '../Icon/Icon';
 import StatusPill from '../StatusPill/StatusPill';
 import Tooltip from '../Tooltip/Tooltip';
-import styles from './ArticleCard.module.css';
+import commonStyles from './ArticleCard.module.css';
+import lightStyles from './ArticleCard.light.module.css';
+import darkStyles from './ArticleCard.dark.module.css';
 import Chip from '../Chip/Chip';
 import { FiTrash2, FiEdit, FiEye, FiCopy, FiCheckCircle, FiXCircle, FiHelpCircle } from "react-icons/fi";
 import toast from "react-hot-toast";
+import { useTheme } from '../../../context/ThemeContext';
 
 const ArticleCard = ({ article, isSelected, onSelect, onDelete }) => {
   const cardVariants = {
@@ -45,35 +48,38 @@ const ArticleCard = ({ article, isSelected, onSelect, onDelete }) => {
     }
   };
 
+  const { theme } = useTheme();
+  const themeStyles = theme === 'dark' ? darkStyles : lightStyles;
+
   return (
     <motion.div
       variants={cardVariants}
-      className={`${styles.card} ${isSelected ? styles.selected : ''}`}
+      className={`${commonStyles.card} ${themeStyles.card} ${isSelected ? `${commonStyles.selected} ${themeStyles.selected}` : ''}`}
     >
-      <div className={styles.selectionOverlay}>
+      <div className={`${commonStyles.selectionOverlay} ${themeStyles.selectionOverlay}`}>
         <input
           type="checkbox"
           checked={isSelected}
           onChange={(e) => onSelect(e, id)}
-          className={styles.checkbox}
+          className={`${commonStyles.checkbox} ${themeStyles.checkbox}`}
         />
       </div>
-      <div className={styles.cardContent}>
-        <div className={styles.coverImage}>
+      <div className={`${commonStyles.cardContent} ${themeStyles.cardContent}`}>
+        <div className={`${commonStyles.coverImage} ${themeStyles.coverImage}`}>
           {article.coverImage ? (
             <img src={article.coverImage} alt={article.title} />
           ) : (
-            <div className={styles.imagePlaceholder}>
+            <div className={`${commonStyles.imagePlaceholder} ${themeStyles.imagePlaceholder}`}>
               <Icon name="image" size={48} />
             </div>
           )}
-          <div className={styles.coverImageOverlay}></div>
-          <div className={styles.metaTop}>
+          <div className={`${commonStyles.coverImageOverlay} ${themeStyles.coverImageOverlay}`}></div>
+          <div className={`${commonStyles.metaTop} ${themeStyles.metaTop}`}>
             <StatusPill status={article.status} />
           </div>
         </div>
-        <div className={styles.info}>
-          <div className={styles.tags}>
+        <div className={`${commonStyles.info} ${themeStyles.info}`}>
+          <div className={`${commonStyles.tags} ${themeStyles.tags}`}>
             {article.categories?.slice(0, 1).map((category) => (
               <Chip key={category} label={category} size="sm" variant="primary" />
             ))}
@@ -81,17 +87,17 @@ const ArticleCard = ({ article, isSelected, onSelect, onDelete }) => {
               <Chip key={tag} label={`#${tag}`} size="sm" />
             ))}
           </div>
-          <h3 className={styles.title}>
+          <h3 className={`${commonStyles.title} ${themeStyles.title}`}>
             <Link href={`/admin/articles/edit/${id}`}>
               {article.title}
             </Link>
           </h3>
           {article.excerpt && (
-            <p className={styles.excerpt} title={article.excerpt}>
+            <p className={`${commonStyles.excerpt} ${themeStyles.excerpt}`} title={article.excerpt}>
               {article.excerpt}
             </p>
           )}
-          <div className={styles.metaBottom}>
+          <div className={`${commonStyles.metaBottom} ${themeStyles.metaBottom}`}>
             <span>
               <Icon name="eye" size={14} /> {article.views || 0}
             </span>
@@ -106,13 +112,13 @@ const ArticleCard = ({ article, isSelected, onSelect, onDelete }) => {
             )}
           </div>
         </div>
-                <div className={styles.debugInfo}>
+                <div className={`${commonStyles.debugInfo} ${themeStyles.debugInfo}`}>
           <small>ID: {safeId || 'N/A'}</small>
-          <button onClick={handleCheckExistence} className={styles.debugButton} title="Check if this ID exists in the DB">
+          <button onClick={handleCheckExistence} className={`${commonStyles.debugButton} ${themeStyles.debugButton}`} title="Check if this ID exists in the DB">
             <FiHelpCircle /> Check ID
           </button>
         </div>
-        <div className={styles.actions}>
+        <div className={`${commonStyles.actions} ${themeStyles.actions}`}>
           <Tooltip content="Edit">
             <Link
               href={`/admin/articles/edit/${id}`}

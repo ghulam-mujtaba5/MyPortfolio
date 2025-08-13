@@ -14,7 +14,10 @@ import {
 } from "react-icons/fa";
 import { formatDistanceToNow } from "date-fns";
 import Head from "next/head";
-import styles from "./dashboard.module.css";
+import commonStyles from "./dashboard.module.css";
+import lightStyles from "./dashboard.light.module.css";
+import darkStyles from "./dashboard.dark.module.css";
+import { useTheme } from "../../context/ThemeContext";
 
 const AdminDashboard = () => {
   const [recentActivity, setRecentActivity] = useState([]);
@@ -105,18 +108,21 @@ const AdminDashboard = () => {
   const hasChartData =
     chartLabels.length > 0 && chartLabels.length === chartDataPoints.length;
 
+  const { theme } = useTheme();
+  const themeStyles = theme === "dark" ? darkStyles : lightStyles;
+
   return (
     <AdminLayout>
       <Head>
         <title>Admin Dashboard - My Portfolio</title>
       </Head>
-      <div className={styles.dashboardContainer}>
-        <header className={styles.header}>
+      <div className={`${commonStyles.dashboardContainer} ${themeStyles.dashboardContainer}`}>
+        <header className={`${commonStyles.header} ${themeStyles.header}`}>
           <h1>Dashboard</h1>
           <p>Welcome back, Admin!</p>
         </header>
         <motion.div
-          className={styles.widgetsGrid}
+          className={`${commonStyles.widgetsGrid} ${themeStyles.widgetsGrid}`}
           variants={containerVariants}
           initial="hidden"
           animate="visible"
@@ -150,7 +156,7 @@ const AdminDashboard = () => {
             />
           </motion.div>
 
-          <motion.div className={styles.chartArea} variants={itemVariants}>
+          <motion.div className={`${commonStyles.chartArea} ${themeStyles.chartArea}`} variants={itemVariants}>
             <ChartCard title="Page Views" hasData={hasChartData}>
               <SampleLineChart
                 key={`pv-${chartLabels.join("|")}-${chartDataPoints.join("|")}`}
@@ -161,8 +167,8 @@ const AdminDashboard = () => {
             </ChartCard>
           </motion.div>
 
-          <motion.div className={styles.fullWidthCard} variants={itemVariants}>
-            <h2 className={styles.sectionTitle}>Recent Activity</h2>
+          <motion.div className={`${commonStyles.fullWidthCard} ${themeStyles.fullWidthCard}`} variants={itemVariants}>
+            <h2 className={`${commonStyles.sectionTitle} ${themeStyles.sectionTitle}`}>Recent Activity</h2>
             <Table columns={activityColumns} data={recentActivity} />
           </motion.div>
         </motion.div>

@@ -3,7 +3,10 @@ import AdminLayout from "../../../components/Admin/AdminLayout/AdminLayout";
 import { useRouter } from "next/router";
 import LineChart from "../../../components/Admin/Charts/LineChart";
 import DoughnutChart from "../../../components/Admin/Charts/DoughnutChart";
-import styles from "./analytics.module.css";
+import commonStyles from "./analytics.module.css";
+import lightStyles from "./analytics.light.module.css";
+import darkStyles from "./analytics.dark.module.css";
+import { useTheme } from "../../../context/ThemeContext";
 import {
   Sparklines,
   SparklinesLine,
@@ -130,6 +133,9 @@ const AnalyticsPage = () => {
     articlesTrendData,
     projectsTrendData,
   } = processChartData();
+
+  const { theme } = useTheme();
+  const themeStyles = theme === "dark" ? darkStyles : lightStyles;
 
   if (loading)
     return (
@@ -538,20 +544,20 @@ const AnalyticsPage = () => {
           </div>
         </div>
       )}
-      <div className={styles.chartsGrid}>
-        <div className={styles.chartContainer}>
+      <div className={`${commonStyles.chartsGrid} ${themeStyles.chartsGrid}`}>
+        <div className={`${commonStyles.chartContainer} ${themeStyles.chartContainer}`}>
           <h3>Articles by Status</h3>
           {articleStatusData && <DoughnutChart data={articleStatusData} />}
         </div>
-        <div className={styles.chartContainer}>
+        <div className={`${commonStyles.chartContainer} ${themeStyles.chartContainer}`}>
           <h3>Projects by Status</h3>
           {projectStatusData && <DoughnutChart data={projectStatusData} />}
         </div>
-        <div className={`${styles.chartContainer} ${styles.fullWidth}`}>
+        <div className={`${commonStyles.chartContainer} ${themeStyles.chartContainer} ${commonStyles.fullWidth} ${themeStyles.fullWidth}`}>
           <h3>Article Creation Trend</h3>
           {articlesTrendData && <LineChart data={articlesTrendData} />}
         </div>
-        <div className={`${styles.chartContainer} ${styles.fullWidth}`}>
+        <div className={`${commonStyles.chartContainer} ${themeStyles.chartContainer} ${commonStyles.fullWidth} ${themeStyles.fullWidth}`}>
           <h3>Project Creation Trend</h3>
           {projectsTrendData && <LineChart data={projectsTrendData} />}
         </div>

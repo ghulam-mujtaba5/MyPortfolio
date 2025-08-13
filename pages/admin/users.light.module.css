@@ -1,0 +1,5 @@
+.tableWrapper { background-color: #ffffff; border-color: #e5e7eb; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+.table th { background-color: #f9fafb; color: #374151; }
+.table td, .table th { border-bottom-color: #e5e7eb; }
+.actionButton { color: #4f46e5; }
+.deleteButton { color: #ef4444; }
