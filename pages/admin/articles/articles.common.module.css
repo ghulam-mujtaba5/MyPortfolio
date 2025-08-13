@@ -114,3 +114,41 @@
   font-size: 0.875rem;
   font-weight: 500;
 }
+
+/* --- Admin Search shared (structure-only) --- */
+.visuallyHidden {
+  position: absolute !important;
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
+  clip: rect(1px, 1px, 1px, 1px);
+  white-space: nowrap;
+}
+
+.resultsList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+
+.resultRow {
+  display: grid;
+  gap: 6px;
+  border-radius: 10px;
+  padding: 12px;
+}
+
+.resultTitle { font-weight: 600; }
+
+.resultMeta {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.resultActions {
+  display: flex;
+  gap: 8px;
+}

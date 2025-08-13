@@ -350,7 +350,7 @@ const ContactSection = ({
             Do you have any project idea?
           </p>
           <p className={`${commonStyles.doyouHave} ${themeStyles.doyouHave}`}>
-            Let's discuss and turn them into reality!
+            Let&#39;s discuss and turn them into reality!
           </p>
         </div>
         <img

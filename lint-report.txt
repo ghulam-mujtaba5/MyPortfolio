@@ -1,0 +1,89 @@
+
+./components/AboutMe/AboutMeSectionLight.js
+15:5  Warning: React Hook useMemo has an unnecessary dependency: 'theme'. Either exclude it or remove the dependency array.  react-hooks/exhaustive-deps
+20:5  Warning: React Hook useMemo has an unnecessary dependency: 'theme'. Either exclude it or remove the dependency array.  react-hooks/exhaustive-deps
+25:5  Warning: React Hook useMemo has an unnecessary dependency: 'theme'. Either exclude it or remove the dependency array.  react-hooks/exhaustive-deps
+30:5  Warning: React Hook useMemo has an unnecessary dependency: 'theme'. Either exclude it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/AboutMeCompany/AboutMeSectionLight.js
+15:5  Warning: React Hook useMemo has an unnecessary dependency: 'theme'. Either exclude it or remove the dependency array.  react-hooks/exhaustive-deps
+20:5  Warning: React Hook useMemo has an unnecessary dependency: 'theme'. Either exclude it or remove the dependency array.  react-hooks/exhaustive-deps
+25:5  Warning: React Hook useMemo has an unnecessary dependency: 'theme'. Either exclude it or remove the dependency array.  react-hooks/exhaustive-deps
+30:5  Warning: React Hook useMemo has an unnecessary dependency: 'theme'. Either exclude it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/Admin/ArticleCard/ArticleCard.js
+64:13  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+./components/Admin/ArticleForm/ArticleForm.js
+110:6  Warning: React Hook useEffect has missing dependencies: 'formValues.content' and 'formValues.title'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+162:6  Warning: React Hook useEffect has a missing dependency: 'watch'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+162:7  Warning: React Hook useEffect has a complex expression in the dependency array. Extract it to a separate variable so it can be statically checked.  react-hooks/exhaustive-deps
+162:23  Warning: React Hook useEffect has a complex expression in the dependency array. Extract it to a separate variable so it can be statically checked.  react-hooks/exhaustive-deps
+233:59  Warning: React Hook useMemo has a missing dependency: 'watch'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+233:60  Warning: React Hook useMemo has a complex expression in the dependency array. Extract it to a separate variable so it can be statically checked.  react-hooks/exhaustive-deps
+240:6  Warning: React Hook useEffect has a missing dependency: 'watch'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+240:17  Warning: React Hook useEffect has a complex expression in the dependency array. Extract it to a separate variable so it can be statically checked.  react-hooks/exhaustive-deps
+862:6  Warning: React Hook useEffect has a missing dependency: 'fetchVersions'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/Admin/CommandPalette/CommandPalette.js
+95:9  Warning: The 'handleNavigation' function makes the dependencies of useCallback Hook (at line 152) change on every render. To fix this, wrap the definition of 'handleNavigation' in its own useCallback() Hook.  react-hooks/exhaustive-deps
+
+./components/Admin/ImageUploader/ImageUploader.js
+72:5  Warning: React Hook useCallback has a missing dependency: 'onAltTextChange'. Either include it or remove the dependency array. If 'onAltTextChange' changes too often, find the parent component that defines it and wrap that definition in useCallback.  react-hooks/exhaustive-deps
+
+./components/Admin/MediaLibrary/MediaLibrary.js
+53:6  Warning: React Hook useEffect has missing dependencies: 'fetchAssets' and 'searchTerm'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+184:15  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+270:9  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+327:9  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+./components/Admin/ProjectForm/ProjectForm.js
+122:59  Warning: React Hook useMemo has a missing dependency: 'watch'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+122:60  Warning: React Hook useMemo has a complex expression in the dependency array. Extract it to a separate variable so it can be statically checked.  react-hooks/exhaustive-deps
+156:6  Warning: React Hook useEffect has a missing dependency: 'watch'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+156:7  Warning: React Hook useEffect has a complex expression in the dependency array. Extract it to a separate variable so it can be statically checked.  react-hooks/exhaustive-deps
+
+./components/Admin/SavedSearches/SavedSearches.js
+28:6  Warning: React Hook useEffect has a missing dependency: 'fetchSavedSearches'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/Articles/NewArticleCard.js
+30:9  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+./components/Contact/ContactUs.js
+353:16  Error: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
+356:9  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+362:9  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+./components/Icon/gmicon.js
+23:6  Warning: React Hook useMemo has an unnecessary dependency: 'styles'. Either exclude it or remove the dependency array. Outer scope values like 'styles' aren't valid dependencies because mutating them doesn't re-render the component.  react-hooks/exhaustive-deps
+
+./components/Icon/sbicon.js
+49:36  Warning: The ref value 'iconRef.current' will likely have changed by the time this effect cleanup function runs. If this ref points to a node rendered by React, copy 'iconRef.current' to a variable inside the effect, and use that variable in the cleanup function.  react-hooks/exhaustive-deps
+
+./components/Languages/Languages.js
+33:41  Warning: The ref value 'containerRef.current' will likely have changed by the time this effect cleanup function runs. If this ref points to a node rendered by React, copy 'containerRef.current' to a variable inside the effect, and use that variable in the cleanup function.  react-hooks/exhaustive-deps
+
+./components/NavBar_Desktop/nav-bar.js
+96:13  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+108:15  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+117:15  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+./components/NavBar_Desktop_Company/nav-bar-Company.js
+74:13  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+86:15  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+95:15  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+./components/Projects/Project1.js
+8:21  Error: Component definition is missing display name  react/display-name
+
+./components/Resume/Resume.js
+38:11  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+./components/Services/ServicesFrame.js
+101:13  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+118:15  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+./components/Skills/SkillFrame.js
+35:37  Warning: The ref value 'frameRef.current' will likely have changed by the time this effect cleanup function runs. If this ref points to a node rendered by React, copy 'frameRef.current' to a variable inside the effect, and use that variable in the cleanup function.  react-hooks/exhaustive-deps
+
+info  - Need to disable some ESLint rules? Learn more here: https://nextjs.org/docs/app/api-reference/config/eslint#disabling-rules

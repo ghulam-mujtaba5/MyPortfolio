@@ -129,6 +129,9 @@ const ProjectCard = React.memo(({ project, frameStyles, theme }) => {
   );
 });
 
+// Add display name to satisfy react/display-name rule
+ProjectCard.displayName = "ProjectCard";
+
 // Accepts either props.projectOverride or falls back to props.project (for compatibility)
 const Project1 = ({ projectOverride, project }) => {
   const { theme } = useTheme();

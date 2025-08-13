@@ -5,9 +5,14 @@ import Link from "next/link";
 import AdminLayout from "../../components/Admin/AdminLayout/AdminLayout";
 import Tooltip from "../../components/Admin/Tooltip/Tooltip";
 import Highlight from "../../components/Highlight/Highlight";
-import styles from "./articles/articles.module.css";
+import { useTheme } from "../../context/ThemeContext";
+import commonStyles from "./articles/articles.common.module.css";
+import lightStyles from "./articles/articles.light.module.css";
+import darkStyles from "./articles/articles.dark.module.css";
 
 export default function AdminSearchPage() {
+  const { theme } = useTheme();
+  const frameStyles = theme === "dark" ? darkStyles : lightStyles;
   const router = useRouter();
   const [q, setQ] = useState(router.query.q || "");
   const [loading, setLoading] = useState(false);
@@ -80,10 +85,10 @@ export default function AdminSearchPage() {
 
   return (
     <AdminLayout title="Admin Search">
-      <div className={styles.visuallyHidden} aria-live="polite" role="status">
+      <div className={commonStyles.visuallyHidden} aria-live="polite" role="status">
         {ariaMsg}
       </div>
-      <div className={styles.header}>
+      <div className={commonStyles.header}>
         <h1>Global Search</h1>
       </div>
       <form
@@ -97,14 +102,14 @@ export default function AdminSearchPage() {
           onKeyDown={onKeyDown}
           ref={inputRef}
           placeholder="Search articles by title, tag, category..."
-          className={styles.searchInput}
+          className={commonStyles.searchInput}
           style={{ maxWidth: 480 }}
           aria-label="Search query"
         />
         <Tooltip content="Search">
           <button
             type="submit"
-            className={`${styles.iconButton} ${styles.iconButtonPrimary}`}
+            className={`${commonStyles.iconButton} ${commonStyles.iconButtonPrimary}`}
             title="Search"
             aria-label="Search"
           >
@@ -124,11 +129,11 @@ export default function AdminSearchPage() {
         {results.length === 0 && !loading && q && <p>No results.</p>}
         {results.length > 0 && (
           <div>
-            <div className={styles.resultsMeta}>
+            <div className={commonStyles.resultsMeta}>
               {results.length} result{results.length !== 1 ? "s" : ""}
             </div>
             <ul
-              className={styles.resultsList}
+              className={commonStyles.resultsList}
               role="listbox"
               aria-label="Search results"
               aria-busy={loading}
@@ -149,7 +154,7 @@ export default function AdminSearchPage() {
                     key={r._id}
                     role="option"
                     aria-selected={active}
-                    className={`${styles.resultRow} ${active ? styles.resultActive : ""}`}
+                    className={`${commonStyles.resultRow} ${active ? commonStyles.resultActive : ""}`}
                     onMouseEnter={() => setActiveIndex(idx)}
                     onClick={() =>
                       router.push(
@@ -157,26 +162,26 @@ export default function AdminSearchPage() {
                       )
                     }
                   >
-                    <div className={styles.resultTitle}>
+                    <div className={commonStyles.resultTitle}>
                       <Highlight text={r.title} highlight={q} />
                     </div>
-                    <div className={styles.resultMeta}>
+                    <div className={commonStyles.resultMeta}>
                       <span
-                        className={`${styles.resultChip} ${status === "Draft" ? styles.chipGray : status === "Scheduled" ? styles.chipAmber : styles.chipGreen}`}
+                        className={`${commonStyles.resultChip} ${status === "Draft" ? commonStyles.chipGray : status === "Scheduled" ? commonStyles.chipAmber : commonStyles.chipGreen}`}
                       >
                         {status}
                       </span>
-                      <span className={styles.resultDate}>
+                      <span className={commonStyles.resultDate}>
                         {r.createdAt
                           ? new Date(r.createdAt).toLocaleDateString()
                           : "-"}
                       </span>
                     </div>
-                    <div className={styles.resultActions}>
+                    <div className={commonStyles.resultActions}>
                       <Tooltip content="Preview">
                         <Link
                           href={`/admin/articles/preview/${encodeURIComponent(r.slug)}`}
-                          className={`${styles.iconButton}`}
+                          className={`${commonStyles.iconButton}`}
                           title="Preview"
                           aria-label="Preview"
                         >
@@ -186,7 +191,7 @@ export default function AdminSearchPage() {
                       <Tooltip content="Open in list">
                         <Link
                           href={`/admin/articles?search=${encodeURIComponent(r.title)}`}
-                          className={`${styles.iconButton}`}
+                          className={`${commonStyles.iconButton}`}
                           title="Open in list"
                           aria-label="Open in list"
                         >

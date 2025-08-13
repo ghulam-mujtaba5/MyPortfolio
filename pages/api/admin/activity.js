@@ -1,4 +1,4 @@
-import { mongooseConnect } from "../../../lib/mongoose";
+import dbConnect from "../../../lib/mongoose";
 import { getSession } from "next-auth/react";
 import AuditLog from "../../../models/AuditLog";
 
@@ -12,7 +12,7 @@ export default async function handler(req, res) {
     return res.status(401).json({ message: "Unauthorized" });
   }
 
-  await mongooseConnect();
+  await dbConnect();
 
   try {
     const recentActivity = await AuditLog.find()

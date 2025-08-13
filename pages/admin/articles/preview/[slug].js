@@ -3,9 +3,14 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import AdminLayout from "../../../../components/Admin/AdminLayout/AdminLayout";
 import Link from "next/link";
-import styles from "../articles.module.css";
+import { useTheme } from "../../../../context/ThemeContext";
+import commonStyles from "../articles.common.module.css";
+import lightStyles from "../articles.light.module.css";
+import darkStyles from "../articles.dark.module.css";
 
 export default function AdminArticlePreviewPage() {
+  const { theme } = useTheme();
+  const frameStyles = theme === "dark" ? darkStyles : lightStyles;
   const router = useRouter();
   const { slug } = router.query;
   const [article, setArticle] = useState(null);
@@ -67,10 +72,10 @@ export default function AdminArticlePreviewPage() {
     <AdminLayout
       title={article ? `Preview: ${article.title}` : "Preview Article"}
     >
-      <div className={styles.header}>
+      <div className={commonStyles.header}>
         <h1>Preview</h1>
         <div style={{ display: "flex", gap: 8 }}>
-          <button className={styles.iconButton} onClick={() => router.back()}>
+          <button className={commonStyles.iconButton} onClick={() => router.back()}>
             Back
           </button>
           {article &&
@@ -79,7 +84,7 @@ export default function AdminArticlePreviewPage() {
               new Date(article.publishAt) <= new Date()) && (
               <Link
                 href={`/articles/${encodeURIComponent(article.slug)}`}
-                className={`${styles.iconButton} ${styles.iconButtonPrimary}`}
+                className={`${commonStyles.iconButton} ${commonStyles.iconButtonPrimary}`}
                 title="View public"
                 aria-label="View public"
               >
@@ -93,7 +98,7 @@ export default function AdminArticlePreviewPage() {
               <button
                 disabled={updating}
                 onClick={publishNow}
-                className={`${styles.iconButton} ${styles.iconButtonPrimary}`}
+                className={`${commonStyles.iconButton} ${commonStyles.iconButtonPrimary}`}
                 title="Publish now"
                 aria-label="Publish now"
               >

@@ -22,6 +22,19 @@
 module.exports = {
   siteUrl: "http://ghulammujtaba.com", // Main site URL
   generateRobotsTxt: true, // Generate robots.txt file
+  // Exclude non-public routes from sitemap
+  exclude: [
+    "/admin/*",
+    "/api/*",
+    "/softbuilt/admin/*",
+  ],
+  // Optional robots rules if next-sitemap generates robots.txt
+  robotsTxtOptions: {
+    policies: [
+      { userAgent: "*", allow: "/" },
+      { userAgent: "*", disallow: ["/admin/", "/api/"] },
+    ],
+  },
   transform: async (config, path) => {
     // Default change frequency and priority
     let changefreq = "daily"; // Default for most pages

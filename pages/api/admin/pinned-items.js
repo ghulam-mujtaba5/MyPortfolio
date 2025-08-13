@@ -1,4 +1,4 @@
-import { withAdminAuth } from "../../../lib/withAdminAuth";
+import withAdminAuth from "../../../lib/withAdminAuth";
 import dbConnect from "../../../lib/mongoose";
 import Article from "../../../models/Article";
 import Project from "../../../models/Project";
