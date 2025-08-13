@@ -1,10 +1,20 @@
 import dbConnect from "../../../lib/mongoose";
 import ArticleVersion from "../../../models/ArticleVersion";
-import withAdminAuth from "../../../lib/withAdminAuth";
+import { getToken } from "next-auth/jwt";
 
 const handler = async (req, res) => {
   const { method } = req;
   await dbConnect();
+
+  // Server-side auth for API route (no React hooks in API routes)
+  try {
+    const session = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
+    if (!session || !["admin", "editor"].includes(session.role)) {
+      return res.status(403).json({ success: false, message: "Forbidden" });
+    }
+  } catch (e) {
+    return res.status(500).json({ success: false, message: "Auth error" });
+  }
 
   switch (method) {
     case "GET":
@@ -64,4 +74,4 @@ const handler = async (req, res) => {
   }
 };
 
-export default withAdminAuth(handler);
+export default handler;
