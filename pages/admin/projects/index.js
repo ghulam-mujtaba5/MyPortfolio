@@ -7,6 +7,9 @@ import AdminLayout from '../../../components/Admin/AdminLayout/AdminLayout';
 import styles from '../articles/articles.module.css'; // Reusing styles
 import AdminProjectCard from '../../../components/Admin/Projects/AdminProjectCard';
 import gridStyles from '../../../styles/AdminGrid.module.css'; // Shared grid styles
+import Icon from '../../../components/Admin/Icon/Icon';
+import Tooltip from '../../../components/Admin/Tooltip/Tooltip';
+import { ProjectListSkeleton } from '../../../components/Admin/Skeletons/Skeletons';
 
 const ProjectsPage = () => {
     const [projects, setProjects] = useState([]);
@@ -15,11 +18,11 @@ const ProjectsPage = () => {
     const [selectedProjects, setSelectedProjects] = useState([]);
     
     const router = useRouter();
-    const { page = 1, limit = 10, sortBy = 'createdAt', sortOrder = 'desc', search = '', status = '' } = router.query;
+    const { page = 1, limit = 10, sortBy = 'createdAt', sortOrder = 'desc', search = '', published = '', featured = '' } = router.query;
 
     const fetchData = useCallback(async () => {
         setLoading(true);
-        const query = new URLSearchParams({ page, limit, sortBy, sortOrder, search, status }).toString();
+        const query = new URLSearchParams({ page, limit, sortBy, sortOrder, search, published, featured }).toString();
         try {
             const response = await fetch(`/api/admin/projects?${query}`);
             const data = await response.json();
@@ -33,7 +36,7 @@ const ProjectsPage = () => {
             toast.error('An error occurred while fetching projects.');
         }
         setLoading(false);
-    }, [page, limit, sortBy, sortOrder, search, status]);
+    }, [page, limit, sortBy, sortOrder, search, published, featured]);
 
     useEffect(() => {
         fetchData();
@@ -88,6 +91,22 @@ const ProjectsPage = () => {
         }
     };
 
+    const togglePin = async (project) => {
+        try {
+            const res = await fetch('/api/admin/pin-item', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ id: project._id, type: 'project' }),
+            });
+            const data = await res.json();
+            if (!res.ok) throw new Error(data.message || 'Failed to toggle pin');
+            toast.success(data.data.pinned ? 'Project pinned' : 'Project unpinned');
+            fetchData();
+        } catch (e) {
+            toast.error(e.message || 'Failed to update pin status');
+        }
+    };
+
     return (
         <AdminLayout title="Manage Projects">
             <div className={styles.header}>
@@ -103,14 +122,24 @@ const ProjectsPage = () => {
                     defaultValue={search}
                     onChange={(e) => router.push(`/admin/projects?${new URLSearchParams({ ...router.query, search: e.target.value, page: 1 })}`)}
                 />
-                <select 
-                    value={status}
-                    onChange={(e) => router.push(`/admin/projects?${new URLSearchParams({ ...router.query, status: e.target.value, page: 1 })}`)}
-                >
-                    <option value="">All Statuses</option>
-                    <option value="published">Published</option>
-                    <option value="draft">Draft</option>
-                </select>
+                <div className={styles.quickFilters}>
+                  <button
+                    className={`${styles.filterChip} ${!published && !featured ? styles.activeChip : ''}`}
+                    onClick={() => router.push(`/admin/projects?${new URLSearchParams({ ...router.query, published: '', featured: '', page: 1 })}`)}
+                  >All</button>
+                  <button
+                    className={`${styles.filterChip} ${published === 'true' ? styles.activeChip : ''}`}
+                    onClick={() => router.push(`/admin/projects?${new URLSearchParams({ ...router.query, published: 'true', featured: '', page: 1 })}`)}
+                  >Published</button>
+                  <button
+                    className={`${styles.filterChip} ${published === 'false' ? styles.activeChip : ''}`}
+                    onClick={() => router.push(`/admin/projects?${new URLSearchParams({ ...router.query, published: 'false', featured: '', page: 1 })}`)}
+                  >Draft</button>
+                  <button
+                    className={`${styles.filterChip} ${featured === 'true' ? styles.activeChip : ''}`}
+                    onClick={() => router.push(`/admin/projects?${new URLSearchParams({ ...router.query, featured: 'true', published: '', page: 1 })}`)}
+                  >Featured</button>
+                </div>
                 {selectedProjects.length > 0 && (
                     <div className={styles.bulkActions}>
                         <button onClick={() => handleBulkAction('publish')}>Publish Selected</button>
@@ -120,7 +149,7 @@ const ProjectsPage = () => {
                 )}
             </div>
 
-            {loading ? <p>Loading...</p> : (
+            {loading ? <ProjectListSkeleton /> : (
                 <>
                     <div className={gridStyles.gridContainer}>
                         {projects.map(project => (
@@ -129,6 +158,7 @@ const ProjectsPage = () => {
                                 project={project}
                                 onEdit={() => handleEdit(project._id)}
                                 onDelete={() => handleDelete(project._id)}
+                                onPin={() => togglePin(project)}
                                 isSelected={selectedProjects.includes(project._id)}
                                 onSelect={() => {
                                     setSelectedProjects(prev => 

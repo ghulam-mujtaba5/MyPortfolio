@@ -151,7 +151,7 @@ const ProjectsPage = ({ projects }) => {
           <div className="project-grid">
             {filteredProjects.map(project => (
               <div key={project._id} className="project-grid-card">
-                <Project1 {...project} />
+                <Project1 project={project} />
               </div>
             ))}
           </div>

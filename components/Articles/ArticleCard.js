@@ -5,8 +5,9 @@ import { useTheme } from '../../context/ThemeContext';
 import base from './ArticleCard.module.css';
 import light from './ArticleCard.light.module.css';
 import dark from './ArticleCard.dark.module.css';
+import Highlight from '../admin/Highlight/Highlight';
 
-const ArticleCard = ({ article }) => {
+const ArticleCard = ({ article, highlight }) => {
   const { theme } = useTheme();
   const t = theme === 'dark' ? dark : light;
 
@@ -18,7 +19,7 @@ const ArticleCard = ({ article }) => {
     <article className={`${base.card} ${t.card}`}>
       <Link href={href} className={base.imageWrap}>
         <div className={base.imageInner}>
-          <Image src={img} alt={article.title} fill priority sizes="(max-width: 768px) 100vw, 420px" style={{ objectFit: 'cover' }} />
+          <Image src={img} alt={article.title} fill priority sizes="(max-width: 768px) 100vw, 420px" className={base.image} />
         </div>
       </Link>
 
@@ -34,11 +35,18 @@ const ArticleCard = ({ article }) => {
           )}
         </div>
         <h3 className={`${base.title} ${t.title}`}>
-          <Link href={href}>{article.title}</Link>
+          <Link href={href}><Highlight text={article.title} highlight={highlight} /></Link>
         </h3>
-        {article.excerpt && <p className={`${base.excerpt} ${t.excerpt}`}>{article.excerpt}</p>}
+        {article.excerpt && <p className={`${base.excerpt} ${t.excerpt}`}><Highlight text={article.excerpt} highlight={highlight} /></p>}
+        {Array.isArray(article.highlights) && article.highlights.length > 0 && (
+          <figure className={base.pullQuote} aria-label="Key quote">
+            <blockquote>“{article.highlights[0]}”</blockquote>
+          </figure>
+        )}
         <div className={base.actions}>
-          <Link href={href} className={`${base.readMore} ${t.readMore}`}>Read Article</Link>
+          <Link href={href} className={`${base.readMore} ${t.readMore}`}>
+            Read Article <span className={base.arrow} aria-hidden>→</span>
+          </Link>
         </div>
       </div>
     </article>

@@ -14,8 +14,9 @@ async function handler(req, res) {
 
   if (req.method === 'GET') {
     try {
+      const now = new Date();
       const article = await Article.findOneAndUpdate(
-        { slug, published: true },
+        { slug, published: true, $or: [{ publishAt: null }, { publishAt: { $lte: now } }] },
         { $inc: { views: 1 } },
         { new: true }
       ).populate('author', 'name');

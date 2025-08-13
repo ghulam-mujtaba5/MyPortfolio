@@ -21,27 +21,71 @@ async function handler(req, res) {
 
   if (req.method === 'GET') {
     try {
-      const { limit = '20', skip = '0', q = '' } = req.query;
-      const parsedLimit = Math.min(parseInt(limit, 10) || 20, 100);
-      const parsedSkip = parseInt(skip, 10) || 0;
-      const query = {
-        published: true,
-        ...(q
-          ? { $or: [
-              { title: { $regex: q, $options: 'i' } },
-              { excerpt: { $regex: q, $options: 'i' } },
-              { tags: { $regex: q, $options: 'i' } },
-            ] }
-          : {}),
+      const { limit = '9', page = '1', skip, q = '', search = '', tag = '', sort = 'relevance' } = req.query;
+      const pageSize = Math.min(parseInt(limit, 10) || 9, 100);
+      const pageNum = Math.max(1, parseInt(page, 10) || 1);
+      const effectiveSearch = String(search || q || '').trim();
+      const parsedSkip = skip !== undefined ? (parseInt(skip, 10) || 0) : (pageNum - 1) * pageSize;
+
+      const now = new Date();
+      const baseFilter = { published: true, $or: [{ publishAt: null }, { publishAt: { $lte: now } }] };
+      if (tag) {
+        baseFilter.tags = tag;
+      }
+      const useText = !!effectiveSearch;
+      const filter = useText
+        ? { ...baseFilter, $text: { $search: effectiveSearch } }
+        : baseFilter;
+
+      const projection = {
+        title: 1,
+        slug: 1,
+        excerpt: 1,
+        tags: 1,
+        createdAt: 1,
+        coverImage: 1,
+        views: 1,
+        ...(useText ? { score: { $meta: 'textScore' } } : {}),
       };
-      const articles = await Article.find(query)
-        .sort({ createdAt: -1 })
-        .skip(parsedSkip)
-        .limit(parsedLimit);
 
-      const total = await Article.countDocuments(query);
+      let sortOrder;
+      switch (sort) {
+        case 'views':
+          sortOrder = { views: -1, createdAt: -1 };
+          break;
+        case 'newest':
+          sortOrder = { createdAt: -1 };
+          break;
+        case 'oldest':
+          sortOrder = { createdAt: 1 };
+          break;
+        case 'relevance':
+        default:
+          sortOrder = useText ? { score: { $meta: 'textScore' }, createdAt: -1 } : { createdAt: -1 };
+          break;
+      }
 
-      return res.status(200).json({ articles, total });
+      const [articles, total] = await Promise.all([
+        Article.find(filter)
+          .select(projection)
+          .sort(sortOrder)
+          .skip(parsedSkip)
+          .limit(pageSize)
+          .lean(),
+        Article.countDocuments(filter),
+      ]);
+
+      const totalPages = Math.max(1, Math.ceil(total / pageSize));
+      return res.status(200).json({
+        articles,
+        pagination: {
+          page: pageNum,
+          limit: pageSize,
+          total,
+          totalPages,
+          search: effectiveSearch,
+        },
+      });
     } catch (e) {
       return res.status(500).json({ error: 'Failed to fetch articles', details: e.message });
     }
@@ -54,16 +98,52 @@ async function handler(req, res) {
 
     try {
       // req.body is already validated by the middleware
-      const { title, content, excerpt, tags, published, coverImage, slug } = req.body;
+      const {
+        title,
+        content,
+        excerpt,
+        tags = [],
+        categories = [],
+        highlights = [],
+        published,
+        coverImage,
+        showCoverImage,
+        metaTitle,
+        metaDescription,
+        ogImage,
+        publishAt,
+        slug,
+      } = req.body;
+
+      const toArray = (v) => Array.isArray(v)
+        ? v
+        : String(v || '')
+            .split(',')
+            .map((s) => s.trim())
+            .filter(Boolean);
+
+      const parsedTags = toArray(tags);
+      const parsedCategories = toArray(categories);
+      const parsedHighlights = toArray(highlights);
+      const parsedPublishAt = publishAt
+        ? (typeof publishAt === 'string' ? new Date(publishAt) : publishAt)
+        : null;
 
       const newArticle = new Article({
         title,
         slug: slug || slugify(title),
         content,
         excerpt,
-        tags,
+        tags: parsedTags,
+        categories: parsedCategories,
+        highlights: parsedHighlights,
         published,
+        publishAt: parsedPublishAt,
         coverImage,
+        showCoverImage,
+        metaTitle,
+        metaDescription,
+        ogImage,
         author: session.id,
       });
 

@@ -2,7 +2,6 @@ import { useRouter } from 'next/router';
 import toast from 'react-hot-toast';
 import AdminLayout from '../../../components/Admin/AdminLayout/AdminLayout';
 import ProjectForm from '../../../components/Admin/ProjectForm/ProjectForm';
-
 import { useState } from 'react';
 
 export default function NewProjectPage() {

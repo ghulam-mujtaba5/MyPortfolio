@@ -1,7 +1,10 @@
-.card { background: #ffffff; }
-.content { background: #ffffff; color: #111827; }
+.card { background: #ffffff; border: 1px solid #e3e6ea; }
+.content { background: #ffffff; color: #222222; }
 .title { color: #0f172a; }
+.title a { color: #4573df; text-decoration: none; }
+.title a:hover { color: #005bb5; text-decoration: underline; }
 .excerpt { color: #4b5563; }
-.tag { color: #2563eb; background: rgba(37, 99, 235, 0.06); border-color: rgba(37, 99, 235, 0.25); }
-.readMore { color: #2563eb; }
-.readMore:hover { background: rgba(37, 99, 235, 0.08); border-color: rgba(37, 99, 235, 0.2); }
+.tag { color: #4573df; background: rgba(69, 115, 223, 0.08); border-color: rgba(69, 115, 223, 0.28); }
+.readMore { color: #4573df; }
+.readMore:hover { background: rgba(69, 115, 223, 0.10); border-color: rgba(69, 115, 223, 0.28); }
+.badge { color: #0f172a; background: rgba(255,255,255,0.70); border: 1px solid rgba(17,24,39,0.08); }

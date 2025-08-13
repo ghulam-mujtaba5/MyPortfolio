@@ -15,10 +15,14 @@ export default async function handler(req, res) {
   switch (req.method) {
     case 'PUT':
       try {
-        const { altText } = req.body;
+        const { altText, tags } = req.body;
+        const updateData = {};
+        if (altText !== undefined) updateData.altText = altText;
+        if (tags !== undefined) updateData.tags = tags;
+
         const updatedAsset = await MediaAsset.findByIdAndUpdate(
           id,
-          { altText },
+          updateData,
           { new: true, runValidators: true }
         );
         if (!updatedAsset) {

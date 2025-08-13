@@ -1,17 +1,21 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Head from 'next/head';
 
 import NavBarDesktop from '../../components/NavBar_Desktop/nav-bar';
 import NavBarMobile from '../../components/NavBar_Mobile/NavBar-mobile';
 import Footer from '../../components/Footer/Footer';
+import Image from 'next/image';
 import { useTheme } from '../../context/ThemeContext';
 import dbConnect from '../../lib/mongoose';
 import Article from '../../models/Article';
 import DailyStat from '../../models/DailyStat';
 import PreviewBanner from '../../components/Admin/PreviewBanner/PreviewBanner';
+import detailCss from '../../components/Articles/ArticleDetailPage.module.css';
 
 export default function ArticleDetailPage({ article, preview }) {
   const { theme } = useTheme();
+  const [progress, setProgress] = useState(0);
+  const articleRef = useRef(null);
 
   const sections = [
     { label: 'Home', route: '/#home-section' },
@@ -22,12 +26,75 @@ export default function ArticleDetailPage({ article, preview }) {
     { label: 'Contact', route: '/#contact-section' }
   ];
 
+  // Reading progress calculation
+  useEffect(() => {
+    function onScroll() {
+      const el = articleRef.current;
+      if (!el || typeof window === 'undefined') return;
+      const total = el.offsetTop + el.offsetHeight - window.innerHeight;
+      const scrolled = Math.min(Math.max(window.scrollY, 0), total);
+      const pct = total > 0 ? (scrolled / total) * 100 : 0;
+      setProgress(pct);
+    }
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onScroll);
+    };
+  }, []);
+
+  // Prism syntax highlighting for public article content
+  useEffect(() => {
+    if (typeof window === 'undefined' || !articleRef.current) return;
+
+    const loadPrism = async () => {
+      // Check if Prism is already available
+      if (window.Prism && window.Prism.highlightAllUnder) {
+        window.Prism.highlightAllUnder(articleRef.current);
+        return;
+      }
+
+      // Inject theme CSS if not present
+      const cssId = 'prism-theme-css';
+      if (!document.getElementById(cssId)) {
+        const link = document.createElement('link');
+        link.id = cssId;
+        link.rel = 'stylesheet';
+        link.href = theme === 'dark' 
+          ? 'https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css'
+          // ? 'https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css'
+          : 'https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css';
+        document.head.appendChild(link);
+      }
+
+      // Load Prism core and autoloader
+      try {
+        await import('prismjs');
+        await import('prismjs/plugins/autoloader/prism-autoloader');
+        if (window.Prism) {
+          window.Prism.plugins.autoloader.languages_path = 'https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/';
+          window.Prism.highlightAllUnder(articleRef.current);
+        }
+      } catch (error) {
+        console.error("Failed to load Prism syntax highlighter", error);
+      }
+    };
+
+    loadPrism();
+  }, [article, theme]);
+
   if (!article) {
     return <div>Article not found.</div>;
   }
 
   return (
     <>
+      {/* Reading progress */}
+      <div className={detailCss.progressWrap}>
+        <div className={detailCss.progressBar} style={{ width: `${progress}%` }} />
+      </div>
       <Head>
         <title>{article.metaTitle || `${article.title} | Ghulam Mujtaba`}</title>
         <meta name="description" content={article.metaDescription || article.excerpt} />
@@ -52,16 +119,58 @@ export default function ArticleDetailPage({ article, preview }) {
           <NavBarMobile sections={sections} />
         </header>
 
-        <main style={{ maxWidth: 840, margin: '0 auto', padding: '2rem 1rem' }}>
+        <main className={detailCss.page}>
           {preview && <PreviewBanner />}
-          <article>
-            <h1 style={{ marginBottom: '0.5rem' }}>{article.title}</h1>
-            {article.updatedAt && (
-              <div style={{ color: '#666', fontSize: '0.9rem', marginBottom: '1rem' }}>
-                Updated: {new Date(article.updatedAt).toLocaleDateString()}
+          {/* Hero cover */}
+          <section className={detailCss.hero}>
+            {article.coverImage && (
+              <div className={detailCss.coverWrap}>
+                <Image src={article.coverImage} alt={article.title} fill priority sizes="100vw" style={{ objectFit: 'cover' }} />
               </div>
             )}
-            <div style={{ lineHeight: 1.7 }} dangerouslySetInnerHTML={{ __html: article.content }} />
+            <h1 className={detailCss.title}>{article.title}</h1>
+            <div className={detailCss.meta}>
+              {article.updatedAt && (
+                <time dateTime={new Date(article.updatedAt).toISOString()}>
+                  Updated: {new Date(article.updatedAt).toLocaleDateString()}
+                </time>
+              )}
+              {article.readingTime && <span>• {article.readingTime} min read</span>}
+            </div>
+            {Array.isArray(article.tags) && article.tags.length > 0 && (
+              <div className={detailCss.tags}>
+                {article.tags.map((t) => (
+                  <span key={t} className={detailCss.tag}>#{t}</span>
+                ))}
+              </div>
+            )}
+            {Array.isArray(article.highlights) && article.highlights.length > 0 && (
+              <div className={detailCss.highlights} aria-label="Highlights">
+                {article.highlights.map((q, i) => (
+                  <figure key={i} className={detailCss.highlightCard}>
+                    <blockquote>“{q}”</blockquote>
+                  </figure>
+                ))}
+              </div>
+            )}
+            <div className={detailCss.shareBar}>
+              <button className={detailCss.shareBtn} onClick={() => handleShare(article)}>
+                Share
+              </button>
+              <button className={detailCss.shareBtn} onClick={() => handleCopy(window.location.href)}>
+                Copy link
+              </button>
+              <a className={detailCss.shareBtn} href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(`https://ghulammujtaba.com/articles/${article.slug}`)}&text=${encodeURIComponent(article.title)}`} target="_blank" rel="noopener noreferrer">
+                Twitter/X
+              </a>
+              <a className={detailCss.shareBtn} href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(`https://ghulammujtaba.com/articles/${article.slug}`)}`} target="_blank" rel="noopener noreferrer">
+                LinkedIn
+              </a>
+            </div>
+          </section>
+
+          <article ref={articleRef} className={detailCss.article}>
+            <div dangerouslySetInnerHTML={{ __html: article.content }} />
           </article>
         </main>
 
@@ -69,6 +178,26 @@ export default function ArticleDetailPage({ article, preview }) {
       </div>
     </>
   );
+}
+
+// Helpers inside module scope (after component)
+function handleCopy(text) {
+  try { typeof navigator !== 'undefined' && navigator.clipboard && navigator.clipboard.writeText(text); } catch (e) {}
+}
+
+async function handleShare(article) {
+  const shareData = {
+    title: article.metaTitle || article.title,
+    text: article.excerpt || article.title,
+    url: `https://ghulammujtaba.com/articles/${article.slug}`,
+  };
+  try {
+    if (typeof navigator !== 'undefined' && navigator.share) {
+      await navigator.share(shareData);
+    } else {
+      handleCopy(shareData.url);
+    }
+  } catch (_) {}
 }
 
 export async function getServerSideProps(context) {

@@ -10,7 +10,7 @@ import darkStyles from './ImageUploader.dark.module.css';
 import Modal from '../Modal/Modal';
 import MediaLibrary from '../MediaLibrary/MediaLibrary';
 
-export default function ImageUploader({ onUpload, initialImageUrl = '', onImageUsageChange, useImage: initialUseImage = true }) {
+export default function ImageUploader({ onUpload, initialImageUrl = '', onImageUsageChange, useImage: initialUseImage = true, onAltTextChange }) {
   const { theme } = useTheme();
   const themeStyles = theme === 'dark' ? darkStyles : lightStyles;
 
@@ -21,7 +21,9 @@ export default function ImageUploader({ onUpload, initialImageUrl = '', onImageU
   const [uploadMethod, setUploadMethod] = useState('file'); // 'file' or 'url'
   const [imageUrl, setImageUrl] = useState('');
   const [useImage, setUseImage] = useState(initialUseImage);
-    const fileInputRef = useRef(null);
+  const [altText, setAltText] = useState('');
+  const [isGeneratingAlt, setIsGeneratingAlt] = useState(false);
+  const fileInputRef = useRef(null);
   const [isLibraryOpen, setIsLibraryOpen] = useState(false);
 
   useEffect(() => {
@@ -29,7 +31,7 @@ export default function ImageUploader({ onUpload, initialImageUrl = '', onImageU
     setUseImage(initialUseImage);
   }, [initialImageUrl, initialUseImage]);
 
-    const handleUpload = useCallback(async (file) => {
+  const handleUpload = useCallback(async (file) => {
     if (!file) return;
 
     const formData = new FormData();
@@ -52,6 +54,8 @@ export default function ImageUploader({ onUpload, initialImageUrl = '', onImageU
       );
       setPreview(data.asset.url);
       onUpload(data.asset.url);
+      setAltText(data.asset.altText || ''); // Set alt text from media library
+      if (onAltTextChange) onAltTextChange(data.asset.altText || '');
     } catch (err) {
       setError(err.response?.data?.message || 'An error occurred.');
     } finally {
@@ -87,6 +91,8 @@ export default function ImageUploader({ onUpload, initialImageUrl = '', onImageU
     if (!imageUrl) return;
     setPreview(imageUrl);
     onUpload(imageUrl);
+    setAltText(''); // Reset alt text when URL changes
+    if (onAltTextChange) onAltTextChange('');
   };
 
   const handleToggleImageUsage = (e) => {
@@ -101,12 +107,41 @@ export default function ImageUploader({ onUpload, initialImageUrl = '', onImageU
     setPreview('');
     onUpload('');
     setImageUrl('');
+    setAltText('');
+    if (onAltTextChange) onAltTextChange('');
   };
 
   const handleSelectFromLibrary = (asset) => {
     setPreview(asset.url);
     onUpload(asset.url);
+    setAltText(asset.altText || '');
+    if (onAltTextChange) onAltTextChange(asset.altText || '');
     setIsLibraryOpen(false);
+  };
+
+  const handleGenerateAltText = async () => {
+    if (!preview) {
+      toast.error('Please upload an image first.');
+      return;
+    }
+    setIsGeneratingAlt(true);
+    const toastId = toast.loading('Generating alt text...');
+    try {
+      const res = await fetch('/api/admin/generate-alt-text', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ imageUrl: preview }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message || 'Failed to generate');
+      setAltText(data.altText);
+      if (onAltTextChange) onAltTextChange(data.altText);
+      toast.success('Alt text generated!', { id: toastId });
+    } catch (e) {
+      toast.error(e.message, { id: toastId });
+    } finally {
+      setIsGeneratingAlt(false);
+    }
   };
 
   const uploaderBoxClasses = `
@@ -197,6 +232,21 @@ export default function ImageUploader({ onUpload, initialImageUrl = '', onImageU
                   layout="fill"
                   objectFit="cover"
                 />
+              </div>
+              <div className={commonStyles.altTextContainer}>
+                <input 
+                  type="text"
+                  value={altText}
+                  onChange={(e) => {
+                    setAltText(e.target.value);
+                    if (onAltTextChange) onAltTextChange(e.target.value);
+                  }}
+                  placeholder="Enter alt text..."
+                  className={`${commonStyles.altTextInput} ${themeStyles.urlInput}`}
+                />
+                <button onClick={handleGenerateAltText} disabled={isGeneratingAlt} className={`${commonStyles.urlSubmitButton} ${themeStyles.urlSubmitButton}`}>
+                  {isGeneratingAlt ? 'Generating...' : 'Generate with AI'}
+                </button>
               </div>
               <button onClick={handleRemoveImage} className={`${commonStyles.removeButton} ${themeStyles.removeButton}`}>
                 Remove

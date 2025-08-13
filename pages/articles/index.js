@@ -7,7 +7,7 @@ import Footer from '../../components/Footer/Footer';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import ArticleCard from '../../components/Articles/ArticleCard';
-import cardBase from '../../components/Articles/ArticleCard.module.css';
+import listCss from '../../components/Articles/ArticlesListPage.module.css';
 import { useTheme } from '../../context/ThemeContext';
 
 export default function ArticlesPage() {
@@ -15,16 +15,22 @@ export default function ArticlesPage() {
   const [articles, setArticles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-  const [pagination, setPagination] = useState({ page: 1, totalPages: 1 });
+  const [pagination, setPagination] = useState({ page: 1, totalPages: 1, total: 0 });
+  const [topTags, setTopTags] = useState([]);
   const router = useRouter();
   const page = useMemo(() => Number(router.query.page || 1), [router.query.page]);
   const limit = useMemo(() => Number(router.query.limit || 9), [router.query.limit]);
   const search = useMemo(() => String(router.query.search || ''), [router.query.search]);
+  const tag = useMemo(() => String(router.query.tag || ''), [router.query.tag]);
+  const sort = useMemo(() => String(router.query.sort || 'relevance'), [router.query.sort]);
+  const [searchTerm, setSearchTerm] = useState(search);
+  const [activeTag, setActiveTag] = useState(tag);
+  const [sortOrder, setSortOrder] = useState(sort);
 
   useEffect(() => {
     async function load() {
       try {
-        const qs = new URLSearchParams({ page: String(page), limit: String(limit), search });
+        const qs = new URLSearchParams({ page: String(page), limit: String(limit), search, tag, sort });
         const res = await fetch(`/api/articles?${qs.toString()}`);
         const data = await res.json();
         if (!res.ok) throw new Error(data.error || 'Failed to load articles');
@@ -37,7 +43,39 @@ export default function ArticlesPage() {
       }
     }
     load();
-  }, [page, limit, search]);
+  }, [page, limit, search, tag, sort]);
+
+  // Keep controlled input in sync with URL when it changes externally
+  useEffect(() => {
+    setSearchTerm(search);
+  }, [search]);
+
+  // Debounced search routing
+  useEffect(() => {
+    const id = setTimeout(() => {
+      if (searchTerm !== search) {
+        router.push({ pathname: '/articles', query: { ...router.query, search: searchTerm, page: 1 } });
+      }
+    }, 300);
+    return () => clearTimeout(id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchTerm]);
+
+  // Fetch top tags
+  useEffect(() => {
+    async function fetchTopTags() {
+      try {
+        const res = await fetch('/api/articles/toptags');
+        const data = await res.json();
+        if (data.success) {
+          setTopTags(data.data);
+        }
+      } catch (e) {
+        // ignore
+      }
+    }
+    fetchTopTags();
+  }, []);
 
   const sections = [
     { label: 'Home', route: '/#home-section' },
@@ -60,56 +98,119 @@ export default function ArticlesPage() {
 
       <div style={{ backgroundColor: theme === 'dark' ? '#1d2127' : '#ffffff', minHeight: '100vh', overflowX: 'hidden' }}>
         <header>
-          <NavBarDesktop />
-          <NavBarMobile sections={sections} />
+          <div className="hide-on-mobile">
+            <NavBarDesktop />
+          </div>
+          <div className="show-on-mobile">
+            <NavBarMobile sections={sections} />
+          </div>
         </header>
 
-        <main style={{ maxWidth: 1160, margin: '0 auto', padding: '2rem 1rem' }}>
-          <h1 style={{ marginBottom: '1.25rem' }}>Articles</h1>
-          {/* Controls */}
-          <div style={{ display:'flex', gap:12, alignItems:'center', marginBottom:16 }}>
-            <input
-              type="text"
-              placeholder="Search articles..."
-              defaultValue={search}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter') {
-                  const val = e.currentTarget.value;
-                  router.push({ pathname: '/articles', query: { ...router.query, search: val, page: 1 } });
-                }
-              }}
-              style={{ flex:1, maxWidth: 420, padding:'8px 10px', border:'1px solid #e5e7eb', borderRadius:8 }}
-            />
-          </div>
-          {loading && <p>Loading articles…</p>}
+        <main style={{ maxWidth: 1160, margin: '0 auto', padding: '0 1rem 2rem' }}>
+          {/* Hero */}
+          <section className={listCss.hero}>
+            <h1 className={listCss.heroTitle}>Articles</h1>
+            <p className={listCss.heroSubtitle}>Insights on software, data science, and AI.</p>
+            {/* Controls */}
+            <div className={listCss.controls}>
+              <input
+                type="text"
+                placeholder="Search articles..."
+                className={listCss.searchInput}
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+              <div className={listCss.filters}>
+                <div className={listCss.tags}>
+                  <span className={listCss.filterLabel}>Tags:</span>
+                  {topTags.map(t => (
+                    <button key={t} className={`${listCss.tagChip} ${tag === t ? listCss.activeTag : ''}`} onClick={() => router.push({ pathname: '/articles', query: { ...router.query, tag: tag === t ? '' : t, page: 1 }})}>{t}</button>
+                  ))}
+                </div>
+                <div className={listCss.sort}>
+                  <span className={listCss.filterLabel}>Sort by:</span>
+                  <select className={listCss.sortSelect} value={sort} onChange={e => router.push({ pathname: '/articles', query: { ...router.query, sort: e.target.value, page: 1 }})}>
+                    <option value="relevance">Relevance</option>
+                    <option value="newest">Newest</option>
+                    <option value="oldest">Oldest</option>
+                    <option value="views">Most Views</option>
+                  </select>
+                </div>
+                {(Boolean(search) || Boolean(tag)) && (
+                  <button
+                    type="button"
+                    className={listCss.clearBtn}
+                    onClick={() => router.push({ pathname: '/articles', query: { page: 1, limit } })}
+                    title="Clear filters"
+                  >
+                    Clear
+                  </button>
+                )}
+              </div>
+              <div className={listCss.resultMeta}>
+                {loading ? 'Searching…' : `${pagination.total || 0} result${(pagination.total||0)===1?'':'s'}`}
+              </div>
+            </div>
+          </section>
+
+          {/* Content grid */}
+          {loading && (
+            <div className={listCss.grid}>
+              {Array.from({ length: 6 }).map((_, i) => (
+                <div className={listCss.skeletonCard} key={i}>
+                  <div className={listCss.skelImage} />
+                  <div className={listCss.skelContent}>
+                    <div className={`${listCss.skelLine} ${listCss.medium}`} />
+                    <div className={`${listCss.skelLine} ${listCss.medium}`} />
+                    <div className={`${listCss.skelLine} ${listCss.short}`} />
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+
           {error && <p style={{ color: '#ef4444' }}>Error: {error}</p>}
+
           {!loading && !error && articles.length === 0 && (
-            <div className={cardBase.empty}>No articles yet. Check back soon.</div>
+            <div className={listCss.empty}>
+              {(() => {
+                if (search && tag) {
+                  return `No articles found for "${search}" with the tag "${tag}".`;
+                }
+                if (search) {
+                  return `No articles found for "${search}". Try a different search.`;
+                }
+                if (tag) {
+                  return `No articles found with the tag "${tag}".`;
+                }
+                return 'No articles yet. Check back soon.';
+              })()}
+            </div>
           )}
 
           {!loading && !error && articles.length > 0 && (
-            <div className={cardBase.grid}>
+            <div className={listCss.grid}>
               {articles.map((a) => (
-                <ArticleCard key={a._id} article={a} />
+                <ArticleCard key={a._id} article={a} highlight={search} />
               ))}
             </div>
           )}
 
           {/* Pagination */}
           {!loading && !error && pagination && pagination.totalPages > 1 && (
-            <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginTop:16 }}>
+            <div className={listCss.pagination}>
               <button
                 onClick={() => router.push({ pathname: '/articles', query: { ...router.query, page: Math.max(1, page - 1) } })}
                 disabled={page <= 1}
-                style={{ padding:'8px 12px', border:'1px solid #e5e7eb', borderRadius:8, opacity: page<=1 ? .5 : 1 }}
+                className={listCss.pageBtn}
               >
                 Previous
               </button>
-              <span>Page {pagination.page || page} of {pagination.totalPages}</span>
+              <span className={listCss.pageInfo}>Page {pagination.page || page} of {pagination.totalPages}</span>
               <button
                 onClick={() => router.push({ pathname: '/articles', query: { ...router.query, page: Math.min((pagination.totalPages||page+1), page + 1) } })}
                 disabled={page >= (pagination.totalPages || page)}
-                style={{ padding:'8px 12px', border:'1px solid #e5e7eb', borderRadius:8, opacity: page>=(pagination.totalPages||page) ? .5 : 1 }}
+                className={listCss.pageBtn}
               >
                 Next
               </button>

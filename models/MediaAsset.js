@@ -15,6 +15,10 @@ const MediaAssetSchema = new mongoose.Schema({
     default: '',
     trim: true,
   },
+  tags: {
+    type: [String],
+    default: [],
+  },
   fileType: {
     type: String,
     required: [true, 'File type is required.'],

@@ -32,9 +32,10 @@ const ProjectSchema = new mongoose.Schema({
     type: [String],
     required: true,
   },
-  category: {
+  status: {
     type: String,
-    required: true,
+    enum: ['In Progress', 'Completed', 'Archived'],
+    default: 'In Progress',
   },
   links: {
     live: String,
@@ -59,6 +60,14 @@ const ProjectSchema = new mongoose.Schema({
   ogImage: {
     type: String, // URL to the Open Graph image
     trim: true,
+  },
+  scheduledAt: {
+    type: Date,
+    default: null,
+  },
+  pinned: {
+    type: Boolean,
+    default: false,
   },
 }, { timestamps: true });
 

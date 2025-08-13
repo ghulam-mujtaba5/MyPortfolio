@@ -32,14 +32,24 @@ export default async function handler(req, res) {
         const page = parseInt(req.query.page) || 1;
         const limit = parseInt(req.query.limit) || 15;
         const skip = (page - 1) * limit;
+        const search = req.query.search || '';
 
-        const assets = await MediaAsset.find()
+        const query = search 
+          ? { 
+              $or: [
+                { filename: { $regex: search, $options: 'i' } },
+                { tags: { $regex: search, $options: 'i' } }
+              ]
+            }
+          : {};
+
+        const assets = await MediaAsset.find(query)
           .sort({ createdAt: -1 })
           .skip(skip)
           .limit(limit)
           .populate('uploadedBy', 'name');
         
-        const total = await MediaAsset.countDocuments();
+        const total = await MediaAsset.countDocuments(query);
 
         res.status(200).json({ assets, total, page, limit });
       } catch (error) {
@@ -119,8 +129,42 @@ export default async function handler(req, res) {
       }
       break;
 
+    case 'DELETE':
+      try {
+        const { ids } = req.body;
+        if (!ids || !Array.isArray(ids) || ids.length === 0) {
+          return res.status(400).json({ message: 'Asset IDs are required' });
+        }
+
+        const assets = await MediaAsset.find({ '_id': { $in: ids } });
+        if (assets.length === 0) {
+          return res.status(404).json({ message: 'No assets found for the given IDs.' });
+        }
+
+        const bucket = new mongoose.mongo.GridFSBucket(mongoose.connection.db, { bucketName: 'media' });
+
+        for (const asset of assets) {
+          const parts = asset.url.split('/');
+          const fileIdStr = parts[parts.length - 1];
+          try {
+            const fileObjectId = new mongoose.Types.ObjectId(fileIdStr);
+            await bucket.delete(fileObjectId);
+          } catch (e) {
+            console.warn(`Could not delete file ${fileIdStr} from GridFS for asset ${asset._id}. It might have been already deleted.`, e.message);
+          }
+        }
+
+        await MediaAsset.deleteMany({ '_id': { $in: ids } });
+
+        res.status(200).json({ message: 'Assets deleted successfully' });
+      } catch (error) {
+        console.error('[media][DELETE] error:', error);
+        res.status(500).json({ message: 'Error deleting assets', error: error.message });
+      }
+      break;
+
     default:
-      res.setHeader('Allow', ['GET', 'POST']);
+      res.setHeader('Allow', ['GET', 'POST', 'DELETE']);
       res.status(405).end(`Method ${req.method} Not Allowed`);
   }
 }

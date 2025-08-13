@@ -33,9 +33,25 @@ export default function EditProjectPage({ project, previewSecret }) {
     window.open(`/api/preview?secret=${previewSecret}&type=project&id=${project._id}`, '_blank');
   };
 
+  const handleDelete = async () => {
+    if (!window.confirm('Delete this project permanently?')) return;
+    try {
+      const res = await fetch(`/api/projects/${project._id}`, { method: 'DELETE' });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(data.message || 'Failed to delete project');
+      toast.success('Project deleted');
+      router.push('/admin/projects');
+    } catch (err) {
+      toast.error(err.message);
+    }
+  };
+
   return (
     <AdminLayout title={`Edit: ${project.title}`}>
-      <h1>Edit Project</h1>
+      <div style={{display:'flex', alignItems:'center', justifyContent:'space-between'}}>
+        <h1 style={{margin:0}}>Edit Project</h1>
+        <button onClick={handleDelete} style={{border:'1px solid #ef4444', color:'#ef4444', padding:'6px 10px', borderRadius:6}}>Delete</button>
+      </div>
             <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '2rem' }}>
         <div>
           <ProjectForm 

@@ -10,6 +10,8 @@ import StatWidget from '../../components/Admin/Dashboard/StatWidget';
 import DashboardSkeleton from '../../components/Admin/Dashboard/DashboardSkeleton';
 import DateRangePicker from '../../components/Admin/Dashboard/DateRangePicker';
 import ChartCard from '../../components/Admin/Dashboard/ChartCard';
+import PinnedItems from '../../components/Admin/Dashboard/PinnedItems';
+import Scratchpad from '../../components/Admin/Dashboard/Scratchpad';
 
 
 
@@ -88,6 +90,8 @@ const DashboardPage = () => {
         </div>
         <div>
           <QuickActions />
+          <PinnedItems />
+          <Scratchpad />
         </div>
       </div>
     </AdminLayout>

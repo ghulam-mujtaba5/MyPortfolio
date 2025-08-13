@@ -1,45 +1,40 @@
-import { mongooseConnect } from '../../../lib/mongoose';
-import { getSession } from 'next-auth/react';
+import { getToken } from 'next-auth/jwt';
+import dbConnect from '../../../lib/mongoose';
 import Article from '../../../models/Article';
-import Project from '../../../models/Project';
-import User from '../../../models/User';
 
 export default async function handler(req, res) {
+  const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
+  if (!token || !['admin', 'editor'].includes(token.role)) {
+    return res.status(403).json({ success: false, message: 'Forbidden' });
+  }
+
   if (req.method !== 'GET') {
-    return res.status(405).json({ message: 'Method Not Allowed' });
+    res.setHeader('Allow', ['GET']);
+    return res.status(405).json({ success: false, message: `Method ${req.method} Not Allowed` });
   }
 
-  const session = await getSession({ req });
-  if (!session || session.user.role !== 'admin') {
-    return res.status(401).json({ message: 'Unauthorized' });
-  }
-
-  await mongooseConnect();
-
-  const { q: searchQuery } = req.query;
-
-  if (!searchQuery) {
-    return res.status(400).json({ message: 'Search query is required' });
-  }
-
-  const regex = new RegExp(searchQuery, 'i');
+  const { q = '', limit = 10 } = req.query;
+  const query = String(q).trim();
+  if (!query) return res.status(400).json({ success: false, message: 'Search query is required' });
 
   try {
-    const [articles, projects, users] = await Promise.all([
-      Article.find({ title: regex }).select('_id title slug').limit(5),
-      Project.find({ title: regex }).select('_id title slug').limit(5),
-      User.find({ name: regex }).select('_id name email').limit(5),
-    ]);
+    await dbConnect();
+    const regex = new RegExp(query, 'i');
 
-    const results = [
-      ...articles.map(item => ({ ...item._doc, type: 'Article' })),
-      ...projects.map(item => ({ ...item._doc, type: 'Project' })),
-      ...users.map(item => ({ ...item._doc, type: 'User' })),
-    ];
+    const results = await Article.find({
+      $or: [
+        { title: regex },
+        { tags: regex },
+        { categories: regex },
+      ],
+    })
+      .select({ _id: 1, title: 1, slug: 1, published: 1, publishAt: 1, createdAt: 1 })
+      .limit(Math.min(50, Math.max(1, parseInt(limit, 10) || 10)))
+      .lean();
 
-    res.status(200).json(results);
+    return res.status(200).json({ success: true, data: results });
   } catch (error) {
-    console.error('Search API error:', error);
-    res.status(500).json({ message: 'Internal Server Error' });
+    console.error('Admin Search API error:', error);
+    return res.status(500).json({ success: false, message: 'Server Error' });
   }
 }

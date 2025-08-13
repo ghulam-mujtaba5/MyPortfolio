@@ -13,14 +13,26 @@ const NavBar = () => {
   };
 
   const handleScrollToSection = (sectionId) => {
-    // If on the projects page, navigate to the home page with hash
-    if (router.pathname === '/projects') {
-      router.push('/#' + sectionId);
-    } else {
-      const section = document.getElementById(sectionId);
-      if (section) {
-        section.scrollIntoView({ behavior: "smooth" });
-      }
+    // If not on the home page, navigate to the home page with the hash
+    const basePath = typeof window !== 'undefined' ? router.asPath.split('#')[0] : router.pathname;
+    const targetHash = `#${sectionId}`;
+    if (basePath !== '/') {
+      router.push('/' + targetHash);
+      return;
+    }
+    // Already on home: ensure URL hash reflects target, then smooth scroll
+    if (typeof window !== 'undefined' && window.location.hash !== targetHash) {
+      // Update hash without a full navigation
+      router.replace('/' + targetHash, undefined, { shallow: true });
+    }
+    // Defer to next frame to ensure DOM focus/URL update before scrolling
+    if (typeof window !== 'undefined') {
+      window.requestAnimationFrame(() => {
+        const section = document.getElementById(sectionId);
+        if (section) {
+          section.scrollIntoView({ behavior: 'smooth' });
+        }
+      });
     }
   };
 
@@ -30,12 +42,14 @@ const NavBar = () => {
 
   // Determine active/selected state
   const hash = typeof window !== 'undefined' ? window.location.hash : '';
-  const isProjects = router.pathname === '/projects';
-  const isHome = !isProjects;
-  const isAbout = router.pathname === '/' && hash === '#about-section';
-  const isResume = router.pathname === '/resume';
-  const isArticles = router.pathname === '/articles';
-  const isContact = router.pathname === '/' && hash === '#contact-section';
+  // Use asPath (without hash) to correctly detect current route, including dynamic routes
+  const path = typeof window !== 'undefined' ? router.asPath.split('#')[0] : router.pathname;
+  const isProjects = path === '/projects';
+  const isHome = path === '/' && (hash === '' || hash === '#home-section');
+  const isAbout = path === '/' && hash === '#about-section';
+  const isResume = path === '/resume';
+  const isArticles = path === '/articles' || path.startsWith('/articles/');
+  const isContact = path === '/' && hash === '#contact-section';
 
   return (
     <header className={styles.header}>
@@ -120,7 +134,7 @@ const NavBar = () => {
           className={`${styles.project} ${isProjects ? styles.active : ''}`}
           onClick={() => handleNavigation("/projects")}
         >
-          <div className={styles.projectText}>Project</div>
+          <div className={styles.projectText}>Projects</div>
         </div>
 
         {/* Contact section */}

@@ -7,7 +7,7 @@ import lightStyles from './FooterLight.module.css'; // Import light mode styles
 import darkStyles from './FooterDark.module.css'; // Import dark mode styles
 
 const Footer = ({
-  copyrightText = "Copyright 2024 Ghulam Mujtaba Official",
+  copyrightText = `Copyright ${new Date().getFullYear()} Ghulam Mujtaba Official`,
   linkedinUrl = "https://www.linkedin.com/in/ghulamujtabaofficial",
   instagramUrl = "https://www.instagram.com/ghulamujtabaofficial/",
   githubUrl = "https://github.com/ghulam-mujtaba5"

@@ -113,4 +113,19 @@
   border: none;
   cursor: pointer;
   font-size: 0.875rem;
+  margin-top: 0.5rem;
+}
+
+.altTextContainer {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  align-items: center;
+}
+
+.altTextInput {
+  flex-grow: 1;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid;
+  border-radius: 6px;
 }
