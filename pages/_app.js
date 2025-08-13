@@ -24,6 +24,7 @@ function MyApp({ Component, pageProps, session }) {
   const router = useRouter();
   const [cookiesAccepted, setCookiesAccepted] = useState(false);
   const [loading, setLoading] = useState(false);
+  const isAdminRoute = router.pathname.startsWith("/admin");
 
   useEffect(() => {
     setCookiesAccepted(hasAcceptedCookies());
@@ -122,7 +123,7 @@ function MyApp({ Component, pageProps, session }) {
         <ThemeProvider>
           {loading && <LoadingAnimation />}
           <Component {...pageProps} />
-          <ThemeToggle />
+          {!isAdminRoute && <ThemeToggle />}
           <CookieConsentBanner />
         </ThemeProvider>
       </SessionProvider>

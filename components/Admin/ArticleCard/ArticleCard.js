@@ -54,6 +54,11 @@ const ArticleCard = ({ article, isSelected, onSelect, onDelete }) => {
               {article.title}
             </Link>
           </h3>
+          {article.excerpt && (
+            <p className={styles.excerpt} title={article.excerpt}>
+              {article.excerpt}
+            </p>
+          )}
           <div className={styles.metaBottom}>
             <span>
               <Icon name="eye" size={14} /> {article.views || 0}
@@ -62,6 +67,11 @@ const ArticleCard = ({ article, isSelected, onSelect, onDelete }) => {
               <Icon name="calendar" size={14} />{' '}
               {new Date(article.createdAt).toLocaleDateString()}
             </span>
+            {article.readingTime && (
+              <span>
+                <Icon name="clock" size={14} /> {article.readingTime}
+              </span>
+            )}
           </div>
         </div>
         <div className={styles.actions}>

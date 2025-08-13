@@ -6,7 +6,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 2rem;
+  margin-bottom: 1.25rem;
 }
 
 .title {
@@ -18,9 +18,13 @@
 .filterBar {
   display: grid;
   grid-template-columns: 1fr auto auto auto;
-  gap: 1rem;
-  margin-bottom: 1.5rem;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
   align-items: center;
+  padding: 0.75rem;
+  border-radius: 12px;
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
 }
 
 .quickFiltersContainer {
@@ -50,6 +54,7 @@
   padding: 1rem 1.5rem;
   border-radius: 12px;
   margin-bottom: 1.5rem;
+  box-shadow: var(--shadow-sm);
 }
 
 .selectionText {
@@ -62,8 +67,8 @@
 
 .articleGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 1.25rem;
 }
 
 .table {

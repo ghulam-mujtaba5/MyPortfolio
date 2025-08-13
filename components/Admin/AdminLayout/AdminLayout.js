@@ -13,7 +13,7 @@ import Modal from '../../Admin/Modal/Modal';
 
 export default function AdminLayout({ children, title }) {
   const router = useRouter();
-  const { theme, mode, setThemeMode } = useTheme();
+  const { theme } = useTheme();
   const themeStyles = theme === 'dark' ? darkStyles : lightStyles;
   const [isQuickCreateOpen, setIsQuickCreateOpen] = useState(false);
 
@@ -34,18 +34,6 @@ export default function AdminLayout({ children, title }) {
       </Head>
       <aside className={`${commonStyles.sidebar} ${themeStyles.sidebar}`}>
         <h1 className={commonStyles.logo}>Admin</h1>
-        <div style={{margin:'8px 0 12px'}}>
-          <label style={{fontSize:12, opacity:0.8, display:'block', marginBottom:4}}>Theme</label>
-          <select
-            value={mode}
-            onChange={(e)=> setThemeMode(e.target.value)}
-            style={{width:'100%', padding:'6px 8px', borderRadius:6, border:'1px solid #e5e7eb'}}
-          >
-            <option value="auto">Auto</option>
-            <option value="light">Light</option>
-            <option value="dark">Dark</option>
-          </select>
-        </div>
         <nav className={commonStyles.nav}>
           <ul>
             {navItems.map((item) => (
