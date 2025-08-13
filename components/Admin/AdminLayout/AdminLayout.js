@@ -31,6 +31,8 @@ export default function AdminLayout({ children, title }) {
     <div className={`${commonStyles.adminContainer} ${themeStyles.container}`}>
       <Head>
         <title>{title ? `${title} | Admin` : 'Admin Dashboard'}</title>
+        {/* Explicitly prevent indexing of admin pages */}
+        <meta name="robots" content="noindex, nofollow, noarchive" />
       </Head>
       <aside className={`${commonStyles.sidebar} ${themeStyles.sidebar}`}>
         <h1 className={commonStyles.logo}>Admin</h1>
