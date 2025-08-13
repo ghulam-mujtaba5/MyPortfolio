@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useEffect, useState, useRef } from "react";
 import { hasAcceptedCookies } from "../utils/cookieConsent";
 import Head from "next/head";
 import SEO from "../components/SEO";
@@ -23,7 +23,10 @@ if (typeof window !== "undefined" && "serviceWorker" in navigator) {
 function MyApp({ Component, pageProps, session }) {
   const router = useRouter();
   const [cookiesAccepted, setCookiesAccepted] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false); // raw router loading
+  const [showLoader, setShowLoader] = useState(false); // debounced visual loader
+  const loaderDelayRef = useRef(null);
+  const loaderSafetyRef = useRef(null);
 
   useEffect(() => {
     setCookiesAccepted(hasAcceptedCookies());
@@ -33,33 +36,64 @@ function MyApp({ Component, pageProps, session }) {
     return () => window.removeEventListener("storage", onStorage);
   }, []);
 
+  // Router loading listeners (always attach/cleanup)
   useEffect(() => {
     const handleStart = () => setLoading(true);
-    const handleComplete = () => setLoading(false);
+    const handleComplete = () => {
+      // ensure all timers are cleared and UI hides
+      setLoading(false);
+      clearTimeout(loaderDelayRef.current);
+      clearTimeout(loaderSafetyRef.current);
+      setShowLoader(false);
+    };
 
     router.events.on("routeChangeStart", handleStart);
     router.events.on("routeChangeComplete", handleComplete);
     router.events.on("routeChangeError", handleComplete);
+    // Also support hash-only changes
+    router.events.on("hashChangeStart", handleStart);
+    router.events.on("hashChangeComplete", handleComplete);
 
-    if (process.env.NODE_ENV === "production") {
-      const handleRouteChange = (url) => {
-        gtag.pageview(url);
-      };
+    return () => {
+      router.events.off("routeChangeStart", handleStart);
+      router.events.off("routeChangeComplete", handleComplete);
+      router.events.off("routeChangeError", handleComplete);
+      router.events.off("hashChangeStart", handleStart);
+      router.events.off("hashChangeComplete", handleComplete);
+    };
+  }, [router.events]);
 
-      // Log initial pageview on component mount
-      gtag.pageview(router.pathname);
-
-      // Listen for route changes and log pageviews
-      router.events.on("routeChangeComplete", handleRouteChange);
-
-      // Clean up listeners when component unmounts
-      return () => {
-        router.events.off("routeChangeComplete", handleRouteChange);
-        router.events.off("routeChangeStart", handleStart);
-        router.events.off("routeChangeComplete", handleComplete);
-        router.events.off("routeChangeError", handleComplete);
-      };
+  // Debounce visual loader to avoid flashes and long hangs
+  useEffect(() => {
+    if (loading) {
+      // show only if still loading after 200ms
+      loaderDelayRef.current = setTimeout(() => setShowLoader(true), 200);
+      // safety: auto-hide after 6s to prevent stuck overlay
+      loaderSafetyRef.current = setTimeout(() => setShowLoader(false), 6000);
+    } else {
+      // route finished: clear timers and hide immediately
+      clearTimeout(loaderDelayRef.current);
+      clearTimeout(loaderSafetyRef.current);
+      setShowLoader(false);
     }
+    return () => {
+      clearTimeout(loaderDelayRef.current);
+      clearTimeout(loaderSafetyRef.current);
+    };
+  }, [loading]);
+
+  // Google Analytics effect (production only)
+  useEffect(() => {
+    if (process.env.NODE_ENV !== "production") return;
+    const handleRouteChange = (url) => {
+      gtag.pageview(url);
+    };
+    // initial pageview
+    gtag.pageview(router.pathname);
+    router.events.on("routeChangeComplete", handleRouteChange);
+    return () => {
+      router.events.off("routeChangeComplete", handleRouteChange);
+    };
   }, [router.events, router.pathname]);
 
   return (
@@ -120,8 +154,8 @@ function MyApp({ Component, pageProps, session }) {
           }}
         />
         <ThemeProvider>
-          {loading && <LoadingAnimation />}
-          <Component {...pageProps} />
+          {showLoader && <LoadingAnimation />}
+          <Component {...pageProps} key={router.asPath} />
           <ThemeToggle />
           <CookieConsentBanner />
         </ThemeProvider>

@@ -42,6 +42,7 @@ const ContactSection = ({
   const formRef = useRef(null);
   const parallaxRef = useRef(null);
   const controls = useAnimation();
+  const isMountedRef = useRef(false);
 
   const validateName = useCallback((name) => {
     return name.length >= 2;
@@ -164,26 +165,32 @@ const ContactSection = ({
     [theme],
   );
 
+  // Mark mounted state for safe animation control calls
   useEffect(() => {
-    const handleScroll = () => {
-      if (formRef.current) {
-        const observer = new IntersectionObserver(
-          ([entry]) => {
-            if (entry.isIntersecting) {
-              controls.start({ opacity: 1, y: 0 });
-            } else {
-              controls.start({ opacity: 0, y: 50 });
-            }
-          },
-          { threshold: 0.1 },
-        );
-
-        observer.observe(formRef.current);
-        return () => observer.disconnect();
-      }
+    isMountedRef.current = true;
+    return () => {
+      isMountedRef.current = false;
     };
+  }, []);
 
-    handleScroll();
+  // Animate form visibility when it intersects viewport
+  useEffect(() => {
+    if (!formRef.current) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!isMountedRef.current) return;
+        if (entry.isIntersecting) {
+          controls.start({ opacity: 1, y: 0 });
+        } else {
+          controls.start({ opacity: 0, y: 50 });
+        }
+      },
+      { threshold: 0.1 },
+    );
+
+    observer.observe(formRef.current);
+    return () => observer.disconnect();
   }, [controls]);
 
   useEffect(() => {
