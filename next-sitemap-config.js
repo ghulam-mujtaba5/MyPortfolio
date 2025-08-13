@@ -4,6 +4,7 @@ module.exports = {
   generateRobotsTxt: true, // Generate robots.txt file
   // Exclude non-public routes from sitemap
   exclude: [
+    "/admin",
     "/admin/*",
     "/api/*",
     "/softbuilt/admin/*",
