@@ -20,12 +20,14 @@
   background-color: var(--color-primary-light-accent);
 }
 
-.uploadButton, .button {
+.uploadButton,
+.button {
   background-color: var(--color-primary-light);
   color: var(--color-text-button-light);
   border-color: var(--color-primary-light);
 }
 
-.uploadButton:hover, .button:hover {
+.uploadButton:hover,
+.button:hover {
   background-color: var(--color-primary-hover-light);
 }

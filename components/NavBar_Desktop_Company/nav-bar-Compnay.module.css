@@ -1,8 +1,10 @@
 /* Styles for the Home button text */
 
-
 .header * {
-  transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+  transition:
+    background-color 0.3s ease,
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
 }
 .homeText {
   position: relative;
@@ -37,7 +39,6 @@
 .contact:hover {
   background-color: #33373c; /* Change to darker color on hover */
   transform: scale(1.05); /* Slight scale effect on hover */
-
 }
 
 /* Styles for the About section text */
@@ -83,7 +84,6 @@
   width: 40px;
   height: 40px;
   position: relative;
-  
 }
 
 /* Styles for the Logo button container */
@@ -102,15 +102,17 @@
   box-sizing: border-box;
   transition: transform 0.3s ease; /* Add transition for smooth animation */
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  box-shadow: 0 0 5px #4573df, 0 0 10px #4573df, 0 0 15px #4573df;
+  box-shadow:
+    0 0 5px #4573df,
+    0 0 10px #4573df,
+    0 0 15px #4573df;
 }
 
 .logoHover {
   background-color: #4573df;
   transform: scale(1.03);
-  box-shadow:none;
+  box-shadow: none;
   transition: opacity 0.3s ease; /* Smooth opacity transition */
-
 }
 
 /* Styles for the Name animation icon */
@@ -119,7 +121,6 @@
   width: 140px;
   position: relative;
   transition: opacity 0.3s ease; /* Smooth opacity transition */
-
 }
 
 /* Styles for the Logo and Name animation container */
@@ -131,7 +132,7 @@
   align-items: center;
   justify-content: center;
   position: relative;
-  /* width: 250px;  *//*make all uton stick ot places when hoverred*/ 
+  /* width: 250px;  */ /*make all uton stick ot places when hoverred*/
 }
 
 /* Additional styles for the Logo and Name animation container */
@@ -145,9 +146,7 @@
 .typo:hover .nameIcon {
   opacity: 0; /* Hide the Name animation icon on hover */
   transition: opacity 0.3s ease; /* Smooth opacity transition */
-
 }
-
 
 /* Styles for the Resume section text */
 .resumeText {
@@ -214,7 +213,7 @@
 /* Styles for the header container */
 .header {
   flex: 1;
- 
+
   border-radius: 50px;
   background-color: #1d2127;
   border: 1px solid #fff;
@@ -231,11 +230,9 @@
   font-family: "Open Sans";
   margin: 0 20px; /* Add margin */
 }
-.alternativeNameIcon{
-
+.alternativeNameIcon {
   width: 200px;
   position: relative;
-
 }
 /* Media query for smaller screens */
 @media screen and (max-width: 768px) {

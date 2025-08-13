@@ -1,0 +1,35 @@
+.title {
+  color: var(--color-text-primary-dark);
+}
+
+.filterLabel {
+  color: var(--color-text-secondary-dark);
+}
+
+.selectionBar {
+  background-color: var(--color-primary-dark-light);
+  border: 1px solid var(--color-primary-dark-border);
+  color: var(--color-primary-dark);
+}
+
+.tableWrapper {
+  border: 1px solid var(--color-border-dark);
+}
+
+.table th {
+  background-color: var(--color-bg-tertiary-dark);
+  border-bottom: 1px solid var(--color-border-dark);
+  color: var(--color-text-secondary-dark);
+}
+
+.table td {
+  border-bottom: 1px solid var(--color-border-dark);
+}
+
+.table tbody tr:hover {
+  background-color: var(--color-bg-secondary-dark);
+}
+
+.paginationText {
+  color: var(--color-text-secondary-dark);
+}

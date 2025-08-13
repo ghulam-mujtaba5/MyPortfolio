@@ -1,0 +1,266 @@
+/* e:\temp\MyPortfolio\components\Admin\AdminLayout\AdminLayout.base.module.css */
+
+:root {
+  --admin-font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+    'Segoe UI Symbol';
+  --admin-font-mono: 'Fira Code', 'Courier New', monospace;
+
+  --sidebar-width: 260px;
+  --sidebar-width-collapsed: 80px;
+  --header-height: 64px;
+  
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 16px;
+
+  --transition-fast: 200ms ease;
+  --transition-normal: 300ms ease;
+}
+
+.adminContainer {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+  font-family: var(--admin-font-sans);
+  transition: padding-left var(--transition-normal);
+}
+
+.mainWrapper {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  width: calc(100% - var(--sidebar-width));
+  transition: width var(--transition-normal);
+}
+
+/* --- Sidebar --- */
+.sidebar {
+  width: var(--sidebar-width);
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  transition: width var(--transition-normal), transform var(--transition-normal);
+  overflow-x: hidden;
+}
+
+.sidebarHeader {
+  display: flex;
+  align-items: center;
+  padding: 0 var(--spacing-lg);
+  height: var(--header-height);
+  flex-shrink: 0;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-md);
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.logoText {
+  line-height: 1;
+}
+
+.logoTitle {
+  font-size: 22px;
+  font-weight: 600;
+  margin-left: var(--spacing-sm);
+  opacity: 1;
+  transition: opacity var(--transition-fast);
+  white-space: nowrap;
+}
+
+.sidebarContent {
+  flex-grow: 1;
+  overflow-y: auto;
+  padding: var(--spacing-md) 0;
+}
+
+.nav {
+  padding: 0 var(--spacing-md);
+}
+
+.nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.navLink {
+  display: flex;
+  align-items: center;
+  padding: 12px var(--spacing-md);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--spacing-sm);
+  font-weight: 500;
+  text-decoration: none;
+  transition: background-color var(--transition-fast), color var(--transition-fast);
+  white-space: nowrap;
+}
+
+.navIcon {
+  flex-shrink: 0;
+  margin-right: 16px;
+  transition: margin-right var(--transition-normal);
+}
+
+.navLabel {
+  opacity: 1;
+  transition: opacity var(--transition-fast);
+}
+
+.sidebarFooter {
+  padding: var(--spacing-lg);
+  border-top: 1px solid;
+}
+
+.logoutButton {
+  width: 100%;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+/* --- Collapsed Sidebar --- */
+.sidebarCollapsed .sidebar {
+  width: var(--sidebar-width-collapsed);
+}
+
+.sidebarCollapsed .mainWrapper {
+  width: calc(100% - var(--sidebar-width-collapsed));
+  margin-left: var(--sidebar-width-collapsed);
+}
+
+.sidebarCollapsed .logoTitle,
+.sidebarCollapsed .navLabel {
+  opacity: 0;
+  width: 0;
+  overflow: hidden;
+}
+
+.sidebarCollapsed .navIcon {
+  margin-right: 0;
+}
+
+.sidebarCollapsed .navLink {
+  justify-content: center;
+}
+
+/* --- Header --- */
+.header {
+  height: var(--header-height);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--spacing-lg);
+  flex-shrink: 0;
+  border-bottom: 1px solid;
+  position: sticky;
+  top: 0;
+  z-index: 900;
+}
+
+.headerLeft, .headerRight {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+}
+
+.headerButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  transition: background-color var(--transition-fast);
+}
+
+.searchBar {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.searchIcon {
+  position: absolute;
+  left: 12px;
+  pointer-events: none;
+}
+
+.searchInput {
+  padding: 8px 12px 8px 36px;
+  border-radius: var(--radius-md);
+  border: 1px solid;
+  min-width: 250px;
+  transition: all var(--transition-fast);
+}
+
+.createButton {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: 8px 16px;
+  border-radius: var(--radius-md);
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color var(--transition-fast);
+}
+
+.themeToggle {
+  display: flex;
+  align-items: center;
+  padding: 4px;
+  border-radius: var(--radius-md);
+}
+
+.themeButton {
+  padding: 6px;
+  border-radius: var(--radius-sm);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color var(--transition-fast);
+}
+
+.userMenu {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.userAvatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* --- Main Content --- */
+.mainContent {
+  flex-grow: 1;
+  overflow-y: auto;
+  padding: var(--spacing-lg);
+}
+

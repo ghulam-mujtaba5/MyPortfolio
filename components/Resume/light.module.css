@@ -1,13 +1,12 @@
 .resumeContainer {
-    color: #000000;
-    background-color: #e8ebee;
-  }
-  
-  .sectionDivider {
-    border-color: #45818e;
-  }
-  
-  .headerImage img {
-    border-color: #45818e;
-  }
-  
+  color: #000000;
+  background-color: #e8ebee;
+}
+
+.sectionDivider {
+  border-color: #45818e;
+}
+
+.headerImage img {
+  border-color: #45818e;
+}

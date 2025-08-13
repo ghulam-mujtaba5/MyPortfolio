@@ -1,69 +1,79 @@
-import Icon from '../components/Icon/gmicon';
-import SEO from '../components/SEO';
+import Icon from "../components/Icon/gmicon";
+import SEO from "../components/SEO";
 
-import React, { useState } from 'react';
-import dbConnect from '../lib/mongoose';
-import Project from '../models/Project';
-import dynamic from 'next/dynamic';
-import Head from 'next/head';
-import { useTheme } from '../context/ThemeContext';
-import NavBar from '../components/NavBar_Desktop/nav-bar';
-import NavBarMobile from '../components/NavBar_Mobile/NavBar-mobile';
+import React, { useState } from "react";
+import dbConnect from "../lib/mongoose";
+import Project from "../models/Project";
+import dynamic from "next/dynamic";
+import Head from "next/head";
+import { useTheme } from "../context/ThemeContext";
+import NavBar from "../components/NavBar_Desktop/nav-bar";
+import NavBarMobile from "../components/NavBar_Mobile/NavBar-mobile";
 
-import Footer from '../components/Footer/Footer';
+import Footer from "../components/Footer/Footer";
 
 // Dynamically import Project1 to avoid SSR issues with next/image
-import Project1 from '../components/Projects/Project1';
+import Project1 from "../components/Projects/Project1";
 
 const TAGS = [
-  'All',
-  'Software Development',
-  'Web Development',
-  'AI',
-  'Data Science',
-  'UI/UX',
-  'Others',
+  "All",
+  "Software Development",
+  "Web Development",
+  "AI",
+  "Data Science",
+  "UI/UX",
+  "Others",
 ];
 
 // Sections for NavBarMobile navigation
 const sections = [
-  { route: '/#home-section', label: 'Home' },
-  { route: '/#about-section', label: 'About' },
-  { route: '/resume', label: 'Resume' },
-  { route: '/projects', label: 'Projects' },
-  { route: '/articles', label: 'Articles' },
-  { route: '/#contact-section', label: 'Contact' }
+  { route: "/#home-section", label: "Home" },
+  { route: "/#about-section", label: "About" },
+  { route: "/resume", label: "Resume" },
+  { route: "/projects", label: "Projects" },
+  { route: "/articles", label: "Articles" },
+  { route: "/#contact-section", label: "Contact" },
 ];
 
-import Link from 'next/link';
-import LoadingAnimation from '../components/LoadingAnimation/LoadingAnimation';
+import Link from "next/link";
+import LoadingAnimation from "../components/LoadingAnimation/LoadingAnimation";
 
 const ProjectsPage = ({ projects }) => {
   const { theme } = useTheme();
-  const [selectedTag, setSelectedTag] = useState('All');
+  const [selectedTag, setSelectedTag] = useState("All");
   // Since this page uses SSR via getServerSideProps, default to not loading and no error.
   const [loading] = useState(false);
   const [error] = useState(null);
 
-  const filteredProjects = selectedTag === 'All'
-    ? projects
-    : projects.filter(p => p.tags.includes(selectedTag));
+  const filteredProjects =
+    selectedTag === "All"
+      ? projects
+      : projects.filter((p) => p.tags.includes(selectedTag));
 
   return (
     <>
       <Head>
         <title>Projects | Ghulam Mujtaba</title>
-        <meta name="description" content="Showcase of advanced, modern, and professional projects by Ghulam Mujtaba. Explore software, web, mobile, AI, data science, and UI/UX work." />
+        <meta
+          name="description"
+          content="Showcase of advanced, modern, and professional projects by Ghulam Mujtaba. Explore software, web, mobile, AI, data science, and UI/UX work."
+        />
         {/* Open Graph Meta Tags */}
         <meta property="og:title" content="Projects | Ghulam Mujtaba" />
-        <meta property="og:description" content="Showcase of advanced, modern, and professional projects by Ghulam Mujtaba. Explore software, web, mobile, AI, data science, and UI/UX work." />
+        <meta
+          property="og:description"
+          content="Showcase of advanced, modern, and professional projects by Ghulam Mujtaba. Explore software, web, mobile, AI, data science, and UI/UX work."
+        />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://ghulammujtaba.com/projects" />
         <meta property="og:image" content="/og-image.png" />
         {/* Twitter Card Meta Tags */}
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="Projects | Ghulam Mujtaba" />
-        <meta name="twitter:description" content="Showcase of advanced, modern, and professional projects by Ghulam Mujtaba. Explore software, web, mobile, AI, data science, and UI/UX work." />
+        <meta
+          name="twitter:description"
+          content="Showcase of advanced, modern, and professional projects by Ghulam Mujtaba. Explore software, web, mobile, AI, data science, and UI/UX work."
+        />
         <meta name="twitter:image" content="/og-image.png" />
         {/* Canonical URL */}
         <link rel="canonical" href="https://ghulammujtaba.com/projects" />
@@ -72,23 +82,29 @@ const ProjectsPage = ({ projects }) => {
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
-              '@context': 'https://schema.org',
-              '@type': 'ItemList',
-              name: 'Projects',
-              url: 'https://ghulammujtaba.com/projects',
+              "@context": "https://schema.org",
+              "@type": "ItemList",
+              name: "Projects",
+              url: "https://ghulammujtaba.com/projects",
               itemListElement: projects.map((project, idx) => ({
-                '@type': 'CreativeWork',
+                "@type": "CreativeWork",
                 position: idx + 1,
                 name: project.title,
                 description: project.description,
-                url: project?.links?.live || '',
-                image: project?.image || '',
+                url: project?.links?.live || "",
+                image: project?.image || "",
               })),
-            })
+            }),
           }}
         />
       </Head>
-      <div style={{ backgroundColor: theme === 'dark' ? '#1d2127' : '#ffffff', overflowX: 'hidden', minHeight: '100vh' }}>
+      <div
+        style={{
+          backgroundColor: theme === "dark" ? "#1d2127" : "#ffffff",
+          overflowX: "hidden",
+          minHeight: "100vh",
+        }}
+      >
         {/* Desktop NavBar */}
         <div className="hide-on-mobile">
           <NavBar />
@@ -109,10 +125,41 @@ const ProjectsPage = ({ projects }) => {
           <section className={`project-hero fade-in`}>
             <div className="hero-bg-visual-soft" aria-hidden="true">
               {/* Abstract lines SVG background */}
-              <svg width="100%" height="100%" viewBox="0 0 900 220" fill="none" xmlns="http://www.w3.org/2000/svg" style={{position:'absolute',top:0,left:0,width:'100%',height:'100%'}}>
-                <polyline points="60,60 200,40 350,100 500,60 700,120 850,60" stroke="#3b82f6" strokeWidth="2.5" opacity="0.13" fill="none" />
-                <polyline points="100,120 300,80 450,180 600,100 800,180" stroke="#60a5fa" strokeWidth="2" opacity="0.10" fill="none" />
-                <polyline points="80,180 250,160 400,200 650,160 820,200" stroke="#a5b4fc" strokeWidth="1.5" opacity="0.09" fill="none" />
+              <svg
+                width="100%"
+                height="100%"
+                viewBox="0 0 900 220"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                style={{
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
+                  width: "100%",
+                  height: "100%",
+                }}
+              >
+                <polyline
+                  points="60,60 200,40 350,100 500,60 700,120 850,60"
+                  stroke="#3b82f6"
+                  strokeWidth="2.5"
+                  opacity="0.13"
+                  fill="none"
+                />
+                <polyline
+                  points="100,120 300,80 450,180 600,100 800,180"
+                  stroke="#60a5fa"
+                  strokeWidth="2"
+                  opacity="0.10"
+                  fill="none"
+                />
+                <polyline
+                  points="80,180 250,160 400,200 650,160 820,200"
+                  stroke="#a5b4fc"
+                  strokeWidth="1.5"
+                  opacity="0.09"
+                  fill="none"
+                />
                 <circle cx="60" cy="60" r="4" fill="#3b82f6" opacity="0.18" />
                 <circle cx="850" cy="60" r="3" fill="#3b82f6" opacity="0.13" />
                 <circle cx="800" cy="180" r="3" fill="#60a5fa" opacity="0.13" />
@@ -130,7 +177,8 @@ const ProjectsPage = ({ projects }) => {
                 Innovating Across Web, Mobile, Desktop, AI, and Data Science
               </h2>
               <p className="refined-intro-desc animated-fadein-delayed">
-                Explore impactful projects where technology, design, and problem solving converge—each a testament to innovation and quality.
+                Explore impactful projects where technology, design, and problem
+                solving converge—each a testament to innovation and quality.
               </p>
             </div>
           </section>
@@ -139,7 +187,7 @@ const ProjectsPage = ({ projects }) => {
             {TAGS.map((tag, i) => (
               <button
                 key={tag}
-                className={`project-tag-btn${selectedTag === tag ? ' active' : ''}`}
+                className={`project-tag-btn${selectedTag === tag ? " active" : ""}`}
                 onClick={() => setSelectedTag(tag)}
                 aria-pressed={selectedTag === tag}
                 style={{ transitionDelay: `${i * 60}ms` }}
@@ -149,7 +197,7 @@ const ProjectsPage = ({ projects }) => {
             ))}
           </div>
           <div className="project-grid">
-            {filteredProjects.map(project => (
+            {filteredProjects.map((project) => (
               <div key={project._id} className="project-grid-card">
                 <Project1 project={project} />
               </div>
@@ -163,17 +211,17 @@ const ProjectsPage = ({ projects }) => {
           width: 100vw;
           z-index: 100;
         }
-          /* position: fixed; */
-          /* top: 0; */
-          /* left: 0; */
-  
+        /* position: fixed; */
+        /* top: 0; */
+        /* left: 0; */
+
         .projects-page-bg.dark .mobile-navbar-row {
           background: #23272f !important;
-          box-shadow: 0 2px 8px 0 rgba(34,34,59,0.13);
+          box-shadow: 0 2px 8px 0 rgba(34, 34, 59, 0.13);
         }
         .projects-page-bg.dark .mobile-navbar-row {
           background: #23272f;
-          box-shadow: 0 2px 8px 0 rgba(34,34,59,0.13);
+          box-shadow: 0 2px 8px 0 rgba(34, 34, 59, 0.13);
         }
         .mobile-logo-align {
           display: flex;
@@ -194,15 +242,23 @@ const ProjectsPage = ({ projects }) => {
             z-index: 100;
             background: transparent;
           }
-            /* position: fixed; */
-            /* top: 0; */
-            /* left: 0; */
+          /* position: fixed; */
+          /* top: 0; */
+          /* left: 0; */
         }
-        .hide-on-mobile { display: block; }
-        .show-on-mobile { display: none; }
+        .hide-on-mobile {
+          display: block;
+        }
+        .show-on-mobile {
+          display: none;
+        }
         @media (max-width: 800px) {
-          .hide-on-mobile { display: none !important; }
-          .show-on-mobile { display: block !important; }
+          .hide-on-mobile {
+            display: none !important;
+          }
+          .show-on-mobile {
+            display: block !important;
+          }
         }
         .project-icons-row {
           display: flex;
@@ -213,7 +269,13 @@ const ProjectsPage = ({ projects }) => {
         }
         .animated-gradient-headline span {
           display: inline-block;
-          background: linear-gradient(270deg, #2563eb, #60a5fa, #a5b4fc, #2563eb);
+          background: linear-gradient(
+            270deg,
+            #2563eb,
+            #60a5fa,
+            #a5b4fc,
+            #2563eb
+          );
           background-size: 200% 200%;
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
@@ -222,19 +284,27 @@ const ProjectsPage = ({ projects }) => {
           animation: gradientMove 3.5s ease-in-out infinite;
         }
         @keyframes gradientMove {
-          0% { background-position: 0% 50%; }
-          50% { background-position: 100% 50%; }
-          100% { background-position: 0% 50%; }
+          0% {
+            background-position: 0% 50%;
+          }
+          50% {
+            background-position: 100% 50%;
+          }
+          100% {
+            background-position: 0% 50%;
+          }
         }
         .animated-fadein {
           opacity: 0;
           transform: translateY(18px);
-          animation: fadeInUp 1.1s cubic-bezier(.39,.575,.565,1.000) 0.3s forwards;
+          animation: fadeInUp 1.1s cubic-bezier(0.39, 0.575, 0.565, 1) 0.3s
+            forwards;
         }
         .animated-fadein-delayed {
           opacity: 0;
           transform: translateY(18px);
-          animation: fadeInUp 1.1s cubic-bezier(.39,.575,.565,1.000) 0.7s forwards;
+          animation: fadeInUp 1.1s cubic-bezier(0.39, 0.575, 0.565, 1) 0.7s
+            forwards;
         }
         .fade-in {
           opacity: 0;
@@ -243,18 +313,20 @@ const ProjectsPage = ({ projects }) => {
         .fade-in-up {
           opacity: 0;
           transform: translateY(30px);
-          animation: fadeInUp 0.7s cubic-bezier(.39,.575,.565,1.000) forwards;
+          animation: fadeInUp 0.7s cubic-bezier(0.39, 0.575, 0.565, 1) forwards;
         }
         .fade-in-up .project-tag-btn {
           opacity: 0;
           transform: translateY(20px);
-          animation: fadeInUp 0.5s cubic-bezier(.39,.575,.565,1.000) forwards;
+          animation: fadeInUp 0.5s cubic-bezier(0.39, 0.575, 0.565, 1) forwards;
         }
         .fade-in-up .project-tag-btn {
           animation-delay: inherit;
         }
         @keyframes fadeIn {
-          to { opacity: 1; }
+          to {
+            opacity: 1;
+          }
         }
         @keyframes fadeInUp {
           to {
@@ -265,12 +337,15 @@ const ProjectsPage = ({ projects }) => {
         .card-animate {
           opacity: 0;
           transform: translateY(40px) scale(0.98);
-          animation: cardFadeIn 0.7s cubic-bezier(.39,.575,.565,1.000) forwards;
+          animation: cardFadeIn 0.7s cubic-bezier(0.39, 0.575, 0.565, 1)
+            forwards;
         }
         .card-animate:hover {
           transform: translateY(-8px) scale(1.03);
-          box-shadow: 0 8px 32px 0 rgba(60,60,100,0.18);
-          transition: box-shadow 0.3s, transform 0.3s;
+          box-shadow: 0 8px 32px 0 rgba(60, 60, 100, 0.18);
+          transition:
+            box-shadow 0.3s,
+            transform 0.3s;
         }
         @keyframes cardFadeIn {
           to {
@@ -329,7 +404,7 @@ const ProjectsPage = ({ projects }) => {
           letter-spacing: -1px;
           margin-bottom: 0.5rem;
           line-height: 1.1;
-          text-shadow: 0 4px 24px rgba(60,100,200,0.10);
+          text-shadow: 0 4px 24px rgba(60, 100, 200, 0.1);
         }
         .refined-intro-sub {
           font-size: 1.35rem;
@@ -337,7 +412,7 @@ const ProjectsPage = ({ projects }) => {
           font-weight: 600;
           margin-bottom: 0.7rem;
           letter-spacing: 0.02em;
-          text-shadow: 0 2px 12px rgba(60,100,200,0.08);
+          text-shadow: 0 2px 12px rgba(60, 100, 200, 0.08);
         }
         .refined-intro-desc {
           font-size: 1.13rem;
@@ -347,7 +422,7 @@ const ProjectsPage = ({ projects }) => {
           margin: 0 auto;
           line-height: 1.6;
           letter-spacing: 0.01em;
-          text-shadow: 0 1px 6px rgba(60,100,200,0.06);
+          text-shadow: 0 1px 6px rgba(60, 100, 200, 0.06);
         }
         .refined-intro-centered {
           align-items: center;
@@ -373,10 +448,19 @@ const ProjectsPage = ({ projects }) => {
           color: #bbb;
         }
         @media (max-width: 600px) {
-          .refined-intro-main { font-size: 1.2rem; }
-          .refined-intro-sub { font-size: 0.98rem; }
-          .project-hero { padding: 1.3rem 0 0.7rem 0; border-radius: 0 0 12px 12px; }
-          .hero-bg-visual-soft { height: 120px; }
+          .refined-intro-main {
+            font-size: 1.2rem;
+          }
+          .refined-intro-sub {
+            font-size: 0.98rem;
+          }
+          .project-hero {
+            padding: 1.3rem 0 0.7rem 0;
+            border-radius: 0 0 12px 12px;
+          }
+          .hero-bg-visual-soft {
+            height: 120px;
+          }
         }
         .project-tags {
           display: flex;
@@ -399,8 +483,10 @@ const ProjectsPage = ({ projects }) => {
           font-size: 1rem;
           font-weight: 500;
           cursor: pointer;
-          transition: all 0.2s, box-shadow 0.3s;
-          box-shadow: 0 2px 8px 0 rgba(60,60,100,0.06);
+          transition:
+            all 0.2s,
+            box-shadow 0.3s;
+          box-shadow: 0 2px 8px 0 rgba(60, 60, 100, 0.06);
         }
         @media (max-width: 600px) {
           .project-tag-btn {
@@ -409,11 +495,12 @@ const ProjectsPage = ({ projects }) => {
             margin-bottom: 0.2rem;
           }
         }
-        .project-tag-btn.active, .project-tag-btn:hover {
+        .project-tag-btn.active,
+        .project-tag-btn:hover {
           background: #22223b;
           color: #fff;
           border-color: #22223b;
-          box-shadow: 0 4px 16px 0 rgba(34,34,59,0.18);
+          box-shadow: 0 4px 16px 0 rgba(34, 34, 59, 0.18);
           transform: translateY(-2px) scale(1.05);
         }
         .projects-page-bg.dark .project-tag-btn {
@@ -421,7 +508,8 @@ const ProjectsPage = ({ projects }) => {
           color: #eee;
           border-color: #23272f;
         }
-        .projects-page-bg.dark .project-tag-btn.active, .projects-page-bg.dark .project-tag-btn:hover {
+        .projects-page-bg.dark .project-tag-btn.active,
+        .projects-page-bg.dark .project-tag-btn:hover {
           background: #fff;
           color: #22223b;
           border-color: #fff;
@@ -465,13 +553,13 @@ const ProjectsPage = ({ projects }) => {
             width: 100%;
             margin: 0 auto;
             border-radius: 16px;
-            box-shadow: 0 2px 12px 0 rgba(60,60,100,0.10);
+            box-shadow: 0 2px 12px 0 rgba(60, 60, 100, 0.1);
             background: #fff;
             justify-content: center;
           }
           .projects-page-bg.dark .project-grid-card {
             background: #23272f;
-            box-shadow: 0 2px 12px 0 rgba(34,34,59,0.16);
+            box-shadow: 0 2px 12px 0 rgba(34, 34, 59, 0.16);
           }
         }
       `}</style>
@@ -482,7 +570,9 @@ const ProjectsPage = ({ projects }) => {
 export async function getServerSideProps() {
   await dbConnect();
 
-  const projects = await Project.find({ published: true }).sort({ createdAt: -1 }).lean();
+  const projects = await Project.find({ published: true })
+    .sort({ createdAt: -1 })
+    .lean();
 
   return {
     props: {

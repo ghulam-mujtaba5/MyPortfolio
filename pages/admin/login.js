@@ -1,30 +1,30 @@
-import { useState, useEffect } from 'react';
-import { signIn } from 'next-auth/react';
-import { useRouter } from 'next/router';
-import Head from 'next/head';
-import styles from './login.module.css';
-import { authOptions } from '../api/auth/[...nextauth]';
-import { getServerSession } from 'next-auth/next';
+import { useState, useEffect } from "react";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/router";
+import Head from "next/head";
+import styles from "./login.module.css";
+import { authOptions } from "../api/auth/[...nextauth]";
+import { getServerSession } from "next-auth/next";
 
 export default function LoginPage() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
     if (router.query.error) {
-      setError('Invalid login credentials. Please try again.');
+      setError("Invalid login credentials. Please try again.");
     }
   }, [router.query.error]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError('');
+    setError("");
     setLoading(true);
 
-    const result = await signIn('credentials', {
+    const result = await signIn("credentials", {
       redirect: false,
       email,
       password,
@@ -35,7 +35,7 @@ export default function LoginPage() {
     if (result.error) {
       setError(result.error);
     } else {
-      router.push('/admin'); // Redirect to admin dashboard
+      router.push("/admin"); // Redirect to admin dashboard
     }
   };
 
@@ -70,8 +70,12 @@ export default function LoginPage() {
               />
             </div>
             {error && <p className={styles.error}>{error}</p>}
-            <button type="submit" disabled={loading} className={styles.loginButton}>
-              {loading ? 'Signing In...' : 'Sign In'}
+            <button
+              type="submit"
+              disabled={loading}
+              className={styles.loginButton}
+            >
+              {loading ? "Signing In..." : "Sign In"}
             </button>
           </form>
         </div>
@@ -86,7 +90,7 @@ export async function getServerSideProps(context) {
   if (session) {
     return {
       redirect: {
-        destination: '/admin',
+        destination: "/admin",
         permanent: false,
       },
     };

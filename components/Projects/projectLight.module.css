@@ -18,14 +18,12 @@
 .frameTitle {
   text-align: left;
   font-family: Open Sans;
- 
 }
 
 .projectCard1 {
   width: 356px;
   position: relative;
   height: 570px;
-
 }
 
 .projectCard1Child {
@@ -39,7 +37,6 @@
   box-shadow: 2px 2px 100px rgba(0, 0, 0, 0.2);
   border-radius: 20px;
   background-color: #e8ebee;
-  
 }
 
 .livePreview {
@@ -59,7 +56,6 @@
   line-height: 26px;
   color: inherit;
 }
-
 
 .projectImg1 {
   position: absolute;
@@ -154,7 +150,6 @@
 
 /* Media query for small screens */
 @media (max-width: 460px) {
-
   .projectCard1Parent {
     justify-content: center;
     height: auto; /* Adjust height for small screens */
@@ -170,5 +165,4 @@
   .projectTileGoes {
     font-size: 24px; /* Slightly reduce title size on small screens */
   }
-
 }

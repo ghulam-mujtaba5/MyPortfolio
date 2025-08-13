@@ -1,13 +1,15 @@
-import dbConnect from '../../../lib/mongoose';
-import Article from '../../../models/Article';
+import dbConnect from "../../../lib/mongoose";
+import Article from "../../../models/Article";
 
 export default async function handler(req, res) {
-  if (req.method !== 'GET') {
-    res.setHeader('Allow', ['GET']);
-    return res.status(405).json({ success: false, message: `Method ${req.method} Not Allowed` });
+  if (req.method !== "GET") {
+    res.setHeader("Allow", ["GET"]);
+    return res
+      .status(405)
+      .json({ success: false, message: `Method ${req.method} Not Allowed` });
   }
 
-  const { q = '', page = '1', limit = '10' } = req.query;
+  const { q = "", page = "1", limit = "10" } = req.query;
   const pageNum = Math.max(1, parseInt(page, 10) || 1);
   const pageSize = Math.min(50, Math.max(1, parseInt(limit, 10) || 10));
   const skip = (pageNum - 1) * pageSize;
@@ -27,11 +29,11 @@ export default async function handler(req, res) {
       tags: 1,
       createdAt: 1,
       views: 1,
-      ...(q.trim() ? { score: { $meta: 'textScore' } } : {}),
+      ...(q.trim() ? { score: { $meta: "textScore" } } : {}),
     };
 
     const sort = q.trim()
-      ? { score: { $meta: 'textScore' }, views: -1, createdAt: -1 }
+      ? { score: { $meta: "textScore" }, views: -1, createdAt: -1 }
       : { createdAt: -1 };
 
     const [items, total] = await Promise.all([
@@ -56,7 +58,7 @@ export default async function handler(req, res) {
       },
     });
   } catch (err) {
-    console.error('Search API error:', err);
-    return res.status(500).json({ success: false, message: 'Server Error' });
+    console.error("Search API error:", err);
+    return res.status(500).json({ success: false, message: "Server Error" });
   }
 }

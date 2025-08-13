@@ -1,11 +1,13 @@
-import { withAdminAuth } from '../../../lib/withAdminAuth';
-import dbConnect from '../../../lib/dbConnect';
-import Article from '../../../models/Article';
-import Project from '../../../models/Project';
+import { withAdminAuth } from "../../../lib/withAdminAuth";
+import dbConnect from "../../../lib/dbConnect";
+import Article from "../../../models/Article";
+import Project from "../../../models/Project";
 
 async function handler(req, res) {
-  if (req.method !== 'POST') {
-    return res.status(405).json({ success: false, message: 'Method Not Allowed' });
+  if (req.method !== "POST") {
+    return res
+      .status(405)
+      .json({ success: false, message: "Method Not Allowed" });
   }
 
   await dbConnect();
@@ -13,21 +15,27 @@ async function handler(req, res) {
   const { id, type } = req.body;
 
   if (!id || !type) {
-    return res.status(400).json({ success: false, message: 'Item ID and type are required.' });
+    return res
+      .status(400)
+      .json({ success: false, message: "Item ID and type are required." });
   }
 
   try {
     let item;
-    const Model = type === 'article' ? Article : Project;
+    const Model = type === "article" ? Article : Project;
 
     if (!Model) {
-        return res.status(400).json({ success: false, message: 'Invalid item type specified.' });
+      return res
+        .status(400)
+        .json({ success: false, message: "Invalid item type specified." });
     }
 
     item = await Model.findById(id);
 
     if (!item) {
-      return res.status(404).json({ success: false, message: 'Item not found.' });
+      return res
+        .status(404)
+        .json({ success: false, message: "Item not found." });
     }
 
     // Toggle the pinned status
@@ -36,8 +44,12 @@ async function handler(req, res) {
 
     res.status(200).json({ success: true, data: item });
   } catch (error) {
-    console.error('Error pinning item:', error);
-    res.status(500).json({ success: false, message: 'Internal Server Error', error: error.message });
+    console.error("Error pinning item:", error);
+    res.status(500).json({
+      success: false,
+      message: "Internal Server Error",
+      error: error.message,
+    });
   }
 }
 

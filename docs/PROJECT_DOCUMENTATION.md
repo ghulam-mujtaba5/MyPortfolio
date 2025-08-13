@@ -3,6 +3,7 @@
 Last updated: 2025-08-12
 
 ## 1) Overview
+
 - Purpose: Personal portfolio for Ghulam Mujtaba to showcase profile, projects, skills, and contact.
 - Framework: Next.js ^15, React ^19.
 - Styling: CSS Modules per component, some global CSS in `pages/global.css`.
@@ -11,6 +12,7 @@ Last updated: 2025-08-12
 - Data: Currently static (hardcoded project entries). MongoDB connectivity verified via `/api/db-ping`.
 
 ## 2) Repository Structure
+
 ```
 MyPortfolio/
   components/        # Reusable UI (Nav, Footer, Sections, Projects, etc.)
@@ -28,6 +30,7 @@ MyPortfolio/
 ```
 
 ## 3) Pages & Routing
+
 - `pages/portfolio/index.js`: Main portfolio landing. Sections include welcome, about, skills, certifications (BadgeScroll), projects preview, contact, footer.
 - `pages/projects.js`: Projects gallery with filters (tags) and rich layout, currently static data.
 - `pages/softbuilt/index.js`: Softbuilt subdomain content (served via rewrites).
@@ -37,6 +40,7 @@ MyPortfolio/
 - Rewrites in `next.config.js` route `/:path*` to portfolio or softbuilt based on host.
 
 ## 4) Components (high-level)
+
 - Navigation: `components/NavBar_Desktop/`, `components/NavBar_Mobile/` (responsive menus).
 - Hero/Profile: `components/welcome/`, `components/profile-picture-desktop/`.
 - About: `components/AboutMe/` and `components/AboutMeCompany/` variants.
@@ -51,6 +55,7 @@ MyPortfolio/
 - SEO: `components/SEO.js` central meta/OG tags helper.
 
 ## 5) Theming & Brand System
+
 - Theme Context: `context/ThemeContext.js` toggles light/dark, persists in `localStorage`, applies `data-theme` to `documentElement`.
 - Global fonts in `pages/global.css`: Open Sans, Manrope, Poppins, Inter.
 - CSS Modules: Light/Dark variants per component (e.g., `*Light.module.css`, `*Dark.module.css`).
@@ -64,6 +69,7 @@ MyPortfolio/
   - Focus states: visible outlines meeting WCAG 2.1 AA.
 
 ## 6) UX & IA Guidelines
+
 - Navigation: Keep desktop and mobile menus in sync with section anchors and routes (`/projects`, `/resume`).
 - Accessibility: Hidden headings are used for sections (`visually-hidden` class). Maintain semantic headings h1–h2–h3.
 - Motion: `framer-motion` present (dependency). Use sparingly and prefers-reduced-motion checks.
@@ -72,6 +78,7 @@ MyPortfolio/
 - External links: `rel="noopener noreferrer"` and `target="_blank"` where applicable.
 
 ## 7) System Design (Current and Target)
+
 - Current:
   - Static content delivered via Next.js pages; no persistent storage for projects/blogs.
   - MongoDB connection available for future CMS work (`lib/mongodb.js` + `/api/db-ping`).
@@ -85,6 +92,7 @@ MyPortfolio/
   - Observability: structured logs in API routes; integrate with Vercel/LogDrain.
 
 ## 8) Performance & SEO
+
 - Next.js `productionBrowserSourceMaps: true` enabled for debugging.
 - Headers: CSP/HSTS/COOP/X-Frame/Canonical set in `next.config.js`.
 - SEO: Use `components/SEO.js` per page with correct `canonical`, `og:*`, Twitter cards.
@@ -92,12 +100,14 @@ MyPortfolio/
 - Images: migrate to `next/image` where possible; add `priority` to above-the-fold assets.
 
 ## 9) Security
+
 - Never commit secrets. `.env.local` should hold `MONGODB_URI` (and future tokens). Remove credentials from `README.md`.
 - Add rate-limiting to API endpoints (e.g., middleware) when CRUD added.
 - Sanitize HTML if blogs support rich text; prefer Markdown with a safe renderer.
 - CSP already set; update `img-src`/`connect-src` if using external providers.
 
 ## 10) Maintainability Standards
+
 - Naming: PascalCase for components, camelCase for functions/vars.
 - Module boundaries: Keep present folder convention (component + CSS module colocated).
 - Props typing: Consider adding TypeScript for reliability (incremental migration).
@@ -105,6 +115,7 @@ MyPortfolio/
 - Tests: Add Jest/React Testing Library for components; integration tests for API.
 
 ## 11) Color Scheme (actual usage)
+
 - Primary: `#4573df`
 - Accent (occasional): `#33a552`
 - Light backgrounds/text: `#ffffff`, text `#222`/`#333`/`#000`
@@ -115,11 +126,13 @@ MyPortfolio/
 Note: A centralized tokens system is deferred per current preference. If reintroduced later, it should mirror these exact values to avoid visual drift.
 
 ## 12) Deployment
+
 - Vercel recommended. Rewrites configured for hosts in `next.config.js`.
 - Environment variables: set in Vercel dashboard (no secrets in repo).
 - Analytics: `nextjs-google-analytics` available.
 
 ## 13) Backlog & Roadmap
+
 - Phase 1: Clean-up
   - Remove secrets from README; rotate DB password.
   - Add `styles/tokens.css` and refactor key components to tokens.
@@ -136,6 +149,7 @@ Note: A centralized tokens system is deferred per current preference. If reintro
   - TypeScript migration; ESLint/Prettier; Jest + RTL tests; GitHub Actions for CI.
 
 ## 14) Contribution Guidelines (Draft)
+
 - Branching: `main` (stable), `develop`, `feature/*`, `fix/*`.
 - PRs require: description, screenshots, testing notes.
 - Code review focuses: accessibility, performance, security, and tests.

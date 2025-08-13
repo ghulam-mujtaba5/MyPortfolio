@@ -1,0 +1,48 @@
+.pageTitle {
+  color: #111827;
+}
+.pageSubtitle {
+  color: #6b7280;
+}
+
+.filtersCard {
+  background: #ffffff;
+  border-color: #e5e7eb;
+}
+.input,
+.select {
+  background: #ffffff;
+  border-color: #e5e7eb;
+  color: #111827;
+}
+.primaryBtn {
+  background: #4573df;
+  color: #ffffff;
+}
+.card {
+  background: #ffffff;
+  border-color: #e5e7eb;
+}
+.loading {
+  color: #374151;
+}
+
+.badge_success {
+  background: rgba(51, 165, 82, 0.12);
+  color: #2f8e46;
+  border-color: rgba(51, 165, 82, 0.35);
+}
+.badge_warning {
+  background: rgba(255, 193, 7, 0.12);
+  color: #8a6d00;
+  border-color: rgba(255, 193, 7, 0.35);
+}
+.badge_danger {
+  background: rgba(239, 68, 68, 0.12);
+  color: #b71c1c;
+  border-color: rgba(239, 68, 68, 0.35);
+}
+
+.code {
+  color: #6b7280;
+}

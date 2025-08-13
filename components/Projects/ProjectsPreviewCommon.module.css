@@ -15,7 +15,7 @@
 }
 
 .title {
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
   font-size: 24px;
   font-weight: bold;
   margin-bottom: 0;
@@ -39,7 +39,13 @@
   padding: 0.85rem 2.4rem;
   font-size: 1.1rem;
   font-weight: 600;
-  font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', Arial, sans-serif;
+  font-family:
+    "Segoe UI",
+    -apple-system,
+    BlinkMacSystemFont,
+    "Roboto",
+    Arial,
+    sans-serif;
   border: 2px solid var(--button-border);
   border-radius: 8px;
   background: var(--button-bg);

@@ -29,29 +29,29 @@ const nextConfig = {
   async rewrites() {
     return [
       {
-        source: '/:path((?!api/).*)',  // Catch all paths except API routes
-        destination: '/portfolio/:path*', // Redirect to the portfolio folder for localhost
+        source: "/:path((?!api/).*)", // Catch all paths except API routes
+        destination: "/portfolio/:path*", // Redirect to the portfolio folder for localhost
         has: [
           {
-            type: 'host',
-            value: 'www.ghulammujtaba.com', // Main website on localhost
+            type: "host",
+            value: "www.ghulammujtaba.com", // Main website on localhost
           },
         ],
       },
       {
-        source: '/:path((?!api/).*)', // SoftBuilt subdomain routes
-        destination: '/softbuilt/:path*', // Map to the softbuilt folder
+        source: "/:path((?!api/).*)", // SoftBuilt subdomain routes
+        destination: "/softbuilt/:path*", // Map to the softbuilt folder
         has: [
           {
-            type: 'host',
-            value: 'softbuilt.ghulammujtaba.com', // SoftBuilt subdomain
+            type: "host",
+            value: "softbuilt.ghulammujtaba.com", // SoftBuilt subdomain
           },
         ],
       },
       // Fallback for preview deployments or any other domain for preview of vercel
       {
-        source: '/:path((?!api/).*)',
-        destination: '/portfolio/:path*',
+        source: "/:path((?!api/).*)",
+        destination: "/portfolio/:path*",
       },
     ];
   },
@@ -61,7 +61,7 @@ const nextConfig = {
   webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
     // Important: Add support for source maps
     if (!isServer) {
-      config.devtool = 'source-map';
+      config.devtool = "source-map";
     }
 
     // Example: Add any additional webpack plugins or loaders
@@ -72,32 +72,33 @@ const nextConfig = {
   async headers() {
     return [
       {
-        source: '/(.*)',
+        source: "/(.*)",
         headers: [
           // Content Security Policy (CSP)
           {
-            key: 'Content-Security-Policy',
-            value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://ghulammujtaba.com; connect-src 'self' https://www.google-analytics.com; frame-ancestors 'none'; object-src 'none'; base-uri 'self';"
+            key: "Content-Security-Policy",
+            value:
+              "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://ghulammujtaba.com; connect-src 'self' https://www.google-analytics.com; frame-ancestors 'none'; object-src 'none'; base-uri 'self';",
           },
           // HTTP Strict Transport Security (HSTS)
           {
-            key: 'Strict-Transport-Security',
-            value: 'max-age=63072000; includeSubDomains; preload'
+            key: "Strict-Transport-Security",
+            value: "max-age=63072000; includeSubDomains; preload",
           },
           // Cross-Origin-Opener-Policy (COOP)
           {
-            key: 'Cross-Origin-Opener-Policy',
-            value: 'same-origin'
+            key: "Cross-Origin-Opener-Policy",
+            value: "same-origin",
           },
           // X-Frame-Options (XFO)
           {
-            key: 'X-Frame-Options',
-            value: 'DENY'
+            key: "X-Frame-Options",
+            value: "DENY",
           },
           // Canonical header for SEO
           {
-            key: 'Link',
-            value: '<https://ghulammujtaba.com>; rel="canonical"'
+            key: "Link",
+            value: '<https://ghulammujtaba.com>; rel="canonical"',
           },
         ],
       },
@@ -106,7 +107,6 @@ const nextConfig = {
 };
 
 module.exports = nextConfig;
-
 
 // //for run on loclhost//
 // /** @type {import('next').NextConfig} */

@@ -1,9 +1,9 @@
-import { getSession } from 'next-auth/react';
-import dbConnect from '../../../lib/mongoose';
-import MediaAsset from '../../../models/MediaAsset';
-import formidable from 'formidable';
-import fs from 'fs';
-import mongoose from 'mongoose';
+import { getSession } from "next-auth/react";
+import dbConnect from "../../../lib/mongoose";
+import MediaAsset from "../../../models/MediaAsset";
+import formidable from "formidable";
+import fs from "fs";
+import mongoose from "mongoose";
 
 // Disable Next.js body parser for this route to use formidable
 export const config = {
@@ -14,32 +14,32 @@ export const config = {
 
 export default async function handler(req, res) {
   const session = await getSession({ req });
-  if (!session || !['admin', 'editor'].includes(session.user.role)) {
-    return res.status(401).json({ message: 'Unauthorized' });
+  if (!session || !["admin", "editor"].includes(session.user.role)) {
+    return res.status(401).json({ message: "Unauthorized" });
   }
 
   try {
     await dbConnect();
   } catch (e) {
-    console.error('[media] dbConnect error:', e);
-    return res.status(503).json({ message: 'Database connection error' });
+    console.error("[media] dbConnect error:", e);
+    return res.status(503).json({ message: "Database connection error" });
   }
 
   switch (req.method) {
-    case 'GET':
+    case "GET":
       try {
-        console.log('[media][GET] query:', req.query);
+        console.log("[media][GET] query:", req.query);
         const page = parseInt(req.query.page) || 1;
         const limit = parseInt(req.query.limit) || 15;
         const skip = (page - 1) * limit;
-        const search = req.query.search || '';
+        const search = req.query.search || "";
 
-        const query = search 
-          ? { 
+        const query = search
+          ? {
               $or: [
-                { filename: { $regex: search, $options: 'i' } },
-                { tags: { $regex: search, $options: 'i' } }
-              ]
+                { filename: { $regex: search, $options: "i" } },
+                { tags: { $regex: search, $options: "i" } },
+              ],
             }
           : {};
 
@@ -47,50 +47,68 @@ export default async function handler(req, res) {
           .sort({ createdAt: -1 })
           .skip(skip)
           .limit(limit)
-          .populate('uploadedBy', 'name');
-        
+          .populate("uploadedBy", "name");
+
         const total = await MediaAsset.countDocuments(query);
 
         res.status(200).json({ assets, total, page, limit });
       } catch (error) {
-        console.error('[media][GET] error:', error);
-        res.status(500).json({ message: 'Error fetching media assets', error: error.message });
+        console.error("[media][GET] error:", error);
+        res.status(500).json({
+          message: "Error fetching media assets",
+          error: error.message,
+        });
       }
       break;
 
-    case 'POST':
+    case "POST":
       try {
         const form = formidable({});
-        
+
         form.parse(req, async (err, fields, files) => {
           if (err) {
-            return res.status(500).json({ message: 'Error parsing form data', error: err.message });
+            return res
+              .status(500)
+              .json({ message: "Error parsing form data", error: err.message });
           }
 
           const file = files.file?.[0];
           if (!file) {
-            return res.status(400).json({ message: 'No file uploaded.' });
+            return res.status(400).json({ message: "No file uploaded." });
           }
 
           try {
-            if (mongoose.connection.readyState !== 1 || !mongoose.connection.db) {
-              console.error('[media][POST] Mongo connection not ready:', mongoose.connection.readyState);
-              return res.status(503).json({ message: 'Database not ready, please retry' });
+            if (
+              mongoose.connection.readyState !== 1 ||
+              !mongoose.connection.db
+            ) {
+              console.error(
+                "[media][POST] Mongo connection not ready:",
+                mongoose.connection.readyState,
+              );
+              return res
+                .status(503)
+                .json({ message: "Database not ready, please retry" });
             }
             // Store file in MongoDB GridFS
             const conn = mongoose.connection;
-            const bucket = new mongoose.mongo.GridFSBucket(conn.db, { bucketName: 'media' });
-
-            const uploadStream = bucket.openUploadStream(file.originalFilename, {
-              contentType: file.mimetype,
+            const bucket = new mongoose.mongo.GridFSBucket(conn.db, {
+              bucketName: "media",
             });
+
+            const uploadStream = bucket.openUploadStream(
+              file.originalFilename,
+              {
+                contentType: file.mimetype,
+              },
+            );
 
             await new Promise((resolve, reject) => {
               fs.createReadStream(file.filepath)
-                .on('error', reject)
+                .on("error", reject)
                 .pipe(uploadStream)
-                .on('error', reject)
-                .on('finish', resolve);
+                .on("error", reject)
+                .on("finish", resolve);
             });
 
             const fileId = uploadStream.id; // ObjectId of the stored file
@@ -112,59 +130,75 @@ export default async function handler(req, res) {
 
             await newAsset.save();
 
-            res.status(201).json({ message: 'File uploaded successfully', asset: newAsset });
-
+            res
+              .status(201)
+              .json({ message: "File uploaded successfully", asset: newAsset });
           } catch (uploadError) {
             // If upload fails, still try to clean up temp file
             if (fs.existsSync(file.filepath)) {
               fs.unlinkSync(file.filepath);
             }
-            console.error('[media][POST] upload error:', uploadError);
-            res.status(500).json({ message: 'Error uploading file', error: uploadError.message });
+            console.error("[media][POST] upload error:", uploadError);
+            res.status(500).json({
+              message: "Error uploading file",
+              error: uploadError.message,
+            });
           }
         });
       } catch (error) {
-        console.error('[media][POST] parse/init error:', error);
-        res.status(500).json({ message: 'Error processing upload request', error: error.message });
+        console.error("[media][POST] parse/init error:", error);
+        res.status(500).json({
+          message: "Error processing upload request",
+          error: error.message,
+        });
       }
       break;
 
-    case 'DELETE':
+    case "DELETE":
       try {
         const { ids } = req.body;
         if (!ids || !Array.isArray(ids) || ids.length === 0) {
-          return res.status(400).json({ message: 'Asset IDs are required' });
+          return res.status(400).json({ message: "Asset IDs are required" });
         }
 
-        const assets = await MediaAsset.find({ '_id': { $in: ids } });
+        const assets = await MediaAsset.find({ _id: { $in: ids } });
         if (assets.length === 0) {
-          return res.status(404).json({ message: 'No assets found for the given IDs.' });
+          return res
+            .status(404)
+            .json({ message: "No assets found for the given IDs." });
         }
 
-        const bucket = new mongoose.mongo.GridFSBucket(mongoose.connection.db, { bucketName: 'media' });
+        const bucket = new mongoose.mongo.GridFSBucket(mongoose.connection.db, {
+          bucketName: "media",
+        });
 
         for (const asset of assets) {
-          const parts = asset.url.split('/');
+          const parts = asset.url.split("/");
           const fileIdStr = parts[parts.length - 1];
           try {
             const fileObjectId = new mongoose.Types.ObjectId(fileIdStr);
             await bucket.delete(fileObjectId);
           } catch (e) {
-            console.warn(`Could not delete file ${fileIdStr} from GridFS for asset ${asset._id}. It might have been already deleted.`, e.message);
+            console.warn(
+              `Could not delete file ${fileIdStr} from GridFS for asset ${asset._id}. It might have been already deleted.`,
+              e.message,
+            );
           }
         }
 
-        await MediaAsset.deleteMany({ '_id': { $in: ids } });
+        await MediaAsset.deleteMany({ _id: { $in: ids } });
 
-        res.status(200).json({ message: 'Assets deleted successfully' });
+        res.status(200).json({ message: "Assets deleted successfully" });
       } catch (error) {
-        console.error('[media][DELETE] error:', error);
-        res.status(500).json({ message: 'Error deleting assets', error: error.message });
+        console.error("[media][DELETE] error:", error);
+        res
+          .status(500)
+          .json({ message: "Error deleting assets", error: error.message });
       }
       break;
 
     default:
-      res.setHeader('Allow', ['GET', 'POST', 'DELETE']);
+      res.setHeader("Allow", ["GET", "POST", "DELETE"]);
       res.status(405).end(`Method ${req.method} Not Allowed`);
   }
 }

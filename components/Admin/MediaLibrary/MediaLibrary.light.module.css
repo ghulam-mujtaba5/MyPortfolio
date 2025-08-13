@@ -8,21 +8,21 @@
 }
 
 .uploadButton {
-  background-color: #3B82F6; /* blue-500 */
+  background-color: #3b82f6; /* blue-500 */
   color: white;
 }
 
 .uploadButton:hover {
-  background-color: #2563EB; /* blue-600 */
+  background-color: #2563eb; /* blue-600 */
 }
 
 .deleteButton {
-  background-color: #EF4444; /* red-500 */
+  background-color: #ef4444; /* red-500 */
   color: white;
 }
 
 .deleteButton:hover {
-  background-color: #DC2626; /* red-600 */
+  background-color: #dc2626; /* red-600 */
 }
 
 .assetCard {

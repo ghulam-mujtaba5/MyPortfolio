@@ -1,27 +1,47 @@
 .container {
-  background-color: #f0f2f5;
+  background-color: #f9fafb; /* Off-white for the main area */
 }
 
 .sidebar {
   background-color: #ffffff;
-  border-right: 1px solid #e0e0e0;
+  border-right: 1px solid #e3e6ea;
 }
 
-.sidebar a, .sidebar button {
-  color: #333;
+.sidebar .logo {
+  color: #000000;
 }
 
-.sidebar a:hover, .sidebar button:hover {
-  background-color: #f0f2f5;
+.sidebar a,
+.sidebar button {
+  color: #333333;
 }
 
-.sidebar .active {
-  background-color: #e6f7ff;
-  border-right: 3px solid #1890ff;
-  color: #1890ff;
+.sidebar a:hover,
+.sidebar button:hover {
+  background-color: #e8ebee;
+  color: #000000;
+}
+
+.active {
+  background-color: #4573df !important; /* Brand Blue */
+  color: #ffffff !important;
+  font-weight: 600;
 }
 
 .mainContent {
+  background-color: #f9fafb;
+  color: #222222;
+}
+
+/* Theme-specific styles for new components */
+.themeSelector {
   background-color: #ffffff;
-  color: #333;
+  border: 1px solid #e3e6ea;
+  color: #222222;
+}
+
+.quickCreateButton {
+  background-color: #4573df; /* Brand Blue */
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(69, 115, 223, 0.3);
 }

@@ -16,7 +16,7 @@
 
 /* Frame title */
 .frameTitle {
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
   font-size: 24px;
   font-weight: bold;
   margin-top: 40px;
@@ -62,7 +62,6 @@
   bottom: 0%;
   left: 0%;
   border-radius: 20px;
-
 }
 
 .livePreview {
@@ -71,7 +70,6 @@
   left: 16%;
   text-decoration: underline;
   line-height: 26px;
-
 }
 
 .viewCode {
@@ -80,7 +78,6 @@
   left: 62.93%;
   text-decoration: underline;
   line-height: 26px;
-
 }
 
 .projectImg1 {
@@ -95,7 +92,7 @@
   max-width: 100%;
   overflow: hidden;
   max-height: 100%;
-  object-fit:fill;
+  object-fit: fill;
   transition: transform 0.5s ease; /* Add transition to image */
 }
 
@@ -130,18 +127,12 @@
   display: flex;
   text-align: justify;
   align-items: center;
-
 }
-
-
 
 .javaJavaFxMavenSpring {
   font-size: 14px;
   font-weight: 300;
-  
 }
-
-
 
 .techStackContainer {
   position: absolute;
@@ -163,7 +154,6 @@
   right: 40%;
   bottom: 5%;
   left: 55%;
-  
 }
 
 .previewIcon1 {
@@ -174,7 +164,6 @@
   right: 87%;
   bottom: 5%;
   left: 9%;
-  
 }
 
 /* Media query for small screens */
@@ -199,6 +188,5 @@
   }
   .techStackContainer {
     top: 84%;
-    
   }
 }

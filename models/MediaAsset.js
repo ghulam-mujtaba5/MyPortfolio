@@ -1,37 +1,41 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
-const MediaAssetSchema = new mongoose.Schema({
-  filename: {
-    type: String,
-    required: [true, 'Filename is required.'],
-    trim: true,
+const MediaAssetSchema = new mongoose.Schema(
+  {
+    filename: {
+      type: String,
+      required: [true, "Filename is required."],
+      trim: true,
+    },
+    url: {
+      type: String,
+      required: [true, "Asset URL is required."],
+    },
+    altText: {
+      type: String,
+      default: "",
+      trim: true,
+    },
+    tags: {
+      type: [String],
+      default: [],
+    },
+    fileType: {
+      type: String,
+      required: [true, "File type is required."],
+    },
+    size: {
+      type: Number, // size in bytes
+      required: [true, "File size is required."],
+    },
+    uploadedBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
   },
-  url: {
-    type: String,
-    required: [true, 'Asset URL is required.'],
-  },
-  altText: {
-    type: String,
-    default: '',
-    trim: true,
-  },
-  tags: {
-    type: [String],
-    default: [],
-  },
-  fileType: {
-    type: String,
-    required: [true, 'File type is required.'],
-  },
-  size: {
-    type: Number, // size in bytes
-    required: [true, 'File size is required.'],
-  },
-  uploadedBy: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-    required: true,
-  },
-}, { timestamps: true });
+  { timestamps: true },
+);
 
-export default mongoose.models.MediaAsset || mongoose.model('MediaAsset', MediaAssetSchema);
+export default mongoose.models.MediaAsset ||
+  mongoose.model("MediaAsset", MediaAssetSchema);

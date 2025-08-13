@@ -1,130 +1,126 @@
 .navBar {
-    position: absolute;
-    top: 0px;
-    right: 0px;
-    font-family: "Open Sans", sans-serif;
-    display: none; /* Initially hide the navbar */
-    font-size: 22px;
-    z-index: 1000;
-  }
-  
-  
-  /* Media query to show the navbar on screens less than 768px */
-  @media (max-width: 768px) {
-    .navBar {
-      display: block; /* Show the navbar on smaller screens */
-    }
-  }
-  
-  .menuList {
-    list-style: none; /* Hide the dot markers */
-    padding: 0;
-    margin: 0;
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  font-family: "Open Sans", sans-serif;
+  display: none; /* Initially hide the navbar */
+  font-size: 22px;
+  z-index: 1000;
 }
-  /* Menu toggle button */
-  .menuToggle {
-    margin-top: 10px;
-    width: 30px;
-    height: 30px;
-    position: absolute;
-    top: 25px;
-    right: 30px;
-    transform: rotate(0deg);
-    transition: .5s ease-in-out;
-    cursor: pointer;
-    z-index: 1000; /* Increased z-index to ensure it's above all content */
-    background-color: transparent;
-    border: none;
-    outline: none;
-  }
-  
-  /* Styles for the hamburger icon lines */
-  .menuIcon {
-    display: block;
-    position: absolute;
-    margin-top: 3px;
-    height: 3px;
-    width: 100%;
-    border-radius: 1px;
-    opacity: 1;
-    left: 0;
-    transition: .25s ease-in-out;
-  }
-  
 
-  /* Hamburger icon styles */
+/* Media query to show the navbar on screens less than 768px */
+@media (max-width: 768px) {
+  .navBar {
+    display: block; /* Show the navbar on smaller screens */
+  }
+}
+
+.menuList {
+  list-style: none; /* Hide the dot markers */
+  padding: 0;
+  margin: 0;
+}
+/* Menu toggle button */
+.menuToggle {
+  margin-top: 10px;
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  top: 25px;
+  right: 30px;
+  transform: rotate(0deg);
+  transition: 0.5s ease-in-out;
+  cursor: pointer;
+  z-index: 1000; /* Increased z-index to ensure it's above all content */
+  background-color: transparent;
+  border: none;
+  outline: none;
+}
+
+/* Styles for the hamburger icon lines */
+.menuIcon {
+  display: block;
+  position: absolute;
+  margin-top: 3px;
+  height: 3px;
+  width: 100%;
+  border-radius: 1px;
+  opacity: 1;
+  left: 0;
+  transition: 0.25s ease-in-out;
+}
+
+/* Hamburger icon styles */
 .menuIcon:nth-child(1) {
-    top: 0px;
-   
-  }
-  
-  .menuIcon:nth-child(2) {
-    top: 9px;
-   
-  }
-  
-  .menuIcon:nth-child(3) {
-    top: 18px;
-    
-  }
-  /* Open state styles for the hamburger icon */
-  .menuToggle.open .menuIcon:nth-child(1) {
-    top: 8px;
-    transform: rotate(135deg);
-  }
-  
-  .menuToggle.open .menuIcon:nth-child(2) {
-    opacity: 0;
-  }
-  
-  .menuToggle.open .menuIcon:nth-child(3) {
-    top: 8px;
-    transform: rotate(-135deg);
-  }
-  
-  /* Styles for the menu container */
-  .menuContainer {
-    position: absolute;
-    margin-top: 15px;
-    margin-right: 15px;
-    padding-top: 50px;
-    padding-bottom: 10px;
-    top: 0;
-    right: 0;
-    height: auto;
-    width: 140px;
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-    border-radius: 12px;
-    overflow: hidden;
-    transition: all 0.3s ease;
-    opacity: 0;
-    transform: translateX(10px);
-    pointer-events: none;
-    z-index: 999;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    position: absolute;
-  }
-  
-  /* Styles for individual menu items */
-  .menuItem {
-    padding: 8px 20px;
-    transition: background-color 0.3s ease, color 0.3s ease;
-  }
-  
-  /* Menu item hover effect */
-  .menuItem:hover {
-    background-color: #a9b1b5;
-  }
-  
-  /* Open state styles */
-  .menuContainer.open {
-    opacity: 1;
-    transform: translateY(0px);
-    pointer-events: all;
-  }
+  top: 0px;
+}
 
+.menuIcon:nth-child(2) {
+  top: 9px;
+}
+
+.menuIcon:nth-child(3) {
+  top: 18px;
+}
+/* Open state styles for the hamburger icon */
+.menuToggle.open .menuIcon:nth-child(1) {
+  top: 8px;
+  transform: rotate(135deg);
+}
+
+.menuToggle.open .menuIcon:nth-child(2) {
+  opacity: 0;
+}
+
+.menuToggle.open .menuIcon:nth-child(3) {
+  top: 8px;
+  transform: rotate(-135deg);
+}
+
+/* Styles for the menu container */
+.menuContainer {
+  position: absolute;
+  margin-top: 15px;
+  margin-right: 15px;
+  padding-top: 50px;
+  padding-bottom: 10px;
+  top: 0;
+  right: 0;
+  height: auto;
+  width: 140px;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  opacity: 0;
+  transform: translateX(10px);
+  pointer-events: none;
+  z-index: 999;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  position: absolute;
+}
+
+/* Styles for individual menu items */
+.menuItem {
+  padding: 8px 20px;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
+}
+
+/* Menu item hover effect */
+.menuItem:hover {
+  background-color: #a9b1b5;
+}
+
+/* Open state styles */
+.menuContainer.open {
+  opacity: 1;
+  transform: translateY(0px);
+  pointer-events: all;
+}
 
 .themeToggleContainer {
   display: flex;
@@ -146,13 +142,17 @@
   outline: none;
   padding: 0.15em 0.15em;
   border-radius: 2em;
-  transition: box-shadow 0.2s, background 0.2s;
+  transition:
+    box-shadow 0.2s,
+    background 0.2s;
   min-width: 0;
   box-shadow: 0 2px 8px #b0bec522;
   position: relative;
 }
 .premiumSwitch:focus-visible {
-  box-shadow: 0 0 0 2px #90a4ae99, 0 2px 8px #b0bec522;
+  box-shadow:
+    0 0 0 2px #90a4ae99,
+    0 2px 8px #b0bec522;
 }
 .premiumSwitchTrack {
   width: 2.7em;
@@ -160,7 +160,9 @@
   background: linear-gradient(90deg, #f5f7fa 0%, #cfd8dc 100%);
   border-radius: 1.4em;
   position: relative;
-  transition: background 0.2s, border 0.2s;
+  transition:
+    background 0.2s,
+    border 0.2s;
   flex-shrink: 0;
   border: 1.5px solid #b0bec5;
   box-shadow: 0 2px 8px #b0bec522;
@@ -178,9 +180,14 @@
   height: 1.22em;
   border-radius: 50%;
   background: linear-gradient(145deg, #fff 60%, #e8ebee 100%);
-  box-shadow: 0 2px 6px #b0bec522, 0 1px 2px #fff8;
+  box-shadow:
+    0 2px 6px #b0bec522,
+    0 1px 2px #fff8;
   border: 1.5px solid #b0bec5;
-  transition: left 0.25s, background 0.25s, border 0.25s;
+  transition:
+    left 0.25s,
+    background 0.25s,
+    border 0.25s;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -189,7 +196,9 @@
   left: 1.4em;
   background: linear-gradient(145deg, #90a4ae 60%, #607d8b 100%);
   border: 1.5px solid #607d8b;
-  box-shadow: 0 2px 6px #607d8b88, 0 1px 2px #23252644;
+  box-shadow:
+    0 2px 6px #607d8b88,
+    0 1px 2px #23252644;
 }
 .premiumSwitchIcon {
   position: absolute;

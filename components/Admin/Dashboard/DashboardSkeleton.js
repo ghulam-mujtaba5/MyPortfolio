@@ -1,4 +1,4 @@
-import styles from './DashboardSkeleton.module.css';
+import styles from "./DashboardSkeleton.module.css";
 
 const SkeletonBox = ({ width, height }) => (
   <div className={styles.skeletonBox} style={{ width, height }} />

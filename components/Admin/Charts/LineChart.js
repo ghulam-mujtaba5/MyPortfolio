@@ -1,5 +1,5 @@
 // components/Charts/LineChart.js
-import { Line } from 'react-chartjs-2';
+import { Line } from "react-chartjs-2";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -9,7 +9,7 @@ import {
   Title,
   Tooltip,
   Legend,
-} from 'chart.js';
+} from "chart.js";
 
 ChartJS.register(
   CategoryScale,
@@ -18,7 +18,7 @@ ChartJS.register(
   LineElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
 );
 
 const LineChart = ({ data, title }) => {
@@ -30,19 +30,19 @@ const LineChart = ({ data, title }) => {
   if (Array.isArray(data)) {
     const safe = data.filter(Boolean);
     chartData = {
-      labels: safe.map(d => new Date(d.date).toLocaleDateString()),
+      labels: safe.map((d) => new Date(d.date).toLocaleDateString()),
       datasets: [
         {
-          label: 'Article Views',
-          data: safe.map(d => Number(d.articleViews || 0)),
-          borderColor: 'rgb(75, 192, 192)',
-          backgroundColor: 'rgba(75, 192, 192, 0.5)',
+          label: "Article Views",
+          data: safe.map((d) => Number(d.articleViews || 0)),
+          borderColor: "rgb(75, 192, 192)",
+          backgroundColor: "rgba(75, 192, 192, 0.5)",
         },
         {
-          label: 'Project Views',
-          data: safe.map(d => Number(d.projectViews || 0)),
-          borderColor: 'rgb(255, 99, 132)',
-          backgroundColor: 'rgba(255, 99, 132, 0.5)',
+          label: "Project Views",
+          data: safe.map((d) => Number(d.projectViews || 0)),
+          borderColor: "rgb(255, 99, 132)",
+          backgroundColor: "rgba(255, 99, 132, 0.5)",
         },
       ],
     };
@@ -56,11 +56,11 @@ const LineChart = ({ data, title }) => {
     responsive: true,
     plugins: {
       legend: {
-        position: 'top',
+        position: "top",
       },
       title: {
         display: true,
-        text: title || '',
+        text: title || "",
       },
     },
   };

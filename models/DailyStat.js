@@ -1,20 +1,24 @@
 // models/DailyStat.js
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
-const DailyStatSchema = new mongoose.Schema({
-  date: {
-    type: Date,
-    required: true,
-    unique: true, // Only one entry per day
+const DailyStatSchema = new mongoose.Schema(
+  {
+    date: {
+      type: Date,
+      required: true,
+      unique: true, // Only one entry per day
+    },
+    articleViews: {
+      type: Number,
+      default: 0,
+    },
+    projectViews: {
+      type: Number,
+      default: 0,
+    },
   },
-  articleViews: {
-    type: Number,
-    default: 0,
-  },
-  projectViews: {
-    type: Number,
-    default: 0,
-  },
-}, { timestamps: true });
+  { timestamps: true },
+);
 
-export default mongoose.models.DailyStat || mongoose.model('DailyStat', DailyStatSchema);
+export default mongoose.models.DailyStat ||
+  mongoose.model("DailyStat", DailyStatSchema);

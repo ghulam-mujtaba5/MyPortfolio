@@ -1,10 +1,9 @@
-
-import React, { useEffect, useRef, useState } from 'react';
-import Image from 'next/image';
-import { useTheme } from '../../context/ThemeContext'; 
-import styles from './projectLight.module.css';
-import darkStyles from './ProjectDark.module.css';
-import commonStyles from './ProjectCommon.module.css';
+import React, { useEffect, useRef, useState } from "react";
+import Image from "next/image";
+import { useTheme } from "../../context/ThemeContext";
+import styles from "./projectLight.module.css";
+import darkStyles from "./ProjectDark.module.css";
+import commonStyles from "./ProjectCommon.module.css";
 
 const ProjectCard = React.memo(({ project, frameStyles, theme }) => {
   const cardRef = useRef(null);
@@ -23,36 +22,38 @@ const ProjectCard = React.memo(({ project, frameStyles, theme }) => {
       }
     };
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
     handleScroll(); // Check visibility on component mount
 
-    return () => window.removeEventListener('scroll', handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
   const handleCardClick = (e) => {
     // Don't trigger card click if clicking on links
-    if (e.target.closest('a')) return;
-    
+    if (e.target.closest("a")) return;
+
     // Open the live preview link when clicking the card
     const live = project?.links?.live;
     if (live) {
-      window.open(live, '_blank', 'noopener,noreferrer');
+      window.open(live, "_blank", "noopener,noreferrer");
     }
   };
 
   return (
     <article
-      className={`${commonStyles.projectCard1} ${frameStyles.projectCard1} ${isVisible ? styles.animate : ''}`}
+      className={`${commonStyles.projectCard1} ${frameStyles.projectCard1} ${isVisible ? styles.animate : ""}`}
       role="article"
       aria-labelledby={`project-title-${project.title}`}
       ref={cardRef}
       onClick={handleCardClick}
-      onKeyPress={(e) => e.key === 'Enter' && handleCardClick(e)}
+      onKeyPress={(e) => e.key === "Enter" && handleCardClick(e)}
       tabIndex="0"
     >
-      <div className={`${commonStyles.projectCard1Child} ${frameStyles.projectCard1Child}`} />
+      <div
+        className={`${commonStyles.projectCard1Child} ${frameStyles.projectCard1Child}`}
+      />
       <a
         className={`${commonStyles.livePreview} ${frameStyles.livePreview}`}
-        href={project?.links?.live || '#'}
+        href={project?.links?.live || "#"}
         target="_blank"
         rel="noopener noreferrer"
         aria-label={`Live Preview of ${project.title}`}
@@ -61,7 +62,7 @@ const ProjectCard = React.memo(({ project, frameStyles, theme }) => {
       </a>
       <a
         className={`${commonStyles.viewCode} ${frameStyles.viewCode}`}
-        href={project?.links?.github || '#'}
+        href={project?.links?.github || "#"}
         target="_blank"
         rel="noopener noreferrer"
         aria-label={`View Code of ${project.title}`}
@@ -71,7 +72,11 @@ const ProjectCard = React.memo(({ project, frameStyles, theme }) => {
       <Image
         className={`${commonStyles.projectImg1} ${frameStyles.projectImg1}`}
         alt={`${project.title} screenshot`}
-        src={(project?.image || '').startsWith('/') ? (project.image || '') : `/${project?.image || ''}`}
+        src={
+          (project?.image || "").startsWith("/")
+            ? project.image || ""
+            : `/${project?.image || ""}`
+        }
         width={400}
         height={250}
         loading="lazy"
@@ -82,22 +87,32 @@ const ProjectCard = React.memo(({ project, frameStyles, theme }) => {
       >
         {project.title}
       </h3>
-      <div className={`${commonStyles.thisIsSample} ${frameStyles.thisIsSample}`}>
+      <div
+        className={`${commonStyles.thisIsSample} ${frameStyles.thisIsSample}`}
+      >
         {project.description}
       </div>
-      <div className={`${commonStyles.techStackContainer} ${frameStyles.techStackContainer}`}>
-        <span className={`${commonStyles.techStackContainer1} ${frameStyles.techStackContainer1}`}>
+      <div
+        className={`${commonStyles.techStackContainer} ${frameStyles.techStackContainer}`}
+      >
+        <span
+          className={`${commonStyles.techStackContainer1} ${frameStyles.techStackContainer1}`}
+        >
           <span>Tech stack :</span>
-          <span className={`${commonStyles.javaJavaFxMavenSpring} ${frameStyles.javaJavaFxMavenSpring}`}>
+          <span
+            className={`${commonStyles.javaJavaFxMavenSpring} ${frameStyles.javaJavaFxMavenSpring}`}
+          >
             <span className={commonStyles.span}>{` `}</span>
-            <span>{Array.isArray(project?.tags) ? project.tags.join(', ') : ''}</span>
+            <span>
+              {Array.isArray(project?.tags) ? project.tags.join(", ") : ""}
+            </span>
           </span>
         </span>
       </div>
       <Image
         className={`${commonStyles.githubIcon} ${frameStyles.githubIcon}`}
         alt="GitHub icon"
-        src={theme === 'dark' ? '/GithubDark.svg' : '/github_icon.svg'}
+        src={theme === "dark" ? "/GithubDark.svg" : "/github_icon.svg"}
         width={24}
         height={24}
         loading="lazy"
@@ -105,7 +120,7 @@ const ProjectCard = React.memo(({ project, frameStyles, theme }) => {
       <Image
         className={`${commonStyles.previewIcon1} ${frameStyles.previewIcon1}`}
         alt="Preview icon"
-        src={theme === 'dark' ? '/PreviewDark.svg' : '/preview_icon1.svg'}
+        src={theme === "dark" ? "/PreviewDark.svg" : "/preview_icon1.svg"}
         width={24}
         height={24}
         loading="lazy"
@@ -114,15 +129,18 @@ const ProjectCard = React.memo(({ project, frameStyles, theme }) => {
   );
 });
 
-
 // Accepts either props.projectOverride or falls back to props.project (for compatibility)
 const Project1 = ({ projectOverride, project }) => {
   const { theme } = useTheme();
-  const frameStyles = theme === 'dark' ? darkStyles : styles;
+  const frameStyles = theme === "dark" ? darkStyles : styles;
   const cardProject = projectOverride || project;
   if (!cardProject) return null;
   return (
-    <ProjectCard project={cardProject} frameStyles={frameStyles} theme={theme} />
+    <ProjectCard
+      project={cardProject}
+      frameStyles={frameStyles}
+      theme={theme}
+    />
   );
 };
 

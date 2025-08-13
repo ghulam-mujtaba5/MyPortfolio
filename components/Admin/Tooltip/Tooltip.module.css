@@ -19,8 +19,10 @@
   white-space: nowrap;
   opacity: 0;
   pointer-events: none;
-  transition: opacity 120ms ease, transform 120ms ease;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+  transition:
+    opacity 120ms ease,
+    transform 120ms ease;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
 }
 
 /* Show on hover/focus */
@@ -31,14 +33,18 @@
 }
 
 /* Placements */
-.top .bubble { bottom: 100%; }
+.top .bubble {
+  bottom: 100%;
+}
 .bottom .bubble {
   top: 100%;
   bottom: auto;
   transform: translate(-50%, 6px) scale(0.98);
 }
 .bottom:hover .bubble,
-.bottom:focus-within .bubble { transform: translate(-50%, 10px) scale(1); }
+.bottom:focus-within .bubble {
+  transform: translate(-50%, 10px) scale(1);
+}
 .left .bubble {
   left: auto;
   right: 100%;
@@ -47,7 +53,9 @@
   transform: translate(-6px, -50%) scale(0.98);
 }
 .left:hover .bubble,
-.left:focus-within .bubble { transform: translate(-10px, -50%) scale(1); }
+.left:focus-within .bubble {
+  transform: translate(-10px, -50%) scale(1);
+}
 .right .bubble {
   left: 100%;
   top: 50%;
@@ -55,12 +63,14 @@
   transform: translate(6px, -50%) scale(0.98);
 }
 .right:hover .bubble,
-.right:focus-within .bubble { transform: translate(10px, -50%) scale(1); }
+.right:focus-within .bubble {
+  transform: translate(10px, -50%) scale(1);
+}
 
 @media (prefers-color-scheme: dark) {
   .bubble {
     background: rgba(31, 41, 55, 0.95);
     color: #e5e7eb;
-    box-shadow: 0 6px 24px rgba(0,0,0,0.45);
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.45);
   }
 }

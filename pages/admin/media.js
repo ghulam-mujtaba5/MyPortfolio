@@ -1,5 +1,5 @@
-import AdminLayout from '../../components/Admin/AdminLayout/AdminLayout';
-import MediaLibrary from '../../components/Admin/MediaLibrary/MediaLibrary';
+import AdminLayout from "../../components/Admin/AdminLayout/AdminLayout";
+import MediaLibrary from "../../components/Admin/MediaLibrary/MediaLibrary";
 
 const MediaPage = () => {
   return (

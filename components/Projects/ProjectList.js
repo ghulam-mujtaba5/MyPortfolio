@@ -1,5 +1,5 @@
-import React from 'react';
-import Project1 from './Project1';
+import React from "react";
+import Project1 from "./Project1";
 
 const projects = [
   { id: 1, component: <Project1 /> },
@@ -9,7 +9,7 @@ const projects = [
 const ProjectList = () => {
   return (
     <div className="project-list">
-      {projects.map(project => (
+      {projects.map((project) => (
         <div key={project.id} className="project-card">
           {project.component}
         </div>
@@ -27,15 +27,17 @@ const ProjectList = () => {
         .project-card {
           background: var(--card-bg, #fff);
           border-radius: 18px;
-          box-shadow: 0 4px 24px 0 rgba(60,60,60,0.08);
+          box-shadow: 0 4px 24px 0 rgba(60, 60, 60, 0.08);
           padding: 2rem 1.5rem;
-          transition: box-shadow 0.3s, transform 0.2s;
+          transition:
+            box-shadow 0.3s,
+            transform 0.2s;
           display: flex;
           flex-direction: column;
           align-items: center;
         }
         .project-card:hover {
-          box-shadow: 0 8px 32px 0 rgba(60,60,60,0.16);
+          box-shadow: 0 8px 32px 0 rgba(60, 60, 60, 0.16);
           transform: translateY(-6px) scale(1.03);
         }
         @media (max-width: 600px) {
@@ -53,4 +55,3 @@ const ProjectList = () => {
 };
 
 export default ProjectList;
-

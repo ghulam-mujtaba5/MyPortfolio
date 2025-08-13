@@ -1,16 +1,16 @@
-import React, { useEffect, useRef, useState } from 'react';
-import Head from 'next/head';
+import React, { useEffect, useRef, useState } from "react";
+import Head from "next/head";
 
-import NavBarDesktop from '../../components/NavBar_Desktop/nav-bar';
-import NavBarMobile from '../../components/NavBar_Mobile/NavBar-mobile';
-import Footer from '../../components/Footer/Footer';
-import Image from 'next/image';
-import { useTheme } from '../../context/ThemeContext';
-import dbConnect from '../../lib/mongoose';
-import Article from '../../models/Article';
-import DailyStat from '../../models/DailyStat';
-import PreviewBanner from '../../components/Admin/PreviewBanner/PreviewBanner';
-import detailCss from '../../components/Articles/ArticleDetailPage.module.css';
+import NavBarDesktop from "../../components/NavBar_Desktop/nav-bar";
+import NavBarMobile from "../../components/NavBar_Mobile/NavBar-mobile";
+import Footer from "../../components/Footer/Footer";
+import Image from "next/image";
+import { useTheme } from "../../context/ThemeContext";
+import dbConnect from "../../lib/mongoose";
+import Article from "../../models/Article";
+import DailyStat from "../../models/DailyStat";
+import PreviewBanner from "../../components/Admin/PreviewBanner/PreviewBanner";
+import detailCss from "../../components/Articles/ArticleDetailPage.module.css";
 
 export default function ArticleDetailPage({ article, preview }) {
   const { theme } = useTheme();
@@ -18,36 +18,36 @@ export default function ArticleDetailPage({ article, preview }) {
   const articleRef = useRef(null);
 
   const sections = [
-    { label: 'Home', route: '/#home-section' },
-    { label: 'About', route: '/#about-section' },
-    { label: 'Resume', route: '/resume' },
-    { label: 'Projects', route: '/projects' },
-    { label: 'Articles', route: '/articles' },
-    { label: 'Contact', route: '/#contact-section' }
+    { label: "Home", route: "/#home-section" },
+    { label: "About", route: "/#about-section" },
+    { label: "Resume", route: "/resume" },
+    { label: "Projects", route: "/projects" },
+    { label: "Articles", route: "/articles" },
+    { label: "Contact", route: "/#contact-section" },
   ];
 
   // Reading progress calculation
   useEffect(() => {
     function onScroll() {
       const el = articleRef.current;
-      if (!el || typeof window === 'undefined') return;
+      if (!el || typeof window === "undefined") return;
       const total = el.offsetTop + el.offsetHeight - window.innerHeight;
       const scrolled = Math.min(Math.max(window.scrollY, 0), total);
       const pct = total > 0 ? (scrolled / total) * 100 : 0;
       setProgress(pct);
     }
     onScroll();
-    window.addEventListener('scroll', onScroll, { passive: true });
-    window.addEventListener('resize', onScroll);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
     return () => {
-      window.removeEventListener('scroll', onScroll);
-      window.removeEventListener('resize', onScroll);
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
     };
   }, []);
 
   // Prism syntax highlighting for public article content
   useEffect(() => {
-    if (typeof window === 'undefined' || !articleRef.current) return;
+    if (typeof window === "undefined" || !articleRef.current) return;
 
     const loadPrism = async () => {
       // Check if Prism is already available
@@ -57,24 +57,26 @@ export default function ArticleDetailPage({ article, preview }) {
       }
 
       // Inject theme CSS if not present
-      const cssId = 'prism-theme-css';
+      const cssId = "prism-theme-css";
       if (!document.getElementById(cssId)) {
-        const link = document.createElement('link');
+        const link = document.createElement("link");
         link.id = cssId;
-        link.rel = 'stylesheet';
-        link.href = theme === 'dark' 
-          ? 'https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css'
-          // ? 'https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css'
-          : 'https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css';
+        link.rel = "stylesheet";
+        link.href =
+          theme === "dark"
+            ? "https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css"
+            : // ? 'https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css'
+              "https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css";
         document.head.appendChild(link);
       }
 
       // Load Prism core and autoloader
       try {
-        await import('prismjs');
-        await import('prismjs/plugins/autoloader/prism-autoloader');
+        await import("prismjs");
+        await import("prismjs/plugins/autoloader/prism-autoloader");
         if (window.Prism) {
-          window.Prism.plugins.autoloader.languages_path = 'https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/';
+          window.Prism.plugins.autoloader.languages_path =
+            "https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/";
           window.Prism.highlightAllUnder(articleRef.current);
         }
       } catch (error) {
@@ -93,27 +95,65 @@ export default function ArticleDetailPage({ article, preview }) {
     <>
       {/* Reading progress */}
       <div className={detailCss.progressWrap}>
-        <div className={detailCss.progressBar} style={{ width: `${progress}%` }} />
+        <div
+          className={detailCss.progressBar}
+          style={{ width: `${progress}%` }}
+        />
       </div>
       <Head>
-        <title>{article.metaTitle || `${article.title} | Ghulam Mujtaba`}</title>
-        <meta name="description" content={article.metaDescription || article.excerpt} />
-        <link rel="canonical" href={`https://ghulammujtaba.com/articles/${article.slug}`} />
+        <title>
+          {article.metaTitle || `${article.title} | Ghulam Mujtaba`}
+        </title>
+        <meta
+          name="description"
+          content={article.metaDescription || article.excerpt}
+        />
+        <link
+          rel="canonical"
+          href={`https://ghulammujtaba.com/articles/${article.slug}`}
+        />
 
         {/* Open Graph / Facebook */}
         <meta property="og:type" content="article" />
-        <meta property="og:title" content={article.metaTitle || article.title} />
-        <meta property="og:description" content={article.metaDescription || article.excerpt} />
-        <meta property="og:image" content={article.ogImage || article.coverImage} />
-        <meta property="og:url" content={`https://ghulammujtaba.com/articles/${article.slug}`} />
+        <meta
+          property="og:title"
+          content={article.metaTitle || article.title}
+        />
+        <meta
+          property="og:description"
+          content={article.metaDescription || article.excerpt}
+        />
+        <meta
+          property="og:image"
+          content={article.ogImage || article.coverImage}
+        />
+        <meta
+          property="og:url"
+          content={`https://ghulammujtaba.com/articles/${article.slug}`}
+        />
 
         {/* Twitter */}
         <meta property="twitter:card" content="summary_large_image" />
-        <meta property="twitter:title" content={article.metaTitle || article.title} />
-        <meta property="twitter:description" content={article.metaDescription || article.excerpt} />
-        <meta property="twitter:image" content={article.ogImage || article.coverImage} />
+        <meta
+          property="twitter:title"
+          content={article.metaTitle || article.title}
+        />
+        <meta
+          property="twitter:description"
+          content={article.metaDescription || article.excerpt}
+        />
+        <meta
+          property="twitter:image"
+          content={article.ogImage || article.coverImage}
+        />
       </Head>
-      <div style={{ backgroundColor: theme === 'dark' ? '#1d2127' : '#ffffff', minHeight: '100vh', overflowX: 'hidden' }}>
+      <div
+        style={{
+          backgroundColor: theme === "dark" ? "#1d2127" : "#ffffff",
+          minHeight: "100vh",
+          overflowX: "hidden",
+        }}
+      >
         <header>
           <NavBarDesktop />
           <NavBarMobile sections={sections} />
@@ -125,7 +165,14 @@ export default function ArticleDetailPage({ article, preview }) {
           <section className={detailCss.hero}>
             {article.coverImage && (
               <div className={detailCss.coverWrap}>
-                <Image src={article.coverImage} alt={article.title} fill priority sizes="100vw" style={{ objectFit: 'cover' }} />
+                <Image
+                  src={article.coverImage}
+                  alt={article.title}
+                  fill
+                  priority
+                  sizes="100vw"
+                  style={{ objectFit: "cover" }}
+                />
               </div>
             )}
             <h1 className={detailCss.title}>{article.title}</h1>
@@ -135,35 +182,56 @@ export default function ArticleDetailPage({ article, preview }) {
                   Updated: {new Date(article.updatedAt).toLocaleDateString()}
                 </time>
               )}
-              {article.readingTime && <span>• {article.readingTime} min read</span>}
+              {article.readingTime && (
+                <span>• {article.readingTime} min read</span>
+              )}
             </div>
             {Array.isArray(article.tags) && article.tags.length > 0 && (
               <div className={detailCss.tags}>
                 {article.tags.map((t) => (
-                  <span key={t} className={detailCss.tag}>#{t}</span>
+                  <span key={t} className={detailCss.tag}>
+                    #{t}
+                  </span>
                 ))}
               </div>
             )}
-            {Array.isArray(article.highlights) && article.highlights.length > 0 && (
-              <div className={detailCss.highlights} aria-label="Highlights">
-                {article.highlights.map((q, i) => (
-                  <figure key={i} className={detailCss.highlightCard}>
-                    <blockquote>“{q}”</blockquote>
-                  </figure>
-                ))}
-              </div>
-            )}
+            {Array.isArray(article.highlights) &&
+              article.highlights.length > 0 && (
+                <div className={detailCss.highlights} aria-label="Highlights">
+                  {article.highlights.map((q, i) => (
+                    <figure key={i} className={detailCss.highlightCard}>
+                      <blockquote>“{q}”</blockquote>
+                    </figure>
+                  ))}
+                </div>
+              )}
             <div className={detailCss.shareBar}>
-              <button className={detailCss.shareBtn} onClick={() => handleShare(article)}>
+              <button
+                className={detailCss.shareBtn}
+                onClick={() => handleShare(article)}
+              >
                 Share
               </button>
-              <button className={detailCss.shareBtn} onClick={() => handleCopy(window.location.href)}>
+              <button
+                className={detailCss.shareBtn}
+                onClick={() => handleCopy(window.location.href)}
+              >
                 Copy link
               </button>
-              <a className={detailCss.shareBtn} href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(`https://ghulammujtaba.com/articles/${article.slug}`)}&text=${encodeURIComponent(article.title)}`} target="_blank" rel="noopener noreferrer">
+              <a
+                className={detailCss.shareBtn}
+                href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(`https://ghulammujtaba.com/articles/${article.slug}`)}&text=${encodeURIComponent(article.title)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 Twitter/X
               </a>
-              <a className={detailCss.shareBtn} href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(`https://ghulammujtaba.com/articles/${article.slug}`)}`} target="_blank" rel="noopener noreferrer">
+              <a
+                className={detailCss.shareBtn}
+                href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(`https://ghulammujtaba.com/articles/${article.slug}`)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 LinkedIn
               </a>
             </div>
@@ -182,7 +250,11 @@ export default function ArticleDetailPage({ article, preview }) {
 
 // Helpers inside module scope (after component)
 function handleCopy(text) {
-  try { typeof navigator !== 'undefined' && navigator.clipboard && navigator.clipboard.writeText(text); } catch (e) {}
+  try {
+    typeof navigator !== "undefined" &&
+      navigator.clipboard &&
+      navigator.clipboard.writeText(text);
+  } catch (e) {}
 }
 
 async function handleShare(article) {
@@ -192,7 +264,7 @@ async function handleShare(article) {
     url: `https://ghulammujtaba.com/articles/${article.slug}`,
   };
   try {
-    if (typeof navigator !== 'undefined' && navigator.share) {
+    if (typeof navigator !== "undefined" && navigator.share) {
       await navigator.share(shareData);
     } else {
       handleCopy(shareData.url);
@@ -209,7 +281,10 @@ export async function getServerSideProps(context) {
   if (preview && previewData?.id) {
     article = await Article.findById(previewData.id).lean();
   } else {
-    article = await Article.findOne({ slug: params.slug, published: true }).lean();
+    article = await Article.findOne({
+      slug: params.slug,
+      published: true,
+    }).lean();
   }
 
   if (!article) {
@@ -218,11 +293,11 @@ export async function getServerSideProps(context) {
 
   // Track view only for published, non-preview pages
   if (!preview) {
-    const today = new Date().toISOString().split('T')[0];
+    const today = new Date().toISOString().split("T")[0];
     await DailyStat.updateOne(
-      { date: today, type: 'article', contentId: article._id },
+      { date: today, type: "article", contentId: article._id },
       { $inc: { views: 1 } },
-      { upsert: true }
+      { upsert: true },
     );
   }
 

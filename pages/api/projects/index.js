@@ -1,18 +1,18 @@
-import { getToken } from 'next-auth/jwt';
-import dbConnect from '../../../lib/mongoose';
-import Project from '../../../models/Project';
-import { createAuditLog } from '../../../lib/auditLog';
+import { getToken } from "next-auth/jwt";
+import dbConnect from "../../../lib/mongoose";
+import Project from "../../../models/Project";
+import { createAuditLog } from "../../../lib/auditLog";
 // import { apiRateLimiter, applyRateLimiter } from '../../../lib/rate-limiter';
-import { validate } from '../../../lib/validation/validator';
-import { createProjectSchema } from '../../../lib/validation/schemas';
+import { validate } from "../../../lib/validation/validator";
+import { createProjectSchema } from "../../../lib/validation/schemas";
 
 const slugify = (str) =>
   str
     .toLowerCase()
     .trim()
-    .replace(/[\s_]+/g, '-')
-    .replace(/[^a-z0-9-]/g, '')
-    .replace(/--+/g, '-');
+    .replace(/[\s_]+/g, "-")
+    .replace(/[^a-z0-9-]/g, "")
+    .replace(/--+/g, "-");
 
 async function handler(req, res) {
   const session = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
@@ -20,17 +20,24 @@ async function handler(req, res) {
   await dbConnect();
 
   switch (req.method) {
-    case 'GET':
+    case "GET":
       try {
-        const { published, featured, limit = 20, sortBy = 'createdAt', sortOrder = 'desc', search = '' } = req.query;
+        const {
+          published,
+          featured,
+          limit = 20,
+          sortBy = "createdAt",
+          sortOrder = "desc",
+          search = "",
+        } = req.query;
 
         const query = {};
-        if (published === 'true') query.published = true;
-        if (published === 'false') query.published = false;
-        if (featured === 'true') query.featuredOnHome = true;
-        if (search) query.title = { $regex: search, $options: 'i' };
+        if (published === "true") query.published = true;
+        if (published === "false") query.published = false;
+        if (featured === "true") query.featuredOnHome = true;
+        if (search) query.title = { $regex: search, $options: "i" };
 
-        const sort = { [sortBy]: sortOrder === 'asc' ? 1 : -1 };
+        const sort = { [sortBy]: sortOrder === "asc" ? 1 : -1 };
 
         const projects = await Project.find(query)
           .sort(sort)
@@ -41,19 +48,23 @@ async function handler(req, res) {
       }
       break;
 
-    case 'POST':
-      if (!session || !['admin', 'editor'].includes(session.role)) {
-        return res.status(403).json({ success: false, message: 'Forbidden' });
+    case "POST":
+      if (!session || !["admin", "editor"].includes(session.role)) {
+        return res.status(403).json({ success: false, message: "Forbidden" });
       }
       try {
         // req.body is already validated
         const slug = slugify(req.body.title);
-        const project = await Project.create({ ...req.body, slug, author: session.id });
+        const project = await Project.create({
+          ...req.body,
+          slug,
+          author: session.id,
+        });
 
         await createAuditLog({
           session,
-          action: 'create',
-          entity: 'Project',
+          action: "create",
+          entity: "Project",
           entityId: project._id.toString(),
           details: `Project created: ${project.title || project.name || project.slug}`,
         });
@@ -65,7 +76,7 @@ async function handler(req, res) {
       break;
 
     default:
-      res.setHeader('Allow', ['GET', 'POST']);
+      res.setHeader("Allow", ["GET", "POST"]);
       res.status(405).end(`Method ${req.method} Not Allowed`);
       break;
   }

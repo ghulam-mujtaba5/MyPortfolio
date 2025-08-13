@@ -1,102 +1,174 @@
 // pages/admin/dashboard.js
-import { useEffect, useState } from 'react';
-import AdminLayout from '../../components/Admin/AdminLayout/AdminLayout';
-import { FaProjectDiagram, FaFileAlt, FaUsers, FaEye } from 'react-icons/fa';
-import LineChart from '../../components/Admin/Charts/LineChart';
-import DoughnutChart from '../../components/Admin/Charts/DoughnutChart';
-import RecentActivity from '../../components/Admin/Dashboard/RecentActivity';
-import QuickActions from '../../components/Admin/Dashboard/QuickActions';
-import StatWidget from '../../components/Admin/Dashboard/StatWidget';
-import DashboardSkeleton from '../../components/Admin/Dashboard/DashboardSkeleton';
-import DateRangePicker from '../../components/Admin/Dashboard/DateRangePicker';
-import ChartCard from '../../components/Admin/Dashboard/ChartCard';
-import PinnedItems from '../../components/Admin/Dashboard/PinnedItems';
-import Scratchpad from '../../components/Admin/Dashboard/Scratchpad';
+import AdminLayout from "../../components/Admin/AdminLayout/AdminLayout";
+import StatWidget from "../../components/Admin/Dashboard/StatWidget";
+import ChartCard from "../../components/Admin/Dashboard/ChartCard";
+import SampleLineChart from "../../components/Admin/Charts/SampleLineChart";
+import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
+import Table from "../../components/Admin/Table/Table";
+import {
+  FaUsers,
+  FaFileAlt,
+  FaProjectDiagram,
+  FaComments,
+} from "react-icons/fa";
+import { formatDistanceToNow } from "date-fns";
+import Head from "next/head";
+import styles from "./dashboard.module.css";
 
-
-
-const DashboardPage = () => {
-  const [stats, setStats] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [startDate, setStartDate] = useState(null);
-  const [endDate, setEndDate] = useState(null);
+const AdminDashboard = () => {
+  const [recentActivity, setRecentActivity] = useState([]);
+  const [stats, setStats] = useState({
+    projects: 0,
+    articles: 0,
+    users: 0,
+    views: 0,
+  });
+  const [viewStats, setViewStats] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const fetchStats = async () => {
-      setLoading(true);
+    const fetchDashboard = async () => {
       try {
-        const params = new URLSearchParams();
-        if (startDate) params.append('startDate', startDate.toISOString());
-        if (endDate) params.append('endDate', endDate.toISOString());
-
-        const response = await fetch(`/api/admin/stats?${params.toString()}`);
-        const result = await response.json();
-        if (result.success) {
-          setStats(result.data);
-        }
+        const res = await fetch("/api/admin/stats");
+        if (!res.ok) throw new Error("Failed to load admin stats");
+        const json = await res.json();
+        const payload = json.data || {};
+        setStats(
+          payload.stats || { projects: 0, articles: 0, users: 0, views: 0 },
+        );
+        setRecentActivity(payload.recentActivity || []);
+        setViewStats(payload.viewStats || []);
       } catch (error) {
-        console.error('Failed to fetch stats', error);
+        console.error("Failed to fetch dashboard data:", error);
       } finally {
-        setLoading(false);
+        setIsLoading(false);
       }
     };
-    fetchStats();
-  }, [startDate, endDate]);
 
-  if (loading) {
-    return <AdminLayout><DashboardSkeleton /></AdminLayout>;
-  }
+    fetchDashboard();
+  }, []);
 
-  if (!stats) {
-    return (
-      <AdminLayout>
-        <div className="text-center py-10">
-          <p className="text-red-500">Failed to load dashboard data. Please try refreshing the page.</p>
-        </div>
-      </AdminLayout>
-    );
-  }
+  const activityColumns = [
+    {
+      header: "User",
+      key: "user",
+      render: (row) => row.user?.name || row.userName || "—",
+    },
+    {
+      header: "Action",
+      key: "action",
+      render: (row) => {
+        const act = (row.action || "").replace(/_/g, " ");
+        const ent = row.entity || row.entityType || "";
+        return `${act}${ent ? ` • ${ent}` : ""}`;
+      },
+    },
+    {
+      header: "Timestamp",
+      key: "createdAt",
+      render: (row) =>
+        formatDistanceToNow(new Date(row.createdAt), { addSuffix: true }),
+    },
+  ];
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: { y: 0, opacity: 1 },
+  };
+
+  // Prepare chart data from viewStats (DailyStat[] with { date, views })
+  const chartLabels = Array.isArray(viewStats)
+    ? viewStats.map((d, i) => {
+        const dt = d?.date ? new Date(d.date) : null;
+        return dt && !isNaN(dt)
+          ? dt.toLocaleDateString(undefined, { month: "short", day: "numeric" })
+          : `#${i + 1}`;
+      })
+    : [];
+  const chartDataPoints = Array.isArray(viewStats)
+    ? viewStats.map((d) => {
+        const n = Number(d?.views);
+        return Number.isFinite(n) ? n : 0;
+      })
+    : [];
+  const hasChartData =
+    chartLabels.length > 0 && chartLabels.length === chartDataPoints.length;
 
   return (
     <AdminLayout>
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-bold">Dashboard</h1>
-        <DateRangePicker 
-          startDate={startDate} 
-          setStartDate={setStartDate} 
-          endDate={endDate} 
-          setEndDate={setEndDate} 
-        />
-      </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <StatWidget icon={<FaProjectDiagram size={24} />} title="Total Projects" value={stats?.stats.projects ?? '0'} color="blue" />
-        <StatWidget icon={<FaFileAlt size={24} />} title="Total Articles" value={stats?.stats.articles ?? '0'} color="green" />
-        <StatWidget icon={<FaUsers size={24} />} title="Total Users" value={stats?.stats.users ?? '0'} color="purple" />
-        <StatWidget icon={<FaEye size={24} />} title="Total Views" value={stats?.stats.views ?? '0'} color="yellow" />
-      </div>
+      <Head>
+        <title>Admin Dashboard - My Portfolio</title>
+      </Head>
+      <div className={styles.dashboardContainer}>
+        <header className={styles.header}>
+          <h1>Dashboard</h1>
+          <p>Welcome back, Admin!</p>
+        </header>
+        <motion.div
+          className={styles.widgetsGrid}
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+        >
+          <motion.div variants={itemVariants}>
+            <StatWidget
+              icon={<FaUsers />}
+              title="Total Users"
+              value={Number(stats.users || 0).toLocaleString()}
+            />
+          </motion.div>
+          <motion.div variants={itemVariants}>
+            <StatWidget
+              icon={<FaFileAlt />}
+              title="Total Articles"
+              value={Number(stats.articles || 0).toLocaleString()}
+            />
+          </motion.div>
+          <motion.div variants={itemVariants}>
+            <StatWidget
+              icon={<FaProjectDiagram />}
+              title="Total Projects"
+              value={Number(stats.projects || 0).toLocaleString()}
+            />
+          </motion.div>
+          <motion.div variants={itemVariants}>
+            <StatWidget
+              icon={<FaComments />}
+              title="Total Views"
+              value={Number(stats.views || 0).toLocaleString()}
+            />
+          </motion.div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-8">
-        <ChartCard title="Views Over Time" hasData={stats?.viewStats && stats.viewStats.length > 0}>
-          <LineChart data={stats.viewStats} />
-        </ChartCard>
-        <ChartCard title="Content Distribution" hasData={stats?.stats && (stats.stats.projects > 0 || stats.stats.articles > 0)}>
-          <DoughnutChart data={stats.stats} />
-        </ChartCard>
-      </div>
+          <motion.div className={styles.chartArea} variants={itemVariants}>
+            <ChartCard title="Page Views" hasData={hasChartData}>
+              <SampleLineChart
+                key={`pv-${chartLabels.join("|")}-${chartDataPoints.join("|")}`}
+                labels={chartLabels}
+                dataPoints={chartDataPoints}
+                label="Page Views"
+              />
+            </ChartCard>
+          </motion.div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-8">
-        <div className="lg:col-span-2">
-          <RecentActivity />
-        </div>
-        <div>
-          <QuickActions />
-          <PinnedItems />
-          <Scratchpad />
-        </div>
+          <motion.div className={styles.fullWidthCard} variants={itemVariants}>
+            <h2 className={styles.sectionTitle}>Recent Activity</h2>
+            <Table columns={activityColumns} data={recentActivity} />
+          </motion.div>
+        </motion.div>
       </div>
     </AdminLayout>
   );
 };
 
-export default DashboardPage;
-
+export default AdminDashboard;

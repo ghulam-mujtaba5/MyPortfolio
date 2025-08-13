@@ -37,8 +37,10 @@
   padding-left: 32px;
   padding-right: 32px;
   box-sizing: border-box;
-  font-family: 'Segoe UI', 'Inter', Arial, sans-serif;
-  transition: background 0.3s, color 0.3s;
+  font-family: "Segoe UI", "Inter", Arial, sans-serif;
+  transition:
+    background 0.3s,
+    color 0.3s;
 }
 
 .section {
@@ -46,11 +48,14 @@
   max-width: 800px;
   background: var(--bg, #fff);
   border-radius: 20px;
-  box-shadow: var(--shadow, 0 2px 16px rgba(0,0,0,0.07));
+  box-shadow: var(--shadow, 0 2px 16px rgba(0, 0, 0, 0.07));
   border: 1.5px solid var(--border, #e3e6ea);
   margin-bottom: 36px;
   padding: 40px 32px 32px 32px;
-  transition: background 0.3s, color 0.3s, box-shadow 0.3s;
+  transition:
+    background 0.3s,
+    color 0.3s,
+    box-shadow 0.3s;
 }
 
 .heading {
@@ -177,6 +182,7 @@
 
 /* Remove unused .container rules and improve theme contrast */
 
-.privacyMain, .section {
+.privacyMain,
+.section {
   border: 1px solid var(--border, #e3e6ea);
 }

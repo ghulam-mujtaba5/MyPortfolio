@@ -1,9 +1,9 @@
-import { useState, useEffect } from 'react';
-import AdminLayout from '../../components/Admin/AdminLayout/AdminLayout';
-import withAdminAuth from '../../lib/withAdminAuth';
-import toast from 'react-hot-toast';
-import { FiEdit, FiTrash2 } from 'react-icons/fi';
-import styles from './users.module.css'; // Import the new stylesheet
+import { useState, useEffect } from "react";
+import AdminLayout from "../../components/Admin/AdminLayout/AdminLayout";
+import withAdminAuth from "../../lib/withAdminAuth";
+import toast from "react-hot-toast";
+import { FiEdit, FiTrash2 } from "react-icons/fi";
+import styles from "./users.module.css"; // Import the new stylesheet
 
 // Edit User Modal Component
 const EditUserModal = ({ user, onClose, onUserUpdate }) => {
@@ -13,16 +13,16 @@ const EditUserModal = ({ user, onClose, onUserUpdate }) => {
 
   const handleUpdate = async (e) => {
     e.preventDefault();
-    const toastId = toast.loading('Updating user...');
+    const toastId = toast.loading("Updating user...");
     try {
       const res = await fetch(`/api/users/${user._id}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, email, role }),
       });
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Failed to update user');
-      toast.success('User updated successfully!', { id: toastId });
+      if (!res.ok) throw new Error(data.error || "Failed to update user");
+      toast.success("User updated successfully!", { id: toastId });
       onUserUpdate(); // Callback to refresh the user list
       onClose(); // Close the modal
     } catch (error) {
@@ -36,16 +36,41 @@ const EditUserModal = ({ user, onClose, onUserUpdate }) => {
         <h2 className="text-2xl font-bold mb-6">Edit User</h2>
         <form onSubmit={handleUpdate}>
           <div className="space-y-4">
-            <input type="text" value={name} onChange={(e) => setName(e.target.value)} className="w-full px-4 py-2 border rounded-md dark:bg-gray-700" />
-            <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="w-full px-4 py-2 border rounded-md dark:bg-gray-700" />
-            <select value={role} onChange={(e) => setRole(e.target.value)} className="w-full px-4 py-2 border rounded-md dark:bg-gray-700">
+            <input
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              className="w-full px-4 py-2 border rounded-md dark:bg-gray-700"
+            />
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="w-full px-4 py-2 border rounded-md dark:bg-gray-700"
+            />
+            <select
+              value={role}
+              onChange={(e) => setRole(e.target.value)}
+              className="w-full px-4 py-2 border rounded-md dark:bg-gray-700"
+            >
               <option value="editor">Editor</option>
               <option value="admin">Admin</option>
             </select>
           </div>
           <div className="mt-8 flex justify-end space-x-4">
-            <button type="button" onClick={onClose} className="px-6 py-2 rounded-md text-gray-700 dark:text-gray-200 bg-gray-200 dark:bg-gray-600 hover:bg-gray-300 dark:hover:bg-gray-500">Cancel</button>
-            <button type="submit" className="px-6 py-2 rounded-md text-white bg-blue-600 hover:bg-blue-700">Save Changes</button>
+            <button
+              type="button"
+              onClick={onClose}
+              className="px-6 py-2 rounded-md text-gray-700 dark:text-gray-200 bg-gray-200 dark:bg-gray-600 hover:bg-gray-300 dark:hover:bg-gray-500"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              className="px-6 py-2 rounded-md text-white bg-blue-600 hover:bg-blue-700"
+            >
+              Save Changes
+            </button>
           </div>
         </form>
       </div>
@@ -56,22 +81,22 @@ const EditUserModal = ({ user, onClose, onUserUpdate }) => {
 const UsersPage = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [isEditModalOpen, setEditModalOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
 
   // Create form state
-  const [newName, setNewName] = useState('');
-  const [newEmail, setNewEmail] = useState('');
-  const [newPassword, setNewPassword] = useState('');
-  const [newRole, setNewRole] = useState('editor');
+  const [newName, setNewName] = useState("");
+  const [newEmail, setNewEmail] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [newRole, setNewRole] = useState("editor");
 
   const fetchUsers = async () => {
     setLoading(true);
     try {
-      const res = await fetch('/api/users');
+      const res = await fetch("/api/users");
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Failed to fetch users');
+      if (!res.ok) throw new Error(data.error || "Failed to fetch users");
       setUsers(data);
     } catch (e) {
       setError(e.message);
@@ -87,17 +112,25 @@ const UsersPage = () => {
 
   const handleCreateUser = async (e) => {
     e.preventDefault();
-    const toastId = toast.loading('Creating user...');
+    const toastId = toast.loading("Creating user...");
     try {
-      const res = await fetch('/api/users', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name: newName, email: newEmail, password: newPassword, role: newRole }),
+      const res = await fetch("/api/users", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: newName,
+          email: newEmail,
+          password: newPassword,
+          role: newRole,
+        }),
       });
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Failed to create user');
-      toast.success('User created successfully!', { id: toastId });
-      setNewName(''); setNewEmail(''); setNewPassword(''); setNewRole('editor');
+      if (!res.ok) throw new Error(data.error || "Failed to create user");
+      toast.success("User created successfully!", { id: toastId });
+      setNewName("");
+      setNewEmail("");
+      setNewPassword("");
+      setNewRole("editor");
       fetchUsers();
     } catch (e) {
       toast.error(e.message, { id: toastId });
@@ -105,13 +138,17 @@ const UsersPage = () => {
   };
 
   const handleDeleteUser = async (userId) => {
-    if (window.confirm('Are you sure you want to delete this user? This action cannot be undone.')) {
-      const toastId = toast.loading('Deleting user...');
+    if (
+      window.confirm(
+        "Are you sure you want to delete this user? This action cannot be undone.",
+      )
+    ) {
+      const toastId = toast.loading("Deleting user...");
       try {
-        const res = await fetch(`/api/users/${userId}`, { method: 'DELETE' });
+        const res = await fetch(`/api/users/${userId}`, { method: "DELETE" });
         const data = await res.json();
-        if (!res.ok) throw new Error(data.error || 'Failed to delete user');
-        toast.success('User deleted successfully!', { id: toastId });
+        if (!res.ok) throw new Error(data.error || "Failed to delete user");
+        toast.success("User deleted successfully!", { id: toastId });
         fetchUsers();
       } catch (e) {
         toast.error(e.message, { id: toastId });
@@ -126,24 +163,62 @@ const UsersPage = () => {
 
   return (
     <AdminLayout>
-      {isEditModalOpen && <EditUserModal user={selectedUser} onClose={() => setEditModalOpen(false)} onUserUpdate={fetchUsers} />}
+      {isEditModalOpen && (
+        <EditUserModal
+          user={selectedUser}
+          onClose={() => setEditModalOpen(false)}
+          onUserUpdate={fetchUsers}
+        />
+      )}
       <div className="container mx-auto px-4 sm:px-8">
         <div className="py-8">
-          <h1 className="text-3xl font-bold leading-tight text-gray-900 dark:text-gray-100">User Management</h1>
-          
+          <h1 className="text-3xl font-bold leading-tight text-gray-900 dark:text-gray-100">
+            User Management
+          </h1>
+
           <div className="mt-8 bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
             <h2 className="text-2xl font-semibold mb-4">Create New User</h2>
             <form onSubmit={handleCreateUser}>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <input type="text" placeholder="Name" value={newName} onChange={(e) => setNewName(e.target.value)} className="w-full px-4 py-2 border rounded-md dark:bg-gray-700" required />
-                <input type="email" placeholder="Email" value={newEmail} onChange={(e) => setNewEmail(e.target.value)} className="w-full px-4 py-2 border rounded-md dark:bg-gray-700" required />
-                <input type="password" placeholder="Password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} className="w-full px-4 py-2 border rounded-md dark:bg-gray-700" required />
-                <select value={newRole} onChange={(e) => setNewRole(e.target.value)} className="w-full px-4 py-2 border rounded-md dark:bg-gray-700">
+                <input
+                  type="text"
+                  placeholder="Name"
+                  value={newName}
+                  onChange={(e) => setNewName(e.target.value)}
+                  className="w-full px-4 py-2 border rounded-md dark:bg-gray-700"
+                  required
+                />
+                <input
+                  type="email"
+                  placeholder="Email"
+                  value={newEmail}
+                  onChange={(e) => setNewEmail(e.target.value)}
+                  className="w-full px-4 py-2 border rounded-md dark:bg-gray-700"
+                  required
+                />
+                <input
+                  type="password"
+                  placeholder="Password"
+                  value={newPassword}
+                  onChange={(e) => setNewPassword(e.target.value)}
+                  className="w-full px-4 py-2 border rounded-md dark:bg-gray-700"
+                  required
+                />
+                <select
+                  value={newRole}
+                  onChange={(e) => setNewRole(e.target.value)}
+                  className="w-full px-4 py-2 border rounded-md dark:bg-gray-700"
+                >
                   <option value="editor">Editor</option>
                   <option value="admin">Admin</option>
                 </select>
               </div>
-              <button type="submit" className="mt-6 bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700">Create User</button>
+              <button
+                type="submit"
+                className="mt-6 bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700"
+              >
+                Create User
+              </button>
             </form>
           </div>
 
@@ -169,8 +244,18 @@ const UsersPage = () => {
                         <td>{user.email}</td>
                         <td className="capitalize">{user.role}</td>
                         <td className={styles.actions}>
-                          <button onClick={() => openEditModal(user)} className={styles.actionButton}><FiEdit /></button>
-                          <button onClick={() => handleDeleteUser(user._id)} className={styles.deleteButton}><FiTrash2 /></button>
+                          <button
+                            onClick={() => openEditModal(user)}
+                            className={styles.actionButton}
+                          >
+                            <FiEdit />
+                          </button>
+                          <button
+                            onClick={() => handleDeleteUser(user._id)}
+                            className={styles.deleteButton}
+                          >
+                            <FiTrash2 />
+                          </button>
                         </td>
                       </tr>
                     ))}
@@ -185,4 +270,4 @@ const UsersPage = () => {
   );
 };
 
-export default withAdminAuth(UsersPage, { requiredRole: 'admin' });
+export default withAdminAuth(UsersPage, { requiredRole: "admin" });

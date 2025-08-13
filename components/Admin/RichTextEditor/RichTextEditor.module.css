@@ -11,7 +11,9 @@
   align-items: center;
   padding: 0.5rem;
   border-bottom: 1px solid;
-  transition: background-color 0.3s ease, border-color 0.3s ease;
+  transition:
+    background-color 0.3s ease,
+    border-color 0.3s ease;
 }
 
 .toolbarButton {
@@ -21,7 +23,9 @@
   margin-right: 0.25rem;
   cursor: pointer;
   border-radius: 4px;
-  transition: background-color 0.2s, color 0.2s;
+  transition:
+    background-color 0.2s,
+    color 0.2s;
   font-size: 1.1rem;
 }
 
@@ -29,7 +33,9 @@
   padding: 1rem;
   min-height: 300px;
   outline: none;
-  transition: color 0.3s ease, background-color 0.3s ease;
+  transition:
+    color 0.3s ease,
+    background-color 0.3s ease;
 }
 
 .editor > * + * {
@@ -50,5 +56,7 @@
 .editor blockquote {
   padding-left: 1rem;
   border-left: 2px solid;
-  transition: border-color 0.3s ease, color 0.3s ease;
+  transition:
+    border-color 0.3s ease,
+    color 0.3s ease;
 }

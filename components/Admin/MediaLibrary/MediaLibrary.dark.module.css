@@ -1,6 +1,6 @@
 .mediaLibrary {
-  background-color: #1F2937; /* gray-800 */
-  color: #F9FAFB; /* gray-50 */
+  background-color: #1f2937; /* gray-800 */
+  color: #f9fafb; /* gray-50 */
 }
 
 .title {
@@ -8,21 +8,21 @@
 }
 
 .uploadButton {
-  background-color: #3B82F6; /* blue-500 */
+  background-color: #3b82f6; /* blue-500 */
   color: white;
 }
 
 .uploadButton:hover {
-  background-color: #2563EB; /* blue-600 */
+  background-color: #2563eb; /* blue-600 */
 }
 
 .deleteButton {
-  background-color: #EF4444; /* red-500 */
+  background-color: #ef4444; /* red-500 */
   color: white;
 }
 
 .deleteButton:hover {
-  background-color: #DC2626; /* red-600 */
+  background-color: #dc2626; /* red-600 */
 }
 
 .assetCard {
@@ -30,11 +30,11 @@
 }
 
 .pagination button {
-  background-color: #4B5563; /* gray-600 */
-  border: 1px solid #6B7280; /* gray-500 */
-  color: #F9FAFB;
+  background-color: #4b5563; /* gray-600 */
+  border: 1px solid #6b7280; /* gray-500 */
+  color: #f9fafb;
 }
 
 .pagination button:hover:not(:disabled) {
-  background-color: #6B7280; /* gray-500 */
+  background-color: #6b7280; /* gray-500 */
 }

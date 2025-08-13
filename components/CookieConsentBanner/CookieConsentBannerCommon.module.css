@@ -14,7 +14,10 @@
   font-weight: 600;
   cursor: pointer;
   box-shadow: 0 2px 8px rgba(69, 115, 223, 0.08);
-  transition: background 0.2s, box-shadow 0.2s, transform 0.15s;
+  transition:
+    background 0.2s,
+    box-shadow 0.2s,
+    transform 0.15s;
   outline: none;
   min-width: 100px;
 }
@@ -32,7 +35,10 @@
   padding: 0.5rem 1.2rem;
   font-size: 1rem;
   cursor: pointer;
-  transition: background 0.2s, color 0.2s, border 0.2s;
+  transition:
+    background 0.2s,
+    color 0.2s,
+    border 0.2s;
 }
 .buttonSecondary:hover {
   background: #e8ebee;
@@ -53,11 +59,11 @@
   align-items: center;
   padding: 1.2rem 1.5rem;
   z-index: 1000;
-  font-family: 'Open Sans', 'Manrope', 'Poppins', 'Inter', sans-serif;
+  font-family: "Open Sans", "Manrope", "Poppins", "Inter", sans-serif;
   font-size: 1rem;
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  box-shadow: 0 4px 32px rgba(30,40,60,0.08);
+  box-shadow: 0 4px 32px rgba(30, 40, 60, 0.08);
   border-radius: 16px;
   margin: 0 auto;
   transition: all 0.3s ease;
@@ -87,7 +93,8 @@
     font-size: 0.97rem;
     padding-right: 0.3rem;
   }
-  .button, .buttonSecondary {
+  .button,
+  .buttonSecondary {
     padding: 0.5rem 1rem;
     font-size: 0.97rem;
     min-width: 90px;
@@ -114,7 +121,8 @@
     min-width: 0;
     word-break: break-word;
   }
-  .button, .buttonSecondary {
+  .button,
+  .buttonSecondary {
     padding: 0.32rem 0.5rem;
     font-size: 0.89rem;
     min-width: 60px;

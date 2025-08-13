@@ -25,10 +25,10 @@
 }
 
 .quickActions button {
-    background-color: #1890ff;
-    color: white;
+  background-color: #1890ff;
+  color: white;
 }
 
 .quickActions button:hover {
-    background-color: #40a9ff;
+  background-color: #40a9ff;
 }

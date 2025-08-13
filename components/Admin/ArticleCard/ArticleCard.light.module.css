@@ -1,0 +1,58 @@
+/* Light theme styles for ArticleCard */
+.card {
+    background-color: var(--color-bg-primary-light);
+    border-color: var(--color-border-light);
+  }
+  
+  .card:hover {
+    border-color: var(--color-primary-light);
+    box-shadow: var(--shadow-md-light);
+  }
+  
+  .selected {
+    border-color: var(--color-primary-light);
+    box-shadow: 0 0 0 2px var(--color-primary-transparent-light);
+  }
+  
+  .checkbox {
+    accent-color: var(--color-primary-light);
+  }
+  
+  .coverImage {
+    background-color: var(--color-bg-tertiary-light);
+  }
+  
+  .imagePlaceholder {
+    color: var(--color-text-tertiary-light);
+  }
+  
+  .title a {
+    color: var(--color-text-primary-light);
+    background-image: linear-gradient(
+      var(--color-primary-light),
+      var(--color-primary-light)
+    );
+  }
+  
+  .metaBottom {
+    color: var(--color-text-secondary-light);
+    border-top-color: var(--color-border-light);
+  }
+  
+  .actions .button {
+    background-color: rgba(255, 255, 255, 0.8);
+    color: var(--color-text-secondary-light);
+    border: 1px solid var(--color-border-light);
+  }
+  
+  .actions .button:hover {
+    background-color: var(--color-primary-light);
+    color: white;
+    border-color: var(--color-primary-light);
+  }
+  
+  .actions .button.danger-ghost:hover {
+    background-color: var(--color-danger-light);
+    border-color: var(--color-danger-light);
+  }
+  

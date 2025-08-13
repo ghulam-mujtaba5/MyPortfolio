@@ -1,6 +1,6 @@
-import React from 'react';
-import { useTheme } from '../../context/ThemeContext';
-import styles from './LoadingAnimation.module.css';
+import React from "react";
+import { useTheme } from "../../context/ThemeContext";
+import styles from "./LoadingAnimation.module.css";
 
 const LoadingAnimation = () => {
   const { theme } = useTheme();

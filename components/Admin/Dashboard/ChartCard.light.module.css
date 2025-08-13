@@ -1,11 +1,15 @@
 .cardContainer {
-  background-color: #ffffff; /* white */
+  background-color: #ffffff;
+  border: 1px solid #e3e6ea;
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.02),
+    0 4px 12px rgba(0, 0, 0, 0.04);
 }
 
 .title {
-  color: #111827; /* gray-900 */
+  color: #000000;
 }
 
 .noDataText {
-  color: #6B7280; /* gray-500 */
+  color: #555555;
 }

@@ -4,7 +4,7 @@
 export async function getServerSideProps(context) {
   return {
     redirect: {
-      destination: '/admin/dashboard',
+      destination: "/admin/dashboard",
       permanent: true, // Use a permanent redirect
     },
   };
@@ -14,4 +14,3 @@ export async function getServerSideProps(context) {
 const AdminRootPage = () => null;
 
 export default AdminRootPage;
-

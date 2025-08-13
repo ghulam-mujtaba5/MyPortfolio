@@ -21,14 +21,14 @@
   font-size: 38px;
   margin-bottom: 10px;
   font-weight: bold;
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
   transition: transform 0.4s ease; /* Smooth transition for scaling effect */
 }
 
 .paragraph {
   font-size: 38px;
   font-weight: lighter;
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
   margin: 0; /* Remove default margin to avoid layout shifts */
 }
 
@@ -36,7 +36,9 @@
   font-weight: bold;
   color: #4573df;
   display: inline-block; /* Allows for smooth scaling effect */
-  transition: transform 0.4s ease, color 0.4s ease; /* Smooth transition for scaling and color */
+  transition:
+    transform 0.4s ease,
+    color 0.4s ease; /* Smooth transition for scaling and color */
   transform-origin: center; /* Scale from the center */
 }
 
@@ -51,7 +53,6 @@
     text-align: center; /* Center text in mobile view */
     padding-top: 5%;
     min-height: 0px; /* Adjust this value to ensure space for animations */
-
   }
 }
 

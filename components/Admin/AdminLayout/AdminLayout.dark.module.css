@@ -1,28 +1,47 @@
 .container {
-  background-color: #141414;
+  background-color: #1d2127; /* Dark theme background */
 }
 
 .sidebar {
-  background-color: #1f1f1f;
-  border-right: 1px solid #303030;
+  background-color: #272c34;
+  border-right: 1px solid #3a414c;
 }
 
-.sidebar a, .sidebar button {
-  color: #a6a6a6;
+.sidebar .logo {
+  color: #ffffff;
 }
 
-.sidebar a:hover, .sidebar button:hover {
-  background-color: #262626;
-  color: #fff;
+.sidebar a,
+.sidebar button {
+  color: #e5e5e5;
 }
 
-.sidebar .active {
-  background-color: #172c4d;
-  border-right: 3px solid #177ddc;
-  color: #177ddc;
+.sidebar a:hover,
+.sidebar button:hover {
+  background-color: #3a414c;
+  color: #ffffff;
+}
+
+.active {
+  background-color: #4573df !important; /* Brand Blue */
+  color: #ffffff !important;
+  font-weight: 600;
 }
 
 .mainContent {
-  background-color: #1f1f1f;
-  color: #a6a6a6;
+  background-color: #1d2127;
+  color: #e5e5e5;
+}
+
+/* Theme-specific styles for new components */
+.themeSelector {
+  background-color: #272c34;
+  border: 1px solid #3a414c;
+  color: #e5e5e5;
+}
+
+.quickCreateButton {
+  background-color: #4573df; /* Brand Blue */
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(69, 115, 223, 0.25);
 }

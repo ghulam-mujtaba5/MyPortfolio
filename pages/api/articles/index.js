@@ -1,34 +1,46 @@
-import { getToken } from 'next-auth/jwt';
-import dbConnect from '../../../lib/mongoose';
-import Article from '../../../models/Article';
-import { createAuditLog } from '../../../lib/auditLog';
+import { getToken } from "next-auth/jwt";
+import dbConnect from "../../../lib/mongoose";
+import Article from "../../../models/Article";
+import { createAuditLog } from "../../../lib/auditLog";
 // import { apiRateLimiter, applyRateLimiter } from '../../../lib/rate-limiter';
-import { validate } from '../../../lib/validation/validator';
-import { createArticleSchema } from '../../../lib/validation/schemas';
+import { validate } from "../../../lib/validation/validator";
+import { createArticleSchema } from "../../../lib/validation/schemas";
 
 function slugify(str) {
-  return String(str || '')
+  return String(str || "")
     .toLowerCase()
     .trim()
-    .replace(/[^a-z0-9\s-]/g, '')
-    .replace(/\s+/g, '-')
-    .replace(/-+/g, '-');
+    .replace(/[^a-z0-9\s-]/g, "")
+    .replace(/\s+/g, "-")
+    .replace(/-+/g, "-");
 }
 
 async function handler(req, res) {
   const session = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
   await dbConnect();
 
-  if (req.method === 'GET') {
+  if (req.method === "GET") {
     try {
-      const { limit = '9', page = '1', skip, q = '', search = '', tag = '', sort = 'relevance' } = req.query;
+      const {
+        limit = "9",
+        page = "1",
+        skip,
+        q = "",
+        search = "",
+        tag = "",
+        sort = "relevance",
+      } = req.query;
       const pageSize = Math.min(parseInt(limit, 10) || 9, 100);
       const pageNum = Math.max(1, parseInt(page, 10) || 1);
-      const effectiveSearch = String(search || q || '').trim();
-      const parsedSkip = skip !== undefined ? (parseInt(skip, 10) || 0) : (pageNum - 1) * pageSize;
+      const effectiveSearch = String(search || q || "").trim();
+      const parsedSkip =
+        skip !== undefined ? parseInt(skip, 10) || 0 : (pageNum - 1) * pageSize;
 
       const now = new Date();
-      const baseFilter = { published: true, $or: [{ publishAt: null }, { publishAt: { $lte: now } }] };
+      const baseFilter = {
+        published: true,
+        $or: [{ publishAt: null }, { publishAt: { $lte: now } }],
+      };
       if (tag) {
         baseFilter.tags = tag;
       }
@@ -45,23 +57,25 @@ async function handler(req, res) {
         createdAt: 1,
         coverImage: 1,
         views: 1,
-        ...(useText ? { score: { $meta: 'textScore' } } : {}),
+        ...(useText ? { score: { $meta: "textScore" } } : {}),
       };
 
       let sortOrder;
       switch (sort) {
-        case 'views':
+        case "views":
           sortOrder = { views: -1, createdAt: -1 };
           break;
-        case 'newest':
+        case "newest":
           sortOrder = { createdAt: -1 };
           break;
-        case 'oldest':
+        case "oldest":
           sortOrder = { createdAt: 1 };
           break;
-        case 'relevance':
+        case "relevance":
         default:
-          sortOrder = useText ? { score: { $meta: 'textScore' }, createdAt: -1 } : { createdAt: -1 };
+          sortOrder = useText
+            ? { score: { $meta: "textScore" }, createdAt: -1 }
+            : { createdAt: -1 };
           break;
       }
 
@@ -87,13 +101,15 @@ async function handler(req, res) {
         },
       });
     } catch (e) {
-      return res.status(500).json({ error: 'Failed to fetch articles', details: e.message });
+      return res
+        .status(500)
+        .json({ error: "Failed to fetch articles", details: e.message });
     }
   }
 
-  if (req.method === 'POST') {
-    if (!session || !['admin', 'editor'].includes(session.role)) {
-      return res.status(403).json({ error: 'Forbidden' });
+  if (req.method === "POST") {
+    if (!session || !["admin", "editor"].includes(session.role)) {
+      return res.status(403).json({ error: "Forbidden" });
     }
 
     try {
@@ -115,18 +131,21 @@ async function handler(req, res) {
         slug,
       } = req.body;
 
-      const toArray = (v) => Array.isArray(v)
-        ? v
-        : String(v || '')
-            .split(',')
-            .map((s) => s.trim())
-            .filter(Boolean);
+      const toArray = (v) =>
+        Array.isArray(v)
+          ? v
+          : String(v || "")
+              .split(",")
+              .map((s) => s.trim())
+              .filter(Boolean);
 
       const parsedTags = toArray(tags);
       const parsedCategories = toArray(categories);
       const parsedHighlights = toArray(highlights);
       const parsedPublishAt = publishAt
-        ? (typeof publishAt === 'string' ? new Date(publishAt) : publishAt)
+        ? typeof publishAt === "string"
+          ? new Date(publishAt)
+          : publishAt
         : null;
 
       const newArticle = new Article({
@@ -151,8 +170,8 @@ async function handler(req, res) {
 
       await createAuditLog({
         session,
-        action: 'create',
-        entity: 'Article',
+        action: "create",
+        entity: "Article",
         entityId: savedArticle._id.toString(),
         details: `Article created: ${savedArticle.title}`,
       });
@@ -160,13 +179,17 @@ async function handler(req, res) {
       return res.status(201).json(savedArticle);
     } catch (error) {
       if (error.code === 11000) {
-        return res.status(409).json({ error: 'An article with this slug already exists.' });
+        return res
+          .status(409)
+          .json({ error: "An article with this slug already exists." });
       }
-      return res.status(500).json({ error: 'Failed to create article', details: error.message });
+      return res
+        .status(500)
+        .json({ error: "Failed to create article", details: error.message });
     }
   }
 
-  res.setHeader('Allow', ['GET', 'POST']);
+  res.setHeader("Allow", ["GET", "POST"]);
   return res.status(405).json({ error: `Method ${req.method} Not Allowed` });
 }
 

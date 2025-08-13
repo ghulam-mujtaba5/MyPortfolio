@@ -1,10 +1,10 @@
-import { getToken } from 'next-auth/jwt';
-import dbConnect from '../../../lib/mongoose';
-import Article from '../../../models/Article';
-import { createAuditLog } from '../../../lib/auditLog';
+import { getToken } from "next-auth/jwt";
+import dbConnect from "../../../lib/mongoose";
+import Article from "../../../models/Article";
+import { createAuditLog } from "../../../lib/auditLog";
 // import { apiRateLimiter, applyRateLimiter } from '../../../lib/rate-limiter';
-import { validate } from '../../../lib/validation/validator';
-import { updateArticleSchema } from '../../../lib/validation/schemas';
+import { validate } from "../../../lib/validation/validator";
+import { updateArticleSchema } from "../../../lib/validation/schemas";
 
 async function handler(req, res) {
   const { slug } = req.query;
@@ -12,73 +12,89 @@ async function handler(req, res) {
 
   await dbConnect();
 
-  if (req.method === 'GET') {
+  if (req.method === "GET") {
     try {
       const now = new Date();
       const article = await Article.findOneAndUpdate(
-        { slug, published: true, $or: [{ publishAt: null }, { publishAt: { $lte: now } }] },
+        {
+          slug,
+          published: true,
+          $or: [{ publishAt: null }, { publishAt: { $lte: now } }],
+        },
         { $inc: { views: 1 } },
-        { new: true }
-      ).populate('author', 'name');
+        { new: true },
+      ).populate("author", "name");
 
       if (!article) {
-        return res.status(404).json({ error: 'Article not found or not published' });
+        return res
+          .status(404)
+          .json({ error: "Article not found or not published" });
       }
       return res.status(200).json(article);
     } catch (error) {
-      return res.status(500).json({ error: 'Failed to fetch article', details: error.message });
+      return res
+        .status(500)
+        .json({ error: "Failed to fetch article", details: error.message });
     }
   }
 
-  if (req.method === 'PUT') {
-    if (!session || !['admin', 'editor'].includes(session.role)) {
-      return res.status(403).json({ error: 'Forbidden' });
+  if (req.method === "PUT") {
+    if (!session || !["admin", "editor"].includes(session.role)) {
+      return res.status(403).json({ error: "Forbidden" });
     }
     try {
-      const updatedArticle = await Article.findOneAndUpdate({ slug }, req.body, { new: true, runValidators: true });
+      const updatedArticle = await Article.findOneAndUpdate(
+        { slug },
+        req.body,
+        { new: true, runValidators: true },
+      );
       if (!updatedArticle) {
-        return res.status(404).json({ error: 'Article not found' });
+        return res.status(404).json({ error: "Article not found" });
       }
 
       await createAuditLog({
         session,
-        action: 'update',
-        entity: 'Article',
+        action: "update",
+        entity: "Article",
         entityId: updatedArticle._id.toString(),
         details: `Article updated: ${updatedArticle.title}`,
       });
 
       return res.status(200).json(updatedArticle);
     } catch (error) {
-      return res.status(500).json({ error: 'Failed to update article', details: error.message });
+      return res
+        .status(500)
+        .json({ error: "Failed to update article", details: error.message });
     }
   }
 
-  if (req.method === 'DELETE') {
-    if (!session || !['admin', 'editor'].includes(session.role)) {
-      return res.status(403).json({ error: 'Forbidden' });
+  if (req.method === "DELETE") {
+    if (!session || !["admin", "editor"].includes(session.role)) {
+      return res.status(403).json({ error: "Forbidden" });
     }
     try {
       const deletedArticle = await Article.findOneAndDelete({ slug });
       if (!deletedArticle) {
-        return res.status(404).json({ error: 'Article not found' });
+        return res.status(404).json({ error: "Article not found" });
       }
 
       await createAuditLog({
         session,
-        action: 'delete',
-        entity: 'Article',
+        action: "delete",
+        entity: "Article",
         entityId: deletedArticle._id.toString(),
         details: `Article deleted: ${deletedArticle.title}`,
       });
 
       return res.status(204).end();
     } catch (error) {
-      return res.status(500).json({ error: 'Failed to delete article', details: error.message });
+      return res
+        .status(500)
+        .json({ error: "Failed to delete article", details: error.message });
     }
   }
 
-  res.setHeader('Allow', ['GET', 'PUT', 'DELETE']);
+  res.setHeader("Allow", ["GET", "PUT", "DELETE"]);
   return res.status(405).json({ error: `Method ${req.method} Not Allowed` });
 }
 

@@ -45,7 +45,8 @@
   align-items: center;
 }
 
-.resultItem:hover, .activeItem {
+.resultItem:hover,
+.activeItem {
   background-color: #f0f0f0;
 }
 

@@ -28,7 +28,9 @@
   border-radius: 8px;
   border: 1px solid;
   font-size: 1rem;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
 }
 
 .input:focus {
@@ -71,7 +73,7 @@
 }
 
 .summary::before {
-  content: '▶';
+  content: "▶";
   margin-right: 10px;
   display: inline-block;
   transition: transform 0.2s ease-in-out;
