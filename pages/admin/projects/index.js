@@ -75,7 +75,7 @@ const ProjectsPage = () => {
       return;
 
     const originalProjects = [...projects];
-    const newProjects = projects.filter((p) => p._id !== id);
+    const newProjects = projects.filter((p) => (p._id || p.id) !== id);
     setProjects(newProjects);
 
     try {
@@ -128,7 +128,7 @@ const ProjectsPage = () => {
       const res = await fetch("/api/admin/pin-item", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ id: project._id, type: "project" }),
+        body: JSON.stringify({ id: project._id || project.id, type: "project" }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || "Failed to toggle pin");
@@ -227,17 +227,17 @@ const ProjectsPage = () => {
           <div className={gridStyles.gridContainer}>
             {projects.map((project) => (
               <AdminProjectCard
-                key={project._id}
+                key={project._id || project.id}
                 project={project}
-                onEdit={() => handleEdit(project._id)}
-                onDelete={() => handleDelete(project._id)}
+                onEdit={() => handleEdit(project._id || project.id)}
+                onDelete={() => handleDelete(project._id || project.id)}
                 onPin={() => togglePin(project)}
-                isSelected={selectedProjects.includes(project._id)}
+                isSelected={selectedProjects.includes(project._id || project.id)}
                 onSelect={() => {
                   setSelectedProjects((prev) =>
-                    prev.includes(project._id)
-                      ? prev.filter((id) => id !== project._id)
-                      : [...prev, project._id],
+                    prev.includes(project._id || project.id)
+                      ? prev.filter((id) => id !== (project._id || project.id))
+                      : [...prev, (project._id || project.id)],
                   );
                 }}
               />

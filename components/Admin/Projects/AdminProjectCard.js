@@ -5,6 +5,8 @@ import { useTheme } from "../../../context/ThemeContext";
 import adminStyles from "./AdminProjectCard.module.css"; // Admin-specific styles
 import Icon from "../Icon/Icon";
 import Tooltip from "../Tooltip/Tooltip";
+import toast from "react-hot-toast";
+import { FiHelpCircle } from "react-icons/fi";
 
 const AdminProjectCard = ({
   project,
@@ -15,6 +17,35 @@ const AdminProjectCard = ({
   onSelect,
 }) => {
   const { theme } = useTheme();
+
+  const safeId = project._id || project.id;
+
+  const handleCheckExistence = async () => {
+    if (!safeId) {
+      toast.error("No ID available to check.");
+      return;
+    }
+    const toastId = toast.loading(`Checking ID: ${safeId}`);
+    try {
+      const response = await fetch('/api/admin/check-existence', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: safeId, type: 'project' }),
+      });
+      const data = await response.json();
+      if (response.ok) {
+        if (data.exists) {
+          toast.success(`ID exists in the database.`, { id: toastId });
+        } else {
+          toast.error(`ID does NOT exist in the database. This is why it 404s.`, { id: toastId });
+        }
+      } else {
+        throw new Error(data.message || 'Failed to check existence');
+      }
+    } catch (error) {
+      toast.error(`Error: ${error.message}`, { id: toastId });
+    }
+  };
 
   return (
     <div
@@ -57,6 +88,12 @@ const AdminProjectCard = ({
             </span>
           )}
         </div>
+        <div className={adminStyles.debugInfo}>
+          <small>ID: {safeId || 'N/A'}</small>
+          <button onClick={handleCheckExistence} className={adminStyles.debugButton} title="Check if this ID exists in the DB">
+            <FiHelpCircle /> Check ID
+          </button>
+        </div>
         <div className={adminStyles.tags}>
           {project.tags.map((tag) => (
             <span key={tag} className={adminStyles.tag}>
@@ -66,13 +103,13 @@ const AdminProjectCard = ({
         </div>
         <div className={adminStyles.links}>
           <button
-            onClick={() => onEdit(project._id)}
+            onClick={() => onEdit(project._id || project.id)}
             className={`${adminStyles.button} ${adminStyles.editButton}`}
           >
             Edit
           </button>
           <button
-            onClick={() => onDelete(project._id)}
+            onClick={() => onDelete(project._id || project.id)}
             className={`${adminStyles.button} ${adminStyles.deleteButton}`}
           >
             Delete

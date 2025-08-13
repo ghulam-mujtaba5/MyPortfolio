@@ -37,8 +37,9 @@ const ProjectForm = ({
       description: project.description || "",
       tags: (project.tags || []).join(", "),
       status: project.status || "In Progress",
-      "links.live": project.links?.live || "",
-      "links.github": project.links?.github || "",
+      // Normalize legacy placeholders like '#' to empty string to avoid URL validation errors
+      "links.live": project.links?.live === "#" ? "" : (project.links?.live || ""),
+      "links.github": project.links?.github === "#" ? "" : (project.links?.github || ""),
       image: project.image || "",
       showImage: project.showImage !== undefined ? project.showImage : true,
       published: project.published || false,
@@ -96,6 +97,19 @@ const ProjectForm = ({
     } catch {}
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // Helper: ensure a URL has protocol if it looks like a domain, otherwise keep as is
+  const ensureProtocol = (url) => {
+    if (!url) return "";
+    const trimmed = String(url).trim();
+    if (trimmed === "#") return ""; // normalize legacy
+    if (/^https?:\/\//i.test(trimmed)) return trimmed;
+    // Looks like a domain (contains a dot, no spaces)
+    if (/^[^\s]+\.[^\s]{2,}/.test(trimmed)) {
+      return `https://${trimmed}`;
+    }
+    return trimmed;
+  };
 
   const slugify = (str) =>
     (str || "")
@@ -286,6 +300,7 @@ const ProjectForm = ({
           id="links.live"
           type="url"
           {...register("links.live")}
+          onBlur={(e) => setValue("links.live", ensureProtocol(e.target.value), { shouldValidate: true })}
           className={`${commonStyles.input} ${themeStyles.input}`}
         />
         {errors.links?.live && (
@@ -304,6 +319,7 @@ const ProjectForm = ({
           id="links.github"
           type="url"
           {...register("links.github")}
+          onBlur={(e) => setValue("links.github", ensureProtocol(e.target.value), { shouldValidate: true })}
           className={`${commonStyles.input} ${themeStyles.input}`}
         />
         {errors.links?.github && (

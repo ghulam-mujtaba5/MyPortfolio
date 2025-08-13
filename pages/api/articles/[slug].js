@@ -5,6 +5,7 @@ import { createAuditLog } from "../../../lib/auditLog";
 // import { apiRateLimiter, applyRateLimiter } from '../../../lib/rate-limiter';
 import { validate } from "../../../lib/validation/validator";
 import { updateArticleSchema } from "../../../lib/validation/schemas";
+import mongoose from "mongoose";
 
 async function handler(req, res) {
   const { slug } = req.query;
@@ -14,16 +15,24 @@ async function handler(req, res) {
 
   if (req.method === "GET") {
     try {
-      const now = new Date();
-      const article = await Article.findOneAndUpdate(
-        {
-          slug,
-          published: true,
-          $or: [{ publishAt: null }, { publishAt: { $lte: now } }],
-        },
-        { $inc: { views: 1 } },
-        { new: true },
-      ).populate("author", "name");
+      const isObjectId = mongoose.Types.ObjectId.isValid(slug);
+      let article;
+      if (isObjectId) {
+        // Admin/edit lookups by ID: no published filter, do not increment views
+        article = await Article.findById(slug).populate("author", "name");
+      } else {
+        // Public slug lookup: only published and past schedule; increment views
+        const now = new Date();
+        article = await Article.findOneAndUpdate(
+          {
+            slug,
+            published: true,
+            $or: [{ publishAt: null }, { publishAt: { $lte: now } }],
+          },
+          { $inc: { views: 1 } },
+          { new: true },
+        ).populate("author", "name");
+      }
 
       if (!article) {
         return res
@@ -43,8 +52,10 @@ async function handler(req, res) {
       return res.status(403).json({ error: "Forbidden" });
     }
     try {
+      const isObjectId = mongoose.Types.ObjectId.isValid(slug);
+      const filter = isObjectId ? { _id: slug } : { slug };
       const updatedArticle = await Article.findOneAndUpdate(
-        { slug },
+        filter,
         req.body,
         { new: true, runValidators: true },
       );
@@ -73,7 +84,9 @@ async function handler(req, res) {
       return res.status(403).json({ error: "Forbidden" });
     }
     try {
-      const deletedArticle = await Article.findOneAndDelete({ slug });
+      const isObjectId = mongoose.Types.ObjectId.isValid(slug);
+      const filter = isObjectId ? { _id: slug } : { slug };
+      const deletedArticle = await Article.findOneAndDelete(filter);
       if (!deletedArticle) {
         return res.status(404).json({ error: "Article not found" });
       }

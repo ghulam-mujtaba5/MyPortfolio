@@ -671,7 +671,7 @@ const AnalyticsPage = () => {
                   <li
                     key={a.slug}
                     style={{ cursor: "pointer" }}
-                    onClick={() => router.push(`/admin/articles/edit/${a._id}`)}
+                    onClick={() => router.push(`/admin/articles/edit/${a._id || a.id}`)}
                   >
                     {a.title} — {a.views} views
                   </li>
@@ -685,7 +685,7 @@ const AnalyticsPage = () => {
                   <li
                     key={p.slug}
                     style={{ cursor: "pointer" }}
-                    onClick={() => router.push(`/admin/projects/edit/${p._id}`)}
+                    onClick={() => router.push(`/admin/projects/edit/${p._id || p.id}`)}
                   >
                     {p.title} — {p.views} views
                   </li>
@@ -716,7 +716,7 @@ const AnalyticsPage = () => {
                   <li
                     key={a.slug}
                     style={{ cursor: "pointer" }}
-                    onClick={() => router.push(`/admin/articles/edit/${a._id}`)}
+                    onClick={() => router.push(`/admin/articles/edit/${a._id || a.id}`)}
                   >
                     {a.title} — {new Date(a.createdAt).toLocaleString()}{" "}
                     {a.published ? "(Published)" : "(Draft)"}
@@ -731,7 +731,7 @@ const AnalyticsPage = () => {
                   <li
                     key={p.slug}
                     style={{ cursor: "pointer" }}
-                    onClick={() => router.push(`/admin/projects/edit/${p._id}`)}
+                    onClick={() => router.push(`/admin/projects/edit/${p._id || p.id}`)}
                   >
                     {p.title} — {new Date(p.createdAt).toLocaleString()}{" "}
                     {p.published ? "(Published)" : "(Draft)"}

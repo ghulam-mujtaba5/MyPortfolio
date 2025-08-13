@@ -6,11 +6,43 @@ import StatusPill from '../StatusPill/StatusPill';
 import Tooltip from '../Tooltip/Tooltip';
 import styles from './ArticleCard.module.css';
 import Chip from '../Chip/Chip';
+import { FiTrash2, FiEdit, FiEye, FiCopy, FiCheckCircle, FiXCircle, FiHelpCircle } from "react-icons/fi";
+import toast from "react-hot-toast";
 
 const ArticleCard = ({ article, isSelected, onSelect, onDelete }) => {
   const cardVariants = {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0 },
+  };
+
+  const id = article?._id || article?.id;
+  const safeId = id;
+
+  const handleCheckExistence = async () => {
+    if (!safeId) {
+      toast.error("No ID available to check.");
+      return;
+    }
+    const toastId = toast.loading(`Checking ID: ${safeId}`);
+    try {
+      const response = await fetch('/api/admin/check-existence', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: safeId, type: 'article' }),
+      });
+      const data = await response.json();
+      if (response.ok) {
+        if (data.exists) {
+          toast.success(`ID exists in the database.`, { id: toastId });
+        } else {
+          toast.error(`ID does NOT exist in the database. This is why it 404s.`, { id: toastId });
+        }
+      } else {
+        throw new Error(data.message || 'Failed to check existence');
+      }
+    } catch (error) {
+      toast.error(`Error: ${error.message}`, { id: toastId });
+    }
   };
 
   return (
@@ -22,7 +54,7 @@ const ArticleCard = ({ article, isSelected, onSelect, onDelete }) => {
         <input
           type="checkbox"
           checked={isSelected}
-          onChange={(e) => onSelect(e, article._id)}
+          onChange={(e) => onSelect(e, id)}
           className={styles.checkbox}
         />
       </div>
@@ -50,7 +82,7 @@ const ArticleCard = ({ article, isSelected, onSelect, onDelete }) => {
             ))}
           </div>
           <h3 className={styles.title}>
-            <Link href={`/admin/articles/editor/${article._id}`}>
+            <Link href={`/admin/articles/edit/${id}`}>
               {article.title}
             </Link>
           </h3>
@@ -74,10 +106,16 @@ const ArticleCard = ({ article, isSelected, onSelect, onDelete }) => {
             )}
           </div>
         </div>
+                <div className={styles.debugInfo}>
+          <small>ID: {safeId || 'N/A'}</small>
+          <button onClick={handleCheckExistence} className={styles.debugButton} title="Check if this ID exists in the DB">
+            <FiHelpCircle /> Check ID
+          </button>
+        </div>
         <div className={styles.actions}>
           <Tooltip content="Edit">
             <Link
-              href={`/admin/articles/editor/${article._id}`}
+              href={`/admin/articles/edit/${id}`}
               className="button ghost icon-only"
             >
               <Icon name="edit" />
@@ -85,7 +123,7 @@ const ArticleCard = ({ article, isSelected, onSelect, onDelete }) => {
           </Tooltip>
           <Tooltip content="Delete">
             <button
-              onClick={() => onDelete(article._id)}
+              onClick={() => onDelete(id)}
               className="button danger-ghost icon-only"
             >
               <Icon name="trash" />

@@ -165,7 +165,7 @@ const ArticlesPage = () => {
       >
         <header className={styles.header}>
           <h1 className={styles.title}>Articles</h1>
-          <Link href="/admin/articles/editor/new" className="button primary">
+          <Link href="/admin/articles/new" className="button primary">
             <Icon name="plus" size={16} />
             <span>Create Article</span>
           </Link>
@@ -269,9 +269,9 @@ const ArticlesPage = () => {
             >
               {articles.map((article) => (
                 <ArticleCard
-                  key={article._id}
+                  key={article._id || article.id}
                   article={article}
-                  isSelected={selectedArticles.includes(article._id)}
+                  isSelected={selectedArticles.includes(article._id || article.id)}
                   onSelect={handleSelectSingle}
                   onDelete={handleDelete}
                 />
@@ -284,7 +284,7 @@ const ArticlesPage = () => {
               actions={[
                 {
                   label: "Create Article",
-                  onClick: () => router.push("/admin/articles/editor/new"),
+                  onClick: () => router.push("/admin/articles/new"),
                   icon: "plus",
                 },
                 {

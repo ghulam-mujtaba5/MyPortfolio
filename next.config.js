@@ -50,7 +50,9 @@ const nextConfig = {
       },
       // Fallback for preview deployments or any other domain for preview of vercel
       {
-        source: "/:path((?!api/).*)",
+        // IMPORTANT: exclude admin (and Next.js internals) from being rewritten to portfolio
+        // so that /admin/... pages (like edit pages) resolve correctly
+        source: "/:path((?!api/|admin/|_next/|static/).*)",
         destination: "/portfolio/:path*",
       },
     ];

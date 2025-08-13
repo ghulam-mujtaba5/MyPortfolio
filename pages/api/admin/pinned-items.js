@@ -1,5 +1,5 @@
 import { withAdminAuth } from "../../../lib/withAdminAuth";
-import dbConnect from "../../../lib/dbConnect";
+import dbConnect from "../../../lib/mongoose";
 import Article from "../../../models/Article";
 import Project from "../../../models/Project";
 

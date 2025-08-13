@@ -67,3 +67,9 @@ WrcWcCgjICZC5k7L
 
 monogo dbusername
 ghulammujtaba1005
+
+admin email
+ghulammujtaba1005@gmail.com
+
+admin password
+adminpassword123

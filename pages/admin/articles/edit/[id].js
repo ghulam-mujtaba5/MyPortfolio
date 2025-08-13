@@ -4,6 +4,7 @@ import AdminLayout from "../../../../components/Admin/AdminLayout/AdminLayout";
 import ArticleForm from "../../../../components/Admin/ArticleForm/ArticleForm";
 import dbConnect from "../../../../lib/mongoose";
 import Article from "../../../../models/Article";
+import mongoose from "mongoose";
 
 export default function EditArticlePage({ article, previewSecret }) {
   const router = useRouter();
@@ -47,11 +48,21 @@ export default function EditArticlePage({ article, previewSecret }) {
 export async function getServerSideProps({ params }) {
   await dbConnect();
 
-  const article = await Article.findById(params.id);
+  let article = null;
+  const idOrSlug = params.id;
+  if (mongoose.isValidObjectId(idOrSlug)) {
+    article = await Article.findById(idOrSlug);
+  }
+  if (!article) {
+    article = await Article.findOne({ slug: idOrSlug });
+  }
 
   if (!article) {
     return {
-      notFound: true,
+      redirect: {
+        destination: "/admin/articles?error=notfound",
+        permanent: false,
+      },
     };
   }
 

@@ -78,6 +78,7 @@ export default async function handler(req, res) {
 
     const articlesQuery = Article.find(filter)
       .select({
+        _id: 1,
         title: 1,
         slug: 1,
         createdAt: 1,

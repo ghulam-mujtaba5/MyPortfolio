@@ -5,6 +5,7 @@ import ProjectForm from "../../../../components/Admin/ProjectForm/ProjectForm";
 import Project1 from "../../../../components/Projects/Project1";
 import dbConnect from "../../../../lib/mongoose";
 import Project from "../../../../models/Project";
+import mongoose from "mongoose";
 
 import { useState, useEffect } from "react";
 
@@ -98,11 +99,21 @@ export default function EditProjectPage({ project, previewSecret }) {
 export async function getServerSideProps({ params }) {
   await dbConnect();
 
-  const project = await Project.findById(params.id);
+  let project = null;
+  const idOrSlug = params.id;
+  if (mongoose.isValidObjectId(idOrSlug)) {
+    project = await Project.findById(idOrSlug);
+  }
+  if (!project) {
+    project = await Project.findOne({ slug: idOrSlug });
+  }
 
   if (!project) {
     return {
-      notFound: true,
+      redirect: {
+        destination: "/admin/projects?error=notfound",
+        permanent: false,
+      },
     };
   }
 
