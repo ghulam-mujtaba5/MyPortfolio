@@ -11,6 +11,7 @@ import Script from "next/script";
 import { useRouter } from "next/router";
 import * as gtag from "../lib/gtag";
 import LoadingAnimation from "../components/LoadingAnimation/LoadingAnimation";
+import TopProgress from "../components/TopProgress/TopProgress";
 import "./global.css";
 import "../styles/tokens.css";
 
@@ -26,8 +27,16 @@ function MyApp({ Component, pageProps, session }) {
   const [cookiesAccepted, setCookiesAccepted] = useState(false);
   const [loading, setLoading] = useState(false); // raw router loading
   const [showLoader, setShowLoader] = useState(false); // debounced visual loader
+  const [manualOverlay, setManualOverlay] = useState(false); // manual toggle via custom event
+  const [topActive, setTopActive] = useState(false);
+  const [topDone, setTopDone] = useState(false);
+  const [loaderSettings, setLoaderSettings] = useState({
+    backdropBlur: undefined,
+    backdropOpacity: undefined,
+  });
   const loaderDelayRef = useRef(null);
   const loaderSafetyRef = useRef(null);
+  const topDoneTimerRef = useRef(null);
 
   useEffect(() => {
     setCookiesAccepted(hasAcceptedCookies());
@@ -39,13 +48,25 @@ function MyApp({ Component, pageProps, session }) {
 
   // Router loading listeners (always attach/cleanup)
   useEffect(() => {
-    const handleStart = () => setLoading(true);
+    const handleStart = () => {
+      setLoading(true);
+      setTopDone(false);
+      setTopActive(true);
+    };
     const handleComplete = () => {
       // ensure all timers are cleared and UI hides
       setLoading(false);
       clearTimeout(loaderDelayRef.current);
       clearTimeout(loaderSafetyRef.current);
       setShowLoader(false);
+      // progress bar finish animation
+      setTopDone(true);
+      clearTimeout(topDoneTimerRef.current);
+      topDoneTimerRef.current = setTimeout(() => {
+        setTopActive(false);
+        // reset done after a short delay so next start animates from 0
+        setTimeout(() => setTopDone(false), 180);
+      }, 250);
     };
 
     router.events.on("routeChangeStart", handleStart);
@@ -82,6 +103,47 @@ function MyApp({ Component, pageProps, session }) {
       clearTimeout(loaderSafetyRef.current);
     };
   }, [loading]);
+
+  // Listen to custom app:loader events to allow manual overlay preview (from test page)
+  useEffect(() => {
+    const onManual = (e) => {
+      const v = !!(e && e.detail && e.detail.visible);
+      setManualOverlay(v);
+    };
+    if (typeof window !== "undefined") {
+      window.addEventListener("app:loader", onManual);
+    }
+    return () => {
+      if (typeof window !== "undefined") {
+        window.removeEventListener("app:loader", onManual);
+      }
+    };
+  }, []);
+
+  // Load loader settings from localStorage (visual only)
+  useEffect(() => {
+    const readSettings = () => {
+      if (typeof window === "undefined") return;
+      try {
+        const blurRaw = localStorage.getItem("loader:blur");
+        const opRaw = localStorage.getItem("loader:opacity");
+        setLoaderSettings({
+          backdropBlur: blurRaw !== null ? Number(blurRaw) : undefined,
+          backdropOpacity: opRaw !== null ? Number(opRaw) : undefined,
+        });
+      } catch (e) {
+        // no-op
+      }
+    };
+    readSettings();
+    const onStorage = (e) => {
+      if (e && typeof e.key === "string" && e.key.startsWith("loader:")) {
+        readSettings();
+      }
+    };
+    window.addEventListener("storage", onStorage);
+    return () => window.removeEventListener("storage", onStorage);
+  }, []);
 
   // Google Analytics effect (production only)
   useEffect(() => {
@@ -155,7 +217,12 @@ function MyApp({ Component, pageProps, session }) {
           }}
         />
         <ThemeProvider>
-          <LoadingAnimation visible={showLoader} />
+          <TopProgress active={topActive} done={topDone} />
+          <LoadingAnimation
+            visible={showLoader || manualOverlay}
+            backdropBlur={loaderSettings.backdropBlur}
+            backdropOpacity={loaderSettings.backdropOpacity}
+          />
           <Component {...pageProps} key={router.asPath} />
           <ThemeToggle />
           <CookieConsentBanner />

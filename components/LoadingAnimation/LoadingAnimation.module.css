@@ -1,9 +1,10 @@
 .container {
-  --loader-bg: rgba(255, 255, 255, 0.8);
-  --orbit-color-1: #4573df; /* Brand Blue */
-  --orbit-color-2: #7aa0e8; /* Lighter Blue */
-  --orbit-color-3: #a8c0f0; /* Lightest Blue */
-  --core-color: #222222;
+  --loader-bg: rgba(255, 255, 255, 0.88);
+  /* Light mode palette: vibrant yet soft blues for visibility on white */
+  --orbit-color-1: #3c6eea; /* Brand Blue vib */
+  --orbit-color-2: #6fa2ff; /* Light Blue */
+  --orbit-color-3: #b7cdf8; /* Softest Blue (slightly darker for contrast) */
+  --core-color: #3c6eea; /* Blue core for light mode */
 
   position: fixed;
   top: 0;
@@ -53,16 +54,18 @@
   justify-content: center;
   align-items: center;
   background-color: transparent;
+  position: relative;
 }
 
 .orbit {
   position: absolute;
-  width: 150px;
-  height: 150px;
-  border: 2px solid;
+  width: 140px;
+  height: 140px;
+  border: 1.5px solid;
   border-radius: 50%;
   perspective: 1000px;
   will-change: transform;
+  opacity: 0.8;
 }
 
 .orbit1 {
@@ -72,36 +75,105 @@
 
 .orbit2 {
   border-color: var(--orbit-color-2);
-  animation: rotate3d-2 3s linear infinite;
+  animation: rotate3d-2 3.4s linear infinite;
+  animation-delay: -0.2s;
 }
 
 .orbit3 {
   border-color: var(--orbit-color-3);
-  animation: rotate3d-3 3s linear infinite;
+  animation: rotate3d-3 3.8s linear infinite;
+  animation-delay: -0.35s;
+}
+
+/* Additional orbits for richer motion */
+.orbit4 {
+  display: none;
+  position: absolute;
+  width: 180px;
+  height: 180px;
+  border: 2px solid;
+  border-radius: 50%;
+  border-color: var(--orbit-color-2);
+  animation: rotate3d-2 4s linear infinite;
+}
+
+.orbit5 {
+  display: none;
+  position: absolute;
+  width: 120px;
+  height: 120px;
+  border: 2px solid;
+  border-radius: 50%;
+  border-color: var(--orbit-color-1);
+  animation: rotate3d-1 2.2s linear infinite reverse;
 }
 
 .electron {
   position: absolute;
-  width: 12px;
-  height: 12px;
+  width: 8px;
+  height: 8px;
   background-color: currentColor;
   border-radius: 50%;
   top: 50%;
-  left: -6px;
+  left: -4px;
   transform: translateY(-50%);
-  box-shadow: 0 0 15px currentColor;
+  box-shadow: 0 0 8px currentColor;
 }
 
 .centralCore {
   width: 20px;
   height: 20px;
-  background-color: var(--core-color);
+  background: radial-gradient(circle at 35% 35%, var(--core-color), rgba(0,0,0,0));
   border-radius: 50%;
-  box-shadow: 0 0 20px var(--core-color);
+  box-shadow: 0 0 22px color-mix(in srgb, var(--core-color) 60%, transparent);
   transition:
     background-color 0.3s ease,
     box-shadow 0.3s ease;
   animation: pulse 2s infinite ease-in-out;
+}
+
+/* Light-mode specific orbit emphasis */
+.container:not([data-theme="dark"]) .orbit {
+  border-width: 2.25px;
+  opacity: 0.9;
+  filter: drop-shadow(0 0 8px color-mix(in srgb, var(--orbit-color-1) 15%, transparent));
+}
+
+/* Slightly stronger backdrop in light mode for separation */
+.container:not([data-theme="dark"]) {
+  background-color: var(--loader-bg);
+}
+
+/* Subtle radial vignette for light mode to increase focus */
+.container:not([data-theme="dark"])::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(60% 60% at 50% 45%, rgba(60, 110, 234, 0.08), rgba(255,255,255,0) 70%);
+}
+
+/* Slightly larger core in light mode for presence */
+.container:not([data-theme="dark"]) .centralCore {
+  width: 22px;
+  height: 22px;
+}
+
+.message {
+  position: absolute;
+  bottom: calc(50% - 140px);
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 8px 12px;
+  border-radius: 10px;
+  font-size: 14px;
+  line-height: 1.3;
+  color: var(--core-color);
+  background: rgba(0, 0, 0, 0.04);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  white-space: nowrap;
 }
 
 @keyframes rotate3d-1 {
@@ -131,6 +203,55 @@
   }
 }
 
+/* Starfield */
+.stars {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.star {
+  position: absolute;
+  background: currentColor;
+  color: var(--orbit-color-3);
+  border-radius: 50%;
+  opacity: 0.35;
+  animation: twinkle 3s ease-in-out infinite;
+  filter: drop-shadow(0 0 4px currentColor);
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0.25; transform: scale(1); }
+  50% { opacity: 0.85; transform: scale(1.2); }
+}
+
+/* Comet */
+.cometTrack {
+  display: none;
+  position: absolute;
+  width: 220px;
+  height: 220px;
+  animation: rotate3d-1 2.8s linear infinite;
+}
+
+.comet {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--orbit-color-1);
+  box-shadow: 0 0 18px currentColor;
+  transform: translate(-4px, -50%);
+  animation: cometGlow 1.4s ease-in-out infinite;
+}
+
+@keyframes cometGlow {
+  0%, 100% { opacity: 0.6; box-shadow: 0 0 6px currentColor; }
+  50% { opacity: 1; box-shadow: 0 0 22px currentColor; }
+}
+
 @keyframes pulse {
   0%,
   100% {
@@ -138,8 +259,8 @@
     box-shadow: 0 0 20px var(--core-color);
   }
   50% {
-    transform: scale(1.1);
-    box-shadow: 0 0 30px var(--core-color);
+    transform: scale(1.06);
+    box-shadow: 0 0 26px var(--core-color);
   }
 }
 @keyframes fadeIn {
@@ -157,6 +278,11 @@
   .orbit3 {
     animation: fadeIn 1.5s ease-in-out infinite alternate;
   }
+  .orbit4,
+  .orbit5,
+  .cometTrack {
+    animation: none;
+  }
   .orbit1 {
     animation-delay: 0s;
   }
@@ -168,6 +294,10 @@
   }
   .centralCore {
     animation: none;
+  }
+  .star {
+    animation: none;
+    opacity: 0.6;
   }
 }
 
