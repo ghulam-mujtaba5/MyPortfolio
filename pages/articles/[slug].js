@@ -293,12 +293,18 @@ export async function getServerSideProps(context) {
 
   // Track view only for published, non-preview pages
   if (!preview) {
-    const today = new Date().toISOString().split("T")[0];
-    await DailyStat.updateOne(
-      { date: today, type: "article", contentId: article._id },
-      { $inc: { views: 1 } },
-      { upsert: true },
-    );
+    const today = new Date();
+    today.setUTCHours(0, 0, 0, 0); // normalize to UTC date-only for unique-per-day
+    try {
+      await DailyStat.updateOne(
+        { date: today },
+        { $inc: { articleViews: 1 } },
+        { upsert: true },
+      );
+    } catch (e) {
+      // Do not block rendering if analytics write fails
+      console.error("DailyStat update failed", e?.message || e);
+    }
   }
 
   return {
