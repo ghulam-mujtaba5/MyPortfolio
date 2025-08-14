@@ -8,7 +8,7 @@ import darkStyles from "./login.dark.module.css";
 import { useTheme } from "../../context/ThemeContext";
 import { authOptions } from "../api/auth/[...nextauth]";
 import { getServerSession } from "next-auth/next";
-import utilities from "../../styles/utilities.module.css";
+// Removed utilities button classes in favor of module-scoped styles
 
 export default function LoginPage() {
   const { theme } = useTheme();
@@ -41,7 +41,9 @@ export default function LoginPage() {
     if (result.error) {
       setError(result.error);
     } else {
-      router.push("/admin"); // Redirect to admin dashboard
+      const callbackUrl = router.query?.callbackUrl;
+      const destination = callbackUrl ? decodeURIComponent(callbackUrl) : "/admin";
+      router.push(destination);
     }
   };
 
@@ -93,7 +95,7 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={loading}
-              className={`${utilities.btn} ${utilities.btnPrimary}`}
+              className={`${styles.loginButton} ${themeStyles.loginButton}`}
             >
               {loading ? "Signing In..." : "Sign In"}
             </button>
