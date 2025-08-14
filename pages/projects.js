@@ -1,7 +1,7 @@
 import Icon from "../components/Icon/gmicon";
 import SEO from "../components/SEO";
 
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { z } from "zod";
 import dbConnect from "../lib/mongoose";
 import Project from "../models/Project";
@@ -47,6 +47,27 @@ const ProjectsPage = ({ projects = [], projectsError = null }) => {
   const [error] = useState(null);
 
   const safeProjects = Array.isArray(projects) ? projects : [];
+  const jsonLd = useMemo(() => {
+    try {
+      const list = (safeProjects || []).map((project, idx) => ({
+        "@type": "CreativeWork",
+        position: idx + 1,
+        name: project?.title || "Untitled",
+        description: project?.description || "",
+        url: project?.links?.live || "",
+        image: project?.image || "",
+      }));
+      return JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        name: "Projects",
+        url: "https://ghulammujtaba.com/projects",
+        itemListElement: list,
+      });
+    } catch (e) {
+      return "{}";
+    }
+  }, [safeProjects]);
   const filteredProjects =
     selectedTag === "All"
       ? safeProjects
@@ -82,22 +103,7 @@ const ProjectsPage = ({ projects = [], projectsError = null }) => {
         {/* JSON-LD Structured Data for Projects */}
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "ItemList",
-              name: "Projects",
-              url: "https://ghulammujtaba.com/projects",
-              itemListElement: (safeProjects || []).map((project, idx) => ({
-                "@type": "CreativeWork",
-                position: idx + 1,
-                name: project.title,
-                description: project.description,
-                url: project?.links?.live || "",
-                image: project?.image || "",
-              })),
-            }),
-          }}
+          dangerouslySetInnerHTML={{ __html: jsonLd }}
         />
       </Head>
       <div
