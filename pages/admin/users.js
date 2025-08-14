@@ -11,6 +11,28 @@ import utilities from "../../styles/utilities.module.css";
 import { useTheme } from "../../context/ThemeContext";
 import Spinner from "../../components/Spinner/Spinner";
 
+// Delete Confirmation Modal (top-level so UsersPage can reference it)
+const DeleteConfirmModal = ({ user, onCancel, onConfirm }) => {
+  const { theme } = useTheme();
+  const themeStyles = theme === "dark" ? darkStyles : lightStyles;
+  const cancelRef = useRef(null);
+  return (
+    <Modal isOpen={true} onClose={onCancel} title="Delete User" initialFocusRef={cancelRef}>
+      <p>
+        Are you sure you want to delete <strong>{user?.name}</strong>? This action cannot be undone.
+      </p>
+      <div className={commonStyles.actionsRow}>
+        <button ref={cancelRef} type="button" onClick={onCancel} className={`${utilities.btn} ${utilities.btnSecondary}`}>
+          Cancel
+        </button>
+        <button type="button" onClick={onConfirm} className={`${utilities.btn} ${utilities.btnDanger}`}>
+          Delete
+        </button>
+      </div>
+    </Modal>
+  );
+};
+
 // Edit User Modal Component
 const EditUserModal = ({ user, onClose, onUserUpdate }) => {
   const { theme } = useTheme();
@@ -38,28 +60,6 @@ const EditUserModal = ({ user, onClose, onUserUpdate }) => {
       toast.error(error.message, { id: toastId });
     }
   };
-
-// Delete Confirmation Modal
-const DeleteConfirmModal = ({ user, onCancel, onConfirm }) => {
-  const { theme } = useTheme();
-  const themeStyles = theme === "dark" ? darkStyles : lightStyles;
-  const cancelRef = useRef(null);
-  return (
-    <Modal isOpen={true} onClose={onCancel} title="Delete User" initialFocusRef={cancelRef}>
-      <p>
-        Are you sure you want to delete <strong>{user?.name}</strong>? This action cannot be undone.
-      </p>
-      <div className={commonStyles.actionsRow}>
-        <button ref={cancelRef} type="button" onClick={onCancel} className={`${utilities.btn} ${utilities.btnSecondary}`}>
-          Cancel
-        </button>
-        <button type="button" onClick={onConfirm} className={`${utilities.btn} ${utilities.btnDanger}`}>
-          Delete
-        </button>
-      </div>
-    </Modal>
-  );
-};
 
   return (
     <Modal isOpen={true} onClose={onClose} title="Edit User" initialFocusRef={nameRef}>
