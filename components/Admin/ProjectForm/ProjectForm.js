@@ -13,7 +13,7 @@ import darkStyles from "./ProjectForm.dark.module.css";
 import utilities from "../../../styles/utilities.module.css";
 
 function ProjectForm({
-  project,
+  project = {},
   onSave,
   onPreview,
   onDataChange,

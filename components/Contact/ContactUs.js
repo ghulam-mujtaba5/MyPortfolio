@@ -11,7 +11,7 @@ import commonStyles from "./ContactUsCommon.module.css";
 import lightStyles from "./ContactUsLight.module.css";
 import darkStyles from "./ContactUsDark.module.css";
 import animationStyles from "./ContactUsAnimations.module.css";
-import { motion, useAnimation } from "framer-motion";
+import { motion } from "framer-motion";
 
 const ContactSection = ({
   email = "hello@ghulammujtaba.com",
@@ -41,8 +41,6 @@ const ContactSection = ({
 
   const formRef = useRef(null);
   const parallaxRef = useRef(null);
-  const controls = useAnimation();
-  const isMountedRef = useRef(false);
 
   const validateName = useCallback((name) => {
     return name.length >= 2;
@@ -165,33 +163,7 @@ const ContactSection = ({
     [theme],
   );
 
-  // Mark mounted state for safe animation control calls
-  useEffect(() => {
-    isMountedRef.current = true;
-    return () => {
-      isMountedRef.current = false;
-    };
-  }, []);
-
-  // Animate form visibility when it intersects viewport
-  useEffect(() => {
-    if (!formRef.current) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (!isMountedRef.current) return;
-        if (entry.isIntersecting) {
-          controls.start({ opacity: 1, y: 0 });
-        } else {
-          controls.start({ opacity: 0, y: 50 });
-        }
-      },
-      { threshold: 0.1 },
-    );
-
-    observer.observe(formRef.current);
-    return () => observer.disconnect();
-  }, [controls]);
+  // Use CSS parallax only; view-based animation handled by Framer Motion's whileInView
 
   useEffect(() => {
     const handleMouseMove = (e) => {
@@ -221,7 +193,8 @@ const ContactSection = ({
         onSubmit={handleSubmit}
         aria-label="Contact form"
         initial={{ opacity: 0, y: 50 }}
-        animate={controls}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: false, amount: 0.1 }}
         transition={{ duration: 0.5 }}
       >
         <label
