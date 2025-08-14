@@ -9,6 +9,7 @@ import lightStyles from "./users.light.module.css";
 import darkStyles from "./users.dark.module.css";
 import utilities from "../../styles/utilities.module.css";
 import { useTheme } from "../../context/ThemeContext";
+import Spinner from "../../components/Spinner/Spinner";
 
 // Edit User Modal Component
 const EditUserModal = ({ user, onClose, onUserUpdate }) => {
@@ -212,7 +213,14 @@ const UsersPage = () => {
       )}
       <div className={commonStyles.pageContainer}>
         <div className={commonStyles.mtLg}>
-          <h1 className={`${commonStyles.pageTitle} ${themeStyles.sectionTitle}`}>User Management</h1>
+          <h1 className={`${commonStyles.pageTitle} ${themeStyles.sectionTitle}`} style={{ display: "flex", alignItems: "center", gap: 8 }}>
+            User Management
+            {loading && (
+              <span style={{ display: "inline-flex", alignItems: "center" }}>
+                <Spinner size="sm" label="Loading users" />
+              </span>
+            )}
+          </h1>
 
           <div className={`${commonStyles.sectionCard} ${themeStyles.sectionCard} ${commonStyles.mtLg}`}>
             <h2 className={`${commonStyles.sectionTitle} ${themeStyles.sectionTitle}`}>Create New User</h2>
@@ -270,7 +278,11 @@ const UsersPage = () => {
 
           <div className={`${commonStyles.sectionCard} ${themeStyles.sectionCard} ${commonStyles.mtLg}`}>
             <h2 className={`${commonStyles.sectionTitle} ${themeStyles.sectionTitle}`}>All Users</h2>
-            {loading && <p>Loading users...</p>}
+            {loading && (
+              <div style={{ padding: 12, display: "flex", alignItems: "center", gap: 8 }}>
+                <Spinner size="md" label="Loading users" />
+              </div>
+            )}
             {error && <p className={`${commonStyles.errorText} ${themeStyles.errorText}`}>Error: {error}</p>}
             {!loading && !error && (
               <div className={`${commonStyles.tableWrapper} ${themeStyles.tableWrapper}`}>

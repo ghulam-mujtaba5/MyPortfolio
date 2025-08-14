@@ -8,6 +8,7 @@ import lightStyles from "./analytics.light.module.css";
 import darkStyles from "./analytics.dark.module.css";
 import { useTheme } from "../../../context/ThemeContext";
 import utilities from "../../../styles/utilities.module.css";
+import Spinner from "../../../components/Spinner/Spinner";
 import {
   Sparklines,
   SparklinesLine,
@@ -141,7 +142,9 @@ const AnalyticsPage = () => {
   if (loading)
     return (
       <AdminLayout>
-        <p>Loading analytics...</p>
+        <div style={{ padding: 24, display: "flex", alignItems: "center", gap: 12 }}>
+          <Spinner size="lg" label="Loading analytics" />
+        </div>
       </AdminLayout>
     );
   if (error)

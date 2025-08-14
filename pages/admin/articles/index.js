@@ -15,6 +15,8 @@ import StatusPill from "../../../components/Admin/StatusPill/StatusPill";
 import SearchInput from "../../../components/Admin/Form/SearchInput";
 import Select from "../../../components/Admin/Form/Select";
 import EmptyState from "../../../components/Admin/EmptyState/EmptyState";
+import Spinner from "../../../components/Spinner/Spinner";
+import LoadingAnimation from "../../../components/LoadingAnimation/LoadingAnimation";
 import ArticleCard from "../../../components/Admin/ArticleCard/ArticleCard";
 import SavedSearches from "../../../components/Admin/SavedSearches/SavedSearches";
 
@@ -43,6 +45,7 @@ const ArticlesPage = () => {
   const onConfirmRef = useRef(null);
   const selectAllRef = useRef(null);
   const router = useRouter();
+  const [applyingBulk, setApplyingBulk] = useState(false);
 
   const {
     page = 1,
@@ -124,28 +127,33 @@ const ArticlesPage = () => {
   };
 
   const deleteArticles = async (ids) => {
-    toast.promise(
-      fetch("/api/admin/articles/bulk-delete", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ articleIds: ids }),
-      }).then(async (res) => {
-        if (!res.ok) {
-          const errorData = await res.json();
-          throw new Error(errorData.message || "Failed to delete articles");
-        }
-        return res.json();
-      }),
-      {
-        loading: "Deleting articles...",
-        success: () => {
-          fetchArticles();
-          setSelectedArticles([]);
-          return "Articles deleted successfully!";
+    setApplyingBulk(true);
+    try {
+      await toast.promise(
+        fetch("/api/admin/articles/bulk-delete", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ articleIds: ids }),
+        }).then(async (res) => {
+          if (!res.ok) {
+            const errorData = await res.json();
+            throw new Error(errorData.message || "Failed to delete articles");
+          }
+          return res.json();
+        }),
+        {
+          loading: "Deleting articles...",
+          success: () => {
+            fetchArticles();
+            setSelectedArticles([]);
+            return "Articles deleted successfully!";
+          },
+          error: (err) => err.message,
         },
-        error: (err) => err.message,
-      },
-    );
+      );
+    } finally {
+      setApplyingBulk(false);
+    }
   };
 
   const pageVariants = {
@@ -166,7 +174,14 @@ const ArticlesPage = () => {
         animate="animate"
       >
         <header className={styles.header}>
-          <h1 className={styles.title}>Articles</h1>
+          <h1 className={styles.title} style={{ display: "flex", alignItems: "center", gap: 8 }}>
+            Articles
+            {loading && (
+              <span style={{ display: "inline-flex", alignItems: "center" }}>
+                <Spinner size="sm" label="Loading articles" />
+              </span>
+            )}
+          </h1>
           <Link href="/admin/articles/new" className={`${utilities.btn} ${utilities.btnPrimary}`}>
             <Icon name="plus" size={16} />
             <span>Create Article</span>
@@ -338,6 +353,9 @@ const ArticlesPage = () => {
           {ariaMsg}
         </div>
       </motion.div>
+      {applyingBulk && (
+        <LoadingAnimation visible={true} size="sm" showStars={false} backdropOpacity={0.3} />
+      )}
     </AdminLayout>
   );
 };

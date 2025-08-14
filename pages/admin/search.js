@@ -11,6 +11,7 @@ import commonStyles from "./articles/articles.common.module.css";
 import lightStyles from "./articles/articles.light.module.css";
 import darkStyles from "./articles/articles.dark.module.css";
 import utilities from "../../styles/utilities.module.css";
+import Spinner from "../../components/Spinner/Spinner";
 
 export default function AdminSearchPage() {
   const { theme } = useTheme();
@@ -157,7 +158,14 @@ export default function AdminSearchPage() {
         {ariaMsg}
       </div>
       <div className={commonStyles.header}>
-        <h1>Global Search</h1>
+        <h1 style={{ display: "flex", alignItems: "center", gap: 8 }}>
+          Global Search
+          {loading && (
+            <span style={{ display: "inline-flex", alignItems: "center" }}>
+              <Spinner size="sm" label="Searching" />
+            </span>
+          )}
+        </h1>
       </div>
       <form onSubmit={onSubmit} className={commonStyles.searchForm}>
         <input
@@ -205,9 +213,9 @@ export default function AdminSearchPage() {
       </form>
 
       {loading && (
-        <p className={`${commonStyles.mtSm} ${frameStyles.statusText}`} aria-live="polite">
-          Searching…
-        </p>
+        <div className={`${commonStyles.mtSm} ${frameStyles.statusText}`} aria-live="polite" style={{ display: "flex", alignItems: "center", gap: 8 }}>
+          <Spinner size="md" label="Searching" />
+        </div>
       )}
       {error && (
         <p className={`${commonStyles.mtSm} ${frameStyles.statusError}`}>{error}</p>
