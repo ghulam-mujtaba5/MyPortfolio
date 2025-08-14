@@ -2,6 +2,7 @@ import Icon from "../components/Icon/gmicon";
 import SEO from "../components/SEO";
 
 import React, { useState } from "react";
+import { z } from "zod";
 import dbConnect from "../lib/mongoose";
 import Project from "../models/Project";
 import dynamic from "next/dynamic";
@@ -38,7 +39,7 @@ const sections = [
 import Link from "next/link";
 import LoadingAnimation from "../components/LoadingAnimation/LoadingAnimation";
 
-const ProjectsPage = ({ projects = [] }) => {
+const ProjectsPage = ({ projects = [], projectsError = null }) => {
   const { theme } = useTheme();
   const [selectedTag, setSelectedTag] = useState("All");
   // Since this page uses SSR via getServerSideProps, default to not loading and no error.
@@ -198,11 +199,24 @@ const ProjectsPage = ({ projects = [] }) => {
             ))}
           </div>
           <div className="project-grid">
-            {filteredProjects.map((project) => (
-              <div key={project._id} className="project-grid-card">
-                <Project1 project={project} />
+            {filteredProjects.length === 0 ? (
+              <div
+                className="empty-projects"
+                style={{ color: theme === "dark" ? "#cccccc" : "#4b5563" }}
+              >
+                {projectsError
+                  ? "Projects could not be loaded. Please try again later."
+                  : selectedTag === "All"
+                  ? "No projects available at the moment."
+                  : `No projects found for tag: ${selectedTag}.`}
               </div>
-            ))}
+            ) : (
+              filteredProjects.map((project) => (
+                <div key={project._id} className="project-grid-card">
+                  <Project1 project={project} />
+                </div>
+              ))
+            )}
           </div>
           <Footer />
         </div>
@@ -548,6 +562,11 @@ const ProjectsPage = ({ projects = [] }) => {
           width: 100%;
           max-width: 420px;
         }
+        .empty-projects {
+          grid-column: 1 / -1;
+          text-align: center;
+          padding: 2rem 1rem;
+        }
         @media (max-width: 600px) {
           .project-grid-card {
             max-width: 98vw;
@@ -571,13 +590,47 @@ const ProjectsPage = ({ projects = [] }) => {
 export async function getServerSideProps() {
   await dbConnect();
 
-  const projects = await Project.find({ published: true })
+  const raw = await Project.find({ published: true })
     .sort({ createdAt: -1 })
     .lean();
 
+  const LinkSchema = z
+    .object({ live: z.string().url().optional().or(z.literal("")) })
+    .partial();
+  const ProjectSchema = z.object({
+    _id: z.any(),
+    title: z.string().min(1).optional(),
+    description: z.string().optional(),
+    image: z.string().optional(),
+    tags: z.array(z.string()).optional(),
+    links: LinkSchema.optional(),
+  });
+  const ProjectsSchema = z.array(ProjectSchema);
+
+  const parsed = ProjectsSchema.safeParse(raw);
+  if (!parsed.success) {
+    return {
+      props: {
+        projects: [],
+        projectsError: "invalid_data",
+      },
+    };
+  }
+
+  // Normalize minimal shape used by UI to avoid undefined access downstream
+  const normalized = parsed.data.map((p) => ({
+    _id: p._id?.toString?.() || String(p._id),
+    title: p.title || "Untitled",
+    description: p.description || "",
+    image: p.image || "",
+    tags: Array.isArray(p.tags) ? p.tags : [],
+    links: { live: p.links?.live || "" },
+  }));
+
   return {
     props: {
-      projects: JSON.parse(JSON.stringify(projects)),
+      projects: JSON.parse(JSON.stringify(normalized)),
+      projectsError: null,
     },
   };
 }
