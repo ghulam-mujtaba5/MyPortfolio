@@ -96,7 +96,7 @@ const NavBar = () => {
             <img
               className={styles.logoIcon}
               alt="Logo"
-              src={hover ? "sb.svg" : "gmVectorDark.svg"}
+              src={hover ? "/sb.svg" : "/gmVectorDark.svg"}
               style={{
                 width: hover ? "30px" : "40px",
                 height: hover ? "30px" : "40px",
