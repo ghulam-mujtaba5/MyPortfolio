@@ -39,6 +39,7 @@ function ProjectForm({
       description: project.description || "",
       tags: (project.tags || []).join(", "),
       status: project.status || "In Progress",
+      category: project.category || "Others",
       // Normalize legacy placeholders like '#' to empty string to avoid URL validation errors
       "links.live": project.links?.live === "#" ? "" : (project.links?.live || ""),
       "links.github": project.links?.github === "#" ? "" : (project.links?.github || ""),
@@ -118,6 +119,7 @@ function ProjectForm({
       description: project.description || "",
       tags: (project.tags || []).join(", "),
       status: project.status || "In Progress",
+      category: project.category || "Others",
       "links.live": project.links?.live === "#" ? "" : (project.links?.live || ""),
       "links.github": project.links?.github === "#" ? "" : (project.links?.github || ""),
       image: project.image === "#" ? "" : (project.image || ""),
@@ -358,6 +360,31 @@ function ProjectForm({
         </select>
         {errors.status && (
           <p className={commonStyles.error}>{errors.status.message}</p>
+        )}
+      </div>
+
+      <div className={commonStyles.formGroup}>
+        <label
+          htmlFor="category"
+          className={`${commonStyles.label} ${themeStyles.label}`}
+        >
+          Category
+        </label>
+        <select
+          id="category"
+          {...register("category")}
+          className={`${commonStyles.input} ${themeStyles.input}`}
+        >
+          <option value="All">All</option>
+          <option value="Software Development">Software Development</option>
+          <option value="Web Development">Web Development</option>
+          <option value="AI">AI</option>
+          <option value="Data Science">Data Science</option>
+          <option value="UI/UX">UI/UX</option>
+          <option value="Others">Others</option>
+        </select>
+        {errors.category && (
+          <p className={commonStyles.error}>{errors.category.message}</p>
         )}
       </div>
 

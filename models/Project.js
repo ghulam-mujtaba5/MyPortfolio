@@ -42,6 +42,19 @@ const ProjectSchema = new mongoose.Schema(
       live: String,
       github: String,
     },
+    category: {
+      type: String,
+      enum: [
+        "All",
+        "Software Development",
+        "Web Development",
+        "AI",
+        "Data Science",
+        "UI/UX",
+        "Others",
+      ],
+      default: "Others",
+    },
     published: {
       type: Boolean,
       default: true,
