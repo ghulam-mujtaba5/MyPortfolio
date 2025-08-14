@@ -37,7 +37,7 @@ const sections = [
 ];
 
 import Link from "next/link";
-import LoadingAnimation from "../components/LoadingAnimation/LoadingAnimation";
+import Spinner from "../components/Spinner/Spinner";
 
 const ProjectsPage = ({ projects = [], projectsError = null }) => {
   const { theme } = useTheme();
@@ -240,7 +240,7 @@ const ProjectsPage = ({ projects = [], projectsError = null }) => {
           <div className="project-grid">
             {clientLoading ? (
               <div className="loading-wrap">
-                <LoadingAnimation />
+                <Spinner size="lg" label="Loading projects" />
                 <span className="sr-only">Loading projects…</span>
               </div>
             ) : filteredProjects.length === 0 ? (

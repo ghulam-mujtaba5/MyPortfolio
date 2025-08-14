@@ -18,6 +18,7 @@ import projCommon from "./projects.common.module.css";
 import projLight from "./projects.light.module.css";
 import projDark from "./projects.dark.module.css";
 import utilities from "../../../styles/utilities.module.css";
+import Spinner from "../../../components/Spinner/Spinner";
 
 const ProjectsPage = () => {
   const { theme } = useTheme();
@@ -160,7 +161,14 @@ const ProjectsPage = () => {
   return (
     <AdminLayout title="Manage Projects">
       <div className={styles.header}>
-        <h1>Projects</h1>
+        <h1 style={{ display: "flex", alignItems: "center", gap: 8 }}>
+          Projects
+          {loading && (
+            <span style={{ display: "inline-flex", alignItems: "center" }}>
+              <Spinner size="sm" label="Loading projects" />
+            </span>
+          )}
+        </h1>
         <Link href="/admin/projects/new" className={`${utilities.btn} ${utilities.btnPrimary}`}>
           New Project
         </Link>

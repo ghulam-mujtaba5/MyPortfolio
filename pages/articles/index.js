@@ -11,6 +11,7 @@ import listCss from "../../components/Articles/ArticlesListPage.module.css";
 import { useTheme } from "../../context/ThemeContext";
 import lightCss from "../../components/Articles/ArticlesListPage.light.module.css";
 import darkCss from "../../components/Articles/ArticlesListPage.dark.module.css";
+import Spinner from "../../components/Spinner/Spinner";
 
 export default function ArticlesPage() {
   const { theme } = useTheme();
@@ -113,6 +114,12 @@ export default function ArticlesPage() {
             >
               Articles
             </h1>
+            {loading && (
+              <div style={{ display: "flex", alignItems: "center", gap: 8, marginTop: 6 }}>
+                <Spinner size="sm" label="Loading articles" />
+                <span className="sr-only">Loading articles…</span>
+              </div>
+            )}
             <p
               className={`${listCss.heroSubtitle} ${
                 theme === "dark" ? darkCss.heroSubtitle : lightCss.heroSubtitle

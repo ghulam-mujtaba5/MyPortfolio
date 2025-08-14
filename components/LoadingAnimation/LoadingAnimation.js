@@ -75,15 +75,6 @@ const LoadingAnimation = ({
         <div className={`${styles.orbit} ${styles.orbit2}`}>
           <div className={styles.electron}></div>
         </div>
-        <div className={`${styles.orbit} ${styles.orbit3}`}>
-          <div className={styles.electron}></div>
-        </div>
-        <div className={`${styles.orbit} ${styles.orbit4}`}>
-          <div className={styles.electron}></div>
-        </div>
-        <div className={`${styles.orbit} ${styles.orbit5}`}>
-          <div className={styles.electron}></div>
-        </div>
         <div className={styles.cometTrack}>
           <div className={styles.comet}></div>
         </div>
