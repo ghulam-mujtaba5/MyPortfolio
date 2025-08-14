@@ -29,7 +29,7 @@ const nextConfig = {
   async rewrites() {
     return [
       {
-        source: "/:path((?!api/).*)", // Catch all paths except API routes
+        source: "/:path((?!api/|admin/|_next/|static/).*)", // Catch all paths except API, admin and Next internals
         destination: "/portfolio/:path*", // Redirect to the portfolio folder for localhost
         has: [
           {
@@ -39,7 +39,7 @@ const nextConfig = {
         ],
       },
       {
-        source: "/:path((?!api/).*)", // SoftBuilt subdomain routes
+        source: "/:path((?!api/|admin/|_next/|static/).*)", // SoftBuilt subdomain routes (exclude admin and internals)
         destination: "/softbuilt/:path*", // Map to the softbuilt folder
         has: [
           {
