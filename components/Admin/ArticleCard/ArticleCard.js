@@ -138,7 +138,7 @@ const ArticleCard = ({ article, isSelected, onSelect, onDelete }) => {
           </Tooltip>
           <Tooltip content="View Live">
             <a
-              href={`/blog/${article.slug}`}
+              href={`/articles/${article.slug}`}
               target="_blank"
               rel="noopener noreferrer"
               className={`${utilities.btnIcon}`}
