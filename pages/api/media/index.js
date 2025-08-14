@@ -1,4 +1,5 @@
-import { getSession } from "next-auth/react";
+import { getServerSession } from "next-auth/next";
+import { authOptions } from "../auth/[...nextauth]";
 import dbConnect from "../../../lib/mongoose";
 import MediaAsset from "../../../models/MediaAsset";
 import formidable from "formidable";
@@ -13,9 +14,12 @@ export const config = {
 };
 
 export default async function handler(req, res) {
-  const session = await getSession({ req });
-  if (!session || !["admin", "editor"].includes(session.user.role)) {
+  const session = await getServerSession(req, res, authOptions);
+  if (!session) {
     return res.status(401).json({ message: "Unauthorized" });
+  }
+  if (!["admin", "editor"].includes(session.user?.role)) {
+    return res.status(403).json({ message: "Forbidden" });
   }
 
   try {
