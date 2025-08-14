@@ -10,12 +10,15 @@ import dbConnect from "../../lib/mongoose";
 import Article from "../../models/Article";
 import DailyStat from "../../models/DailyStat";
 import PreviewBanner from "../../components/Admin/PreviewBanner/PreviewBanner";
-import detailCss from "../../components/Articles/ArticleDetailPage.module.css";
+import baseStyles from "../../components/Articles/ArticleDetailPage.module.css";
+import lightStyles from "../../components/Articles/ArticleDetailPage.light.module.css";
+import darkStyles from "../../components/Articles/ArticleDetailPage.dark.module.css";
 
 export default function ArticleDetailPage({ article, preview }) {
   const { theme } = useTheme();
   const [progress, setProgress] = useState(0);
   const articleRef = useRef(null);
+  const t = theme === "dark" ? darkStyles : lightStyles;
 
   const sections = [
     { label: "Home", route: "/#home-section" },
@@ -94,9 +97,9 @@ export default function ArticleDetailPage({ article, preview }) {
   return (
     <>
       {/* Reading progress */}
-      <div className={detailCss.progressWrap}>
+      <div className={baseStyles.progressWrap}>
         <div
-          className={detailCss.progressBar}
+          className={`${baseStyles.progressBar} ${t.progressBar || ""}`}
           style={{ width: `${progress}%` }}
         />
       </div>
@@ -159,12 +162,12 @@ export default function ArticleDetailPage({ article, preview }) {
           <NavBarMobile sections={sections} />
         </header>
 
-        <main className={detailCss.page}>
+        <main className={baseStyles.page}>
           {preview && <PreviewBanner />}
           {/* Hero cover */}
-          <section className={detailCss.hero}>
+          <section className={baseStyles.hero}>
             {article.coverImage && (
-              <div className={detailCss.coverWrap}>
+              <div className={baseStyles.coverWrap}>
                 <Image
                   src={article.coverImage}
                   alt={article.title}
@@ -175,8 +178,8 @@ export default function ArticleDetailPage({ article, preview }) {
                 />
               </div>
             )}
-            <h1 className={detailCss.title}>{article.title}</h1>
-            <div className={detailCss.meta}>
+            <h1 className={`${baseStyles.title} ${t.title || ""}`}>{article.title}</h1>
+            <div className={`${baseStyles.meta} ${t.meta || ""}`}>
               {article.updatedAt && (
                 <time dateTime={new Date(article.updatedAt).toISOString()}>
                   Updated: {new Date(article.updatedAt).toLocaleDateString()}
@@ -187,39 +190,39 @@ export default function ArticleDetailPage({ article, preview }) {
               )}
             </div>
             {Array.isArray(article.tags) && article.tags.length > 0 && (
-              <div className={detailCss.tags}>
-                {article.tags.map((t) => (
-                  <span key={t} className={detailCss.tag}>
-                    #{t}
+              <div className={baseStyles.tags}>
+                {article.tags.map((tTag) => (
+                  <span key={tTag} className={`${baseStyles.tag} ${t.tag || ""}`}>
+                    #{tTag}
                   </span>
                 ))}
               </div>
             )}
             {Array.isArray(article.highlights) &&
               article.highlights.length > 0 && (
-                <div className={detailCss.highlights} aria-label="Highlights">
+                <div className={baseStyles.highlights} aria-label="Highlights">
                   {article.highlights.map((q, i) => (
-                    <figure key={i} className={detailCss.highlightCard}>
+                    <figure key={i} className={`${baseStyles.highlightCard} ${t.highlightCard || ""}`}>
                       <blockquote>“{q}”</blockquote>
                     </figure>
                   ))}
                 </div>
               )}
-            <div className={detailCss.shareBar}>
+            <div className={baseStyles.shareBar}>
               <button
-                className={detailCss.shareBtn}
+                className={`${baseStyles.shareBtn} ${t.shareBtn || ""}`}
                 onClick={() => handleShare(article)}
               >
                 Share
               </button>
               <button
-                className={detailCss.shareBtn}
+                className={`${baseStyles.shareBtn} ${t.shareBtn || ""}`}
                 onClick={() => handleCopy(window.location.href)}
               >
                 Copy link
               </button>
               <a
-                className={detailCss.shareBtn}
+                className={`${baseStyles.shareBtn} ${t.shareBtn || ""}`}
                 href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(`https://ghulammujtaba.com/articles/${article.slug}`)}&text=${encodeURIComponent(article.title)}`}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -227,7 +230,7 @@ export default function ArticleDetailPage({ article, preview }) {
                 Twitter/X
               </a>
               <a
-                className={detailCss.shareBtn}
+                className={`${baseStyles.shareBtn} ${t.shareBtn || ""}`}
                 href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(`https://ghulammujtaba.com/articles/${article.slug}`)}`}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -237,7 +240,7 @@ export default function ArticleDetailPage({ article, preview }) {
             </div>
           </section>
 
-          <article ref={articleRef} className={detailCss.article}>
+          <article ref={articleRef} className={`${baseStyles.article} ${t.article || ""}`}>
             <div dangerouslySetInnerHTML={{ __html: article.content }} />
           </article>
         </main>

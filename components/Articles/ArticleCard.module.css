@@ -14,10 +14,27 @@
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.07);
 }
 
+/* Respect prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  .card,
+  .readMore,
+  .arrow {
+    transition: none !important;
+  }
+  .card:hover {
+    transform: none;
+  }
+}
+
 .imageWrap {
   display: block;
   position: relative;
   height: 220px;
+}
+.imageWrap:focus-visible {
+  outline: 2px solid rgba(69, 115, 223, 0.55);
+  outline-offset: 3px;
+  border-radius: 12px;
 }
 .imageInner {
   position: relative;
@@ -105,6 +122,10 @@
   padding: 6px 10px;
   border-radius: 8px;
   border: 1px solid transparent;
+}
+.readMore:focus-visible {
+  outline: 2px solid rgba(69, 115, 223, 0.55);
+  outline-offset: 2px;
 }
 
 .arrow {
