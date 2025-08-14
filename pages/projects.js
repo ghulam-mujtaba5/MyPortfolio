@@ -1,7 +1,7 @@
 import Icon from "../components/Icon/gmicon";
 import SEO from "../components/SEO";
 
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { z } from "zod";
 import dbConnect from "../lib/mongoose";
 import Project from "../models/Project";
@@ -47,9 +47,42 @@ const ProjectsPage = ({ projects = [], projectsError = null }) => {
   const [error] = useState(null);
 
   const safeProjects = Array.isArray(projects) ? projects : [];
+
+  // Client-side fallback fetch when SSR failed or returned empty
+  const [clientProjects, setClientProjects] = useState([]);
+  const [clientLoading, setClientLoading] = useState(false);
+  const [clientError, setClientError] = useState(null);
+
+  useEffect(() => {
+    if ((projectsError || safeProjects.length === 0) && typeof window !== "undefined") {
+      const ac = new AbortController();
+      setClientLoading(true);
+      fetch(`/api/projects?published=true&limit=50`, { signal: ac.signal })
+        .then(async (r) => {
+          if (!r.ok) throw new Error(`HTTP ${r.status}`);
+          const json = await r.json();
+          const list = Array.isArray(json?.data) ? json.data : [];
+          setClientProjects(
+            list.map((p) => ({
+              _id: p?._id?.toString?.() || String(p?._id || ""),
+              title: typeof p?.title === "string" && p.title.trim() ? p.title : "Untitled",
+              description: typeof p?.description === "string" ? p.description : "",
+              image: typeof p?.image === "string" ? p.image : "",
+              tags: Array.isArray(p?.tags) ? p.tags : [],
+              links: { live: typeof p?.links?.live === "string" ? p.links.live : "" },
+            }))
+          );
+        })
+        .catch((e) => setClientError(e?.message || "fetch_failed"))
+        .finally(() => setClientLoading(false));
+      return () => ac.abort();
+    }
+  }, [projectsError, safeProjects.length]);
+
+  const effectiveProjects = clientProjects.length > 0 ? clientProjects : safeProjects;
   const jsonLd = useMemo(() => {
     try {
-      const list = (safeProjects || []).map((project, idx) => ({
+      const list = (effectiveProjects || []).map((project, idx) => ({
         "@type": "CreativeWork",
         position: idx + 1,
         name: project?.title || "Untitled",
@@ -67,11 +100,11 @@ const ProjectsPage = ({ projects = [], projectsError = null }) => {
     } catch (e) {
       return "{}";
     }
-  }, [safeProjects]);
+  }, [effectiveProjects]);
   const filteredProjects =
     selectedTag === "All"
-      ? safeProjects
-      : safeProjects.filter((p) => Array.isArray(p.tags) && p.tags.includes(selectedTag));
+      ? effectiveProjects
+      : effectiveProjects.filter((p) => Array.isArray(p.tags) && p.tags.includes(selectedTag));
 
   return (
     <>
@@ -210,7 +243,7 @@ const ProjectsPage = ({ projects = [], projectsError = null }) => {
                 className="empty-projects"
                 style={{ color: theme === "dark" ? "#cccccc" : "#4b5563" }}
               >
-                {projectsError
+                {projectsError || clientError
                   ? "Projects could not be loaded. Please try again later."
                   : selectedTag === "All"
                   ? "No projects available at the moment."
