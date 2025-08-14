@@ -88,6 +88,15 @@ if (!ArticleSchema._indexed) {
         name: "ArticleTextIndex",
       },
     );
+    // Common query indexes to improve admin/public listing performance
+    ArticleSchema.index(
+      { status: 1, createdAt: -1 },
+      { name: "ArticleStatusCreated_idx" },
+    );
+    ArticleSchema.index({ published: 1, createdAt: -1 }, { name: "ArticlePublishedCreated_idx" });
+    ArticleSchema.index({ publishAt: -1 }, { name: "ArticlePublishAt_idx" });
+    ArticleSchema.index({ tags: 1 }, { name: "ArticleTags_idx" });
+    ArticleSchema.index({ categories: 1 }, { name: "ArticleCategories_idx" });
     ArticleSchema._indexed = true;
   } catch (e) {
     // noop: index may already exist in dev hot-reload

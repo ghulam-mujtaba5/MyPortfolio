@@ -74,5 +74,15 @@ const ProjectSchema = new mongoose.Schema(
   { timestamps: true },
 );
 
+// Indexes for faster listings and filters
+try {
+  ProjectSchema.index({ published: 1, createdAt: -1 }, { name: "ProjectPublishedCreated_idx" });
+  ProjectSchema.index({ status: 1, createdAt: -1 }, { name: "ProjectStatusCreated_idx" });
+  ProjectSchema.index({ pinned: 1, createdAt: -1 }, { name: "ProjectPinnedCreated_idx" });
+  ProjectSchema.index({ tags: 1 }, { name: "ProjectTags_idx" });
+} catch (e) {
+  // noop for dev hot-reload
+}
+
 export default mongoose.models.Project ||
   mongoose.model("Project", ProjectSchema);
