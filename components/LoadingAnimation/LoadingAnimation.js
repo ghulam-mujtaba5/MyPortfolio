@@ -2,7 +2,13 @@ import React, { useEffect, useMemo, useState } from "react";
 import { useTheme } from "../../context/ThemeContext";
 import styles from "./LoadingAnimation.module.css";
 
-const LoadingAnimation = ({ visible = true, backdropBlur, backdropOpacity }) => {
+const LoadingAnimation = ({
+  visible = true,
+  backdropBlur,
+  backdropOpacity,
+  showStars = true,
+  size = "md", // 'sm' | 'md' | 'lg'
+}) => {
   const { theme } = useTheme();
   const [stars, setStars] = useState([]);
 
@@ -14,6 +20,7 @@ const LoadingAnimation = ({ visible = true, backdropBlur, backdropOpacity }) => 
 
   // generate a light starfield after mount to avoid SSR mismatch
   useEffect(() => {
+    if (!showStars) return;
     const count = 8;
     const s = Array.from({ length: count }).map((_, i) => {
       const size = Math.random() * 2 + 1; // 1-3px
@@ -24,7 +31,9 @@ const LoadingAnimation = ({ visible = true, backdropBlur, backdropOpacity }) => 
       return { id: i, size, x, y, delay, dur };
     });
     setStars(s);
-  }, []);
+  }, [showStars]);
+
+  const scale = size === "sm" ? 0.8 : size === "lg" ? 1.2 : 1;
 
   return (
     <div
@@ -41,23 +50,25 @@ const LoadingAnimation = ({ visible = true, backdropBlur, backdropOpacity }) => 
       }}
     >
       {/* ambient starfield */}
-      <div className={styles.stars} aria-hidden>
-        {stars.map((s) => (
-          <span
-            key={s.id}
-            className={styles.star}
-            style={{
-              width: s.size,
-              height: s.size,
-              left: `${s.x}%`,
-              top: `${s.y}%`,
-              animationDelay: `${s.delay}s`,
-              animationDuration: `${s.dur}s`,
-            }}
-          />
-        ))}
-      </div>
-      <div className={styles.spinnerBox}>
+      {showStars && (
+        <div className={styles.stars} aria-hidden>
+          {stars.map((s) => (
+            <span
+              key={s.id}
+              className={styles.star}
+              style={{
+                width: s.size,
+                height: s.size,
+                left: `${s.x}%`,
+                top: `${s.y}%`,
+                animationDelay: `${s.delay}s`,
+                animationDuration: `${s.dur}s`,
+              }}
+            />
+          ))}
+        </div>
+      )}
+      <div className={styles.spinnerBox} style={{ transform: `scale(${scale})` }}>
         <div className={`${styles.orbit} ${styles.orbit1}`}>
           <div className={styles.electron}></div>
         </div>
