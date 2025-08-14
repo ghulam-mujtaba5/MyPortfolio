@@ -238,7 +238,11 @@ const ProjectsPage = ({ projects = [], projectsError = null }) => {
             ))}
           </div>
           <div className="project-grid">
-            {filteredProjects.length === 0 ? (
+            {clientLoading ? (
+              <div className="empty-projects" style={{ color: theme === "dark" ? "#cccccc" : "#4b5563" }}>
+                Loading projects...
+              </div>
+            ) : filteredProjects.length === 0 ? (
               <div
                 className="empty-projects"
                 style={{ color: theme === "dark" ? "#cccccc" : "#4b5563" }}
