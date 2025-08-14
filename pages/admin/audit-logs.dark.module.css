@@ -1,31 +1,12 @@
-.pageTitle {
-  color: #e5e7eb;
-}
-.pageSubtitle {
-  color: #9ca3af;
-}
+.pageTitle { color: var(--text); }
+.pageSubtitle { color: var(--muted-text, color-mix(in oklab, var(--text) 70%, transparent)); }
 
-.filtersCard {
-  background: #272c34;
-  border-color: #3a414c;
-}
+.filtersCard { background: var(--bg-elev-1); border-color: var(--border); }
 .input,
-.select {
-  background: #1f242c;
-  border-color: #3a414c;
-  color: #e5e7eb;
-}
-.primaryBtn {
-  background: #4573df;
-  color: #ffffff;
-}
-.card {
-  background: #272c34;
-  border-color: #3a414c;
-}
-.loading {
-  color: #cbd5e1;
-}
+.select { background: var(--bg-elev-1); border-color: var(--border); color: var(--text); }
+/* .primaryBtn removed in favor of utilities.btn + utilities.btnPrimary */
+.card { background: var(--bg-elev-1); border-color: var(--border); }
+.loading { color: var(--text); }
 
 .badge_success {
   background: rgba(51, 165, 82, 0.18);
@@ -43,6 +24,7 @@
   border-color: rgba(239, 68, 68, 0.4);
 }
 
-.code {
-  color: #9ca3af;
-}
+.code { color: var(--muted-text, color-mix(in oklab, var(--text) 70%, transparent)); }
+
+/* Pagination (dark) - using utilities.btn utilities.btnSecondary for buttons */
+.pagerMeta { color: var(--muted-text, color-mix(in oklab, var(--text) 70%, transparent)); }

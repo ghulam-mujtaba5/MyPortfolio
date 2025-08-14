@@ -60,3 +60,21 @@
     border-color 0.3s ease,
     color 0.3s ease;
 }
+
+/* Utilities */
+.row { display: flex; }
+.rowBetween { display: flex; justify-content: space-between; align-items: center; }
+.rowEnd { display: flex; justify-content: flex-end; }
+.wrap { flex-wrap: wrap; }
+.alignCenter { align-items: center; }
+.gapXs { gap: 6px; }
+.gapSm { gap: 8px; }
+.gapMd { gap: 12px; }
+.grid { display: grid; }
+.myXs { margin-top: 6px; margin-bottom: 6px; }
+.muted { opacity: 0.7; }
+.itemBox { border: 1px solid; border-radius: 6px; padding: 8px; }
+.col { display: flex; flex-direction: column; }
+.codeTextarea { width: 100%; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; font-size: 14px; }
+.mtSm { margin-top: 8px; }
+.rowInline { display: inline-flex; }

@@ -5,11 +5,14 @@ import dynamic from "next/dynamic";
 import { articleSchema } from "../../../lib/validation/schemas";
 import ImageUploader from "../ImageUploader/ImageUploader";
 import { useTheme } from "../../../context/ThemeContext";
+import toast from "react-hot-toast";
+import Modal from "../Modal/Modal";
 
 import commonStyles from "./ArticleForm.module.css";
 import lightStyles from "./ArticleForm.light.module.css";
 import darkStyles from "./ArticleForm.dark.module.css";
 import ChipInput from "./ChipInput";
+import utilities from "../../../styles/utilities.module.css";
 
 const RichTextEditor = dynamic(
   () => import("../RichTextEditor/RichTextEditor"),
@@ -34,8 +37,32 @@ export default function ArticleForm({
   const [isSuggestingTags, setIsSuggestingTags] = useState(false);
   const [isSuggestingHeadlines, setIsSuggestingHeadlines] = useState(false);
   const [suggestedHeadlines, setSuggestedHeadlines] = useState([]);
+  const [isCheckingGrammar, setIsCheckingGrammar] = useState(false);
+  const [isAdjustingTone, setIsAdjustingTone] = useState(false);
+  const [tone, setTone] = useState("professional"); // 'professional' | 'friendly' | 'casual' | 'concise'
+  const [adjustedContent, setAdjustedContent] = useState("");
+  const [versions, setVersions] = useState([]);
+  const [versionsLoading, setVersionsLoading] = useState(false);
+  const [isDiffOpen, setIsDiffOpen] = useState(false);
+  const [versionForDiff, setVersionForDiff] = useState(null);
+  const [confirmDeleteOpen, setConfirmDeleteOpen] = useState(false);
+  const [confirmRestoreOpen, setConfirmRestoreOpen] = useState(false);
+  const [targetVersion, setTargetVersion] = useState(null);
+  const [ariaMessage, setAriaMessage] = useState("");
+  // Diff helpers
+  const openDiff = (v) => {
+    setVersionForDiff(v);
+    setIsDiffOpen(true);
+    setAriaMessage(`Opened diff preview for version saved at ${new Date(v.createdAt).toLocaleString()}`);
+  };
+  const closeDiff = () => {
+    setIsDiffOpen(false);
+    setVersionForDiff(null);
+  };
   const autoSaveTimer = useRef(null);
   const previewRef = useRef(null);
+  const confirmRestoreBtnRef = useRef(null);
+  const confirmDeleteBtnRef = useRef(null);
   const [dupWarning, setDupWarning] = useState("");
   const dupTimer = useRef(null);
 
@@ -83,6 +110,39 @@ export default function ArticleForm({
     [formValues],
   );
 
+  const getChangedFields = (v) => {
+    const curTitle = watch("title") || "";
+    const curExcerpt = watch("excerpt") || "";
+    const curTags = (watch("tags") || "").split(",").map((t) => t.trim()).filter(Boolean);
+    const curCats = (watch("categories") || "").split(",").map((t) => t.trim()).filter(Boolean);
+    const verTags = (v.tags || []).map((t) => (typeof t === "string" ? t.trim() : t)).filter(Boolean);
+    const verCats = (v.categories || []).map((t) => (typeof t === "string" ? t.trim() : t)).filter(Boolean);
+    const sameArray = (a, b) => a.length === b.length && a.every((x, i) => x === b[i]);
+    const changed = [];
+    if ((v.title || "") !== curTitle) changed.push("Title");
+    if ((v.excerpt || "") !== curExcerpt) changed.push("Excerpt");
+    if (!sameArray(verTags, curTags)) changed.push("Tags");
+    if (!sameArray(verCats, curCats)) changed.push("Categories");
+    const strip = (s) => (s || "").replace(/<[^>]*>/g, " ").replace(/&nbsp;/g, " ").trim();
+    if (strip(v.content) !== strip(watch("content") || "")) changed.push("Content");
+    return changed;
+  };
+
+  // Submit handler: save article, then auto-create a version
+  const handleFormSubmit = async (data) => {
+    const toastId = toast.loading("Saving article...");
+    try {
+      const result = await (typeof onSave === "function" ? onSave(data) : null);
+      toast.success("Article saved.", { id: toastId });
+      // Try to resolve a saved article id from result or current prop
+      const savedId = result?.article?._id || result?._id || article?._id;
+      await saveVersion(savedId); // this function manages its own toast
+    } catch (e) {
+      toast.error(e?.message || "Failed to save article.", { id: toastId });
+      console.error("Save failed:", e);
+    }
+  };
+
   useEffect(() => {
     // Skip if initial values are not ready or form is empty
     if (!formValues.title && !formValues.content) return;
@@ -95,7 +155,8 @@ export default function ArticleForm({
         const key = article?._id
           ? `article-draft-${article._id}`
           : "article-draft-new";
-        localStorage.setItem(key, formValuesString);
+        localStorage.setItem(key,
+           formValuesString);
         setAutoSaveStatus("saved");
         setTimeout(() => setAutoSaveStatus(""), 2000); // Keep 'saved' message for 2s
       } catch (e) {
@@ -108,6 +169,231 @@ export default function ArticleForm({
       if (autoSaveTimer.current) clearTimeout(autoSaveTimer.current);
     };
   }, [formValuesString, article?._id]);
+
+  // Simple word-level diff for visual highlighting
+  const tokenize = (str = "") => (str || "").toString().split(/(\s+)/).filter(Boolean);
+  const diffWords = (a = "", b = "") => {
+    const A = tokenize(a);
+    const B = tokenize(b);
+    const n = A.length, m = B.length;
+    const dp = Array.from({ length: n + 1 }, () => Array(m + 1).fill(0));
+    for (let i = n - 1; i >= 0; i--) {
+      for (let j = m - 1; j >= 0; j--) {
+        dp[i][j] = A[i] === B[j] ? 1 + dp[i + 1][j + 1] : Math.max(dp[i + 1][j], dp[i][j + 1]);
+      }
+    }
+    const diffs = [];
+    let i = 0, j = 0;
+    while (i < n && j < m) {
+      if (A[i] === B[j]) {
+        diffs.push({ type: "equal", text: A[i] });
+        i++; j++;
+      } else if (dp[i + 1][j] >= dp[i][j + 1]) {
+        diffs.push({ type: "removed", text: A[i] });
+        i++;
+      } else {
+        diffs.push({ type: "added", text: B[j] });
+        j++;
+      }
+    }
+    while (i < n) { diffs.push({ type: "removed", text: A[i++] }); }
+    while (j < m) { diffs.push({ type: "added", text: B[j++] }); }
+    return diffs;
+  };
+  const renderDiffSpans = (diffArr, side) => (
+    diffArr.map((d, idx) => {
+      if (d.type === "equal") return <span key={idx}>{d.text}</span>;
+      if (d.type === "removed" && side === "current")
+        return <span key={idx} className={`${commonStyles.diffMark} ${themeStyles.diffRemoved}`}>{d.text}</span>;
+      if (d.type === "added" && side === "version")
+        return <span key={idx} className={`${commonStyles.diffMark} ${themeStyles.diffAdded}`}>{d.text}</span>;
+      return <span key={idx}>{d.text}</span>;
+    })
+  );
+
+  // Versions: fetch, save, restore, delete
+  const fetchVersions = async () => {
+    if (!article?._id) return;
+    setVersionsLoading(true);
+    try {
+      const res = await fetch(`/api/admin/article-versions?articleId=${article._id}`);
+      const data = await res.json();
+      if (!res.ok || !data.success) throw new Error(data.message || "Failed to load versions");
+      setVersions(data.data || []);
+    } catch (e) {
+      toast.error(e.message);
+    } finally {
+      setVersionsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchVersions();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [article?._id]);
+
+  const saveVersion = async (overrideArticleId) => {
+    const id = overrideArticleId || article?._id;
+    if (!id) return;
+    const payload = {
+      articleId: id,
+      title: watch("title") || "",
+      content: watch("content") || "",
+      excerpt: watch("excerpt") || "",
+      tags: (watch("tags") || "")
+        .split(",")
+        .map((t) => t.trim())
+        .filter(Boolean),
+      categories: (watch("categories") || "")
+        .split(",")
+        .map((c) => c.trim())
+        .filter(Boolean),
+    };
+    const toastId = toast.loading("Saving version...");
+    try {
+      const res = await fetch("/api/admin/article-versions", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      const data = await res.json();
+      if (!res.ok || !data.success) throw new Error(data.message || "Failed to save version");
+      toast.success("Version saved", { id: toastId });
+      fetchVersions();
+      setAriaMessage("Version saved successfully.");
+    } catch (e) {
+      toast.error(e.message, { id: toastId });
+    }
+  };
+
+  const restoreVersion = (v) => {
+    setValue("title", v.title || "", { shouldDirty: true });
+    setValue("content", v.content || "", { shouldDirty: true });
+    setValue("excerpt", v.excerpt || "", { shouldDirty: true });
+    setValue("tags", (v.tags || []).join(", "), { shouldDirty: true });
+    setValue("categories", (v.categories || []).join(", "), { shouldDirty: true });
+    toast.success("Version loaded into editor");
+    setAriaMessage("Version restored into editor.");
+  };
+
+  const deleteVersion = async (versionId) => {
+    const toastId = toast.loading("Deleting version...");
+    try {
+      const res = await fetch(`/api/admin/article-versions?versionId=${versionId}`, {
+        method: "DELETE",
+      });
+      const data = await res.json();
+      if (!res.ok || !data.success) throw new Error(data.message || "Failed to delete version");
+      toast.success("Version deleted", { id: toastId });
+      setVersions((prev) => prev.filter((v) => v._id !== versionId));
+      setAriaMessage("Version deleted.");
+    } catch (e) {
+      toast.error(e.message, { id: toastId });
+    }
+  };
+
+  // Keyboard accessibility for version items
+  const handleVersionKey = (e, v) => {
+    if (e.key === "Enter") {
+      // Enter previews diff
+      e.preventDefault();
+      setVersionForDiff(v);
+      setIsDiffOpen(true);
+    } else if (e.key === "R" || e.key === "r") {
+      // R to restore (with confirmation modal)
+      e.preventDefault();
+      setTargetVersion(v);
+      setConfirmRestoreOpen(true);
+    } else if (e.key === "Delete" || e.key === "Backspace") {
+      // Delete to delete (with confirmation modal)
+      e.preventDefault();
+      setTargetVersion(v);
+      setConfirmDeleteOpen(true);
+    }
+  };
+
+  // Grammar check using /api/admin/grammar-check
+  const handleGrammarCheck = async () => {
+    const text = watch("content");
+    if (!text || text.trim().length < 10) {
+      toast.error("Please add some content first.");
+      return;
+    }
+    setIsCheckingGrammar(true);
+    const toastId = toast.loading("Checking grammar...");
+    try {
+      const res = await fetch("/api/admin/grammar-check", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message || "Grammar check failed");
+      const matches = Array.isArray(data?.matches) ? data.matches.length : 0;
+      toast.success(`${matches} issue${matches === 1 ? "" : "s"} found.`, { id: toastId });
+      // Optionally, we could render a side panel of issues in a future pass.
+    } catch (e) {
+      toast.error(e.message, { id: toastId });
+    } finally {
+      setIsCheckingGrammar(false);
+    }
+  };
+
+  // Adjust tone using /api/admin/adjust-tone
+  const handleAdjustTone = async () => {
+    const text = watch("content");
+    if (!text || text.trim().length < 10) {
+      toast.error("Please add some content first.");
+      return;
+    }
+    setIsAdjustingTone(true);
+    setAdjustedContent("");
+    const toastId = toast.loading("Adjusting tone...");
+    try {
+      const res = await fetch("/api/admin/adjust-tone", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text, tone }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message || "Tone adjustment failed");
+      setAdjustedContent(data.adjustedText || "");
+      toast.success("Tone suggestion ready!", { id: toastId });
+    } catch (e) {
+      toast.error(e.message, { id: toastId });
+    } finally {
+      setIsAdjustingTone(false);
+    }
+  };
+
+  const applyAdjustedContent = () => {
+    if (!adjustedContent) return;
+    setValue("content", adjustedContent, { shouldDirty: true });
+    setAdjustedContent("");
+  };
+
+  // Generate alt text for cover image
+  const handleGenerateAltText = async () => {
+    const imageUrl = watch("coverImage");
+    if (!imageUrl) {
+      toast.error("Please upload/select a cover image first.");
+      return;
+    }
+    const toastId = toast.loading("Generating alt text...");
+    try {
+      const res = await fetch("/api/admin/generate-alt-text", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ imageUrl }),
+      });
+      const data = await res.json();
+      if (!res.ok || !data.success) throw new Error(data.message || "Failed to generate alt text");
+      setValue("coverImageAlt", data.altText || "", { shouldDirty: true });
+      toast.success("Alt text generated!", { id: toastId });
+    } catch (e) {
+      toast.error(e.message, { id: toastId });
+    }
+  };
 
   // Restore draft if available (only for new article or matching id)
   useEffect(() => {
@@ -344,47 +630,45 @@ export default function ArticleForm({
 
   return (
     <form
-      onSubmit={handleSubmit(onSubmit)}
+      onSubmit={handleSubmit(handleFormSubmit)}
       className={commonStyles.form}
       noValidate
     >
+      <div className={commonStyles.srOnly} aria-live="polite" role="status">
+        {ariaMessage}
+      </div>
       <div
-        className={`${commonStyles.formGroup} ${commonStyles.fullWidth}`}
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-        }}
+        className={`${commonStyles.formGroup} ${commonStyles.fullWidth} ${commonStyles.rowBetween}`}
       >
-        <div style={{ display: "flex", gap: "0.75rem", alignItems: "center" }}>
-          <span className={themeStyles.label} style={{ opacity: 0.8 }}>
+        <div className={`${commonStyles.row} ${commonStyles.alignCenter} ${commonStyles.gapMd}`}>
+          <span className={`${themeStyles.label} ${commonStyles.muted}`}>
             Word count: {wordCount}
           </span>
-          <span className={themeStyles.label} style={{ opacity: 0.8 }}>
+          <span className={`${themeStyles.label} ${commonStyles.muted}`}>
             Reading time: ~{readingTime} min
           </span>
         </div>
-        <div style={{ display: "flex", gap: "0.5rem", alignItems: "center" }}>
+        <div className={`${commonStyles.row} ${commonStyles.alignCenter} ${commonStyles.gapSm}`}>
           {autoSaveStatus && (
-            <span
-              className={themeStyles.label}
-              style={{ fontSize: "0.85rem", opacity: 0.8 }}
-            >
+            <span className={`${themeStyles.label} ${commonStyles.textSm} ${commonStyles.muted}`}>
               {autoSaveStatus === "saving" ? "Saving…" : "Saved"}
             </span>
           )}
+          <button type="button" className={`${utilities.btn} ${utilities.btnSecondary}`} onClick={handleGrammarCheck} disabled={isCheckingGrammar}>
+            {isCheckingGrammar ? "Checking…" : "Grammar Check"}
+          </button>
           <button
             type="button"
-            className={commonStyles.button}
+            className={`${utilities.btn} ${utilities.btnSecondary}`}
             onClick={() => setPreviewSplit((v) => !v)}
           >
             {previewSplit ? "Editor Only" : "Split Preview"}
           </button>
           {previewSplit && (
-            <div style={{ display: "inline-flex", gap: 6, marginLeft: 8 }}>
+            <div className={commonStyles.inlineBtnGroup}>
               <button
                 type="button"
-                className={commonStyles.button}
+                className={`${utilities.btn} ${utilities.btnSecondary}`}
                 onClick={() => setPreviewDevice("desktop")}
                 disabled={previewDevice === "desktop"}
               >
@@ -392,7 +676,7 @@ export default function ArticleForm({
               </button>
               <button
                 type="button"
-                className={commonStyles.button}
+                className={`${utilities.btn} ${utilities.btnSecondary}`}
                 onClick={() => setPreviewDevice("tablet")}
                 disabled={previewDevice === "tablet"}
               >
@@ -400,7 +684,7 @@ export default function ArticleForm({
               </button>
               <button
                 type="button"
-                className={commonStyles.button}
+                className={`${utilities.btn} ${utilities.btnSecondary}`}
                 onClick={() => setPreviewDevice("mobile")}
                 disabled={previewDevice === "mobile"}
               >
@@ -417,16 +701,15 @@ export default function ArticleForm({
         >
           Title
         </label>
-        <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+        <div className={`${commonStyles.row} ${commonStyles.alignCenter} ${commonStyles.gapSm}`}>
           <input
             id="title"
             {...register("title")}
-            className={`${commonStyles.input} ${themeStyles.input}`}
-            style={{ flexGrow: 1 }}
+            className={`${commonStyles.input} ${themeStyles.input} ${commonStyles.flex1}`}
           />
           <button
             type="button"
-            className={commonStyles.button}
+            className={`${utilities.btn} ${utilities.btnSecondary}`}
             onClick={handleSuggestHeadlines}
             disabled={isSuggestingHeadlines}
           >
@@ -470,7 +753,7 @@ export default function ArticleForm({
         <p className={commonStyles.helpText}>
           URL-friendly identifier. Auto-generated from title if left blank.
           {dupWarning && (
-            <span style={{ color: "#ef4444", marginLeft: "8px" }}>
+            <span className={`${themeStyles.error} ${commonStyles.ml8}`}>
               {dupWarning}
             </span>
           )}
@@ -489,16 +772,15 @@ export default function ArticleForm({
         >
           Tags (comma-separated)
         </label>
-        <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+        <div className={`${commonStyles.row} ${commonStyles.alignCenter} ${commonStyles.gapSm}`}>
           <input
             id="tags"
             {...register("tags")}
-            className={`${commonStyles.input} ${themeStyles.input}`}
-            style={{ flexGrow: 1 }}
+            className={`${commonStyles.input} ${themeStyles.input} ${commonStyles.flex1}`}
           />
           <button
             type="button"
-            className={commonStyles.button}
+            className={`${utilities.btn} ${utilities.btnSecondary}`}
             onClick={handleSuggestTags}
             disabled={isSuggestingTags}
           >
@@ -576,6 +858,11 @@ export default function ArticleForm({
           useImage={watch("showCoverImage")}
           onAltTextChange={handleCoverImageAltChange}
         />
+        <div className={commonStyles.inlineRow}>
+          <button type="button" className={`${utilities.btn} ${utilities.btnSecondary}`} onClick={handleGenerateAltText}>
+            Generate Alt Text
+          </button>
+        </div>
         {errors.coverImage && (
           <p className={`${commonStyles.error} ${themeStyles.error}`}>
             {errors.coverImage.message}
@@ -594,13 +881,7 @@ export default function ArticleForm({
           Content
         </label>
         {previewSplit ? (
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "1fr 1fr",
-              gap: "1rem",
-            }}
-          >
+          <div className={commonStyles.twoCol}>
             <Controller
               name="content"
               control={control}
@@ -608,38 +889,18 @@ export default function ArticleForm({
                 <RichTextEditor value={field.value} onChange={field.onChange} />
               )}
             />
-            <div
-              style={{
-                border: "1px solid #e5e7eb",
-                borderRadius: 8,
-                padding: "1rem",
-                overflow: "auto",
-                display: "flex",
-                justifyContent: "center",
-              }}
-            >
+            <div className={commonStyles.previewOuter}>
               <div
-                style={{
-                  width:
-                    previewDevice === "desktop"
-                      ? "100%"
-                      : previewDevice === "tablet"
-                        ? 768
-                        : 375,
-                  maxWidth: "100%",
-                  border:
-                    previewDevice === "desktop" ? "none" : "1px solid #e5e7eb",
-                  borderRadius: 8,
-                  overflow: "hidden",
-                  boxShadow:
-                    previewDevice === "desktop"
-                      ? "none"
-                      : "0 1px 3px rgba(0,0,0,0.08)",
-                }}
+                className={[
+                  commonStyles.previewFrameBase,
+                  previewDevice === "tablet" ? commonStyles.previewDeviceTablet : "",
+                  previewDevice === "mobile" ? commonStyles.previewDeviceMobile : "",
+                  previewDevice === "desktop" ? "" : themeStyles.previewFrame,
+                ].filter(Boolean).join(" ")}
               >
                 <div
                   ref={previewRef}
-                  style={{ padding: "1rem" }}
+                  className={commonStyles.previewContent}
                   dangerouslySetInnerHTML={{
                     __html: formValues?.content || "",
                   }}
@@ -656,6 +917,29 @@ export default function ArticleForm({
             )}
           />
         )}
+        {/* Tone adjustment controls */}
+        <div className={commonStyles.inlineRow}>
+          <label className={`${commonStyles.label} ${themeStyles.label} ${commonStyles.noMargin}`}>Tone:</label>
+          <select
+            value={tone}
+            onChange={(e) => setTone(e.target.value)}
+            className={`${commonStyles.input} ${themeStyles.input} ${commonStyles.maxW200}`}
+          >
+            <option value="professional">Professional</option>
+            <option value="friendly">Friendly</option>
+            <option value="casual">Casual</option>
+            <option value="formal">Formal</option>
+            <option value="confident">Confident</option>
+          </select>
+          <button type="button" className={`${utilities.btn} ${utilities.btnSecondary}`} onClick={handleAdjustTone} disabled={isAdjustingTone}>
+            {isAdjustingTone ? "Adjusting…" : "Adjust Tone"}
+          </button>
+          {adjustedContent && (
+            <button type="button" className={`${utilities.btn} ${utilities.btnSecondary}`} onClick={applyAdjustedContent}>
+              Apply Suggestion
+            </button>
+          )}
+        </div>
         {errors.content && (
           <p className={`${commonStyles.error} ${themeStyles.error}`}>
             {errors.content.message}
@@ -680,18 +964,12 @@ export default function ArticleForm({
             <input
               id="metaTitle"
               {...register("metaTitle")}
-              className={`${commonStyles.input} ${themeStyles.input}`}
+              className={`${commonStyles.input} ${themeStyles.input} ${((watch("metaTitle") || "").length > 60) ? themeStyles.overLimit : ""}`}
               placeholder="Optimal length: 50-60 characters"
-              style={{
-                borderColor:
-                  (watch("metaTitle") || "").length > 60
-                    ? "#ef4444"
-                    : undefined,
-              }}
             />
             <div className={commonStyles.helpText}>
               <span>Recommended 50–60 characters.</span>
-              <span style={{ float: "right", opacity: 0.8 }} aria-live="polite">
+              <span className={commonStyles.helpRight} aria-live="polite">
                 {(watch("metaTitle") || "").length}/60
               </span>
             </div>
@@ -714,19 +992,13 @@ export default function ArticleForm({
             <textarea
               id="metaDescription"
               {...register("metaDescription")}
-              className={`${commonStyles.textarea} ${themeStyles.textarea}`}
+              className={`${commonStyles.textarea} ${themeStyles.textarea} ${((watch("metaDescription") || "").length > 160) ? themeStyles.overLimit : ""}`}
               placeholder="Optimal length: 150-160 characters"
               rows="3"
-              style={{
-                borderColor:
-                  (watch("metaDescription") || "").length > 160
-                    ? "#ef4444"
-                    : undefined,
-              }}
             ></textarea>
             <div className={commonStyles.helpText}>
               <span>Recommended 150–160 characters.</span>
-              <span style={{ float: "right", opacity: 0.8 }} aria-live="polite">
+              <span className={commonStyles.helpRight} aria-live="polite">
                 {(watch("metaDescription") || "").length}/160
               </span>
             </div>
@@ -747,19 +1019,13 @@ export default function ArticleForm({
               onUpload={handleOgImageUpdate}
               initialImageUrl={watch("ogImage")}
             />
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-              }}
-            >
+            <div className={`${commonStyles.rowBetween}`}>
               <p className={commonStyles.helpText}>
                 Recommended size: 1200x630px.
               </p>
               <button
                 type="button"
-                className={commonStyles.button}
+                className={`${utilities.btn} ${utilities.btnSecondary}`}
                 onClick={() =>
                   setValue("ogImage", watch("coverImage") || "", {
                     shouldDirty: true,
@@ -779,6 +1045,8 @@ export default function ArticleForm({
           </div>
         </div>
       </details>
+
+      {/* Diff Modal handled below with visual highlighting */}
 
       <div className={`${commonStyles.formGroup} ${commonStyles.fullWidth}`}>
         <label
@@ -816,181 +1084,170 @@ export default function ArticleForm({
       <div className={`${commonStyles.formGroup} ${commonStyles.fullWidth}`}>
         <button
           type="submit"
-          className={commonStyles.button}
+          className={`${utilities.btn} ${utilities.btnPrimary}`}
           disabled={isSubmitting}
         >
           {article?._id ? "Update" : "Save"} Article
         </button>
       </div>
-      {/* Local Version History */}
-      <VersionHistory
-        articleId={article?._id}
-        values={formValues}
-        setValues={(vals) => {
-          Object.entries(vals).forEach(([k, v]) =>
-            setValue(k, v, { shouldValidate: false }),
-          );
-        }}
-      />
-    </form>
-  );
-}
+      {/* Version History */}
+      <div className={commonStyles.versionsSection}>
+        <div className={commonStyles.versionsActions}>
+          <strong>Version History</strong>
+          <button
+            type="button"
+            onClick={saveVersion}
+            className={`${utilities.btn} ${utilities.btnSecondary}`}
+            disabled={!article?._id || isSubmitting || versionsLoading}
+          >
+            Save Current Version
+          </button>
+        </div>
+        {versionsLoading ? (
+          <p>Loading versions...</p>
+        ) : (
+          <ul className={commonStyles.versionsList}>
+            {versions.length === 0 ? (
+              <li className={commonStyles.noVersions}>No versions saved yet.</li>
+            ) : (
+              versions.map((v) => (
+                <li
+                  key={v._id}
+                  className={commonStyles.versionItem}
+                  tabIndex={0}
+                  onKeyDown={(e) => handleVersionKey(e, v)}
+                  aria-label={`Version ${v.title || "(Untitled)"} saved at ${new Date(v.createdAt).toLocaleString()}. Press Enter to preview diff, R to restore, or Delete to remove.`}
+                >
+                  <div className={commonStyles.versionMeta}>
+                    <strong>{v.title}</strong>
+                    <div className={commonStyles.versionRow}>
+                      <span>Saved at {new Date(v.createdAt).toLocaleString()}</span>
+                      {(() => {
+                        const changed = getChangedFields(v);
+                        if (changed.length === 0) return null;
+                        return (
+                          <div className={commonStyles.versionBadges} aria-label="Changed fields">
+                            {changed.map((c) => (
+                              <span key={c} className={`${commonStyles.versionBadge} ${themeStyles.versionBadge}`}>{c}</span>
+                            ))}
+                          </div>
+                        );
+                      })()}
+                    </div>
+                  </div>
+                  <div className={commonStyles.versionActions}>
+                    <button
+                      type="button"
+                      className={`${utilities.btn} ${utilities.btnSecondary}`}
+                      onClick={() => {
+                        setTargetVersion(v);
+                        setConfirmRestoreOpen(true);
+                      }}
+                      aria-label={`Restore version ${v.title || ''} saved at ${new Date(v.createdAt).toLocaleString()}`}
+                    >
+                      Restore
+                    </button>
+                    <button
+                      type="button"
+                      className={`${utilities.btn} ${utilities.btnSecondary}`}
+                      onClick={() => openDiff(v)}
+                      aria-label={`Preview diff for version ${v.title || ''}`}
+                    >
+                      Preview Diff
+                    </button>
+                    <button
+                      type="button"
+                      className={`${utilities.btn} ${utilities.btnDanger}`}
+                      onClick={() => {
+                        setTargetVersion(v);
+                        setConfirmDeleteOpen(true);
+                      }}
+                      aria-label={`Delete version ${v.title || ''}`}
+                    >
+                      Delete
+                    </button>
+                  </div>
+                </li>
+              ))
+            )}
+          </ul>
+        )}
 
-function VersionHistory({ articleId, values, setValues }) {
-  const [snapshots, setSnapshots] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-
-  const fetchVersions = async () => {
-    if (!articleId) return;
-    setIsLoading(true);
-    try {
-      const res = await fetch(
-        `/api/admin/article-versions?articleId=${articleId}`,
-      );
-      const data = await res.json();
-      if (data.success) {
-        setSnapshots(data.data);
-      }
-    } catch (e) {
-      console.error("Failed to fetch versions", e);
-    }
-    setIsLoading(false);
-  };
-
-  useEffect(() => {
-    fetchVersions();
-  }, [articleId]);
-
-  const saveSnapshot = async () => {
-    if (!articleId) {
-      toast.error("Cannot save version for an unsaved article.");
-      return;
-    }
-    const toastId = toast.loading("Saving version...");
-    try {
-      const res = await fetch("/api/admin/article-versions", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...values, articleId }),
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.message || "Failed to save");
-      toast.success("Version saved!", { id: toastId });
-      fetchVersions(); // Refresh list
-    } catch (e) {
-      toast.error(e.message, { id: toastId });
-    }
-  };
-
-  const restoreSnapshot = (entry) => {
-    if (
-      window.confirm(
-        "Are you sure you want to restore this version? This will overwrite the current content in the editor.",
-      )
-    ) {
-      const { title, content, excerpt, tags, categories } = entry;
-      setValues({
-        ...values, // keep other fields like slug, images, etc.
-        title,
-        content,
-        excerpt,
-        tags: (tags || []).join(", "),
-        categories: (categories || []).join(", "),
-      });
-      toast.success("Content restored in editor.");
-    }
-  };
-
-  const deleteSnapshot = async (versionId) => {
-    if (
-      window.confirm(
-        "Are you sure you want to permanently delete this version?",
-      )
-    ) {
-      const toastId = toast.loading("Deleting version...");
-      try {
-        const res = await fetch(
-          `/api/admin/article-versions?versionId=${versionId}`,
-          { method: "DELETE" },
-        );
-        if (!res.ok) throw new Error("Failed to delete");
-        toast.success("Version deleted.", { id: toastId });
-        fetchVersions(); // Refresh list
-      } catch (e) {
-        toast.error(e.message, { id: toastId });
-      }
-    }
-  };
-
-  return (
-    <div style={{ marginTop: 16 }}>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-        }}
-      >
-        <strong>Version History</strong>
-        <button
-          type="button"
-          onClick={saveSnapshot}
-          className={commonStyles.button}
-          disabled={!articleId}
+        <Modal
+          isOpen={confirmRestoreOpen}
+          onClose={() => setConfirmRestoreOpen(false)}
+          title="Restore this version?"
+          initialFocusRef={confirmRestoreBtnRef}
+          onConfirm={() => {
+            if (targetVersion) restoreVersion(targetVersion);
+            setConfirmRestoreOpen(false);
+            setTargetVersion(null);
+          }}
+          confirmText="Restore"
+          cancelText="Cancel"
         >
-          Save Current Version
-        </button>
-      </div>
-      {isLoading ? (
-        <p>Loading versions...</p>
-      ) : (
-        <ul style={{ marginTop: 8, display: "grid", gap: 8 }}>
-          {snapshots.length === 0 ? (
-            <p
-              style={{ textAlign: "center", color: "#6b7280", padding: "1rem" }}
-            >
-              No versions saved yet.
-            </p>
-          ) : (
-            snapshots.map((s) => (
-              <li
-                key={s._id}
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  border: "1px solid #e5e7eb",
-                  borderRadius: 8,
-                  padding: "8px 12px",
-                }}
-              >
-                <div>
-                  <strong>{s.title}</strong>
-                  <div style={{ fontSize: "0.8rem", color: "#6b7280" }}>
-                    Saved at {new Date(s.createdAt).toLocaleString()}
+          <p>This will overwrite the editor with the selected version.</p>
+        </Modal>
+
+        <Modal
+          isOpen={confirmDeleteOpen}
+          onClose={() => setConfirmDeleteOpen(false)}
+          title="Delete this version?"
+          initialFocusRef={confirmDeleteBtnRef}
+          onConfirm={() => {
+            if (targetVersion?._id) deleteVersion(targetVersion._id);
+            setConfirmDeleteOpen(false);
+            setTargetVersion(null);
+          }}
+          confirmText="Delete"
+          cancelText="Cancel"
+        >
+          <p>This action cannot be undone.</p>
+        </Modal>
+
+        <Modal
+          isOpen={isDiffOpen}
+          onClose={closeDiff}
+          title="Compare with selected version"
+        >
+          {versionForDiff && (
+            <div className={commonStyles.diffGrid}>
+              <div className={commonStyles.diffPane}>
+                <div className={commonStyles.diffTitle}>Current</div>
+                <div className={commonStyles.diffContent}>
+                  <div><strong>Title:</strong> {renderDiffSpans(diffWords(watch("title") || "", versionForDiff.title || ""), "current")}</div>
+                  <div><strong>Excerpt:</strong> {renderDiffSpans(diffWords(watch("excerpt") || "", versionForDiff.excerpt || ""), "current")}</div>
+                  <div><strong>Tags:</strong> {renderDiffSpans(diffWords((watch("tags") || ""), (versionForDiff.tags || []).join(", ")), "current")}</div>
+                  <div><strong>Categories:</strong> {renderDiffSpans(diffWords((watch("categories") || ""), (versionForDiff.categories || []).join(", ")), "current")}</div>
+                  <div><strong>Content:</strong>
+                    <div className={commonStyles.diffBlockSpacing}>
+                      {renderDiffSpans(diffWords((watch("content") || "").replace(/<[^>]*>/g, " "), (versionForDiff.content || "").replace(/<[^>]*>/g, " ")), "current")}
+                    </div>
                   </div>
                 </div>
-                <span style={{ display: "inline-flex", gap: 8 }}>
-                  <button
-                    type="button"
-                    className={commonStyles.button}
-                    onClick={() => restoreSnapshot(s)}
-                  >
-                    Restore
-                  </button>
-                  <button
-                    type="button"
-                    className={commonStyles.button}
-                    onClick={() => deleteSnapshot(s._id)}
-                  >
-                    Delete
-                  </button>
-                </span>
-              </li>
-            ))
+              </div>
+              <div className={commonStyles.diffPane}>
+                <div className={commonStyles.diffTitle}>Selected Version</div>
+                <div className={commonStyles.diffContent}>
+                  <div><strong>Title:</strong> {renderDiffSpans(diffWords(watch("title") || "", versionForDiff.title || ""), "version")}</div>
+                  <div><strong>Excerpt:</strong> {renderDiffSpans(diffWords(watch("excerpt") || "", versionForDiff.excerpt || ""), "version")}</div>
+                  <div><strong>Tags:</strong> {renderDiffSpans(diffWords((watch("tags") || ""), (versionForDiff.tags || []).join(", ")), "version")}</div>
+                  <div><strong>Categories:</strong> {renderDiffSpans(diffWords((watch("categories") || ""), (versionForDiff.categories || []).join(", ")), "version")}</div>
+                  <div><strong>Content:</strong>
+                    <div className={commonStyles.diffBlockSpacing}>
+                      {renderDiffSpans(diffWords((watch("content") || "").replace(/<[^>]*>/g, " "), (versionForDiff.content || "").replace(/<[^>]*>/g, " ")), "version")}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           )}
-        </ul>
-      )}
-    </div>
+          <div className={commonStyles.modalFooter}>
+            <button className={`${utilities.btn} ${utilities.btnPrimary}`} onClick={() => { if (versionForDiff) restoreVersion(versionForDiff); closeDiff(); }}>Restore this Version</button>
+            <button className={`${utilities.btn} ${utilities.btnSecondary}`} onClick={closeDiff}>Close</button>
+          </div>
+        </Modal>
+      </div>
+    </form>
   );
 }

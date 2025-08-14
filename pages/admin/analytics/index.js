@@ -7,6 +7,7 @@ import commonStyles from "./analytics.module.css";
 import lightStyles from "./analytics.light.module.css";
 import darkStyles from "./analytics.dark.module.css";
 import { useTheme } from "../../../context/ThemeContext";
+import utilities from "../../../styles/utilities.module.css";
 import {
   Sparklines,
   SparklinesLine,
@@ -154,34 +155,20 @@ const AnalyticsPage = () => {
     <AdminLayout title="Analytics">
       <h1>Analytics Dashboard</h1>
       {/* KPI Tiles with Sparklines */}
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(4, minmax(0, 1fr))",
-          gap: "1rem",
-          margin: "0.75rem 0",
-        }}
-      >
-        <div
-          style={{
-            padding: "12px",
-            border: "1px solid #e5e7eb",
-            borderRadius: 8,
-          }}
-        >
-          <div style={{ fontSize: 12, opacity: 0.7 }}>Total Articles</div>
-          <div style={{ display: "flex", alignItems: "baseline", gap: 8 }}>
-            <div style={{ fontSize: 22, fontWeight: 600 }}>
+      <div className={`${commonStyles.kpiGrid}`}>
+        <div className={`${commonStyles.kpiCard} ${themeStyles.kpiCard}`}>
+          <div className={commonStyles.kpiTitle}>Total Articles</div>
+          <div className={commonStyles.kpiRow}>
+            <div className={commonStyles.kpiValue}>
               {stats?.kpis?.totalArticles ?? "-"}
             </div>
             {(() => {
               const delta = computeDeltaPct(stats?.articlesByDate || [], 7);
               if (delta === null) return null;
               const pos = delta >= 0;
-              const color = pos ? "#16a34a" : "#ef4444";
               const sign = pos ? "+" : "";
               return (
-                <span style={{ fontSize: 12, color }}>
+                <span className={`${commonStyles.deltaText} ${pos ? themeStyles.deltaPositive : themeStyles.deltaNegative}`}>
                   {sign}
                   {delta.toFixed(1)}% vs prev 7d
                 </span>
@@ -193,38 +180,24 @@ const AnalyticsPage = () => {
             height={30}
             margin={5}
           >
-            <SparklinesLine color="#4f46e5" style={{ fill: "none" }} />
+            <SparklinesLine color="#4f46e5" className={commonStyles.sparklineNoFill} />
             <SparklinesSpots size={2} />
-            <SparklinesReferenceLine
-              type="mean"
-              style={{
-                stroke: "#9ca3af",
-                strokeOpacity: 0.6,
-                strokeDasharray: "2,2",
-              }}
-            />
+            <SparklinesReferenceLine type="mean" className={commonStyles.sparklineRefMean} />
           </Sparklines>
         </div>
-        <div
-          style={{
-            padding: "12px",
-            border: "1px solid #e5e7eb",
-            borderRadius: 8,
-          }}
-        >
-          <div style={{ fontSize: 12, opacity: 0.7 }}>Published Articles</div>
-          <div style={{ display: "flex", alignItems: "baseline", gap: 8 }}>
-            <div style={{ fontSize: 22, fontWeight: 600 }}>
+        <div className={`${commonStyles.kpiCard} ${themeStyles.kpiCard}`}>
+          <div className={commonStyles.kpiTitle}>Published Articles</div>
+          <div className={commonStyles.kpiRow}>
+            <div className={commonStyles.kpiValue}>
               {stats?.kpis?.publishedArticles ?? "-"}
             </div>
             {(() => {
               const delta = computeDeltaPct(stats?.articlesByDate || [], 7);
               if (delta === null) return null;
               const pos = delta >= 0;
-              const color = pos ? "#16a34a" : "#ef4444";
               const sign = pos ? "+" : "";
               return (
-                <span style={{ fontSize: 12, color }}>
+                <span className={`${commonStyles.deltaText} ${pos ? themeStyles.deltaPositive : themeStyles.deltaNegative}`}>
                   {sign}
                   {delta.toFixed(1)}% vs prev 7d
                 </span>
@@ -236,29 +209,22 @@ const AnalyticsPage = () => {
             height={30}
             margin={5}
           >
-            <SparklinesLine color="#6366f1" style={{ fill: "none" }} />
+            <SparklinesLine color="#6366f1" className={commonStyles.sparklineNoFill} />
           </Sparklines>
         </div>
-        <div
-          style={{
-            padding: "12px",
-            border: "1px solid #e5e7eb",
-            borderRadius: 8,
-          }}
-        >
-          <div style={{ fontSize: 12, opacity: 0.7 }}>Total Projects</div>
-          <div style={{ display: "flex", alignItems: "baseline", gap: 8 }}>
-            <div style={{ fontSize: 22, fontWeight: 600 }}>
+        <div className={`${commonStyles.kpiCard} ${themeStyles.kpiCard}`}>
+          <div className={commonStyles.kpiTitle}>Total Projects</div>
+          <div className={commonStyles.kpiRow}>
+            <div className={commonStyles.kpiValue}>
               {stats?.kpis?.totalProjects ?? "-"}
             </div>
             {(() => {
               const delta = computeDeltaPct(stats?.projectsByDate || [], 7);
               if (delta === null) return null;
               const pos = delta >= 0;
-              const color = pos ? "#16a34a" : "#ef4444";
               const sign = pos ? "+" : "";
               return (
-                <span style={{ fontSize: 12, color }}>
+                <span className={`${commonStyles.deltaText} ${pos ? themeStyles.deltaPositive : themeStyles.deltaNegative}`}>
                   {sign}
                   {delta.toFixed(1)}% vs prev 7d
                 </span>
@@ -270,29 +236,22 @@ const AnalyticsPage = () => {
             height={30}
             margin={5}
           >
-            <SparklinesLine color="#14b8a6" style={{ fill: "none" }} />
+            <SparklinesLine color="#14b8a6" className={commonStyles.sparklineNoFill} />
           </Sparklines>
         </div>
-        <div
-          style={{
-            padding: "12px",
-            border: "1px solid #e5e7eb",
-            borderRadius: 8,
-          }}
-        >
-          <div style={{ fontSize: 12, opacity: 0.7 }}>Published Projects</div>
-          <div style={{ display: "flex", alignItems: "baseline", gap: 8 }}>
-            <div style={{ fontSize: 22, fontWeight: 600 }}>
+        <div className={`${commonStyles.kpiCard} ${themeStyles.kpiCard}`}>
+          <div className={commonStyles.kpiTitle}>Published Projects</div>
+          <div className={commonStyles.kpiRow}>
+            <div className={commonStyles.kpiValue}>
               {stats?.kpis?.publishedProjects ?? "-"}
             </div>
             {(() => {
               const delta = computeDeltaPct(stats?.projectsByDate || [], 7);
               if (delta === null) return null;
               const pos = delta >= 0;
-              const color = pos ? "#16a34a" : "#ef4444";
               const sign = pos ? "+" : "";
               return (
-                <span style={{ fontSize: 12, color }}>
+                <span className={`${commonStyles.deltaText} ${pos ? themeStyles.deltaPositive : themeStyles.deltaNegative}`}>
                   {sign}
                   {delta.toFixed(1)}% vs prev 7d
                 </span>
@@ -304,29 +263,15 @@ const AnalyticsPage = () => {
             height={30}
             margin={5}
           >
-            <SparklinesLine color="#10b981" style={{ fill: "none" }} />
+            <SparklinesLine color="#10b981" className={commonStyles.sparklineNoFill} />
             <SparklinesSpots size={2} />
-            <SparklinesReferenceLine
-              type="mean"
-              style={{
-                stroke: "#9ca3af",
-                strokeOpacity: 0.6,
-                strokeDasharray: "2,2",
-              }}
-            />
+            <SparklinesReferenceLine type="mean" className={commonStyles.sparklineRefMean} />
           </Sparklines>
         </div>
       </div>
       {/* Range selector */}
-      <div
-        style={{
-          display: "flex",
-          gap: 8,
-          alignItems: "center",
-          margin: "8px 0 12px",
-        }}
-      >
-        <span style={{ fontSize: 12, opacity: 0.8 }}>Range:</span>
+      <div className={commonStyles.rangeBar}>
+        <span className={commonStyles.rangeLabel}>Range:</span>
         {[7, 30, 90, 0].map((d) => (
           <button
             key={d}
@@ -344,13 +289,7 @@ const AnalyticsPage = () => {
                 shallow: true,
               });
             }}
-            style={{
-              padding: "6px 10px",
-              borderRadius: 999,
-              border: range === d ? "1px solid #4f46e5" : "1px solid #e5e7eb",
-              background: range === d ? "rgba(79,70,229,0.08)" : "transparent",
-              color: range === d ? "#4f46e5" : "inherit",
-            }}
+            className={`${utilities.btn} ${utilities.btnSecondary} ${commonStyles.rangeButton} ${themeStyles.rangeButton} ${range === d ? themeStyles.rangeButtonActive : ""}`}
           >
             {d === 0 ? "All" : `${d}d`}
           </button>
@@ -474,73 +413,29 @@ const AnalyticsPage = () => {
             a.click();
             URL.revokeObjectURL(url);
           }}
-          style={{
-            marginLeft: "auto",
-            padding: "6px 10px",
-            border: "1px solid #e5e7eb",
-            borderRadius: 6,
-          }}
+          className={`${utilities.btn} ${utilities.btnSecondary} ${commonStyles.exportButton} ${themeStyles.exportButton}`}
         >
           Export CSV
         </button>
       </div>
       {/* KPI Tiles */}
       {stats?.kpis && (
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(4, minmax(0, 1fr))",
-            gap: "1rem",
-            margin: "1rem 0",
-          }}
-        >
-          <div
-            style={{
-              padding: "1rem",
-              border: "1px solid #e5e7eb",
-              borderRadius: 8,
-            }}
-          >
-            <div style={{ fontSize: 12, opacity: 0.7 }}>Total Articles</div>
-            <div style={{ fontSize: 24, fontWeight: 700 }}>
-              {stats.kpis.totalArticles}
-            </div>
+        <div className={commonStyles.kpiGrid}>
+          <div className={`${commonStyles.kpiCard} ${themeStyles.kpiCard}`}>
+            <div className={commonStyles.kpiTitle}>Total Articles</div>
+            <div className={commonStyles.kpiValue}>{stats.kpis.totalArticles}</div>
           </div>
-          <div
-            style={{
-              padding: "1rem",
-              border: "1px solid #e5e7eb",
-              borderRadius: 8,
-            }}
-          >
-            <div style={{ fontSize: 12, opacity: 0.7 }}>Published Articles</div>
-            <div style={{ fontSize: 24, fontWeight: 700 }}>
-              {stats.kpis.publishedArticles}
-            </div>
+          <div className={`${commonStyles.kpiCard} ${themeStyles.kpiCard}`}>
+            <div className={commonStyles.kpiTitle}>Published Articles</div>
+            <div className={commonStyles.kpiValue}>{stats.kpis.publishedArticles}</div>
           </div>
-          <div
-            style={{
-              padding: "1rem",
-              border: "1px solid #e5e7eb",
-              borderRadius: 8,
-            }}
-          >
-            <div style={{ fontSize: 12, opacity: 0.7 }}>Total Projects</div>
-            <div style={{ fontSize: 24, fontWeight: 700 }}>
-              {stats.kpis.totalProjects}
-            </div>
+          <div className={`${commonStyles.kpiCard} ${themeStyles.kpiCard}`}>
+            <div className={commonStyles.kpiTitle}>Total Projects</div>
+            <div className={commonStyles.kpiValue}>{stats.kpis.totalProjects}</div>
           </div>
-          <div
-            style={{
-              padding: "1rem",
-              border: "1px solid #e5e7eb",
-              borderRadius: 8,
-            }}
-          >
-            <div style={{ fontSize: 12, opacity: 0.7 }}>Published Projects</div>
-            <div style={{ fontSize: 24, fontWeight: 700 }}>
-              {stats.kpis.publishedProjects}
-            </div>
+          <div className={`${commonStyles.kpiCard} ${themeStyles.kpiCard}`}>
+            <div className={commonStyles.kpiTitle}>Published Projects</div>
+            <div className={commonStyles.kpiValue}>{stats.kpis.publishedProjects}</div>
           </div>
         </div>
       )}
@@ -564,23 +459,10 @@ const AnalyticsPage = () => {
       </div>
 
       {/* Breakdown Sections */}
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
-          gap: "1rem",
-          marginTop: "1rem",
-        }}
-      >
-        <div
-          style={{
-            padding: "1rem",
-            border: "1px solid #e5e7eb",
-            borderRadius: 8,
-          }}
-        >
-          <h3 style={{ marginTop: 0 }}>Top Article Tags</h3>
-          <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+      <div className={commonStyles.breakdownGrid}>
+        <div className={`${commonStyles.sectionCard} ${themeStyles.sectionCard}`}>
+          <h3 className={commonStyles.sectionTitle}>Top Article Tags</h3>
+          <div className={commonStyles.chips}>
             {stats?.articleTags?.map((t) => (
               <span
                 key={t._id}
@@ -588,28 +470,16 @@ const AnalyticsPage = () => {
                   router.push(`/articles?tag=${encodeURIComponent(t._id)}`)
                 }
                 title="View articles with this tag"
-                style={{
-                  padding: "4px 10px",
-                  border: "1px solid #e5e7eb",
-                  borderRadius: 999,
-                  fontSize: 12,
-                  cursor: "pointer",
-                }}
+                className={`${commonStyles.chip} ${themeStyles.chip}`}
               >
                 {t._id} ({t.count})
               </span>
             ))}
           </div>
         </div>
-        <div
-          style={{
-            padding: "1rem",
-            border: "1px solid #e5e7eb",
-            borderRadius: 8,
-          }}
-        >
-          <h3 style={{ marginTop: 0 }}>Top Project Tags</h3>
-          <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+        <div className={`${commonStyles.sectionCard} ${themeStyles.sectionCard}`}>
+          <h3 className={commonStyles.sectionTitle}>Top Project Tags</h3>
+          <div className={commonStyles.chips}>
             {stats?.projectTags?.map((t) => (
               <span
                 key={t._id}
@@ -617,28 +487,16 @@ const AnalyticsPage = () => {
                   router.push(`/projects?tag=${encodeURIComponent(t._id)}`)
                 }
                 title="View projects with this tag"
-                style={{
-                  padding: "4px 10px",
-                  border: "1px solid #e5e7eb",
-                  borderRadius: 999,
-                  fontSize: 12,
-                  cursor: "pointer",
-                }}
+                className={`${commonStyles.chip} ${themeStyles.chip}`}
               >
                 {t._id} ({t.count})
               </span>
             ))}
           </div>
         </div>
-        <div
-          style={{
-            padding: "1rem",
-            border: "1px solid #e5e7eb",
-            borderRadius: 8,
-          }}
-        >
-          <h3 style={{ marginTop: 0 }}>Project Categories</h3>
-          <ul style={{ margin: 0, paddingLeft: "1rem" }}>
+        <div className={`${commonStyles.sectionCard} ${themeStyles.sectionCard}`}>
+          <h3 className={commonStyles.sectionTitle}>Project Categories</h3>
+          <ul className={commonStyles.list}>
             {stats?.projectCategories?.map((c) => (
               <li
                 key={c._id}
@@ -648,35 +506,23 @@ const AnalyticsPage = () => {
                   )
                 }
                 title="View projects in this category"
-                style={{ cursor: "pointer" }}
+                className={commonStyles.listItem}
               >
                 {c._id || "Uncategorized"} — {c.count}
               </li>
             ))}
           </ul>
         </div>
-        <div
-          style={{
-            padding: "1rem",
-            border: "1px solid #e5e7eb",
-            borderRadius: 8,
-          }}
-        >
-          <h3 style={{ marginTop: 0 }}>Top Viewed</h3>
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "1fr 1fr",
-              gap: "1rem",
-            }}
-          >
+        <div className={`${commonStyles.sectionCard} ${themeStyles.sectionCard}`}>
+          <h3 className={commonStyles.sectionTitle}>Top Viewed</h3>
+          <div className={commonStyles.twoCol}>
             <div>
-              <h4 style={{ margin: "0 0 8px" }}>Articles</h4>
-              <ul style={{ margin: 0, paddingLeft: "1rem" }}>
+              <h4 className={commonStyles.subTitle}>Articles</h4>
+              <ul className={commonStyles.list}>
                 {stats?.topViewedArticles?.map((a) => (
                   <li
                     key={a.slug}
-                    style={{ cursor: "pointer" }}
+                    className={commonStyles.listItem}
                     onClick={() => router.push(`/admin/articles/edit/${a._id || a.id}`)}
                   >
                     {a.title} — {a.views} views
@@ -685,12 +531,12 @@ const AnalyticsPage = () => {
               </ul>
             </div>
             <div>
-              <h4 style={{ margin: "0 0 8px" }}>Projects</h4>
-              <ul style={{ margin: 0, paddingLeft: "1rem" }}>
+              <h4 className={commonStyles.subTitle}>Projects</h4>
+              <ul className={commonStyles.list}>
                 {stats?.topViewedProjects?.map((p) => (
                   <li
                     key={p.slug}
-                    style={{ cursor: "pointer" }}
+                    className={commonStyles.listItem}
                     onClick={() => router.push(`/admin/projects/edit/${p._id || p.id}`)}
                   >
                     {p.title} — {p.views} views
@@ -700,46 +546,34 @@ const AnalyticsPage = () => {
             </div>
           </div>
         </div>
-        <div
-          style={{
-            padding: "1rem",
-            border: "1px solid #e5e7eb",
-            borderRadius: 8,
-          }}
-        >
-          <h3 style={{ marginTop: 0 }}>Recent Activity</h3>
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "1fr 1fr",
-              gap: "1rem",
-            }}
-          >
+        <div className={`${commonStyles.sectionCard} ${themeStyles.sectionCard}`}>
+          <h3 className={commonStyles.sectionTitle}>Recent Activity</h3>
+          <div className={commonStyles.twoCol}>
             <div>
-              <h4 style={{ margin: "0 0 8px" }}>Articles</h4>
-              <ul style={{ margin: 0, paddingLeft: "1rem" }}>
+              <h4 className={commonStyles.subTitle}>Articles</h4>
+              <ul className={commonStyles.list}>
                 {stats?.recentArticles?.map((a) => (
                   <li
                     key={a.slug}
-                    style={{ cursor: "pointer" }}
+                    className={commonStyles.listItem}
                     onClick={() => router.push(`/admin/articles/edit/${a._id || a.id}`)}
                   >
-                    {a.title} — {new Date(a.createdAt).toLocaleString()}{" "}
+                    {a.title} — {new Date(a.createdAt).toLocaleString()} {" "}
                     {a.published ? "(Published)" : "(Draft)"}
                   </li>
                 ))}
               </ul>
             </div>
             <div>
-              <h4 style={{ margin: "0 0 8px" }}>Projects</h4>
-              <ul style={{ margin: 0, paddingLeft: "1rem" }}>
+              <h4 className={commonStyles.subTitle}>Projects</h4>
+              <ul className={commonStyles.list}>
                 {stats?.recentProjects?.map((p) => (
                   <li
                     key={p.slug}
-                    style={{ cursor: "pointer" }}
+                    className={commonStyles.listItem}
                     onClick={() => router.push(`/admin/projects/edit/${p._id || p.id}`)}
                   >
-                    {p.title} — {new Date(p.createdAt).toLocaleString()}{" "}
+                    {p.title} — {new Date(p.createdAt).toLocaleString()} {" "}
                     {p.published ? "(Published)" : "(Draft)"}
                   </li>
                 ))}

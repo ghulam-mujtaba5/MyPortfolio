@@ -22,14 +22,6 @@
   color: #f8f9fa;
 }
 
-.button {
-  background-color: #0d6efd;
-  color: white;
-}
-
-.button:hover {
-  background-color: #334155;
-}
 
 .details {
   border-color: #334155;
@@ -58,4 +50,8 @@
 .textarea:focus {
   border-color: var(--primary-color-dark);
   box-shadow: 0 0 0 2px rgba(96, 165, 250, 0.2);
+}
+
+.overLimit {
+  border-color: #fca5a5 !important; /* red-300 for dark contrast */
 }

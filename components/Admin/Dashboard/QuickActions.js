@@ -80,19 +80,19 @@ export default function QuickActions() {
       </h2>
       <div className={commonStyles.actionsGrid}>
         <ActionButton
-          href="/admin/articles/create"
+          href="/admin/articles/new"
           icon={<FaPlus />}
           label="New Article"
           themeStyles={themeStyles}
         />
         <ActionButton
-          href="/admin/projects/create"
+          href="/admin/projects/new"
           icon={<FaPen />}
           label="New Project"
           themeStyles={themeStyles}
         />
         <ActionButton
-          href="/admin/users/create"
+          href="/admin/users"
           icon={<FaUserPlus />}
           label="New User"
           themeStyles={themeStyles}

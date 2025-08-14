@@ -56,6 +56,10 @@
   z-index: 1;
 }
 
+.image {
+  object-fit: cover;
+}
+
 .content {
   position: relative;
   z-index: 3;
@@ -142,38 +146,4 @@
   gap: 0.5rem;
 }
 
-.button {
-  padding: 0.5rem 1rem;
-  border-radius: 0.375rem;
-  font-weight: 600;
-  transition: background-color 0.2s;
-  border: none;
-  cursor: pointer;
-}
-
-.editButton {
-  background-color: #3b82f6;
-  color: white;
-}
-
-.editButton:hover {
-  background-color: #2563eb;
-}
-
-.deleteButton {
-  background-color: #ef4444;
-  color: white;
-}
-
-.deleteButton:hover {
-  background-color: #dc2626;
-}
-
-.pinned {
-  background-color: #f59e0b; /* A gold-like color for pinned items */
-  color: white;
-}
-
-.pinned:hover {
-  background-color: #d97706;
-}
+/* Button styles moved to shared utilities.module.css; obsolete rules removed. */

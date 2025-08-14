@@ -1,0 +1,16 @@
+.loginContainer { background-color: #0f172a; }
+
+.loginBox { background-color: #1f2937; }
+
+.title { color: #e5e7eb; }
+.subtitle { color: #9ca3af; }
+
+.label { color: #cbd5e1; }
+.input { background: #111827; border: 1px solid #3a414c; color: #e5e7eb; }
+.input:focus { border-color: #4573df; box-shadow: 0 0 0 2px rgba(69, 115, 223, 0.25); }
+
+.error { color: #f87171; }
+
+.loginButton { background-color: #4573df; color: #ffffff; }
+.loginButton:hover { background-color: #3b5fbf; }
+.loginButton:disabled { background-color: #475569; }

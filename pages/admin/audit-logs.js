@@ -7,6 +7,7 @@ import Table from "../../components/Admin/Table/Table";
 import commonStyles from "./audit-logs.module.css";
 import lightStyles from "./audit-logs.light.module.css";
 import darkStyles from "./audit-logs.dark.module.css";
+import utilities from "../../styles/utilities.module.css";
 import { useTheme } from "../../context/ThemeContext";
 import { formatDistanceToNow } from "date-fns";
 
@@ -104,7 +105,7 @@ const Filters = ({ filters, setFilters, onApply, themeStyles, common }) => {
         >
           <button
             onClick={onApply}
-            className={`${common.primaryBtn} ${themeStyles.primaryBtn}`}
+            className={`${utilities.btn} ${utilities.btnPrimary}`}
           >
             Apply
           </button>
@@ -118,20 +119,22 @@ const Filters = ({ filters, setFilters, onApply, themeStyles, common }) => {
 
 const Pagination = ({ page, total, limit, onPageChange }) => {
   const totalPages = Math.max(Math.ceil(total / limit), 1);
+  const { theme } = useTheme();
+  const themeStyles = theme === "dark" ? darkStyles : lightStyles;
   return (
-    <div className="flex items-center justify-between mt-4">
+    <div className={commonStyles.pagination}>
       <button
-        className="px-3 py-2 rounded border dark:border-gray-600 disabled:opacity-50"
+        className={`${utilities.btn} ${utilities.btnSecondary}`}
         onClick={() => onPageChange(Math.max(page - 1, 1))}
         disabled={page <= 1}
       >
         Previous
       </button>
-      <div className="text-sm text-gray-600 dark:text-gray-300">
+      <div className={`${commonStyles.pagerMeta} ${themeStyles.pagerMeta}`}>
         Page {page} of {totalPages}
       </div>
       <button
-        className="px-3 py-2 rounded border dark:border-gray-600 disabled:opacity-50"
+        className={`${utilities.btn} ${utilities.btnSecondary}`}
         onClick={() => onPageChange(Math.min(page + 1, totalPages))}
         disabled={page >= totalPages}
       >

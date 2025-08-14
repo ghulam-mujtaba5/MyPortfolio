@@ -247,25 +247,11 @@ export default function ImageUploader({
             </div>
           )}
 
-          {error && (
-            <p className={`${commonStyles.error} ${themeStyles.error}`}>
-              {error}
-            </p>
-          )}
+          {/* Inline error text removed in favor of toast notifications for a consistent premium UI */}
 
           {preview && (
             <div className={commonStyles.previewContainer}>
-              <div
-                style={{
-                  position: "relative",
-                  width: "100%",
-                  maxWidth: "400px",
-                  height: "200px",
-                  margin: "0 auto",
-                  borderRadius: "8px",
-                  overflow: "hidden",
-                }}
-              >
+              <div className={commonStyles.previewBox}>
                 <Image
                   src={preview}
                   alt="Preview"

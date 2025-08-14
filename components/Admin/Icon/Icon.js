@@ -20,7 +20,13 @@ const Icon = ({ name, size = 24, ...props }) => {
   );
 
   return (
-    <Suspense fallback={<div style={{ width: size, height: size }} />}>
+    <Suspense
+      fallback={
+        <svg width={size} height={size} viewBox="0 0 24 24" aria-hidden="true">
+          <rect x="3" y="3" width="18" height="18" rx="3" fill="#e5e7eb" />
+        </svg>
+      }
+    >
       <LucideIcon size={size} {...props} />
     </Suspense>
   );

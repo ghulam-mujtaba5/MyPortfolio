@@ -10,15 +10,16 @@ import { useTheme } from "../../../context/ThemeContext";
 import commonStyles from "./ProjectForm.module.css";
 import lightStyles from "./ProjectForm.light.module.css";
 import darkStyles from "./ProjectForm.dark.module.css";
+import utilities from "../../../styles/utilities.module.css";
 
-const ProjectForm = ({
+function ProjectForm({
+  project,
   onSave,
   onPreview,
-  project = {},
-  serverErrors = {},
-  isSubmitting,
   onDataChange,
-}) => {
+  isSubmitting,
+  serverErrors = {},
+}) {
   const { theme } = useTheme();
   const themeStyles = theme === "dark" ? darkStyles : lightStyles;
 
@@ -30,6 +31,7 @@ const ProjectForm = ({
     setValue,
     watch,
     setError,
+    reset,
   } = useForm({
     resolver: zodResolver(projectSchema),
     defaultValues: {
@@ -40,15 +42,20 @@ const ProjectForm = ({
       // Normalize legacy placeholders like '#' to empty string to avoid URL validation errors
       "links.live": project.links?.live === "#" ? "" : (project.links?.live || ""),
       "links.github": project.links?.github === "#" ? "" : (project.links?.github || ""),
-      image: project.image || "",
+      image: project.image === "#" ? "" : (project.image || ""),
       showImage: project.showImage !== undefined ? project.showImage : true,
       published: project.published || false,
       featuredOnHome: project.featuredOnHome || false,
       metaTitle: project.metaTitle || "",
       metaDescription: project.metaDescription || "",
-      ogImage: project.ogImage || "",
+      ogImage: project.ogImage === "#" ? "" : (project.ogImage || ""),
       scheduledAt: project.scheduledAt
-        ? new Date(project.scheduledAt).toISOString().slice(0, 16)
+        ? (() => {
+            const d = new Date(project.scheduledAt);
+            // Convert to local "YYYY-MM-DDTHH:mm" for datetime-local input
+            const offMs = d.getTime() - d.getTimezoneOffset() * 60000;
+            return new Date(offMs).toISOString().slice(0, 16);
+          })()
         : "",
     },
   });
@@ -90,19 +97,63 @@ const ProjectForm = ({
       const raw = localStorage.getItem(key);
       if (raw) {
         const draft = JSON.parse(raw);
-        Object.entries(draft).forEach(([k, v]) =>
-          setValue(k, v, { shouldValidate: false }),
-        );
+        const sanitize = (k, v) => {
+          if (v === "#") return ""; // legacy placeholder
+          if (k === "image" || k === "ogImage") return ensureProtocol(v || "");
+          if (k === "links.live" || k === "links.github") return ensureProtocol(v || "");
+          return v;
+        };
+        Object.entries(draft).forEach(([k, v]) => {
+          setValue(k, sanitize(k, v), { shouldValidate: false });
+        });
       }
     } catch {}
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // When navigating to Edit for a different project, ensure the form resets with that project's values
+  useEffect(() => {
+    const defaults = {
+      title: project.title || "",
+      description: project.description || "",
+      tags: (project.tags || []).join(", "),
+      status: project.status || "In Progress",
+      "links.live": project.links?.live === "#" ? "" : (project.links?.live || ""),
+      "links.github": project.links?.github === "#" ? "" : (project.links?.github || ""),
+      image: project.image === "#" ? "" : (project.image || ""),
+      showImage: project.showImage !== undefined ? project.showImage : true,
+      published: !!project.published,
+      featuredOnHome: !!project.featuredOnHome,
+      metaTitle: project.metaTitle || "",
+      metaDescription: project.metaDescription || "",
+      ogImage: project.ogImage === "#" ? "" : (project.ogImage || ""),
+      scheduledAt: project.scheduledAt
+        ? (() => {
+            const d = new Date(project.scheduledAt);
+            const offMs = d.getTime() - d.getTimezoneOffset() * 60000;
+            return new Date(offMs).toISOString().slice(0, 16);
+          })()
+        : "",
+    };
+    reset(defaults, { keepDirty: false, keepErrors: true });
+  }, [project, reset]);
+
+  // Apply server-side validation errors to the form
+  useEffect(() => {
+    if (serverErrors && typeof serverErrors === "object") {
+      Object.entries(serverErrors).forEach(([path, message]) => {
+        if (!path) return;
+        setError(path, { type: "server", message: String(message || "Invalid value") });
+      });
+    }
+  }, [serverErrors, setError]);
 
   // Helper: ensure a URL has protocol if it looks like a domain, otherwise keep as is
   const ensureProtocol = (url) => {
     if (!url) return "";
     const trimmed = String(url).trim();
     if (trimmed === "#") return ""; // normalize legacy
+    if (/^\/\//.test(trimmed)) return `https:${trimmed}`; // protocol-relative -> https
     if (/^https?:\/\//i.test(trimmed)) return trimmed;
     // Looks like a domain (contains a dot, no spaces)
     if (/^[^\s]+\.[^\s]{2,}/.test(trimmed)) {
@@ -175,19 +226,40 @@ const ProjectForm = ({
   }, [watchedData, onDataChange]);
 
   const onSubmit = (data) => {
+    // Normalize scheduledAt: convert HTML datetime-local to ISO for backend, or null
+    let scheduledAt = data.scheduledAt || null;
+    if (scheduledAt) {
+      try {
+        const d = new Date(scheduledAt);
+        if (!isNaN(d.getTime())) scheduledAt = d.toISOString();
+        else scheduledAt = null;
+      } catch {
+        scheduledAt = null;
+      }
+    }
+
+    // Normalize URLs at submit time in case user didn't blur fields
+    const links = {
+      live: ensureProtocol(data?.links?.live || ""),
+      github: ensureProtocol(data?.links?.github || ""),
+    };
+
     const submittedData = {
       ...data,
+      links,
+      image: ensureProtocol(data.image || ""),
+      ogImage: ensureProtocol(data.ogImage || ""),
       tags: data.tags
         .split(",")
         .map((tag) => tag.trim())
         .filter(Boolean),
-      scheduledAt: data.scheduledAt || "",
+      scheduledAt,
     };
     onSave(submittedData);
   };
 
   const handleImageUpdate = (imageUrl) => {
-    setValue("image", imageUrl, { shouldValidate: true });
+    setValue("image", ensureProtocol(imageUrl), { shouldValidate: true });
   };
 
   const handleImageUsageChange = (useImage) => {
@@ -195,7 +267,7 @@ const ProjectForm = ({
   };
 
   const handleOgImageUpdate = (imageUrl) => {
-    setValue("ogImage", imageUrl, { shouldValidate: true });
+    setValue("ogImage", ensureProtocol(imageUrl), { shouldValidate: true });
   };
 
   return (
@@ -222,12 +294,12 @@ const ProjectForm = ({
         <div className={commonStyles.helpText}>
           Slug: <code>/{liveSlug || "your-slug"}</code>{" "}
           {autoSaveStatus && (
-            <span style={{ marginLeft: 8, opacity: 0.7 }}>
+            <span className={`${commonStyles.ml8} ${commonStyles.muted}`}>
               — {autoSaveStatus}
             </span>
           )}{" "}
           {dupWarning && (
-            <span style={{ marginLeft: 8, color: "#ef4444" }}>
+            <span className={`${commonStyles.ml8} ${commonStyles.dangerText}`}>
               {dupWarning}
             </span>
           )}
@@ -359,18 +431,12 @@ const ProjectForm = ({
             <input
               id="metaTitle"
               {...register("metaTitle")}
-              className={`${commonStyles.input} ${themeStyles.input}`}
+              className={`${commonStyles.input} ${themeStyles.input} ${((watch("metaTitle") || "").length > 60) ? themeStyles.overLimit : ""}`}
               placeholder="Optimal length: 50-60 characters"
-              style={{
-                borderColor:
-                  (watch("metaTitle") || "").length > 60
-                    ? "#ef4444"
-                    : undefined,
-              }}
             />
             <div className={commonStyles.helpText}>
               <span>Recommended 50–60 characters.</span>
-              <span style={{ float: "right", opacity: 0.8 }} aria-live="polite">
+              <span className={`${commonStyles.floatRight} ${commonStyles.muted}`} aria-live="polite">
                 {(watch("metaTitle") || "").length}/60
               </span>
             </div>
@@ -391,19 +457,13 @@ const ProjectForm = ({
             <textarea
               id="metaDescription"
               {...register("metaDescription")}
-              className={`${commonStyles.textarea} ${themeStyles.textarea}`}
+              className={`${commonStyles.textarea} ${themeStyles.textarea} ${((watch("metaDescription") || "").length > 160) ? themeStyles.overLimit : ""}`}
               placeholder="Optimal length: 150-160 characters"
               rows="3"
-              style={{
-                borderColor:
-                  (watch("metaDescription") || "").length > 160
-                    ? "#ef4444"
-                    : undefined,
-              }}
             ></textarea>
             <div className={commonStyles.helpText}>
               <span>Recommended 150–160 characters.</span>
-              <span style={{ float: "right", opacity: 0.8 }} aria-live="polite">
+              <span className={`${commonStyles.floatRight} ${commonStyles.muted}`} aria-live="polite">
                 {(watch("metaDescription") || "").length}/160
               </span>
             </div>
@@ -424,19 +484,13 @@ const ProjectForm = ({
               onUpload={handleOgImageUpdate}
               initialImageUrl={watch("ogImage")}
             />
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-              }}
-            >
+            <div className={commonStyles.rowBetween}>
               <p className={commonStyles.helpText}>
                 Recommended size: 1200x630px.
               </p>
               <button
                 type="button"
-                className={commonStyles.button}
+                className={`${utilities.btn} ${utilities.btnSecondary}`}
                 onClick={() =>
                   setValue("ogImage", watch("image") || "", {
                     shouldDirty: true,
@@ -457,10 +511,19 @@ const ProjectForm = ({
 
       <div className={`${commonStyles.formGroup} ${commonStyles.fullWidth}`}>
         <label className={`${commonStyles.label} ${themeStyles.label}`}>
-          <input
-            type="checkbox"
-            {...register("published")}
-            className={commonStyles.checkbox}
+          <Controller
+            name="published"
+            control={control}
+            render={({ field: { value, onChange, onBlur, ref } }) => (
+              <input
+                type="checkbox"
+                checked={!!value}
+                onChange={(e) => onChange(e.target.checked)}
+                onBlur={onBlur}
+                ref={ref}
+                className={commonStyles.checkbox}
+              />
+            )}
           />
           Publish this project?
         </label>
@@ -490,19 +553,28 @@ const ProjectForm = ({
 
       <div className={`${commonStyles.formGroup} ${commonStyles.fullWidth}`}>
         <label className={`${commonStyles.label} ${themeStyles.label}`}>
-          <input
-            type="checkbox"
-            {...register("featuredOnHome")}
-            className={commonStyles.checkbox}
+          <Controller
+            name="featuredOnHome"
+            control={control}
+            render={({ field: { value, onChange, onBlur, ref } }) => (
+              <input
+                type="checkbox"
+                checked={!!value}
+                onChange={(e) => onChange(e.target.checked)}
+                onBlur={onBlur}
+                ref={ref}
+                className={commonStyles.checkbox}
+              />
+            )}
           />
           Show on homepage (featured)
         </label>
       </div>
 
-      <div className={`${commonStyles.formGroup} ${commonStyles.fullWidth}`}>
+      <div className={`${commonStyles.formGroup} ${commonStyles.fullWidth} ${commonStyles.row} ${commonStyles.gapSm}`}>
         <button
           type="button"
-          className={`${commonStyles.button} ${commonStyles.previewButton}`}
+          className={`${utilities.btn} ${utilities.btnSecondary}`}
           onClick={onPreview}
           disabled={isSubmitting}
         >
@@ -510,7 +582,7 @@ const ProjectForm = ({
         </button>
         <button
           type="submit"
-          className={`${commonStyles.button} ${themeStyles.button}`}
+          className={`${utilities.btn} ${utilities.btnPrimary}`}
           disabled={isSubmitting}
         >
           {project?._id ? "Update" : "Create"} Project

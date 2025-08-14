@@ -1,5 +1,6 @@
 // pages/admin/dashboard.js
 import AdminLayout from "../../components/Admin/AdminLayout/AdminLayout";
+import toast from "react-hot-toast";
 import StatWidget from "../../components/Admin/Dashboard/StatWidget";
 import ChartCard from "../../components/Admin/Dashboard/ChartCard";
 import SampleLineChart from "../../components/Admin/Charts/SampleLineChart";
@@ -44,6 +45,7 @@ const AdminDashboard = () => {
         setViewStats(payload.viewStats || []);
       } catch (error) {
         console.error("Failed to fetch dashboard data:", error);
+        toast.error(error?.message || "Failed to load dashboard data");
       } finally {
         setIsLoading(false);
       }

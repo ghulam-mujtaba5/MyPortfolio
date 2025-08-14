@@ -31,3 +31,7 @@
   border-left-color: var(--color-border-light);
   color: var(--color-text-secondary-light);
 }
+
+.itemBox {
+  border-color: var(--color-border-light);
+}

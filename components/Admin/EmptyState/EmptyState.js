@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import Icon from '../Icon/Icon';
 import styles from './EmptyState.module.css';
+import utilities from '../../../styles/utilities.module.css';
 
 const EmptyState = ({ title, message, icon, actions }) => {
   return (
@@ -16,16 +17,24 @@ const EmptyState = ({ title, message, icon, actions }) => {
       <p className={styles.message}>{message}</p>
       {actions && actions.length > 0 && (
         <div className={styles.actions}>
-          {actions.map((action, index) => (
+          {actions.map((action, index) => {
+            const variant = action.variant || 'primary';
+            const variantClass =
+              variant === 'primary' ? utilities.btnPrimary :
+              variant === 'secondary' ? utilities.btnSecondary :
+              variant === 'danger' ? utilities.btnDanger :
+              utilities.btnGhost;
+            return (
             <button
               key={index}
               onClick={action.onClick}
-              className={`button ${action.variant || 'primary'}`}
+              className={`${utilities.btn} ${variantClass}`}
             >
               {action.icon && <Icon name={action.icon} size={16} />}
               <span>{action.label}</span>
             </button>
-          ))}
+            );
+          })}
         </div>
       )}
     </motion.div>

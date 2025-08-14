@@ -1,12 +1,14 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useTheme } from "../../../context/ThemeContext";
 import ChipInput from "../ArticleForm/ChipInput"; // Re-using ChipInput for tags
+import Modal from "../Modal/Modal";
 
 import styles from "./MediaLibrary.module.css";
 import lightStyles from "./MediaLibrary.light.module.css";
 import darkStyles from "./MediaLibrary.dark.module.css";
+import utilities from "../../../styles/utilities.module.css";
 
 const MediaLibrary = ({ onSelect, isModal = false }) => {
   const { theme } = useTheme();
@@ -23,6 +25,7 @@ const MediaLibrary = ({ onSelect, isModal = false }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [editingAsset, setEditingAsset] = useState(null);
   const [previewingAsset, setPreviewingAsset] = useState(null);
+  const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
 
   const fetchAssets = useCallback(async (pageNum = 1, search = "") => {
     setIsLoading(true);
@@ -80,15 +83,12 @@ const MediaLibrary = ({ onSelect, isModal = false }) => {
     fetchAssets(1, searchTerm); // Refresh
   };
 
-  const handleDelete = async () => {
+  const handleDelete = () => {
     if (selectedAssets.length === 0) return;
-    if (
-      !confirm(
-        `Are you sure you want to delete ${selectedAssets.length} asset(s)? This is irreversible.`,
-      )
-    )
-      return;
+    setDeleteModalOpen(true);
+  };
 
+  const confirmDelete = async () => {
     const toastId = toast.loading(
       `Deleting ${selectedAssets.length} asset(s)...`,
     );
@@ -96,6 +96,7 @@ const MediaLibrary = ({ onSelect, isModal = false }) => {
       await axios.delete("/api/media", { data: { ids: selectedAssets } });
       toast.success("Assets deleted successfully!", { id: toastId });
       setSelectedAssets([]);
+      setDeleteModalOpen(false);
       fetchAssets(1, searchTerm); // Refresh
     } catch (err) {
       toast.error("An error occurred while deleting.", { id: toastId });
@@ -131,12 +132,14 @@ const MediaLibrary = ({ onSelect, isModal = false }) => {
       <div className={styles.toolbar}>
         {!isModal && <h1 className={themeStyles.title}>Media Library</h1>}
         <div className={styles.actions}>
+          <label htmlFor="media_search" className={styles.srOnly}>Search</label>
           <input
             type="search"
             placeholder="Search by filename or tag..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className={`${styles.searchInput} ${themeStyles.searchInput}`}
+            id="media_search"
           />
           <label
             className={`${styles.uploadButton} ${themeStyles.uploadButton}`}
@@ -147,7 +150,7 @@ const MediaLibrary = ({ onSelect, isModal = false }) => {
               multiple
               onChange={handleFileChange}
               disabled={uploading}
-              style={{ display: "none" }}
+              className={styles.hiddenInput}
             />
           </label>
           {selectedAssets.length > 0 && (
@@ -255,57 +258,49 @@ const MediaLibrary = ({ onSelect, isModal = false }) => {
           themeStyles={themeStyles}
         />
       )}
+
+      {isDeleteModalOpen && (
+        <DeleteConfirmModal
+          count={selectedAssets.length}
+          onCancel={() => setDeleteModalOpen(false)}
+          onConfirm={confirmDelete}
+          themeStyles={themeStyles}
+        />
+      )}
     </div>
   );
 };
 
 const PreviewModal = ({ asset, onClose, onInsert, themeStyles }) => {
+  const cancelRef = useRef(null);
   return (
-    <div className={styles.modalBackdrop} onClick={onClose}>
-      <div
-        className={`${styles.modalContent} ${themeStyles.modalContent}`}
-        onClick={(e) => e.stopPropagation()}
-      >
-        <h2>Preview & Insert</h2>
-        <img
-          src={asset.url}
-          alt={asset.altText}
-          style={{
-            width: "100%",
-            maxHeight: "30vh",
-            objectFit: "contain",
-            margin: "1rem 0",
-            borderRadius: "4px",
-          }}
-        />
-        <div className={styles.formGroup}>
-          <strong>Filename:</strong> {asset.filename}
-        </div>
-        <div className={styles.formGroup}>
-          <strong>Alt Text:</strong> {asset.altText || "N/A"}
-        </div>
-        <div className={styles.formGroup}>
-          <strong>Tags:</strong> {(asset.tags || []).join(", ") || "N/A"}
-        </div>
-        <div className={styles.modalActions}>
-          <button onClick={onClose} className={styles.button}>
-            Cancel
-          </button>
-          <button
-            onClick={onInsert}
-            className={`${styles.button} ${styles.buttonPrimary}`}
-          >
-            Insert Media
-          </button>
-        </div>
+    <Modal isOpen={true} onClose={onClose} title="Preview & Insert" initialFocusRef={cancelRef}>
+      <img src={asset.url} alt={asset.altText} className={styles.previewImage} />
+      <div className={styles.formGroup}>
+        <strong>Filename:</strong> {asset.filename}
       </div>
-    </div>
+      <div className={styles.formGroup}>
+        <strong>Alt Text:</strong> {asset.altText || "N/A"}
+      </div>
+      <div className={styles.formGroup}>
+        <strong>Tags:</strong> {(asset.tags || []).join(", ") || "N/A"}
+      </div>
+      <div className={styles.modalActions}>
+        <button ref={cancelRef} onClick={onClose} className={`${utilities.btn} ${utilities.btnSecondary}`}>
+          Cancel
+        </button>
+        <button onClick={onInsert} className={`${utilities.btn} ${utilities.btnPrimary}`}>
+          Insert Media
+        </button>
+      </div>
+    </Modal>
   );
 };
 
 const EditModal = ({ asset, onClose, onSave, themeStyles }) => {
   const [altText, setAltText] = useState(asset.altText || "");
   const [tags, setTags] = useState((asset.tags || []).join(", "));
+  const altRef = useRef(null);
 
   const handleSave = () => {
     onSave(asset._id, {
@@ -318,44 +313,54 @@ const EditModal = ({ asset, onClose, onSave, themeStyles }) => {
   };
 
   return (
-    <div className={styles.modalBackdrop} onClick={onClose}>
-      <div
-        className={`${styles.modalContent} ${themeStyles.modalContent}`}
-        onClick={(e) => e.stopPropagation()}
-      >
-        <h2>Edit Media</h2>
-        <img
-          src={asset.url}
-          alt={altText}
-          style={{ maxWidth: "100%", maxHeight: "200px", objectFit: "contain" }}
+    <Modal isOpen={true} onClose={onClose} title="Edit Media" initialFocusRef={altRef}>
+      <img src={asset.url} alt={altText} className={styles.editImage} />
+      <div className={styles.formGroup}>
+        <label htmlFor="alt_text">Alt Text</label>
+        <input
+          id="alt_text"
+          type="text"
+          value={altText}
+          onChange={(e) => setAltText(e.target.value)}
+          className={themeStyles.input}
+          ref={altRef}
         />
-        <div className={styles.formGroup}>
-          <label>Alt Text</label>
-          <input
-            type="text"
-            value={altText}
-            onChange={(e) => setAltText(e.target.value)}
-            className={themeStyles.input}
-          />
-        </div>
-        <div className={styles.formGroup}>
-          <label>Tags (comma-separated)</label>
-          <ChipInput
-            value={tags}
-            onChange={setTags}
-            placeholder="Add a tag and press Enter"
-          />
-        </div>
-        <div className={styles.modalActions}>
-          <button onClick={onClose} className={styles.button}>
-            Cancel
-          </button>
-          <button onClick={handleSave} className={styles.buttonPrimary}>
-            Save
-          </button>
-        </div>
       </div>
-    </div>
+      <div className={styles.formGroup}>
+        <label htmlFor="tags_input">Tags (comma-separated)</label>
+        <ChipInput
+          id="tags_input"
+          value={tags}
+          onChange={setTags}
+          placeholder="Add a tag and press Enter"
+        />
+      </div>
+      <div className={styles.modalActions}>
+        <button onClick={onClose} className={`${utilities.btn} ${utilities.btnSecondary}`}>
+          Cancel
+        </button>
+        <button onClick={handleSave} className={`${utilities.btn} ${utilities.btnPrimary}`}>
+          Save
+        </button>
+      </div>
+    </Modal>
+  );
+};
+
+const DeleteConfirmModal = ({ count, onCancel, onConfirm, themeStyles }) => {
+  const cancelRef = useRef(null);
+  return (
+    <Modal isOpen={true} onClose={onCancel} title="Delete Assets" initialFocusRef={cancelRef}>
+      <p>Are you sure you want to delete <strong>{count}</strong> asset(s)? This action cannot be undone.</p>
+      <div className={styles.modalActions}>
+        <button ref={cancelRef} type="button" onClick={onCancel} className={`${utilities.btn} ${utilities.btnSecondary}`}>
+          Cancel
+        </button>
+        <button type="button" onClick={onConfirm} className={`${styles.deleteButton} ${themeStyles.deleteButton}`}>
+          Delete
+        </button>
+      </div>
+    </Modal>
   );
 };
 

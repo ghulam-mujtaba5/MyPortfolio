@@ -105,15 +105,7 @@
   opacity: 0.7;
 }
 
-.button {
-  padding: 0.75rem 1.5rem;
-  border: none;
-  border-radius: 8px;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: background-color 0.2s;
-  align-self: flex-start;
-}
+
 
 .suggestionsContainer {
   margin-top: 0.75rem;
@@ -144,3 +136,188 @@
   border-radius: 6px;
   transition: background-color 0.2s;
 }
+
+/* Versions & Diff UI */
+.versionsSection {
+  margin-top: 16px;
+}
+.versionsActions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.versionsList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 8px;
+}
+
+.versionItem {
+  border: 1px solid;
+  border-radius: 8px;
+  padding: 12px;
+}
+
+.versionRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.versionMeta {
+  font-size: 12px;
+  opacity: 0.8;
+}
+
+.versionActions {
+  display: flex;
+  gap: 8px;
+}
+
+.versionBadges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.versionBadge {
+  font-size: 11px;
+  padding: 2px 8px;
+  border: 1px solid;
+  border-radius: 999px;
+}
+
+.diffGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.diffPane {
+  border: 1px solid;
+  border-radius: 8px;
+  padding: 12px;
+  overflow: auto;
+  max-height: 400px;
+}
+
+.diffTitle {
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.diffContent {
+  border: 1px solid;
+  border-radius: 6px;
+  padding: 8px;
+  min-height: 120px;
+}
+
+.diffMark {
+  border-radius: 3px;
+  padding: 0 2px;
+}
+
+.diffBlockSpacing {
+  margin-top: 6px;
+}
+
+.modalFooter {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+/* Utilities */
+.inlineRow {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  margin-top: 0.5rem;
+}
+
+.noMargin {
+  margin: 0;
+}
+
+.maxW200 {
+  max-width: 200px;
+}
+
+/* New utilities */
+.twoCol {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+.ml8 { margin-left: 8px; }
+
+/* Preview frame utilities */
+.previewFrameBase {
+  max-width: 100%;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.previewDeviceTablet {
+  width: 768px;
+}
+
+.previewDeviceMobile {
+  width: 375px;
+}
+
+.previewContent {
+  padding: 1rem;
+}
+
+.helpRight {
+  float: right;
+  opacity: 0.8;
+}
+
+.srOnly {
+  position: absolute !important;
+  height: 1px; width: 1px;
+  overflow: hidden;
+  clip: rect(1px, 1px, 1px, 1px);
+  white-space: nowrap;
+}
+
+/* Layout utilities */
+.row { display: flex; }
+.rowBetween { display: flex; justify-content: space-between; align-items: center; }
+.alignCenter { align-items: center; }
+.gapSm { gap: 0.5rem; }
+.gapMd { gap: 0.75rem; }
+.gapLg { gap: 1rem; }
+.flex1 { flex: 1 1 auto; }
+.muted { opacity: 0.8; }
+
+/* Toolbar buttons group (inline) */
+.inlineBtnGroup { display: inline-flex; gap: 6px; margin-left: 8px; }
+
+/* Preview outer wrapper (replaces inline border/padding) */
+.previewOuter { border: 1px solid; border-radius: 8px; padding: 1rem; overflow: auto; display: flex; justify-content: center; }
+
+/* Spacing and text utilities */
+.ml8 { margin-left: 8px; }
+.textSm { font-size: 0.85rem; }
+
+/* ChipInput base layout */
+.chipContainer { margin-top: 6px; }
+.chipList { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 6px; }
+.chip { display: inline-flex; align-items: center; gap: 6px; padding: 2px 8px; border: 1px solid; border-radius: 999px; }
+.chipTextSm { font-size: 0.85rem; }
+.chipMoveGroup { display: inline-flex; gap: 4px; }
+.chipMoveBtn { width: 20px; height: 20px; border-radius: 4px; border: 1px solid; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; background: transparent; }
+.chipRemoveBtn { display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; border-radius: 999px; border: 1px solid; background: transparent; cursor: pointer; }
+.chipInputRow { display: flex; gap: 6px; }
+.chipInput { padding: 0.4rem 0.6rem; border: 1px solid; border-radius: 8px; font-size: 0.9rem; flex: 0 1 360px; }

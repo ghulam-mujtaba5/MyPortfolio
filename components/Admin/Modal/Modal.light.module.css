@@ -17,3 +17,10 @@
 .closeButton:hover {
   color: #111827; /* gray-900 */
 }
+
+/* Footer border in light theme */
+.footer {
+  border-color: #e5e7eb; /* gray-200 */
+}
+
+/* Action buttons now use shared utilities; no theme-specific button styles here. */

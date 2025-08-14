@@ -16,10 +16,12 @@ import SearchInput from "../../../components/Admin/Form/SearchInput";
 import Select from "../../../components/Admin/Form/Select";
 import EmptyState from "../../../components/Admin/EmptyState/EmptyState";
 import ArticleCard from "../../../components/Admin/ArticleCard/ArticleCard";
+import SavedSearches from "../../../components/Admin/SavedSearches/SavedSearches";
 
 import commonStyles from "./articles.common.module.css";
 import lightStyles from "./articles.light.module.css";
 import darkStyles from "./articles.dark.module.css";
+import utilities from "../../../styles/utilities.module.css";
 
 const ArticlesPage = () => {
   const { theme } = useTheme();
@@ -165,7 +167,7 @@ const ArticlesPage = () => {
       >
         <header className={styles.header}>
           <h1 className={styles.title}>Articles</h1>
-          <Link href="/admin/articles/new" className="button primary">
+          <Link href="/admin/articles/new" className={`${utilities.btn} ${utilities.btnPrimary}`}>
             <Icon name="plus" size={16} />
             <span>Create Article</span>
           </Link>
@@ -202,6 +204,7 @@ const ArticlesPage = () => {
             <option value="20">20 / page</option>
             <option value="50">50 / page</option>
           </Select>
+          <SavedSearches scope="articles" />
         </div>
 
         {(topTags.length > 0 || topCategories.length > 0) && (
@@ -247,7 +250,7 @@ const ArticlesPage = () => {
             <Tooltip content="Delete Selected">
               <button
                 onClick={() => handleDelete()}
-                className="button danger-ghost icon-only"
+                className={`${utilities.btn} ${utilities.btnIcon} ${utilities.btnDanger}`}
               >
                 <Icon name="trash" />
               </button>
@@ -300,7 +303,7 @@ const ArticlesPage = () => {
         {pagination.totalPages > 1 && (
           <div className={styles.pagination}>
             <button
-              className="button ghost"
+              className={`${utilities.btn} ${utilities.btnSecondary}`}
               onClick={() => handleFilterChange("page", pagination.page - 1)}
               disabled={!pagination.hasPrevPage}
             >
@@ -310,7 +313,7 @@ const ArticlesPage = () => {
               Page {pagination.page} of {pagination.totalPages}
             </span>
             <button
-              className="button ghost"
+              className={`${utilities.btn} ${utilities.btnSecondary}`}
               onClick={() => handleFilterChange("page", pagination.page + 1)}
               disabled={!pagination.hasNextPage}
             >

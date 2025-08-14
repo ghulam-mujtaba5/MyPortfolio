@@ -46,11 +46,78 @@
   box-shadow: 0 0 0 2px rgba(96, 165, 250, 0.2);
 }
 
-.button {
-  background-color: var(--color-primary-dark);
-  color: var(--color-text-button-dark);
+
+
+/* Versions & Diff UI overrides (dark) */
+.versionItem,
+.diffPane,
+.diffContent {
+  border-color: #334155;
 }
 
-.button:hover {
-  background-color: var(--color-primary-hover-dark);
+.diffPane,
+.versionsList {
+  background-color: #0f172a;
+}
+
+.diffTitle {
+  color: var(--color-text-primary-dark);
+}
+
+/* Diff tokens (dark) */
+.diffAdded {
+  background-color: rgba(34,197,94,0.25); /* green-500 @ 25% */
+}
+
+.diffRemoved {
+  background-color: rgba(239,68,68,0.25); /* red-500 @ 25% */
+}
+
+/* Version badges (dark) */
+.versionBadge {
+  border-color: #334155;
+  background-color: #1e293b;
+  color: #e2e8f0;
+}
+
+/* Preview frame (dark) */
+.previewFrame {
+  border: 1px solid #334155; /* slate-700 */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+/* Limit exceeded border (dark) */
+.overLimit {
+  border-color: #fca5a5 !important; /* red-300 for dark contrast */
+}
+
+/* ChipInput theming (dark) */
+.chip {
+  border-color: #334155; /* slate-700 */
+  background-color: #1f2937; /* gray-800 */
+  color: #e5e7eb; /* gray-200 */
+}
+
+.chipMoveBtn {
+  border-color: #334155; /* slate-700 */
+  background-color: #0f172a; /* slate-900 */
+  color: #e5e7eb; /* gray-200 */
+}
+.chipMoveBtn:hover {
+  background-color: #111827; /* gray-900 */
+}
+
+.chipRemoveBtn {
+  border-color: #334155; /* slate-700 */
+  background-color: #0f172a; /* slate-900 */
+  color: #e5e7eb; /* gray-200 */
+}
+.chipRemoveBtn:hover {
+  background-color: #111827; /* gray-900 */
+}
+
+.chipInput {
+  border-color: #475569; /* slate-600 */
+  background-color: #0f172a; /* slate-950 */
+  color: #e2e8f0; /* slate-200 */
 }

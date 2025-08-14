@@ -1,10 +1,10 @@
 // pages/admin/projects/index.js
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import toast from "react-hot-toast";
 import AdminLayout from "../../../components/Admin/AdminLayout/AdminLayout";
-import { useTheme } from "next-themes";
+import { useTheme } from "../../../context/ThemeContext";
 import commonStyles from "../articles/articles.common.module.css";
 import lightStyles from "../articles/articles.light.module.css";
 import darkStyles from "../articles/articles.dark.module.css";
@@ -13,17 +13,24 @@ import gridStyles from "../../../styles/AdminGrid.module.css"; // Shared grid st
 import Icon from "../../../components/Admin/Icon/Icon";
 import Tooltip from "../../../components/Admin/Tooltip/Tooltip";
 import { ProjectListSkeleton } from "../../../components/Admin/Skeletons/Skeletons";
+import Modal from "../../../components/Admin/Modal/Modal";
+import projCommon from "./projects.common.module.css";
+import projLight from "./projects.light.module.css";
+import projDark from "./projects.dark.module.css";
+import utilities from "../../../styles/utilities.module.css";
 
 const ProjectsPage = () => {
   const { theme } = useTheme();
-  const styles = {
-    ...commonStyles,
-    ...(theme === "dark" ? darkStyles : lightStyles),
-  };
+  const themeStyles = theme === "dark" ? darkStyles : lightStyles;
+  const projTheme = theme === "dark" ? projDark : projLight;
+  const styles = { ...commonStyles, ...themeStyles };
   const [projects, setProjects] = useState([]);
   const [pagination, setPagination] = useState({});
   const [loading, setLoading] = useState(true);
   const [selectedProjects, setSelectedProjects] = useState([]);
+  const [confirmState, setConfirmState] = useState({ open: false, type: null, payload: null });
+  const confirmBtnRef = useRef(null);
+  const [q, setQ] = useState("");
 
   const router = useRouter();
   const {
@@ -66,60 +73,71 @@ const ProjectsPage = () => {
     fetchData();
   }, [fetchData]);
 
+  // Keep local state in sync if query changes externally (e.g., back/forward)
+  useEffect(() => {
+    setQ(String(search || ""));
+  }, [search]);
+
+  // Debounce search query updates to the URL to avoid excessive reloads
+  useEffect(() => {
+    const t = setTimeout(() => {
+      const next = new URLSearchParams({
+        ...router.query,
+        search: q,
+        page: 1,
+      }).toString();
+      router.push(`/admin/projects?${next}`, undefined, { shallow: true });
+    }, 300);
+    return () => clearTimeout(t);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [q]);
+
   const handleEdit = (id) => {
     router.push(`/admin/projects/edit/${id}`);
   };
 
   const handleDelete = async (id) => {
-    if (!window.confirm("Are you sure you want to delete this project?"))
-      return;
-
-    const originalProjects = [...projects];
-    const newProjects = projects.filter((p) => (p._id || p.id) !== id);
-    setProjects(newProjects);
-
-    try {
-      const res = await fetch(`/api/projects/${id}`, { method: "DELETE" });
-
-      if (!res.ok) {
-        const data = await res.json().catch(() => ({}));
-        throw new Error(data.message || "Failed to delete project");
-      }
-      toast.success("Project deleted successfully.");
-      // No need to fetchData, UI is already updated
-    } catch (error) {
-      toast.error(error.message);
-      setProjects(originalProjects); // Revert on error
-    }
+    setConfirmState({ open: true, type: "single-delete", payload: { id } });
   };
 
   const handleBulkAction = async (action) => {
     if (selectedProjects.length === 0)
       return toast.error("No projects selected.");
-    if (
-      !window.confirm(
-        `Are you sure you want to ${action} ${selectedProjects.length} projects?`,
-      )
-    )
-      return;
+    setConfirmState({ open: true, type: "bulk-action", payload: { action } });
+  };
 
+  const onConfirm = async () => {
+    const { type, payload } = confirmState;
     try {
-      const res = await fetch("/api/projects/bulk-action", {
-        // Assumes this endpoint exists
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ projectIds: selectedProjects, action }),
-      });
-      const data = await res.json();
-      if (res.ok) {
+      if (type === "single-delete") {
+        const id = payload.id;
+        const original = [...projects];
+        setProjects(projects.filter((p) => (p._id || p.id) !== id));
+        const res = await fetch(`/api/projects/${id}`, { method: "DELETE" });
+        if (!res.ok) {
+          const data = await res.json().catch(() => ({}));
+          throw new Error(data.message || "Failed to delete project");
+        }
+        toast.success("Project deleted successfully.");
+      } else if (type === "bulk-action") {
+        const action = payload.action;
+        const res = await fetch("/api/projects/bulk-action", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ projectIds: selectedProjects, action }),
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.message || "Failed to perform bulk action");
         toast.success(data.message);
         setSelectedProjects([]);
         fetchData();
-      } else {
-        throw new Error(data.message || "Failed to perform bulk action");
       }
-    } catch (error) {
-      toast.error(error.message);
+    } catch (err) {
+      toast.error(err.message || "Action failed");
+      // Best effort refresh
+      fetchData();
+    } finally {
+      setConfirmState({ open: false, type: null, payload: null });
     }
   };
 
@@ -143,7 +161,7 @@ const ProjectsPage = () => {
     <AdminLayout title="Manage Projects">
       <div className={styles.header}>
         <h1>Projects</h1>
-        <Link href="/admin/projects/new" className={styles.newButton}>
+        <Link href="/admin/projects/new" className={`${utilities.btn} ${utilities.btnPrimary}`}>
           New Project
         </Link>
       </div>
@@ -153,16 +171,27 @@ const ProjectsPage = () => {
         <input
           type="text"
           placeholder="Search by title..."
-          defaultValue={search}
-          onChange={(e) =>
-            router.push(
-              `/admin/projects?${new URLSearchParams({ ...router.query, search: e.target.value, page: 1 })}`,
-            )
-          }
+          value={q}
+          onChange={(e) => setQ(e.target.value)}
+          className={styles.searchInput}
+          role="searchbox"
+          aria-label="Search projects by title"
         />
+        {q ? (
+          <button
+            type="button"
+            className={`${utilities.btn} ${utilities.btnIcon}`}
+            onClick={() => setQ("")}
+            aria-label="Clear search"
+            title="Clear"
+          >
+            Clear
+          </button>
+        ) : null}
         <div className={styles.quickFilters}>
           <button
             className={`${styles.filterChip} ${!published && !featured ? styles.activeChip : ""}`}
+            aria-pressed={!published && !featured}
             onClick={() =>
               router.push(
                 `/admin/projects?${new URLSearchParams({ ...router.query, published: "", featured: "", page: 1 })}`,
@@ -173,6 +202,7 @@ const ProjectsPage = () => {
           </button>
           <button
             className={`${styles.filterChip} ${published === "true" ? styles.activeChip : ""}`}
+            aria-pressed={published === "true"}
             onClick={() =>
               router.push(
                 `/admin/projects?${new URLSearchParams({ ...router.query, published: "true", featured: "", page: 1 })}`,
@@ -183,6 +213,7 @@ const ProjectsPage = () => {
           </button>
           <button
             className={`${styles.filterChip} ${published === "false" ? styles.activeChip : ""}`}
+            aria-pressed={published === "false"}
             onClick={() =>
               router.push(
                 `/admin/projects?${new URLSearchParams({ ...router.query, published: "false", featured: "", page: 1 })}`,
@@ -193,6 +224,7 @@ const ProjectsPage = () => {
           </button>
           <button
             className={`${styles.filterChip} ${featured === "true" ? styles.activeChip : ""}`}
+            aria-pressed={featured === "true"}
             onClick={() =>
               router.push(
                 `/admin/projects?${new URLSearchParams({ ...router.query, featured: "true", published: "", page: 1 })}`,
@@ -204,15 +236,15 @@ const ProjectsPage = () => {
         </div>
         {selectedProjects.length > 0 && (
           <div className={styles.bulkActions}>
-            <button onClick={() => handleBulkAction("publish")}>
+            <button className={`${utilities.btn} ${utilities.btnPrimary}`} onClick={() => handleBulkAction("publish")}>
               Publish Selected
             </button>
-            <button onClick={() => handleBulkAction("draft")}>
+            <button className={`${utilities.btn} ${utilities.btnSecondary}`} onClick={() => handleBulkAction("draft")}>
               Set to Draft
             </button>
             <button
               onClick={() => handleBulkAction("delete")}
-              className={styles.bulkDeleteButton}
+              className={`${utilities.btn} ${utilities.btnDanger}`}
             >
               Delete Selected
             </button>
@@ -252,6 +284,7 @@ const ProjectsPage = () => {
                 )
               }
               disabled={pagination.page <= 1}
+              className={`${utilities.btn} ${utilities.btnSecondary}`}
             >
               Previous
             </button>
@@ -265,12 +298,32 @@ const ProjectsPage = () => {
                 )
               }
               disabled={pagination.page >= pagination.totalPages}
+              className={`${utilities.btn} ${utilities.btnSecondary}`}
             >
               Next
             </button>
           </div>
         </>
       )}
+      <Modal
+        isOpen={confirmState.open}
+        onClose={() => setConfirmState({ open: false, type: null, payload: null })}
+        title={confirmState.type === "bulk-action" ? "Confirm Bulk Action" : "Delete Project"}
+        onConfirm={onConfirm}
+        initialFocusRef={confirmBtnRef}
+        confirmText={confirmState.type === "bulk-action" ? "Confirm" : "Delete"}
+        cancelText="Cancel"
+      >
+        {confirmState.type === "bulk-action" ? (
+          <p>
+            Are you sure you want to {confirmState.payload?.action} {selectedProjects.length} project(s)?
+          </p>
+        ) : (
+          <p>
+            This action will permanently delete this project and cannot be undone.
+          </p>
+        )}
+      </Modal>
     </AdminLayout>
   );
 };

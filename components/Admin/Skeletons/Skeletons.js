@@ -1,11 +1,8 @@
 import { useTheme } from "next-themes";
 import styles from "./Skeletons.module.css";
 
-export const SkeletonBox = ({ width, height, className = "" }) => (
-  <div
-    className={`${styles.skeletonBox} ${className}`}
-    style={{ width, height }}
-  />
+export const SkeletonBox = ({ className = "" }) => (
+  <div className={`${styles.skeletonBox} ${className}`} />
 );
 
 export const ArticleListSkeleton = () => {
@@ -18,11 +15,11 @@ export const ArticleListSkeleton = () => {
             <SkeletonBox className={styles.image} />
           </div>
           <div className={styles.content}>
-            <SkeletonBox width="80%" height="20px" />
-            <SkeletonBox width="60%" height="16px" />
+            <SkeletonBox className={`${styles.w80p} ${styles.h20}`} />
+            <SkeletonBox className={`${styles.w60p} ${styles.h16}`} />
             <div className={styles.tags}>
-              <SkeletonBox width="50px" height="20px" />
-              <SkeletonBox width="70px" height="20px" />
+              <SkeletonBox className={`${styles.w50} ${styles.h20}`} />
+              <SkeletonBox className={`${styles.w70} ${styles.h20}`} />
             </div>
           </div>
         </div>
@@ -38,14 +35,14 @@ export const ProjectListSkeleton = () => {
         <div key={i} className={styles.card}>
           <SkeletonBox className={styles.image} />
           <div className={styles.content}>
-            <SkeletonBox width="80%" height="20px" />
+            <SkeletonBox className={`${styles.w80p} ${styles.h20}`} />
             <div className={styles.badges}>
-              <SkeletonBox width="60px" height="20px" />
-              <SkeletonBox width="80px" height="20px" />
+              <SkeletonBox className={`${styles.w60p} ${styles.h20}`} />
+              <SkeletonBox className={`${styles.w80p} ${styles.h20}`} />
             </div>
             <div className={styles.tags}>
-              <SkeletonBox width="50px" height="20px" />
-              <SkeletonBox width="70px" height="20px" />
+              <SkeletonBox className={`${styles.w50} ${styles.h20}`} />
+              <SkeletonBox className={`${styles.w70} ${styles.h20}`} />
             </div>
           </div>
         </div>

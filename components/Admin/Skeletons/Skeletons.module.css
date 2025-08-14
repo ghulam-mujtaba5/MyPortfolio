@@ -67,3 +67,11 @@
   display: flex;
   gap: 0.5rem;
 }
+
+/* Size utilities */
+.w80p { width: 80%; }
+.w60p { width: 60%; }
+.w70 { width: 70px; }
+.w50 { width: 50px; }
+.h20 { height: 20px; }
+.h16 { height: 16px; }

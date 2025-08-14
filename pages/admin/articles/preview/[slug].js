@@ -1,5 +1,5 @@
 // pages/admin/articles/preview/[slug].js
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/router";
 import AdminLayout from "../../../../components/Admin/AdminLayout/AdminLayout";
 import Link from "next/link";
@@ -7,6 +7,8 @@ import { useTheme } from "../../../../context/ThemeContext";
 import commonStyles from "../articles.common.module.css";
 import lightStyles from "../articles.light.module.css";
 import darkStyles from "../articles.dark.module.css";
+import Modal from "../../../../components/Admin/Modal/Modal";
+import utilities from "../../../../styles/utilities.module.css";
 
 export default function AdminArticlePreviewPage() {
   const { theme } = useTheme();
@@ -17,6 +19,8 @@ export default function AdminArticlePreviewPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [updating, setUpdating] = useState(false);
+  const [confirmOpen, setConfirmOpen] = useState(false);
+  const confirmBtnRef = useRef(null);
 
   useEffect(() => {
     if (!slug) return;
@@ -39,32 +43,24 @@ export default function AdminArticlePreviewPage() {
     })();
   }, [slug]);
 
-  const publishNow = async () => {
+  const doPublishNow = async () => {
     if (!article) return;
-    if (
-      !confirm(
-        "Publish now? This will make the article publicly visible immediately.",
-      )
-    )
-      return;
     try {
       setUpdating(true);
-      const res = await fetch(
-        `/api/articles/${encodeURIComponent(article.slug)}`,
-        {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ publishAt: null, published: true }),
-        },
-      );
+      const res = await fetch(`/api/articles/${encodeURIComponent(article.slug)}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ publishAt: null, published: true }),
+      });
       const data = await res.json().catch(() => ({}));
       if (!res.ok) throw new Error(data?.error || "Failed to publish");
-      // refresh
       router.replace(router.asPath);
     } catch (e) {
-      alert(e.message || "Failed to publish");
+      // Surface error inline below title using error state
+      setError(e.message || "Failed to publish");
     } finally {
       setUpdating(false);
+      setConfirmOpen(false);
     }
   };
 
@@ -74,8 +70,8 @@ export default function AdminArticlePreviewPage() {
     >
       <div className={commonStyles.header}>
         <h1>Preview</h1>
-        <div style={{ display: "flex", gap: 8 }}>
-          <button className={commonStyles.iconButton} onClick={() => router.back()}>
+        <div className={commonStyles.actions}>
+          <button className={`${utilities.btn} ${utilities.btnIcon}`} onClick={() => router.back()}>
             Back
           </button>
           {article &&
@@ -84,7 +80,7 @@ export default function AdminArticlePreviewPage() {
               new Date(article.publishAt) <= new Date()) && (
               <Link
                 href={`/articles/${encodeURIComponent(article.slug)}`}
-                className={`${commonStyles.iconButton} ${commonStyles.iconButtonPrimary}`}
+                className={`${utilities.btn} ${utilities.btnIcon} ${utilities.btnPrimary}`}
                 title="View public"
                 aria-label="View public"
               >
@@ -97,8 +93,8 @@ export default function AdminArticlePreviewPage() {
             new Date(article.publishAt) > new Date() && (
               <button
                 disabled={updating}
-                onClick={publishNow}
-                className={`${commonStyles.iconButton} ${commonStyles.iconButtonPrimary}`}
+                onClick={() => setConfirmOpen(true)}
+                className={`${utilities.btn} ${utilities.btnIcon} ${utilities.btnPrimary}`}
                 title="Publish now"
                 aria-label="Publish now"
               >
@@ -108,26 +104,21 @@ export default function AdminArticlePreviewPage() {
         </div>
       </div>
 
-      {loading && <p>Loading...</p>}
-      {error && <p style={{ color: "crimson" }}>{error}</p>}
+      {loading && (
+        <p className={frameStyles.statusText}>Loading…</p>
+      )}
+      {error && (
+        <p className={frameStyles.statusError}>{error}</p>
+      )}
 
       {article && (
-        <article style={{ display: "grid", gap: 12 }}>
+        <article>
           <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: 12,
-              flexWrap: "wrap",
-            }}
+            className={`${commonStyles.filterGroup}`}
           >
-            <h2 style={{ margin: 0 }}>{article.title}</h2>
+            <h2>{article.title}</h2>
             <span
-              style={{
-                padding: "2px 8px",
-                borderRadius: 12,
-                border: "1px solid #e5e7eb",
-              }}
+              className={`${commonStyles.resultChip} ${article.published ? (article.publishAt && new Date(article.publishAt) > new Date() ? frameStyles.chipAmber : frameStyles.chipGreen) : frameStyles.chipGray}`}
             >
               {article.published
                 ? article.publishAt && new Date(article.publishAt) > new Date()
@@ -136,7 +127,7 @@ export default function AdminArticlePreviewPage() {
                 : "Draft"}
             </span>
             {article.publishAt && (
-              <span style={{ opacity: 0.8 }}>
+              <span className={commonStyles.paginationText}>
                 Publish At: {new Date(article.publishAt).toLocaleString()}
               </span>
             )}
@@ -148,21 +139,17 @@ export default function AdminArticlePreviewPage() {
               <img
                 src={article.coverImage}
                 alt={article.title}
-                style={{ maxWidth: "100%", borderRadius: 8 }}
+                className={commonStyles.imagePreview}
               />
             </div>
           )}
 
           {Array.isArray(article.tags) && article.tags.length > 0 && (
-            <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+            <div className={commonStyles.filterGroup}>
               {article.tags.map((t) => (
                 <span
                   key={t}
-                  style={{
-                    padding: "4px 8px",
-                    border: "1px solid #e5e7eb",
-                    borderRadius: 12,
-                  }}
+                  className={`${commonStyles.resultChip} ${commonStyles.chipGray}`}
                 >
                   #{t}
                 </span>
@@ -172,15 +159,11 @@ export default function AdminArticlePreviewPage() {
 
           {Array.isArray(article.categories) &&
             article.categories.length > 0 && (
-              <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+              <div className={commonStyles.filterGroup}>
                 {article.categories.map((c) => (
                   <span
                     key={c}
-                    style={{
-                      padding: "4px 8px",
-                      border: "1px solid #e5e7eb",
-                      borderRadius: 12,
-                    }}
+                    className={`${commonStyles.resultChip} ${commonStyles.chipGray}`}
                   >
                     {c}
                   </span>
@@ -190,45 +173,37 @@ export default function AdminArticlePreviewPage() {
 
           {Array.isArray(article.highlights) &&
             article.highlights.length > 0 && (
-              <div
-                style={{ display: "grid", gap: 8, marginTop: 8 }}
-                aria-label="Highlights"
-              >
-                <h3 style={{ margin: "8px 0 0 0" }}>Highlights</h3>
-                <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+              <div aria-label="Highlights" className={`${commonStyles.mtSm} ${frameStyles.sectionDivider}`}>
+                <h3>Highlights</h3>
+                <div className={commonStyles.filterGroup}>
                   {article.highlights.map((q, idx) => (
-                    <figure
-                      key={idx}
-                      style={{
-                        margin: 0,
-                        padding: "10px 12px",
-                        border: "1px solid #e5e7eb",
-                        borderRadius: 12,
-                        background: "#f9fafb",
-                        maxWidth: "100%",
-                      }}
-                    >
-                      <blockquote style={{ margin: 0, fontStyle: "italic" }}>
-                        “{q}”
-                      </blockquote>
+                    <figure key={idx} className={`${commonStyles.quoteCard} ${frameStyles.quoteCard}`}>
+                      <blockquote className={commonStyles.blockquote}>“{q}”</blockquote>
                     </figure>
                   ))}
                 </div>
               </div>
             )}
 
-          <div
-            style={{
-              borderTop: "1px solid #e5e7eb",
-              marginTop: 8,
-              paddingTop: 12,
-            }}
-          >
+          <div className={`${frameStyles.sectionDivider} ${commonStyles.mtSm}`}>
             {/* Attempt to render HTML; fallback to text */}
             <div dangerouslySetInnerHTML={{ __html: article.content || "" }} />
           </div>
         </article>
       )}
+      <Modal
+        isOpen={confirmOpen}
+        onClose={() => setConfirmOpen(false)}
+        title="Publish Article Now"
+        onConfirm={doPublishNow}
+        initialFocusRef={confirmBtnRef}
+        confirmText={updating ? "Publishing…" : "Publish"}
+        cancelText="Cancel"
+      >
+        <p>
+          This will make the article publicly visible immediately. Do you want to continue?
+        </p>
+      </Modal>
     </AdminLayout>
   );
 }

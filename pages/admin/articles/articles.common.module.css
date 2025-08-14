@@ -133,22 +133,112 @@
   gap: 8px;
 }
 
+/* iconButton base removed in favor of utilities.btn + utilities.btnIcon */
+
 .resultRow {
   display: grid;
   gap: 6px;
   border-radius: 10px;
   padding: 12px;
+  grid-template-columns: 1fr; /* stacked by default */
+  border: 1px solid transparent; /* themed border color */
+  transition: background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
-.resultTitle { font-weight: 600; }
+@media (prefers-reduced-motion: reduce) {
+  .resultRow {
+    transition: none !important;
+  }
+}
+
+/* Active row (structure-only hook, colors in theme) */
+.resultActive { outline: none; }
+
+/* Chip base (structure-only) */
+.resultChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  padding: 4px 8px;
+  border-radius: 999px;
+  border: 1px solid transparent; /* themed */
+}
+
+/* Reusable search input (structure only; colors in theme modules) */
+.searchInput {
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid transparent; /* themed in light/dark */
+  width: 100%;
+  max-width: 420px;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+}
+.searchInput:focus-visible {
+  outline: none; /* themed outline via shadow in theme modules */
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .searchInput { transition: none !important; }
+}
+
+.resultTitle {
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 
 .resultMeta {
   display: flex;
   gap: 8px;
   align-items: center;
+  flex-wrap: wrap;
 }
 
 .resultActions {
   display: flex;
   gap: 8px;
+}
+
+/* Responsive layout for search result rows */
+@media (min-width: 640px) {
+  .resultRow {
+    grid-template-columns: 1fr auto auto; /* title | meta | actions */
+    align-items: center;
+  }
+  .resultActions {
+    justify-self: end;
+  }
+}
+
+/* --- Admin Search utilities (structure-only) --- */
+.searchForm {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.searchInputMax { max-width: 480px; }
+.mtSm { margin-top: 12px; }
+.mtMd { margin-top: 16px; }
+
+/* Media (structure-only) */
+.imagePreview {
+  max-width: 100%;
+  border-radius: 8px;
+  height: auto;
+  display: block;
+}
+
+/* Highlights (structure-only) */
+.quoteCard {
+  margin: 0;
+  padding: 10px 12px;
+  border: 1px solid transparent; /* themed border color */
+  border-radius: 12px;
+  max-width: 100%;
+}
+.blockquote {
+  margin: 0;
+  font-style: italic;
 }

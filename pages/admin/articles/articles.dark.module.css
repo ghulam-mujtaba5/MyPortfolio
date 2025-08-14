@@ -2,6 +2,44 @@
   color: var(--color-text-primary-dark);
 }
 
+/* Search result rows (dark) */
+.resultRow:hover {
+  background-color: var(--color-bg-secondary-dark);
+  border-color: var(--color-border-dark);
+}
+.resultActive {
+  background-color: var(--color-bg-tertiary-dark);
+  border-color: var(--color-primary-dark);
+  box-shadow: 0 0 0 2px rgba(129,140,248,0.18);
+}
+.resultRow:focus-within {
+  border-color: var(--color-primary-dark);
+  box-shadow: 0 0 0 2px rgba(129,140,248,0.25);
+}
+
+/* Search input (dark) */
+.searchInput {
+  background-color: var(--color-bg-dark);
+  border-color: var(--color-border-dark);
+  color: var(--color-text-primary-dark);
+}
+.searchInput::placeholder { color: var(--color-text-secondary-dark); }
+.searchInput:focus-visible {
+  border-color: var(--color-primary-dark);
+  box-shadow: 0 0 0 2px rgba(129,140,248,0.22);
+}
+
+/* Chips (dark) */
+.chipGray { background: #111827; color: #e5e7eb; border-color: #374151; }
+.chipAmber { background: #78350f; color: #fde68a; border-color: #92400e; }
+.chipGreen { background: #064e3b; color: #bbf7d0; border-color: #065f46; }
+
+/* Section divider (dark) */
+.sectionDivider { border-top: 1px solid var(--color-border-dark); }
+
+/* Highlights (dark) */
+.quoteCard { background: #0b1220; border-color: var(--color-border-dark); }
+
 .filterLabel {
   color: var(--color-text-secondary-dark);
 }
@@ -32,4 +70,15 @@
 
 .paginationText {
   color: var(--color-text-secondary-dark);
+}
+
+/* Admin Search status colors (dark) */
+.statusText { color: #cbd5e1; }
+.statusError { color: #f87171; }
+
+/* Themed icon buttons removed; use utilities.btnPrimary instead */
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  /* icon button primary handled by utilities; no local transitions */
 }

@@ -1,0 +1,46 @@
+.dropdownButton {
+  background-color: #1f2937;
+  border-color: #374151;
+  color: #e5e7eb;
+}
+
+.dropdownContent {
+  background-color: #0f172a;
+  border-color: #334155;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
+}
+
+.saveSection {
+  border-bottom-color: #334155;
+}
+
+.input {
+  background-color: #111827;
+  border-color: #374151;
+  color: #e5e7eb;
+}
+
+.saveButton {
+  background-color: #6366f1;
+  color: #ffffff;
+}
+
+.searchItem:hover {
+  background-color: #111827;
+}
+
+.searchName {
+  color: #e5e7eb;
+}
+
+.deleteButton {
+  color: #9ca3af;
+}
+
+.deleteButton:hover {
+  color: #f87171;
+}
+
+.noSearches {
+  color: #94a3b8;
+}

@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useMemo } from "react";
+import { useState, useEffect, useCallback, useMemo, useRef } from "react";
 import { useRouter } from "next/router";
 import { useTheme } from "../../../context/ThemeContext";
 
@@ -15,6 +15,9 @@ export default function CommandPalette() {
   const { theme, mode, setThemeMode, toggleTheme } = useTheme();
   const themeStyles = theme === "dark" ? darkStyles : lightStyles;
   const isCommandMode = query.startsWith(">");
+  const inputRef = useRef(null);
+  const containerRef = useRef(null);
+  const prevFocusRef = useRef(null);
 
   const commands = useMemo(() => {
     const runScheduler = async () => {
@@ -162,6 +165,52 @@ export default function CommandPalette() {
       setQuery("");
       setResults([]);
       setActiveIndex(-1);
+      // restore focus back to previously focused element when closing
+      try {
+        const el = prevFocusRef.current;
+        if (el && typeof el.focus === "function") el.focus();
+      } catch {}
+    }
+  }, [isOpen]);
+
+  // Manage initial focus and focus trapping when open
+  useEffect(() => {
+    if (isOpen) {
+      // remember previously focused element
+      try {
+        prevFocusRef.current = document.activeElement;
+      } catch {}
+      // focus input
+      try {
+        setTimeout(() => {
+          if (inputRef.current && typeof inputRef.current.focus === "function") {
+            inputRef.current.focus();
+          }
+        }, 0);
+      } catch {}
+      // focus trap within container
+      const onKeyDown = (e) => {
+        if (e.key !== "Tab") return;
+        const root = containerRef.current;
+        if (!root) return;
+        const focusables = Array.from(
+          root.querySelectorAll(
+            'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+          )
+        ).filter((el) => !el.hasAttribute("disabled"));
+        if (focusables.length === 0) return;
+        const first = focusables[0];
+        const last = focusables[focusables.length - 1];
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      };
+      window.addEventListener("keydown", onKeyDown);
+      return () => window.removeEventListener("keydown", onKeyDown);
     }
   }, [isOpen]);
 
@@ -219,7 +268,13 @@ export default function CommandPalette() {
       <div
         className={`${commonStyles.modal} ${themeStyles.modal}`}
         onClick={(e) => e.stopPropagation()}
+        ref={containerRef}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="command-palette-title"
+        aria-describedby="command-palette-help"
       >
+        <h2 id="command-palette-title" className="sr-only">Command Palette</h2>
         <input
           type="text"
           placeholder={
@@ -230,7 +285,7 @@ export default function CommandPalette() {
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           className={`${commonStyles.input} ${themeStyles.input}`}
-          autoFocus
+          ref={inputRef}
         />
         {results.length > 0 && (
           <ul className={commonStyles.resultsList}>
@@ -255,16 +310,7 @@ export default function CommandPalette() {
             ))}
           </ul>
         )}
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            marginTop: 8,
-            fontSize: 12,
-            opacity: 0.7,
-          }}
-        >
+        <div id="command-palette-help" className={commonStyles.tipsRow}>
           <span>Tip: Type &gt; to run commands</span>
           <span>Navigate: ↑/↓ • Run: Enter • Close: Esc</span>
         </div>

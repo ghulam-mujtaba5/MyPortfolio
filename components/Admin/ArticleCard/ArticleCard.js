@@ -11,6 +11,7 @@ import Chip from '../Chip/Chip';
 import { FiTrash2, FiEdit, FiEye, FiCopy, FiCheckCircle, FiXCircle, FiHelpCircle } from "react-icons/fi";
 import toast from "react-hot-toast";
 import { useTheme } from '../../../context/ThemeContext';
+import utilities from '../../../styles/utilities.module.css';
 
 const ArticleCard = ({ article, isSelected, onSelect, onDelete }) => {
   const cardVariants = {
@@ -122,7 +123,7 @@ const ArticleCard = ({ article, isSelected, onSelect, onDelete }) => {
           <Tooltip content="Edit">
             <Link
               href={`/admin/articles/edit/${id}`}
-              className="button ghost icon-only"
+              className={`${utilities.btnIcon}`}
             >
               <Icon name="edit" />
             </Link>
@@ -130,7 +131,7 @@ const ArticleCard = ({ article, isSelected, onSelect, onDelete }) => {
           <Tooltip content="Delete">
             <button
               onClick={() => onDelete(id)}
-              className="button danger-ghost icon-only"
+              className={`${utilities.btnIcon} ${utilities.btnDanger}`}
             >
               <Icon name="trash" />
             </button>
@@ -140,7 +141,7 @@ const ArticleCard = ({ article, isSelected, onSelect, onDelete }) => {
               href={`/blog/${article.slug}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="button ghost icon-only"
+              className={`${utilities.btnIcon}`}
             >
               <Icon name="externalLink" />
             </a>

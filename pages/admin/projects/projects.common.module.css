@@ -1,0 +1,9 @@
+.headerRow { display: flex; align-items: center; justify-content: space-between; }
+.headerRow h1 { margin: 0; }
+
+.twoCol { display: grid; grid-template-columns: 2fr 1fr; gap: 2rem; }
+.previewScale { transform: scale(0.9); transform-origin: top left; }
+
+/* deleteButton removed; use utilities.btn variants instead */
+
+.srOnly { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }

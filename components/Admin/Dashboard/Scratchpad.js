@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import toast from "react-hot-toast";
 import styles from "./Dashboard.module.css";
 import Icon from "../Icon/Icon";
+import Modal from "../../Admin/Modal/Modal";
 
 const Scratchpad = () => {
   const [notes, setNotes] = useState([]);
@@ -63,13 +64,22 @@ const Scratchpad = () => {
     inputRef.current?.focus();
   };
 
-  const handleDelete = async (id) => {
-    if (!window.confirm("Are you sure you want to delete this note?")) return;
+  const [confirmOpen, setConfirmOpen] = useState(false);
+  const [deleteId, setDeleteId] = useState(null);
+  const confirmBtnRef = useRef(null);
+
+  const requestDelete = (id) => {
+    setDeleteId(id);
+    setConfirmOpen(true);
+  };
+
+  const handleDelete = async () => {
+    if (!deleteId) return setConfirmOpen(false);
     try {
       const res = await fetch("/api/admin/notes", {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ id }),
+        body: JSON.stringify({ id: deleteId }),
       });
       if (res.ok) {
         toast.success("Note deleted.");
@@ -80,6 +90,9 @@ const Scratchpad = () => {
       }
     } catch (error) {
       toast.error(error.message);
+    } finally {
+      setConfirmOpen(false);
+      setDeleteId(null);
     }
   };
 
@@ -126,7 +139,7 @@ const Scratchpad = () => {
                 <Icon name="edit" />
               </button>
               <button
-                onClick={() => handleDelete(note._id)}
+                onClick={() => requestDelete(note._id)}
                 className={styles.noteActionButton}
               >
                 <Icon name="trash" />
@@ -135,6 +148,21 @@ const Scratchpad = () => {
           </li>
         ))}
       </ul>
+    {/* Delete confirmation modal */}
+    <Modal
+      isOpen={confirmOpen}
+      onClose={() => {
+        setConfirmOpen(false);
+        setDeleteId(null);
+      }}
+      title="Delete Note"
+      onConfirm={handleDelete}
+      confirmText="Delete"
+      cancelText="Cancel"
+      initialFocusRef={confirmBtnRef}
+    >
+      <p>This action will permanently delete this note. Continue?</p>
+    </Modal>
     </div>
   );
 };

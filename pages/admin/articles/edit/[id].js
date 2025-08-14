@@ -5,24 +5,47 @@ import ArticleForm from "../../../../components/Admin/ArticleForm/ArticleForm";
 import dbConnect from "../../../../lib/mongoose";
 import Article from "../../../../models/Article";
 import mongoose from "mongoose";
+import { useState } from "react";
 
 export default function EditArticlePage({ article, previewSecret }) {
   const router = useRouter();
+  const [errors, setErrors] = useState({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSave = async (data) => {
-    const response = await fetch(`/api/articles/${article._id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
+    setErrors({});
+    setIsSubmitting(true);
+    const toastId = toast.loading("Updating article...");
+    try {
+      const response = await fetch(`/api/articles/${article._id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
 
-    if (response.ok) {
-      toast.success("Article updated successfully!");
-      router.push("/admin/articles");
-    } else {
-      toast.error("Failed to update article");
+      if (response.ok) {
+        toast.success("Article updated successfully!", { id: toastId });
+        router.push("/admin/articles");
+      } else {
+        const errorData = await response.json().catch(() => ({}));
+        if (response.status === 400 && Array.isArray(errorData.errors)) {
+          const formatted = {};
+          for (const err of errorData.errors) {
+            const path = Array.isArray(err.path) ? err.path[0] : err.path;
+            if (path) formatted[path] = err.message;
+          }
+          setErrors(formatted);
+          toast.error("Please fix the errors below.", { id: toastId });
+        } else {
+          toast.error(errorData.message || "Failed to update article", { id: toastId });
+        }
+      }
+    } catch (e) {
+      toast.error(e.message || "Failed to update article", { id: toastId });
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -40,6 +63,8 @@ export default function EditArticlePage({ article, previewSecret }) {
         article={article}
         onSave={handleSave}
         onPreview={handlePreview}
+        serverErrors={errors}
+        isSubmitting={isSubmitting}
       />
     </AdminLayout>
   );

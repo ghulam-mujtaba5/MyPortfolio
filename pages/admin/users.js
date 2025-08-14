@@ -1,17 +1,20 @@
-  const { theme } = useTheme();
-  const themeStyles = theme === "dark" ? darkStyles : lightStyles;
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import AdminLayout from "../../components/Admin/AdminLayout/AdminLayout";
+import Modal from "../../components/Admin/Modal/Modal";
 import withAdminAuth from "../../lib/withAdminAuth";
 import toast from "react-hot-toast";
 import { FiEdit, FiTrash2 } from "react-icons/fi";
 import commonStyles from "./users.module.css";
 import lightStyles from "./users.light.module.css";
 import darkStyles from "./users.dark.module.css";
+import utilities from "../../styles/utilities.module.css";
 import { useTheme } from "../../context/ThemeContext";
 
 // Edit User Modal Component
 const EditUserModal = ({ user, onClose, onUserUpdate }) => {
+  const { theme } = useTheme();
+  const themeStyles = theme === "dark" ? darkStyles : lightStyles;
+  const nameRef = useRef(null);
   const [name, setName] = useState(user.name);
   const [email, setEmail] = useState(user.email);
   const [role, setRole] = useState(user.role);
@@ -35,60 +38,83 @@ const EditUserModal = ({ user, onClose, onUserUpdate }) => {
     }
   };
 
+// Delete Confirmation Modal
+const DeleteConfirmModal = ({ user, onCancel, onConfirm }) => {
+  const { theme } = useTheme();
+  const themeStyles = theme === "dark" ? darkStyles : lightStyles;
+  const cancelRef = useRef(null);
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-      <div className="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-2xl w-full max-w-md">
-        <h2 className="text-2xl font-bold mb-6">Edit User</h2>
-        <form onSubmit={handleUpdate}>
-          <div className="space-y-4">
-            <input
-              type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              className="w-full px-4 py-2 border rounded-md dark:bg-gray-700"
-            />
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-4 py-2 border rounded-md dark:bg-gray-700"
-            />
-            <select
-              value={role}
-              onChange={(e) => setRole(e.target.value)}
-              className="w-full px-4 py-2 border rounded-md dark:bg-gray-700"
-            >
-              <option value="editor">Editor</option>
-              <option value="admin">Admin</option>
-            </select>
-          </div>
-          <div className="mt-8 flex justify-end space-x-4">
-            <button
-              type="button"
-              onClick={onClose}
-              className="px-6 py-2 rounded-md text-gray-700 dark:text-gray-200 bg-gray-200 dark:bg-gray-600 hover:bg-gray-300 dark:hover:bg-gray-500"
-            >
-              Cancel
-            </button>
-            <button
-              type="submit"
-              className="px-6 py-2 rounded-md text-white bg-blue-600 hover:bg-blue-700"
-            >
-              Save Changes
-            </button>
-          </div>
-        </form>
+    <Modal isOpen={true} onClose={onCancel} title="Delete User" initialFocusRef={cancelRef}>
+      <p>
+        Are you sure you want to delete <strong>{user?.name}</strong>? This action cannot be undone.
+      </p>
+      <div className={commonStyles.actionsRow}>
+        <button ref={cancelRef} type="button" onClick={onCancel} className={`${utilities.btn} ${utilities.btnSecondary}`}>
+          Cancel
+        </button>
+        <button type="button" onClick={onConfirm} className={`${utilities.btn} ${utilities.btnDanger}`}>
+          Delete
+        </button>
       </div>
-    </div>
+    </Modal>
+  );
+};
+
+  return (
+    <Modal isOpen={true} onClose={onClose} title="Edit User" initialFocusRef={nameRef}>
+      <form onSubmit={handleUpdate}>
+        <div className={commonStyles.formGrid}>
+          <label htmlFor="edit_name" className={utilities.srOnly}>Name</label>
+          <input
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            id="edit_name"
+            ref={nameRef}
+            className={`${commonStyles.input} ${themeStyles.input}`}
+          />
+          <label htmlFor="edit_email" className={utilities.srOnly}>Email</label>
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            id="edit_email"
+            className={`${commonStyles.input} ${themeStyles.input}`}
+          />
+          <label htmlFor="edit_role" className={utilities.srOnly}>Role</label>
+          <select
+            value={role}
+            onChange={(e) => setRole(e.target.value)}
+            id="edit_role"
+            className={`${commonStyles.select} ${themeStyles.select}`}
+          >
+            <option value="editor">Editor</option>
+            <option value="admin">Admin</option>
+          </select>
+        </div>
+        <div className={commonStyles.actionsRow}>
+          <button type="button" onClick={onClose} className={`${utilities.btn} ${utilities.btnSecondary}`}>
+            Cancel
+          </button>
+          <button type="submit" className={`${utilities.btn} ${utilities.btnPrimary}`}>
+            Save Changes
+          </button>
+        </div>
+      </form>
+    </Modal>
   );
 };
 
 const UsersPage = () => {
+  const { theme } = useTheme();
+  const themeStyles = theme === "dark" ? darkStyles : lightStyles;
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [isEditModalOpen, setEditModalOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
+  const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [userToDelete, setUserToDelete] = useState(null);
 
   // Create form state
   const [newName, setNewName] = useState("");
@@ -142,23 +168,25 @@ const UsersPage = () => {
     }
   };
 
-  const handleDeleteUser = async (userId) => {
-    if (
-      window.confirm(
-        "Are you sure you want to delete this user? This action cannot be undone.",
-      )
-    ) {
-      const toastId = toast.loading("Deleting user...");
-      try {
-        const res = await fetch(`/api/users/${userId}`, { method: "DELETE" });
-        const data = await res.json();
-        if (!res.ok) throw new Error(data.error || "Failed to delete user");
-        toast.success("User deleted successfully!", { id: toastId });
-        fetchUsers();
-      } catch (e) {
-        toast.error(e.message, { id: toastId });
-      }
+  const confirmDelete = async () => {
+    if (!userToDelete) return;
+    const toastId = toast.loading("Deleting user...");
+    try {
+      const res = await fetch(`/api/users/${userToDelete._id}`, { method: "DELETE" });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Failed to delete user");
+      toast.success("User deleted successfully!", { id: toastId });
+      setDeleteModalOpen(false);
+      setUserToDelete(null);
+      fetchUsers();
+    } catch (e) {
+      toast.error(e.message, { id: toastId });
     }
+  };
+
+  const openDeleteModal = (user) => {
+    setUserToDelete(user);
+    setDeleteModalOpen(true);
   };
 
   const openEditModal = (user) => {
@@ -175,44 +203,57 @@ const UsersPage = () => {
           onUserUpdate={fetchUsers}
         />
       )}
-      <div className="container mx-auto px-4 sm:px-8">
-        <div className="py-8">
-          <h1 className="text-3xl font-bold leading-tight text-gray-900 dark:text-gray-100">
-            User Management
-          </h1>
+      {isDeleteModalOpen && (
+        <DeleteConfirmModal
+          user={userToDelete}
+          onCancel={() => { setDeleteModalOpen(false); setUserToDelete(null); }}
+          onConfirm={confirmDelete}
+        />
+      )}
+      <div className={commonStyles.pageContainer}>
+        <div className={commonStyles.mtLg}>
+          <h1 className={`${commonStyles.pageTitle} ${themeStyles.sectionTitle}`}>User Management</h1>
 
-          <div className="mt-8 bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
-            <h2 className="text-2xl font-semibold mb-4">Create New User</h2>
+          <div className={`${commonStyles.sectionCard} ${themeStyles.sectionCard} ${commonStyles.mtLg}`}>
+            <h2 className={`${commonStyles.sectionTitle} ${themeStyles.sectionTitle}`}>Create New User</h2>
             <form onSubmit={handleCreateUser}>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className={commonStyles.formGrid}>
+                <label htmlFor="create_name" className={utilities.srOnly}>Name</label>
                 <input
                   type="text"
                   placeholder="Name"
                   value={newName}
                   onChange={(e) => setNewName(e.target.value)}
-                  className="w-full px-4 py-2 border rounded-md dark:bg-gray-700"
+                  id="create_name"
+                  className={`${commonStyles.input} ${themeStyles.input}`}
                   required
                 />
+                <label htmlFor="create_email" className={utilities.srOnly}>Email</label>
                 <input
                   type="email"
                   placeholder="Email"
                   value={newEmail}
                   onChange={(e) => setNewEmail(e.target.value)}
-                  className="w-full px-4 py-2 border rounded-md dark:bg-gray-700"
+                  id="create_email"
+                  className={`${commonStyles.input} ${themeStyles.input}`}
                   required
                 />
+                <label htmlFor="create_password" className={utilities.srOnly}>Password</label>
                 <input
                   type="password"
                   placeholder="Password"
                   value={newPassword}
                   onChange={(e) => setNewPassword(e.target.value)}
-                  className="w-full px-4 py-2 border rounded-md dark:bg-gray-700"
+                  id="create_password"
+                  className={`${commonStyles.input} ${themeStyles.input}`}
                   required
                 />
+                <label htmlFor="create_role" className={utilities.srOnly}>Role</label>
                 <select
                   value={newRole}
                   onChange={(e) => setNewRole(e.target.value)}
-                  className="w-full px-4 py-2 border rounded-md dark:bg-gray-700"
+                  id="create_role"
+                  className={`${commonStyles.select} ${themeStyles.select}`}
                 >
                   <option value="editor">Editor</option>
                   <option value="admin">Admin</option>
@@ -220,17 +261,17 @@ const UsersPage = () => {
               </div>
               <button
                 type="submit"
-                className="mt-6 bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700"
+                className={`${utilities.btn} ${utilities.btnPrimary} ${commonStyles.mtMd}`}
               >
                 Create User
               </button>
             </form>
           </div>
 
-          <div className="mt-8 bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
-            <h2 className="text-2xl font-semibold mb-4">All Users</h2>
+          <div className={`${commonStyles.sectionCard} ${themeStyles.sectionCard} ${commonStyles.mtLg}`}>
+            <h2 className={`${commonStyles.sectionTitle} ${themeStyles.sectionTitle}`}>All Users</h2>
             {loading && <p>Loading users...</p>}
-            {error && <p className="text-red-500">Error: {error}</p>}
+            {error && <p className={`${commonStyles.errorText} ${themeStyles.errorText}`}>Error: {error}</p>}
             {!loading && !error && (
               <div className={`${commonStyles.tableWrapper} ${themeStyles.tableWrapper}`}>
                 <table className={`${commonStyles.table} ${themeStyles.table}`}>
@@ -247,17 +288,17 @@ const UsersPage = () => {
                       <tr key={user._id}>
                         <td>{user.name}</td>
                         <td>{user.email}</td>
-                        <td className="capitalize">{user.role}</td>
+                        <td className={commonStyles.capitalize}>{user.role}</td>
                         <td className={`${commonStyles.actions} ${themeStyles.actions}`}>
                           <button
                             onClick={() => openEditModal(user)}
-                            className={`${commonStyles.actionButton} ${themeStyles.actionButton}`}
+                            className={`${utilities.btn} ${utilities.btnIcon} ${themeStyles.actionButton}`}
                           >
                             <FiEdit />
                           </button>
                           <button
-                            onClick={() => handleDeleteUser(user._id)}
-                            className={`${commonStyles.deleteButton} ${themeStyles.deleteButton}`}
+                            onClick={() => openDeleteModal(user)}
+                            className={`${utilities.btn} ${utilities.btnIcon} ${themeStyles.deleteButton}`}
                           >
                             <FiTrash2 />
                           </button>

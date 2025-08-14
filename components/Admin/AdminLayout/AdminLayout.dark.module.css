@@ -1,47 +1,69 @@
 .container {
-  background-color: #1d2127; /* Dark theme background */
+  background-color: var(--bg);
 }
 
 .sidebar {
-  background-color: #272c34;
-  border-right: 1px solid #3a414c;
+  background-color: var(--bg-elev-1);
+  border-right: 1px solid var(--border);
 }
 
 .sidebar .logo {
-  color: #ffffff;
+  color: var(--text);
 }
 
 .sidebar a,
 .sidebar button {
-  color: #e5e5e5;
+  color: var(--text);
 }
 
 .sidebar a:hover,
 .sidebar button:hover {
-  background-color: #3a414c;
-  color: #ffffff;
+  background-color: var(--bg-elev-2);
+  color: var(--text);
 }
 
 .active {
-  background-color: #4573df !important; /* Brand Blue */
-  color: #ffffff !important;
+  background-color: var(--primary) !important;
+  color: var(--primary-foreground) !important;
   font-weight: 600;
 }
 
 .mainContent {
-  background-color: #1d2127;
-  color: #e5e5e5;
+  background-color: var(--bg);
+  color: var(--text);
 }
 
 /* Theme-specific styles for new components */
 .themeSelector {
-  background-color: #272c34;
-  border: 1px solid #3a414c;
-  color: #e5e5e5;
+  background-color: var(--bg-elev-1);
+  border: 1px solid var(--border);
+  color: var(--text);
 }
 
 .quickCreateButton {
-  background-color: #4573df; /* Brand Blue */
-  color: #ffffff;
-  box-shadow: 0 4px 14px rgba(69, 115, 223, 0.25);
+  background-color: var(--primary);
+  color: var(--primary-foreground);
+  box-shadow: var(--shadow-md);
+}
+
+/* Direct class for Logout button (paired with className={themeStyles.logoutButton}) */
+.logoutButton {
+  -webkit-appearance: none;
+  appearance: none;
+  background-color: var(--bg-elev-2) !important;
+  color: var(--text) !important;
+  border: 1px solid var(--border) !important;
+}
+
+/* Ensure Logout button is readable in dark mode */
+.sidebar .logoutButton {
+  background-color: transparent;
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+
+.sidebar .logoutButton:hover,
+.sidebar .logoutButton:focus-visible {
+  background-color: var(--primary) !important;
+  color: var(--primary-foreground) !important;
 }

@@ -1,10 +1,10 @@
 .tableWrapper {
   overflow-x: auto;
-  border-radius: 8px;
-  margin-top: 2rem;
-  border: 1px solid #e5e7eb;
-  background-color: white;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border-radius: var(--radius-lg);
+  margin-top: var(--space-8);
+  border: 1px solid var(--border);
+  background-color: var(--bg-elev-1);
+  box-shadow: var(--shadow-sm);
 }
 
 .table {
@@ -15,25 +15,25 @@
 
 .table th,
 .table td {
-  padding: 0.75rem 1rem;
-  border-bottom: 1px solid #e5e7eb;
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 1px solid var(--border);
   text-align: left;
   vertical-align: middle;
 }
 
 .table th {
-  background-color: #f9fafb;
+  background-color: var(--bg-elev-2);
   font-weight: 600;
-  color: #374151;
+  color: var(--text);
 }
 
 .actions {
   display: flex;
-  gap: 1rem;
+  gap: var(--space-4);
 }
 
 .actionButton {
-  color: #4f46e5;
+  color: var(--primary);
   background: none;
   border: none;
   padding: 0;
@@ -41,9 +41,94 @@
 }
 
 .deleteButton {
-  color: #ef4444;
+  color: var(--danger);
   background: none;
   border: none;
   padding: 0;
   cursor: pointer;
 }
+
+/* Layout & Sections */
+.pageContainer {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--space-4);
+}
+
+.sectionCard {
+  border-radius: var(--radius-lg);
+  border: 1px solid;
+  padding: var(--space-6);
+  box-shadow: var(--shadow-sm);
+}
+
+.sectionTitle {
+  font-family: var(--font-sans);
+  font-size: var(--text-2xl);
+  font-weight: 600;
+  margin: 0 0 var(--space-4);
+}
+
+/* Forms */
+.formGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-4);
+}
+
+@media (min-width: 768px) {
+  .formGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.input,
+.select {
+  width: 100%;
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid;
+  border-radius: var(--radius-md);
+  font-family: var(--font-sans);
+}
+
+/* buttonPrimary/buttonSecondary removed in favor of utilities.btn variants */
+
+.actionsRow {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-3);
+  margin-top: var(--space-4);
+}
+
+.pageTitle {
+  font-family: var(--font-sans);
+  font-size: var(--text-3xl);
+  font-weight: 700;
+  line-height: 1.25;
+  margin: 0;
+}
+
+.capitalize { text-transform: capitalize; }
+
+/* Spacing utilities */
+.mtMd { margin-top: var(--space-6); }
+.mtLg { margin-top: var(--space-8); }
+
+/* Feedback */
+.errorText { font-weight: 500; }
+
+/* A11y */
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Destructive */
+/* buttonDanger removed in favor of utilities.btnDanger */

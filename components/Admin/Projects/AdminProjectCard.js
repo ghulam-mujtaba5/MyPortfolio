@@ -7,6 +7,7 @@ import Icon from "../Icon/Icon";
 import Tooltip from "../Tooltip/Tooltip";
 import toast from "react-hot-toast";
 import { FiHelpCircle } from "react-icons/fi";
+import utilities from "../../../styles/utilities.module.css";
 
 const AdminProjectCard = ({
   project,
@@ -65,7 +66,6 @@ const AdminProjectCard = ({
             alt={`${project.title} preview`}
             className={adminStyles.image}
             fill
-            style={{ objectFit: "cover" }}
           />
         )}
       </div>
@@ -90,7 +90,7 @@ const AdminProjectCard = ({
         </div>
         <div className={adminStyles.debugInfo}>
           <small>ID: {safeId || 'N/A'}</small>
-          <button onClick={handleCheckExistence} className={adminStyles.debugButton} title="Check if this ID exists in the DB">
+          <button onClick={handleCheckExistence} className={`${utilities.btn} ${utilities.btnIcon} ${utilities.btnSecondary}`} title="Check if this ID exists in the DB" aria-label="Check if this ID exists in the DB">
             <FiHelpCircle /> Check ID
           </button>
         </div>
@@ -104,21 +104,22 @@ const AdminProjectCard = ({
         <div className={adminStyles.links}>
           <button
             onClick={() => onEdit(project._id || project.id)}
-            className={`${adminStyles.button} ${adminStyles.editButton}`}
+            className={`${utilities.btn} ${utilities.btnSecondary}`}
           >
             Edit
           </button>
           <button
             onClick={() => onDelete(project._id || project.id)}
-            className={`${adminStyles.button} ${adminStyles.deleteButton}`}
+            className={`${utilities.btn} ${utilities.btnDanger}`}
           >
             Delete
           </button>
           <Tooltip content={project.pinned ? "Unpin" : "Pin"}>
             <button
               onClick={() => onPin && onPin(project)}
-              className={`${adminStyles.button} ${project.pinned ? adminStyles.pinned : ""}`}
+              className={`${utilities.btn} ${utilities.btnIcon} ${utilities.btnSecondary}`}
               aria-pressed={project.pinned}
+              aria-label={project.pinned ? "Unpin project" : "Pin project"}
             >
               <Icon name="pin" />
             </button>

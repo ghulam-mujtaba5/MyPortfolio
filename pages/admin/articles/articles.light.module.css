@@ -2,6 +2,17 @@
   color: var(--color-text-primary);
 }
 
+/* Chips (light) */
+.chipGray { background: #f3f4f6; color: #374151; border-color: #e5e7eb; }
+.chipAmber { background: #fef3c7; color: #92400e; border-color: #fde68a; }
+.chipGreen { background: #dcfce7; color: #065f46; border-color: #bbf7d0; }
+
+/* Section divider (light) */
+.sectionDivider { border-top: 1px solid var(--color-border); }
+
+/* Highlights (light) */
+.quoteCard { background: #f9fafb; border-color: var(--color-border); }
+
 .filterLabel {
   color: var(--color-text-secondary);
 }
@@ -32,4 +43,42 @@
 
 .paginationText {
   color: var(--color-text-secondary);
+}
+
+/* Admin Search status colors (light) */
+.statusText { color: #374151; }
+.statusError { color: #b91c1c; }
+
+/* Themed icon buttons removed; use utilities.btnPrimary instead */
+
+/* Search result rows (light) */
+.resultRow:hover {
+  background-color: var(--color-bg-secondary);
+  border-color: var(--color-border);
+}
+.resultActive {
+  background-color: var(--color-bg-tertiary);
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 2px rgba(79,70,229,0.15);
+}
+.resultRow:focus-within {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 2px rgba(79,70,229,0.2);
+}
+
+/* Search input (light) */
+.searchInput {
+  background-color: var(--color-bg);
+  border-color: var(--color-border);
+  color: var(--color-text-primary);
+}
+.searchInput::placeholder { color: var(--color-text-secondary); }
+.searchInput:focus-visible {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 2px rgba(79,70,229,0.20);
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  /* icon button primary handled by utilities; no local transitions */
 }

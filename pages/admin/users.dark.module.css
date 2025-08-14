@@ -1,5 +1,22 @@
-.tableWrapper { background-color: #0b1220; border-color: #334155; box-shadow: 0 8px 28px rgba(0,0,0,0.4); }
-.table th { background-color: #0f172a; color: #e5e7eb; }
-.table td, .table th { border-bottom-color: #334155; }
-.actionButton { color: #818cf8; }
-.deleteButton { color: #f87171; }
+.tableWrapper { background-color: var(--bg-elev-1); border-color: var(--border); box-shadow: var(--shadow-sm); }
+.table th { background-color: var(--bg-elev-2); color: var(--text); }
+.table td, .table th { border-bottom-color: var(--border); }
+.actionButton { color: var(--primary); }
+.deleteButton { color: var(--danger); }
+
+/* Sections */
+.sectionCard { background-color: var(--bg-elev-1); border-color: var(--border); }
+.sectionTitle { color: var(--text); }
+
+/* Form controls */
+.input, .select { background-color: var(--bg-elev-1); border-color: var(--border); color: var(--text); }
+.input:focus, .select:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(59,130,246,0.25); }
+
+/* Buttons */
+/* buttonPrimary/buttonSecondary removed in favor of utilities.btn variants */
+
+/* Destructive Button */
+/* buttonDanger removed in favor of utilities.btnDanger */
+
+/* Feedback */
+.errorText { color: var(--danger); }

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import utilities from "../../../styles/utilities.module.css";
 import { useTheme } from "../../../context/ThemeContext";
 import commonStyles from "./Dashboard.module.css";
 import lightStyles from "./Dashboard.light.module.css";
@@ -48,14 +49,14 @@ const Dashboard = ({ stats, recentActivity }) => {
           <h2>Quick Actions</h2>
           <Link href="/admin/articles/new" passHref>
             <button
-              className={`${commonStyles.quickButton} ${themeStyles.button}`}
+              className={`${commonStyles.quickButton} ${utilities.btn} ${utilities.btnPrimary}`}
             >
               New Article
             </button>
           </Link>
           <Link href="/admin/projects/new" passHref>
             <button
-              className={`${commonStyles.quickButton} ${themeStyles.button}`}
+              className={`${commonStyles.quickButton} ${utilities.btn} ${utilities.btnPrimary}`}
             >
               New Project
             </button>

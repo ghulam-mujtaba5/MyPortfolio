@@ -1,1 +1,17 @@
 .chartContainer { background-color: #0f172a; box-shadow: 0 6px 28px rgba(0,0,0,0.45); }
+
+/* KPI cards */
+.kpiCard { background-color: #0b1220; border-color: #334155; }
+
+/* Range controls */
+.rangeButton { border-color: #334155; color: #e5e7eb; }
+.rangeButtonActive { border-color: #818cf8; background: rgba(129,140,248,0.15); color: #a5b4fc; }
+.exportButton { border-color: #334155; }
+
+/* Delta text */
+.deltaPositive { color: #22c55e; }
+.deltaNegative { color: #f87171; }
+
+/* Section cards */
+.sectionCard { background-color: #0b1220; border-color: #334155; }
+.chip { border-color: #334155; }

@@ -1,8 +1,4 @@
-.dashboardContainer {}
-.header h1 { color: #e5e7eb; }
-.header p { color: #9ca3af; }
-.widgetsGrid {}
-.chartArea {}
-.fullWidthCard {}
-.sectionTitle { color: #e5e7eb; }
-.widget { background-color: #111827; border-color: #374151; color: #e5e7eb; }
+.header h1 { color: var(--text); }
+.header p { color: var(--muted-text, color-mix(in oklab, var(--text) 70%, transparent)); }
+.sectionTitle { color: var(--text); }
+.widget { background-color: var(--bg-elev-1); border-color: var(--border); color: var(--text); }

@@ -46,7 +46,7 @@ export default function AdminLayout({ children, title }) {
               </li>
             ))}
             <li>
-              <button onClick={() => signOut({ callbackUrl: '/admin/login' })} className={commonStyles.logoutButton}>
+              <button onClick={() => signOut({ callbackUrl: '/admin/login' })} className={`${commonStyles.logoutButton} ${themeStyles.logoutButton}`}>
                 Logout
               </button>
             </li>
@@ -61,24 +61,13 @@ export default function AdminLayout({ children, title }) {
       <button
         type="button"
         onClick={() => setIsQuickCreateOpen(true)}
-        style={{
-          position: 'fixed',
-          right: 24,
-          bottom: 24,
-          zIndex: 100,
-          background: '#4f46e5',
-          color: '#fff',
-          border: 'none',
-          borderRadius: 9999,
-          padding: '0.8rem 1.1rem',
-          boxShadow: '0 8px 20px rgba(79,70,229,0.35)'
-        }}
+        className={`${commonStyles.quickCreateButton} ${themeStyles.quickCreateButton}`}
       >
         + Create
       </button>
 
       <Modal isOpen={isQuickCreateOpen} onClose={() => setIsQuickCreateOpen(false)} title="Quick Create">
-        <div style={{display:'flex', gap:'0.75rem', flexWrap:'wrap'}}>
+        <div className={`${commonStyles.row} ${commonStyles.gapMd} ${commonStyles.wrap}`}>
           <button
             type="button"
             onClick={() => { setIsQuickCreateOpen(false); router.push('/admin/articles/new'); }}

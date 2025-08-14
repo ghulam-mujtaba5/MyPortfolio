@@ -1,5 +1,5 @@
 import { useEditor, EditorContent } from "@tiptap/react";
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect, useRef } from "react";
 import dynamic from "next/dynamic";
 import StarterKit from "@tiptap/starter-kit";
 import Image from "@tiptap/extension-image";
@@ -67,6 +67,8 @@ const RichTextEditor = ({ value, onChange }) => {
   const [customSnippets, setCustomSnippets] = useState([]);
   const [newSnippetName, setNewSnippetName] = useState("");
   const [isLoadingSnippets, setIsLoadingSnippets] = useState(false);
+  const [deleteState, setDeleteState] = useState({ open: false, id: null });
+  const confirmBtnRef = useRef(null);
 
   const editor = useEditor({
     extensions: [
@@ -128,19 +130,22 @@ const RichTextEditor = ({ value, onChange }) => {
     }
   };
 
-  const deleteSnippet = async (id) => {
-    if (!window.confirm("Are you sure you want to delete this snippet?"))
-      return;
+  const confirmDeleteSnippet = (id) => {
+    setDeleteState({ open: true, id });
+  };
+
+  const onConfirmDelete = async () => {
+    const id = deleteState.id;
     const toastId = toast.loading("Deleting snippet...");
     try {
-      const res = await fetch(`/api/admin/snippets?id=${id}`, {
-        method: "DELETE",
-      });
+      const res = await fetch(`/api/admin/snippets?id=${id}`, { method: "DELETE" });
       if (!res.ok) throw new Error("Failed to delete");
       toast.success("Snippet deleted.", { id: toastId });
       setCustomSnippets((prev) => prev.filter((s) => s._id !== id));
     } catch (e) {
       toast.error(e.message, { id: toastId });
+    } finally {
+      setDeleteState({ open: false, id: null });
     }
   };
 
@@ -253,14 +258,7 @@ const RichTextEditor = ({ value, onChange }) => {
       className={`${commonStyles.editorContainer} ${themeStyles.editorContainer}`}
     >
       <Toolbar editor={editor} />
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "flex-end",
-          margin: "6px 0",
-          gap: 8,
-        }}
-      >
+      <div className={`${commonStyles.rowEnd} ${commonStyles.myXs} ${commonStyles.gapSm}`}>
         <button
           type="button"
           className={commonStyles.toolbarButton}
@@ -350,10 +348,10 @@ const RichTextEditor = ({ value, onChange }) => {
         onClose={() => setIsSnippetsOpen(false)}
         title="Blocks & Snippets"
       >
-        <div style={{ display: "grid", gap: 12 }}>
+        <div className={`${commonStyles.grid} ${commonStyles.gapMd}`}>
           <section>
-            <h4 style={{ margin: "6px 0" }}>Built-in Blocks</h4>
-            <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+            <h4 className={commonStyles.myXs}>Built-in Blocks</h4>
+            <div className={`${commonStyles.row} ${commonStyles.wrap} ${commonStyles.gapSm}`}>
               {BUILTIN_BLOCKS.map((b) => (
                 <button
                   key={b.id}
@@ -371,31 +369,22 @@ const RichTextEditor = ({ value, onChange }) => {
             </div>
           </section>
           <section>
-            <h4 style={{ margin: "6px 0" }}>My Snippets</h4>
+            <h4 className={commonStyles.myXs}>My Snippets</h4>
             {isLoadingSnippets ? (
               <p>Loading...</p>
             ) : customSnippets.length === 0 ? (
-              <p style={{ opacity: 0.7 }}>No custom snippets yet.</p>
+              <p className={commonStyles.muted}>No custom snippets yet.</p>
             ) : null}
-            <div style={{ display: "grid", gap: 8 }}>
+            <div className={`${commonStyles.grid} ${commonStyles.gapSm}`}>
               {customSnippets.map((s) => (
                 <div
                   key={s._id}
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                    border: "1px solid #e5e7eb",
-                    borderRadius: 6,
-                    padding: 8,
-                  }}
+                  className={`${commonStyles.itemBox} ${commonStyles.rowBetween} ${commonStyles.alignCenter}`}
                 >
-                  <div
-                    style={{ display: "flex", alignItems: "center", gap: 8 }}
-                  >
+                  <div className={`${commonStyles.row} ${commonStyles.alignCenter} ${commonStyles.gapSm}`}>
                     <strong>{s.name}</strong>
                   </div>
-                  <div style={{ display: "flex", gap: 6 }}>
+                  <div className={`${commonStyles.row} ${commonStyles.gapXs}`}>
                     <button
                       type="button"
                       className={commonStyles.toolbarButton}
@@ -410,7 +399,7 @@ const RichTextEditor = ({ value, onChange }) => {
                     <button
                       type="button"
                       className={commonStyles.toolbarButton}
-                      onClick={() => deleteSnippet(s._id)}
+                      onClick={() => confirmDeleteSnippet(s._id)}
                     >
                       Delete
                     </button>
@@ -418,7 +407,7 @@ const RichTextEditor = ({ value, onChange }) => {
                 </div>
               ))}
             </div>
-            <div style={{ display: "flex", gap: 8, marginTop: 8 }}>
+            <div className={`${commonStyles.row} ${commonStyles.gapSm} ${commonStyles.mtSm}`}>
               <input
                 type="text"
                 placeholder="Snippet name"
@@ -462,10 +451,9 @@ const RichTextEditor = ({ value, onChange }) => {
         onClose={() => setIsCodeOpen(false)}
         title="Insert Code Snippet"
       >
-        <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+        <div className={`${commonStyles.col} ${commonStyles.gapSm}`}>
           <label
-            className={`${commonStyles.toolbarButton}`}
-            style={{ display: "inline-flex", alignItems: "center", gap: 8 }}
+            className={`${commonStyles.toolbarButton} ${commonStyles.rowInline} ${commonStyles.alignCenter} ${commonStyles.gapSm}`}
           >
             Language
             <select
@@ -487,8 +475,9 @@ const RichTextEditor = ({ value, onChange }) => {
             value={codeText}
             onChange={(e) => setCodeText(e.target.value)}
             placeholder="Paste code here"
+            className={commonStyles.codeTextarea}
           />
-          <div style={{ display: "flex", gap: 8, justifyContent: "flex-end" }}>
+          <div className={`${commonStyles.rowEnd} ${commonStyles.gapSm}`}>
             <button
               type="button"
               className={commonStyles.toolbarButton}
@@ -531,14 +520,15 @@ const RichTextEditor = ({ value, onChange }) => {
         onClose={() => setIsMarkdownOpen(false)}
         title="Import Markdown"
       >
-        <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+        <div className={`${commonStyles.col} ${commonStyles.gapSm}`}>
           <textarea
             rows={12}
             value={markdownText}
             onChange={(e) => setMarkdownText(e.target.value)}
             placeholder="# Heading\n\nWrite Markdown here..."
+            className={commonStyles.codeTextarea}
           />
-          <div style={{ display: "flex", gap: 8, justifyContent: "flex-end" }}>
+          <div className={`${commonStyles.rowEnd} ${commonStyles.gapSm}`}>
             <button
               type="button"
               className={commonStyles.toolbarButton}
@@ -573,7 +563,7 @@ const RichTextEditor = ({ value, onChange }) => {
         onClose={() => setIsFindOpen(false)}
         title="Find & Replace"
       >
-        <div style={{ display: "grid", gap: 8 }}>
+        <div className={`${commonStyles.grid} ${commonStyles.gapSm}`}>
           <input
             type="text"
             placeholder="Find..."
@@ -586,9 +576,7 @@ const RichTextEditor = ({ value, onChange }) => {
             value={replaceText}
             onChange={(e) => setReplaceText(e.target.value)}
           />
-          <label
-            style={{ display: "inline-flex", alignItems: "center", gap: 6 }}
-          >
+          <label className={`${commonStyles.row} ${commonStyles.alignCenter} ${commonStyles.gapXs}`}>
             <input
               type="checkbox"
               checked={caseSensitive}
@@ -596,7 +584,7 @@ const RichTextEditor = ({ value, onChange }) => {
             />
             Case sensitive
           </label>
-          <div style={{ display: "flex", gap: 8, justifyContent: "flex-end" }}>
+          <div className={`${commonStyles.rowEnd} ${commonStyles.gapSm}`}>
             <button
               type="button"
               className={commonStyles.toolbarButton}
@@ -660,15 +648,15 @@ const RichTextEditor = ({ value, onChange }) => {
         onClose={() => setIsSourceOpen(false)}
         title="Edit HTML Source"
       >
-        <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+        <div className={`${commonStyles.col} ${commonStyles.gapSm}`}>
           <textarea
             rows={15}
             value={sourceText}
             onChange={(e) => setSourceText(e.target.value)}
             placeholder="HTML content..."
-            style={{ width: "100%", fontFamily: "monospace", fontSize: "14px" }}
+            className={commonStyles.codeTextarea}
           />
-          <div style={{ display: "flex", gap: 8, justifyContent: "flex-end" }}>
+          <div className={`${commonStyles.rowEnd} ${commonStyles.gapSm}`}>
             <button
               type="button"
               className={commonStyles.toolbarButton}
@@ -690,6 +678,19 @@ const RichTextEditor = ({ value, onChange }) => {
             </button>
           </div>
         </div>
+      </Modal>
+
+      {/* Delete Snippet Confirmation */}
+      <Modal
+        isOpen={deleteState.open}
+        onClose={() => setDeleteState({ open: false, id: null })}
+        title="Delete Snippet"
+        onConfirm={onConfirmDelete}
+        confirmText="Delete"
+        cancelText="Cancel"
+        initialFocusRef={confirmBtnRef}
+      >
+        <p>This action will permanently delete this snippet. Continue?</p>
       </Modal>
     </div>
   );

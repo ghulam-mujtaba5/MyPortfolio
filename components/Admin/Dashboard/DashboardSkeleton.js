@@ -1,27 +1,27 @@
 import styles from "./DashboardSkeleton.module.css";
 
-const SkeletonBox = ({ width, height }) => (
-  <div className={styles.skeletonBox} style={{ width, height }} />
+const SkeletonBox = ({ className = "" }) => (
+  <div className={`${styles.skeletonBox} ${className}`} />
 );
 
 const DashboardSkeleton = () => {
   return (
     <div>
-      <SkeletonBox width="200px" height="36px" />
+      <SkeletonBox className={`${styles.w200} ${styles.h36}`} />
       <div className={styles.grid}>
-        <SkeletonBox height="100px" />
-        <SkeletonBox height="100px" />
-        <SkeletonBox height="100px" />
+        <SkeletonBox className={styles.h100} />
+        <SkeletonBox className={styles.h100} />
+        <SkeletonBox className={styles.h100} />
       </div>
       <div className={styles.gridTwoCols}>
-        <SkeletonBox height="300px" />
-        <SkeletonBox height="300px" />
+        <SkeletonBox className={styles.h300} />
+        <SkeletonBox className={styles.h300} />
       </div>
       <div className={styles.gridThreeCols}>
         <div className={styles.colSpanTwo}>
-          <SkeletonBox height="200px" />
+          <SkeletonBox className={styles.h200} />
         </div>
-        <SkeletonBox height="200px" />
+        <SkeletonBox className={styles.h200} />
       </div>
     </div>
   );

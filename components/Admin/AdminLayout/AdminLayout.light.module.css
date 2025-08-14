@@ -1,47 +1,47 @@
 .container {
-  background-color: #f9fafb; /* Off-white for the main area */
+  background-color: var(--bg);
 }
 
 .sidebar {
-  background-color: #ffffff;
-  border-right: 1px solid #e3e6ea;
+  background-color: var(--bg-elev-1);
+  border-right: 1px solid var(--border);
 }
 
 .sidebar .logo {
-  color: #000000;
+  color: var(--text);
 }
 
 .sidebar a,
 .sidebar button {
-  color: #333333;
+  color: var(--text);
 }
 
 .sidebar a:hover,
 .sidebar button:hover {
-  background-color: #e8ebee;
-  color: #000000;
+  background-color: var(--bg-elev-2);
+  color: var(--text);
 }
 
 .active {
-  background-color: #4573df !important; /* Brand Blue */
-  color: #ffffff !important;
+  background-color: var(--primary) !important;
+  color: var(--primary-foreground) !important;
   font-weight: 600;
 }
 
 .mainContent {
-  background-color: #f9fafb;
-  color: #222222;
+  background-color: var(--bg);
+  color: var(--text);
 }
 
 /* Theme-specific styles for new components */
 .themeSelector {
-  background-color: #ffffff;
-  border: 1px solid #e3e6ea;
-  color: #222222;
+  background-color: var(--bg-elev-1);
+  border: 1px solid var(--border);
+  color: var(--text);
 }
 
 .quickCreateButton {
-  background-color: #4573df; /* Brand Blue */
-  color: #ffffff;
-  box-shadow: 0 4px 14px rgba(69, 115, 223, 0.3);
+  background-color: var(--primary);
+  color: var(--primary-foreground);
+  box-shadow: var(--shadow-md);
 }

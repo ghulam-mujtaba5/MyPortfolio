@@ -1,5 +1,9 @@
 import React, { useState } from "react";
+import { useTheme } from "../../../context/ThemeContext";
 import commonStyles from "./ArticleForm.module.css";
+import lightStyles from "./ArticleForm.light.module.css";
+import darkStyles from "./ArticleForm.dark.module.css";
+import utilities from "../../../styles/utilities.module.css";
 
 // Generic chip-style CSV editor used for tags, categories, and highlights.
 export default function ChipInput({
@@ -12,6 +16,8 @@ export default function ChipInput({
   reorderable = false,
 }) {
   const [input, setInput] = useState("");
+  const { theme } = useTheme();
+  const themeStyles = theme === "dark" ? darkStyles : lightStyles;
   const toArray = (csv) =>
     String(csv || "")
       .split(",")
@@ -73,10 +79,8 @@ export default function ChipInput({
   };
 
   return (
-    <div style={{ marginTop: 6 }}>
-      <div
-        style={{ display: "flex", flexWrap: "wrap", gap: 6, marginBottom: 6 }}
-      >
+    <div className={commonStyles.chipContainer}>
+      <div className={commonStyles.chipList}>
         {items.map((item, idx) => (
           <span
             key={item}
@@ -104,34 +108,19 @@ export default function ChipInput({
                 ? `${quoted ? "Highlight" : "Item"} ${idx + 1} of ${items.length}. Alt+Arrow keys to reorder.`
                 : undefined
             }
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: 6,
-              padding: "2px 8px",
-              border: "1px solid #e5e7eb",
-              borderRadius: 999,
-              background: "#f9fafb",
-            }}
+            className={`${commonStyles.chip} ${themeStyles.chip}`}
           >
-            <span style={{ fontSize: "0.85rem" }}>
+            <span className={commonStyles.chipTextSm}>
               {quoted ? `“${item}”` : item}
             </span>
             {reorderable && (
-              <span style={{ display: "inline-flex", gap: 4 }}>
+              <span className={commonStyles.chipMoveGroup}>
                 <button
                   type="button"
                   title="Move left"
                   aria-label={`Move ${quoted ? "highlight" : "item"} left`}
                   onClick={() => moveItem(idx, idx - 1)}
-                  style={{
-                    width: 20,
-                    height: 20,
-                    borderRadius: 4,
-                    border: "1px solid #e5e7eb",
-                    background: "white",
-                    cursor: "pointer",
-                  }}
+                  className={`${commonStyles.chipMoveBtn} ${themeStyles.chipMoveBtn}`}
                 >
                   ←
                 </button>
@@ -140,14 +129,7 @@ export default function ChipInput({
                   title="Move right"
                   aria-label={`Move ${quoted ? "highlight" : "item"} right`}
                   onClick={() => moveItem(idx, idx + 1)}
-                  style={{
-                    width: 20,
-                    height: 20,
-                    borderRadius: 4,
-                    border: "1px solid #e5e7eb",
-                    background: "white",
-                    cursor: "pointer",
-                  }}
+                  className={`${commonStyles.chipMoveBtn} ${themeStyles.chipMoveBtn}`}
                 >
                   →
                 </button>
@@ -157,24 +139,14 @@ export default function ChipInput({
               type="button"
               aria-label={`Remove ${quoted ? "highlight" : "item"}: ${item}`}
               onClick={() => removeItem(item)}
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                justifyContent: "center",
-                width: 20,
-                height: 20,
-                borderRadius: 999,
-                border: "1px solid #e5e7eb",
-                background: "white",
-                cursor: "pointer",
-              }}
+              className={`${commonStyles.chipRemoveBtn} ${themeStyles.chipRemoveBtn}`}
             >
               ×
             </button>
           </span>
         ))}
       </div>
-      <div style={{ display: "flex", gap: 6 }}>
+      <div className={commonStyles.chipInputRow}>
         <input
           type="text"
           value={input}
@@ -182,18 +154,12 @@ export default function ChipInput({
           onKeyDown={onKeyDown}
           placeholder={placeholder}
           aria-label={ariaLabel}
-          style={{
-            padding: "0.4rem 0.6rem",
-            border: "1px solid #d1d5db",
-            borderRadius: 8,
-            fontSize: "0.9rem",
-            flex: "0 1 360px",
-          }}
+          className={`${commonStyles.chipInput} ${themeStyles.chipInput}`}
         />
         <button
           type="button"
           onClick={() => addItem(input)}
-          className={commonStyles.button}
+          className={`${utilities.btn} ${utilities.btnSecondary}`}
           aria-label={ariaLabel}
         >
           {addButtonLabel}

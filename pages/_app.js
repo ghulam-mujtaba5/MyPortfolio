@@ -12,6 +12,7 @@ import { useRouter } from "next/router";
 import * as gtag from "../lib/gtag";
 import LoadingAnimation from "../components/LoadingAnimation/LoadingAnimation";
 import "./global.css";
+import "../styles/tokens.css";
 
 // Register service worker for PWA
 if (typeof window !== "undefined" && "serviceWorker" in navigator) {

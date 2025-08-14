@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import toast from "react-hot-toast";
 import { useTheme } from "../../../context/ThemeContext";
 import { formatDistanceToNow } from "date-fns";
 
@@ -35,6 +36,7 @@ export default function RecentActivity() {
         }
       } catch (error) {
         console.error("Failed to fetch recent activity:", error);
+        toast.error(error?.message || "Failed to load recent activity");
       } finally {
         setLoading(false);
       }
