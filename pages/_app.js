@@ -155,7 +155,7 @@ function MyApp({ Component, pageProps, session }) {
           }}
         />
         <ThemeProvider>
-          {showLoader && <LoadingAnimation />}
+          <LoadingAnimation visible={showLoader} />
           <Component {...pageProps} key={router.asPath} />
           <ThemeToggle />
           <CookieConsentBanner />
