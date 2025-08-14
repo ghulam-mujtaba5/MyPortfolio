@@ -1,4 +1,4 @@
-:root {
+:global(:root) {
   /* Light Theme (Default) */
   --card-bg: #ffffff;
   --card-border: #e0e0e0;

@@ -1,6 +1,7 @@
 /* e:\temp\MyPortfolio\components\Admin\AdminLayout\AdminLayout.base.module.css */
 
-:root {
+.adminContainer {
+  /* Local design tokens for Admin layout */
   --admin-font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
     Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
     'Segoe UI Symbol';
