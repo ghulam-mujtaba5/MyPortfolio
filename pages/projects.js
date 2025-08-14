@@ -614,29 +614,36 @@ export async function getServerSideProps() {
   const ProjectsSchema = z.array(ProjectSchema);
 
   const parsed = ProjectsSchema.safeParse(raw);
+  let normalized;
   if (!parsed.success) {
-    return {
-      props: {
-        projects: [],
-        projectsError: "invalid_data",
-      },
-    };
+    // eslint-disable-next-line no-console
+    console.warn("Projects validation failed; falling back to best-effort normalization.");
+    normalized = Array.isArray(raw)
+      ? raw.map((p) => ({
+          _id: p?._id?.toString?.() || String(p?._id || ""),
+          title: typeof p?.title === "string" && p.title.trim() ? p.title : "Untitled",
+          description: typeof p?.description === "string" ? p.description : "",
+          image: typeof p?.image === "string" ? p.image : "",
+          tags: Array.isArray(p?.tags) ? p.tags : [],
+          links: { live: typeof p?.links?.live === "string" ? p.links.live : "" },
+        }))
+      : [];
+  } else {
+    // Normalize minimal shape used by UI to avoid undefined access downstream
+    normalized = parsed.data.map((p) => ({
+      _id: p._id?.toString?.() || String(p._id),
+      title: p.title || "Untitled",
+      description: p.description || "",
+      image: p.image || "",
+      tags: Array.isArray(p.tags) ? p.tags : [],
+      links: { live: p.links?.live || "" },
+    }));
   }
-
-  // Normalize minimal shape used by UI to avoid undefined access downstream
-  const normalized = parsed.data.map((p) => ({
-    _id: p._id?.toString?.() || String(p._id),
-    title: p.title || "Untitled",
-    description: p.description || "",
-    image: p.image || "",
-    tags: Array.isArray(p.tags) ? p.tags : [],
-    links: { live: p.links?.live || "" },
-  }));
 
   return {
     props: {
       projects: JSON.parse(JSON.stringify(normalized)),
-      projectsError: null,
+      projectsError: parsed.success ? null : "invalid_data",
     },
   };
 }
