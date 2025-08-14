@@ -29,7 +29,7 @@ const nextConfig = {
   async rewrites() {
     return [
       {
-        source: "/:path((?!api/|admin/|_next/|static/).*)", // Catch all paths except API, admin and Next internals
+        source: "/:path((?!api/|admin/|articles/|_next/|static/).*)", // Exclude API, admin, articles, and Next internals
         destination: "/portfolio/:path*", // Redirect to the portfolio folder for localhost
         has: [
           {
@@ -39,7 +39,7 @@ const nextConfig = {
         ],
       },
       {
-        source: "/:path((?!api/|admin/|_next/|static/).*)", // SoftBuilt subdomain routes (exclude admin and internals)
+        source: "/:path((?!api/|admin/|articles/|_next/|static/).*)", // SoftBuilt subdomain routes (exclude admin, articles, internals)
         destination: "/softbuilt/:path*", // Map to the softbuilt folder
         has: [
           {
@@ -52,7 +52,7 @@ const nextConfig = {
       {
         // IMPORTANT: exclude admin (and Next.js internals) from being rewritten to portfolio
         // so that /admin/... pages (like edit pages) resolve correctly
-        source: "/:path((?!api/|admin/|_next/|static/).*)",
+        source: "/:path((?!api/|admin/|articles/|_next/|static/).*)",
         destination: "/portfolio/:path*",
       },
     ];
