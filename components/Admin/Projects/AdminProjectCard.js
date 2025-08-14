@@ -8,6 +8,7 @@ import Tooltip from "../Tooltip/Tooltip";
 import toast from "react-hot-toast";
 import { FiHelpCircle } from "react-icons/fi";
 import utilities from "../../../styles/utilities.module.css";
+import Spinner from "../../Spinner/Spinner";
 
 const AdminProjectCard = ({
   project,
@@ -16,6 +17,8 @@ const AdminProjectCard = ({
   onPin,
   isSelected,
   onSelect,
+  deleting = false,
+  pinning = false,
 }) => {
   const { theme } = useTheme();
 
@@ -111,8 +114,16 @@ const AdminProjectCard = ({
           <button
             onClick={() => onDelete(project._id || project.id)}
             className={`${utilities.btn} ${utilities.btnDanger}`}
+            disabled={deleting}
           >
-            Delete
+            {deleting ? (
+              <span style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
+                <Spinner size="sm" label="Deleting" />
+                Deleting…
+              </span>
+            ) : (
+              "Delete"
+            )}
           </button>
           <Tooltip content={project.pinned ? "Unpin" : "Pin"}>
             <button
@@ -120,8 +131,13 @@ const AdminProjectCard = ({
               className={`${utilities.btn} ${utilities.btnIcon} ${utilities.btnSecondary}`}
               aria-pressed={project.pinned}
               aria-label={project.pinned ? "Unpin project" : "Pin project"}
+              disabled={pinning}
             >
-              <Icon name="pin" />
+              {pinning ? (
+                <Spinner size="sm" label="Updating pin" />
+              ) : (
+                <Icon name="pin" />
+              )}
             </button>
           </Tooltip>
         </div>

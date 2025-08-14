@@ -18,6 +18,7 @@ import projCommon from "./projects.common.module.css";
 import projLight from "./projects.light.module.css";
 import projDark from "./projects.dark.module.css";
 import utilities from "../../../styles/utilities.module.css";
+import LoadingAnimation from "../../../components/LoadingAnimation/LoadingAnimation";
 import Spinner from "../../../components/Spinner/Spinner";
 
 const ProjectsPage = () => {
@@ -29,6 +30,9 @@ const ProjectsPage = () => {
   const [pagination, setPagination] = useState({});
   const [loading, setLoading] = useState(true);
   const [selectedProjects, setSelectedProjects] = useState([]);
+  const [deletingId, setDeletingId] = useState(null);
+  const [pinningId, setPinningId] = useState(null);
+  const [applyingBulk, setApplyingBulk] = useState(false);
   const [confirmState, setConfirmState] = useState({ open: false, type: null, payload: null });
   const confirmBtnRef = useRef(null);
   const [q, setQ] = useState("");
@@ -113,6 +117,7 @@ const ProjectsPage = () => {
       if (type === "single-delete") {
         const id = payload.id;
         const original = [...projects];
+        setDeletingId(id);
         setProjects(projects.filter((p) => (p._id || p.id) !== id));
         const res = await fetch(`/api/projects/${id}`, { method: "DELETE" });
         if (!res.ok) {
@@ -122,6 +127,7 @@ const ProjectsPage = () => {
         toast.success("Project deleted successfully.");
       } else if (type === "bulk-action") {
         const action = payload.action;
+        setApplyingBulk(true);
         const res = await fetch("/api/projects/bulk-action", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -138,16 +144,20 @@ const ProjectsPage = () => {
       // Best effort refresh
       fetchData();
     } finally {
+      setDeletingId(null);
+      setApplyingBulk(false);
       setConfirmState({ open: false, type: null, payload: null });
     }
   };
 
   const togglePin = async (project) => {
     try {
+      const id = project._id || project.id;
+      setPinningId(id);
       const res = await fetch("/api/admin/pin-item", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ id: project._id || project.id, type: "project" }),
+        body: JSON.stringify({ id, type: "project" }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || "Failed to toggle pin");
@@ -155,6 +165,8 @@ const ProjectsPage = () => {
       fetchData();
     } catch (e) {
       toast.error(e.message || "Failed to update pin status");
+    } finally {
+      setPinningId(null);
     }
   };
 
@@ -273,6 +285,8 @@ const ProjectsPage = () => {
                 onDelete={() => handleDelete(project._id || project.id)}
                 onPin={() => togglePin(project)}
                 isSelected={selectedProjects.includes(project._id || project.id)}
+                deleting={(deletingId === (project._id || project.id))}
+                pinning={(pinningId === (project._id || project.id))}
                 onSelect={() => {
                   setSelectedProjects((prev) =>
                     prev.includes(project._id || project.id)
@@ -332,6 +346,9 @@ const ProjectsPage = () => {
           </p>
         )}
       </Modal>
+      {applyingBulk && (
+        <LoadingAnimation visible={true} showStars={false} size="sm" backdropOpacity={0.3} />
+      )}
     </AdminLayout>
   );
 };
