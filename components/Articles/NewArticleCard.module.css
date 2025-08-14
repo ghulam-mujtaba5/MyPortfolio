@@ -1,4 +1,4 @@
-:global(:root) {
+.card {
   /* Light Theme (Default) */
   --card-bg: #ffffff;
   --card-border: #e0e0e0;
@@ -16,7 +16,7 @@
   --status-pending-text: #d46b08;
 }
 
-[data-theme="dark"] {
+[data-theme="dark"] .card {
   --card-bg: #2d2d2d;
   --card-border: #444444;
   --text-primary: #f5f5f5;
