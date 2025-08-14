@@ -38,17 +38,18 @@ const sections = [
 import Link from "next/link";
 import LoadingAnimation from "../components/LoadingAnimation/LoadingAnimation";
 
-const ProjectsPage = ({ projects }) => {
+const ProjectsPage = ({ projects = [] }) => {
   const { theme } = useTheme();
   const [selectedTag, setSelectedTag] = useState("All");
   // Since this page uses SSR via getServerSideProps, default to not loading and no error.
   const [loading] = useState(false);
   const [error] = useState(null);
 
+  const safeProjects = Array.isArray(projects) ? projects : [];
   const filteredProjects =
     selectedTag === "All"
-      ? projects
-      : projects.filter((p) => p.tags.includes(selectedTag));
+      ? safeProjects
+      : safeProjects.filter((p) => Array.isArray(p.tags) && p.tags.includes(selectedTag));
 
   return (
     <>
@@ -86,7 +87,7 @@ const ProjectsPage = ({ projects }) => {
               "@type": "ItemList",
               name: "Projects",
               url: "https://ghulammujtaba.com/projects",
-              itemListElement: projects.map((project, idx) => ({
+              itemListElement: (safeProjects || []).map((project, idx) => ({
                 "@type": "CreativeWork",
                 position: idx + 1,
                 name: project.title,

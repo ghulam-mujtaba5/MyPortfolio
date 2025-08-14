@@ -9,6 +9,8 @@ import { useRouter } from "next/router";
 import ArticleCard from "../../components/Articles/ArticleCard";
 import listCss from "../../components/Articles/ArticlesListPage.module.css";
 import { useTheme } from "../../context/ThemeContext";
+import lightCss from "../../components/Articles/ArticlesListPage.light.module.css";
+import darkCss from "../../components/Articles/ArticlesListPage.dark.module.css";
 
 export default function ArticlesPage() {
   const { theme } = useTheme();
@@ -104,8 +106,18 @@ export default function ArticlesPage() {
         >
           {/* Hero */}
           <section className={listCss.hero}>
-            <h1 className={listCss.heroTitle}>Articles</h1>
-            <p className={listCss.heroSubtitle}>
+            <h1
+              className={`${listCss.heroTitle} ${
+                theme === "dark" ? darkCss.heroTitle : lightCss.heroTitle
+              }`}
+            >
+              Articles
+            </h1>
+            <p
+              className={`${listCss.heroSubtitle} ${
+                theme === "dark" ? darkCss.heroSubtitle : lightCss.heroSubtitle
+              }`}
+            >
               Insights on software, data science, and AI.
             </p>
           </section>
@@ -164,11 +176,17 @@ export default function ArticlesPage() {
                   })
                 }
                 disabled={page <= 1}
-                className={listCss.pageBtn}
+                className={`${listCss.pageBtn} ${
+                  theme === "dark" ? darkCss.pageBtn : lightCss.pageBtn
+                }`}
               >
                 Previous
               </button>
-              <span className={listCss.pageInfo}>
+              <span
+                className={`${listCss.pageInfo} ${
+                  theme === "dark" ? darkCss.pageInfo : lightCss.pageInfo
+                }`}
+              >
                 Page {pagination.page || page} of {pagination.totalPages}
               </span>
               <button
@@ -185,7 +203,9 @@ export default function ArticlesPage() {
                   })
                 }
                 disabled={page >= (pagination.totalPages || page)}
-                className={listCss.pageBtn}
+                className={`${listCss.pageBtn} ${
+                  theme === "dark" ? darkCss.pageBtn : lightCss.pageBtn
+                }`}
               >
                 Next
               </button>

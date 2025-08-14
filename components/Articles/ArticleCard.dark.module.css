@@ -1,5 +1,6 @@
 .card {
   background: #1d2127;
+  border: 1px solid #272c34;
 }
 .content {
   background: #1d2127;
@@ -13,7 +14,7 @@
   text-decoration: none;
 }
 .title a:hover {
-  color: #9bb4f5;
+  color: #005bb5;
   text-decoration: underline;
 }
 .excerpt {
