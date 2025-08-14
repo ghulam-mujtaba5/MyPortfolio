@@ -239,8 +239,9 @@ const ProjectsPage = ({ projects = [], projectsError = null }) => {
           </div>
           <div className="project-grid">
             {clientLoading ? (
-              <div className="empty-projects" style={{ color: theme === "dark" ? "#cccccc" : "#4b5563" }}>
-                Loading projects...
+              <div className="loading-wrap">
+                <LoadingAnimation />
+                <span className="sr-only">Loading projects…</span>
               </div>
             ) : filteredProjects.length === 0 ? (
               <div
@@ -604,6 +605,24 @@ const ProjectsPage = ({ projects = [], projectsError = null }) => {
           min-width: 0;
           width: 100%;
           max-width: 420px;
+        }
+        .loading-wrap {
+          grid-column: 1 / -1;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 2rem 0;
+        }
+        .sr-only {
+          position: absolute;
+          width: 1px;
+          height: 1px;
+          padding: 0;
+          margin: -1px;
+          overflow: hidden;
+          clip: rect(0, 0, 0, 0);
+          white-space: nowrap;
+          border: 0;
         }
         .empty-projects {
           grid-column: 1 / -1;
