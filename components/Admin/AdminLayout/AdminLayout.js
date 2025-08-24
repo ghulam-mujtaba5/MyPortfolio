@@ -25,6 +25,7 @@ export default function AdminLayout({ children, title }) {
     { href: '/admin/users', label: 'Users' },
     { href: '/admin/analytics', label: 'Analytics' },
     { href: '/admin/audit-logs', label: 'Audit Logs' },
+    { href: '/admin/pins', label: 'Pinned' },
   ];
 
   return (

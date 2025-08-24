@@ -121,11 +121,42 @@ const AnalyticsPage = () => {
       ],
     };
 
+    // Build a combined time-series with union of dates for side-by-side comparison
+    const dateSet = new Set([
+      ...(stats.articlesByDate || []).map((d) => d._id),
+      ...(stats.projectsByDate || []).map((d) => d._id),
+    ]);
+    const combinedLabels = Array.from(dateSet).sort();
+    const articleCountByDate = new Map(
+      (stats.articlesByDate || []).map((d) => [d._id, d.count]),
+    );
+    const projectCountByDate = new Map(
+      (stats.projectsByDate || []).map((d) => [d._id, d.count]),
+    );
+    const combinedTrendData = {
+      labels: combinedLabels,
+      datasets: [
+        {
+          label: "Articles",
+          data: combinedLabels.map((d) => articleCountByDate.get(d) || 0),
+          borderColor: "#4f46e5",
+          tension: 0.1,
+        },
+        {
+          label: "Projects",
+          data: combinedLabels.map((d) => projectCountByDate.get(d) || 0),
+          borderColor: "#14b8a6",
+          tension: 0.1,
+        },
+      ],
+    };
+
     return {
       articleStatusData,
       projectStatusData,
       articlesTrendData,
       projectsTrendData,
+      combinedTrendData,
     };
   };
 
@@ -134,6 +165,7 @@ const AnalyticsPage = () => {
     projectStatusData,
     articlesTrendData,
     projectsTrendData,
+    combinedTrendData,
   } = processChartData();
 
   const { theme } = useTheme();
@@ -450,6 +482,10 @@ const AnalyticsPage = () => {
         <div className={`${commonStyles.chartContainer} ${themeStyles.chartContainer}`}>
           <h3>Projects by Status</h3>
           {projectStatusData && <DoughnutChart data={projectStatusData} />}
+        </div>
+        <div className={`${commonStyles.chartContainer} ${themeStyles.chartContainer} ${commonStyles.fullWidth} ${themeStyles.fullWidth}`}>
+          <h3>Articles vs Projects (Combined Trend)</h3>
+          {combinedTrendData && <LineChart data={combinedTrendData} />}
         </div>
         <div className={`${commonStyles.chartContainer} ${themeStyles.chartContainer} ${commonStyles.fullWidth} ${themeStyles.fullWidth}`}>
           <h3>Article Creation Trend</h3>
