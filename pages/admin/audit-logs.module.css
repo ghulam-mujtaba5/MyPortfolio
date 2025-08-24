@@ -40,7 +40,7 @@
 
 .filtersGrid {
   display: grid;
-  grid-template-columns: repeat(12, 1fr);
+  grid-template-columns: repeat(12, minmax(0, 1fr));
   gap: var(--space-4);
   align-items: end; /* align inputs nicely at the bottom */
 }
@@ -105,6 +105,9 @@
   background: var(--bg-elev-1);
   color: var(--text);
   min-width: 0; /* allow content to shrink */
+  appearance: none;
+  -webkit-appearance: none;
+  line-height: 1.2;
 }
 
 .input:focus,
@@ -125,6 +128,25 @@
 @media (min-width: 768px) {
   .actionsRight {
     grid-column: span 12;
+  }
+}
+
+/* Mobile enhancements */
+@media (max-width: 640px) {
+  .filtersGrid {
+    gap: var(--space-3);
+  }
+  .label {
+    top: -10px;
+    font-size: 11px;
+  }
+  .actionsRight {
+    width: 100%;
+    justify-content: stretch;
+    gap: var(--space-2);
+  }
+  .actionsRight > * {
+    flex: 1 1 auto; /* wide tap targets */
   }
 }
 

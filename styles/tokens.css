@@ -150,3 +150,11 @@
   --input-height: 36px;
   --card-radius: var(--radius-lg);
 }
+
+/* Small screens: larger touch targets and compact FAB envelope */
+@media (max-width: 480px) {
+  :root {
+    --input-height: 44px;
+    --fab-safe: 64px; /* slightly smaller FAB offset on very small screens */
+  }
+}
