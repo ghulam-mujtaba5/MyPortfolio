@@ -1,10 +1,10 @@
-import React from "react";
-import SEO from "../../components/SEO";
-import { useTheme } from "../../context/ThemeContext"; // Assuming ThemeProvider is in a separate file and exported correctly
-import Resume from "../../components/Resume/Resume"; // Import the Resume component
-import Footer from "../../components/Footer/Footer"; // Import the Footer component
+import React from 'react';
+import SEO from '../../components/SEO';
+import { useTheme } from '../../context/ThemeContext';
+import Resume from '../../components/Resume/Resume';
+import Footer from '../../components/Footer/Footer';
 
-const ResumePage = () => {
+const ResumePage = ({ resume }) => {
   const { theme } = useTheme();
 
   return (
@@ -22,31 +22,37 @@ const ResumePage = () => {
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
-              "@context": "http://schema.org",
-              "@type": "Person",
-              name: "Ghulam Mujtaba",
-              url: "https://ghulammujtaba.com/portfolio/resume",
+              '@context': 'http://schema.org',
+              '@type': 'Person',
+              name: 'Ghulam Mujtaba',
+              url: 'https://ghulammujtaba.com/portfolio/resume',
               sameAs: [
-                "https://www.linkedin.com/in/ghulamujtabaofficial",
-                "https://www.instagram.com/ghulamujtabaofficial/",
-                "https://github.com/ghulam-mujtaba5",
+                'https://www.linkedin.com/in/ghulamujtabaofficial',
+                'https://www.instagram.com/ghulamujtabaofficial/',
+                'https://github.com/ghulam-mujtaba5',
               ],
               jobTitle:
-                "Software Engineer, Full Stack Developer, Data Scientist, AI Specialist",
+                'Software Engineer, Full Stack Developer, Data Scientist, AI Specialist',
               address: {
-                "@type": "PostalAddress",
-                addressCountry: "PK",
+                '@type': 'PostalAddress',
+                addressCountry: 'PK',
               },
-              image: "https://ghulammujtaba.com/og-image.png",
+              image: 'https://ghulammujtaba.com/og-image.png',
             }),
           }}
         />
       </SEO>
-      <main className={theme === "dark" ? "darkTheme" : "lightTheme"}>
+      <main className={theme === 'dark' ? 'darkTheme' : 'lightTheme'}>
         <Resume />
-        <a href="/Resume.pdf" download className="downloadButton">
-          Download Resume PDF
-        </a>
+        {resume && (
+          <a
+            href={`/api/download-resume?url=${encodeURIComponent(resume.url)}&filename=${encodeURIComponent(resume.filename)}`}
+            className="downloadButton"
+            download
+          >
+            Download Resume PDF
+          </a>
+        )}
       </main>
       <Footer />
       <style jsx>{`
@@ -95,5 +101,20 @@ const ResumePage = () => {
     </>
   );
 };
+
+export async function getServerSideProps() {
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/resume`);
+    if (!res.ok) {
+      console.error('Failed to fetch resume, status:', res.status);
+      return { props: { resume: null } };
+    }
+    const data = await res.json();
+    return { props: { resume: data.resume } };
+  } catch (error) {
+    console.error('Error fetching resume:', error);
+    return { props: { resume: null } };
+  }
+}
 
 export default ResumePage;
