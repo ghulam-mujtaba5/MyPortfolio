@@ -108,6 +108,24 @@
   appearance: none;
   -webkit-appearance: none;
   line-height: 1.2;
+  font-size: var(--text-md);
+}
+
+/* Custom caret for selects (theme-aware via currentColor) */
+.select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24'%3E%3Cpath fill='%2394a7ba' d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 14px;
+  padding-right: 40px; /* room for caret */
+}
+
+/* iOS zoom prevention: keep at least 16px on very small screens */
+@media (max-width: 480px) {
+  .input,
+  .select {
+    font-size: 16px;
+  }
 }
 
 .input:focus,
