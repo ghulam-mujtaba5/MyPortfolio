@@ -30,20 +30,13 @@ const RichTextEditor = ({ value, onChange }) => {
   const [replaceText, setReplaceText] = useState("");
   const [caseSensitive, setCaseSensitive] = useState(false);
 
-  // Grammar Check
-  const [isGrammarOpen, setIsGrammarOpen] = useState(false);
-  const [grammarSuggestions, setGrammarSuggestions] = useState([]);
-  const [isCheckingGrammar, setIsCheckingGrammar] = useState(false);
+  // Removed Grammar Check state
 
   // View Source
   const [isSourceOpen, setIsSourceOpen] = useState(false);
   const [sourceText, setSourceText] = useState("");
 
-  // Tone Adjuster
-  const [isToneOpen, setIsToneOpen] = useState(false);
-  const [isAdjustingTone, setIsAdjustingTone] = useState(false);
-  const [selectedTone, setSelectedTone] = useState("professional");
-  const [adjustedText, setAdjustedText] = useState("");
+  // Removed Tone Adjuster state
 
   // Reusable Blocks & Snippets
   const [isSnippetsOpen, setIsSnippetsOpen] = useState(false);
@@ -149,65 +142,7 @@ const RichTextEditor = ({ value, onChange }) => {
     }
   };
 
-  const adjustTone = async (tone) => {
-    if (!editor) return;
-    const text = editor.getText();
-    if (text.trim().length < 20) {
-      toast.error("Need at least 20 characters to adjust the tone.");
-      return;
-    }
-    setIsAdjustingTone(true);
-    setAdjustedText("");
-    setSelectedTone(tone);
-    const toastId = toast.loading(`Adjusting tone to ${tone}...`);
-    try {
-      const res = await fetch("/api/admin/adjust-tone", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text, tone }),
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.message || "Failed to adjust tone");
-
-      setAdjustedText(data.adjustedText);
-      toast.success("Tone adjusted!", { id: toastId });
-    } catch (e) {
-      toast.error(e.message, { id: toastId });
-    } finally {
-      setIsAdjustingTone(false);
-    }
-  };
-
-  const checkGrammar = async () => {
-    if (!editor) return;
-    const text = editor.getText();
-    if (text.trim().length < 20) {
-      toast.error("Need at least 20 characters to check grammar.");
-      return;
-    }
-    setIsCheckingGrammar(true);
-    setGrammarSuggestions([]);
-    const toastId = toast.loading("Checking grammar...");
-    try {
-      const res = await fetch("/api/admin/grammar-check", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text }),
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.message || "Failed to check grammar");
-
-      setGrammarSuggestions(data.matches);
-      setIsGrammarOpen(true);
-      toast.success(`${data.matches.length} suggestions found.`, {
-        id: toastId,
-      });
-    } catch (e) {
-      toast.error(e.message, { id: toastId });
-    } finally {
-      setIsCheckingGrammar(false);
-    }
-  };
+  // Removed Grammar/Tone handler functions
 
   const convertMarkdownToHtml = useMemo(() => {
     // Minimal, safe-ish Markdown to HTML for common cases
@@ -304,21 +239,7 @@ const RichTextEditor = ({ value, onChange }) => {
         >
           Find & Replace
         </button>
-        <button
-          type="button"
-          className={commonStyles.toolbarButton}
-          onClick={checkGrammar}
-          disabled={isCheckingGrammar}
-        >
-          {isCheckingGrammar ? "Checking..." : "Grammar Check"}
-        </button>
-        <button
-          type="button"
-          className={commonStyles.toolbarButton}
-          onClick={() => setIsToneOpen(true)}
-        >
-          Adjust Tone
-        </button>
+        {/* Removed Grammar Check and Adjust Tone buttons */}
       </div>
       <EditorContent editor={editor} />
 

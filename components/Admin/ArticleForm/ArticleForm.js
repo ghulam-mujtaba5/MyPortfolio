@@ -34,13 +34,7 @@ export default function ArticleForm({
   const [previewSplit, setPreviewSplit] = useState(false);
   const [previewDevice, setPreviewDevice] = useState("desktop"); // 'desktop' | 'tablet' | 'mobile'
   const [autoSaveStatus, setAutoSaveStatus] = useState(""); // '', 'saving', 'saved'
-  const [isSuggestingTags, setIsSuggestingTags] = useState(false);
-  const [isSuggestingHeadlines, setIsSuggestingHeadlines] = useState(false);
-  const [suggestedHeadlines, setSuggestedHeadlines] = useState([]);
-  const [isCheckingGrammar, setIsCheckingGrammar] = useState(false);
-  const [isAdjustingTone, setIsAdjustingTone] = useState(false);
-  const [tone, setTone] = useState("professional"); // 'professional' | 'friendly' | 'casual' | 'concise'
-  const [adjustedContent, setAdjustedContent] = useState("");
+  // Removed non-functional AI/assist feature states (suggest tags/headlines, grammar, tone)
   const [versions, setVersions] = useState([]);
   const [versionsLoading, setVersionsLoading] = useState(false);
   const [isDiffOpen, setIsDiffOpen] = useState(false);
@@ -312,88 +306,7 @@ export default function ArticleForm({
     }
   };
 
-  // Grammar check using /api/admin/grammar-check
-  const handleGrammarCheck = async () => {
-    const text = watch("content");
-    if (!text || text.trim().length < 10) {
-      toast.error("Please add some content first.");
-      return;
-    }
-    setIsCheckingGrammar(true);
-    const toastId = toast.loading("Checking grammar...");
-    try {
-      const res = await fetch("/api/admin/grammar-check", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text }),
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.message || "Grammar check failed");
-      const matches = Array.isArray(data?.matches) ? data.matches.length : 0;
-      toast.success(`${matches} issue${matches === 1 ? "" : "s"} found.`, { id: toastId });
-      // Optionally, we could render a side panel of issues in a future pass.
-    } catch (e) {
-      toast.error(e.message, { id: toastId });
-    } finally {
-      setIsCheckingGrammar(false);
-    }
-  };
-
-  // Adjust tone using /api/admin/adjust-tone
-  const handleAdjustTone = async () => {
-    const text = watch("content");
-    if (!text || text.trim().length < 10) {
-      toast.error("Please add some content first.");
-      return;
-    }
-    setIsAdjustingTone(true);
-    setAdjustedContent("");
-    const toastId = toast.loading("Adjusting tone...");
-    try {
-      const res = await fetch("/api/admin/adjust-tone", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text, tone }),
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.message || "Tone adjustment failed");
-      setAdjustedContent(data.adjustedText || "");
-      toast.success("Tone suggestion ready!", { id: toastId });
-    } catch (e) {
-      toast.error(e.message, { id: toastId });
-    } finally {
-      setIsAdjustingTone(false);
-    }
-  };
-
-  const applyAdjustedContent = () => {
-    if (!adjustedContent) return;
-    setValue("content", adjustedContent, { shouldDirty: true });
-    setAdjustedContent("");
-  };
-
-  // Generate alt text for cover image
-  const handleGenerateAltText = async () => {
-    const imageUrl = watch("coverImage");
-    if (!imageUrl) {
-      toast.error("Please upload/select a cover image first.");
-      return;
-    }
-    const toastId = toast.loading("Generating alt text...");
-    try {
-      const res = await fetch("/api/admin/generate-alt-text", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ imageUrl }),
-      });
-      const data = await res.json();
-      if (!res.ok || !data.success) throw new Error(data.message || "Failed to generate alt text");
-      setValue("coverImageAlt", data.altText || "", { shouldDirty: true });
-      toast.success("Alt text generated!", { id: toastId });
-    } catch (e) {
-      toast.error(e.message, { id: toastId });
-    }
-  };
+  // Removed handlers for non-functional AI/assist features
 
   // Restore draft if available (only for new article or matching id)
   useEffect(() => {
@@ -557,76 +470,7 @@ export default function ArticleForm({
     setValue("coverImageAlt", altText, { shouldValidate: true });
   };
 
-  const handleSuggestTags = async () => {
-    const content = watch("content");
-    if (!content || content.trim().length < 50) {
-      toast.error(
-        "Please write at least 50 characters of content before suggesting tags.",
-      );
-      return;
-    }
-
-    setIsSuggestingTags(true);
-    const toastId = toast.loading("Analyzing content...");
-
-    try {
-      const res = await fetch("/api/admin/suggest-tags", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ content }),
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.message || "Failed to get suggestions");
-
-      const existingTags = new Set(
-        (watch("tags") || "")
-          .split(",")
-          .map((t) => t.trim())
-          .filter(Boolean),
-      );
-      data.tags.forEach((tag) => existingTags.add(tag));
-
-      setValue("tags", Array.from(existingTags).join(", "), {
-        shouldDirty: true,
-      });
-      toast.success("Tags added!", { id: toastId });
-    } catch (e) {
-      toast.error(e.message, { id: toastId });
-    } finally {
-      setIsSuggestingTags(false);
-    }
-  };
-
-  const handleSuggestHeadlines = async () => {
-    const content = watch("content");
-    if (!content || content.trim().length < 100) {
-      toast.error(
-        "Please write at least 100 characters of content to generate headlines.",
-      );
-      return;
-    }
-
-    setIsSuggestingHeadlines(true);
-    setSuggestedHeadlines([]);
-    const toastId = toast.loading("Generating headlines...");
-
-    try {
-      const res = await fetch("/api/admin/suggest-headlines", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ content }),
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.message || "Failed to get suggestions");
-
-      setSuggestedHeadlines(data.headlines);
-      toast.success("Suggestions ready!", { id: toastId });
-    } catch (e) {
-      toast.error(e.message, { id: toastId });
-    } finally {
-      setIsSuggestingHeadlines(false);
-    }
-  };
+  // Removed suggest tags/headlines functions
 
   return (
     <form
@@ -654,9 +498,6 @@ export default function ArticleForm({
               {autoSaveStatus === "saving" ? "Saving…" : "Saved"}
             </span>
           )}
-          <button type="button" className={`${utilities.btn} ${utilities.btnSecondary}`} onClick={handleGrammarCheck} disabled={isCheckingGrammar}>
-            {isCheckingGrammar ? "Checking…" : "Grammar Check"}
-          </button>
           <button
             type="button"
             className={`${utilities.btn} ${utilities.btnSecondary}`}
@@ -701,39 +542,11 @@ export default function ArticleForm({
         >
           Title
         </label>
-        <div className={`${commonStyles.row} ${commonStyles.alignCenter} ${commonStyles.gapSm}`}>
-          <input
-            id="title"
-            {...register("title")}
-            className={`${commonStyles.input} ${themeStyles.input} ${commonStyles.flex1}`}
-          />
-          <button
-            type="button"
-            className={`${utilities.btn} ${utilities.btnSecondary}`}
-            onClick={handleSuggestHeadlines}
-            disabled={isSuggestingHeadlines}
-          >
-            {isSuggestingHeadlines ? "Generating..." : "Suggest Headlines"}
-          </button>
-        </div>
-        {suggestedHeadlines.length > 0 && (
-          <div className={commonStyles.suggestionsContainer}>
-            <h4 className={commonStyles.suggestionsTitle}>Suggestions:</h4>
-            <ul className={commonStyles.suggestionsList}>
-              {suggestedHeadlines.map((headline, index) => (
-                <li
-                  key={index}
-                  onClick={() =>
-                    setValue("title", headline, { shouldDirty: true })
-                  }
-                  className={commonStyles.suggestionItem}
-                >
-                  {headline}
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
+        <input
+          id="title"
+          {...register("title")}
+          className={`${commonStyles.input} ${themeStyles.input}`}
+        />
         {errors.title && (
           <p className={`${commonStyles.error} ${themeStyles.error}`}>
             {errors.title.message}
@@ -772,21 +585,11 @@ export default function ArticleForm({
         >
           Tags (comma-separated)
         </label>
-        <div className={`${commonStyles.row} ${commonStyles.alignCenter} ${commonStyles.gapSm}`}>
-          <input
-            id="tags"
-            {...register("tags")}
-            className={`${commonStyles.input} ${themeStyles.input} ${commonStyles.flex1}`}
-          />
-          <button
-            type="button"
-            className={`${utilities.btn} ${utilities.btnSecondary}`}
-            onClick={handleSuggestTags}
-            disabled={isSuggestingTags}
-          >
-            {isSuggestingTags ? "Suggesting..." : "Suggest Tags"}
-          </button>
-        </div>
+        <input
+          id="tags"
+          {...register("tags")}
+          className={`${commonStyles.input} ${themeStyles.input}`}
+        />
         {errors.tags && (
           <p className={`${commonStyles.error} ${themeStyles.error}`}>
             {errors.tags.message}
@@ -858,11 +661,6 @@ export default function ArticleForm({
           useImage={watch("showCoverImage")}
           onAltTextChange={handleCoverImageAltChange}
         />
-        <div className={commonStyles.inlineRow}>
-          <button type="button" className={`${utilities.btn} ${utilities.btnSecondary}`} onClick={handleGenerateAltText}>
-            Generate Alt Text
-          </button>
-        </div>
         {errors.coverImage && (
           <p className={`${commonStyles.error} ${themeStyles.error}`}>
             {errors.coverImage.message}
@@ -917,29 +715,7 @@ export default function ArticleForm({
             )}
           />
         )}
-        {/* Tone adjustment controls */}
-        <div className={commonStyles.inlineRow}>
-          <label className={`${commonStyles.label} ${themeStyles.label} ${commonStyles.noMargin}`}>Tone:</label>
-          <select
-            value={tone}
-            onChange={(e) => setTone(e.target.value)}
-            className={`${commonStyles.input} ${themeStyles.input} ${commonStyles.maxW200}`}
-          >
-            <option value="professional">Professional</option>
-            <option value="friendly">Friendly</option>
-            <option value="casual">Casual</option>
-            <option value="formal">Formal</option>
-            <option value="confident">Confident</option>
-          </select>
-          <button type="button" className={`${utilities.btn} ${utilities.btnSecondary}`} onClick={handleAdjustTone} disabled={isAdjustingTone}>
-            {isAdjustingTone ? "Adjusting…" : "Adjust Tone"}
-          </button>
-          {adjustedContent && (
-            <button type="button" className={`${utilities.btn} ${utilities.btnSecondary}`} onClick={applyAdjustedContent}>
-              Apply Suggestion
-            </button>
-          )}
-        </div>
+        {/* Removed tone adjustment controls */}
         {errors.content && (
           <p className={`${commonStyles.error} ${themeStyles.error}`}>
             {errors.content.message}

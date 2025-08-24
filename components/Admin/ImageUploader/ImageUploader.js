@@ -28,7 +28,6 @@ export default function ImageUploader({
   const [imageUrl, setImageUrl] = useState("");
   const [useImage, setUseImage] = useState(initialUseImage);
   const [altText, setAltText] = useState("");
-  const [isGeneratingAlt, setIsGeneratingAlt] = useState(false);
   const fileInputRef = useRef(null);
   const [isLibraryOpen, setIsLibraryOpen] = useState(false);
 
@@ -69,7 +68,7 @@ export default function ImageUploader({
         setUploading(false);
       }
     },
-    [onUpload],
+    [onUpload, onAltTextChange],
   );
 
   const handleFileChange = (e) => {
@@ -128,30 +127,7 @@ export default function ImageUploader({
     setIsLibraryOpen(false);
   };
 
-  const handleGenerateAltText = async () => {
-    if (!preview) {
-      toast.error("Please upload an image first.");
-      return;
-    }
-    setIsGeneratingAlt(true);
-    const toastId = toast.loading("Generating alt text...");
-    try {
-      const res = await fetch("/api/admin/generate-alt-text", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ imageUrl: preview }),
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.message || "Failed to generate");
-      setAltText(data.altText);
-      if (onAltTextChange) onAltTextChange(data.altText);
-      toast.success("Alt text generated!", { id: toastId });
-    } catch (e) {
-      toast.error(e.message, { id: toastId });
-    } finally {
-      setIsGeneratingAlt(false);
-    }
-  };
+  // Removed AI alt text generation handler
 
   const uploaderBoxClasses = `
     ${commonStyles.uploaderBox} 
@@ -270,13 +246,6 @@ export default function ImageUploader({
                   placeholder="Enter alt text..."
                   className={`${commonStyles.altTextInput} ${themeStyles.urlInput}`}
                 />
-                <button
-                  onClick={handleGenerateAltText}
-                  disabled={isGeneratingAlt}
-                  className={`${commonStyles.urlSubmitButton} ${themeStyles.urlSubmitButton}`}
-                >
-                  {isGeneratingAlt ? "Generating..." : "Generate with AI"}
-                </button>
               </div>
               <button
                 onClick={handleRemoveImage}
