@@ -16,6 +16,9 @@
 .list {
   display: grid;
   gap: 12px;
+  /* Keep list items clear of the FAB in bottom-right */
+  padding-right: 72px;
+  margin-bottom: 72px;
 }
 
 .itemRow {

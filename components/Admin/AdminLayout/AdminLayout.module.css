@@ -1,6 +1,8 @@
 .adminContainer {
   display: flex;
   min-height: 100vh;
+  /* Establish stacking context so child z-index behaves predictably */
+  position: relative;
 }
 
 .sidebar {
@@ -46,6 +48,10 @@
 .mainContent {
   flex: 1;
   padding: var(--space-8);
+  /* Add extra bottom padding to prevent overlap with fixed "+ Create" button */
+  padding-bottom: calc(var(--space-8) + var(--fab-safe) + var(--safe-area-bottom));
+  /* Add right padding so bottom-right UI (pagination, FAB-adjacent controls) isn't obscured */
+  padding-right: calc(var(--space-8) + var(--fab-safe) + var(--safe-area-right));
   overflow-y: auto;
   transition: background-color var(--duration-normal) var(--ease-standard);
 }
@@ -76,7 +82,8 @@
   position: fixed;
   right: var(--space-6);
   bottom: var(--space-6);
-  z-index: var(--z-fixed);
+  /* Keep above cards/popovers but below modals/toasts */
+  z-index: var(--z-popover);
   border: none;
   border-radius: var(--radius-full);
   padding: var(--space-4) var(--space-5);

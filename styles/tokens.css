@@ -55,6 +55,13 @@
   --duration-normal: 200ms;
   --duration-slow: 320ms;
 
+  /* Safe areas (responsive, notch-aware) */
+  --safe-area-right: env(safe-area-inset-right, 0px);
+  --safe-area-bottom: env(safe-area-inset-bottom, 0px);
+
+  /* Floating Action Button safe padding envelope (approx button size + gap) */
+  --fab-safe: clamp(56px, 12vw, 96px);
+
   /* Base (semantic) colors, will be overridden per theme */
   --bg: #0f141a;
   --bg-elev-1: #141a22;
