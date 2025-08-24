@@ -56,7 +56,7 @@
   position: relative;
   perspective: 800px;
   transform-style: preserve-3d;
-  animation: rotate-perspective 15s ease-in-out infinite alternate;
+  animation: rotate-perspective 12s cubic-bezier(0.65, 0, 0.35, 1) infinite alternate;
 }
 
 .orbit {
@@ -76,7 +76,7 @@
   height: 140px;
   /* tilt this ring on the X axis and lift slightly forward */
   transform: translateZ(6px) rotateX(60deg) rotateY(0deg);
-  animation: spinZ-1 3s linear infinite;
+  animation: spinZ-1 2.8s linear infinite;
 }
 
 .orbit2 {
@@ -85,41 +85,8 @@
   height: 180px;
   /* tilt this ring on the Y axis and push slightly back */
   transform: translateZ(-6px) rotateX(0deg) rotateY(60deg);
-  animation: spinZ-2 3.4s linear infinite;
+  animation: spinZ-2 3.8s linear infinite;
   animation-delay: -0.2s;
-}
-
-.orbit3 {
-  border-color: var(--orbit-color-3);
-  width: 110px;
-  height: 110px;
-  /* mixed tilt and bring slightly forward */
-  transform: translateZ(12px) rotateX(35deg) rotateY(35deg);
-  animation: spinZ-3 3.8s linear infinite;
-  animation-delay: -0.35s;
-}
-
-/* Additional orbits for richer motion */
-.orbit4 {
-  display: none;
-  position: absolute;
-  width: 180px;
-  height: 180px;
-  border: 2px solid;
-  border-radius: 50%;
-  border-color: var(--orbit-color-2);
-  animation: rotate3d-2 4s linear infinite;
-}
-
-.orbit5 {
-  display: none;
-  position: absolute;
-  width: 120px;
-  height: 120px;
-  border: 2px solid;
-  border-radius: 50%;
-  border-color: var(--orbit-color-1);
-  animation: rotate3d-1 2.2s linear infinite reverse;
 }
 
 .electron {
@@ -143,7 +110,7 @@
   transition:
     background-color 0.3s ease,
     box-shadow 0.3s ease;
-  animation: pulse 2s infinite ease-in-out;
+  animation: pulse 2.5s infinite ease-in-out;
   transform: translateZ(10px);
 }
 
@@ -202,11 +169,6 @@
   to   { transform: translateZ(-6px) rotateX(0deg) rotateY(60deg) rotateZ(360deg); }
 }
 
-@keyframes spinZ-3 {
-  from { transform: translateZ(12px) rotateX(35deg) rotateY(35deg) rotateZ(0deg); }
-  to   { transform: translateZ(12px) rotateX(35deg) rotateY(35deg) rotateZ(360deg); }
-}
-
 @keyframes rotate-perspective {
   0% { transform: rotateY(-15deg) rotateX(10deg); }
   100% { transform: rotateY(15deg) rotateX(-10deg); }
@@ -235,31 +197,6 @@
 }
 
 /* Comet */
-.cometTrack {
-  display: block;
-  position: absolute;
-  width: 220px;
-  height: 220px;
-  animation: rotate3d-1 2.8s linear infinite;
-}
-
-.comet {
-  position: absolute;
-  top: 50%;
-  left: 0;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--orbit-color-1);
-  box-shadow: 0 0 18px currentColor;
-  transform: translate(-4px, -50%);
-  animation: cometGlow 1.4s ease-in-out infinite;
-}
-
-@keyframes cometGlow {
-  0%, 100% { opacity: 0.6; box-shadow: 0 0 6px currentColor; }
-  50% { opacity: 1; box-shadow: 0 0 22px currentColor; }
-}
 
 @keyframes pulse {
   0%,
@@ -283,12 +220,14 @@
 
 @media (prefers-reduced-motion: reduce) {
   .orbit1,
-  .orbit2,
-  .orbit3 {
+  .orbit2 {
     animation: fadeIn 1.5s ease-in-out infinite alternate;
   }
   .orbit4,
-  .orbit5,
+  .orbit5 {
+    animation: none;
+  }
+
   .cometTrack {
     animation: none;
   }
@@ -297,9 +236,6 @@
   }
   .orbit2 {
     animation-delay: 0.5s;
-  }
-  .orbit3 {
-    animation-delay: 1s;
   }
   .centralCore {
     animation: none;
@@ -319,7 +255,6 @@
   /* preserve distinct radii on small screens */
   .orbit1 { width: 110px; height: 110px; }
   .orbit2 { width: 130px; height: 130px; }
-  .orbit3 { width: 90px; height: 90px; }
   .electron {
     width: 10px;
     height: 10px;

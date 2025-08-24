@@ -75,9 +75,6 @@ const LoadingAnimation = ({
         <div className={`${styles.orbit} ${styles.orbit2}`}>
           <div className={styles.electron}></div>
         </div>
-        <div className={styles.cometTrack}>
-          <div className={styles.comet}></div>
-        </div>
         <div className={styles.centralCore}></div>
       </div>
     </div>
