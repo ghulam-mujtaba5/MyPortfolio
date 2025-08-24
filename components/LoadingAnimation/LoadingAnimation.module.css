@@ -72,18 +72,30 @@
 
 .orbit1 {
   border-color: var(--orbit-color-1);
-  animation: rotate3d-1 3s linear infinite;
+  width: 140px;
+  height: 140px;
+  /* tilt this ring on the X axis and lift slightly forward */
+  transform: translateZ(6px) rotateX(60deg) rotateY(0deg);
+  animation: spinZ-1 3s linear infinite;
 }
 
 .orbit2 {
   border-color: var(--orbit-color-2);
-  animation: rotate3d-2 3.4s linear infinite;
+  width: 180px;
+  height: 180px;
+  /* tilt this ring on the Y axis and push slightly back */
+  transform: translateZ(-6px) rotateX(0deg) rotateY(60deg);
+  animation: spinZ-2 3.4s linear infinite;
   animation-delay: -0.2s;
 }
 
 .orbit3 {
   border-color: var(--orbit-color-3);
-  animation: rotate3d-3 3.8s linear infinite;
+  width: 110px;
+  height: 110px;
+  /* mixed tilt and bring slightly forward */
+  transform: translateZ(12px) rotateX(35deg) rotateY(35deg);
+  animation: spinZ-3 3.8s linear infinite;
   animation-delay: -0.35s;
 }
 
@@ -132,6 +144,7 @@
     background-color 0.3s ease,
     box-shadow 0.3s ease;
   animation: pulse 2s infinite ease-in-out;
+  transform: translateZ(10px);
 }
 
 /* Light-mode specific orbit emphasis */
@@ -178,19 +191,20 @@
   white-space: nowrap;
 }
 
-@keyframes rotate3d-1 {
-  from { transform: rotate3d(0.7, 1, 0.5, 0deg); }
-  to { transform: rotate3d(0.7, 1, 0.5, 360deg); }
+/* Spin around Z while maintaining each ring's X/Y tilt for a clearer 3D look */
+@keyframes spinZ-1 {
+  from { transform: translateZ(6px) rotateX(60deg) rotateY(0deg) rotateZ(0deg); }
+  to   { transform: translateZ(6px) rotateX(60deg) rotateY(0deg) rotateZ(360deg); }
 }
 
-@keyframes rotate3d-2 {
-  from { transform: rotate3d(1, -0.5, 0.2, 0deg); }
-  to { transform: rotate3d(1, -0.5, 0.2, 360deg); }
+@keyframes spinZ-2 {
+  from { transform: translateZ(-6px) rotateX(0deg) rotateY(60deg) rotateZ(0deg); }
+  to   { transform: translateZ(-6px) rotateX(0deg) rotateY(60deg) rotateZ(360deg); }
 }
 
-@keyframes rotate3d-3 {
-  from { transform: rotate3d(0.2, -0.8, -1, 0deg); }
-  to { transform: rotate3d(0.2, -0.8, -1, 360deg); }
+@keyframes spinZ-3 {
+  from { transform: translateZ(12px) rotateX(35deg) rotateY(35deg) rotateZ(0deg); }
+  to   { transform: translateZ(12px) rotateX(35deg) rotateY(35deg) rotateZ(360deg); }
 }
 
 @keyframes rotate-perspective {
@@ -222,7 +236,7 @@
 
 /* Comet */
 .cometTrack {
-  display: none;
+  display: block;
   position: absolute;
   width: 220px;
   height: 220px;
@@ -302,10 +316,10 @@
     width: 140px;
     height: 140px;
   }
-  .orbit {
-    width: 110px;
-    height: 110px;
-  }
+  /* preserve distinct radii on small screens */
+  .orbit1 { width: 110px; height: 110px; }
+  .orbit2 { width: 130px; height: 130px; }
+  .orbit3 { width: 90px; height: 90px; }
   .electron {
     width: 10px;
     height: 10px;
