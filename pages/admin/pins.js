@@ -3,6 +3,7 @@ import AdminLayout from "../../components/Admin/AdminLayout/AdminLayout";
 import Spinner from "../../components/Spinner/Spinner";
 import utilities from "../../styles/utilities.module.css";
 import { useTheme } from "../../context/ThemeContext";
+import toast from "react-hot-toast";
 
 const PinsPage = () => {
   const [items, setItems] = useState([]);
@@ -103,6 +104,7 @@ const PinsPage = () => {
       });
       const json = await res.json();
       if (!res.ok || !json.success) throw new Error(json.message || "Failed to save order");
+      toast.success("Pinned order saved");
       await load();
     } catch (e) {
       setError(e.message);
