@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import AdminLayout from "../../components/Admin/AdminLayout/AdminLayout";
 import Spinner from "../../components/Spinner/Spinner";
 import utilities from "../../styles/utilities.module.css";
@@ -10,6 +10,8 @@ const PinsPage = () => {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState(null);
   const { theme } = useTheme();
+  const dragFromIndexRef = useRef(null);
+  const [draggingIndex, setDraggingIndex] = useState(null);
 
   const load = async () => {
     setLoading(true);
@@ -38,6 +40,39 @@ const PinsPage = () => {
       [arr[index], arr[target]] = [arr[target], arr[index]];
       return arr;
     });
+  };
+
+  // Drag and Drop Handlers (HTML5, accessible-friendly)
+  const onDragStart = (idx) => (e) => {
+    dragFromIndexRef.current = idx;
+    setDraggingIndex(idx);
+    e.dataTransfer.effectAllowed = "move";
+    // For Firefox compatibility
+    e.dataTransfer.setData("text/plain", String(idx));
+  };
+
+  const onDragOver = (idx) => (e) => {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = "move";
+  };
+
+  const onDrop = (idx) => (e) => {
+    e.preventDefault();
+    const from = dragFromIndexRef.current;
+    if (from == null || from === idx) return;
+    setItems((prev) => {
+      const arr = [...prev];
+      const [moved] = arr.splice(from, 1);
+      arr.splice(idx, 0, moved);
+      return arr;
+    });
+    dragFromIndexRef.current = null;
+    setDraggingIndex(null);
+  };
+
+  const onDragEnd = () => {
+    dragFromIndexRef.current = null;
+    setDraggingIndex(null);
   };
 
   const unpin = async (id, type) => {
@@ -111,21 +146,35 @@ const PinsPage = () => {
       ) : error ? (
         <div style={{ color: "#dc2626" }}>Error: {error}</div>
       ) : (
-        <div style={{ display: "grid", gap: 12 }}>
+        <div role="list" aria-label="Pinned items" style={{ display: "grid", gap: 12 }}>
           {items.length === 0 ? (
             <div>No pinned items yet. Pin articles or projects to manage order here.</div>
           ) : (
             items.map((it, idx) => (
-              <div key={(it._id || it.id) + ":" + idx} style={{
-                display: "grid",
-                gridTemplateColumns: "auto 1fr auto auto auto",
-                alignItems: "center",
-                gap: 12,
-                padding: 12,
-                border: "1px solid var(--border-color, #e5e7eb)",
-                borderRadius: 8,
-                background: theme === "dark" ? "#0b1220" : "#fff",
-              }}>
+              <div
+                key={(it._id || it.id) + ":" + idx}
+                role="listitem"
+                draggable
+                onDragStart={onDragStart(idx)}
+                onDragOver={onDragOver(idx)}
+                onDrop={onDrop(idx)}
+                onDragEnd={onDragEnd}
+                aria-grabbed={draggingIndex === idx}
+                aria-dropeffect="move"
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "auto 1fr auto auto auto",
+                  alignItems: "center",
+                  gap: 12,
+                  padding: 12,
+                  border: "1px solid var(--border-color, #e5e7eb)",
+                  borderRadius: 8,
+                  background: theme === "dark" ? "#0b1220" : "#fff",
+                  outline: draggingIndex === idx ? "2px dashed var(--color-primary, #2563eb)" : "none",
+                  opacity: draggingIndex === idx ? 0.85 : 1,
+                  cursor: "grab",
+                }}
+              >
                 <div style={{ fontWeight: 600, minWidth: 28, textAlign: "right" }}>{idx + 1}</div>
                 <div style={{ overflow: "hidden" }}>
                   <div style={{ fontWeight: 600, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>

@@ -12,8 +12,9 @@ import { FiTrash2, FiEdit, FiEye, FiCopy, FiCheckCircle, FiXCircle, FiHelpCircle
 import toast from "react-hot-toast";
 import { useTheme } from '../../../context/ThemeContext';
 import utilities from '../../../styles/utilities.module.css';
+import Spinner from '../../Spinner/Spinner';
 
-const ArticleCard = ({ article, isSelected, onSelect, onDelete }) => {
+const ArticleCard = ({ article, isSelected, onSelect, onDelete, onPin, pinning = false }) => {
   const cardVariants = {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0 },
@@ -134,6 +135,21 @@ const ArticleCard = ({ article, isSelected, onSelect, onDelete }) => {
               className={`${utilities.btnIcon} ${utilities.btnDanger}`}
             >
               <Icon name="trash" />
+            </button>
+          </Tooltip>
+          <Tooltip content={article.pinned ? 'Unpin' : 'Pin'}>
+            <button
+              onClick={() => onPin && onPin(article)}
+              className={`${utilities.btnIcon}`}
+              aria-pressed={!!article.pinned}
+              aria-label={article.pinned ? 'Unpin article' : 'Pin article'}
+              disabled={pinning}
+            >
+              {pinning ? (
+                <Spinner size="sm" label="Updating pin" />
+              ) : (
+                <Icon name="pin" />
+              )}
             </button>
           </Tooltip>
           <Tooltip content="View Live">

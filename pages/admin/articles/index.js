@@ -32,6 +32,26 @@ const ArticlesPage = () => {
     ...(theme === "dark" ? darkStyles : lightStyles),
   };
 
+  const togglePin = async (article) => {
+    try {
+      const id = article._id || article.id;
+      setPinningId(id);
+      const res = await fetch('/api/admin/pin-item', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id, type: 'article' }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message || 'Failed to toggle pin');
+      toast.success(data.data?.pinned ? 'Article pinned' : 'Article unpinned');
+      fetchArticles();
+    } catch (e) {
+      toast.error(e.message || 'Failed to update pin status');
+    } finally {
+      setPinningId(null);
+    }
+  };
+
   const [articles, setArticles] = useState([]);
   const [pagination, setPagination] = useState({});
   const [loading, setLoading] = useState(true);
@@ -46,6 +66,7 @@ const ArticlesPage = () => {
   const selectAllRef = useRef(null);
   const router = useRouter();
   const [applyingBulk, setApplyingBulk] = useState(false);
+  const [pinningId, setPinningId] = useState(null);
 
   const {
     page = 1,
@@ -292,6 +313,8 @@ const ArticlesPage = () => {
                   isSelected={selectedArticles.includes(article._id || article.id)}
                   onSelect={handleSelectSingle}
                   onDelete={handleDelete}
+                  onPin={togglePin}
+                  pinning={pinningId === (article._id || article.id)}
                 />
               ))}
             </motion.div>
