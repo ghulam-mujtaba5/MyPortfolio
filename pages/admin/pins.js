@@ -4,6 +4,7 @@ import Spinner from "../../components/Spinner/Spinner";
 import utilities from "../../styles/utilities.module.css";
 import { useTheme } from "../../context/ThemeContext";
 import toast from "react-hot-toast";
+import styles from "./pins.module.css";
 
 const PinsPage = () => {
   const [items, setItems] = useState([]);
@@ -120,9 +121,9 @@ const PinsPage = () => {
 
   return (
     <AdminLayout title="Pinned Items">
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, marginBottom: 16 }}>
+      <div className={styles.headerWrap}>
         <h1 style={{ margin: 0 }}>Pinned Items</h1>
-        <div style={{ display: "flex", gap: 8 }}>
+        <div className={styles.headerActions}>
           <button
             type="button"
             onClick={load}
@@ -148,7 +149,7 @@ const PinsPage = () => {
       ) : error ? (
         <div style={{ color: "#dc2626" }}>Error: {error}</div>
       ) : (
-        <div role="list" aria-label="Pinned items" style={{ display: "grid", gap: 12 }}>
+        <div role="list" aria-label="Pinned items" className={styles.list}>
           {items.length === 0 ? (
             <div>No pinned items yet. Pin articles or projects to manage order here.</div>
           ) : (
@@ -163,30 +164,27 @@ const PinsPage = () => {
                 onDragEnd={onDragEnd}
                 aria-grabbed={draggingIndex === idx}
                 aria-dropeffect="move"
+                className={styles.itemRow}
                 style={{
-                  display: "grid",
-                  gridTemplateColumns: "auto 1fr auto auto auto",
-                  alignItems: "center",
-                  gap: 12,
-                  padding: 12,
-                  border: "1px solid var(--border-color, #e5e7eb)",
-                  borderRadius: 8,
-                  background: theme === "dark" ? "#0b1220" : "#fff",
-                  outline: draggingIndex === idx ? "2px dashed var(--color-primary, #2563eb)" : "none",
+                  outline:
+                    draggingIndex === idx
+                      ? "2px dashed var(--color-primary, #2563eb)"
+                      : "none",
                   opacity: draggingIndex === idx ? 0.85 : 1,
                   cursor: "grab",
+                  background: theme === "dark" ? "#0b1220" : undefined,
                 }}
               >
-                <div style={{ fontWeight: 600, minWidth: 28, textAlign: "right" }}>{idx + 1}</div>
-                <div style={{ overflow: "hidden" }}>
-                  <div style={{ fontWeight: 600, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+                <div className={styles.itemIndex}>{idx + 1}</div>
+                <div className={styles.itemTitleWrap}>
+                  <div className={styles.itemTitle}>
                     {it.title || it.name || it.slug || it._id}
                   </div>
-                  <div style={{ opacity: 0.7, fontSize: 12 }}>
+                  <div className={styles.itemMeta}>
                     {it.type === "article" ? "Article" : "Project"} · {it.slug || it._id}
                   </div>
                 </div>
-                <div style={{ display: "flex", gap: 6 }}>
+                <div className={styles.itemMoveGroup}>
                   <button
                     type="button"
                     onClick={() => move(idx, -1)}
@@ -202,7 +200,7 @@ const PinsPage = () => {
                     title="Move down"
                   >↓</button>
                 </div>
-                <div>
+                <div className={styles.itemUnpin}>
                   <button
                     type="button"
                     onClick={() => unpin(it._id || it.id, it.type)}

@@ -14,6 +14,18 @@ const MediaLibrary = ({ onSelect, isModal = false }) => {
   const { theme } = useTheme();
   const themeStyles = theme === "dark" ? darkStyles : lightStyles;
 
+  // top progress helpers
+  const topStart = () => {
+    if (typeof window !== "undefined") {
+      window.dispatchEvent(new CustomEvent("app:top", { detail: { active: true } }));
+    }
+  };
+  const topDone = () => {
+    if (typeof window !== "undefined") {
+      window.dispatchEvent(new CustomEvent("app:top", { detail: { done: true } }));
+    }
+  };
+
   const [assets, setAssets] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -29,6 +41,7 @@ const MediaLibrary = ({ onSelect, isModal = false }) => {
 
   const fetchAssets = useCallback(async (pageNum = 1, search = "") => {
     setIsLoading(true);
+    topStart();
     try {
       const { data } = await axios.get(
         `/api/media?page=${pageNum}&limit=12&search=${search}`,
@@ -41,6 +54,7 @@ const MediaLibrary = ({ onSelect, isModal = false }) => {
       toast.error("Failed to load media assets.");
     } finally {
       setIsLoading(false);
+      topDone();
     }
   }, []);
 
@@ -61,6 +75,7 @@ const MediaLibrary = ({ onSelect, isModal = false }) => {
 
     setUploading(true);
     const toastId = toast.loading(`Uploading ${files.length} file(s)...`);
+    topStart();
 
     // Using a for...of loop to upload sequentially to avoid overwhelming the server
     for (const file of files) {
@@ -74,6 +89,7 @@ const MediaLibrary = ({ onSelect, isModal = false }) => {
       } catch (err) {
         toast.error(`Failed to upload ${file.name}.`, { id: toastId });
         setUploading(false);
+        topDone();
         return; // Stop on first error
       }
     }
@@ -81,6 +97,7 @@ const MediaLibrary = ({ onSelect, isModal = false }) => {
     toast.success("All files uploaded successfully!", { id: toastId });
     setUploading(false);
     fetchAssets(1, searchTerm); // Refresh
+    topDone();
   };
 
   const handleDelete = () => {
@@ -92,6 +109,7 @@ const MediaLibrary = ({ onSelect, isModal = false }) => {
     const toastId = toast.loading(
       `Deleting ${selectedAssets.length} asset(s)...`,
     );
+    topStart();
     try {
       await axios.delete("/api/media", { data: { ids: selectedAssets } });
       toast.success("Assets deleted successfully!", { id: toastId });
@@ -100,6 +118,8 @@ const MediaLibrary = ({ onSelect, isModal = false }) => {
       fetchAssets(1, searchTerm); // Refresh
     } catch (err) {
       toast.error("An error occurred while deleting.", { id: toastId });
+    } finally {
+      topDone();
     }
   };
 
@@ -113,6 +133,7 @@ const MediaLibrary = ({ onSelect, isModal = false }) => {
 
   const handleSaveMetadata = async (assetId, data) => {
     const toastId = toast.loading("Saving changes...");
+    topStart();
     try {
       const res = await axios.put(`/api/media/${assetId}`, data);
       toast.success("Changes saved!", { id: toastId });
@@ -122,6 +143,8 @@ const MediaLibrary = ({ onSelect, isModal = false }) => {
       setEditingAsset(null);
     } catch (err) {
       toast.error("Failed to save changes.", { id: toastId });
+    } finally {
+      topDone();
     }
   };
 

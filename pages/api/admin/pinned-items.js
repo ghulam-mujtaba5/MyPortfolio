@@ -1,9 +1,13 @@
-import withAdminAuth from "../../../lib/withAdminAuth";
+import { getToken } from "next-auth/jwt";
 import dbConnect from "../../../lib/mongoose";
 import Article from "../../../models/Article";
 import Project from "../../../models/Project";
 
 async function handler(req, res) {
+  const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
+  if (!token || !["admin", "editor"].includes(token.role)) {
+    return res.status(403).json({ success: false, message: "Forbidden" });
+  }
   if (req.method !== "GET") {
     return res
       .status(405)
@@ -39,4 +43,4 @@ async function handler(req, res) {
   }
 }
 
-export default withAdminAuth(handler);
+export default handler;

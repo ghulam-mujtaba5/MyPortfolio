@@ -37,6 +37,8 @@ function MyApp({ Component, pageProps, session }) {
   const loaderDelayRef = useRef(null);
   const loaderSafetyRef = useRef(null);
   const topDoneTimerRef = useRef(null);
+  const topSafetyRef = useRef(null);
+  const topOpsRef = useRef(0); // number of in-page active operations
 
   useEffect(() => {
     setCookiesAccepted(hasAcceptedCookies());
@@ -52,12 +54,24 @@ function MyApp({ Component, pageProps, session }) {
       setLoading(true);
       setTopDone(false);
       setTopActive(true);
+      // Safety: auto-complete top bar after 6s to avoid being stuck
+      clearTimeout(topSafetyRef.current);
+      topSafetyRef.current = setTimeout(() => {
+        // emulate completion if no complete event fires
+        setTopDone(true);
+        clearTimeout(topDoneTimerRef.current);
+        topDoneTimerRef.current = setTimeout(() => {
+          setTopActive(false);
+          setTimeout(() => setTopDone(false), 180);
+        }, 250);
+      }, 6000);
     };
     const handleComplete = () => {
       // ensure all timers are cleared and UI hides
       setLoading(false);
       clearTimeout(loaderDelayRef.current);
       clearTimeout(loaderSafetyRef.current);
+      clearTimeout(topSafetyRef.current);
       setShowLoader(false);
       // progress bar finish animation
       setTopDone(true);
@@ -82,8 +96,16 @@ function MyApp({ Component, pageProps, session }) {
       router.events.off("routeChangeError", handleComplete);
       router.events.off("hashChangeStart", handleStart);
       router.events.off("hashChangeComplete", handleComplete);
+      clearTimeout(topSafetyRef.current);
+      clearTimeout(topDoneTimerRef.current);
     };
   }, [router.events]);
+
+  // Initial reset to avoid residual state on first paint (SSR -> CSR)
+  useEffect(() => {
+    setTopActive(false);
+    setTopDone(false);
+  }, []);
 
   // Debounce visual loader to avoid flashes and long hangs
   useEffect(() => {
@@ -103,6 +125,57 @@ function MyApp({ Component, pageProps, session }) {
       clearTimeout(loaderSafetyRef.current);
     };
   }, [loading]);
+
+  // Allow pages/components to control the top bar with CustomEvents
+  useEffect(() => {
+    const onTop = (e) => {
+      const d = (e && e.detail) || {};
+      if (d.reset) {
+        topOpsRef.current = 0;
+        clearTimeout(topSafetyRef.current);
+        clearTimeout(topDoneTimerRef.current);
+        setTopActive(false);
+        setTopDone(false);
+        return;
+      }
+      if (d.active) {
+        topOpsRef.current += 1;
+        setTopDone(false);
+        setTopActive(true);
+        clearTimeout(topSafetyRef.current);
+        // safety to avoid stuck bar if caller forgets to signal done
+        topSafetyRef.current = setTimeout(() => {
+          topOpsRef.current = 0;
+          setTopDone(true);
+          clearTimeout(topDoneTimerRef.current);
+          topDoneTimerRef.current = setTimeout(() => {
+            setTopActive(false);
+            setTimeout(() => setTopDone(false), 180);
+          }, 250);
+        }, 6000);
+      }
+      if (d.done) {
+        topOpsRef.current = Math.max(0, topOpsRef.current - 1);
+        if (topOpsRef.current === 0) {
+          clearTimeout(topSafetyRef.current);
+          setTopDone(true);
+          clearTimeout(topDoneTimerRef.current);
+          topDoneTimerRef.current = setTimeout(() => {
+            setTopActive(false);
+            setTimeout(() => setTopDone(false), 180);
+          }, 250);
+        }
+      }
+    };
+    if (typeof window !== "undefined") {
+      window.addEventListener("app:top", onTop);
+    }
+    return () => {
+      if (typeof window !== "undefined") {
+        window.removeEventListener("app:top", onTop);
+      }
+    };
+  }, []);
 
   // Listen to custom app:loader events to allow manual overlay preview (from test page)
   useEffect(() => {
