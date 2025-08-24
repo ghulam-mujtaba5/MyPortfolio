@@ -5,6 +5,7 @@
   border: 1px solid var(--border);
   background-color: var(--bg-elev-1);
   box-shadow: var(--shadow-sm);
+  min-width: 0; /* prevent overflow pushing siblings */
 }
 
 .table {
@@ -53,6 +54,7 @@
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 var(--space-4);
+  min-width: 0; /* allow shrink inside layout */
 }
 
 .sectionCard {
@@ -60,6 +62,7 @@
   border: 1px solid;
   padding: var(--space-6);
   box-shadow: var(--shadow-sm);
+  min-width: 0; /* ensure card doesn't overflow grid */
 }
 
 .sectionTitle {

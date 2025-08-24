@@ -2,6 +2,7 @@
   max-width: 1280px;
   margin: 0 auto;
   padding: var(--space-6);
+  min-width: 0; /* allow shrink inside layout */
 }
 
 .pageHeader {
@@ -32,6 +33,7 @@
   border-radius: var(--radius-lg);
   padding: var(--space-4);
   box-shadow: var(--shadow-sm);
+  min-width: 0; /* prevent overflow from inputs */
 }
 
 .filtersGrid {
@@ -119,6 +121,7 @@
   padding: var(--space-5);
   margin-top: var(--space-4);
   box-shadow: var(--shadow-sm);
+  min-width: 0; /* ensure table/card content doesn't push siblings */
 }
 
 .loading {
