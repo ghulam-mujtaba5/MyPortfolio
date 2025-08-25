@@ -95,24 +95,27 @@ export default function CommandPalette() {
     ];
   }, [router, setThemeMode, toggleTheme]);
 
-  const handleNavigation = (item) => {
-    let path = "/admin";
-    switch (item.type) {
-      case "Article":
-        path += `/articles/edit/${item._id}`;
-        break;
-      case "Project":
-        path += `/projects/edit/${item._id}`;
-        break;
-      case "User":
-        path += `/users/edit/${item._id}`;
-        break;
-      default:
-        return;
-    }
-    router.push(path);
-    setIsOpen(false);
-  };
+  const handleNavigation = useCallback(
+    (item) => {
+      let path = "/admin";
+      switch (item.type) {
+        case "Article":
+          path += `/articles/edit/${item._id}`;
+          break;
+        case "Project":
+          path += `/projects/edit/${item._id}`;
+          break;
+        case "User":
+          path += `/users/edit/${item._id}`;
+          break;
+        default:
+          return;
+      }
+      router.push(path);
+      setIsOpen(false);
+    },
+    [router],
+  );
 
   const handleCommand = (cmd) => {
     try {

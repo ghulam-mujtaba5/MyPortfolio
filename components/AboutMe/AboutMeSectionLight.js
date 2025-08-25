@@ -12,22 +12,22 @@ const AboutMeSection = () => {
 
   const containerClass = useMemo(
     () => `${commonStyles.container} ${themeStyles.container}`,
-    [theme, themeStyles.container],
+    [themeStyles],
   );
 
   const sectionClass = useMemo(
     () => `${commonStyles.aboutMeSection} ${themeStyles.aboutMeSection}`,
-    [theme, themeStyles.aboutMeSection],
+    [themeStyles],
   );
 
   const titleClass = useMemo(
     () => `${commonStyles.title} ${themeStyles.title}`,
-    [theme, themeStyles.title],
+    [themeStyles],
   );
 
   const descriptionClass = useMemo(
     () => `${commonStyles.description} ${themeStyles.description}`,
-    [theme, themeStyles.description],
+    [themeStyles],
   );
 
   const controls = useAnimation();

@@ -26,14 +26,16 @@ const SkillFrame = () => {
       },
     );
 
-    if (frameRef.current) {
-      observer.observe(frameRef.current);
+    const node = frameRef.current;
+    if (node) {
+      observer.observe(node);
     }
 
     return () => {
-      if (frameRef.current) {
-        observer.unobserve(frameRef.current);
+      if (node) {
+        observer.unobserve(node);
       }
+      observer.disconnect();
     };
   }, []);
 

@@ -40,14 +40,16 @@ const ThemeToggleIcon = () => {
       { threshold: 0.1 }, // Adjust based on when you want the animation to trigger
     );
 
-    if (iconRef.current) {
-      observer.observe(iconRef.current);
+    const node = iconRef.current;
+    if (node) {
+      observer.observe(node);
     }
 
     return () => {
-      if (iconRef.current) {
-        observer.unobserve(iconRef.current);
+      if (node) {
+        observer.unobserve(node);
       }
+      observer.disconnect();
     };
   }, []);
 

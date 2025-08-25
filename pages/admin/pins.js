@@ -114,10 +114,7 @@ const PinsPage = () => {
     }
   };
 
-  const hasChanges = useMemo(() => {
-    // Basic heuristic: we could track original order; for simplicity, require explicit Save click always enabled
-    return true;
-  }, [items]);
+  const hasChanges = true; // Save button logic kept simple; always enabled unless disabled by other state
 
   return (
     <AdminLayout title="Pinned Items">
