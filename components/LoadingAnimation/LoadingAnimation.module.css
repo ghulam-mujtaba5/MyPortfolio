@@ -99,6 +99,7 @@
   border-color: var(--orbit-color-2);
   animation-duration: 3.5s;
   animation-direction: reverse;
+  animation-delay: -0.8s;
   filter: drop-shadow(0 0 5px color-mix(in srgb, var(--orbit-color-2) 50%, transparent));
 }
 
@@ -113,18 +114,33 @@
   transform: translateY(-50%);
   color: var(--orbit-color-1);
   box-shadow: 0 0 12px currentColor, 0 0 20px currentColor;
+  animation: electron-pulse 1.2s ease-in-out infinite;
+}
+
+.electron::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-20%, -50%);
+  width: 14px;
+  height: 6px;
+  border-radius: 6px / 3px;
+  background: radial-gradient(ellipse at left, currentColor 30%, transparent 70%);
+  filter: blur(1px) opacity(0.7);
 }
 
 .orbitContainer2 .electron {
   color: var(--orbit-color-2);
+  animation-delay: -0.6s;
 }
 
 .centralCore {
   width: 20px;
   height: 20px;
-  background-color: var(--core-color);
+  background: radial-gradient(circle at 35% 35%, #ffffff88 0%, var(--core-color) 35%, color-mix(in srgb, var(--core-color) 40%, #000) 100%);
   border-radius: 50%;
-  box-shadow: 0 0 25px var(--core-color);
+  box-shadow: 0 0 14px var(--core-color), 0 0 28px color-mix(in srgb, var(--core-color) 60%, transparent);
   animation: pulse-core 2.5s ease-in-out infinite;
 }
 
@@ -134,18 +150,29 @@
 }
 
 @keyframes drift {
-  from { transform: rotateX(5deg) rotateY(10deg); }
-  to   { transform: rotateX(-5deg) rotateY(-10deg); }
+  from { transform: rotateX(2deg) rotateY(4deg); }
+  to   { transform: rotateX(-2deg) rotateY(-4deg); }
 }
 
 @keyframes pulse-core {
   0%, 100% {
     transform: scale(1);
-    box-shadow: 0 0 25px var(--core-color);
+    box-shadow: 0 0 14px var(--core-color), 0 0 28px color-mix(in srgb, var(--core-color) 60%, transparent);
   }
   50% {
     transform: scale(1.1);
-    box-shadow: 0 0 35px var(--core-color);
+    box-shadow: 0 0 22px var(--core-color), 0 0 36px color-mix(in srgb, var(--core-color) 80%, transparent);
+  }
+}
+
+@keyframes electron-pulse {
+  0%, 100% {
+    transform: translateY(-50%) scale(1);
+    filter: brightness(1);
+  }
+  50% {
+    transform: translateY(-50%) scale(1.15);
+    filter: brightness(1.15);
   }
 }
 
