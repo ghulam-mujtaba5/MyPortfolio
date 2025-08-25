@@ -43,6 +43,22 @@ export default function ArticlesPage() {
     [router.query.sort],
   );
 
+  // Local UI state for search input with debounce
+  const [q, setQ] = useState(search);
+  useEffect(() => setQ(search), [search]);
+  useEffect(() => {
+    const id = setTimeout(() => {
+      // push only if value actually changed to avoid loops
+      if (q !== search) {
+        const newQuery = { ...router.query };
+        if (q) newQuery.search = q; else delete newQuery.search;
+        newQuery.page = 1;
+        router.push({ pathname: "/articles", query: newQuery }, undefined, { shallow: true });
+      }
+    }, 400);
+    return () => clearTimeout(id);
+  }, [q]);
+
   // Category filters UI (mirrors Projects page tag filter)
   const CATEGORY_FILTERS = useMemo(
     () => [
@@ -91,6 +107,12 @@ export default function ArticlesPage() {
     else delete newQuery.category;
     // Reset to page 1 when changing filters
     newQuery.page = 1;
+    router.push({ pathname: "/articles", query: newQuery }, undefined, { shallow: true });
+  };
+
+  const handleSortChange = (e) => {
+    const val = e.target.value;
+    const newQuery = { ...router.query, sort: val, page: 1 };
     router.push({ pathname: "/articles", query: newQuery }, undefined, { shallow: true });
   };
 
@@ -183,6 +205,29 @@ export default function ArticlesPage() {
             >
               Insights on software, data science, and AI.
             </p>
+
+            {/* Controls: Search + Sort */}
+            <div className={listCss.controls} role="region" aria-label="Articles controls">
+              <input
+                type="search"
+                value={q}
+                onChange={(e) => setQ(e.target.value)}
+                placeholder="Search articles..."
+                aria-label="Search articles"
+                className={`${listCss.searchInput} ${theme === "dark" ? darkCss.searchInput : lightCss.searchInput}`}
+              />
+              <select
+                aria-label="Sort articles"
+                value={sort}
+                onChange={handleSortChange}
+                className={`${listCss.searchInput} ${theme === "dark" ? darkCss.searchInput : lightCss.searchInput}`}
+                style={{ maxWidth: 220 }}
+              >
+                <option value="relevance">Sort: Relevance</option>
+                <option value="newest">Sort: Newest</option>
+                <option value="oldest">Sort: Oldest</option>
+              </select>
+            </div>
           </section>
 
           {/* Content grid */}
