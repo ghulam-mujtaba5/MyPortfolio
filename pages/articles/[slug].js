@@ -20,6 +20,18 @@ export default function ArticleDetailPage({ article, preview }) {
   const articleRef = useRef(null);
   const t = theme === "dark" ? darkStyles : lightStyles;
 
+  // Ensure all image URLs are absolute for OG/Twitter and JSON-LD
+  const makeAbsolute = (url) => {
+    if (!url) return undefined;
+    try {
+      // If already absolute, this will succeed
+      const u = new URL(url, "https://ghulammujtaba.com");
+      return u.toString();
+    } catch (_) {
+      return undefined;
+    }
+  };
+
   const sections = [
     { label: "Home", route: "/#home-section" },
     { label: "About", route: "/#about-section" },
@@ -128,7 +140,7 @@ export default function ArticleDetailPage({ article, preview }) {
         />
         <meta
           property="og:image"
-          content={article.ogImage || article.coverImage}
+          content={makeAbsolute(article.ogImage || article.coverImage)}
         />
         <meta
           property="og:url"
@@ -147,7 +159,41 @@ export default function ArticleDetailPage({ article, preview }) {
         />
         <meta
           property="twitter:image"
-          content={article.ogImage || article.coverImage}
+          content={makeAbsolute(article.ogImage || article.coverImage)}
+        />
+
+        {/* JSON-LD: Article schema for rich results */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Article",
+              headline: article.metaTitle || article.title,
+              description: article.metaDescription || article.excerpt,
+              image: makeAbsolute(article.ogImage || article.coverImage),
+              mainEntityOfPage: {
+                "@type": "WebPage",
+                "@id": `https://ghulammujtaba.com/articles/${article.slug}`,
+              },
+              author: {
+                "@type": "Person",
+                name: "Ghulam Mujtaba",
+                url: "https://ghulammujtaba.com",
+              },
+              publisher: {
+                "@type": "Organization",
+                name: "Ghulam Mujtaba",
+                logo: {
+                  "@type": "ImageObject",
+                  url: "https://ghulammujtaba.com/og-image.png",
+                },
+              },
+              datePublished: article.createdAt || article.publishAt,
+              dateModified: article.updatedAt,
+              keywords: Array.isArray(article.tags) ? article.tags.join(", ") : undefined,
+            }),
+          }}
         />
       </Head>
       <div

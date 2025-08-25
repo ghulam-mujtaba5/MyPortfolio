@@ -20,6 +20,17 @@ const Footer = dynamic(() => import("../../components/Footer/Footer"), {
 const ProjectPage = ({ project }) => {
   const [isMobile, setIsMobile] = useState(false);
 
+  // Ensure absolute URLs for OG/Twitter/JSON-LD
+  const makeAbsolute = (url) => {
+    if (!url) return undefined;
+    try {
+      const u = new URL(url, "https://ghulammujtaba.com");
+      return u.toString();
+    } catch (_) {
+      return undefined;
+    }
+  };
+
   useEffect(() => {
     const checkMobile = () => {
       setIsMobile(window.innerWidth < 768);
@@ -62,7 +73,7 @@ const ProjectPage = ({ project }) => {
             project.metaDescription || project.description.substring(0, 160)
           }
         />
-        <meta property="og:image" content={project.ogImage || project.image} />
+        <meta property="og:image" content={makeAbsolute(project.ogImage || project.image)} />
         <meta
           property="og:url"
           content={`https://ghulammujtaba.com/projects/${project.slug}`}
@@ -82,11 +93,34 @@ const ProjectPage = ({ project }) => {
         />
         <meta
           property="twitter:image"
-          content={project.ogImage || project.image}
+          content={makeAbsolute(project.ogImage || project.image)}
         />
         <meta
           property="twitter:url"
           content={`https://ghulammujtaba.com/projects/${project.slug}`}
+        />
+
+        {/* JSON-LD: Project as CreativeWork */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "CreativeWork",
+              name: project.metaTitle || project.title,
+              description: project.metaDescription || project.description,
+              url: `https://ghulammujtaba.com/projects/${project.slug}`,
+              image: makeAbsolute(project.ogImage || project.image),
+              author: {
+                "@type": "Person",
+                name: "Ghulam Mujtaba",
+                url: "https://ghulammujtaba.com",
+              },
+              datePublished: project.createdAt,
+              dateModified: project.updatedAt,
+              keywords: Array.isArray(project.tags) ? project.tags.join(", ") : undefined,
+            }),
+          }}
         />
       </Head>
 
