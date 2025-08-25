@@ -13,6 +13,7 @@
   left: 0;
   width: 100%;
   height: 700px;
+  z-index: 0;
 }
 
 .nameInput,
@@ -153,6 +154,7 @@
   opacity: 0;
   transform: translateY(30px);
   animation: fadeSlideIn 1s ease-out 0.5s forwards;
+  z-index: 2;
 }
 
 .contactEmail {

@@ -12,6 +12,7 @@ import lightStyles from "./ContactUsLight.module.css";
 import darkStyles from "./ContactUsDark.module.css";
 import animationStyles from "./ContactUsAnimations.module.css";
 import { motion } from "framer-motion";
+import PlexusCanvas from "../Backgrounds/PlexusCanvas";
 
 const ContactSection = ({
   email = "hello@ghulammujtaba.com",
@@ -186,7 +187,9 @@ const ContactSection = ({
       <div
         ref={parallaxRef}
         className={`${commonStyles.contactFormBackground} ${themeStyles.contactFormBackground}`}
-      />
+      >
+        <PlexusCanvas maxNodes={120} maxDistance={110} speed={1} />
+      </div>
       <motion.form
         ref={formRef}
         className={`${commonStyles.contactForm} ${themeStyles.contactForm} ${animationStyles.formWrapper}`}
