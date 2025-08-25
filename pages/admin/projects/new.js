@@ -67,7 +67,7 @@ export default function NewProjectPage() {
             onDataChange={setPreviewData}
           />
         </div>
-        <div>
+        <div style={{ pointerEvents: "none" }}>
           <h3 className={themeStyles.previewTitle}>Live Preview</h3>
           <div className={commonStyles.previewScale}>
             <Project1 projectOverride={previewData} />
