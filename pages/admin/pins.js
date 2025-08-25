@@ -1,6 +1,11 @@
-// This route has been removed. Return 404 for all requests.
+// This route has been removed. Redirect to /admin.
 export async function getServerSideProps() {
-  return { notFound: true };
+  return {
+    redirect: {
+      destination: "/admin",
+      permanent: false,
+    },
+  };
 }
 
 export default function RemovedPinsPage() {

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import toast from 'react-hot-toast';
-import { useTheme } from 'next-themes';
+import { useTheme } from '../../context/ThemeContext';
 
 import AdminLayout from '../../components/Admin/AdminLayout/AdminLayout';
 import Icon from '../../components/Admin/Icon/Icon';
@@ -81,7 +81,7 @@ const ResumePage = () => {
   };
 
   return (
-    <AdminLayout>
+    <AdminLayout title="Resume">
       <div className={styles.pageWrapper}>
         <header className={styles.header}>
           <h1 className={styles.title}>Manage Resume</h1>
