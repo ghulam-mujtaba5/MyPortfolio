@@ -32,6 +32,31 @@ const ArticlesPage = () => {
     ...(theme === "dark" ? darkStyles : lightStyles),
   };
 
+  const handleFeatureToggle = async (id, featured) => {
+    setFeaturingId(id);
+    try {
+      const res = await fetch('/api/admin/feature-item', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id, type: 'article', featured }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.message || 'Failed to update feature status.');
+      }
+      toast.success(featured ? 'Article featured on home.' : 'Article removed from home.');
+      setArticles(prevArticles =>
+        prevArticles.map(a =>
+          (a._id || a.id) === id ? { ...a, featuredOnHome: featured } : a
+        )
+      );
+    } catch (error) {
+      toast.error(error.message);
+    } finally {
+      setFeaturingId(null);
+    }
+  };
+
   const togglePin = async (article) => {
     try {
       const id = article._id || article.id;
@@ -67,6 +92,7 @@ const ArticlesPage = () => {
   const router = useRouter();
   const [applyingBulk, setApplyingBulk] = useState(false);
   const [pinningId, setPinningId] = useState(null);
+  const [featuringId, setFeaturingId] = useState(null);
 
   const {
     page = 1,
@@ -314,7 +340,9 @@ const ArticlesPage = () => {
                   onSelect={handleSelectSingle}
                   onDelete={handleDelete}
                   onPin={togglePin}
+                  onFeatureToggle={handleFeatureToggle}
                   pinning={pinningId === (article._id || article.id)}
+                  featuring={featuringId === (article._id || article.id)}
                 />
               ))}
             </motion.div>

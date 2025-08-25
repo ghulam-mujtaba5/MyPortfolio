@@ -33,6 +33,7 @@ const ProjectsPage = () => {
   const [selectedProjects, setSelectedProjects] = useState([]);
   const [deletingId, setDeletingId] = useState(null);
   const [pinningId, setPinningId] = useState(null);
+  const [featuringId, setFeaturingId] = useState(null);
   const [applyingBulk, setApplyingBulk] = useState(false);
   const [confirmState, setConfirmState] = useState({ open: false, type: null, payload: null });
   const confirmBtnRef = useRef(null);
@@ -148,6 +149,31 @@ const ProjectsPage = () => {
       setDeletingId(null);
       setApplyingBulk(false);
       setConfirmState({ open: false, type: null, payload: null });
+    }
+  };
+
+  const handleFeatureToggle = async (id, featured) => {
+    setFeaturingId(id);
+    try {
+      const res = await fetch('/api/admin/feature-item', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id, type: 'project', featured }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.message || 'Failed to update feature status.');
+      }
+      toast.success(featured ? 'Project featured on home.' : 'Project removed from home.');
+      setProjects(prevProjects =>
+        prevProjects.map(p =>
+          (p._id || p.id) === id ? { ...p, featuredOnHome: featured } : p
+        )
+      );
+    } catch (error) {
+      toast.error(error.message);
+    } finally {
+      setFeaturingId(null);
     }
   };
 
@@ -300,9 +326,11 @@ const ProjectsPage = () => {
                   onEdit={() => handleEdit(project._id || project.id)}
                   onDelete={() => handleDelete(project._id || project.id)}
                   onPin={() => togglePin(project)}
+                  onFeatureToggle={handleFeatureToggle}
                   isSelected={selectedProjects.includes(project._id || project.id)}
                   deleting={deletingId === (project._id || project.id)}
                   pinning={pinningId === (project._id || project.id)}
+                  featuring={featuringId === (project._id || project.id)}
                   onSelect={() => {
                     setSelectedProjects((prev) =>
                       prev.includes(project._id || project.id)

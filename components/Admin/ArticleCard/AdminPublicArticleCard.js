@@ -14,7 +14,9 @@ const AdminPublicArticleCard = ({
   onSelect,
   onDelete,
   onPin,
+  onFeatureToggle,
   pinning = false,
+  featuring = false,
 }) => {
   const id = article?._id || article?.id;
   const variants = {
@@ -62,15 +64,22 @@ const AdminPublicArticleCard = ({
               <Icon name="trash" />
             </button>
           </Tooltip>
-          <Tooltip content={article?.pinned ? "Unpin" : "Pin"}>
+          <Tooltip text={article?.pinned ? "Unpin" : "Pin"}>
             <button
-              onClick={() => onPin && onPin(article)}
-              className={`${utilities.btnIcon}`}
-              aria-pressed={!!article?.pinned}
-              aria-label={article?.pinned ? "Unpin article" : "Pin article"}
+              onClick={() => onPin(article)}
               disabled={pinning}
+              className={`${utilities.btnIcon} ${article.pinned ? utilities.btnIconActive : ''}`}
             >
-              {pinning ? <Spinner size="sm" label="Updating pin" /> : <Icon name="pin" />}
+              <Icon name="pin" />
+            </button>
+          </Tooltip>
+          <Tooltip text={article.featuredOnHome ? "Remove from Home" : "Feature on Home"}>
+            <button
+              onClick={() => onFeatureToggle(article._id, !article.featuredOnHome)}
+              disabled={featuring}
+              className={`${utilities.btnIcon} ${article.featuredOnHome ? utilities.btnIconActive : ''}`}
+            >
+              {featuring ? <Spinner size="sm" /> : <Icon name="home" />}
             </button>
           </Tooltip>
           <Tooltip content="View Live">
@@ -89,32 +98,9 @@ const AdminPublicArticleCard = ({
       <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
         <StatusPill status={articleStatus} />
         {article?.featuredOnHome ? (
-          <span
-            style={{
-              fontSize: 12,
-              padding: "2px 8px",
-              borderRadius: 999,
-              background: "var(--color-primary-light)",
-              border: "1px solid var(--color-primary-border)",
-              color: "var(--color-primary)",
-            }}
-          >
-            Home
-          </span>
+          <StatusPill variant="home" label="Home" status={articleStatus} />
         ) : (
-          <span
-            style={{
-              fontSize: 12,
-              padding: "2px 8px",
-              borderRadius: 999,
-              background: "var(--color-bg-secondary)",
-              border: "1px solid var(--color-border)",
-              color: "var(--color-text-muted, #777)",
-            }}
-            title="Not shown on Home"
-          >
-            Not on Home
-          </span>
+          <StatusPill variant="nothome" label="Not on Home" status={articleStatus} />
         )}
         {article?.pinned && (
           <span

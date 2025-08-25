@@ -35,6 +35,18 @@ export default async function handler(req, res) {
       const skip = (page - 1) * limit;
 
       const projects = await Project.find(query)
+        .select({
+          title: 1,
+          slug: 1,
+          published: 1,
+          scheduledAt: 1,
+          featuredOnHome: 1,
+          pinned: 1,
+          image: 1,
+          description: 1,
+          tags: 1,
+          links: 1,
+        })
         .sort(sort)
         .skip(skip)
         .limit(parseInt(limit))

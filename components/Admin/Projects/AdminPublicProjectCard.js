@@ -13,10 +13,12 @@ const AdminPublicProjectCard = ({
   onEdit,
   onDelete,
   onPin,
+  onFeatureToggle,
   isSelected,
   onSelect,
   deleting = false,
   pinning = false,
+  featuring = false,
 }) => {
   const { theme } = useTheme();
   const id = project?._id || project?.id;
@@ -65,6 +67,15 @@ const AdminPublicProjectCard = ({
               {pinning ? <Spinner size="sm" label="Updating pin" /> : <Icon name="pin" />}
             </button>
           </Tooltip>
+          <Tooltip content={project.featuredOnHome ? "Remove from Home" : "Feature on Home"}>
+            <button
+              onClick={() => onFeatureToggle(project._id, !project.featuredOnHome)}
+              disabled={featuring}
+              className={`${utilities.btnIcon} ${project.featuredOnHome ? utilities.btnIconActive : ''}`}
+            >
+              {featuring ? <Spinner size="sm" /> : <Icon name="home" />}
+            </button>
+          </Tooltip>
           {liveUrl && (
             <Tooltip content="View Live">
               <a
@@ -83,32 +94,9 @@ const AdminPublicProjectCard = ({
       <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
         <StatusPill status={projectStatus} />
         {project?.featuredOnHome ? (
-          <span
-            style={{
-              fontSize: 12,
-              padding: "2px 8px",
-              borderRadius: 999,
-              background: "var(--color-primary-light)",
-              border: "1px solid var(--color-primary-border)",
-              color: "var(--color-primary)",
-            }}
-          >
-            Home
-          </span>
+          <StatusPill variant="home" label="Home" status={projectStatus} />
         ) : (
-          <span
-            style={{
-              fontSize: 12,
-              padding: "2px 8px",
-              borderRadius: 999,
-              background: "var(--color-bg-secondary)",
-              border: "1px solid var(--color-border)",
-              color: "var(--color-text-muted, #777)",
-            }}
-            title="Not shown on Home"
-          >
-            Not on Home
-          </span>
+          <StatusPill variant="nothome" label="Not on Home" status={projectStatus} />
         )}
         {project?.pinned && (
           <span

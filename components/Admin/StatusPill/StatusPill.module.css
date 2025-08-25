@@ -40,6 +40,22 @@
   background-color: #6366f1; /* indigo-500 */
 }
 
+.home {
+  background-color: #e0f2fe; /* sky-100 */
+  color: #075985; /* sky-800 */
+}
+.home .dot {
+  background-color: #38bdf8; /* sky-400 */
+}
+
+.nothome {
+  background-color: #f3f4f6; /* gray-100 */
+  color: #6b7280; /* gray-500 */
+}
+.nothome .dot {
+  background-color: #9ca3af; /* gray-400 */
+}
+
 /* Dark Theme Overrides */
 @media (prefers-color-scheme: dark) {
   .published {

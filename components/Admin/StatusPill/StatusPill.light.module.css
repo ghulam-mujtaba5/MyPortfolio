@@ -6,3 +6,9 @@
 
 .scheduled { background-color: #e0e7ff; color: #3730a3; }
 .scheduled .dot { background-color: #6366f1; }
+
+.home { background-color: #e0f2fe; color: #075985; }
+.home .dot { background-color: #38bdf8; }
+
+.nothome { background-color: #f3f4f6; color: #6b7280; }
+.nothome .dot { background-color: #9ca3af; }
