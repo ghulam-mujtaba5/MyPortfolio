@@ -7,6 +7,9 @@ interface PlexusCanvasProps {
   maxNodes?: number;
   maxDistance?: number;
   speed?: number;
+  interaction?: "attract" | "repel";
+  intensity?: number; // mouse influence multiplier
+  hoverBoost?: boolean; // increase connection opacity when hovering
 }
 
 function hexToRgba(hex: string, alpha: number) {
@@ -19,9 +22,12 @@ function hexToRgba(hex: string, alpha: number) {
 }
 
 export default function PlexusCanvas({
-  maxNodes = 150, // Optimal for 2D performance
-  maxDistance = 120, // Optimal for 2D connections
-  speed = 1, // Balanced speed
+  maxNodes = 150,
+  maxDistance = 120,
+  speed = 1,
+  interaction = "attract",
+  intensity = 1,
+  hoverBoost = true,
 }: PlexusCanvasProps) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const animationRef = useRef<number | null>(null);
@@ -43,8 +49,11 @@ export default function PlexusCanvas({
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
+    // Handle DPR for crisp rendering
+    const dpr = Math.max(1, Math.min(window.devicePixelRatio || 1, 2));
+
     let w = 0, h = 0;
-    const mouse = { x: w / 2, y: h / 2 };
+    const mouse = { x: 0, y: 0, inside: false };
 
     type Node = { x: number; y: number; vx: number; vy: number; size: number; };
     let nodes: Node[] = [];
@@ -52,14 +61,20 @@ export default function PlexusCanvas({
 
     const resize = () => {
       const rect = canvas.getBoundingClientRect();
-      w = canvas.width = rect.width;
-      h = canvas.height = rect.height;
-      nodes = Array.from({ length: maxNodes }, () => ({
+      w = rect.width;
+      h = rect.height;
+      canvas.width = Math.floor(rect.width * dpr);
+      canvas.height = Math.floor(rect.height * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+      const isMobile = window.matchMedia && window.matchMedia("(max-width: 576px)").matches;
+      const targetNodes = Math.max(20, Math.floor(maxNodes * (isMobile ? 0.6 : 1)));
+      nodes = Array.from({ length: targetNodes }, () => ({
         x: Math.random() * w,
         y: Math.random() * h,
         vx: (Math.random() - 0.5) * speed,
         vy: (Math.random() - 0.5) * speed,
-        size: Math.random() * 2 + 1, // Subtle depth illusion
+        size: Math.random() * 2 + 1,
       }));
     };
 
@@ -87,7 +102,8 @@ export default function PlexusCanvas({
         for (let j = i + 1; j < nodes.length; j++) {
           const d = Math.hypot(nodes[i].x - nodes[j].x, nodes[i].y - nodes[j].y);
           if (d < maxDistance) {
-            const opacity = Math.max(0, 1 - d / maxDistance) * colors.lineAlpha;
+            let opacity = Math.max(0, 1 - d / maxDistance) * colors.lineAlpha;
+            if (hoverBoost && mouse.inside) opacity *= 1.2;
             ctx.strokeStyle = hexToRgba(colors.line, opacity);
             ctx.lineWidth = 1.5; // Thicker lines
             ctx.beginPath();
@@ -98,28 +114,58 @@ export default function PlexusCanvas({
         }
       }
       
-      // Mouse interaction lines
-      const mouseNode = { ...mouse, size: 0 };
-      for (const n of nodes) {
-        const d = Math.hypot(mouseNode.x - n.x, mouseNode.y - n.y);
-        if (d < maxDistance * 1.5) {
-          const opacity = Math.max(0, 1 - d / (maxDistance * 1.5)) * colors.lineAlpha * 3; // Stronger mouse lines
-          ctx.strokeStyle = hexToRgba(colors.line, opacity);
-          ctx.lineWidth = 1.5; // Thicker lines
-          ctx.beginPath();
-          ctx.moveTo(mouseNode.x, mouseNode.y);
-          ctx.lineTo(n.x, n.y);
-          ctx.stroke();
+      // Mouse interaction lines + influence
+      if (mouse.inside) {
+        for (const n of nodes) {
+          const dx = mouse.x - n.x;
+          const dy = mouse.y - n.y;
+          const d = Math.hypot(dx, dy);
+          if (d < maxDistance * 1.5) {
+            const factor = Math.max(0, 1 - d / (maxDistance * 1.5));
+            // Influence velocity
+            const influence = (intensity * factor) / 50; // gentle influence
+            if (interaction === "attract") {
+              n.vx += (dx / (d || 1)) * influence;
+              n.vy += (dy / (d || 1)) * influence;
+            } else {
+              n.vx -= (dx / (d || 1)) * influence;
+              n.vy -= (dy / (d || 1)) * influence;
+            }
+
+            // Draw mouse connection
+            const opacity = factor * colors.lineAlpha * 3;
+            ctx.strokeStyle = hexToRgba(colors.line, opacity);
+            ctx.lineWidth = 1.5;
+            ctx.beginPath();
+            ctx.moveTo(mouse.x, mouse.y);
+            ctx.lineTo(n.x, n.y);
+            ctx.stroke();
+          }
         }
       }
 
       animationRef.current = requestAnimationFrame(step);
     };
 
-    const onMouseMove = (e: MouseEvent) => {
-      const rect = canvas.getBoundingClientRect();
-      mouse.x = e.clientX - rect.left;
-      mouse.y = e.clientY - rect.top;
+    let pending = false;
+    let lastEvent: MouseEvent | null = null;
+    const handleMove = (e: MouseEvent) => {
+      lastEvent = e;
+      if (pending) return;
+      pending = true;
+      requestAnimationFrame(() => {
+        const rect = canvas.getBoundingClientRect();
+        const x = (lastEvent as MouseEvent).clientX - rect.left;
+        const y = (lastEvent as MouseEvent).clientY - rect.top;
+        mouse.x = x;
+        mouse.y = y;
+        mouse.inside = x >= 0 && y >= 0 && x <= rect.width && y <= rect.height;
+        pending = false;
+      });
+    };
+
+    const onMouseLeaveDoc = () => {
+      mouse.inside = false;
     };
 
     const onVisibilityChange = () => {
@@ -131,17 +177,47 @@ export default function PlexusCanvas({
     step();
 
     window.addEventListener("resize", resize);
-    canvas.addEventListener("mousemove", onMouseMove);
+    window.addEventListener("mousemove", handleMove);
+    document.addEventListener("mouseleave", onMouseLeaveDoc);
     document.addEventListener("visibilitychange", onVisibilityChange);
 
     return () => {
       running = false;
       if (animationRef.current) cancelAnimationFrame(animationRef.current);
       window.removeEventListener("resize", resize);
-      canvas.removeEventListener("mousemove", onMouseMove);
+      window.removeEventListener("mousemove", handleMove);
+      document.removeEventListener("mouseleave", onMouseLeaveDoc);
       document.removeEventListener("visibilitychange", onVisibilityChange);
     };
-  }, [colors, maxNodes, maxDistance, speed]);
+  }, [colors, maxNodes, maxDistance, speed, interaction, intensity, hoverBoost]);
+
+  // Respect prefers-reduced-motion: render a static frame if user prefers reduced motion
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+    const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!prefersReduced) return;
+
+    const rect = canvas.getBoundingClientRect();
+    const dpr = Math.max(1, Math.min(window.devicePixelRatio || 1, 2));
+    canvas.width = Math.floor(rect.width * dpr);
+    canvas.height = Math.floor(rect.height * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.clearRect(0, 0, rect.width, rect.height);
+    // Simple static dots background
+    const count = 60;
+    for (let i = 0; i < count; i++) {
+      const x = Math.random() * rect.width;
+      const y = Math.random() * rect.height;
+      const r = Math.random() * 2 + 1;
+      ctx.fillStyle = hexToRgba(colors.node, 0.6);
+      ctx.beginPath();
+      ctx.arc(x, y, r, 0, Math.PI * 2);
+      ctx.fill();
+    }
+  }, [colors]);
 
   return <canvas ref={canvasRef} className={styles.plexusCanvas} />;
 }
