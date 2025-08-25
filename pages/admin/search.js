@@ -11,7 +11,7 @@ import commonStyles from "./articles/articles.common.module.css";
 import lightStyles from "./articles/articles.light.module.css";
 import darkStyles from "./articles/articles.dark.module.css";
 import utilities from "../../styles/utilities.module.css";
-import Spinner from "../../components/Spinner/Spinner";
+import InlineSpinner from "../../components/LoadingAnimation/InlineSpinner";
 
 export default function AdminSearchPage() {
   const { theme } = useTheme();
@@ -161,8 +161,9 @@ export default function AdminSearchPage() {
         <h1 style={{ display: "flex", alignItems: "center", gap: 8 }}>
           Global Search
           {loading && (
-            <span style={{ display: "inline-flex", alignItems: "center" }}>
-              <Spinner size="sm" label="Searching" />
+            <span style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
+              <InlineSpinner sizePx={16} />
+              <span>Searching…</span>
             </span>
           )}
         </h1>
@@ -214,7 +215,8 @@ export default function AdminSearchPage() {
 
       {loading && (
         <div className={`${commonStyles.mtSm} ${frameStyles.statusText}`} aria-live="polite" style={{ display: "flex", alignItems: "center", gap: 8 }}>
-          <Spinner size="md" label="Searching" />
+          <InlineSpinner sizePx={18} />
+          <span>Searching…</span>
         </div>
       )}
       {error && (

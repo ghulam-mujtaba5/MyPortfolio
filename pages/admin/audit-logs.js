@@ -10,7 +10,7 @@ import darkStyles from "./audit-logs.dark.module.css";
 import utilities from "../../styles/utilities.module.css";
 import { useTheme } from "../../context/ThemeContext";
 import { formatDistanceToNow } from "date-fns";
-import Spinner from "../../components/Spinner/Spinner";
+import InlineSpinner from "../../components/LoadingAnimation/InlineSpinner";
 
 const PAGE_SIZE = 20;
 
@@ -246,8 +246,9 @@ const AuditLogsPage = () => {
             >
               Audit Logs
               {loading && (
-                <span style={{ marginLeft: 8, display: "inline-flex", alignItems: "center" }}>
-                  <Spinner size="sm" label="Loading logs" />
+                <span style={{ marginLeft: 8, display: "inline-flex", alignItems: "center", gap: 6 }}>
+                  <InlineSpinner sizePx={16} />
+                  <span>Loading…</span>
                 </span>
               )}
             </h1>
@@ -284,7 +285,8 @@ const AuditLogsPage = () => {
         >
           {loading ? (
             <div className={`${commonStyles.loading} ${themeStyles.loading || ""}`} style={{ padding: 16, display: "flex", alignItems: "center", gap: 8 }}>
-              <Spinner size="md" label="Loading logs" />
+              <InlineSpinner sizePx={18} />
+              <span>Loading logs…</span>
             </div>
           ) : (
             <>

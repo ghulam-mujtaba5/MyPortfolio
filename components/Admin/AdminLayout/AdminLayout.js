@@ -46,6 +46,16 @@ export default function AdminLayout({ children, title }) {
                 </Link>
               </li>
             ))}
+            {process.env.NODE_ENV !== 'production' && (
+              <li>
+                <Link
+                  href="/temp-loading"
+                  className={`${router.pathname === '/temp-loading' ? `${commonStyles.active} ${themeStyles.active}` : ''}`}
+                >
+                  Loading Demo (Dev)
+                </Link>
+              </li>
+            )}
             <li>
               <button onClick={() => signOut({ callbackUrl: '/admin/login' })} className={`${commonStyles.logoutButton} ${themeStyles.logoutButton}`}>
                 Logout

@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
 import toast from "react-hot-toast";
 import AdminLayout from "../../../components/Admin/AdminLayout/AdminLayout";
+import InlineSpinner from "../../../components/LoadingAnimation/InlineSpinner";
 import ProjectForm from "../../../components/Admin/ProjectForm/ProjectForm";
 import Project1 from "../../../components/Projects/Project1";
 import { useState } from "react";
@@ -57,7 +58,15 @@ export default function NewProjectPage() {
 
   return (
     <AdminLayout title="New Project">
-      <h1>Create New Project</h1>
+      <h1 style={{ display: "flex", alignItems: "center", gap: 8 }}>
+        Create New Project
+        {isSubmitting && (
+          <span className={commonStyles.muted} style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
+            <InlineSpinner sizePx={16} />
+            Saving…
+          </span>
+        )}
+      </h1>
       <div className={commonStyles.twoCol}>
         <div>
           <ProjectForm

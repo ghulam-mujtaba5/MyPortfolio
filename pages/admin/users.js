@@ -9,10 +9,10 @@ import lightStyles from "./users.light.module.css";
 import darkStyles from "./users.dark.module.css";
 import utilities from "../../styles/utilities.module.css";
 import { useTheme } from "../../context/ThemeContext";
-import Spinner from "../../components/Spinner/Spinner";
+import InlineSpinner from "../../components/LoadingAnimation/InlineSpinner";
 
 // Delete Confirmation Modal (top-level so UsersPage can reference it)
-const DeleteConfirmModal = ({ user, onCancel, onConfirm }) => {
+const DeleteConfirmModal = ({ user, onCancel, onConfirm, isDeleting }) => {
   const { theme } = useTheme();
   const themeStyles = theme === "dark" ? darkStyles : lightStyles;
   const cancelRef = useRef(null);
@@ -25,8 +25,9 @@ const DeleteConfirmModal = ({ user, onCancel, onConfirm }) => {
         <button ref={cancelRef} type="button" onClick={onCancel} className={`${utilities.btn} ${utilities.btnSecondary}`}>
           Cancel
         </button>
-        <button type="button" onClick={onConfirm} className={`${utilities.btn} ${utilities.btnDanger}`}>
-          Delete
+        <button type="button" onClick={onConfirm} className={`${utilities.btn} ${utilities.btnDanger}`} disabled={isDeleting}>
+          {isDeleting && <InlineSpinner sizePx={16} />}
+          <span style={{ marginLeft: isDeleting ? 6 : 0 }}>{isDeleting ? "Deleting…" : "Delete"}</span>
         </button>
       </div>
     </Modal>
@@ -42,10 +43,12 @@ const EditUserModal = ({ user, onClose, onUserUpdate }) => {
   const [email, setEmail] = useState(user.email);
   const [role, setRole] = useState(user.role);
 
+  const [saving, setSaving] = useState(false);
   const handleUpdate = async (e) => {
     e.preventDefault();
     const toastId = toast.loading("Updating user...");
     try {
+      setSaving(true);
       const res = await fetch(`/api/users/${user._id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
@@ -58,6 +61,8 @@ const EditUserModal = ({ user, onClose, onUserUpdate }) => {
       onClose(); // Close the modal
     } catch (error) {
       toast.error(error.message, { id: toastId });
+    } finally {
+      setSaving(false);
     }
   };
 
@@ -97,8 +102,9 @@ const EditUserModal = ({ user, onClose, onUserUpdate }) => {
           <button type="button" onClick={onClose} className={`${utilities.btn} ${utilities.btnSecondary}`}>
             Cancel
           </button>
-          <button type="submit" className={`${utilities.btn} ${utilities.btnPrimary}`}>
-            Save Changes
+          <button type="submit" className={`${utilities.btn} ${utilities.btnPrimary}`} disabled={saving}>
+            {saving && <InlineSpinner sizePx={16} />}
+            <span style={{ marginLeft: saving ? 6 : 0 }}>{saving ? "Saving…" : "Save Changes"}</span>
           </button>
         </div>
       </form>
@@ -116,12 +122,14 @@ const UsersPage = () => {
   const [selectedUser, setSelectedUser] = useState(null);
   const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
   const [userToDelete, setUserToDelete] = useState(null);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   // Create form state
   const [newName, setNewName] = useState("");
   const [newEmail, setNewEmail] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [newRole, setNewRole] = useState("editor");
+  const [creating, setCreating] = useState(false);
 
   const fetchUsers = async () => {
     setLoading(true);
@@ -146,6 +154,7 @@ const UsersPage = () => {
     e.preventDefault();
     const toastId = toast.loading("Creating user...");
     try {
+      setCreating(true);
       const res = await fetch("/api/users", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -166,6 +175,8 @@ const UsersPage = () => {
       fetchUsers();
     } catch (e) {
       toast.error(e.message, { id: toastId });
+    } finally {
+      setCreating(false);
     }
   };
 
@@ -173,6 +184,7 @@ const UsersPage = () => {
     if (!userToDelete) return;
     const toastId = toast.loading("Deleting user...");
     try {
+      setIsDeleting(true);
       const res = await fetch(`/api/users/${userToDelete._id}`, { method: "DELETE" });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Failed to delete user");
@@ -182,6 +194,8 @@ const UsersPage = () => {
       fetchUsers();
     } catch (e) {
       toast.error(e.message, { id: toastId });
+    } finally {
+      setIsDeleting(false);
     }
   };
 
@@ -209,6 +223,7 @@ const UsersPage = () => {
           user={userToDelete}
           onCancel={() => { setDeleteModalOpen(false); setUserToDelete(null); }}
           onConfirm={confirmDelete}
+          isDeleting={isDeleting}
         />
       )}
       <div className={commonStyles.pageContainer}>
@@ -216,15 +231,16 @@ const UsersPage = () => {
           <h1 className={`${commonStyles.pageTitle} ${themeStyles.sectionTitle}`} style={{ display: "flex", alignItems: "center", gap: 8 }}>
             User Management
             {loading && (
-              <span style={{ display: "inline-flex", alignItems: "center" }}>
-                <Spinner size="sm" label="Loading users" />
+              <span style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
+                <InlineSpinner sizePx={16} />
+                <span className={commonStyles.muted || undefined}>Loading…</span>
               </span>
             )}
           </h1>
 
           <div className={`${commonStyles.sectionCard} ${themeStyles.sectionCard} ${commonStyles.mtLg}`}>
             <h2 className={`${commonStyles.sectionTitle} ${themeStyles.sectionTitle}`}>Create New User</h2>
-            <form onSubmit={handleCreateUser}>
+            <form onSubmit={handleCreateUser} aria-busy={creating}>
               <div className={commonStyles.formGrid}>
                 <label htmlFor="create_name" className={utilities.srOnly}>Name</label>
                 <input
@@ -270,8 +286,10 @@ const UsersPage = () => {
               <button
                 type="submit"
                 className={`${utilities.btn} ${utilities.btnPrimary} ${commonStyles.mtMd}`}
+                disabled={creating}
               >
-                Create User
+                {creating && <InlineSpinner sizePx={16} />}
+                <span style={{ marginLeft: creating ? 6 : 0 }}>{creating ? "Creating…" : "Create User"}</span>
               </button>
             </form>
           </div>
@@ -280,12 +298,13 @@ const UsersPage = () => {
             <h2 className={`${commonStyles.sectionTitle} ${themeStyles.sectionTitle}`}>All Users</h2>
             {loading && (
               <div style={{ padding: 12, display: "flex", alignItems: "center", gap: 8 }}>
-                <Spinner size="md" label="Loading users" />
+                <InlineSpinner sizePx={18} />
+                <span className={commonStyles.muted || undefined}>Loading users…</span>
               </div>
             )}
             {error && <p className={`${commonStyles.errorText} ${themeStyles.errorText}`}>Error: {error}</p>}
             {!loading && !error && (
-              <div className={`${commonStyles.tableWrapper} ${themeStyles.tableWrapper}`}>
+              <div className={`${commonStyles.tableWrapper} ${themeStyles.tableWrapper}`} aria-busy={loading}>
                 <table className={`${commonStyles.table} ${themeStyles.table}`}>
                   <thead>
                     <tr>
@@ -302,18 +321,29 @@ const UsersPage = () => {
                         <td>{user.email}</td>
                         <td className={commonStyles.capitalize}>{user.role}</td>
                         <td className={`${commonStyles.actions} ${themeStyles.actions}`}>
-                          <button
-                            onClick={() => openEditModal(user)}
-                            className={`${utilities.btn} ${utilities.btnIcon} ${themeStyles.actionButton}`}
-                          >
-                            <FiEdit />
-                          </button>
-                          <button
-                            onClick={() => openDeleteModal(user)}
-                            className={`${utilities.btn} ${utilities.btnIcon} ${themeStyles.deleteButton}`}
-                          >
-                            <FiTrash2 />
-                          </button>
+                          {isDeleting && userToDelete && userToDelete._id === user._id ? (
+                            <span style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
+                              <InlineSpinner sizePx={14} />
+                              <span className={commonStyles.muted || undefined}>Deleting…</span>
+                            </span>
+                          ) : (
+                            <>
+                              <button
+                                onClick={() => openEditModal(user)}
+                                className={`${utilities.btn} ${utilities.btnIcon} ${themeStyles.actionButton}`}
+                                disabled={isDeleting}
+                              >
+                                <FiEdit />
+                              </button>
+                              <button
+                                onClick={() => openDeleteModal(user)}
+                                className={`${utilities.btn} ${utilities.btnIcon} ${themeStyles.deleteButton}`}
+                                disabled={isDeleting}
+                              >
+                                <FiTrash2 />
+                              </button>
+                            </>
+                          )}
                         </td>
                       </tr>
                     ))}

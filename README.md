@@ -54,6 +54,11 @@ public/             # Static assets (images, icons, etc.)
    ```
 4. Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
+## ⏳ Loading animations
+
+- Use the reusable inline loader at `components/LoadingAnimation/InlineSpinner.js` for buttons, headers, and table cells.
+- A demo page exists at `/temp-loading` (linked in the Admin sidebar in non‑production) showcasing patterns and sizes.
+
 ## 🙋‍♂️ Contact
 
 Feel free to reach out via [LinkedIn](https://www.linkedin.com/in/ghulamujtabaofficial/)
@@ -61,15 +66,3 @@ Feel free to reach out via [LinkedIn](https://www.linkedin.com/in/ghulamujtabaof
 ---
 
 > Designed & built by [Ghulam Mujtaba].
-
-monogo dbpassword
-WrcWcCgjICZC5k7L
-
-monogo dbusername
-ghulammujtaba1005
-
-admin email
-ghulammujtaba1005@gmail.com
-
-admin password
-adminpassword123

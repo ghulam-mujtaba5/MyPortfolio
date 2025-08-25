@@ -15,7 +15,7 @@ import StatusPill from "../../../components/Admin/StatusPill/StatusPill";
 import SearchInput from "../../../components/Admin/Form/SearchInput";
 import Select from "../../../components/Admin/Form/Select";
 import EmptyState from "../../../components/Admin/EmptyState/EmptyState";
-import Spinner from "../../../components/Spinner/Spinner";
+import InlineSpinner from "../../../components/LoadingAnimation/InlineSpinner";
 import LoadingAnimation from "../../../components/LoadingAnimation/LoadingAnimation";
 import AdminPublicArticleCard from "../../../components/Admin/ArticleCard/AdminPublicArticleCard";
 import SavedSearches from "../../../components/Admin/SavedSearches/SavedSearches";
@@ -224,8 +224,9 @@ const ArticlesPage = () => {
           <h1 className={styles.title} style={{ display: "flex", alignItems: "center", gap: 8 }}>
             Articles
             {loading && (
-              <span style={{ display: "inline-flex", alignItems: "center" }}>
-                <Spinner size="sm" label="Loading articles" />
+              <span style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
+                <InlineSpinner sizePx={16} />
+                <span className={styles.muted}>Loading…</span>
               </span>
             )}
           </h1>

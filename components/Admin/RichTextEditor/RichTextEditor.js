@@ -7,6 +7,7 @@ import { useTheme } from "../../../context/ThemeContext";
 import Toolbar from "./Toolbar";
 import Modal from "../../Admin/Modal/Modal";
 import { toast } from "react-hot-toast";
+import InlineSpinner from "../../LoadingAnimation/InlineSpinner";
 
 import commonStyles from "./RichTextEditor.module.css";
 import lightStyles from "./RichTextEditor.light.module.css";
@@ -292,7 +293,10 @@ const RichTextEditor = ({ value, onChange }) => {
           <section>
             <h4 className={commonStyles.myXs}>My Snippets</h4>
             {isLoadingSnippets ? (
-              <p>Loading...</p>
+              <p className={commonStyles.row + " " + commonStyles.alignCenter + " " + commonStyles.gapXs}>
+                <InlineSpinner sizePx={16} />
+                <span>Loading snippets…</span>
+              </p>
             ) : customSnippets.length === 0 ? (
               <p className={commonStyles.muted}>No custom snippets yet.</p>
             ) : null}

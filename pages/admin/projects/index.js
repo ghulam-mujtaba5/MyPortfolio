@@ -20,7 +20,7 @@ import projLight from "./projects.light.module.css";
 import projDark from "./projects.dark.module.css";
 import utilities from "../../../styles/utilities.module.css";
 import LoadingAnimation from "../../../components/LoadingAnimation/LoadingAnimation";
-import Spinner from "../../../components/Spinner/Spinner";
+import InlineSpinner from "../../../components/LoadingAnimation/InlineSpinner";
 
 const ProjectsPage = () => {
   const { theme } = useTheme();
@@ -204,8 +204,9 @@ const ProjectsPage = () => {
           <h1 className={styles.title} style={{ display: "flex", alignItems: "center", gap: 8 }}>
           Projects
           {loading && (
-            <span style={{ display: "inline-flex", alignItems: "center" }}>
-              <Spinner size="sm" label="Loading projects" />
+            <span style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
+              <InlineSpinner sizePx={16} />
+              <span className={styles.muted}>Loading…</span>
             </span>
           )}
           </h1>

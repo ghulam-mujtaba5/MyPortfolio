@@ -71,3 +71,50 @@ Last updated: 2025-08-12
 ## 12. Governance
 
 - Changes to patterns require PR with screenshots and accessibility notes.
+
+## 13. Loading Patterns
+
+- Prefer subtle, inline loaders over blocking spinners.
+- Use `components/LoadingAnimation/InlineSpinner.js` for compact inline/ring loaders.
+- Screen reader friendly: when in buttons or near text, keep the spinner `aria-hidden` (this wrapper does so by default) and update visible text to reflect state (e.g., "Saving…").
+- Sizes: use `sizePx={14–20}` depending on density; default is 16.
+
+Examples
+
+1) Button with saving state
+
+```jsx
+import InlineSpinner from "@/components/LoadingAnimation/InlineSpinner";
+
+<button disabled={saving} className="btn">
+  {saving && <InlineSpinner sizePx={16} />}
+  <span style={{ marginLeft: saving ? 6 : 0 }}>{saving ? "Saving…" : "Save"}</span>
+</button>
+```
+
+2) Header/title fetch indicator
+
+```jsx
+<h1 style={{ display: "flex", alignItems: "center", gap: 8 }}>
+  Items
+  {loading && (
+    <span style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
+      <InlineSpinner sizePx={16} />
+      <span className="muted">Loading…</span>
+    </span>
+  )}
+</h1>
+```
+
+3) Table cell/row pending
+
+```jsx
+<td style={{ minWidth: 40 }}>
+  {rowLoading ? <InlineSpinner sizePx={14} /> : value}
+</td>
+```
+
+Notes
+
+- For fullscreen or content-blocking states, use `components/LoadingAnimation/LoadingAnimation.js` with `fullscreen` and optional stars/backdrop.
+- A live demo of patterns exists at `/temp-loading` (dev-only link in Admin sidebar).
