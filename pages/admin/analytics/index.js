@@ -188,7 +188,7 @@ const AnalyticsPage = () => {
 
   return (
     <AdminLayout title="Analytics">
-      <h1>Analytics Dashboard</h1>
+      <h1 className={commonStyles.pageTitle}>Analytics Dashboard</h1>
       {/* KPI Tiles with Sparklines */}
       <div className={`${commonStyles.kpiGrid}`}>
         <div className={`${commonStyles.kpiCard} ${themeStyles.kpiCard}`}>

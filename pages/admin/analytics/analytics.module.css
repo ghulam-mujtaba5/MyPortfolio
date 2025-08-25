@@ -3,6 +3,9 @@
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 2rem;
   margin-top: 2rem;
+  /* Keep grid content clear of the FAB in bottom-right */
+  padding-right: calc(0px + var(--fab-safe, 0px) + var(--safe-area-right, 0px));
+  margin-bottom: calc(0px + var(--fab-safe, 0px) + var(--safe-area-bottom, 0px));
 }
 
 .chartContainer {
@@ -14,6 +17,11 @@
 
 .fullWidth {
   grid-column: 1 / -1;
+}
+
+/* Ensure page title is readable in both themes */
+.pageTitle {
+  color: var(--text);
 }
 
 /* Structural classes extracted from inline styles */
@@ -92,6 +100,9 @@
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 1rem;
   margin-top: 1rem;
+  /* Keep grid content clear of the FAB in bottom-right */
+  padding-right: calc(0px + var(--fab-safe, 0px) + var(--safe-area-right, 0px));
+  margin-bottom: calc(0px + var(--fab-safe, 0px) + var(--safe-area-bottom, 0px));
 }
 
 .sectionCard {

@@ -1,23 +1,30 @@
 .pageWrapper {
   padding: 1.5rem 2rem;
+  /* Keep content clear of FAB on the right/bottom */
+  padding-right: calc(2rem + var(--fab-safe, 0px) + var(--safe-area-right, 0px));
+  margin-bottom: calc(1rem + var(--fab-safe, 0px) + var(--safe-area-bottom, 0px));
 }
 
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 0.75rem;
   margin-bottom: 1.25rem;
+  flex-wrap: wrap; /* avoid collisions on smaller widths */
 }
 
 .title {
   font-size: 2.25rem; /* 36px */
   font-weight: 700;
   letter-spacing: -0.025em;
+  color: var(--text);
 }
 
 .filterBar {
   display: grid;
-  grid-template-columns: 1fr auto auto auto;
+  grid-template-columns: repeat(auto-fit, minmax(180px, max-content));
+  grid-auto-flow: row;
   gap: 0.75rem;
   margin-bottom: 1.25rem;
   align-items: center;
@@ -67,7 +74,7 @@
 
 .articleGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 1.25rem;
 }
 
@@ -108,6 +115,8 @@
   align-items: center;
   padding-top: 1.5rem;
   gap: 0.5rem;
+  /* Respect FAB safe-area at the bottom */
+  padding-bottom: calc(0px + var(--fab-safe, 0px) + var(--safe-area-bottom, 0px));
 }
 
 .paginationText {

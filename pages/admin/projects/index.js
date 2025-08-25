@@ -172,19 +172,20 @@ const ProjectsPage = () => {
 
   return (
     <AdminLayout title="Manage Projects">
-      <div className={styles.header}>
-        <h1 style={{ display: "flex", alignItems: "center", gap: 8 }}>
+      <div className={styles.pageWrapper}>
+        <div className={styles.header}>
+          <h1 className={styles.title} style={{ display: "flex", alignItems: "center", gap: 8 }}>
           Projects
           {loading && (
             <span style={{ display: "inline-flex", alignItems: "center" }}>
               <Spinner size="sm" label="Loading projects" />
             </span>
           )}
-        </h1>
-        <Link href="/admin/projects/new" className={`${utilities.btn} ${utilities.btnPrimary}`}>
-          New Project
-        </Link>
-      </div>
+          </h1>
+          <Link href="/admin/projects/new" className={`${utilities.btn} ${utilities.btnPrimary}`}>
+            New Project
+          </Link>
+        </div>
 
       {/* Filters and Bulk Actions */}
       <div className={styles.filters}>
@@ -349,6 +350,7 @@ const ProjectsPage = () => {
       {applyingBulk && (
         <LoadingAnimation visible={true} showStars={false} size="sm" backdropOpacity={0.3} />
       )}
+      </div>
     </AdminLayout>
   );
 };

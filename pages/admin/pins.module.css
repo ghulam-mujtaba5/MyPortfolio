@@ -7,6 +7,12 @@
   flex-wrap: wrap;
 }
 
+/* Ensure page title is readable in both themes */
+.title {
+  color: var(--text);
+  margin: 0;
+}
+
 .headerActions {
   display: flex;
   gap: 8px;
@@ -17,8 +23,8 @@
   display: grid;
   gap: 12px;
   /* Keep list items clear of the FAB in bottom-right */
-  padding-right: 72px;
-  margin-bottom: 72px;
+  padding-right: calc(72px + var(--fab-safe, 0px) + var(--safe-area-right, 0px));
+  margin-bottom: calc(72px + var(--fab-safe, 0px) + var(--safe-area-bottom, 0px));
 }
 
 .itemRow {

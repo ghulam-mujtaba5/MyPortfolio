@@ -3,4 +3,7 @@
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: var(--space-6);
   margin-top: var(--space-6);
+  /* Keep grids clear of the FAB in bottom-right */
+  padding-right: calc(0px + var(--fab-safe, 0px) + var(--safe-area-right, 0px));
+  padding-bottom: calc(0px + var(--fab-safe, 0px) + var(--safe-area-bottom, 0px));
 }

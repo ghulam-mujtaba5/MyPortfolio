@@ -4,7 +4,9 @@
   padding: var(--space-6);
   min-width: 0; /* allow shrink inside layout */
   /* Right safe area so FAB does not overlap content on small widths */
-  padding-right: calc(var(--space-6) + var(--fab-safe) + var(--safe-area-right));
+  padding-right: calc(
+    var(--space-6) + var(--fab-safe, 0px) + var(--safe-area-right, 0px)
+  );
 }
 
 .pageHeader {
@@ -190,7 +192,7 @@
   display: flex;
   justify-content: flex-end;
   /* Keep pagination away from the FAB in bottom-right */
-  padding-right: calc(var(--fab-safe) + var(--safe-area-right));
+  padding-right: calc(var(--fab-safe, 0px) + var(--safe-area-right, 0px));
 }
 
 .badge {

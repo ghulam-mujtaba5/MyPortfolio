@@ -119,7 +119,7 @@ const PinsPage = () => {
   return (
     <AdminLayout title="Pinned Items">
       <div className={styles.headerWrap}>
-        <h1 style={{ margin: 0 }}>Pinned Items</h1>
+        <h1 className={styles.title}>Pinned Items</h1>
         <div className={styles.headerActions}>
           <button
             type="button"
