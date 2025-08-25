@@ -1,6 +1,6 @@
 import { v2 as cloudinary } from 'cloudinary';
 import formidable from 'formidable';
-import { getSession } from 'next-auth/react';
+import { getToken } from 'next-auth/jwt';
 import Resume from '../../../models/Resume';
 import dbConnect from '../../../lib/dbConnect';
 
@@ -11,8 +11,8 @@ export const config = {
 };
 
 export default async function handler(req, res) {
-  const session = await getSession({ req });
-  if (!session || !session.user.isAdmin) {
+  const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
+  if (!token || !token.isAdmin) {
     return res.status(401).json({ message: 'Unauthorized' });
   }
 
