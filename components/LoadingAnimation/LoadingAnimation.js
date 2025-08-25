@@ -11,6 +11,8 @@ const LoadingAnimation = ({
   fullscreen = true,
   message,
   progress, // 0-100
+  variant = "atom", // 'atom' | 'ring'
+  sizePx, // for ring variant (number)
 }) => {
   const { theme } = useTheme();
   const [stars, setStars] = useState([]);
@@ -38,6 +40,12 @@ const LoadingAnimation = ({
   }, [showStars, size]);
 
   const scale = size === "sm" ? 0.8 : size === "lg" ? 1.2 : 1;
+  const ringSize = useMemo(() => {
+    if (typeof sizePx === "number" && sizePx > 0) return sizePx;
+    if (size === "sm") return 16;
+    if (size === "lg") return 24;
+    return 20; // md
+  }, [sizePx, size]);
 
   return (
     <div
@@ -57,38 +65,48 @@ const LoadingAnimation = ({
         backgroundColor: bgColor,
       }}
     >
-      {/* ambient starfield */}
-      {showStars && (
-        <div className={styles.stars} aria-hidden>
-          {stars.map((s) => (
-            <span
-              key={s.id}
-              className={styles.star}
-              style={{
-                width: s.size,
-                height: s.size,
-                left: `${s.x}%`,
-                top: `${s.y}%`,
-                animationDelay: `${s.delay}s`,
-                animationDuration: `${s.dur}s`,
-              }}
-            />
-          ))}
+      {variant === "atom" && (
+        <>
+          {/* ambient starfield */}
+          {showStars && (
+            <div className={styles.stars} aria-hidden>
+              {stars.map((s) => (
+                <span
+                  key={s.id}
+                  className={styles.star}
+                  style={{
+                    width: s.size,
+                    height: s.size,
+                    left: `${s.x}%`,
+                    top: `${s.y}%`,
+                    animationDelay: `${s.delay}s`,
+                    animationDuration: `${s.dur}s`,
+                  }}
+                />
+              ))}
+            </div>
+          )}
+          <div className={styles.spinnerBox} style={{ transform: `scale(${scale})` }}>
+            <div className={styles.orbitContainer1}>
+              <div className={styles.orbit}>
+                <div className={styles.electron}></div>
+              </div>
+            </div>
+            <div className={styles.orbitContainer2}>
+              <div className={styles.orbit}>
+                <div className={styles.electron}></div>
+              </div>
+            </div>
+            <div className={styles.centralCore}></div>
+          </div>
+        </>
+      )}
+      {variant === "ring" && (
+        <div className={styles.ringWrap} style={{ width: ringSize, height: ringSize }}>
+          <span className={styles.ringTrack} />
+          <span className={styles.ringIndicator} />
         </div>
       )}
-      <div className={styles.spinnerBox} style={{ transform: `scale(${scale})` }}>
-        <div className={styles.orbitContainer1}>
-          <div className={styles.orbit}>
-            <div className={styles.electron}></div>
-          </div>
-        </div>
-        <div className={styles.orbitContainer2}>
-          <div className={styles.orbit}>
-            <div className={styles.electron}></div>
-          </div>
-        </div>
-        <div className={styles.centralCore}></div>
-      </div>
       {(message || typeof progress === "number") && (
         <div className={styles.meta}>
           {message && <div className={styles.message}>{message}</div>}

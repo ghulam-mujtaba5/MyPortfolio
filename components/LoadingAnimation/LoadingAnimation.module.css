@@ -91,6 +91,36 @@
 
 .spinnerBox > * { position: relative; z-index: 1; }
 
+/* Ultra-compact ring variant (for buttons/table rows) */
+.ringWrap {
+  position: relative;
+  display: inline-block;
+  vertical-align: middle;
+  box-sizing: border-box;
+  contain: content;
+}
+
+.ringTrack {
+  position: absolute;
+  inset: 0;
+  border-radius: 999px;
+  box-sizing: border-box;
+  border: 2px solid color-mix(in srgb, var(--orbit-color-3) 45%, transparent);
+  opacity: 0.8;
+}
+
+.ringIndicator {
+  position: absolute;
+  inset: 0;
+  border-radius: 999px;
+  box-sizing: border-box;
+  border: 2px solid transparent;
+  border-top-color: var(--orbit-color-1);
+  border-right-color: var(--orbit-color-2);
+  animation: ring-spin 0.8s linear infinite;
+  filter: drop-shadow(0 0 4px color-mix(in srgb, var(--orbit-color-2) 60%, transparent));
+}
+
 .orbitContainer1,
 .orbitContainer2 {
   position: absolute;
@@ -189,6 +219,11 @@
   50%      { opacity: 0.45; transform: scale(1.03) rotate(10deg); }
 }
 
+@keyframes ring-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
 @keyframes pulse-core {
   0%, 100% {
     transform: scale(1);
@@ -260,6 +295,7 @@
     animation: none;
     opacity: 0.6;
   }
+  .ringIndicator { animation: none; }
 }
 
 /* Metadata: message + progress */
