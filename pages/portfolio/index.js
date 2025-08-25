@@ -222,7 +222,14 @@ const Home = ({ previewProjects = [], previewArticles = [] }) => {
             <h2 id="contact-section-heading" className="visually-hidden">
               Contact
             </h2>
-            <ContactSection />
+            <ContactSection
+              plexusMaxNodes={100}
+              plexusMaxDistance={120}
+              plexusSpeed={0.7}
+              plexusInteraction={"attract"}
+              plexusIntensity={1}
+              plexusHoverBoost={true}
+            />
           </section>
         </main>
 

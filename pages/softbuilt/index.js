@@ -154,6 +154,12 @@ export default function CompanyHome() {
           email={contactEmail}
           phoneNumber={contactPhoneNumber}
           showCertificationBadge={false}
+          plexusMaxNodes={80}
+          plexusMaxDistance={110}
+          plexusSpeed={0.5}
+          plexusInteraction={"attract"}
+          plexusIntensity={0.9}
+          plexusHoverBoost={true}
         />
       </section>
 

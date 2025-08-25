@@ -17,6 +17,13 @@ import PlexusCanvas from "../Backgrounds/PlexusCanvas";
 const ContactSection = ({
   email = "hello@ghulammujtaba.com",
   phoneNumber = "+92 317 7107849",
+  // Optional Plexus tuning per page
+  plexusMaxNodes = 120,
+  plexusMaxDistance = 110,
+  plexusSpeed = 1,
+  plexusInteraction = "attract",
+  plexusIntensity = 1,
+  plexusHoverBoost = true,
 }) => {
   // Handler for email click
   const handleEmailClick = useCallback(() => {
@@ -188,7 +195,14 @@ const ContactSection = ({
         ref={parallaxRef}
         className={`${commonStyles.contactFormBackground} ${themeStyles.contactFormBackground}`}
       >
-        <PlexusCanvas maxNodes={120} maxDistance={110} speed={1} />
+        <PlexusCanvas
+          maxNodes={plexusMaxNodes}
+          maxDistance={plexusMaxDistance}
+          speed={plexusSpeed}
+          interaction={plexusInteraction}
+          intensity={plexusIntensity}
+          hoverBoost={plexusHoverBoost}
+        />
       </div>
       <motion.form
         ref={formRef}
