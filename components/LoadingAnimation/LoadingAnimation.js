@@ -8,6 +8,9 @@ const LoadingAnimation = ({
   backdropOpacity,
   showStars = true,
   size = "md", // 'sm' | 'md' | 'lg'
+  fullscreen = true,
+  message,
+  progress, // 0-100
 }) => {
   const { theme } = useTheme();
   const [stars, setStars] = useState([]);
@@ -21,7 +24,8 @@ const LoadingAnimation = ({
   // generate a light starfield after mount to avoid SSR mismatch
   useEffect(() => {
     if (!showStars) return;
-    const count = 8;
+    const base = size === "lg" ? 14 : size === "sm" ? 6 : 10;
+    const count = base;
     const s = Array.from({ length: count }).map((_, i) => {
       const size = Math.random() * 2 + 1; // 1-3px
       const x = Math.random() * 100; // %
@@ -31,18 +35,22 @@ const LoadingAnimation = ({
       return { id: i, size, x, y, delay, dur };
     });
     setStars(s);
-  }, [showStars]);
+  }, [showStars, size]);
 
   const scale = size === "sm" ? 0.8 : size === "lg" ? 1.2 : 1;
 
   return (
     <div
-      className={`${styles.container} ${!visible ? styles.hidden : ""}`}
+      className={`${styles.container} ${!fullscreen ? styles.inline : ""} ${!visible ? styles.hidden : ""}`}
       data-theme={theme}
-      role="status"
+      role={typeof progress === "number" ? "progressbar" : "status"}
       aria-live="polite"
       aria-busy={visible}
       aria-hidden={!visible}
+      aria-label={message || "Loading"}
+      aria-valuemin={typeof progress === "number" ? 0 : undefined}
+      aria-valuemax={typeof progress === "number" ? 100 : undefined}
+      aria-valuenow={typeof progress === "number" ? Math.max(0, Math.min(100, progress)) : undefined}
       style={{
         backdropFilter: typeof backdropBlur === "number" ? `blur(${backdropBlur}px)` : undefined,
         WebkitBackdropFilter: typeof backdropBlur === "number" ? `blur(${backdropBlur}px)` : undefined,
@@ -81,6 +89,22 @@ const LoadingAnimation = ({
         </div>
         <div className={styles.centralCore}></div>
       </div>
+      {(message || typeof progress === "number") && (
+        <div className={styles.meta}>
+          {message && <div className={styles.message}>{message}</div>}
+          {typeof progress === "number" && (
+            <div className={styles.progress} aria-hidden>
+              <div className={styles.progressTrack}>
+                <div
+                  className={styles.progressBar}
+                  style={{ width: `${Math.max(0, Math.min(100, progress))}%` }}
+                />
+              </div>
+              <span className={styles.progressText}>{Math.round(Math.max(0, Math.min(100, progress)))}%</span>
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 };

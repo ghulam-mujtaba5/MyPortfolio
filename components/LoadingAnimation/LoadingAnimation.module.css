@@ -47,6 +47,22 @@
     background-color 0.3s ease;
 }
 
+/* Inline mode: use loader as an inline/embedded block instead of fullscreen */
+.inline {
+  position: relative;
+  inset: auto;
+  width: auto;
+  height: auto;
+  padding: 12px;
+  background: transparent;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  border-radius: 12px;
+  z-index: auto;
+}
+
+.inline .stars { display: none; }
+
 /* ATOMIC ORBIT ANIMATION - STABLE IMPLEMENTATION */
 
 .spinnerBox {
@@ -60,6 +76,20 @@
   transform-style: preserve-3d;
   animation: drift 10s ease-in-out infinite alternate;
 }
+
+/* Soft aura glow behind the spinner */
+.spinnerBox::before {
+  content: "";
+  position: absolute;
+  inset: -20%;
+  background: radial-gradient(60% 60% at 50% 50%, color-mix(in srgb, var(--orbit-color-2) 40%, transparent) 0%, transparent 70%);
+  filter: blur(30px);
+  opacity: 0.35;
+  animation: aura 6s ease-in-out infinite;
+  z-index: 0;
+}
+
+.spinnerBox > * { position: relative; z-index: 1; }
 
 .orbitContainer1,
 .orbitContainer2 {
@@ -154,6 +184,11 @@
   to   { transform: rotateX(-2deg) rotateY(-4deg); }
 }
 
+@keyframes aura {
+  0%, 100% { opacity: 0.25; transform: scale(0.98) rotate(0deg); }
+  50%      { opacity: 0.45; transform: scale(1.03) rotate(10deg); }
+}
+
 @keyframes pulse-core {
   0%, 100% {
     transform: scale(1);
@@ -202,6 +237,7 @@
   .spinnerBox {
     animation: none;
   }
+  .spinnerBox::before { animation: none; }
   .orbit1,
   .orbit2 {
     animation: none;
@@ -224,6 +260,62 @@
     animation: none;
     opacity: 0.6;
   }
+}
+
+/* Metadata: message + progress */
+.meta {
+  margin-top: 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  color: #2b2f36;
+}
+
+.container[data-theme="dark"] .meta { color: #e9eef7; }
+
+.message {
+  font-size: 0.95rem;
+  line-height: 1.2;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+  opacity: 0.9;
+}
+
+.progress {
+  width: min(360px, 72vw);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.progressTrack {
+  position: relative;
+  flex: 1 1 auto;
+  height: 6px;
+  background: color-mix(in srgb, var(--orbit-color-3) 30%, transparent);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.progressBar {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 0%;
+  background: linear-gradient(90deg, var(--orbit-color-1), var(--orbit-color-2));
+  border-radius: 999px;
+  transition: width 260ms ease;
+  box-shadow: 0 0 10px color-mix(in srgb, var(--orbit-color-2) 60%, transparent);
+}
+
+.progressText {
+  font-variant-numeric: tabular-nums;
+  min-width: 3ch;
+  text-align: right;
+  font-size: 0.9rem;
+  opacity: 0.85;
 }
 
 /* Responsive sizing for small screens */
