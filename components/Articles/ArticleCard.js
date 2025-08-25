@@ -36,6 +36,22 @@ const ArticleCard = ({ article, highlight }) => {
               {date.toLocaleDateString()}
             </time>
           )}
+          {Array.isArray(article.categories) && article.categories.length > 0 && (
+            <div className={base.categories}>
+              {article.categories.map((c) => {
+                const label = String(c || "");
+                const normalized = label.toLowerCase();
+                let catClass = base.catOthers;
+                if (normalized.includes("academic") || normalized.includes("learning")) catClass = base.catAcademics;
+                else if (normalized.includes("project") || normalized.includes("career")) catClass = base.catProjects;
+                else if (normalized.includes("engineer") || normalized.includes("development")) catClass = base.catEngineering;
+                else if (normalized.includes("tech") || normalized.includes("trend")) catClass = base.catTech;
+                return (
+                  <span key={label} className={`${base.category} ${catClass}`}>{label}</span>
+                );
+              })}
+            </div>
+          )}
           {Array.isArray(article.tags) && article.tags.length > 0 && (
             <div className={base.tags}>
               {article.tags.slice(0, 3).map((tag) => (

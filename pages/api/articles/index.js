@@ -28,6 +28,7 @@ async function handler(req, res) {
         q = "",
         search = "",
         tag = "",
+        category = "",
         sort = "relevance",
       } = req.query;
       const pageSize = Math.min(parseInt(limit, 10) || 9, 100);
@@ -44,6 +45,30 @@ async function handler(req, res) {
       if (tag) {
         baseFilter.tags = tag;
       }
+      if (category) {
+        const cat = String(category);
+        const bucket = cat.toLowerCase();
+        const makeRegexes = (parts) => parts.map((p) => new RegExp(p, "i"));
+        // Do not attempt to filter for 'all' or 'others' buckets here
+        if (bucket !== "all" && bucket !== "others") {
+          let regexes = [];
+          if (bucket.includes("academic") || bucket.includes("learning")) {
+            regexes = makeRegexes(["academic", "learning"]);
+          } else if (bucket.includes("project") || bucket.includes("career")) {
+            regexes = makeRegexes(["project", "career"]);
+          } else if (bucket.includes("engineer") || bucket.includes("development")) {
+            regexes = makeRegexes(["engineer", "development"]);
+          } else if (bucket.includes("tech") || bucket.includes("trend")) {
+            regexes = makeRegexes(["tech", "trend"]);
+          } else {
+            // Treat as a raw category label
+            regexes = [new RegExp(cat.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "i")];
+          }
+          if (regexes.length > 0) {
+            baseFilter.categories = { $in: regexes };
+          }
+        }
+      }
       const useText = !!effectiveSearch;
       const filter = useText
         ? { ...baseFilter, $text: { $search: effectiveSearch } }
@@ -54,6 +79,7 @@ async function handler(req, res) {
         slug: 1,
         excerpt: 1,
         tags: 1,
+        categories: 1,
         createdAt: 1,
         coverImage: 1,
         views: 1,
@@ -141,6 +167,15 @@ async function handler(req, res) {
 
       const parsedTags = toArray(tags);
       const parsedCategories = toArray(categories);
+      const bucketize = (label) => {
+        const normalized = String(label || "").toLowerCase();
+        if (normalized.includes("academic") || normalized.includes("learning")) return "Academics & Learning";
+        if (normalized.includes("project") || normalized.includes("career")) return "Projects & Career";
+        if (normalized.includes("engineer") || normalized.includes("development")) return "Engineering & Development";
+        if (normalized.includes("tech") || normalized.includes("trend")) return "Tech Insights & Trends";
+        return "Others";
+      };
+      const normalizedCategories = Array.from(new Set(parsedCategories.map(bucketize)));
       const parsedHighlights = toArray(highlights);
       const parsedPublishAt = publishAt
         ? typeof publishAt === "string"
@@ -154,7 +189,7 @@ async function handler(req, res) {
         content,
         excerpt,
         tags: parsedTags,
-        categories: parsedCategories,
+        categories: normalizedCategories,
         highlights: parsedHighlights,
         published,
         publishAt: parsedPublishAt,

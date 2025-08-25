@@ -628,6 +628,39 @@ export default function ArticleForm({
           ariaLabel="Add category"
           addButtonLabel="Add category"
         />
+        <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginTop: 8 }}>
+          {[
+            "Academics & Learning",
+            "Projects & Career",
+            "Engineering & Development",
+            "Tech Insights & Trends",
+            "Others",
+          ].map((preset) => (
+            <button
+              key={preset}
+              type="button"
+              onClick={() => {
+                const cur = String(watch("categories") || "");
+                const list = cur
+                  .split(",")
+                  .map((s) => s.trim())
+                  .filter(Boolean);
+                if (!list.includes(preset)) list.push(preset);
+                setValue("categories", list.join(", "), { shouldDirty: true });
+              }}
+              style={{
+                padding: "6px 10px",
+                borderRadius: 14,
+                border: "1px solid #e0e0e0",
+                background: "#fff",
+                fontSize: 12,
+                cursor: "pointer",
+              }}
+            >
+              {preset}
+            </button>
+          ))}
+        </div>
       </div>
 
       <div className={`${commonStyles.formGroup} ${commonStyles.fullWidth}`}>

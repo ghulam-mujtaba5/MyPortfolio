@@ -43,6 +43,57 @@ export default function ArticlesPage() {
     [router.query.sort],
   );
 
+  // Category filters UI (mirrors Projects page tag filter)
+  const CATEGORY_FILTERS = useMemo(
+    () => [
+      "All",
+      "Academics & Learning",
+      "Projects & Career",
+      "Engineering & Development",
+      "Tech Insights & Trends",
+      "Others",
+    ],
+    [],
+  );
+  const [selectedCategory, setSelectedCategory] = useState("All");
+
+  // Normalize and map raw category strings to one of our 5 display buckets
+  const mapToBucket = (label) => {
+    const normalized = String(label || "").toLowerCase();
+    if (normalized.includes("academic") || normalized.includes("learning")) return "Academics & Learning";
+    if (normalized.includes("project") || normalized.includes("career")) return "Projects & Career";
+    if (normalized.includes("engineer") || normalized.includes("development")) return "Engineering & Development";
+    if (normalized.includes("tech") || normalized.includes("trend")) return "Tech Insights & Trends";
+    return "Others";
+  };
+
+  const filteredArticles = useMemo(() => {
+    if (selectedCategory === "All") return articles;
+    return (articles || []).filter((a) => {
+      const cats = Array.isArray(a?.categories) ? a.categories : [];
+      const buckets = cats.map(mapToBucket);
+      return buckets.includes(selectedCategory);
+    });
+  }, [articles, selectedCategory]);
+
+  // Initialize from URL on first load and when URL changes
+  useEffect(() => {
+    const raw = String(router.query.category || "").trim();
+    if (!raw) return; // keep default "All"
+    const b = mapToBucket(raw);
+    if (b !== selectedCategory) setSelectedCategory(b);
+  }, [router.query.category]);
+
+  const handleSelectCategory = (cat) => {
+    setSelectedCategory(cat);
+    const newQuery = { ...router.query };
+    if (cat && cat !== "All") newQuery.category = cat;
+    else delete newQuery.category;
+    // Reset to page 1 when changing filters
+    newQuery.page = 1;
+    router.push({ pathname: "/articles", query: newQuery }, undefined, { shallow: true });
+  };
+
   useEffect(() => {
     async function load() {
       try {
@@ -51,6 +102,10 @@ export default function ArticlesPage() {
           limit: String(limit),
           search,
           tag,
+          // pass category to API except for "All"
+          ...(selectedCategory && selectedCategory !== "All"
+            ? { category: selectedCategory }
+            : {}),
           sort,
         });
         const res = await fetch(`/api/articles?${qs.toString()}`);
@@ -65,7 +120,7 @@ export default function ArticlesPage() {
       }
     }
     load();
-  }, [page, limit, search, tag, sort]);
+  }, [page, limit, search, tag, sort, selectedCategory]);
 
   const sections = [
     { label: "Home", route: "/#home-section" },
@@ -87,6 +142,7 @@ export default function ArticlesPage() {
       />
 
       <div
+        className={`articles-page-bg ${theme}`}
         style={{
           backgroundColor: theme === "dark" ? "#1d2127" : "#ffffff",
           minHeight: "100vh",
@@ -147,6 +203,23 @@ export default function ArticlesPage() {
 
           {error && <p style={{ color: "#ef4444" }}>Error: {error}</p>}
 
+          {/* Category filter bar */}
+          {!loading && !error && (
+            <div className="article-tags fade-in-up">
+              {CATEGORY_FILTERS.map((cat, i) => (
+                <button
+                  key={cat}
+                  className={`article-tag-btn${selectedCategory === cat ? " active" : ""}`}
+                  onClick={() => handleSelectCategory(cat)}
+                  aria-pressed={selectedCategory === cat}
+                  style={{ transitionDelay: `${i * 60}ms` }}
+                >
+                  {cat}
+                </button>
+              ))}
+            </div>
+          )}
+
           {!loading && !error && articles.length === 0 && (
             <div className={listCss.empty}>
               {(() => {
@@ -164,9 +237,9 @@ export default function ArticlesPage() {
             </div>
           )}
 
-          {!loading && !error && articles.length > 0 && (
+          {!loading && !error && filteredArticles.length > 0 && (
             <div className={listCss.grid}>
-              {articles.map((a) => (
+              {filteredArticles.map((a) => (
                 <ArticleCard key={a._id} article={a} />
               ))}
             </div>
@@ -222,6 +295,65 @@ export default function ArticlesPage() {
 
         <Footer />
       </div>
+      <style jsx>{`
+        .articles-page-bg.dark .article-tag-btn {
+          background: #23272f;
+          color: #eee;
+          border-color: #23272f;
+        }
+        .articles-page-bg.dark .article-tag-btn.active,
+        .articles-page-bg.dark .article-tag-btn:hover {
+          background: #fff;
+          color: #22223b;
+          border-color: #fff;
+        }
+        .fade-in-up {
+          opacity: 0;
+          transform: translateY(30px);
+          animation: fadeInUp 0.7s cubic-bezier(0.39, 0.575, 0.565, 1) forwards;
+        }
+        .fade-in-up .article-tag-btn {
+          opacity: 0;
+          transform: translateY(20px);
+          animation: fadeInUp 0.5s cubic-bezier(0.39, 0.575, 0.565, 1) forwards;
+        }
+        .fade-in-up .article-tag-btn { animation-delay: inherit; }
+        @keyframes fadeInUp {
+          to { opacity: 1; transform: none; }
+        }
+        .article-tags {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 0.7rem;
+          justify-content: center;
+          margin: 1.2rem 0 0.6rem 0;
+        }
+        @media (max-width: 600px) {
+          .article-tags { gap: 0.4rem; margin: 0.9rem 0 0.4rem 0; }
+        }
+        .article-tag-btn {
+          background: #fff;
+          border: 1.5px solid #e0e0e0;
+          border-radius: 20px;
+          padding: 0.5rem 1.1rem;
+          font-size: 1rem;
+          font-weight: 500;
+          cursor: pointer;
+          transition: all 0.2s, box-shadow 0.3s;
+          box-shadow: 0 2px 8px 0 rgba(60, 60, 100, 0.06);
+        }
+        @media (max-width: 600px) {
+          .article-tag-btn { font-size: 0.93rem; padding: 0.38rem 0.7rem; margin-bottom: 0.2rem; }
+        }
+        .article-tag-btn.active,
+        .article-tag-btn:hover {
+          background: #22223b;
+          color: #fff;
+          border-color: #22223b;
+          box-shadow: 0 4px 16px 0 rgba(34, 34, 59, 0.18);
+          transform: translateY(-2px) scale(1.05);
+        }
+      `}</style>
     </>
   );
 }

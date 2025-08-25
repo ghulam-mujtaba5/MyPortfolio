@@ -211,32 +211,16 @@ export default function ArticleDetailPage({ article, preview }) {
             <div className={baseStyles.shareBar}>
               <button
                 className={`${baseStyles.shareBtn} ${t.shareBtn || ""}`}
+                aria-label="Share this article"
+                title="Share"
                 onClick={() => handleShare(article)}
+                style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", width: 40, height: 40, padding: 0 }}
               >
-                Share
+                {/* Share icon */}
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <path d="M18 8a3 3 0 1 0-2.83-4H15a3 3 0 0 0 .35 1.4l-7.2 4.16a3 3 0 1 0 0 4.88l7.2 4.16A3 3 0 0 0 15 20h.17A3 3 0 1 0 18 18a2.99 2.99 0 0 0-1.82.62l-7.2-4.16c.01-.15.01-.31 0-.46l7.2-4.16C16.2 10.63 17.06 11 18 11a3 3 0 0 0 0-6Z" fill="currentColor"/>
+                </svg>
               </button>
-              <button
-                className={`${baseStyles.shareBtn} ${t.shareBtn || ""}`}
-                onClick={() => handleCopy(window.location.href)}
-              >
-                Copy link
-              </button>
-              <a
-                className={`${baseStyles.shareBtn} ${t.shareBtn || ""}`}
-                href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(`https://ghulammujtaba.com/articles/${article.slug}`)}&text=${encodeURIComponent(article.title)}`}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Twitter/X
-              </a>
-              <a
-                className={`${baseStyles.shareBtn} ${t.shareBtn || ""}`}
-                href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(`https://ghulammujtaba.com/articles/${article.slug}`)}`}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                LinkedIn
-              </a>
             </div>
           </section>
 
