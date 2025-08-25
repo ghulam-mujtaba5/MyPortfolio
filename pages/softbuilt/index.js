@@ -1,5 +1,5 @@
 import React, { useCallback } from "react";
-import Head from "next/head";
+import SEO from "../../components/SEO";
 import { useTheme } from "../../context/ThemeContext"; // Import the useTheme hook
 import NavBarDesktop from "../../components/NavBar_Desktop_Company/nav-bar-Company";
 import NavBarMobile from "../../components/NavBar_Mobile/NavBar-mobile";
@@ -41,24 +41,15 @@ export default function CompanyHome() {
         minHeight: "100vh",
       }}
     >
-      <Head>
-        <title>Soft Built | Ghulam Mujtaba</title>
-        <meta
-          name="description"
-          content="Soft Built by Ghulam Mujtaba: Desktop, Web, Mobile apps, Data Science & AI solutions. Partner with us to turn your ideas into reality."
-        />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta
-          name="keywords"
-          content="Soft Built, Ghulam Mujtaba, Company, Web Development, Mobile Apps, Data Science, AI, Portfolio"
-        />
-        <link
-          rel="canonical"
-          href="https://softbuilt.ghulammujtaba.com/softbuilt"
-        />
-        <link rel="icon" href="/faviconsb.svg" type="image/svg+xml" />
-        <link rel="icon" href="/faviconsb.png" type="image/png" sizes="32x32" />
-        <link rel="icon" href="/faviconsb.ico" type="image/x-icon" />
+      <SEO
+        title="Soft Built | Ghulam Mujtaba"
+        description="Soft Built by Ghulam Mujtaba: Desktop, Web, Mobile apps, Data Science & AI solutions. Partner with us to turn your ideas into reality."
+        url="https://softbuilt.ghulammujtaba.com/softbuilt"
+        image="https://ghulammujtaba.com/og-image.png"
+        type="website"
+        canonical="https://softbuilt.ghulammujtaba.com/softbuilt"
+        keywords="Soft Built, Ghulam Mujtaba, Company, Web Development, Mobile Apps, Data Science, AI, Portfolio"
+      >
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -66,7 +57,7 @@ export default function CompanyHome() {
               "@context": "https://schema.org",
               "@type": "Organization",
               name: "Soft Built",
-              url: "https://ghulammujtaba.com/softbuilt",
+              url: "https://softbuilt.ghulammujtaba.com/softbuilt",
               logo: "https://ghulammujtaba.com/favicon.png",
               contactPoint: [
                 {
@@ -80,7 +71,10 @@ export default function CompanyHome() {
             }),
           }}
         />
-      </Head>
+        <link rel="icon" href="/faviconsb.svg" type="image/svg+xml" />
+        <link rel="icon" href="/faviconsb.png" type="image/png" sizes="32x32" />
+        <link rel="icon" href="/faviconsb.ico" type="image/x-icon" />
+      </SEO>
 
       {/* Theme Toggle Icon */}
       <div

@@ -121,11 +121,6 @@ const nextConfig = {
             key: "X-Frame-Options",
             value: "DENY",
           },
-          // Canonical header for SEO
-          {
-            key: "Link",
-            value: '<https://ghulammujtaba.com>; rel="canonical"',
-          },
         ],
       },
     ];

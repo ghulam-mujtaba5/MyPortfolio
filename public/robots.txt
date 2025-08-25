@@ -8,7 +8,7 @@ Disallow: /admin/
 Disallow: /api/
 
 # Host
-Host: http://ghulammujtaba.com
+Host: https://ghulammujtaba.com
 
 # Sitemaps
-Sitemap: http://ghulammujtaba.com/sitemap.xml
+Sitemap: https://ghulammujtaba.com/sitemap.xml

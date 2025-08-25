@@ -1,6 +1,6 @@
 
 module.exports = {
-  siteUrl: "http://ghulammujtaba.com", // Main site URL
+  siteUrl: "https://ghulammujtaba.com", // Main site URL (HTTPS)
   generateRobotsTxt: true, // Generate robots.txt file
   // Exclude non-public routes from sitemap
   exclude: [
@@ -31,7 +31,7 @@ module.exports = {
 
     // Check for specific subdomain paths
     if (path.startsWith("/softbuilt")) {
-      fullUrl = `http://softbuilt.ghulammujtaba.com${path}`; // Update for subdomain
+      fullUrl = `https://softbuilt.ghulammujtaba.com${path}`; // Use HTTPS for subdomain
       changefreq = "daily"; // Custom frequency for subdomain
       priority = 0.8; // Higher priority for subdomain pages
     }
