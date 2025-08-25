@@ -69,18 +69,26 @@ const ProjectCard = React.memo(({ project, frameStyles, theme }) => {
       >
         View Code
       </a>
-      <Image
-        className={`${commonStyles.projectImg1} ${frameStyles.projectImg1}`}
-        alt={`${project.title} screenshot`}
-        src={
-          (project?.image || "").startsWith("/")
-            ? project.image || ""
-            : `/${project?.image || ""}`
-        }
-        width={400}
-        height={250}
-        loading="lazy"
-      />
+      {/* Project image (respects showImage and supports absolute URLs) */}
+      {project?.showImage !== false && project?.image ? (
+        (() => {
+          const img = String(project.image || "").trim();
+          const isExternal = /^https?:\/\//i.test(img) || /^\/\//.test(img) || /^data:image\//i.test(img) || /^blob:/.test(img);
+          const src = isExternal ? img : (img.startsWith("/") ? img : `/${img}`);
+          return (
+            <Image
+              className={`${commonStyles.projectImg1} ${frameStyles.projectImg1}`}
+              alt={`${project.title} screenshot`}
+              src={src}
+              width={400}
+              height={250}
+              loading="lazy"
+              // Avoid domain restrictions for live preview assets
+              unoptimized={isExternal}
+            />
+          );
+        })()
+      ) : null}
       <h3
         className={`${commonStyles.projectTileGoes} ${frameStyles.projectTileGoes}`}
         id={`project-title-${project.title}`}
@@ -89,9 +97,9 @@ const ProjectCard = React.memo(({ project, frameStyles, theme }) => {
       </h3>
       <div
         className={`${commonStyles.thisIsSample} ${frameStyles.thisIsSample}`}
-      >
-        {project.description}
-      </div>
+        // Render rich text HTML from editor for accurate live preview
+        dangerouslySetInnerHTML={{ __html: project?.description || "" }}
+      />
       <div
         className={`${commonStyles.techStackContainer} ${frameStyles.techStackContainer}`}
       >
