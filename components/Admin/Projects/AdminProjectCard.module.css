@@ -1,13 +1,14 @@
 .card {
   position: relative;
-  border: 2px solid transparent;
-  transition: border-color 0.2s;
-  border-radius: 8px;
+  border-radius: var(--radius-lg);
   overflow: hidden;
   height: 250px;
   display: flex;
   align-items: flex-end;
-  background-color: #f3f4f6; /* Fallback color */
+  background-color: var(--color-bg-secondary);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
 }
 
 .card::after {
@@ -34,8 +35,15 @@
   );
 }
 
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--color-border);
+}
+
 .selected {
-  border-color: #3b82f6;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
 }
 
 .checkbox {
@@ -45,6 +53,7 @@
   width: 1.25rem;
   height: 1.25rem;
   z-index: 10;
+  accent-color: var(--color-primary);
 }
 
 .imageContainer {
@@ -58,6 +67,11 @@
 
 .image {
   object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.card:hover .image {
+  transform: scale(1.05);
 }
 
 .content {

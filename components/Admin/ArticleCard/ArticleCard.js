@@ -82,11 +82,20 @@ const ArticleCard = ({ article, isSelected, onSelect, onDelete, onPin, pinning =
         </div>
         <div className={`${commonStyles.info} ${themeStyles.info}`}>
           <div className={`${commonStyles.tags} ${themeStyles.tags}`}>
-            {article.categories?.slice(0, 1).map((category) => (
-              <Chip key={category} label={category} size="sm" variant="primary" />
-            ))}
-            {article.tags?.slice(0, 2).map((tag) => (
-              <Chip key={tag} label={`#${tag}`} size="sm" />
+            {Array.isArray(article.categories) && article.categories.map((category) => {
+              const key = String(category || "");
+              const normalized = key.toLowerCase();
+              let catClass = commonStyles.catOthers;
+              if (normalized.includes("academic") || normalized.includes("learning")) catClass = commonStyles.catAcademics;
+              else if (normalized.includes("project") || normalized.includes("career")) catClass = commonStyles.catProjects;
+              else if (normalized.includes("engineer") || normalized.includes("development")) catClass = commonStyles.catEngineering;
+              else if (normalized.includes("tech") || normalized.includes("trend")) catClass = commonStyles.catTech;
+              return (
+                <Chip key={key} label={key} className={`${commonStyles.categoryBadge} ${catClass}`} />
+              );
+            })}
+            {Array.isArray(article.tags) && article.tags.slice(0, 2).map((tag) => (
+              <Chip key={tag} label={`#${tag}`} className={commonStyles.tagBadge} />
             ))}
           </div>
           <h3 className={`${commonStyles.title} ${themeStyles.title}`}>

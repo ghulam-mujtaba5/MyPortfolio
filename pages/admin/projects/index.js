@@ -1,5 +1,6 @@
 // pages/admin/projects/index.js
 import { useState, useEffect, useCallback, useRef } from "react";
+import { motion } from "framer-motion";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import toast from "react-hot-toast";
@@ -277,27 +278,42 @@ const ProjectsPage = () => {
         <ProjectListSkeleton />
       ) : (
         <>
-          <div className={gridStyles.gridContainer}>
+          <motion.div
+            className={gridStyles.gridContainer}
+            variants={{
+              hidden: { opacity: 0 },
+              visible: {
+                opacity: 1,
+                transition: { staggerChildren: 0.06, delayChildren: 0.02 },
+              },
+            }}
+            initial="hidden"
+            animate="visible"
+          >
             {projects.map((project) => (
-              <AdminProjectCard
+              <motion.div
                 key={project._id || project.id}
-                project={project}
-                onEdit={() => handleEdit(project._id || project.id)}
-                onDelete={() => handleDelete(project._id || project.id)}
-                onPin={() => togglePin(project)}
-                isSelected={selectedProjects.includes(project._id || project.id)}
-                deleting={(deletingId === (project._id || project.id))}
-                pinning={(pinningId === (project._id || project.id))}
-                onSelect={() => {
-                  setSelectedProjects((prev) =>
-                    prev.includes(project._id || project.id)
-                      ? prev.filter((id) => id !== (project._id || project.id))
-                      : [...prev, (project._id || project.id)],
-                  );
-                }}
-              />
+                variants={{ hidden: { opacity: 0, y: 16 }, visible: { opacity: 1, y: 0 } }}
+              >
+                <AdminProjectCard
+                  project={project}
+                  onEdit={() => handleEdit(project._id || project.id)}
+                  onDelete={() => handleDelete(project._id || project.id)}
+                  onPin={() => togglePin(project)}
+                  isSelected={selectedProjects.includes(project._id || project.id)}
+                  deleting={(deletingId === (project._id || project.id))}
+                  pinning={(pinningId === (project._id || project.id))}
+                  onSelect={() => {
+                    setSelectedProjects((prev) =>
+                      prev.includes(project._id || project.id)
+                        ? prev.filter((id) => id !== (project._id || project.id))
+                        : [...prev, (project._id || project.id)],
+                    );
+                  }}
+                />
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
           {/* Pagination Controls */}
           <div className={styles.pagination}>
             <button

@@ -21,6 +21,21 @@
   color: var(--text);
 }
 
+/* Shared modern filter bar (used by Articles and Projects) */
+.filters {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.75rem;
+  align-items: center;
+  padding: 0.75rem;
+  border-radius: 12px;
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+}
+@media (max-width: 640px) {
+  .filters { grid-template-columns: 1fr; }
+}
+
 .filterBar {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(180px, max-content));
@@ -52,6 +67,37 @@
   font-size: 0.875rem;
   font-weight: 500;
   margin-right: 0.5rem;
+}
+
+/* Quick filter chips row (Projects uses .quickFilters) */
+.quickFilters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+/* Filter chip base; themed in light/dark modules */
+.filterChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  font-size: 0.875rem;
+  border: 1px solid transparent; /* themed */
+  cursor: pointer;
+  transition: transform 0.12s ease;
+}
+.filterChip:active { transform: translateY(1px); }
+.activeChip { font-weight: 600; }
+
+/* Bulk actions bar area */
+.bulkActions {
+  display: inline-flex;
+  gap: 0.5rem;
+  align-items: center;
+  margin-left: auto;
 }
 
 .selectionBar {

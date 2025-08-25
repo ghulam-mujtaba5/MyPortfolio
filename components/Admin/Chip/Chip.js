@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import styles from "./Chip.module.css";
 import Icon from "../Icon/Icon";
 
-const Chip = ({ label, isActive, onClick, onRemove, ...props }) => {
+const Chip = ({ label, isActive, onClick, onRemove, className = "", ...props }) => {
   const chipVariants = {
     hidden: { opacity: 0, y: -10 },
     visible: { opacity: 1, y: 0 },
@@ -12,7 +12,7 @@ const Chip = ({ label, isActive, onClick, onRemove, ...props }) => {
   return (
     <motion.button
       type="button"
-      className={`${styles.chip} ${isActive ? styles.active : ""}`}
+      className={`${styles.chip} ${isActive ? styles.active : ""} ${className}`}
       onClick={onClick}
       variants={chipVariants}
       layout
