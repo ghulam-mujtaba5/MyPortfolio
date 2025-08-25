@@ -1,4 +1,6 @@
 
+const isCI = process.env.VERCEL === "1" || String(process.env.CI).toLowerCase() === "true";
+
 module.exports = {
   siteUrl: "https://ghulammujtaba.com", // Main site URL (HTTPS)
   generateRobotsTxt: true, // Generate robots.txt file
@@ -23,6 +25,10 @@ module.exports = {
   // Programmatically include dynamic routes for Articles and Projects
   // so Google sees all canonical URLs in sitemap.xml
   additionalPaths: async (config) => {
+    // On CI/Vercel, skip DB calls to prevent build slowness/timeouts.
+    if (isCI) {
+      return [];
+    }
     try {
       // Use dynamic import to work with ESM modules from a CJS config
       const { default: dbConnect } = await import("./lib/mongoose.js");
