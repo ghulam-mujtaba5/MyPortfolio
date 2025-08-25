@@ -149,7 +149,7 @@
   border-radius: 50%;
   position: relative;
   transform-style: preserve-3d;
-  animation: spin 4s ease-in-out infinite;
+  animation: spin 4s linear infinite;
   filter: drop-shadow(0 0 5px color-mix(in srgb, var(--orbit-color-1) 50%, transparent));
 }
 
