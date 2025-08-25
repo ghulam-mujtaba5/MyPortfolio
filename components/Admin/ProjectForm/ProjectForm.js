@@ -138,7 +138,8 @@ function ProjectForm({
         : "",
     };
     reset(defaults, { keepDirty: false, keepErrors: true });
-  }, [project, reset]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [project?._id, reset]);
 
   // Apply server-side validation errors to the form
   useEffect(() => {
@@ -225,7 +226,7 @@ function ProjectForm({
       };
       onDataChange(formattedData);
     }
-  }, [watchedData, onDataChange]);
+  }, [watchedData, onDataChange, onPreview]);
 
   const onSubmit = (data) => {
     // Normalize scheduledAt: convert HTML datetime-local to ISO for backend, or null
