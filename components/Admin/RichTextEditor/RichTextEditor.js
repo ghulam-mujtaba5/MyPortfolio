@@ -421,10 +421,9 @@ const RichTextEditor = ({ value, onChange }) => {
                   editor
                     .chain()
                     .focus()
-                    .insertContent(
-                      `<pre><code class="language-${codeLang}">${safe}</code></pre>`,
-                    )
+                    .insertContent(`\n<pre><code class="language-${codeLang}">${safe}</code></pre>\n`)
                     .run();
+                  toast.success("Code inserted");
                 }
                 setIsCodeOpen(false);
                 setCodeText("");
@@ -466,7 +465,8 @@ const RichTextEditor = ({ value, onChange }) => {
               onClick={() => {
                 if (editor && markdownText.trim()) {
                   const html = convertMarkdownToHtml(markdownText);
-                  editor.commands.setContent(html, false);
+                  editor.chain().focus().insertContent(html).run();
+                  toast.success("Markdown inserted");
                 }
                 setIsMarkdownOpen(false);
                 setMarkdownText("");
