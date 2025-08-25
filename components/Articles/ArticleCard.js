@@ -33,7 +33,7 @@ const ArticleCard = ({ article, highlight }) => {
         <div className={base.meta}>
           {date && (
             <time dateTime={date.toISOString()}>
-              {date.toLocaleDateString()}
+              {date.toISOString().slice(0, 10)}
             </time>
           )}
           {Array.isArray(article.categories) && article.categories.length > 0 && (

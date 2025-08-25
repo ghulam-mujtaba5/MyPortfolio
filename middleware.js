@@ -36,7 +36,15 @@ export async function middleware(req) {
   if ((isAdminPage && !isLoginPage) || isAdminApi) {
     const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
     if (!token) {
-      // Redirect unauthenticated users to login with a callback URL
+      // For API requests, return JSON 401 instead of redirecting to HTML
+      if (isAdminApi) {
+        return new NextResponse(
+          JSON.stringify({ message: "Unauthorized" }),
+          { status: 401, headers: { "content-type": "application/json" } }
+        );
+      }
+
+      // Redirect unauthenticated page requests to login with a callback URL
       const loginUrl = req.nextUrl.clone();
       loginUrl.pathname = "/admin/login";
       // Preserve where the user wanted to go

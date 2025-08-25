@@ -1,26 +1,22 @@
 import mongoose from 'mongoose';
 
 const ResumeSchema = new mongoose.Schema({
-  filename: {
-    type: String,
-    required: true,
-  },
-  public_id: {
-    type: String,
-    required: true,
-  },
-  url: {
-    type: String,
-    required: true,
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now,
-  },
-  isActive: {
-    type: Boolean,
-    default: true,
-  },
+  filename: { type: String, required: true },
+  // GridFS file id
+  fileId: { type: mongoose.Schema.Types.ObjectId, index: true },
+  contentType: { type: String },
+  size: { type: Number },
+  // Legacy cloud fields (optional for backward compatibility)
+  public_id: { type: String },
+  url: { type: String },
+  createdAt: { type: Date, default: Date.now },
+  isActive: { type: Boolean, default: true },
 });
 
-export default mongoose.models.Resume || mongoose.model('Resume', ResumeSchema);
+// In dev with Next.js, the model can be cached with an old schema.
+// Delete it before redefining to ensure latest schema is applied.
+if (mongoose.models.Resume) {
+  delete mongoose.models.Resume;
+}
+
+export default mongoose.model('Resume', ResumeSchema);

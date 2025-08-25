@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import toast from 'react-hot-toast';
 import { useTheme } from '../../context/ThemeContext';
+import { useRouter } from 'next/router';
 
 import AdminLayout from '../../components/Admin/AdminLayout/AdminLayout';
 import Icon from '../../components/Admin/Icon/Icon';
@@ -12,6 +13,7 @@ import utilities from '../../styles/utilities.module.css';
 
 const ResumePage = () => {
   const { theme } = useTheme();
+  const router = useRouter();
   const styles = {
     ...commonStyles,
   };
@@ -24,8 +26,15 @@ const ResumePage = () => {
   const fetchResume = useCallback(async () => {
     setLoading(true);
     try {
-      const res = await fetch('/api/admin/resume');
-      if (!res.ok) throw new Error('Failed to fetch resume');
+      const res = await fetch('/api/admin/resume', { credentials: 'same-origin' });
+      if (!res.ok) {
+        if (res.status === 401) {
+          const cb = encodeURIComponent('/admin/resume');
+          router.push(`/admin/login?callbackUrl=${cb}`);
+          return;
+        }
+        throw new Error('Failed to fetch resume');
+      }
       const data = await res.json();
       setResume(data.resume);
     } catch (error) {
@@ -58,9 +67,19 @@ const ResumePage = () => {
         fetch('/api/admin/resume', {
           method: 'POST',
           body: formData,
+          credentials: 'same-origin',
         }).then(async (res) => {
           if (!res.ok) {
-            const errorData = await res.json();
+            if (res.status === 401) {
+              const cb = encodeURIComponent('/admin/resume');
+              toast.error('Please login to continue');
+              router.push(`/admin/login?callbackUrl=${cb}`);
+              throw new Error('Please login to continue');
+            }
+            if (res.status === 403) {
+              throw new Error('You do not have permission to upload resumes');
+            }
+            const errorData = await res.json().catch(() => ({}));
             throw new Error(errorData.message || 'Failed to upload resume');
           }
           return res.json();
@@ -106,7 +125,17 @@ const ResumePage = () => {
           ) : resume ? (
             <div className={styles.resumeInfo}>
               <p className={styles.fileName}>{resume.filename}</p>
-              <a href={`/api/download-resume?filename=${resume.filename}`} download className={`${utilities.btn} ${utilities.btnSecondary}`}>
+              <a
+                href={
+                  resume.fileId
+                    ? `/api/download-resume?id=${resume.fileId}&filename=${encodeURIComponent(resume.filename)}`
+                    : resume.url
+                    ? `/api/download-resume?url=${encodeURIComponent(resume.url)}&filename=${encodeURIComponent(resume.filename)}`
+                    : '#'
+                }
+                download
+                className={`${utilities.btn} ${utilities.btnSecondary}`}
+              >
                 <Icon name="download" size={16} />
                 <span>Download</span>
               </a>
