@@ -28,6 +28,26 @@
   font-size: 16px;
   border-radius: 5px;
   box-sizing: border-box;
+  border: 1px solid transparent;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Brand blue focus and selection styles */
+.nameInput:focus,
+.emailInput:focus,
+.messageInput:focus,
+.nameInput:focus-visible,
+.emailInput:focus-visible,
+.messageInput:focus-visible {
+  outline: none;
+  border-color: #4573df;
+  box-shadow: 0 0 0 3px rgba(69, 115, 223, 0.25);
+}
+
+.nameInput::selection,
+.emailInput::selection,
+.messageInput::selection {
+  background: rgba(69, 115, 223, 0.2);
 }
 
 .nameInput {
