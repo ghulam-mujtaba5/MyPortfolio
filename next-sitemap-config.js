@@ -2,6 +2,10 @@
 module.exports = {
   siteUrl: "https://ghulammujtaba.com", // Main site URL (HTTPS)
   generateRobotsTxt: true, // Generate robots.txt file
+  // IMPORTANT: prevent generating public/sitemap.xml because we serve it via pages/sitemap.xml.js
+  // This makes next-sitemap emit sitemap files using a different base filename.
+  generateIndexSitemap: false,
+  sitemapBaseFileName: "sitemap-0",
   // Exclude non-public routes from sitemap
   exclude: [
     "/admin",
