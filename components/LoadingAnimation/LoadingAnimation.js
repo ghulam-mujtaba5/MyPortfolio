@@ -69,11 +69,15 @@ const LoadingAnimation = ({
         </div>
       )}
       <div className={styles.spinnerBox} style={{ transform: `scale(${scale})` }}>
-        <div className={`${styles.orbit} ${styles.orbit1}`}>
-          <div className={styles.electron}></div>
+        <div className={styles.orbitContainer1}>
+          <div className={styles.orbit}>
+            <div className={styles.electron}></div>
+          </div>
         </div>
-        <div className={`${styles.orbit} ${styles.orbit2}`}>
-          <div className={styles.electron}></div>
+        <div className={styles.orbitContainer2}>
+          <div className={styles.orbit}>
+            <div className={styles.electron}></div>
+          </div>
         </div>
         <div className={styles.centralCore}></div>
       </div>
