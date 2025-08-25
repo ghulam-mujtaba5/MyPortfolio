@@ -21,11 +21,11 @@ export default function AdminLayout({ children, title }) {
     { href: '/admin/dashboard', label: 'Dashboard' },
     { href: '/admin/articles', label: 'Articles' },
     { href: '/admin/projects', label: 'Projects' },
+    { href: '/admin/resume', label: 'Resume' },
     { href: '/admin/media', label: 'Media' },
     { href: '/admin/users', label: 'Users' },
     { href: '/admin/analytics', label: 'Analytics' },
     { href: '/admin/audit-logs', label: 'Audit Logs' },
-    { href: '/admin/pins', label: 'Pinned' },
   ];
 
   return (
