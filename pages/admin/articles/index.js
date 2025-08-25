@@ -17,7 +17,7 @@ import Select from "../../../components/Admin/Form/Select";
 import EmptyState from "../../../components/Admin/EmptyState/EmptyState";
 import Spinner from "../../../components/Spinner/Spinner";
 import LoadingAnimation from "../../../components/LoadingAnimation/LoadingAnimation";
-import ArticleCard from "../../../components/Admin/ArticleCard/ArticleCard";
+import AdminPublicArticleCard from "../../../components/Admin/ArticleCard/AdminPublicArticleCard";
 import SavedSearches from "../../../components/Admin/SavedSearches/SavedSearches";
 
 import commonStyles from "./articles.common.module.css";
@@ -203,7 +203,7 @@ const ArticlesPage = () => {
               </span>
             )}
           </h1>
-          <Link href="/admin/articles/new" className={`${utilities.btn} ${utilities.btnPrimary}`}>
+          <Link href="/admin/articles/new" className={`${utilities.btn} ${utilities.btnSm} ${utilities.btnPrimary}`}>
             <Icon name="plus" size={16} />
             <span>Create Article</span>
           </Link>
@@ -307,7 +307,7 @@ const ArticlesPage = () => {
               animate="visible"
             >
               {articles.map((article) => (
-                <ArticleCard
+                <AdminPublicArticleCard
                   key={article._id || article.id}
                   article={article}
                   isSelected={selectedArticles.includes(article._id || article.id)}

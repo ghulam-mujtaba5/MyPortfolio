@@ -7,7 +7,7 @@
 
 .select {
   width: 100%;
-  padding: 0.625rem 2.5rem 0.625rem 0.875rem; /* Right padding for icon */
+  padding: 0.5rem 2.25rem 0.5rem 0.75rem; /* Right padding for icon */
   border-radius: 8px;
   border: 1px solid var(--color-border);
   background-color: var(--color-bg-secondary);
@@ -30,7 +30,7 @@
 
 .iconWrapper {
   position: absolute;
-  right: 0.875rem;
+  right: 0.75rem;
   pointer-events: none;
   display: flex;
   align-items: center;

@@ -2,15 +2,24 @@ import { useRouter } from "next/router";
 import toast from "react-hot-toast";
 import AdminLayout from "../../../../components/Admin/AdminLayout/AdminLayout";
 import ArticleForm from "../../../../components/Admin/ArticleForm/ArticleForm";
+import PublicArticleCard from "../../../../components/Articles/ArticleCard";
 import dbConnect from "../../../../lib/mongoose";
 import Article from "../../../../models/Article";
 import mongoose from "mongoose";
 import { useState } from "react";
+import { useTheme } from "../../../../context/ThemeContext";
+import commonStyles from "../articles.common.module.css";
+import lightStyles from "../articles.light.module.css";
+import darkStyles from "../articles.dark.module.css";
+import utilities from "../../../../styles/utilities.module.css";
 
 export default function EditArticlePage({ article, previewSecret }) {
   const router = useRouter();
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [previewData, setPreviewData] = useState(article);
+  const { theme } = useTheme();
+  const themeStyles = theme === "dark" ? darkStyles : lightStyles;
 
   const handleSave = async (data) => {
     setErrors({});
@@ -58,14 +67,30 @@ export default function EditArticlePage({ article, previewSecret }) {
 
   return (
     <AdminLayout title={`Edit: ${article.title}`}>
-      <h1>Edit Article</h1>
-      <ArticleForm
-        article={article}
-        onSave={handleSave}
-        onPreview={handlePreview}
-        serverErrors={errors}
-        isSubmitting={isSubmitting}
-      />
+      <div className={commonStyles.header}>
+        <h1 className={commonStyles.title}>Edit Article</h1>
+        <button onClick={handlePreview} className={`${utilities.btn} ${utilities.btnSecondary}`}>
+          Preview in new tab
+        </button>
+      </div>
+      <div className={commonStyles.twoCol}>
+        <div>
+          <ArticleForm
+            article={article}
+            onSave={handleSave}
+            onPreview={handlePreview}
+            serverErrors={errors}
+            isSubmitting={isSubmitting}
+            onDataChange={setPreviewData}
+          />
+        </div>
+        <div>
+          <h3 className={themeStyles.previewTitle || ''}>Live Preview</h3>
+          <div className={commonStyles.previewScale} style={{ pointerEvents: 'none', maxWidth: 640 }}>
+            <PublicArticleCard article={previewData} />
+          </div>
+        </div>
+      </div>
     </AdminLayout>
   );
 }

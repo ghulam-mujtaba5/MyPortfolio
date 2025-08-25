@@ -2,12 +2,20 @@ import { useRouter } from "next/router";
 import toast from "react-hot-toast";
 import AdminLayout from "../../../components/Admin/AdminLayout/AdminLayout";
 import ArticleForm from "../../../components/Admin/ArticleForm/ArticleForm";
+import PublicArticleCard from "../../../components/Articles/ArticleCard";
 import { useState } from "react";
+import { useTheme } from "../../../context/ThemeContext";
+import commonStyles from "./articles.common.module.css";
+import lightStyles from "./articles.light.module.css";
+import darkStyles from "./articles.dark.module.css";
 
 export default function NewArticlePage() {
   const router = useRouter();
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [previewData, setPreviewData] = useState({});
+  const { theme } = useTheme();
+  const themeStyles = theme === "dark" ? darkStyles : lightStyles;
 
   const handleSave = async (data) => {
     setErrors({});
@@ -51,8 +59,25 @@ export default function NewArticlePage() {
 
   return (
     <AdminLayout title="New Article">
-      <h1>Create New Article</h1>
-      <ArticleForm onSave={handleSave} serverErrors={errors} isSubmitting={isSubmitting} />
+      <div className={commonStyles.header}>
+        <h1 className={commonStyles.title}>Create New Article</h1>
+      </div>
+      <div className={commonStyles.twoCol}>
+        <div>
+          <ArticleForm
+            onSave={handleSave}
+            serverErrors={errors}
+            isSubmitting={isSubmitting}
+            onDataChange={setPreviewData}
+          />
+        </div>
+        <div>
+          <h3 className={themeStyles.previewTitle || ''}>Live Preview</h3>
+          <div className={commonStyles.previewScale} style={{ pointerEvents: 'none', maxWidth: 640 }}>
+            <PublicArticleCard article={previewData} />
+          </div>
+        </div>
+      </div>
     </AdminLayout>
   );
 }

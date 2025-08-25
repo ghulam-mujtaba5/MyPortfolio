@@ -13,6 +13,7 @@ import lightStyles from "./ArticleForm.light.module.css";
 import darkStyles from "./ArticleForm.dark.module.css";
 import ChipInput from "./ChipInput";
 import utilities from "../../../styles/utilities.module.css";
+// Removed inline card preview; page-level preview uses PublicArticleCard
 
 const RichTextEditor = dynamic(
   () => import("../RichTextEditor/RichTextEditor"),
@@ -28,6 +29,7 @@ export default function ArticleForm({
   onPreview,
   serverErrors = {},
   isSubmitting,
+  onDataChange,
 }) {
   const { theme } = useTheme();
   const themeStyles = theme === "dark" ? darkStyles : lightStyles;
@@ -43,6 +45,7 @@ export default function ArticleForm({
   const [confirmRestoreOpen, setConfirmRestoreOpen] = useState(false);
   const [targetVersion, setTargetVersion] = useState(null);
   const [ariaMessage, setAriaMessage] = useState("");
+  // Removed inline card preview state (moved to page-level preview)
   // Diff helpers
   const openDiff = (v) => {
     setVersionForDiff(v);
@@ -103,6 +106,47 @@ export default function ArticleForm({
     () => JSON.stringify(formValues),
     [formValues],
   );
+
+  // Live ArticleCard preview data derived from current form values
+  const previewArticle = useMemo(() => {
+    const tagsCsv = formValues?.tags || "";
+    const catsCsv = formValues?.categories || "";
+    const tagsArr = String(tagsCsv)
+      .split(",")
+      .map((t) => t.trim())
+      .filter(Boolean);
+    const catsArr = String(catsCsv)
+      .split(",")
+      .map((c) => c.trim())
+      .filter(Boolean);
+    return {
+      _id: article?._id, // may be undefined for new article
+      id: article?._id,
+      title: formValues?.title || "Untitled",
+      excerpt: formValues?.excerpt || "",
+      tags: tagsArr,
+      categories: catsArr,
+      coverImage: formValues?.coverImage || "",
+      slug: formValues?.slug || "",
+      views: article?.views || 0,
+      createdAt: article?.createdAt || new Date().toISOString(),
+      readingTime: Math.max(1, Math.ceil(((formValues?.content || "")
+        .replace(/<[^>]*>/g, " ")
+        .replace(/&nbsp;/g, " ")
+        .trim()
+        .split(/\s+/)
+        .filter(Boolean).length) / 200)) + " min",
+      status: (formValues?.published || false) ? "published" : "draft",
+      pinned: article?.pinned || false,
+    };
+  }, [formValues, article?._id, article?.views, article?.createdAt, article?.pinned]);
+
+  // Emit live changes upward for page-level preview (optional)
+  useEffect(() => {
+    if (typeof onDataChange === 'function') {
+      onDataChange(previewArticle);
+    }
+  }, [previewArticle, onDataChange]);
 
   const getChangedFields = (v) => {
     const curTitle = watch("title") || "";
@@ -505,6 +549,7 @@ export default function ArticleForm({
           >
             {previewSplit ? "Editor Only" : "Split Preview"}
           </button>
+          {/* Inline card preview toggle removed; page-level preview is used now */}
           {previewSplit && (
             <div className={commonStyles.inlineBtnGroup}>
               <button
@@ -535,6 +580,7 @@ export default function ArticleForm({
           )}
         </div>
       </div>
+      {/* Inline card preview removed; see page-level preview in edit/new pages */}
       <div className={`${commonStyles.formGroup} ${commonStyles.fullWidth}`}>
         <label
           htmlFor="title"

@@ -53,6 +53,11 @@
   color: var(--color-text-secondary-dark);
 }
 
+.quickFiltersContainer {
+  background: rgba(17, 24, 39, 0.6);
+  border: 1px solid var(--color-border-dark);
+}
+
 .selectionBar {
   background-color: var(--color-primary-dark-light);
   border: 1px solid var(--color-primary-dark-border);

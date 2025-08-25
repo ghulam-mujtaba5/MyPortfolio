@@ -15,7 +15,7 @@
 
 .input {
   width: 100%;
-  padding: 0.625rem 0.875rem 0.625rem 2.5rem; /* Left padding for icon */
+  padding: 0.5rem 0.75rem 0.5rem 2.25rem; /* Left padding for icon */
   border-radius: 8px;
   border: 1px solid var(--color-border);
   background-color: var(--color-bg-secondary);

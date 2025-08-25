@@ -9,7 +9,7 @@ import { useTheme } from "../../../context/ThemeContext";
 import commonStyles from "../articles/articles.common.module.css";
 import lightStyles from "../articles/articles.light.module.css";
 import darkStyles from "../articles/articles.dark.module.css";
-import AdminProjectCard from "../../../components/Admin/Projects/AdminProjectCard";
+import AdminPublicProjectCard from "../../../components/Admin/Projects/AdminPublicProjectCard";
 import gridStyles from "../../../styles/AdminGrid.module.css"; // Shared grid styles
 import Icon from "../../../components/Admin/Icon/Icon";
 import Tooltip from "../../../components/Admin/Tooltip/Tooltip";
@@ -295,14 +295,14 @@ const ProjectsPage = () => {
                 key={project._id || project.id}
                 variants={{ hidden: { opacity: 0, y: 16 }, visible: { opacity: 1, y: 0 } }}
               >
-                <AdminProjectCard
+                <AdminPublicProjectCard
                   project={project}
                   onEdit={() => handleEdit(project._id || project.id)}
                   onDelete={() => handleDelete(project._id || project.id)}
                   onPin={() => togglePin(project)}
                   isSelected={selectedProjects.includes(project._id || project.id)}
-                  deleting={(deletingId === (project._id || project.id))}
-                  pinning={(pinningId === (project._id || project.id))}
+                  deleting={deletingId === (project._id || project.id)}
+                  pinning={pinningId === (project._id || project.id)}
                   onSelect={() => {
                     setSelectedProjects((prev) =>
                       prev.includes(project._id || project.id)

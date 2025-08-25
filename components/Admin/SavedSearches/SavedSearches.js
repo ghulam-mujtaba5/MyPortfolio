@@ -118,7 +118,7 @@ const SavedSearches = ({ scope }) => {
     <div className={`${commonStyles.container} ${themeStyles.container}`} ref={dropdownRef}>
       <button
         onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-        className={`${utilities.btn} ${utilities.btnSecondary}`}
+        className={`${utilities.btn} ${utilities.btnSm} ${utilities.btnSecondary}`}
         aria-haspopup="menu"
         aria-expanded={isDropdownOpen}
         aria-controls={dropdownId}

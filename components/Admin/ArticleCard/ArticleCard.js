@@ -123,12 +123,14 @@ const ArticleCard = ({ article, isSelected, onSelect, onDelete, onPin, pinning =
             )}
           </div>
         </div>
-                <div className={`${commonStyles.debugInfo} ${themeStyles.debugInfo}`}>
-          <small>ID: {safeId || 'N/A'}</small>
-          <button onClick={handleCheckExistence} className={`${commonStyles.debugButton} ${themeStyles.debugButton}`} title="Check if this ID exists in the DB">
-            <FiHelpCircle /> Check ID
-          </button>
-        </div>
+                {process.env.NEXT_PUBLIC_SHOW_DEBUG === 'true' && (
+          <div className={`${commonStyles.debugInfo} ${themeStyles.debugInfo}`}>
+            <small>ID: {safeId || 'N/A'}</small>
+            <button onClick={handleCheckExistence} className={`${commonStyles.debugButton} ${themeStyles.debugButton}`} title="Check if this ID exists in the DB">
+              <FiHelpCircle /> Check ID
+            </button>
+          </div>
+        )}
         <div className={`${commonStyles.actions} ${themeStyles.actions}`}>
           <Tooltip content="Edit">
             <Link
