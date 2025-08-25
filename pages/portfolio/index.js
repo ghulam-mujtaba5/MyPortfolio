@@ -1,6 +1,7 @@
 import React from "react";
 import dynamic from "next/dynamic";
 import ProjectsPreview from "../../components/Projects/ProjectsPreview";
+import ArticlesPreview from "../../components/Articles/ArticlesPreview";
 import NavBarDesktop from "../../components/NavBar_Desktop/nav-bar";
 import NavBarMobile from "../../components/NavBar_Mobile/NavBar-mobile";
 import WelcomeFrame from "../../components/welcome/welcome";
@@ -28,7 +29,7 @@ import SEO from "../../components/SEO";
 
 import { useEffect, useState } from "react";
 
-const Home = ({ previewProjects = [] }) => {
+const Home = ({ previewProjects = [], previewArticles = [] }) => {
   const { theme } = useTheme();
 
   const sections = [
@@ -203,6 +204,17 @@ const Home = ({ previewProjects = [] }) => {
           </section>
 
           <section
+            id="articles-section"
+            aria-labelledby="articles-section-heading"
+            style={{ width: "100%" }}
+          >
+            <h2 id="articles-section-heading" className="visually-hidden">
+              Articles
+            </h2>
+            <ArticlesPreview articles={previewArticles} />
+          </section>
+
+          <section
             id="contact-section"
             aria-labelledby="contact-section-heading"
             style={{ width: "100%" }}
@@ -250,6 +262,7 @@ export default Home;
 // Server-side fetch of latest published projects for the homepage preview
 import dbConnect from "../../lib/mongoose";
 import Project from "../../models/Project";
+import Article from "../../models/Article";
 
 export async function getServerSideProps() {
   try {
@@ -267,12 +280,26 @@ export async function getServerSideProps() {
         .lean();
     }
 
+    // Articles: prefer featured, fallback to latest published
+    let art = await Article.find({ published: true, featuredOnHome: true })
+      .sort({ createdAt: -1 })
+      .limit(3)
+      .lean();
+
+    if (!art || art.length === 0) {
+      art = await Article.find({ published: true })
+        .sort({ createdAt: -1 })
+        .limit(3)
+        .lean();
+    }
+
     return {
       props: {
         previewProjects: JSON.parse(JSON.stringify(docs)),
+        previewArticles: JSON.parse(JSON.stringify(art)),
       },
     };
   } catch (e) {
-    return { props: { previewProjects: [] } };
+    return { props: { previewProjects: [], previewArticles: [] } };
   }
 }

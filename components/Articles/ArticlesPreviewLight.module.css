@@ -1,0 +1,36 @@
+/* Light theme styles for ArticlesPreview (mirrors ProjectsPreview Light) */
+
+.lightTheme {
+  --text-color: #222;
+  --button-text: #4573df;
+  --button-bg: transparent;
+  --button-border: #4573df;
+  --button-hover-bg: #4573df;
+  --button-hover-text: #ffffff;
+  --button-hover-border: #4573df;
+}
+
+.title {
+  color: var(--text-color);
+}
+
+.viewAll {
+  background: var(--button-bg);
+  color: var(--button-text);
+  border-color: var(--button-border);
+}
+
+.viewAll:hover,
+.viewAll:focus {
+  background: #4573df;
+  color: #ffffff;
+  border-color: #4573df;
+  outline: none;
+  transform: translateY(-2px);
+  box-shadow: none;
+}
+
+.viewAll:active {
+  transform: translateY(0);
+  opacity: 0.9;
+}

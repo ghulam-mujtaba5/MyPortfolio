@@ -30,6 +30,7 @@ async function handler(req, res) {
         tag = "",
         category = "",
         sort = "relevance",
+        featured = "",
       } = req.query;
       const pageSize = Math.min(parseInt(limit, 10) || 9, 100);
       const pageNum = Math.max(1, parseInt(page, 10) || 1);
@@ -42,6 +43,9 @@ async function handler(req, res) {
         published: true,
         $or: [{ publishAt: null }, { publishAt: { $lte: now } }],
       };
+      if (String(featured).toLowerCase() === 'true') {
+        baseFilter.featuredOnHome = true;
+      }
       if (tag) {
         baseFilter.tags = tag;
       }
@@ -83,6 +87,7 @@ async function handler(req, res) {
         createdAt: 1,
         coverImage: 1,
         views: 1,
+        featuredOnHome: 1,
         ...(useText ? { score: { $meta: "textScore" } } : {}),
       };
 
