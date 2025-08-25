@@ -52,6 +52,11 @@ const ArticleSchema = new mongoose.Schema(
       type: Date,
       default: null,
     },
+    // Whether this article is highlighted on the Home page
+    featuredOnHome: {
+      type: Boolean,
+      default: false,
+    },
     metaTitle: {
       type: String,
       trim: true,
@@ -105,3 +110,4 @@ if (!ArticleSchema._indexed) {
 
 export default mongoose.models.Article ||
   mongoose.model("Article", ArticleSchema);
+

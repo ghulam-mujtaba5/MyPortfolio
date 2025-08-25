@@ -80,6 +80,7 @@ export default function ArticleForm({
       tags: (article.tags || []).join(", "),
       categories: (article.categories || []).join(", "),
       published: article.published || false,
+      featuredOnHome: article.featuredOnHome || false,
       coverImage: article.coverImage || "",
       showCoverImage:
         article.showCoverImage !== undefined ? article.showCoverImage : true,
@@ -910,6 +911,18 @@ export default function ArticleForm({
           <input type="checkbox" {...register("published")} />
           Published
         </label>
+      </div>
+
+      <div className={`${commonStyles.formGroup} ${commonStyles.fullWidth}`}>
+        <label
+          className={`${commonStyles.checkboxContainer} ${themeStyles.label}`}
+        >
+          <input type="checkbox" {...register("featuredOnHome")} />
+          Show on Home
+        </label>
+        <p className={commonStyles.helpText}>
+          Toggle whether this article appears on the homepage sections.
+        </p>
       </div>
 
       <div className={`${commonStyles.formGroup} ${commonStyles.fullWidth}`}>

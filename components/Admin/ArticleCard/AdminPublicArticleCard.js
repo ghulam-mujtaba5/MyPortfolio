@@ -6,6 +6,7 @@ import Tooltip from "../Tooltip/Tooltip";
 import Spinner from "../../Spinner/Spinner";
 import utilities from "../../../styles/utilities.module.css";
 import PublicArticleCard from "../../Articles/ArticleCard";
+import StatusPill from "../StatusPill/StatusPill";
 
 const AdminPublicArticleCard = ({
   article,
@@ -20,6 +21,11 @@ const AdminPublicArticleCard = ({
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0 },
   };
+  const articleStatus = article?.published
+    ? "published"
+    : article?.publishAt && new Date(article.publishAt) > new Date()
+    ? "scheduled"
+    : "draft";
 
   return (
     <motion.div variants={variants}>
@@ -78,6 +84,52 @@ const AdminPublicArticleCard = ({
             </a>
           </Tooltip>
         </div>
+      </div>
+      {/* Status row */}
+      <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
+        <StatusPill status={articleStatus} />
+        {article?.featuredOnHome ? (
+          <span
+            style={{
+              fontSize: 12,
+              padding: "2px 8px",
+              borderRadius: 999,
+              background: "var(--color-primary-light)",
+              border: "1px solid var(--color-primary-border)",
+              color: "var(--color-primary)",
+            }}
+          >
+            Home
+          </span>
+        ) : (
+          <span
+            style={{
+              fontSize: 12,
+              padding: "2px 8px",
+              borderRadius: 999,
+              background: "var(--color-bg-secondary)",
+              border: "1px solid var(--color-border)",
+              color: "var(--color-text-muted, #777)",
+            }}
+            title="Not shown on Home"
+          >
+            Not on Home
+          </span>
+        )}
+        {article?.pinned && (
+          <span
+            style={{
+              fontSize: 12,
+              padding: "2px 8px",
+              borderRadius: 999,
+              background: "var(--color-primary-light)",
+              border: "1px solid var(--color-primary-border)",
+              color: "var(--color-primary)",
+            }}
+          >
+            Pinned
+          </span>
+        )}
       </div>
       {/* Public-facing visual card (non-interactive in admin list) */}
       <div style={{ pointerEvents: "none" }}>

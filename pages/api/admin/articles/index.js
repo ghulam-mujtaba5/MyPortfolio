@@ -88,6 +88,8 @@ export default async function handler(req, res) {
         coverImage: 1,
         tags: 1,
         categories: 1,
+        featuredOnHome: 1,
+        pinned: 1,
       })
       .sort(sort)
       .skip((pageNum - 1) * pageSize)
