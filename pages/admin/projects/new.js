@@ -2,12 +2,20 @@ import { useRouter } from "next/router";
 import toast from "react-hot-toast";
 import AdminLayout from "../../../components/Admin/AdminLayout/AdminLayout";
 import ProjectForm from "../../../components/Admin/ProjectForm/ProjectForm";
+import Project1 from "../../../components/Projects/Project1";
 import { useState } from "react";
+import { useTheme } from "../../../context/ThemeContext";
+import commonStyles from "./projects.common.module.css";
+import lightStyles from "./projects.light.module.css";
+import darkStyles from "./projects.dark.module.css";
 
 export default function NewProjectPage() {
   const router = useRouter();
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [previewData, setPreviewData] = useState({});
+  const { theme } = useTheme();
+  const themeStyles = theme === "dark" ? darkStyles : lightStyles;
 
   const handleSave = async (data) => {
     setErrors({});
@@ -50,7 +58,22 @@ export default function NewProjectPage() {
   return (
     <AdminLayout title="New Project">
       <h1>Create New Project</h1>
-      <ProjectForm onSave={handleSave} serverErrors={errors} isSubmitting={isSubmitting} />
+      <div className={commonStyles.twoCol}>
+        <div>
+          <ProjectForm
+            onSave={handleSave}
+            serverErrors={errors}
+            isSubmitting={isSubmitting}
+            onDataChange={setPreviewData}
+          />
+        </div>
+        <div>
+          <h3 className={themeStyles.previewTitle}>Live Preview</h3>
+          <div className={commonStyles.previewScale}>
+            <Project1 projectOverride={previewData} />
+          </div>
+        </div>
+      </div>
     </AdminLayout>
   );
 }
