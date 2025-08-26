@@ -70,10 +70,7 @@ const ArticleCard = ({ article, highlight }) => {
         )}
         <div className={base.actions}>
           <Link href={href} className={`${base.readMore} ${t.readMore}`}>
-            Read Article{" "}
-            <span className={base.arrow} aria-hidden>
-              →
-            </span>
+            Read Article
           </Link>
         </div>
       </div>

@@ -1,6 +1,14 @@
 .card {
   background: #272c34;
   border: 1px solid #2f3440;
+  /* Button theme variables (dark mode, brand blue #4573df) */
+  --btn-live-text: #eaf1ff;
+  --btn-live-bg-start: rgba(69, 115, 223, 0.22);
+  --btn-live-bg-end: rgba(69, 115, 223, 0.14);
+  --btn-live-border: rgba(69, 115, 223, 0.45);
+  --btn-live-shadow: rgba(69, 115, 223, 0.28);
+  --btn-live-shadow-hover: rgba(69, 115, 223, 0.35);
+  --btn-live-shadow-active: rgba(69, 115, 223, 0.4);
 }
 .content {
   background: #272c34;
