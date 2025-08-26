@@ -123,6 +123,7 @@ export default function ArticleDetailPage({ article, preview }) {
           name="description"
           content={article.metaDescription || article.excerpt}
         />
+        {preview && <meta name="robots" content="noindex,follow" />}
         <link
           rel="canonical"
           href={`https://ghulammujtaba.com/articles/${article.slug}`}
@@ -171,7 +172,9 @@ export default function ArticleDetailPage({ article, preview }) {
               "@type": "Article",
               headline: article.metaTitle || article.title,
               description: article.metaDescription || article.excerpt,
-              image: makeAbsolute(article.ogImage || article.coverImage),
+              image: [makeAbsolute(article.ogImage || article.coverImage)].filter(
+                Boolean
+              ),
               mainEntityOfPage: {
                 "@type": "WebPage",
                 "@id": `https://ghulammujtaba.com/articles/${article.slug}`,
@@ -191,7 +194,15 @@ export default function ArticleDetailPage({ article, preview }) {
               },
               datePublished: article.createdAt || article.publishAt,
               dateModified: article.updatedAt,
-              keywords: Array.isArray(article.tags) ? article.tags.join(", ") : undefined,
+              keywords: Array.isArray(article.tags)
+                ? article.tags.join(", ")
+                : undefined,
+              timeRequired: typeof article.readingTime === "number"
+                ? `PT${article.readingTime}M`
+                : undefined,
+              wordCount: typeof article.readingTime === "number"
+                ? Math.round(article.readingTime * 200)
+                : undefined,
             }),
           }}
         />

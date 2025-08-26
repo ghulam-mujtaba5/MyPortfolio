@@ -116,12 +116,56 @@ const ProjectPage = ({ project }) => {
                 name: "Ghulam Mujtaba",
                 url: "https://ghulammujtaba.com",
               },
+              publisher: {
+                "@type": "Organization",
+                name: "Ghulam Mujtaba",
+                logo: {
+                  "@type": "ImageObject",
+                  url: "https://ghulammujtaba.com/og-image.png",
+                },
+              },
               datePublished: project.createdAt,
               dateModified: project.updatedAt,
               keywords: Array.isArray(project.tags) ? project.tags.join(", ") : undefined,
             }),
           }}
         />
+        {/* JSON-LD: Breadcrumbs for Project */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "BreadcrumbList",
+              itemListElement: [
+                { "@type": "ListItem", position: 1, name: "Home", item: "https://ghulammujtaba.com/" },
+                { "@type": "ListItem", position: 2, name: "Projects", item: "https://ghulammujtaba.com/projects" },
+                { "@type": "ListItem", position: 3, name: project.title, item: `https://ghulammujtaba.com/projects/${project.slug}` },
+              ],
+            }),
+          }}
+        />
+        {/* JSON-LD: SoftwareSourceCode when GitHub link exists */}
+        {project?.links?.github && (
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify({
+                "@context": "https://schema.org",
+                "@type": "SoftwareSourceCode",
+                name: project.metaTitle || project.title,
+                description: project.metaDescription || project.description,
+                codeRepository: project.links.github,
+                url: `https://ghulammujtaba.com/projects/${project.slug}`,
+                image: makeAbsolute(project.ogImage || project.image),
+                author: { "@type": "Person", name: "Ghulam Mujtaba", url: "https://ghulammujtaba.com" },
+                datePublished: project.createdAt,
+                dateModified: project.updatedAt,
+                keywords: Array.isArray(project.tags) ? project.tags.join(", ") : undefined,
+              }),
+            }}
+          />
+        )}
       </Head>
 
       {isMobile ? <NavBarMobile /> : <NavBarDesktop />}
