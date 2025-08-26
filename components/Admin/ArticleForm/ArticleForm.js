@@ -517,6 +517,26 @@ export default function ArticleForm({
 
   // Removed suggest tags/headlines functions
 
+  // Meta length helpers (traffic-light thresholds)
+  const metaTitleLen = (watch("metaTitle") || "").length;
+  const metaDescLen = (watch("metaDescription") || "").length;
+
+  const getTitleStatus = () => {
+    if (metaTitleLen <= 60) return { label: "Good", cls: "", border: "" };
+    if (metaTitleLen <= 70) return { label: "Warn", cls: themeStyles.counterWarn, border: themeStyles.warnLimit };
+    return { label: "Over", cls: themeStyles.counterOver, border: themeStyles.overLimit };
+  };
+
+  const getDescStatus = () => {
+    if (metaDescLen >= 150 && metaDescLen <= 160) return { label: "Good", cls: "", border: "" };
+    if ((metaDescLen >= 120 && metaDescLen < 150) || (metaDescLen > 160 && metaDescLen <= 180))
+      return { label: "Warn", cls: themeStyles.counterWarn, border: themeStyles.warnLimit };
+    return { label: "Over", cls: themeStyles.counterOver, border: themeStyles.overLimit };
+  };
+
+  const titleStatus = getTitleStatus();
+  const descStatus = getDescStatus();
+
   return (
     <form
       onSubmit={handleSubmit(handleFormSubmit)}
@@ -820,13 +840,13 @@ export default function ArticleForm({
             <input
               id="metaTitle"
               {...register("metaTitle")}
-              className={`${commonStyles.input} ${themeStyles.input} ${((watch("metaTitle") || "").length > 60) ? themeStyles.overLimit : ""}`}
+              className={`${commonStyles.input} ${themeStyles.input} ${titleStatus.border}`}
               placeholder="Optimal length: 50-60 characters"
             />
             <div className={commonStyles.helpText}>
               <span>Recommended 50–60 characters.</span>
-              <span className={commonStyles.helpRight} aria-live="polite">
-                {(watch("metaTitle") || "").length}/60
+              <span className={`${commonStyles.helpRight} ${titleStatus.cls}`} aria-live="polite">
+                {metaTitleLen}/60 • {titleStatus.label}
               </span>
             </div>
             {errors.metaTitle && (
@@ -848,14 +868,14 @@ export default function ArticleForm({
             <textarea
               id="metaDescription"
               {...register("metaDescription")}
-              className={`${commonStyles.textarea} ${themeStyles.textarea} ${((watch("metaDescription") || "").length > 160) ? themeStyles.overLimit : ""}`}
+              className={`${commonStyles.textarea} ${themeStyles.textarea} ${descStatus.border}`}
               placeholder="Optimal length: 150-160 characters"
               rows="3"
             ></textarea>
             <div className={commonStyles.helpText}>
               <span>Recommended 150–160 characters.</span>
-              <span className={commonStyles.helpRight} aria-live="polite">
-                {(watch("metaDescription") || "").length}/160
+              <span className={`${commonStyles.helpRight} ${descStatus.cls}`} aria-live="polite">
+                {metaDescLen}/160 • {descStatus.label}
               </span>
             </div>
             {errors.metaDescription && (
@@ -865,9 +885,7 @@ export default function ArticleForm({
             )}
           </div>
 
-          <div
-            className={`${commonStyles.formGroup} ${commonStyles.fullWidth}`}
-          >
+          <div className={`${commonStyles.formGroup} ${commonStyles.fullWidth}`}>
             <label className={`${commonStyles.label} ${themeStyles.label}`}>
               Open Graph Image (for social sharing)
             </label>

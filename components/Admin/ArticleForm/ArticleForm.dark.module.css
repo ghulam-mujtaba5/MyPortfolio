@@ -88,8 +88,17 @@
 
 /* Limit exceeded border (dark) */
 .overLimit {
-  border-color: #fca5a5 !important; /* red-300 for dark contrast */
+  border-color: #ef4444 !important; /* red-500 */
 }
+
+/* Soft warning border (dark) */
+.warnLimit {
+  border-color: #f59e0b !important; /* amber-500 */
+}
+
+/* Counter colors (dark) */
+.counterWarn { color: #fbbf24; } /* amber-400 for contrast on dark */
+.counterOver { color: #f87171; } /* red-400 */
 
 /* ChipInput theming (dark) */
 .chip {

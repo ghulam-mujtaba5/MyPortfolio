@@ -22,6 +22,11 @@ function ProjectForm({
 }) {
   const { theme } = useTheme();
   const themeStyles = theme === "dark" ? darkStyles : lightStyles;
+  // Local state and refs
+  const [ariaMessage, setAriaMessage] = useState("");
+  const [dupWarning, setDupWarning] = useState("");
+  const [autoSaveStatus, setAutoSaveStatus] = useState("");
+  const dupTimer = useRef(null);
 
   const {
     register,
@@ -61,102 +66,13 @@ function ProjectForm({
     },
   });
 
-  // Autosave Draft to localStorage (Project)
-  const [autoSaveStatus, setAutoSaveStatus] = useState(""); // '', 'saving', 'saved'
-  const autoSaveTimer = useRef(null);
+  // Watch entire form for external consumers
   const watchedData = watch();
-  const [dupWarning, setDupWarning] = useState("");
-  const dupTimer = useRef(null);
 
-  useEffect(() => {
-    if (!watchedData) return;
-    setAutoSaveStatus("saving");
-    if (autoSaveTimer.current) clearTimeout(autoSaveTimer.current);
-    autoSaveTimer.current = setTimeout(() => {
-      try {
-        const key = project?._id
-          ? `project-draft-${project._id}`
-          : "project-draft-new";
-        localStorage.setItem(key, JSON.stringify(watchedData));
-        setAutoSaveStatus("saved");
-        setTimeout(() => setAutoSaveStatus(""), 1500);
-      } catch (e) {
-        setAutoSaveStatus("");
-      }
-    }, 800);
-    return () => {
-      if (autoSaveTimer.current) clearTimeout(autoSaveTimer.current);
-    };
-  }, [watchedData, project?._id]);
-
-  // Restore draft if available
-  useEffect(() => {
-    try {
-      const key = project?._id
-        ? `project-draft-${project._id}`
-        : "project-draft-new";
-      const raw = localStorage.getItem(key);
-      if (raw) {
-        const draft = JSON.parse(raw);
-        const sanitize = (k, v) => {
-          if (v === "#") return ""; // legacy placeholder
-          if (k === "image" || k === "ogImage") return ensureProtocol(v || "");
-          if (k === "links.live" || k === "links.github") return ensureProtocol(v || "");
-          return v;
-        };
-        Object.entries(draft).forEach(([k, v]) => {
-          setValue(k, sanitize(k, v), { shouldValidate: false });
-        });
-      }
-    } catch {}
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  // When navigating to Edit for a different project, ensure the form resets with that project's values
-  useEffect(() => {
-    const defaults = {
-      title: project.title || "",
-      description: project.description || "",
-      tags: (project.tags || []).join(", "),
-      status: project.status || "In Progress",
-      category: project.category || "Others",
-      "links.live": project.links?.live === "#" ? "" : (project.links?.live || ""),
-      "links.github": project.links?.github === "#" ? "" : (project.links?.github || ""),
-      image: project.image === "#" ? "" : (project.image || ""),
-      showImage: project.showImage !== undefined ? project.showImage : true,
-      published: !!project.published,
-      featuredOnHome: !!project.featuredOnHome,
-      metaTitle: project.metaTitle || "",
-      metaDescription: project.metaDescription || "",
-      ogImage: project.ogImage === "#" ? "" : (project.ogImage || ""),
-      scheduledAt: project.scheduledAt
-        ? (() => {
-            const d = new Date(project.scheduledAt);
-            const offMs = d.getTime() - d.getTimezoneOffset() * 60000;
-            return new Date(offMs).toISOString().slice(0, 16);
-          })()
-        : "",
-    };
-    reset(defaults, { keepDirty: false, keepErrors: true });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [project?._id, reset]);
-
-  // Apply server-side validation errors to the form
-  useEffect(() => {
-    if (serverErrors && typeof serverErrors === "object") {
-      Object.entries(serverErrors).forEach(([path, message]) => {
-        if (!path) return;
-        setError(path, { type: "server", message: String(message || "Invalid value") });
-      });
-    }
-  }, [serverErrors, setError]);
-
-  // Helper: ensure a URL has protocol if it looks like a domain, otherwise keep as is
-  const ensureProtocol = (url) => {
-    if (!url) return "";
-    const trimmed = String(url).trim();
-    if (trimmed === "#") return ""; // normalize legacy
-    if (/^\/\//.test(trimmed)) return `https:${trimmed}`; // protocol-relative -> https
+  // Normalize and ensure protocol for URLs
+  const ensureProtocol = (url = "") => {
+    const trimmed = (url || "").trim();
+    if (!trimmed) return "";
     if (/^https?:\/\//i.test(trimmed)) return trimmed;
     // Looks like a domain (contains a dot, no spaces)
     if (/^[^\s]+\.[^\s]{2,}/.test(trimmed)) {
@@ -272,6 +188,46 @@ function ProjectForm({
   const handleOgImageUpdate = (imageUrl) => {
     setValue("ogImage", ensureProtocol(imageUrl), { shouldValidate: true });
   };
+
+  // Meta length helpers (traffic-light thresholds + remaining + ARIA announcements)
+  const metaTitleLen = (watch("metaTitle") || "").length;
+  const metaDescLen = (watch("metaDescription") || "").length;
+
+  const getTitleStatus = () => {
+    if (metaTitleLen <= 60)
+      return { label: "Good", cls: "", border: "", badge: themeStyles.badgeGood };
+    if (metaTitleLen <= 70)
+      return { label: "Warn", cls: themeStyles.counterWarn, border: themeStyles.warnLimit, badge: themeStyles.badgeWarn };
+    return { label: "Over", cls: themeStyles.counterOver, border: themeStyles.overLimit, badge: themeStyles.badgeOver };
+  };
+
+  const getDescStatus = () => {
+    if (metaDescLen >= 150 && metaDescLen <= 160)
+      return { label: "Good", cls: "", border: "", badge: themeStyles.badgeGood };
+    if ((metaDescLen >= 120 && metaDescLen < 150) || (metaDescLen > 160 && metaDescLen <= 180))
+      return { label: "Warn", cls: themeStyles.counterWarn, border: themeStyles.warnLimit, badge: themeStyles.badgeWarn };
+    return { label: "Over", cls: themeStyles.counterOver, border: themeStyles.overLimit, badge: themeStyles.badgeOver };
+  };
+
+  const titleStatus = getTitleStatus();
+  const descStatus = getDescStatus();
+  const remainingTitle = 60 - metaTitleLen;
+  const remainingDesc = 160 - metaDescLen;
+
+  const prevTitle = useRef(titleStatus.label);
+  const prevDesc = useRef(descStatus.label);
+  useEffect(() => {
+    if (titleStatus.label !== prevTitle.current) {
+      setAriaMessage(`Meta title status: ${titleStatus.label}.`);
+      prevTitle.current = titleStatus.label;
+    }
+  }, [titleStatus.label]);
+  useEffect(() => {
+    if (descStatus.label !== prevDesc.current) {
+      setAriaMessage(`Meta description status: ${descStatus.label}.`);
+      prevDesc.current = descStatus.label;
+    }
+  }, [descStatus.label]);
 
   return (
     <form
@@ -442,30 +398,30 @@ function ProjectForm({
         )}
       </div>
 
+      <div className={commonStyles.srOnly} aria-live="polite" role="status">{ariaMessage}</div>
       <details className={`${commonStyles.details} ${themeStyles.details}`}>
         <summary className={`${commonStyles.summary} ${themeStyles.summary}`}>
           SEO Settings
         </summary>
         <div className={commonStyles.detailsContent}>
-          <div
-            className={`${commonStyles.formGroup} ${commonStyles.fullWidth}`}
-          >
+          <div className={`${commonStyles.formGroup} ${commonStyles.fullWidth}`}>
             <label
               htmlFor="metaTitle"
               className={`${commonStyles.label} ${themeStyles.label}`}
             >
               Meta Title
+              <span className={`${themeStyles.badge} ${titleStatus.badge}`} style={{ marginLeft: 8 }}>{titleStatus.label}</span>
             </label>
             <input
               id="metaTitle"
               {...register("metaTitle")}
-              className={`${commonStyles.input} ${themeStyles.input} ${((watch("metaTitle") || "").length > 60) ? themeStyles.overLimit : ""}`}
+              className={`${commonStyles.input} ${themeStyles.input} ${titleStatus.border}`}
               placeholder="Optimal length: 50-60 characters"
             />
             <div className={commonStyles.helpText}>
               <span>Recommended 50–60 characters.</span>
-              <span className={`${commonStyles.floatRight} ${commonStyles.muted}`} aria-live="polite">
-                {(watch("metaTitle") || "").length}/60
+              <span className={`${commonStyles.floatRight} ${titleStatus.cls}`} aria-live="polite">
+                {remainingTitle} left • {titleStatus.label}
               </span>
             </div>
             {errors.metaTitle && (
@@ -473,26 +429,25 @@ function ProjectForm({
             )}
           </div>
 
-          <div
-            className={`${commonStyles.formGroup} ${commonStyles.fullWidth}`}
-          >
+          <div className={`${commonStyles.formGroup} ${commonStyles.fullWidth}`}>
             <label
               htmlFor="metaDescription"
               className={`${commonStyles.label} ${themeStyles.label}`}
             >
               Meta Description
+              <span className={`${themeStyles.badge} ${descStatus.badge}`} style={{ marginLeft: 8 }}>{descStatus.label}</span>
             </label>
             <textarea
               id="metaDescription"
               {...register("metaDescription")}
-              className={`${commonStyles.textarea} ${themeStyles.textarea} ${((watch("metaDescription") || "").length > 160) ? themeStyles.overLimit : ""}`}
+              className={`${commonStyles.textarea} ${themeStyles.textarea} ${descStatus.border}`}
               placeholder="Optimal length: 150-160 characters"
               rows="3"
             ></textarea>
             <div className={commonStyles.helpText}>
               <span>Recommended 150–160 characters.</span>
-              <span className={`${commonStyles.floatRight} ${commonStyles.muted}`} aria-live="polite">
-                {(watch("metaDescription") || "").length}/160
+              <span className={`${commonStyles.floatRight} ${descStatus.cls}`} aria-live="polite">
+                {remainingDesc} left • {descStatus.label}
               </span>
             </div>
             {errors.metaDescription && (
@@ -502,9 +457,7 @@ function ProjectForm({
             )}
           </div>
 
-          <div
-            className={`${commonStyles.formGroup} ${commonStyles.fullWidth}`}
-          >
+          <div className={`${commonStyles.formGroup} ${commonStyles.fullWidth}`}>
             <label className={`${commonStyles.label} ${themeStyles.label}`}>
               Open Graph Image (for social sharing)
             </label>

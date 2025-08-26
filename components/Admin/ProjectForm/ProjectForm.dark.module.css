@@ -55,3 +55,12 @@
 .overLimit {
   border-color: #fca5a5 !important; /* red-300 for dark contrast */
 }
+
+/* Soft warning border (dark) */
+.warnLimit {
+  border-color: #f59e0b !important; /* amber-500 */
+}
+
+/* Counter colors (dark) */
+.counterWarn { color: #fbbf24; } /* amber-400 */
+.counterOver { color: #f87171; } /* red-400 */
