@@ -69,6 +69,7 @@ const ProjectsPage = ({ projects = [], projectsError = null }) => {
               description: typeof p?.description === "string" ? p.description : "",
               image: typeof p?.image === "string" ? p.image : "",
               tags: Array.isArray(p?.tags) ? p.tags : [],
+              category: typeof p?.category === "string" && p.category.trim() ? p.category : "Others",
               links: {
                 live: typeof p?.links?.live === "string" ? p.links.live : "",
                 github: typeof p?.links?.github === "string" ? p.links.github : "",
@@ -107,7 +108,7 @@ const ProjectsPage = ({ projects = [], projectsError = null }) => {
   const filteredProjects =
     selectedTag === "All"
       ? effectiveProjects
-      : effectiveProjects.filter((p) => Array.isArray(p.tags) && p.tags.includes(selectedTag));
+      : effectiveProjects.filter((p) => (p?.category || "Others") === selectedTag);
 
   return (
     <>
@@ -695,6 +696,17 @@ export async function getServerSideProps() {
     description: z.string().optional(),
     image: z.string().optional(),
     tags: z.array(z.string()).optional(),
+    category: z
+      .enum([
+        "All",
+        "Software Development",
+        "Web Development",
+        "AI",
+        "Data Science",
+        "UI/UX",
+        "Others",
+      ])
+      .optional(),
     links: LinkSchema.optional(),
   });
   const ProjectsSchema = z.array(ProjectSchema);
@@ -711,6 +723,7 @@ export async function getServerSideProps() {
           description: typeof p?.description === "string" ? p.description : "",
           image: typeof p?.image === "string" ? p.image : "",
           tags: Array.isArray(p?.tags) ? p.tags : [],
+          category: typeof p?.category === "string" && p.category.trim() ? p.category : "Others",
           links: {
             live: typeof p?.links?.live === "string" ? p.links.live : "",
             github: typeof p?.links?.github === "string" ? p.links.github : "",
@@ -725,6 +738,7 @@ export async function getServerSideProps() {
       description: p.description || "",
       image: p.image || "",
       tags: Array.isArray(p.tags) ? p.tags : [],
+      category: p.category || "Others",
       links: { live: p.links?.live || "", github: p.links?.github || "" },
     }));
   }
