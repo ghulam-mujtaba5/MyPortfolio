@@ -1,4 +1,5 @@
 import React from "react";
+import { useRouter } from "next/router";
 import Link from "next/link";
 import Image from "next/image";
 import { useTheme } from "../../context/ThemeContext";
@@ -8,15 +9,36 @@ import dark from "./ArticleCard.dark.module.css";
 
 const ArticleCard = ({ article, highlight }) => {
   const { theme } = useTheme();
+  const router = useRouter();
   const t = theme === "dark" ? dark : light;
 
   const href = `/articles/${article.slug}`;
   const img = article.coverImage || "/project-2.png";
   const date = article.createdAt ? new Date(article.createdAt) : null;
 
+  const goToDetail = () => router.push(href);
+  const onKeyToDetail = (e) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      goToDetail();
+    }
+  };
+
   return (
-    <article className={`${base.card} ${t.card}`}>
-      <Link href={href} className={base.imageWrap}>
+    <article
+      className={`${base.card} ${t.card}`}
+      role="link"
+      tabIndex={0}
+      onClick={goToDetail}
+      onKeyDown={onKeyToDetail}
+      aria-label={`Open article ${article.title}`}
+    >
+      <Link
+        href={href}
+        className={base.imageWrap}
+        onClick={(e) => e.stopPropagation()}
+        onKeyDown={(e) => e.stopPropagation()}
+      >
         <div className={base.imageInner}>
           <Image
             src={img}
@@ -63,13 +85,20 @@ const ArticleCard = ({ article, highlight }) => {
           )}
         </div>
         <h3 className={`${base.title} ${t.title}`}>
-          <Link href={href}>{article.title}</Link>
+          <Link href={href} onClick={(e) => e.stopPropagation()} onKeyDown={(e) => e.stopPropagation()}>
+            {article.title}
+          </Link>
         </h3>
         {article.excerpt && (
           <p className={`${base.excerpt} ${t.excerpt}`}>{article.excerpt}</p>
         )}
         <div className={base.actions}>
-          <Link href={href} className={`${base.readMore} ${t.readMore}`}>
+          <Link
+            href={href}
+            className={`${base.readMore} ${t.readMore}`}
+            onClick={(e) => e.stopPropagation()}
+            onKeyDown={(e) => e.stopPropagation()}
+          >
             Read Article
           </Link>
         </div>

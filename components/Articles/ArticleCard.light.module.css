@@ -23,7 +23,7 @@
 }
 .title a:hover {
   color: #005bb5;
-  text-decoration: underline;
+  text-decoration: none;
 }
 .excerpt {
   color: #4b5563;
