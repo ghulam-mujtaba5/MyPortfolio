@@ -69,7 +69,10 @@ const ProjectsPage = ({ projects = [], projectsError = null }) => {
               description: typeof p?.description === "string" ? p.description : "",
               image: typeof p?.image === "string" ? p.image : "",
               tags: Array.isArray(p?.tags) ? p.tags : [],
-              links: { live: typeof p?.links?.live === "string" ? p.links.live : "" },
+              links: {
+                live: typeof p?.links?.live === "string" ? p.links.live : "",
+                github: typeof p?.links?.github === "string" ? p.links.github : "",
+              },
             }))
           );
         })
@@ -681,7 +684,10 @@ export async function getServerSideProps() {
     .lean();
 
   const LinkSchema = z
-    .object({ live: z.string().url().optional().or(z.literal("")) })
+    .object({
+      live: z.string().url().optional().or(z.literal("")),
+      github: z.string().url().optional().or(z.literal("")),
+    })
     .partial();
   const ProjectSchema = z.object({
     _id: z.any(),
@@ -705,7 +711,10 @@ export async function getServerSideProps() {
           description: typeof p?.description === "string" ? p.description : "",
           image: typeof p?.image === "string" ? p.image : "",
           tags: Array.isArray(p?.tags) ? p.tags : [],
-          links: { live: typeof p?.links?.live === "string" ? p.links.live : "" },
+          links: {
+            live: typeof p?.links?.live === "string" ? p.links.live : "",
+            github: typeof p?.links?.github === "string" ? p.links.github : "",
+          },
         }))
       : [];
   } else {
@@ -716,7 +725,7 @@ export async function getServerSideProps() {
       description: p.description || "",
       image: p.image || "",
       tags: Array.isArray(p.tags) ? p.tags : [],
-      links: { live: p.links?.live || "" },
+      links: { live: p.links?.live || "", github: p.links?.github || "" },
     }));
   }
 
