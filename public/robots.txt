@@ -5,4 +5,4 @@ Disallow: /admin/
 Disallow: /api/
 
 # Sitemaps
-Sitemap: /sitemap.xml
+Sitemap: https://ghulammujtaba.com/sitemap.xml
