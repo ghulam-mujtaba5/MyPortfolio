@@ -1,3 +1,33 @@
+.viewCode::before {
+  content: "";
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  background-repeat: no-repeat;
+  background-size: 16px 16px;
+  /* GitHub-style icon (SVG data URI) using currentColor */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor'%3E%3Cpath fill-rule='evenodd' d='M8 0C3.58 0 0 3.64 0 8.13c0 3.59 2.29 6.63 5.47 7.7.4.08.55-.18.55-.4 0-.2-.01-.86-.01-1.57-2.01.45-2.53-.5-2.69-.96-.09-.24-.48-.96-.82-1.15-.28-.15-.68-.52-.01-.53.63-.01 1.08.59 1.23.83.72 1.22 1.87.88 2.33.67.07-.53.28-.88.51-1.08-1.78-.21-3.64-.92-3.64-4.09 0-.9.31-1.64.82-2.22-.08-.21-.36-1.05.08-2.2 0 0 .67-.22 2.2.85.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.07 2.2-.85 2.2-.85.44 1.15.16 1.99.08 2.2.51.58.82 1.32.82 2.22 0 3.18-1.87 3.88-3.65 4.09.29.25.54.74.54 1.5 0 1.08-.01 1.95-.01 2.22 0 .22.15.48.56.4C13.71 14.76 16 11.72 16 8.13 16 3.64 12.42 0 8 0Z'/%3E%3C/svg%3E");
+}
+
+/* Respect reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .livePreview,
+  .viewCode,
+  .projectCard1:hover .projectImg1 {
+    transition: none !important;
+    transform: none !important;
+  }
+}
+.livePreview::before {
+  content: "";
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  background-repeat: no-repeat;
+  background-size: 16px 16px;
+  /* Monitor with play icon using currentColor */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='4' width='18' height='12' rx='2' ry='2'/%3E%3Cpath d='M10 9l5 3-5 3z' fill='currentColor' stroke='none'/%3E%3Cpath d='M8 20h8' opacity='.6'/%3E%3C/svg%3E");
+}
 /* ProjectCard1Parent container */
 .projectCard1Parent {
   width: 100%;
@@ -64,20 +94,113 @@
   border-radius: 20px;
 }
 
-.livePreview {
+.actions {
   position: absolute;
-  top: 91.05%;
-  left: 16%;
-  text-decoration: underline;
-  line-height: 26px;
+  left: 0;
+  right: 0;
+  bottom: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  padding: 0 10px;
+  z-index: 2;
+  /* Constrain width to reduce perceived gap between buttons */
+  max-width: var(--actions-row-width, 78%);
+  margin: 0 auto;
+}
+
+.leftAction,
+.rightAction {
+  flex: 1 1 0;
+}
+
+.leftAction {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.rightAction {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.livePreview {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 9999px;
+  text-decoration: none;
+  line-height: 1;
+  font-weight: 500;
+  font-size: 14px;
+  color: var(--btn-live-text, #0b3a2b);
+  background: linear-gradient(
+    180deg,
+    var(--btn-live-bg-start, #f1fff8) 0%,
+    var(--btn-live-bg-end, #e9fff5) 100%
+  );
+  border: 1px solid var(--btn-live-border, rgba(11, 58, 43, 0.12));
+  box-shadow: 0 1px 3px var(--btn-live-shadow, rgba(16, 185, 129, 0.12));
+  transition: transform 0.15s ease, box-shadow 0.2s ease, background 0.2s ease;
+  -webkit-backdrop-filter: saturate(1.2);
+  backdrop-filter: saturate(1.2);
+}
+
+.livePreview:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px var(--btn-live-shadow-hover, rgba(16, 185, 129, 0.16));
+}
+
+.livePreview:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 3px var(--btn-live-shadow-active, rgba(16, 185, 129, 0.18)) inset;
+}
+
+.livePreview:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.35);
 }
 
 .viewCode {
-  position: absolute;
-  top: 91.05%;
-  left: 62.93%;
-  text-decoration: underline;
-  line-height: 26px;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 9999px;
+  text-decoration: none;
+  line-height: 1;
+  font-weight: 500;
+  font-size: 14px;
+  color: var(--btn-code-text, #102a43);
+  background: linear-gradient(
+    180deg,
+    var(--btn-code-bg-start, #f3f6ff) 0%,
+    var(--btn-code-bg-end, #eef2ff) 100%
+  );
+  border: 1px solid var(--btn-code-border, rgba(16, 42, 67, 0.12));
+  box-shadow: 0 1px 3px var(--btn-code-shadow, rgba(59, 130, 246, 0.12));
+  transition: transform 0.15s ease, box-shadow 0.2s ease, background 0.2s ease;
+  -webkit-backdrop-filter: saturate(1.2);
+  backdrop-filter: saturate(1.2);
+}
+
+.viewCode:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px var(--btn-code-shadow-hover, rgba(59, 130, 246, 0.16));
+}
+
+.viewCode:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 3px var(--btn-code-shadow-active, rgba(59, 130, 246, 0.18)) inset;
+}
+
+.viewCode:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.35);
 }
 
 .projectImg1 {
@@ -146,24 +269,13 @@
   gap: 8px; /* Add spacing between tech stack items */
 }
 
+/* Hide legacy decorative icons to prevent overlap with new buttons */
 .githubIcon {
-  position: absolute;
-  height: 20px;
-  width: 20px;
-  top: 92%;
-  right: 40%;
-  bottom: 5%;
-  left: 55%;
+  display: none;
 }
 
 .previewIcon1 {
-  position: absolute;
-  height: 15px;
-  width: 15px;
-  top: 92%;
-  right: 87%;
-  bottom: 5%;
-  left: 9%;
+  display: none;
 }
 
 /* Media query for small screens */
@@ -188,5 +300,18 @@
   }
   .techStackContainer {
     top: 84%;
+  }
+
+  .actions {
+    bottom: 12px;
+    gap: 8px;
+  }
+}
+
+/* Responsive: slightly wider row on small screens to avoid overlap */
+@media (max-width: 480px) {
+  .actions {
+    max-width: 92%;
+    padding: 0 12px;
   }
 }

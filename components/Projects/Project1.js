@@ -51,28 +51,34 @@ const ProjectCard = React.memo(({ project, frameStyles, theme }) => {
       <div
         className={`${commonStyles.projectCard1Child} ${frameStyles.projectCard1Child}`}
       />
-      {String(project?.links?.live || "").trim() && (
-        <a
-          className={`${commonStyles.livePreview} ${frameStyles.livePreview}`}
-          href={project.links.live}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label={`Live Preview of ${project.title}`}
-        >
-          Live Preview
-        </a>
-      )}
-      {String(project?.links?.github || "").trim() && (
-        <a
-          className={`${commonStyles.viewCode} ${frameStyles.viewCode}`}
-          href={project.links.github}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label={`View Code of ${project.title}`}
-        >
-          View Code
-        </a>
-      )}
+      <div className={`${commonStyles.actions}`} onClick={(e) => e.stopPropagation()}>
+        <div className={commonStyles.leftAction}>
+          {String(project?.links?.live || "").trim() && (
+            <a
+              className={`${commonStyles.livePreview} ${frameStyles.livePreview}`}
+              href={project.links.live}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`Live Preview of ${project.title}`}
+            >
+              Live Preview
+            </a>
+          )}
+        </div>
+        <div className={commonStyles.rightAction}>
+          {String(project?.links?.github || "").trim() && (
+            <a
+              className={`${commonStyles.viewCode} ${frameStyles.viewCode}`}
+              href={project.links.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`View Code of ${project.title}`}
+            >
+              View Code
+            </a>
+          )}
+        </div>
+      </div>
       {/* Project image (respects showImage and supports absolute URLs) */}
       {project?.showImage !== false && project?.image ? (
         (() => {
