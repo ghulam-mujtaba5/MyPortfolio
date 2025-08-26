@@ -82,6 +82,7 @@ export default function ArticleForm({
       published: article.published || false,
       featuredOnHome: article.featuredOnHome || false,
       coverImage: article.coverImage || "",
+      coverImageFit: article.coverImageFit || "cover",
       showCoverImage:
         article.showCoverImage !== undefined ? article.showCoverImage : true,
       slug: article.slug || "",
@@ -761,6 +762,23 @@ export default function ArticleForm({
           useImage={watch("showCoverImage")}
           onAltTextChange={handleCoverImageAltChange}
         />
+        <div className={commonStyles.row} style={{ gap: 12, marginTop: 8 }}>
+          <label className={`${commonStyles.label} ${themeStyles.label}`} htmlFor="coverImageFit" style={{ margin: 0 }}>
+            Image fit
+          </label>
+          <select
+            id="coverImageFit"
+            {...register("coverImageFit")}
+            className={`${commonStyles.input} ${themeStyles.input}`}
+            style={{ maxWidth: 220 }}
+          >
+            <option value="cover">cover</option>
+            <option value="contain">contain</option>
+            <option value="fill">fill</option>
+            <option value="none">none</option>
+            <option value="scale-down">scale-down</option>
+          </select>
+        </div>
         {errors.coverImage && (
           <p className={`${commonStyles.error} ${themeStyles.error}`}>
             {errors.coverImage.message}

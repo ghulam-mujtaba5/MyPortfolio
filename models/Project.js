@@ -25,6 +25,11 @@ const ProjectSchema = new mongoose.Schema(
       type: String, // URL to the image from upload or direct link
       default: "",
     },
+    imageFit: {
+      type: String,
+      enum: ["contain", "cover", "fill", "none", "scale-down"],
+      default: undefined,
+    },
     showImage: {
       type: Boolean,
       default: true,

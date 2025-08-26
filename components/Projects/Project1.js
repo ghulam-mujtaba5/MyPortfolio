@@ -85,6 +85,7 @@ const ProjectCard = React.memo(({ project, frameStyles, theme }) => {
           const img = String(project.image || "").trim();
           const isExternal = /^https?:\/\//i.test(img) || /^\/\//.test(img) || /^data:image\//i.test(img) || /^blob:/.test(img);
           const src = isExternal ? img : (img.startsWith("/") ? img : `/${img}`);
+          const fit = project?.imageFit || "cover";
           return (
             <Image
               className={`${commonStyles.projectImg1} ${frameStyles.projectImg1}`}
@@ -95,6 +96,7 @@ const ProjectCard = React.memo(({ project, frameStyles, theme }) => {
               loading="lazy"
               // Avoid domain restrictions for live preview assets
               unoptimized={isExternal}
+              style={{ objectFit: fit }}
             />
           );
         })()

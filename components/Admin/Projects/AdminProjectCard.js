@@ -69,6 +69,7 @@ const AdminProjectCard = ({
             alt={`${project.title} preview`}
             className={adminStyles.image}
             fill
+            style={{ objectFit: project?.imageFit || 'cover' }}
           />
         )}
       </div>

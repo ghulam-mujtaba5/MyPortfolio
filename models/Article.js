@@ -13,6 +13,11 @@ const ArticleSchema = new mongoose.Schema(
       type: String,
       trim: true,
     },
+    coverImageFit: {
+      type: String,
+      enum: ["contain", "cover", "fill", "none", "scale-down"],
+      default: undefined,
+    },
     showCoverImage: {
       type: Boolean,
       default: true,

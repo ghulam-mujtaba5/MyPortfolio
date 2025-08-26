@@ -14,6 +14,7 @@ const ArticleCard = ({ article, highlight }) => {
 
   const href = `/articles/${article.slug}`;
   const img = article.coverImage || "/project-2.png";
+  const imgFit = article.coverImageFit || "cover";
   const date = article.createdAt ? new Date(article.createdAt) : null;
 
   const goToDetail = () => router.push(href);
@@ -47,6 +48,7 @@ const ArticleCard = ({ article, highlight }) => {
             priority
             sizes="(max-width: 768px) 100vw, 420px"
             className={base.image}
+            style={{ objectFit: imgFit }}
           />
         </div>
       </Link>

@@ -49,6 +49,7 @@ function ProjectForm({
       "links.live": project.links?.live === "#" ? "" : (project.links?.live || ""),
       "links.github": project.links?.github === "#" ? "" : (project.links?.github || ""),
       image: project.image === "#" ? "" : (project.image || ""),
+      imageFit: project.imageFit || "cover",
       showImage: project.showImage !== undefined ? project.showImage : true,
       published: project.published || false,
       featuredOnHome: project.featuredOnHome || false,
@@ -393,6 +394,23 @@ function ProjectForm({
           onImageUsageChange={handleImageUsageChange}
           useImage={watch("showImage")}
         />
+        <div className={commonStyles.row} style={{ gap: 12, marginTop: 8 }}>
+          <label className={`${commonStyles.label} ${themeStyles.label}`} htmlFor="imageFit" style={{ margin: 0 }}>
+            Image fit
+          </label>
+          <select
+            id="imageFit"
+            {...register("imageFit")}
+            className={`${commonStyles.input} ${themeStyles.input}`}
+            style={{ maxWidth: 220 }}
+          >
+            <option value="cover">cover</option>
+            <option value="contain">contain</option>
+            <option value="fill">fill</option>
+            <option value="none">none</option>
+            <option value="scale-down">scale-down</option>
+          </select>
+        </div>
         {errors.image && (
           <p className={commonStyles.error}>{errors.image.message}</p>
         )}
