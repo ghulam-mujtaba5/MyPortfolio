@@ -147,6 +147,22 @@ export default function ArticleDetailPage({ article, preview }) {
           property="og:url"
           content={`https://ghulammujtaba.com/articles/${article.slug}`}
         />
+        {((article && (article.createdAt || article.publishAt)) || article?.updatedAt) && (
+          <>
+            {article && (article.createdAt || article.publishAt) && (
+              <meta
+                property="article:published_time"
+                content={new Date(article.createdAt || article.publishAt).toISOString()}
+              />
+            )}
+            {article?.updatedAt && (
+              <meta
+                property="article:modified_time"
+                content={new Date(article.updatedAt).toISOString()}
+              />
+            )}
+          </>
+        )}
 
         {/* Twitter */}
         <meta property="twitter:card" content="summary_large_image" />
@@ -161,6 +177,10 @@ export default function ArticleDetailPage({ article, preview }) {
         <meta
           property="twitter:image"
           content={makeAbsolute(article.ogImage || article.coverImage)}
+        />
+        <meta
+          property="twitter:url"
+          content={`https://ghulammujtaba.com/articles/${article.slug}`}
         />
 
         {/* JSON-LD: Article schema for rich results */}
