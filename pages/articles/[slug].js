@@ -17,8 +17,11 @@ import darkStyles from "../../components/Articles/ArticleDetailPage.dark.module.
 export default function ArticleDetailPage({ article, preview }) {
   const { theme } = useTheme();
   const [progress, setProgress] = useState(0);
+  const [shareOpen, setShareOpen] = useState(false);
+  const [copied, setCopied] = useState(false);
   const articleRef = useRef(null);
   const t = theme === "dark" ? darkStyles : lightStyles;
+  const articleUrl = `https://ghulammujtaba.com/articles/${article?.slug}`;
 
   // Ensure all image URLs are absolute for OG/Twitter and JSON-LD
   const makeAbsolute = (url) => {
@@ -315,19 +318,125 @@ export default function ArticleDetailPage({ article, preview }) {
                   ))}
                 </div>
               )}
-            <div className={baseStyles.shareBar}>
+            <div className={baseStyles.shareBar} style={{ position: "relative", display: "inline-block" }}>
               <button
                 className={`${baseStyles.shareBtn} ${t.shareBtn || ""}`}
                 aria-label="Share this article"
+                aria-haspopup="menu"
+                aria-expanded={shareOpen ? "true" : "false"}
                 title="Share"
-                onClick={() => handleShare(article)}
-                style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", width: 40, height: 40, padding: 0 }}
+                onClick={async () => {
+                  try {
+                    if (typeof navigator !== "undefined" && navigator.share) {
+                      await navigator.share({
+                        title: article.metaTitle || article.title,
+                        text: article.excerpt || article.title,
+                        url: articleUrl,
+                      });
+                      return;
+                    }
+                  } catch (_) {}
+                  setShareOpen((v) => !v);
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    setShareOpen((v) => !v);
+                  }
+                  if (e.key === "Escape") setShareOpen(false);
+                }}
+                style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", width: 44, height: 44, padding: 0, borderRadius: 9999 }}
               >
-                {/* Share icon */}
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                  <path d="M18 8a3 3 0 1 0-2.83-4H15a3 3 0 0 0 .35 1.4l-7.2 4.16a3 3 0 1 0 0 4.88l7.2 4.16A3 3 0 0 0 15 20h.17A3 3 0 1 0 18 18a2.99 2.99 0 0 0-1.82.62l-7.2-4.16c.01-.15.01-.31 0-.46l7.2-4.16C16.2 10.63 17.06 11 18 11a3 3 0 0 0 0-6Z" fill="currentColor"/>
+                {/* Modern share icon */}
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <path d="M15 4h5v5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                  <path d="M10 14L20 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                  <path d="M20 14v5a1 1 0 0 1-1 1h-5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
               </button>
+              {shareOpen && (
+                <div
+                  role="menu"
+                  aria-label="Share options"
+                  style={{
+                    position: "absolute",
+                    top: 52,
+                    right: 0,
+                    background: theme === "dark" ? "#2a2f36" : "#fff",
+                    color: theme === "dark" ? "#e5e7eb" : "#111827",
+                    border: theme === "dark" ? "1px solid #3b4250" : "1px solid #e5e7eb",
+                    borderRadius: 10,
+                    boxShadow: theme === "dark" ? "0 10px 30px rgba(0,0,0,.5)" : "0 10px 30px rgba(0,0,0,.1)",
+                    padding: 8,
+                    minWidth: 220,
+                    zIndex: 10,
+                  }}
+                >
+                  <button
+                    role="menuitem"
+                    onClick={() => {
+                      handleCopy(articleUrl);
+                      setCopied(true);
+                      setTimeout(() => setCopied(false), 1500);
+                      setShareOpen(false);
+                    }}
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 8,
+                      width: "100%",
+                      padding: "8px 10px",
+                      borderRadius: 8,
+                      cursor: "pointer",
+                      background: "transparent",
+                      border: 0,
+                      color: "inherit",
+                    }}
+                  >
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                      <rect x="9" y="9" width="12" height="12" rx="2" stroke="currentColor" strokeWidth="1.5"/>
+                      <rect x="3" y="3" width="12" height="12" rx="2" stroke="currentColor" strokeWidth="1.5"/>
+                    </svg>
+                    {copied ? "Copied!" : "Copy link"}
+                  </button>
+                  <a
+                    role="menuitem"
+                    href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(articleUrl)}&text=${encodeURIComponent(article.metaTitle || article.title)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{ display: "block", padding: "8px 10px", borderRadius: 8, textDecoration: "none", color: "inherit" }}
+                  >
+                    Share on X (Twitter)
+                  </a>
+                  <a
+                    role="menuitem"
+                    href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(articleUrl)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{ display: "block", padding: "8px 10px", borderRadius: 8, textDecoration: "none", color: "inherit" }}
+                  >
+                    Share on LinkedIn
+                  </a>
+                  <a
+                    role="menuitem"
+                    href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(articleUrl)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{ display: "block", padding: "8px 10px", borderRadius: 8, textDecoration: "none", color: "inherit" }}
+                  >
+                    Share on Facebook
+                  </a>
+                  <a
+                    role="menuitem"
+                    href={`https://api.whatsapp.com/send?text=${encodeURIComponent((article.metaTitle || article.title) + " " + articleUrl)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{ display: "block", padding: "8px 10px", borderRadius: 8, textDecoration: "none", color: "inherit" }}
+                  >
+                    Share on WhatsApp
+                  </a>
+                </div>
+              )}
             </div>
           </section>
 
