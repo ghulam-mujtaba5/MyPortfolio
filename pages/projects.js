@@ -122,7 +122,7 @@ const ProjectsPage = ({ projects = [], projectsError = null }) => {
         />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://ghulammujtaba.com/projects" />
-        <meta property="og:image" content="/og-image.png" />
+        <meta property="og:image" content="https://ghulammujtaba.com/og-image.png" />
         {/* Twitter Card Meta Tags */}
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="Projects | Ghulam Mujtaba" />
@@ -130,13 +130,37 @@ const ProjectsPage = ({ projects = [], projectsError = null }) => {
           name="twitter:description"
           content="Showcase of advanced, modern, and professional projects by Ghulam Mujtaba. Explore software, web, mobile, AI, data science, and UI/UX work."
         />
-        <meta name="twitter:image" content="/og-image.png" />
+        <meta name="twitter:image" content="https://ghulammujtaba.com/og-image.png" />
         {/* Canonical URL */}
         <link rel="canonical" href="https://ghulammujtaba.com/projects" />
         {/* JSON-LD Structured Data for Projects */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: jsonLd }}
+        />
+        {/* JSON-LD Breadcrumbs */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "BreadcrumbList",
+              itemListElement: [
+                {
+                  "@type": "ListItem",
+                  position: 1,
+                  name: "Home",
+                  item: "https://ghulammujtaba.com/",
+                },
+                {
+                  "@type": "ListItem",
+                  position: 2,
+                  name: "Projects",
+                  item: "https://ghulammujtaba.com/projects",
+                },
+              ],
+            }),
+          }}
         />
       </Head>
       <div

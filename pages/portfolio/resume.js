@@ -12,10 +12,10 @@ const ResumePage = ({ resume }) => {
       <SEO
         title="Ghulam Mujtaba's Resume | Software Engineer"
         description="Explore my professional journey and skills in detail as a Software Engineer specializing in emerging technologies on my resume page."
-        url="https://ghulammujtaba.com/portfolio/resume"
+        url="https://ghulammujtaba.com/resume"
         image="https://ghulammujtaba.com/og-image.png"
         type="profile"
-        canonical="https://ghulammujtaba.com/portfolio/resume"
+        canonical="https://ghulammujtaba.com/resume"
         keywords="Ghulam Mujtaba, Resume, Software Engineer, Portfolio, Skills, Experience"
       >
         <script
@@ -25,7 +25,7 @@ const ResumePage = ({ resume }) => {
               '@context': 'http://schema.org',
               '@type': 'Person',
               name: 'Ghulam Mujtaba',
-              url: 'https://ghulammujtaba.com/portfolio/resume',
+              url: 'https://ghulammujtaba.com/resume',
               sameAs: [
                 'https://www.linkedin.com/in/ghulamujtabaofficial',
                 'https://www.instagram.com/ghulamujtabaofficial/',
@@ -39,6 +39,20 @@ const ResumePage = ({ resume }) => {
               },
               image: 'https://ghulammujtaba.com/og-image.png',
             }),
+          }}
+        />
+        {/* JSON-LD: Breadcrumbs */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'BreadcrumbList',
+              itemListElement: [
+                { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://ghulammujtaba.com/' },
+                { '@type': 'ListItem', position: 2, name: 'Resume', item: 'https://ghulammujtaba.com/resume' }
+              ]
+            })
           }}
         />
       </SEO>

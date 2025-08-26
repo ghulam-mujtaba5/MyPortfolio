@@ -1,4 +1,3 @@
-
 const isCI = process.env.VERCEL === "1" || String(process.env.CI).toLowerCase() === "true";
 
 module.exports = {
@@ -14,6 +13,8 @@ module.exports = {
     "/admin/*",
     "/api/*",
     "/softbuilt/admin/*",
+    "/sitemap.xml",
+    "/sitemap-dynamic.xml",
   ],
   // Optional robots rules if next-sitemap generates robots.txt
   robotsTxtOptions: {
@@ -77,6 +78,13 @@ module.exports = {
     // Handle paths for main domain and subdomain
     let fullUrl = config.siteUrl + path; // Default to main site
 
+    // Rewrite portfolio paths to root equivalents to avoid duplicate URLs
+    if (path === "/portfolio") {
+      fullUrl = `${config.siteUrl}/`;
+    } else if (path.startsWith("/portfolio/")) {
+      fullUrl = config.siteUrl + path.replace(/^\/portfolio/, "");
+    }
+
     // Custom frequency and priority settings for specific paths
     if (path === "/resume") {
       changefreq = "weekly";
@@ -97,4 +105,5 @@ module.exports = {
     };
   },
 };
+
 

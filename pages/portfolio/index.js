@@ -49,7 +49,7 @@ const Home = ({ previewProjects = [], previewArticles = [] }) => {
         url="https://ghulammujtaba.com"
         image="https://ghulammujtaba.com/og-image.png"
         type="website"
-        canonical="https://ghulammujtaba.com/portfolio"
+        canonical="https://ghulammujtaba.com/"
         keywords="Ghulam Mujtaba, Portfolio, Developer, Data Scientist, AI, Pakistan"
       >
         <script
@@ -71,6 +71,24 @@ const Home = ({ previewProjects = [], previewArticles = [] }) => {
                 addressCountry: "PK",
               },
               image: "https://ghulammujtaba.com/og-image.png",
+            }),
+          }}
+        />
+        {/* Organization schema to complement Person */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              name: "Ghulam Mujtaba",
+              url: "https://ghulammujtaba.com",
+              logo: "https://ghulammujtaba.com/og-image.png",
+              sameAs: [
+                "https://www.linkedin.com/in/ghulamujtabaofficial",
+                "https://github.com/ghulam-mujtaba5",
+                "https://www.instagram.com/ghulamujtabaofficial/"
+              ]
             }),
           }}
         />

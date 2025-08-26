@@ -162,6 +162,32 @@ export default function ArticlesPage() {
         canonical="https://ghulammujtaba.com/articles"
         keywords="Articles, Blog, Ghulam Mujtaba, Software, Data Science, AI"
       />
+      <Head>
+        {/* JSON-LD: Breadcrumbs for Articles list */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "BreadcrumbList",
+              itemListElement: [
+                {
+                  "@type": "ListItem",
+                  position: 1,
+                  name: "Home",
+                  item: "https://ghulammujtaba.com/",
+                },
+                {
+                  "@type": "ListItem",
+                  position: 2,
+                  name: "Articles",
+                  item: "https://ghulammujtaba.com/articles",
+                },
+              ],
+            }),
+          }}
+        />
+      </Head>
 
       <div
         className={`articles-page-bg ${theme}`}
