@@ -1,6 +1,8 @@
 import Head from "next/head";
 import dynamic from "next/dynamic";
 import { useState, useEffect, useRef } from "react";
+import { useTheme } from "../../context/ThemeContext";
+import shareStyles from "./ProjectShare.module.css";
 import dbConnect from "../../lib/mongoose";
 import Project from "../../models/Project";
 import ProjectDetail from "../../components/Projects/ProjectDetail";
@@ -27,6 +29,7 @@ function handleCopy(text) {
 }
 
 const ProjectPage = ({ project }) => {
+  const { theme } = useTheme();
   const [isMobile, setIsMobile] = useState(false);
   const [shareOpen, setShareOpen] = useState(false);
   const [shareAnim, setShareAnim] = useState(false);
@@ -209,7 +212,7 @@ const ProjectPage = ({ project }) => {
 
       <main>
         {/* Share bar */}
-        <div ref={shareRef} style={{ position: "relative", display: "flex", justifyContent: "flex-end", padding: "12px 16px" }}>
+        <div ref={shareRef} className={shareStyles.shareBar}>
           <button
             aria-label="Share this project"
             aria-haspopup="menu"
@@ -235,7 +238,7 @@ const ProjectPage = ({ project }) => {
               }
               if (e.key === "Escape") closeShare();
             }}
-            style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", width: 44, height: 44, padding: 0, borderRadius: 9999, border: "1px solid rgba(0,0,0,0.1)" }}
+            className={`${shareStyles.shareButton} ${theme === "dark" ? shareStyles.shareButtonDark : ""}`}
           >
             {/* Modern share icon */}
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -248,22 +251,7 @@ const ProjectPage = ({ project }) => {
             <div
               role="menu"
               aria-label="Share options"
-              style={{
-                position: "absolute",
-                top: 52,
-                right: 16,
-                background: "#fff",
-                color: "#111827",
-                border: "1px solid #e5e7eb",
-                borderRadius: 10,
-                boxShadow: "0 10px 30px rgba(0,0,0,.1)",
-                padding: 8,
-                minWidth: 220,
-                zIndex: 10,
-                transition: "opacity 150ms ease, transform 150ms ease",
-                opacity: shareAnim ? 1 : 0,
-                transform: shareAnim ? "scale(1) translateY(0px)" : "scale(0.98) translateY(-4px)",
-              }}
+              className={`${shareStyles.shareMenu} ${theme === "dark" ? shareStyles.shareMenuDark : ""} ${shareAnim ? shareStyles.shareMenuOpen : ""}`}
             >
               <button
                 role="menuitem"
@@ -273,18 +261,7 @@ const ProjectPage = ({ project }) => {
                   setTimeout(() => setCopied(false), 1500);
                   closeShare();
                 }}
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 8,
-                  width: "100%",
-                  padding: "8px 10px",
-                  borderRadius: 8,
-                  cursor: "pointer",
-                  background: "transparent",
-                  border: 0,
-                  color: "inherit",
-                }}
+                className={`${shareStyles.shareItem} ${shareStyles.copyItem}`}
               >
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                   <rect x="9" y="9" width="12" height="12" rx="2" stroke="currentColor" strokeWidth="1.5"/>
@@ -297,7 +274,7 @@ const ProjectPage = ({ project }) => {
                 href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(projectUrl)}&text=${encodeURIComponent(project.metaTitle || project.title)}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                style={{ display: "block", padding: "8px 10px", borderRadius: 8, textDecoration: "none", color: "inherit" }}
+                className={shareStyles.shareItem}
               >
                 Share on X (Twitter)
               </a>
@@ -306,7 +283,7 @@ const ProjectPage = ({ project }) => {
                 href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(projectUrl)}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                style={{ display: "block", padding: "8px 10px", borderRadius: 8, textDecoration: "none", color: "inherit" }}
+                className={shareStyles.shareItem}
               >
                 Share on LinkedIn
               </a>
@@ -315,7 +292,7 @@ const ProjectPage = ({ project }) => {
                 href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(projectUrl)}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                style={{ display: "block", padding: "8px 10px", borderRadius: 8, textDecoration: "none", color: "inherit" }}
+                className={shareStyles.shareItem}
               >
                 Share on Facebook
               </a>
@@ -324,7 +301,7 @@ const ProjectPage = ({ project }) => {
                 href={`https://api.whatsapp.com/send?text=${encodeURIComponent((project.metaTitle || project.title) + " " + projectUrl)}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                style={{ display: "block", padding: "8px 10px", borderRadius: 8, textDecoration: "none", color: "inherit" }}
+                className={shareStyles.shareItem}
               >
                 Share on WhatsApp
               </a>
