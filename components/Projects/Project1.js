@@ -32,7 +32,7 @@ const ProjectCard = React.memo(({ project, frameStyles, theme }) => {
     if (e.target.closest("a")) return;
 
     // Open the live preview link when clicking the card
-    const live = project?.links?.live;
+    const live = String(project?.links?.live || "").trim();
     if (live) {
       window.open(live, "_blank", "noopener,noreferrer");
     }
@@ -51,24 +51,28 @@ const ProjectCard = React.memo(({ project, frameStyles, theme }) => {
       <div
         className={`${commonStyles.projectCard1Child} ${frameStyles.projectCard1Child}`}
       />
-      <a
-        className={`${commonStyles.livePreview} ${frameStyles.livePreview}`}
-        href={project?.links?.live || "#"}
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label={`Live Preview of ${project.title}`}
-      >
-        Live Preview
-      </a>
-      <a
-        className={`${commonStyles.viewCode} ${frameStyles.viewCode}`}
-        href={project?.links?.github || "#"}
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label={`View Code of ${project.title}`}
-      >
-        View Code
-      </a>
+      {String(project?.links?.live || "").trim() && (
+        <a
+          className={`${commonStyles.livePreview} ${frameStyles.livePreview}`}
+          href={project.links.live}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={`Live Preview of ${project.title}`}
+        >
+          Live Preview
+        </a>
+      )}
+      {String(project?.links?.github || "").trim() && (
+        <a
+          className={`${commonStyles.viewCode} ${frameStyles.viewCode}`}
+          href={project.links.github}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={`View Code of ${project.title}`}
+        >
+          View Code
+        </a>
+      )}
       {/* Project image (respects showImage and supports absolute URLs) */}
       {project?.showImage !== false && project?.image ? (
         (() => {
