@@ -310,7 +310,7 @@ export default function ArticleDetailPage({ article, preview }) {
                   fill
                   priority
                   sizes="100vw"
-                  style={{ objectFit: "cover" }}
+                  style={{ objectFit: article?.coverImageFit || "cover" }}
                 />
               </div>
             )}

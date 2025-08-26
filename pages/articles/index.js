@@ -452,6 +452,7 @@ export async function getServerSideProps({ query }) {
       categories: 1,
       createdAt: 1,
       coverImage: 1,
+      coverImageFit: 1,
       views: 1,
       featuredOnHome: 1,
       ...(useText ? { score: { $meta: "textScore" } } : {}),

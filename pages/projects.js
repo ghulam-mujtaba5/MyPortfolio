@@ -68,6 +68,7 @@ const ProjectsPage = ({ projects = [], projectsError = null }) => {
               title: typeof p?.title === "string" && p.title.trim() ? p.title : "Untitled",
               description: typeof p?.description === "string" ? p.description : "",
               image: typeof p?.image === "string" ? p.image : "",
+              imageFit: typeof p?.imageFit === "string" ? p.imageFit : undefined,
               tags: Array.isArray(p?.tags) ? p.tags : [],
               category: typeof p?.category === "string" && p.category.trim() ? p.category : "Others",
               links: {
@@ -695,6 +696,7 @@ export async function getServerSideProps() {
     title: z.string().min(1).optional(),
     description: z.string().optional(),
     image: z.string().optional(),
+    imageFit: z.enum(["contain", "cover", "fill", "none", "scale-down"]).optional(),
     tags: z.array(z.string()).optional(),
     category: z
       .enum([
@@ -722,6 +724,7 @@ export async function getServerSideProps() {
           title: typeof p?.title === "string" && p.title.trim() ? p.title : "Untitled",
           description: typeof p?.description === "string" ? p.description : "",
           image: typeof p?.image === "string" ? p.image : "",
+          imageFit: typeof p?.imageFit === "string" ? p.imageFit : undefined,
           tags: Array.isArray(p?.tags) ? p.tags : [],
           category: typeof p?.category === "string" && p.category.trim() ? p.category : "Others",
           links: {
@@ -737,6 +740,7 @@ export async function getServerSideProps() {
       title: p.title || "Untitled",
       description: p.description || "",
       image: p.image || "",
+      imageFit: p.imageFit || undefined,
       tags: Array.isArray(p.tags) ? p.tags : [],
       category: p.category || "Others",
       links: { live: p.links?.live || "", github: p.links?.github || "" },
