@@ -12,36 +12,26 @@ import { useTheme } from "../../context/ThemeContext";
 import lightCss from "../../components/Articles/ArticlesListPage.light.module.css";
 import darkCss from "../../components/Articles/ArticlesListPage.dark.module.css";
 import Spinner from "../../components/Spinner/Spinner";
+import dbConnect from "../../lib/dbConnect";
+import Article from "../../models/Article";
 
-export default function ArticlesPage() {
+export default function ArticlesPage({
+  initialArticles = [],
+  initialPagination = { page: 1, totalPages: 1, total: 0, limit: 9 },
+  initialQuery = { search: "", tag: "", sort: "relevance", limit: 9, page: 1, category: "All" },
+}) {
   const { theme } = useTheme();
-  const [articles, setArticles] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [articles, setArticles] = useState(initialArticles);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [pagination, setPagination] = useState({
-    page: 1,
-    totalPages: 1,
-    total: 0,
-  });
+  const [pagination, setPagination] = useState(initialPagination);
 
   const router = useRouter();
-  const page = useMemo(
-    () => Number(router.query.page || 1),
-    [router.query.page],
-  );
-  const limit = useMemo(
-    () => Number(router.query.limit || 9),
-    [router.query.limit],
-  );
-  const search = useMemo(
-    () => String(router.query.search || ""),
-    [router.query.search],
-  );
-  const tag = useMemo(() => String(router.query.tag || ""), [router.query.tag]);
-  const sort = useMemo(
-    () => String(router.query.sort || "relevance"),
-    [router.query.sort],
-  );
+  const page = useMemo(() => Number(router.query.page || initialQuery.page || 1), [router.query.page, initialQuery.page]);
+  const limit = useMemo(() => Number(router.query.limit || initialQuery.limit || 9), [router.query.limit, initialQuery.limit]);
+  const search = useMemo(() => String(router.query.search ?? initialQuery.search ?? ""), [router.query.search, initialQuery.search]);
+  const tag = useMemo(() => String(router.query.tag ?? initialQuery.tag ?? ""), [router.query.tag, initialQuery.tag]);
+  const sort = useMemo(() => String(router.query.sort || initialQuery.sort || "relevance"), [router.query.sort, initialQuery.sort]);
 
   // Local UI state for search input with debounce
   const [q, setQ] = useState(search);
@@ -53,7 +43,7 @@ export default function ArticlesPage() {
         const newQuery = { ...router.query };
         if (q) newQuery.search = q; else delete newQuery.search;
         newQuery.page = 1;
-        router.push({ pathname: "/articles", query: newQuery }, undefined, { shallow: true });
+        router.push({ pathname: "/articles", query: newQuery });
       }
     }, 400);
     return () => clearTimeout(id);
@@ -71,7 +61,7 @@ export default function ArticlesPage() {
     ],
     [],
   );
-  const [selectedCategory, setSelectedCategory] = useState("All");
+  const [selectedCategory, setSelectedCategory] = useState(initialQuery.category || "All");
 
   // Normalize and map raw category strings to one of our 5 display buckets
   const mapToBucket = (label) => {
@@ -92,13 +82,13 @@ export default function ArticlesPage() {
     });
   }, [articles, selectedCategory]);
 
-  // Initialize from URL on first load and when URL changes
+  // Keep selectedCategory in sync with URL changes (SSR navigations)
   useEffect(() => {
-    const raw = String(router.query.category || "").trim();
-    if (!raw) return; // keep default "All"
+    const raw = String(router.query.category || initialQuery.category || "").trim();
+    if (!raw) return; // keep default
     const b = mapToBucket(raw);
     if (b !== selectedCategory) setSelectedCategory(b);
-  }, [router.query.category]);
+  }, [router.query.category, initialQuery.category]);
 
   const handleSelectCategory = (cat) => {
     setSelectedCategory(cat);
@@ -107,42 +97,15 @@ export default function ArticlesPage() {
     else delete newQuery.category;
     // Reset to page 1 when changing filters
     newQuery.page = 1;
-    router.push({ pathname: "/articles", query: newQuery }, undefined, { shallow: true });
+    router.push({ pathname: "/articles", query: newQuery });
   };
 
   const handleSortChange = (e) => {
     const val = e.target.value;
     const newQuery = { ...router.query, sort: val, page: 1 };
-    router.push({ pathname: "/articles", query: newQuery }, undefined, { shallow: true });
+    router.push({ pathname: "/articles", query: newQuery });
   };
-
-  useEffect(() => {
-    async function load() {
-      try {
-        const qs = new URLSearchParams({
-          page: String(page),
-          limit: String(limit),
-          search,
-          tag,
-          // pass category to API except for "All"
-          ...(selectedCategory && selectedCategory !== "All"
-            ? { category: selectedCategory }
-            : {}),
-          sort,
-        });
-        const res = await fetch(`/api/articles?${qs.toString()}`);
-        const data = await res.json();
-        if (!res.ok) throw new Error(data.error || "Failed to load articles");
-        setArticles(data.articles || data.items || []);
-        if (data.pagination) setPagination(data.pagination);
-      } catch (e) {
-        setError(e.message);
-      } finally {
-        setLoading(false);
-      }
-    }
-    load();
-  }, [page, limit, search, tag, sort, selectedCategory]);
+  // Data comes from SSR. Client transitions trigger full SSR navigations above.
 
   const sections = [
     { label: "Home", route: "/#home-section" },
@@ -271,7 +234,6 @@ export default function ArticlesPage() {
               ))}
             </div>
           )}
-
           {error && <p style={{ color: "#ef4444" }}>Error: {error}</p>}
 
           {/* Category filter bar */}
@@ -427,4 +389,124 @@ export default function ArticlesPage() {
       `}</style>
     </>
   );
+}
+
+export async function getServerSideProps({ query }) {
+  try {
+    await dbConnect();
+
+    const {
+      limit = "9",
+      page = "1",
+      q = "",
+      search = "",
+      tag = "",
+      category = "",
+      sort = "relevance",
+    } = query || {};
+
+    const pageSize = Math.min(parseInt(limit, 10) || 9, 100);
+    const pageNum = Math.max(1, parseInt(page, 10) || 1);
+    const effectiveSearch = String(search || q || "").trim();
+    const skip = (pageNum - 1) * pageSize;
+
+    const now = new Date();
+    const baseFilter = {
+      published: true,
+      $or: [{ publishAt: null }, { publishAt: { $lte: now } }],
+    };
+    if (tag) {
+      baseFilter.tags = tag;
+    }
+    if (category) {
+      const cat = String(category);
+      const bucket = cat.toLowerCase();
+      const makeRegexes = (parts) => parts.map((p) => new RegExp(p, "i"));
+      if (bucket !== "all" && bucket !== "others") {
+        let regexes = [];
+        if (bucket.includes("academic") || bucket.includes("learning")) {
+          regexes = makeRegexes(["academic", "learning"]);
+        } else if (bucket.includes("project") || bucket.includes("career")) {
+          regexes = makeRegexes(["project", "career"]);
+        } else if (bucket.includes("engineer") || bucket.includes("development")) {
+          regexes = makeRegexes(["engineer", "development"]);
+        } else if (bucket.includes("tech") || bucket.includes("trend")) {
+          regexes = makeRegexes(["tech", "trend"]);
+        } else {
+          regexes = [new RegExp(cat.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "i")];
+        }
+        if (regexes.length > 0) {
+          baseFilter.categories = { $in: regexes };
+        }
+      }
+    }
+
+    const useText = !!effectiveSearch;
+    const filter = useText ? { ...baseFilter, $text: { $search: effectiveSearch } } : baseFilter;
+
+    const projection = {
+      title: 1,
+      slug: 1,
+      excerpt: 1,
+      tags: 1,
+      categories: 1,
+      createdAt: 1,
+      coverImage: 1,
+      views: 1,
+      featuredOnHome: 1,
+      ...(useText ? { score: { $meta: "textScore" } } : {}),
+    };
+
+    let sortOrder;
+    switch (sort) {
+      case "views":
+        sortOrder = { views: -1, createdAt: -1 };
+        break;
+      case "newest":
+        sortOrder = { createdAt: -1 };
+        break;
+      case "oldest":
+        sortOrder = { createdAt: 1 };
+        break;
+      case "relevance":
+      default:
+        sortOrder = useText ? { score: { $meta: "textScore" }, createdAt: -1 } : { createdAt: -1 };
+        break;
+    }
+
+    const [items, total] = await Promise.all([
+      Article.find(filter).select(projection).sort(sortOrder).skip(skip).limit(pageSize).lean(),
+      Article.countDocuments(filter),
+    ]);
+
+    const totalPages = Math.max(1, Math.ceil(total / pageSize));
+    const serialized = (items || []).map((a) => ({
+      ...a,
+      _id: a._id?.toString?.() || a._id,
+      createdAt: a.createdAt ? new Date(a.createdAt).toISOString() : null,
+    }));
+
+    return {
+      props: {
+        initialArticles: serialized,
+        initialPagination: { page: pageNum, totalPages, total, limit: pageSize },
+        initialQuery: {
+          search: effectiveSearch,
+          tag: String(tag || ""),
+          sort: String(sort || "relevance"),
+          limit: pageSize,
+          page: pageNum,
+          category: String(category || "All"),
+        },
+      },
+    };
+  } catch (e) {
+    return {
+      props: {
+        initialArticles: [],
+        initialPagination: { page: 1, totalPages: 1, total: 0, limit: 9 },
+        initialQuery: { search: "", tag: "", sort: "relevance", limit: 9, page: 1, category: "All" },
+      },
+    };
+  }
 }
