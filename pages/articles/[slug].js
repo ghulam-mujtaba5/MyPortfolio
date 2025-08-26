@@ -373,11 +373,13 @@ export default function ArticleDetailPage({ article, preview }) {
                 }}
                 style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", width: 44, height: 44, padding: 0, borderRadius: 9999 }}
               >
-                {/* Modern share icon */}
+                {/* Share-2 icon (three connected nodes) using currentColor */}
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                  <path d="M15 4h5v5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                  <path d="M10 14L20 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                  <path d="M20 14v5a1 1 0 0 1-1 1h-5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                  <circle cx="18" cy="5" r="3" stroke="currentColor" strokeWidth="1.8" />
+                  <circle cx="6" cy="12" r="3" stroke="currentColor" strokeWidth="1.8" />
+                  <circle cx="18" cy="19" r="3" stroke="currentColor" strokeWidth="1.8" />
+                  <path d="M8.6 13.5l6.8 4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+                  <path d="M15.4 6.5L8.6 10.5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
               </button>
               {shareOpen && (
