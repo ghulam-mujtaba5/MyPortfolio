@@ -2,8 +2,22 @@ import dbConnect from "../lib/mongoose";
 import Article from "../models/Article";
 import Project from "../models/Project";
 
+// Skip DB work in CI/Vercel build environments to avoid timeouts on cold starts
+const isCI = process.env.VERCEL === "1" || String(process.env.CI).toLowerCase() === "true";
+
 export async function getServerSideProps({ res }) {
   try {
+    // If running in CI or environments where DB access isn't guaranteed, return an empty but valid sitemap.
+    if (isCI) {
+      const emptyXml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"></urlset>`;
+      res.setHeader("Content-Type", "application/xml");
+      res.setHeader("Cache-Control", "public, s-maxage=600, stale-while-revalidate=600"); // 10m cache
+      res.statusCode = 200;
+      res.write(emptyXml);
+      res.end();
+      return { props: {} };
+    }
+
     await dbConnect();
 
     const [articles, projects] = await Promise.all([
@@ -66,3 +80,4 @@ export default function SiteMap() {
   // getServerSideProps will handle the response
   return null;
 }
+

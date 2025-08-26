@@ -2,7 +2,7 @@ const isCI = process.env.VERCEL === "1" || String(process.env.CI).toLowerCase() 
 
 module.exports = {
   siteUrl: "https://ghulammujtaba.com", // Main site URL (HTTPS)
-  generateRobotsTxt: true, // Generate robots.txt file
+  generateRobotsTxt: false, // Use manual public/robots.txt; do not overwrite
   // IMPORTANT: prevent generating public/sitemap.xml because we serve it via pages/sitemap.xml.js
   // This makes next-sitemap emit sitemap files using a different base filename.
   generateIndexSitemap: false,

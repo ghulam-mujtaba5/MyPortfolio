@@ -11,4 +11,4 @@ Disallow: /api/
 Host: https://ghulammujtaba.com
 
 # Sitemaps
-Sitemap: https://ghulammujtaba.com/sitemap-0.xml
+Sitemap: https://ghulammujtaba.com/sitemap.xml
