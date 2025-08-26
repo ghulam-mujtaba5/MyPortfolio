@@ -19,9 +19,35 @@ export default function ArticleDetailPage({ article, preview }) {
   const [progress, setProgress] = useState(0);
   const [shareOpen, setShareOpen] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [shareAnim, setShareAnim] = useState(false);
   const articleRef = useRef(null);
+  const shareRef = useRef(null);
   const t = theme === "dark" ? darkStyles : lightStyles;
   const articleUrl = `https://ghulammujtaba.com/articles/${article?.slug}`;
+
+  // Helpers to open/close popup with animation
+  const openShare = () => {
+    setShareOpen(true);
+    // start animation next frame
+    requestAnimationFrame(() => setShareAnim(true));
+  };
+  const closeShare = () => {
+    setShareAnim(false);
+    setTimeout(() => setShareOpen(false), 150); // match transition duration
+  };
+
+  // Click-outside to close share popup
+  useEffect(() => {
+    function onDocClick(e) {
+      if (!shareOpen) return;
+      const node = shareRef.current;
+      if (node && !node.contains(e.target)) {
+        closeShare();
+      }
+    }
+    document.addEventListener("mousedown", onDocClick);
+    return () => document.removeEventListener("mousedown", onDocClick);
+  }, [shareOpen]);
 
   // Ensure all image URLs are absolute for OG/Twitter and JSON-LD
   const makeAbsolute = (url) => {
@@ -318,7 +344,7 @@ export default function ArticleDetailPage({ article, preview }) {
                   ))}
                 </div>
               )}
-            <div className={baseStyles.shareBar} style={{ position: "relative", display: "inline-block" }}>
+            <div ref={shareRef} className={baseStyles.shareBar} style={{ position: "relative", display: "inline-block" }}>
               <button
                 className={`${baseStyles.shareBtn} ${t.shareBtn || ""}`}
                 aria-label="Share this article"
@@ -336,14 +362,14 @@ export default function ArticleDetailPage({ article, preview }) {
                       return;
                     }
                   } catch (_) {}
-                  setShareOpen((v) => !v);
+                  if (!shareOpen) openShare(); else closeShare();
                 }}
                 onKeyDown={(e) => {
                   if (e.key === "Enter" || e.key === " ") {
                     e.preventDefault();
-                    setShareOpen((v) => !v);
+                    if (!shareOpen) openShare(); else closeShare();
                   }
-                  if (e.key === "Escape") setShareOpen(false);
+                  if (e.key === "Escape") closeShare();
                 }}
                 style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", width: 44, height: 44, padding: 0, borderRadius: 9999 }}
               >
@@ -370,6 +396,9 @@ export default function ArticleDetailPage({ article, preview }) {
                     padding: 8,
                     minWidth: 220,
                     zIndex: 10,
+                    transition: "opacity 150ms ease, transform 150ms ease",
+                    opacity: shareAnim ? 1 : 0,
+                    transform: shareAnim ? "scale(1) translateY(0px)" : "scale(0.98) translateY(-4px)",
                   }}
                 >
                   <button
@@ -378,7 +407,7 @@ export default function ArticleDetailPage({ article, preview }) {
                       handleCopy(articleUrl);
                       setCopied(true);
                       setTimeout(() => setCopied(false), 1500);
-                      setShareOpen(false);
+                      closeShare();
                     }}
                     style={{
                       display: "flex",
