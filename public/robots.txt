@@ -1,9 +1,8 @@
 # *
 User-agent: *
 Allow: /
-
-# Host
-Host: http://ghulammujtaba.com
+Disallow: /admin/
+Disallow: /api/
 
 # Sitemaps
-Sitemap: http://ghulammujtaba.com/sitemap.xml
+Sitemap: https://ghulammujtaba.com/sitemap.xml

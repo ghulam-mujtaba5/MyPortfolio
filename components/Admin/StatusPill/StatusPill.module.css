@@ -1,0 +1,84 @@
+.pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.625rem;
+  border-radius: 9999px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+.dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  margin-right: 0.5rem;
+}
+
+/* Light Theme Colors */
+.published {
+  background-color: #dcfce7; /* green-100 */
+  color: #166534; /* green-800 */
+}
+.published .dot {
+  background-color: #22c55e; /* green-500 */
+}
+
+.draft {
+  background-color: #f3f4f6; /* gray-100 */
+  color: #374151; /* gray-700 */
+}
+.draft .dot {
+  background-color: #6b7280; /* gray-500 */
+}
+
+.scheduled {
+  background-color: #e0e7ff; /* indigo-100 */
+  color: #3730a3; /* indigo-800 */
+}
+.scheduled .dot {
+  background-color: #6366f1; /* indigo-500 */
+}
+
+.home {
+  background-color: #e0f2fe; /* sky-100 */
+  color: #075985; /* sky-800 */
+}
+.home .dot {
+  background-color: #38bdf8; /* sky-400 */
+}
+
+.nothome {
+  background-color: #f3f4f6; /* gray-100 */
+  color: #6b7280; /* gray-500 */
+}
+.nothome .dot {
+  background-color: #9ca3af; /* gray-400 */
+}
+
+/* Dark Theme Overrides */
+@media (prefers-color-scheme: dark) {
+  .published {
+    background-color: #142a1c; /* green-950 */
+    color: #86efac; /* green-400 */
+  }
+  .published .dot {
+    background-color: #4ade80; /* green-400 */
+  }
+
+  .draft {
+    background-color: #1f2937; /* gray-800 */
+    color: #d1d5db; /* gray-300 */
+  }
+  .draft .dot {
+    background-color: #9ca3af; /* gray-400 */
+  }
+
+  .scheduled {
+    background-color: #22253a; /* indigo-950 */
+    color: #a5b4fc; /* indigo-400 */
+  }
+  .scheduled .dot {
+    background-color: #818cf8; /* indigo-400 */
+  }
+}

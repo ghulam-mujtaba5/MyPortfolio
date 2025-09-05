@@ -30,37 +30,29 @@ const nextConfig = {
     return [
       // Redirect www to non-www
       {
-        source: '/:path*',
-        has: [{ type: 'host', value: 'www.ghulammujtaba.com' }],
-        destination: 'https://ghulammujtaba.com/:path*',
-        permanent: true,
-      },
-      // Redirect http to https
-      {
-        source: '/:path*',
+        source: '/:path*',  // Catch all paths
+        destination: '/portfolio/:path*', // Redirect to the portfolio folder for localhost
         has: [
           {
-            type: 'header',
-            key: 'x-forwarded-proto',
-            value: 'http',
+            type: 'host',
+            value: 'www.ghulammujtaba.com', // Main website on localhost
           },
         ],
-        destination: 'https://ghulammujtaba.com/:path*',
-        permanent: true,
       },
-      // Main domain to /portfolio
       {
-        source: '/',
-        has: [{ type: 'host', value: 'ghulammujtaba.com' }],
-        destination: '/portfolio',
-        permanent: true,
+        source: '/:path*', // SoftBuilt subdomain routes
+        destination: '/softbuilt/:path*', // Map to the softbuilt folder
+        has: [
+          {
+            type: 'host',
+            value: 'softbuilt.ghulammujtaba.com', // SoftBuilt subdomain
+          },
+        ],
       },
       // SoftBuilt subdomain to /softbuilt
       {
-        source: '/',
-        has: [{ type: 'host', value: 'softbuilt.ghulammujtaba.com' }],
-        destination: '/softbuilt',
-        permanent: true,
+        source: '/:path*',
+        destination: '/portfolio/:path*',
       },
     ];
   },
@@ -70,7 +62,7 @@ const nextConfig = {
   webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
     // Important: Add support for source maps
     if (!isServer) {
-      config.devtool = 'source-map';
+      config.devtool = "source-map";
     }
 
     // Example: Add any additional webpack plugins or loaders
@@ -81,32 +73,52 @@ const nextConfig = {
   async headers() {
     return [
       {
-        source: '/(.*)',
+        source: "/admin/:path*",
+        headers: [
+          {
+            key: "X-Robots-Tag",
+            value: "noindex, nofollow, noarchive",
+          },
+          {
+            key: "Cache-Control",
+            value: "no-store",
+          },
+        ],
+      },
+      {
+        source: "/(.*)",
         headers: [
           // Content Security Policy (CSP)
           {
-            key: 'Content-Security-Policy',
-            value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://ghulammujtaba.com; connect-src 'self' https://www.google-analytics.com; frame-ancestors 'none'; object-src 'none'; base-uri 'self';"
+            key: "Content-Security-Policy",
+            value:
+              "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; style-src-elem 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: https://ghulammujtaba.com https://www.freepik.com https://img.freepik.com; connect-src 'self' https://www.google-analytics.com; frame-ancestors 'none'; object-src 'none'; base-uri 'self';",
+          },
+          // Report-Only CSP to capture violations without breaking pages
+          {
+            key: "Content-Security-Policy-Report-Only",
+            value:
+              "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; style-src-elem 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: https://ghulammujtaba.com https://www.freepik.com https://img.freepik.com; connect-src 'self' https://www.google-analytics.com; frame-ancestors 'none'; object-src 'none'; base-uri 'self'; report-uri /api/csp-report; report-to csp-endpoint;",
+          },
+          // Reporting API endpoint mapping
+          {
+            key: "Reporting-Endpoints",
+            value: "csp-endpoint=\"/api/csp-report\"",
           },
           // HTTP Strict Transport Security (HSTS)
           {
-            key: 'Strict-Transport-Security',
-            value: 'max-age=63072000; includeSubDomains; preload'
+            key: "Strict-Transport-Security",
+            value: "max-age=63072000; includeSubDomains; preload",
           },
           // Cross-Origin-Opener-Policy (COOP)
           {
-            key: 'Cross-Origin-Opener-Policy',
-            value: 'same-origin'
+            key: "Cross-Origin-Opener-Policy",
+            value: "same-origin",
           },
           // X-Frame-Options (XFO)
           {
-            key: 'X-Frame-Options',
-            value: 'DENY'
-          },
-          // Canonical header for SEO
-          {
-            key: 'Link',
-            value: '<https://ghulammujtaba.com>; rel="canonical"'
+            key: "X-Frame-Options",
+            value: "DENY",
           },
         ],
       },
@@ -115,7 +127,6 @@ const nextConfig = {
 };
 
 module.exports = nextConfig;
-
 
 // //for run on loclhost//
 // /** @type {import('next').NextConfig} */

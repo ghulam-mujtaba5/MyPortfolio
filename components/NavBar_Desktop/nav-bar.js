@@ -1,4 +1,3 @@
-
 import styles from "./nav-bar.module.css";
 import { useState } from "react";
 import { useRouter } from "next/router"; // Import useRouter from Next.js
@@ -13,14 +12,29 @@ const NavBar = () => {
   };
 
   const handleScrollToSection = (sectionId) => {
-    // If on the projects page, navigate to the home page with hash
-    if (router.pathname === '/projects') {
-      router.push('/#' + sectionId);
-    } else {
-      const section = document.getElementById(sectionId);
-      if (section) {
-        section.scrollIntoView({ behavior: "smooth" });
-      }
+    // If not on the home page, navigate to the home page with the hash
+    const basePath =
+      typeof window !== "undefined"
+        ? router.asPath.split("#")[0]
+        : router.pathname;
+    const targetHash = `#${sectionId}`;
+    if (basePath !== "/") {
+      router.push("/" + targetHash);
+      return;
+    }
+    // Already on home: ensure URL hash reflects target, then smooth scroll
+    if (typeof window !== "undefined" && window.location.hash !== targetHash) {
+      // Update hash without a full navigation
+      router.replace("/" + targetHash, undefined, { shallow: true });
+    }
+    // Defer to next frame to ensure DOM focus/URL update before scrolling
+    if (typeof window !== "undefined") {
+      window.requestAnimationFrame(() => {
+        const section = document.getElementById(sectionId);
+        if (section) {
+          section.scrollIntoView({ behavior: "smooth" });
+        }
+      });
     }
   };
 
@@ -29,38 +43,46 @@ const NavBar = () => {
   };
 
   // Determine active/selected state
-  const hash = typeof window !== 'undefined' ? window.location.hash : '';
-  const isProjects = router.pathname === '/projects';
-  const isHome = !isProjects;
-  const isAbout = router.pathname === '/' && hash === '#about-section';
-  const isSkills = router.pathname === '/' && hash === '#languages-section';
-  const isResume = router.pathname === '/resume';
-  const isContact = router.pathname === '/' && hash === '#contact-section';
+  const hash = typeof window !== "undefined" ? window.location.hash : "";
+  // Use asPath (without hash) to correctly detect current route, including dynamic routes
+  const path =
+    typeof window !== "undefined"
+      ? router.asPath.split("#")[0]
+      : router.pathname;
+  const isProjects = path === "/projects";
+  const isHome = path === "/" && (hash === "" || hash === "#home-section");
+  const isAbout = path === "/" && hash === "#about-section";
+  const isResume = path === "/resume";
+  const isArticles = path === "/articles" || path.startsWith("/articles/");
+  const isContact = path === "/" && hash === "#contact-section";
 
   return (
     <header className={styles.header}>
-      {/* Home button */}
-      <button
-        className={`${styles.home} ${isHome ? styles.active : ''}`}
-        onClick={() => handleScrollToSection("home-section")}
-      >
-        <b className={styles.homeText}>Home</b>
-      </button>
+      {/* Left side navigation */}
+      <div className={styles.leftNavigation}>
+        {/* Home button */}
+        <button
+          className={`${styles.home} ${isHome ? styles.active : ""}`}
+          onClick={() => handleScrollToSection("home-section")}
+        >
+          <b className={styles.homeText}>Home</b>
+        </button>
 
-      {/* About section */}
-      <div
-        className={`${styles.about} ${isAbout ? styles.active : ''}`}
-        onClick={() => handleScrollToSection("about-section")}
-      >
-        <div className={styles.aboutText}>About</div>
+        {/* About section */}
+        <div
+          className={`${styles.about} ${isAbout ? styles.active : ""}`}
+          onClick={() => handleScrollToSection("about-section")}
+        >
+          <div className={styles.aboutText}>About</div>
+        </div>
       </div>
 
-      {/* Skills section */}
+      {/* Articles section */}
       <div
-        className={`${styles.skills} ${isSkills ? styles.active : ''}`}
-        onClick={() => handleScrollToSection("languages-section")}
+        className={`${styles.project} ${isArticles ? styles.active : ""}`}
+        onClick={() => handleNavigation("/articles")}
       >
-        <div className={styles.skillsText}>Skills</div>
+        <div className={styles.projectText}>Articles</div>
       </div>
 
       {/* Logo and Name Animation */}
@@ -74,7 +96,7 @@ const NavBar = () => {
             <img
               className={styles.logoIcon}
               alt="Logo"
-              src={hover ? "sb.svg" : "gmVectorDark.svg"}
+              src={hover ? "/sb.svg" : "/gmVectorDark.svg"}
               style={{
                 width: hover ? "30px" : "40px",
                 height: hover ? "30px" : "40px",
@@ -104,25 +126,31 @@ const NavBar = () => {
         </div>
       </Link>
 
-      {/* Resume section */}
-      <div className={`${styles.resume} ${isResume ? styles.active : ''}`} onClick={() => handleNavigation("/resume")}>
-        <div className={styles.resumeText}>Resume</div>
-      </div>
+      {/* Right side navigation */}
+      <div className={styles.rightNavigation}>
+        {/* Resume section */}
+        <div
+          className={`${styles.resume} ${isResume ? styles.active : ""}`}
+          onClick={() => handleNavigation("/resume")}
+        >
+          <div className={styles.resumeText}>Resume</div>
+        </div>
 
-      {/* Project section */}
-      <div
-        className={`${styles.project} ${isProjects ? styles.active : ''}`}
-        onClick={() => handleNavigation("/projects")}
-      >
-        <div className={styles.projectText}>Project</div>
-      </div>
+        {/* Project section */}
+        <div
+          className={`${styles.project} ${isProjects ? styles.active : ""}`}
+          onClick={() => handleNavigation("/projects")}
+        >
+          <div className={styles.projectText}>Projects</div>
+        </div>
 
-      {/* Contact section */}
-      <div
-        className={`${styles.contact} ${isContact ? styles.active : ''}`}
-        onClick={() => handleScrollToSection("contact-section")}
-      >
-        <div className={styles.contactText}>Contact</div>
+        {/* Contact section */}
+        <div
+          className={`${styles.contact} ${isContact ? styles.active : ""}`}
+          onClick={() => handleScrollToSection("contact-section")}
+        >
+          <div className={styles.contactText}>Contact</div>
+        </div>
       </div>
     </header>
   );

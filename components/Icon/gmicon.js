@@ -1,8 +1,13 @@
-
-import React, { useCallback, useMemo, useState, useEffect, useRef } from 'react';
-import { useTheme } from '../../context/ThemeContext';
-import Image from 'next/image';
-import styles from './gmicon.module.css';
+import React, {
+  useCallback,
+  useMemo,
+  useState,
+  useEffect,
+  useRef,
+} from "react";
+import { useTheme } from "../../context/ThemeContext";
+import Image from "next/image";
+import styles from "./gmicon.module.css";
 
 const ThemeToggleIcon = () => {
   const { theme } = useTheme();
@@ -10,22 +15,23 @@ const ThemeToggleIcon = () => {
   const iconRef = useRef(null);
 
   const handleIconClick = useCallback(() => {
-    window.location.href = 'https://softbuilt.ghulammujtaba.com'; // Change to your subdomain
+    window.location.href = "https://softbuilt.ghulammujtaba.com"; // Change to your subdomain
   }, []);
 
   const iconClass = useMemo(() => {
-    return `${styles['theme-toggle-icon']} ${isInView ? styles.animate : ''} ${theme === 'light' ? styles.light : styles.dark}`;
+    return `${styles["theme-toggle-icon"]} ${isInView ? styles.animate : ""} ${theme === "light" ? styles.light : styles.dark}`;
   }, [theme, isInView, styles]);
 
   const iconSrc = useMemo(() => {
-    return theme === 'light' ? "/gmVector.svg" : "/gmVectorDark.svg";
+    return theme === "light" ? "/gmVector.svg" : "/gmVectorDark.svg";
   }, [theme]);
 
   const checkInView = () => {
     if (iconRef.current) {
       const rect = iconRef.current.getBoundingClientRect();
-      const windowHeight = window.innerHeight || document.documentElement.clientHeight;
-      const isVisible = (rect.top <= windowHeight) && (rect.bottom >= 0);
+      const windowHeight =
+        window.innerHeight || document.documentElement.clientHeight;
+      const isVisible = rect.top <= windowHeight && rect.bottom >= 0;
       if (isVisible) {
         setIsInView(true);
         // Reset animation by toggling the class
@@ -39,11 +45,11 @@ const ThemeToggleIcon = () => {
     checkInView();
 
     // Add scroll event listener
-    window.addEventListener('scroll', checkInView);
+    window.addEventListener("scroll", checkInView);
 
     // Cleanup listener on unmount
     return () => {
-      window.removeEventListener('scroll', checkInView);
+      window.removeEventListener("scroll", checkInView);
     };
   }, []);
 
@@ -55,7 +61,7 @@ const ThemeToggleIcon = () => {
       aria-label="Toggle Theme and Navigate to SoftBuilt"
       tabIndex={0}
       onKeyDown={(e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
+        if (e.key === "Enter" || e.key === " ") {
           handleIconClick();
         }
       }}

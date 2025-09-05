@@ -1,0 +1,148 @@
+.page {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+.hero {
+  max-width: 1160px;
+  margin: 0 auto;
+  padding: 1.25rem 1rem 0;
+}
+.coverWrap {
+  position: relative;
+  width: 100%;
+  height: 280px;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
+}
+@media (min-width: 768px) {
+  .coverWrap {
+    height: 360px;
+  }
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: 800;
+  margin: 1rem 0 0.5rem;
+}
+.meta {
+  color: #6b7280;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.tags {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin: 0.75rem 0 0;
+}
+.tag {
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid #e5e7eb;
+  font-size: 0.8rem;
+  color: #374151;
+  background: white;
+}
+
+.article {
+  margin-top: 1.25rem;
+}
+.article :global(h2) {
+  font-size: 1.5rem;
+  margin: 1.5rem 0 0.5rem;
+}
+.article :global(h3) {
+  font-size: 1.25rem;
+  margin: 1.25rem 0 0.5rem;
+}
+.article :global(p) {
+  line-height: 1.8;
+  margin: 0.85rem 0;
+  color: #374151;
+}
+.article :global(ul),
+.article :global(ol) {
+  padding-left: 1.25rem;
+  margin: 0.75rem 0;
+}
+.article :global(blockquote) {
+  border-left: 4px solid #e5e7eb;
+  padding: 0.5rem 1rem;
+  color: #4b5563;
+  background: #f9fafb;
+  border-radius: 6px;
+}
+/* Brand links */
+.article :global(a) {
+  color: #4573df;
+  text-decoration: underline;
+}
+.article :global(a:hover) {
+  color: #005bb5;
+}
+
+/* Highlights section */
+.highlights {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 0.75rem 0 0;
+}
+.highlightCard {
+  margin: 0;
+  padding: 10px 12px;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  background: #f9fafb;
+}
+.highlightCard blockquote {
+  margin: 0;
+  font-style: italic;
+  color: #374151;
+}
+
+/* Reading progress bar */
+.progressWrap {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: transparent;
+  z-index: 50;
+}
+.progressBar {
+  height: 100%;
+  width: 0;
+  background: linear-gradient(90deg, #60a5fa, #2563eb);
+  transition: width 0.1s linear;
+}
+
+/* Share bar */
+.shareBar {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-top: 0.75rem;
+}
+.shareBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #111827;
+  font-weight: 600;
+}
+.shareBtn:hover {
+  background: #f9fafb;
+}

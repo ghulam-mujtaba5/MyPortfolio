@@ -1,147 +1,114 @@
 .contactSection {
- 
-    color: #000;
-   
+  color: #000;
 }
 
 .contactFormBackground {
-
-   
-    background-color: #e8ebee;
-  
+  background-color: #e8ebee;
 }
 
 .nameInput,
 .emailInput,
 .messageInput {
+  border: 1px solid #fff;
 
-    border: 1px solid #fff;
-
-    background-color: #fff;
-    
+  background-color: #fff;
 }
 
-
 .sendButtonBorder {
- 
-    background-color: #4573df;
-    
+  background-color: #4573df;
 }
 
 .sendLabel {
-
-    color: #fff;
+  color: #fff;
 }
 
 .sendButton {
+  color: #fff;
+  background-color: #4573df;
 
-    color: #fff;
-    background-color: #4573df;
-   
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .sendButton:hover .sendButtonBorder {
-    background-color: rgba(69, 115, 223, 0.9);
+  background-color: rgba(69, 115, 223, 0.9);
 }
 
-
 .pulse-animation {
-
-    background-color: rgba(69, 115, 223, 0.3);
-
+  background-color: rgba(69, 115, 223, 0.3);
 }
 
 .darkModeButton {
-    color: #000;
-    
-    
-  }
-
-.darkModeButtonBorder {
- 
-    box-shadow: 0px 0px 14px rgba(0, 0, 0, 0.13);
-    
-    background-color: #e8ebee;
+  color: #000;
 }
 
+.darkModeButtonBorder {
+  box-shadow: 0px 0px 14px rgba(0, 0, 0, 0.13);
+
+  background-color: #e8ebee;
+}
 
 .buttonState {
-    position: absolute;
-    height: 34.09%;
-    width: 22.45%;
-    top: 31.82%;
-    right: 8.16%;
-    bottom: 34.09%;
-    left: 69.39%;
-    box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.16) inset;
-    border-radius: 10.5px;
-    background-color: #f5f5f5;
+  position: absolute;
+  height: 34.09%;
+  width: 22.45%;
+  top: 31.82%;
+  right: 8.16%;
+  bottom: 34.09%;
+  left: 69.39%;
+  box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.16) inset;
+  border-radius: 10.5px;
+  background-color: #f5f5f5;
 }
 
 .buttonState1 {
-    position: absolute;
-    height: 38.64%;
-    width: 10.88%;
-    top: 29.55%;
-    right: 19.73%;
-    bottom: 31.82%;
-    left: 69.39%;
-    box-shadow: 0px 0px 7px rgba(0, 0, 0, 0.21) inset, 0px 0px 3px rgba(0, 0, 0, 0.31);
-    border-radius: 50%;
-    background-color: #959595;
-    z-index: 1;
+  position: absolute;
+  height: 38.64%;
+  width: 10.88%;
+  top: 29.55%;
+  right: 19.73%;
+  bottom: 31.82%;
+  left: 69.39%;
+  box-shadow:
+    0px 0px 7px rgba(0, 0, 0, 0.21) inset,
+    0px 0px 3px rgba(0, 0, 0, 0.31);
+  border-radius: 50%;
+  background-color: #959595;
+  z-index: 1;
 }
 
 .successMessage {
-    color: #34a853;
+  color: #34a853;
 }
 
 .errorMessage {
-    color: #e81123;
+  color: #e81123;
 }
-
 
 /* Media query for screens of width 430px and height 932px */
 @media (max-width: 768px) {
-    .contactSection {
-   
-        background-color: #e8ebee;
-    
-    }
+  .contactSection {
+    background-color: #e8ebee;
+  }
 
+  .contactForm {
+    background-color: #e8ebee;
 
- 
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  }
 
-    .contactForm {
-     
-        background-color: #e8ebee;
-    
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-       
-    }
+  .nameInput,
+  .emailInput,
+  .messageInput {
+    border: 1px solid #ccc;
+  }
 
-    .nameInput,
-    .emailInput,
-    .messageInput {
-    
-       
-        border: 1px solid #ccc;
-       
-    }
+  .sendButton {
+    background-color: #4573df;
 
-    .sendButton {
-  
-        background-color: #4573df;
-      
-        color: #fff;
-    
-    }
+    color: #fff;
+  }
 
-  
-
-    .sendButton:hover {
-        background-color: #365bb8;
-    }
-
+  .sendButton:hover {
+    background-color: #365bb8;
+  }
 }

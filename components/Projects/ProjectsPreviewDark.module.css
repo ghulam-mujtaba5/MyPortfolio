@@ -20,7 +20,8 @@
   border-color: var(--button-border);
 }
 
-.viewAll:hover, .viewAll:focus {
+.viewAll:hover,
+.viewAll:focus {
   background: #4573df;
   color: #ffffff;
   border-color: #4573df;

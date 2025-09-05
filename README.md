@@ -3,9 +3,11 @@
 A modern, responsive developer portfolio built with Next.js. This project showcases my skills, projects, and experience in web development, data science, and UI/UX design.
 
 ## 🚀 Live Demo
-[View Portfolio Live](https://www.ghulammujtaba.com) 
+
+[View Portfolio Live](https://www.ghulammujtaba.com)
 
 ## ✨ Features
+
 - Responsive design for desktop and mobile
 - Light and dark theme support
 - Project and experience showcase
@@ -18,6 +20,7 @@ A modern, responsive developer portfolio built with Next.js. This project showca
 ![Home Page](public/project-2.png)
 
 ## 🛠️ Tech Stack
+
 - Next.js
 - React
 - CSS Modules
@@ -25,6 +28,7 @@ A modern, responsive developer portfolio built with Next.js. This project showca
 - HTML5 & CSS3
 
 ## 📁 Folder Structure
+
 ```
 components/         # Reusable UI components
 context/            # React context (e.g., ThemeContext)
@@ -34,6 +38,7 @@ public/             # Static assets (images, icons, etc.)
 ```
 
 ## 🏁 Getting Started
+
 1. **Clone the repository:**
    ```sh
    git clone https://github.com/ghulam-mujtaba5/MyPortfolio.git
@@ -49,10 +54,14 @@ public/             # Static assets (images, icons, etc.)
    ```
 4. Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
+## ⏳ Loading animations
 
+- Use the reusable inline loader at `components/LoadingAnimation/InlineSpinner.js` for buttons, headers, and table cells.
+- A demo page exists at `/temp-loading` (linked in the Admin sidebar in non‑production) showcasing patterns and sizes.
 
 ## 🙋‍♂️ Contact
-Feel free to reach out via [LinkedIn](https://www.linkedin.com/in/ghulamujtabaofficial/) 
+
+Feel free to reach out via [LinkedIn](https://www.linkedin.com/in/ghulamujtabaofficial/)
 
 ---
 

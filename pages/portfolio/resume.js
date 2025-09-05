@@ -1,10 +1,10 @@
 import React from 'react';
 import SEO from '../../components/SEO';
-import { useTheme } from '../../context/ThemeContext'; // Assuming ThemeProvider is in a separate file and exported correctly
-import Resume from '../../components/Resume/Resume'; // Import the Resume component
-import Footer from '../../components/Footer/Footer'; // Import the Footer component
+import { useTheme } from '../../context/ThemeContext';
+import Resume from '../../components/Resume/Resume';
+import Footer from '../../components/Footer/Footer';
 
-const ResumePage = () => {
+const ResumePage = ({ resume }) => {
   const { theme } = useTheme();
 
   return (
@@ -12,35 +12,61 @@ const ResumePage = () => {
       <SEO
         title="Ghulam Mujtaba's Resume | Software Engineer"
         description="Explore my professional journey and skills in detail as a Software Engineer specializing in emerging technologies on my resume page."
-        url="https://ghulammujtaba.com/portfolio/resume"
+        url="https://ghulammujtaba.com/resume"
         image="https://ghulammujtaba.com/og-image.png"
         type="profile"
-        canonical="https://ghulammujtaba.com/portfolio/resume"
+        canonical="https://ghulammujtaba.com/resume"
         keywords="Ghulam Mujtaba, Resume, Software Engineer, Portfolio, Skills, Experience"
       >
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
-          "@context": "http://schema.org",
-          "@type": "Person",
-          "name": "Ghulam Mujtaba",
-          "url": "https://ghulammujtaba.com/portfolio/resume",
-          "sameAs": [
-            "https://www.linkedin.com/in/ghulamujtabaofficial",
-            "https://www.instagram.com/ghulamujtabaofficial/",
-            "https://github.com/ghulam-mujtaba5"
-          ],
-          "jobTitle": "Software Engineer, Full Stack Developer, Data Scientist, AI Specialist",
-          "address": {
-            "@type": "PostalAddress",
-            "addressCountry": "PK"
-          },
-          "image": "https://ghulammujtaba.com/og-image.png"
-        }) }} />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'http://schema.org',
+              '@type': 'Person',
+              name: 'Ghulam Mujtaba',
+              url: 'https://ghulammujtaba.com/resume',
+              sameAs: [
+                'https://www.linkedin.com/in/ghulamujtabaofficial',
+                'https://www.instagram.com/ghulamujtabaofficial/',
+                'https://github.com/ghulam-mujtaba5',
+              ],
+              jobTitle:
+                'Software Engineer, Full Stack Developer, Data Scientist, AI Specialist',
+              address: {
+                '@type': 'PostalAddress',
+                addressCountry: 'PK',
+              },
+              image: 'https://ghulammujtaba.com/og-image.png',
+            }),
+          }}
+        />
+        {/* JSON-LD: Breadcrumbs */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'BreadcrumbList',
+              itemListElement: [
+                { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://ghulammujtaba.com/' },
+                { '@type': 'ListItem', position: 2, name: 'Resume', item: 'https://ghulammujtaba.com/resume' }
+              ]
+            })
+          }}
+        />
       </SEO>
       <main className={theme === 'dark' ? 'darkTheme' : 'lightTheme'}>
         <Resume />
-        <a href="/Resume.pdf" download className="downloadButton">
-          Download Resume PDF
-        </a>
+        {resume && (
+          <a
+            href={`/api/download-resume?url=${encodeURIComponent(resume.url)}&filename=${encodeURIComponent(resume.filename)}`}
+            className="downloadButton"
+            download
+          >
+            Download Resume PDF
+          </a>
+        )}
       </main>
       <Footer />
       <style jsx>{`
@@ -48,7 +74,7 @@ const ResumePage = () => {
           display: inline-block;
           padding: 12px 24px;
           margin: 20px 0;
-          margin-left:30px;
+          margin-left: 30px;
           font-size: 16px;
           font-weight: bold;
           color: #ffffff;
@@ -82,12 +108,27 @@ const ResumePage = () => {
           .downloadButton {
             padding: 10px 20px;
             font-size: 14px;
-            margin-left:0px;
+            margin-left: 0px;
           }
         }
       `}</style>
     </>
   );
 };
+
+export async function getServerSideProps() {
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/resume`);
+    if (!res.ok) {
+      console.error('Failed to fetch resume, status:', res.status);
+      return { props: { resume: null } };
+    }
+    const data = await res.json();
+    return { props: { resume: data.resume } };
+  } catch (error) {
+    console.error('Error fetching resume:', error);
+    return { props: { resume: null } };
+  }
+}
 
 export default ResumePage;

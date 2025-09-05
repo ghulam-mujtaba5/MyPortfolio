@@ -1,0 +1,55 @@
+.wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.select {
+  width: 100%;
+  padding: 0.5rem 2.25rem 0.5rem 0.75rem; /* Right padding for icon */
+  border-radius: 8px;
+  border: 1px solid var(--color-border);
+  background-color: var(--color-bg-secondary);
+  color: var(--color-text-primary);
+  font-size: 0.875rem;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  cursor: pointer;
+  transition:
+    border-color 0.2s ease-in-out,
+    box-shadow 0.2s ease-in-out;
+}
+
+.select:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-primary-shadow);
+}
+
+.iconWrapper {
+  position: absolute;
+  right: 0.75rem;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  height: 100%;
+  color: var(--color-text-tertiary);
+}
+
+/* Dark Theme Overrides */
+@media (prefers-color-scheme: dark) {
+  .select {
+    border-color: var(--color-border-dark);
+    background-color: var(--color-bg-secondary-dark);
+    color: var(--color-text-primary-dark);
+  }
+  .select:focus {
+    border-color: var(--color-primary-dark);
+    box-shadow: 0 0 0 3px var(--color-primary-dark-shadow);
+  }
+  .iconWrapper {
+    color: var(--color-text-tertiary-dark);
+  }
+}

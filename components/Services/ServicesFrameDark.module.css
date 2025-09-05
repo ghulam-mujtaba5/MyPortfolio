@@ -1,59 +1,53 @@
 /* Skills section title */
 .skillsTitle {
-
-    color: #f0f0f0;
- 
+  color: #f0f0f0;
 }
 
 /* Individual skill card */
 .skillCard {
-
-    background-color: #272c34;
+  background-color: #272c34;
 }
 
 /* Specific styles for UI & UX Designing card */
 .uiuxCard {
-    background-color: #272c34;
-    border: 2px solid #33a552;
+  background-color: #272c34;
+  border: 2px solid #33a552;
 }
 
 /* Specific styles for Development card */
 .developmentCard {
-    background-color: #272c34;
-    border: 2px solid #f1792e;
+  background-color: #272c34;
+  border: 2px solid #f1792e;
 }
 
 /* Specific styles for Data Science & AI card */
 .dataScienceCard {
-    background-color: #272c34;
-    border: 2px solid #4573df;
+  background-color: #272c34;
+  border: 2px solid #4573df;
 }
 
 /* Header styling */
 .header {
-  
-    color: #f0f0f0;
-    
+  color: #f0f0f0;
 }
 
 /* Container for skill name */
 .skillNameContainer {
-    background-color: #272c34;
-   
+  background-color: #272c34;
 }
 
 /* Skill name text */
 .skillName {
-    color: #f0f0f0;
+  color: #f0f0f0;
 }
 
 /* Media query for smaller screens */
 @media (max-width: 768px) {
-    .skillFrame {
-        justify-content: center;
-    }
-    
-    .skillsTitle {
-        padding-left: 3%;
-    }
+  .skillFrame {
+    justify-content: center;
+  }
+
+  .skillsTitle {
+    padding-left: 3%;
+  }
 }

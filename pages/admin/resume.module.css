@@ -1,0 +1,54 @@
+.pageWrapper {
+  padding: 2rem;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.card {
+  background-color: var(--color-bg-secondary);
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.cardTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.uploadSection {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.fileInput {
+    font-family: inherit;
+    border: 1px solid var(--color-border);
+    border-radius: 4px;
+    padding: 0.5rem;
+}
+
+.fileName {
+  margin-top: 1rem;
+  font-style: italic;
+  color: var(--color-text-secondary);
+}
+
+.resumeInfo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

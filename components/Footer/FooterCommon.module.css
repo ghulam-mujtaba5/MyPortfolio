@@ -1,150 +1,152 @@
 .footerBackground {
-    position: relative;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 80px;
-    transition: background-color 0.3s ease;
+  position: relative;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 80px;
+  transition: background-color 0.3s ease;
 }
 
 .copyrightIcon {
-    position: absolute;
-    height: 32%;
-    top: 50%;
-    left: 57px;
-    max-height: 100%;
-    width: 32px;
-    overflow: hidden;
-    transform: translateY(-50%);
-    transition: opacity 0.2s ease;
+  position: absolute;
+  height: 32%;
+  top: 50%;
+  left: 57px;
+  max-height: 100%;
+  width: 32px;
+  overflow: hidden;
+  transform: translateY(-50%);
+  transition: opacity 0.2s ease;
 }
 
 .copyrightLabel {
-    margin: 0;
-    position: absolute;
-    height: 44%;
-    top: 50%;
-    left: 96px;
-    font-size: inherit;
-    line-height: 182.02%;
-    font-weight: 400;
-    font-family: inherit;
-    display: flex;
-    align-items: center;
-    transform: translateY(-50%);
+  margin: 0;
+  position: absolute;
+  height: 44%;
+  top: 50%;
+  left: 96px;
+  font-size: inherit;
+  line-height: 182.02%;
+  font-weight: 400;
+  font-family: inherit;
+  display: flex;
+  align-items: center;
+  transform: translateY(-50%);
 }
 
 .linkedinIcon,
 .instagramIcon,
 .githubIcon {
-    position: absolute;
-    height: 24%;
-    top: 50%;
-    max-height: 100%;
-    width: 22.4px;
-    cursor: pointer;
-    transform: translateY(-50%);
-    transition: transform 0.2s ease, opacity 0.2s ease;
+  position: absolute;
+  height: 24%;
+  top: 50%;
+  max-height: 100%;
+  width: 22.4px;
+  cursor: pointer;
+  transform: translateY(-50%);
+  transition:
+    transform 0.2s ease,
+    opacity 0.2s ease;
 }
 
 .linkedinIcon:hover,
 .instagramIcon:hover,
 .githubIcon:hover {
-    transform: translateY(-50%) scale(1.1);
-    opacity: 0.8;
+  transform: translateY(-50%) scale(1.1);
+  opacity: 0.8;
 }
 
 .linkedinIcon {
-    right: 60px;
+  right: 60px;
 }
 
 .githubIcon {
-    right: 100px;
+  right: 100px;
 }
 
 .instagramIcon {
-    right: 140px;
+  right: 140px;
 }
 
 .footerFrame {
-    position: relative;
-    width: 100%;
-    height: 80px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    box-sizing: border-box;
-    max-width: 1440px;
-    margin: 0 auto;
-    padding: 0 20px;
+  position: relative;
+  width: 100%;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 20px;
 }
 
 .footer {
-    width: 100%;
-    position: relative;
-    margin: 0 !important;
-    text-align: left;
-    font-size: 24px;
-    font-family: 'Open Sans';
+  width: 100%;
+  position: relative;
+  margin: 0 !important;
+  text-align: left;
+  font-size: 24px;
+  font-family: "Open Sans";
 }
 
 /* Media query for small screens */
 @media (max-width: 576px) {
-    .footerBackground {
-        height: 65px;
-    }
+  .footerBackground {
+    height: 65px;
+  }
 
-    .footerFrame {
-        height: 65px;
-        padding: 0 15px;
-    }
+  .footerFrame {
+    height: 65px;
+    padding: 0 15px;
+  }
 
-    .copyrightIcon {
-        height: 38.46%;
-        top: 50%;
-        left: 21px;
-        width: 25px;
-    }
+  .copyrightIcon {
+    height: 38.46%;
+    top: 50%;
+    left: 21px;
+    width: 25px;
+  }
 
-    .copyrightLabel {
-        height: 38.46%;
-        top: 50%;
-        left: 51px;
-        font-size: 12px;
-        width: calc(100% - 180px);
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
+  .copyrightLabel {
+    height: 38.46%;
+    top: 50%;
+    left: 51px;
+    font-size: 12px;
+    width: calc(100% - 180px);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 
-    .linkedinIcon,
-    .instagramIcon,
-    .githubIcon {
-        height: 36.92%;
-        top: 50%;
-        width: 22.4px;
-    }
+  .linkedinIcon,
+  .instagramIcon,
+  .githubIcon {
+    height: 36.92%;
+    top: 50%;
+    width: 22.4px;
+  }
 
-    .linkedinIcon {
-        right: 25px;
-    }
+  .linkedinIcon {
+    right: 25px;
+  }
 
-    .githubIcon {
-        right: 55px;
-    }
+  .githubIcon {
+    right: 55px;
+  }
 
-    .instagramIcon {
-        right: 85px;
-    }
+  .instagramIcon {
+    right: 85px;
+  }
 }
 
 /* Media query for medium screens */
 @media (min-width: 577px) and (max-width: 768px) {
-    .footerFrame {
-        padding: 0 30px;
-    }
+  .footerFrame {
+    padding: 0 30px;
+  }
 
-    .copyrightLabel {
-        width: calc(100% - 250px);
-    }
+  .copyrightLabel {
+    width: calc(100% - 250px);
+  }
 }

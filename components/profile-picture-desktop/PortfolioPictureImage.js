@@ -1,8 +1,6 @@
-
-
-import React, { useState, useEffect, useCallback } from 'react';
-import Image from 'next/image';
-import styles from './profile-picture.module.css'; // Adjust path as per your project structure
+import React, { useState, useEffect, useCallback } from "react";
+import Image from "next/image";
+import styles from "./profile-picture.module.css"; // Adjust path as per your project structure
 
 const debounce = (func, delay) => {
   let timer;
@@ -23,7 +21,13 @@ const EllipseWithBackground = ({ borderWidth, imageSize }) => {
     width: `${ellipseSize}px`,
   };
 
-  return <div className={styles.ellipseDiv} style={ellipseStyle} aria-hidden="true"></div>;
+  return (
+    <div
+      className={styles.ellipseDiv}
+      style={ellipseStyle}
+      aria-hidden="true"
+    ></div>
+  );
 };
 
 const ImageWithEllipsesBackground = () => {
@@ -47,13 +51,13 @@ const ImageWithEllipsesBackground = () => {
 
     // Event listeners for resize and scroll
     updateImageSize();
-    window.addEventListener('resize', updateImageSize);
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener("resize", updateImageSize);
+    window.addEventListener("scroll", handleScroll);
 
     // Cleanup: Remove event listeners on component unmount
     return () => {
-      window.removeEventListener('resize', updateImageSize);
-      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener("resize", updateImageSize);
+      window.removeEventListener("scroll", handleScroll);
     };
   }, []);
 
@@ -80,7 +84,11 @@ const ImageWithEllipsesBackground = () => {
   const shouldHideEllipses = scrollPosition > 200; // Example threshold, adjust as needed
 
   return (
-    <div className={styles.imageContainer} onMouseEnter={handleHover} onMouseLeave={handleHover}>
+    <div
+      className={styles.imageContainer}
+      onMouseEnter={handleHover}
+      onMouseLeave={handleHover}
+    >
       <Image
         className={styles.image}
         alt="Professional portrait of Ghulam Mujtaba"

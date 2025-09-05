@@ -1,14 +1,14 @@
-import Head from 'next/head';
+import Head from "next/head";
 
 export default function SEO({
-  title = 'Ghulam Mujtaba | Portfolio',
-  description = 'Portfolio of Ghulam Mujtaba: Full Stack Developer, Data Scientist, and AI Specialist. Explore projects, skills, and contact information.',
-  url = 'https://ghulammujtaba.com',
-  image = '/og-image.png',
-  type = 'website',
-  canonical = 'https://ghulammujtaba.com',
-  keywords = 'Ghulam Mujtaba, Portfolio, Full Stack Developer, Data Scientist, AI, Projects, Resume',
-  children
+  title = "Ghulam Mujtaba | Portfolio",
+  description = "Portfolio of Ghulam Mujtaba: Full Stack Developer, Data Scientist, and AI Specialist. Explore projects, skills, and contact information.",
+  url = "https://ghulammujtaba.com",
+  image = "https://ghulammujtaba.com/og-image.png",
+  type = "website",
+  canonical = "https://ghulammujtaba.com",
+  keywords = "Ghulam Mujtaba, Portfolio, Full Stack Developer, Data Scientist, AI, Projects, Resume",
+  children,
 }) {
   // Only render one canonical tag per page. Pass the correct canonical prop from each page.
   return (
@@ -16,7 +16,6 @@ export default function SEO({
       <title>{title}</title>
       <meta name="description" content={description} />
       <meta name="keywords" content={keywords} />
-      <meta name="viewport" content="width=device-width, initial-scale=1" />
       <meta property="og:title" content={title} />
       <meta property="og:description" content={description} />
       <meta property="og:type" content={type} />
@@ -33,3 +32,4 @@ export default function SEO({
     </Head>
   );
 }
+

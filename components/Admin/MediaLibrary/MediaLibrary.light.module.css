@@ -1,0 +1,40 @@
+.mediaLibrary {
+  background-color: #ffffff;
+  color: #1f2937;
+}
+
+.title {
+  color: #111827;
+}
+
+.uploadButton {
+  background-color: #3b82f6; /* blue-500 */
+  color: white;
+}
+
+.uploadButton:hover {
+  background-color: #2563eb; /* blue-600 */
+}
+
+.deleteButton {
+  background-color: #ef4444; /* red-500 */
+  color: white;
+}
+
+.deleteButton:hover {
+  background-color: #dc2626; /* red-600 */
+}
+
+.assetCard {
+  background-color: #f9fafb; /* gray-50 */
+}
+
+.pagination button {
+  background-color: #e5e7eb; /* gray-200 */
+  border: 1px solid #d1d5db; /* gray-300 */
+  color: #1f2937;
+}
+
+.pagination button:hover:not(:disabled) {
+  background-color: #d1d5db; /* gray-300 */
+}

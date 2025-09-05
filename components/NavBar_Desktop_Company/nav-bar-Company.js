@@ -1,8 +1,6 @@
-
-
 import styles from "./nav-bar-Compnay.module.css";
 import { useState } from "react";
-import Link from 'next/link'; // Import Link from Next.js
+import Link from "next/link"; // Import Link from Next.js
 
 const NavBar = () => {
   const [hover, setHover] = useState(false);
@@ -40,7 +38,9 @@ const NavBar = () => {
         role="button"
         tabIndex={0}
         aria-label="About"
-        onKeyPress={(e) => e.key === 'Enter' && scrollToSection("about-section")}
+        onKeyPress={(e) =>
+          e.key === "Enter" && scrollToSection("about-section")
+        }
       >
         <div className={styles.aboutText}>About</div>
       </div>
@@ -52,7 +52,9 @@ const NavBar = () => {
         role="button"
         tabIndex={0}
         aria-label="Services"
-        onKeyPress={(e) => e.key === 'Enter' && scrollToSection("services-section")}
+        onKeyPress={(e) =>
+          e.key === "Enter" && scrollToSection("services-section")
+        }
       >
         <div className={styles.skillsText}>Services</div>
       </div>
@@ -66,7 +68,7 @@ const NavBar = () => {
           role="button"
           tabIndex={0}
           aria-label="Home Portfolio"
-          onKeyPress={(e) => e.key === 'Enter' && handleLogoClick()}
+          onKeyPress={(e) => e.key === "Enter" && handleLogoClick()}
         >
           <button className={`${styles.logo} ${hover ? styles.logoHover : ""}`}>
             <img
@@ -109,7 +111,9 @@ const NavBar = () => {
         role="button"
         tabIndex={0}
         aria-label="Reviews"
-        onKeyPress={(e) => e.key === 'Enter' && scrollToSection("reviews-section")}
+        onKeyPress={(e) =>
+          e.key === "Enter" && scrollToSection("reviews-section")
+        }
       >
         <div className={styles.resumeText}>Reviews</div>
       </div>
@@ -121,7 +125,9 @@ const NavBar = () => {
         role="button"
         tabIndex={0}
         aria-label="Project"
-        onKeyPress={(e) => e.key === 'Enter' && scrollToSection("project-section")}
+        onKeyPress={(e) =>
+          e.key === "Enter" && scrollToSection("project-section")
+        }
       >
         <div className={styles.projectText}>Project</div>
       </div>
@@ -133,7 +139,9 @@ const NavBar = () => {
         role="button"
         tabIndex={0}
         aria-label="Contact"
-        onKeyPress={(e) => e.key === 'Enter' && scrollToSection("contact-section")}
+        onKeyPress={(e) =>
+          e.key === "Enter" && scrollToSection("contact-section")
+        }
       >
         <div className={styles.contactText}>Contact</div>
       </div>

@@ -1,44 +1,99 @@
-// module.exports = {
-//   siteUrl: 'http://ghulammujtaba.com', // Your site URL
-//   generateRobotsTxt: true, // Generate robots.txt file
-//   transform: async (config, path) => {
-//     // Default change frequency and priority
-//     let changefreq = 'daily'; // Default for most pages
-//     let priority = 0.7; // Default priority
+const isCI = process.env.VERCEL === "1" || String(process.env.CI).toLowerCase() === "true";
 
-//     // Custom frequency and priority settings for resume
-//     if (path === '/resume') {
-//       changefreq = 'weekly';
-//     }
-
-//     return {
-//       loc: path, // The URL path
-//       changefreq,
-//       priority,
-//       lastmod: config.autoLastmod ? new Date().toISOString() : undefined,
-//     };
-//   },
-// };
 module.exports = {
-  siteUrl: 'http://ghulammujtaba.com', // Main site URL
-  generateRobotsTxt: true, // Generate robots.txt file
+  siteUrl: "https://ghulammujtaba.com", // Main site URL (HTTPS)
+  generateRobotsTxt: false, // Use manual public/robots.txt; do not overwrite
+  // IMPORTANT: prevent generating public/sitemap.xml because we serve it via pages/sitemap.xml.js
+  // This makes next-sitemap emit sitemap files using a different base filename.
+  generateIndexSitemap: false,
+  sitemapBaseFileName: "sitemap-0",
+  // Exclude non-public routes from sitemap
+  exclude: [
+    "/admin",
+    "/admin/*",
+    "/api/*",
+    "/softbuilt/admin/*",
+    "/sitemap.xml",
+    "/sitemap-dynamic.xml",
+  ],
+  // Optional robots rules if next-sitemap generates robots.txt
+  robotsTxtOptions: {
+    policies: [
+      { userAgent: "*", allow: "/" },
+      { userAgent: "*", disallow: ["/admin/", "/api/"] },
+    ],
+  },
+  // Programmatically include dynamic routes for Articles and Projects
+  // so Google sees all canonical URLs in sitemap.xml
+  additionalPaths: async (config) => {
+    // On CI/Vercel, skip DB calls to prevent build slowness/timeouts.
+    if (isCI) {
+      return [];
+    }
+    try {
+      // Use dynamic import to work with ESM modules from a CJS config
+      const { default: dbConnect } = await import("./lib/mongoose.js");
+      const { default: Article } = await import("./models/Article.js");
+      const { default: Project } = await import("./models/Project.js");
+
+      await dbConnect();
+
+      const [articles, projects] = await Promise.all([
+        Article.find({ published: true }, { slug: 1, updatedAt: 1 }).lean(),
+        Project.find({ published: true }, { slug: 1, updatedAt: 1 }).lean(),
+      ]);
+
+      const items = [];
+
+      for (const a of articles || []) {
+        items.push({
+          loc: `${config.siteUrl}/articles/${a.slug}`,
+          changefreq: "weekly",
+          priority: 0.8,
+          lastmod: a.updatedAt ? new Date(a.updatedAt).toISOString() : undefined,
+        });
+      }
+
+      for (const p of projects || []) {
+        items.push({
+          loc: `${config.siteUrl}/projects/${p.slug}`,
+          changefreq: "weekly",
+          priority: 0.8,
+          lastmod: p.updatedAt ? new Date(p.updatedAt).toISOString() : undefined,
+        });
+      }
+
+      return items;
+    } catch (e) {
+      // If DB is not available at build time, fail gracefully
+      console.warn("next-sitemap additionalPaths skipped:", e?.message || e);
+      return [];
+    }
+  },
   transform: async (config, path) => {
     // Default change frequency and priority
-    let changefreq = 'daily'; // Default for most pages
+    let changefreq = "daily"; // Default for most pages
     let priority = 0.7; // Default priority
 
     // Handle paths for main domain and subdomain
     let fullUrl = config.siteUrl + path; // Default to main site
 
+    // Rewrite portfolio paths to root equivalents to avoid duplicate URLs
+    if (path === "/portfolio") {
+      fullUrl = `${config.siteUrl}/`;
+    } else if (path.startsWith("/portfolio/")) {
+      fullUrl = config.siteUrl + path.replace(/^\/portfolio/, "");
+    }
+
     // Custom frequency and priority settings for specific paths
-    if (path === '/resume') {
-      changefreq = 'weekly';
+    if (path === "/resume") {
+      changefreq = "weekly";
     }
 
     // Check for specific subdomain paths
-    if (path.startsWith('/softbuilt')) {
-      fullUrl = `http://softbuilt.ghulammujtaba.com${path}`; // Update for subdomain
-      changefreq = 'daily'; // Custom frequency for subdomain
+    if (path.startsWith("/softbuilt")) {
+      fullUrl = `https://softbuilt.ghulammujtaba.com${path}`; // Use HTTPS for subdomain
+      changefreq = "daily"; // Custom frequency for subdomain
       priority = 0.8; // Higher priority for subdomain pages
     }
 
@@ -50,3 +105,5 @@ module.exports = {
     };
   },
 };
+
+

@@ -1,10 +1,14 @@
-
-
-import React, { useCallback, useMemo, useRef, useState, useEffect } from 'react';
-import { useRouter } from 'next/router';
-import { useTheme } from '../../context/ThemeContext';
-import Image from 'next/image';
-import styles from './sbicon.module.css'; // Ensure the correct path and module import
+import React, {
+  useCallback,
+  useMemo,
+  useRef,
+  useState,
+  useEffect,
+} from "react";
+import { useRouter } from "next/router";
+import { useTheme } from "../../context/ThemeContext";
+import Image from "next/image";
+import styles from "./sbicon.module.css"; // Ensure the correct path and module import
 
 const ThemeToggleIcon = () => {
   const { theme } = useTheme();
@@ -13,11 +17,11 @@ const ThemeToggleIcon = () => {
   const iconRef = useRef(null);
 
   const handleIconClick = useCallback(() => {
-    window.location.href = 'https://ghulammujtaba.com'; // Change to your subdomain
+    window.location.href = "https://ghulammujtaba.com"; // Change to your subdomain
   }, []);
 
   const iconClass = useMemo(() => {
-    return `${styles['theme-toggle-icon']} ${theme === 'light' ? styles.light : styles.dark} ${animate ? styles.animate : ''}`;
+    return `${styles["theme-toggle-icon"]} ${theme === "light" ? styles.light : styles.dark} ${animate ? styles.animate : ""}`;
   }, [theme, animate]);
 
   const iconSrc = useMemo(() => {
@@ -33,17 +37,19 @@ const ThemeToggleIcon = () => {
           setTimeout(() => setAnimate(false), 1000); // Match duration with animation time
         }
       },
-      { threshold: 0.1 } // Adjust based on when you want the animation to trigger
+      { threshold: 0.1 }, // Adjust based on when you want the animation to trigger
     );
 
-    if (iconRef.current) {
-      observer.observe(iconRef.current);
+    const node = iconRef.current;
+    if (node) {
+      observer.observe(node);
     }
 
     return () => {
-      if (iconRef.current) {
-        observer.unobserve(iconRef.current);
+      if (node) {
+        observer.unobserve(node);
       }
+      observer.disconnect();
     };
   }, []);
 
@@ -56,7 +62,7 @@ const ThemeToggleIcon = () => {
       aria-label="Toggle Theme and Navigate to HomePortfolio"
       tabIndex={0}
       onKeyDown={(e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
+        if (e.key === "Enter" || e.key === " ") {
           handleIconClick();
         }
       }}

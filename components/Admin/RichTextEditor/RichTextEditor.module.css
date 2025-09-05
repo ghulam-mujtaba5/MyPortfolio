@@ -1,0 +1,80 @@
+.editorContainer {
+  border: 1px solid;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: border-color 0.3s ease;
+}
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  padding: 0.5rem;
+  border-bottom: 1px solid;
+  transition:
+    background-color 0.3s ease,
+    border-color 0.3s ease;
+}
+
+.toolbarButton {
+  background: none;
+  border: none;
+  padding: 0.5rem;
+  margin-right: 0.25rem;
+  cursor: pointer;
+  border-radius: 4px;
+  transition:
+    background-color 0.2s,
+    color 0.2s;
+  font-size: 1.1rem;
+}
+
+.editor {
+  padding: 1rem;
+  min-height: 300px;
+  outline: none;
+  transition:
+    color 0.3s ease,
+    background-color 0.3s ease;
+}
+
+.editor > * + * {
+  margin-top: 0.75em;
+}
+
+.editor ul,
+.editor ol {
+  padding: 0 1rem;
+}
+
+.editor h1,
+.editor h2,
+.editor h3 {
+  line-height: 1.1;
+}
+
+.editor blockquote {
+  padding-left: 1rem;
+  border-left: 2px solid;
+  transition:
+    border-color 0.3s ease,
+    color 0.3s ease;
+}
+
+/* Utilities */
+.row { display: flex; }
+.rowBetween { display: flex; justify-content: space-between; align-items: center; }
+.rowEnd { display: flex; justify-content: flex-end; }
+.wrap { flex-wrap: wrap; }
+.alignCenter { align-items: center; }
+.gapXs { gap: 6px; }
+.gapSm { gap: 8px; }
+.gapMd { gap: 12px; }
+.grid { display: grid; }
+.myXs { margin-top: 6px; margin-bottom: 6px; }
+.muted { opacity: 0.7; }
+.itemBox { border: 1px solid; border-radius: 6px; padding: 8px; }
+.col { display: flex; flex-direction: column; }
+.codeTextarea { width: 100%; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; font-size: 14px; }
+.mtSm { margin-top: 8px; }
+.rowInline { display: inline-flex; }

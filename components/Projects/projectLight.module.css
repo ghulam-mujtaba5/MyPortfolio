@@ -18,14 +18,29 @@
 .frameTitle {
   text-align: left;
   font-family: Open Sans;
- 
 }
 
 .projectCard1 {
   width: 356px;
   position: relative;
   height: 570px;
+  /* Theme variables for buttons (light mode) */
+  --btn-live-text: #ffffff;
+  --btn-live-bg-start: #5a86e6; /* lighter of #4573df */
+  --btn-live-bg-end: #4573df;   /* brand primary */
+  --btn-live-border: #3f6ed6;
+  --btn-live-shadow: rgba(69, 115, 223, 0.18);
+  --btn-live-shadow-hover: rgba(69, 115, 223, 0.25);
+  --btn-live-shadow-active: rgba(69, 115, 223, 0.28);
 
+  /* Neutral gray style for View Code in light mode */
+  --btn-code-text: #1f2937; /* slate-800 */
+  --btn-code-bg-start: #f7f7f8;
+  --btn-code-bg-end: #f0f2f5;
+  --btn-code-border: rgba(31, 41, 55, 0.14);
+  --btn-code-shadow: rgba(17, 24, 39, 0.06);
+  --btn-code-shadow-hover: rgba(17, 24, 39, 0.1);
+  --btn-code-shadow-active: rgba(17, 24, 39, 0.12);
 }
 
 .projectCard1Child {
@@ -39,27 +54,21 @@
   box-shadow: 2px 2px 100px rgba(0, 0, 0, 0.2);
   border-radius: 20px;
   background-color: #e8ebee;
-  
 }
 
 .livePreview {
-  position: absolute;
-  top: 91.05%;
-  left: 16%;
-  text-decoration: underline;
-  line-height: 26px;
+  position: relative;
+  text-decoration: none;
+  line-height: 1;
   color: inherit;
 }
 
 .viewCode {
-  position: absolute;
-  top: 91.05%;
-  left: 62.93%;
-  text-decoration: underline;
-  line-height: 26px;
+  position: relative;
+  text-decoration: none;
+  line-height: 1;
   color: inherit;
 }
-
 
 .projectImg1 {
   position: absolute;
@@ -154,7 +163,6 @@
 
 /* Media query for small screens */
 @media (max-width: 460px) {
-
   .projectCard1Parent {
     justify-content: center;
     height: auto; /* Adjust height for small screens */
@@ -170,5 +178,4 @@
   .projectTileGoes {
     font-size: 24px; /* Slightly reduce title size on small screens */
   }
-
 }

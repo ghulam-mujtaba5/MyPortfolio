@@ -1,0 +1,26 @@
+.modal {
+  background-color: #374151; /* gray-700 */
+}
+
+.header {
+  border-color: #4b5563; /* gray-600 */
+}
+
+.title {
+  color: #ffffff;
+}
+
+.closeButton {
+  color: #9ca3af; /* gray-400 */
+}
+
+.closeButton:hover {
+  color: #ffffff;
+}
+
+/* Footer border in dark theme */
+.footer {
+  border-color: #4b5563; /* gray-600 */
+}
+
+/* Action buttons now use shared utilities; no theme-specific button styles here. */

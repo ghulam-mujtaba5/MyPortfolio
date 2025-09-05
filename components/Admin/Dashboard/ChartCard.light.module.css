@@ -1,0 +1,15 @@
+.cardContainer {
+  background-color: #ffffff;
+  border: 1px solid #e3e6ea;
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.02),
+    0 4px 12px rgba(0, 0, 0, 0.04);
+}
+
+.title {
+  color: #000000;
+}
+
+.noDataText {
+  color: #555555;
+}

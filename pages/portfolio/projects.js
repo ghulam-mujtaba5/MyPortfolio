@@ -1,138 +1,177 @@
-import Icon from '../../components/Icon/gmicon';
-import SEO from '../../components/SEO';
+import Icon from '../components/Icon/gmicon';
+import SEO from '../components/SEO';
 
 import React, { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import Head from 'next/head';
-import { useTheme } from '../../context/ThemeContext';
-import NavBar from '../../components/NavBar_Desktop/nav-bar';
-import NavBarMobile from '../../components/NavBar_Mobile/NavBar-mobile';
+import { useTheme } from '../context/ThemeContext';
+import NavBar from '../components/NavBar_Desktop/nav-bar';
+import NavBarMobile from '../components/NavBar_Mobile/NavBar-mobile';
 
-import Footer from '../../components/Footer/Footer';
+import Footer from '../components/Footer/Footer';
 
 // Dynamically import Project1 to avoid SSR issues with next/image
-const Project1 = dynamic(() => import('../../components/Projects/Project1'), { ssr: false });
+const Project1 = dynamic(() => import('../components/Projects/Project1'), { ssr: false });
 
 const TAGS = [
-  'All',
-  'Software Development',
-  'Web Development',
-  'AI',
-  'Data Science',
-  'UI/UX',
-  'Others',
+  "All",
+  "Software Development",
+  "Web Development",
+  "AI",
+  "Data Science",
+  "UI/UX",
+  "Others",
 ];
 
 // Sections for NavBarMobile navigation
 const sections = [
-  { route: '/#home-section', label: 'Home' },
-  { route: '/#about-section', label: 'About' },
-  { route: '/#languages-section', label: 'Skills' },
-  { route: '/resume', label: 'Resume' },
-  { route: '/projects', label: 'Projects' },
-  { route: '/#contact-section', label: 'Contact' }
+  { route: "/#home-section", label: "Home" },
+  { route: "/#about-section", label: "About" },
+  { route: "/resume", label: "Resume" },
+  { route: "/projects", label: "Projects" },
+  { route: "/articles", label: "Articles" },
+  { route: "/#contact-section", label: "Contact" },
 ];
 
-const ProjectsPage = () => {
-  // Parallax effect for hero globe
-  useEffect(() => {
-    const globe = document.getElementById('hero-globe-parallax');
-    if (!globe) return;
-    const handleMove = (e) => {
-      const x = (e.clientX / window.innerWidth - 0.5) * 30;
-      const y = (e.clientY / window.innerHeight - 0.5) * 30;
-      globe.style.transform = `translate(-50%, -50%) rotateX(${y}deg) rotateY(${-x}deg)`;
-    };
-    window.addEventListener('mousemove', handleMove);
-    return () => window.removeEventListener('mousemove', handleMove);
-  }, []);
+import Link from "next/link";
+import Spinner from "../components/Spinner/Spinner";
+
+const ProjectsPage = ({ projects = [], projectsError = null }) => {
   const { theme } = useTheme();
-  const [selectedTag, setSelectedTag] = useState('All');
+  const [selectedTag, setSelectedTag] = useState("All");
+  // Since this page uses SSR via getServerSideProps, default to not loading and no error.
+  const [loading] = useState(false);
+  const [error] = useState(null);
 
-  // Project data (should match Project1's internal data for demo)
-  const projects = [
-    {
-      title: 'Billing Application',
-      description: 'I developed a Desktop bookshop billing software using Java, JavaFX, Maven, and Spring, showcasing my skills in full-stack development and software architecture.',
-      techStack: 'Java, Java Fx, Maven, Spring',
-      imgSrc: 'project img 1.png',
-      livePreviewLink: 'https://github.com/ghulam-mujtaba5/java-semester-billing-software',
-      viewCodeLink: 'https://github.com/ghulam-mujtaba5/java-semester-billing-software',
-      tags: ['Software Development'],
-    },
-    {
-      title: 'My Portfolio Project',
-      description: 'Developed a personal portfolio website using Next.js, React.js, Context API, Styled Components, and Node.js. Optimized for performance and responsive design.',
-      techStack: 'Next Js, Context API, Figma',
-      imgSrc: 'project-2.png',
-      livePreviewLink: 'https://ghulammujtaba.com/',
-      viewCodeLink: 'https://github.com/ghulam-mujtaba5',
-      tags: ['Web Development', 'UI/UX'],
-    },
-    {
-      title: 'Portfolio v1',
-      description: 'Crafted a dynamic web portfolio showcasing creative UI/UX designs and diligently coded functionalities to deliver an immersive user experience.',
-      techStack: 'React, JavaScript, Html, Figma',
-      imgSrc: 'project img 3.png',
-      livePreviewLink: 'https://www.ghulammujtaba.tech/',
-      viewCodeLink: 'https://github.com/ghulam-mujtaba5/portfolioversion1.2',
-      tags: ['Web Development', 'UI/UX'],
-    },
-    {
-      title: 'AI Chatbot Assistant',
-      description: 'Built an AI-powered chatbot assistant using Python, TensorFlow, and NLP techniques to automate customer support and enhance user engagement.',
-      techStack: 'Python, TensorFlow, NLP',
-      imgSrc: 'DeepMind.png',
-      livePreviewLink: 'https://github.com/ghulam-mujtaba5/ai-chatbot-assistant',
-      viewCodeLink: 'https://github.com/ghulam-mujtaba5/ai-chatbot-assistant',
-      tags: ['AI', 'Data Science'],
-    },
-  ];
+  const safeProjects = Array.isArray(projects) ? projects : [];
 
-  const filteredProjects = selectedTag === 'All'
-    ? projects
-    : projects.filter(p => p.tags.includes(selectedTag));
+  // Client-side fallback fetch when SSR failed or returned empty
+  const [clientProjects, setClientProjects] = useState([]);
+  const [clientLoading, setClientLoading] = useState(false);
+  const [clientError, setClientError] = useState(null);
+
+  useEffect(() => {
+    if ((projectsError || safeProjects.length === 0) && typeof window !== "undefined") {
+      const ac = new AbortController();
+      setClientLoading(true);
+      fetch(`/api/projects?published=true&limit=50`, { signal: ac.signal })
+        .then(async (r) => {
+          if (!r.ok) throw new Error(`HTTP ${r.status}`);
+          const json = await r.json();
+          const list = Array.isArray(json?.data) ? json.data : [];
+          setClientProjects(
+            list.map((p) => ({
+              _id: p?._id?.toString?.() || String(p?._id || ""),
+              title: typeof p?.title === "string" && p.title.trim() ? p.title : "Untitled",
+              description: typeof p?.description === "string" ? p.description : "",
+              image: typeof p?.image === "string" ? p.image : "",
+              imageFit: typeof p?.imageFit === "string" ? p.imageFit : undefined,
+              tags: Array.isArray(p?.tags) ? p.tags : [],
+              category: typeof p?.category === "string" && p.category.trim() ? p.category : "Others",
+              links: {
+                live: typeof p?.links?.live === "string" ? p.links.live : "",
+                github: typeof p?.links?.github === "string" ? p.links.github : "",
+              },
+            }))
+          );
+        })
+        .catch((e) => setClientError(e?.message || "fetch_failed"))
+        .finally(() => setClientLoading(false));
+      return () => ac.abort();
+    }
+  }, [projectsError, safeProjects.length]);
+
+  const effectiveProjects = clientProjects.length > 0 ? clientProjects : safeProjects;
+  const jsonLd = useMemo(() => {
+    try {
+      const list = (effectiveProjects || []).map((project, idx) => ({
+        "@type": "CreativeWork",
+        position: idx + 1,
+        name: project?.title || "Untitled",
+        description: project?.description || "",
+        url: project?.links?.live || "",
+        image: project?.image || "",
+      }));
+      return JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        name: "Projects",
+        url: "https://ghulammujtaba.com/projects",
+        itemListElement: list,
+      });
+    } catch (e) {
+      return "{}";
+    }
+  }, [effectiveProjects]);
+  const filteredProjects =
+    selectedTag === "All"
+      ? effectiveProjects
+      : effectiveProjects.filter((p) => (p?.category || "Others") === selectedTag);
 
   return (
     <>
       <Head>
         <title>Projects | Ghulam Mujtaba</title>
-        <meta name="description" content="Showcase of advanced, modern, and professional projects by Ghulam Mujtaba. Explore software, web, mobile, AI, data science, and UI/UX work." />
+        <meta
+          name="description"
+          content="Showcase of advanced, modern, and professional projects by Ghulam Mujtaba. Explore software, web, mobile, AI, data science, and UI/UX work."
+        />
         {/* Open Graph Meta Tags */}
         <meta property="og:title" content="Projects | Ghulam Mujtaba" />
-        <meta property="og:description" content="Showcase of advanced, modern, and professional projects by Ghulam Mujtaba. Explore software, web, mobile, AI, data science, and UI/UX work." />
+        <meta
+          property="og:description"
+          content="Showcase of advanced, modern, and professional projects by Ghulam Mujtaba. Explore software, web, mobile, AI, data science, and UI/UX work."
+        />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://ghulammujtaba.com/projects" />
-        <meta property="og:image" content="/og-image.png" />
+        <meta property="og:image" content="https://ghulammujtaba.com/og-image.png" />
         {/* Twitter Card Meta Tags */}
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="Projects | Ghulam Mujtaba" />
-        <meta name="twitter:description" content="Showcase of advanced, modern, and professional projects by Ghulam Mujtaba. Explore software, web, mobile, AI, data science, and UI/UX work." />
-        <meta name="twitter:image" content="/og-image.png" />
+        <meta
+          name="twitter:description"
+          content="Showcase of advanced, modern, and professional projects by Ghulam Mujtaba. Explore software, web, mobile, AI, data science, and UI/UX work."
+        />
+        <meta name="twitter:image" content="https://ghulammujtaba.com/og-image.png" />
         {/* Canonical URL */}
         <link rel="canonical" href="https://ghulammujtaba.com/projects" />
         {/* JSON-LD Structured Data for Projects */}
         <script
           type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: jsonLd }}
+        />
+        {/* JSON-LD Breadcrumbs */}
+        <script
+          type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
-              '@context': 'https://schema.org',
-              '@type': 'ItemList',
-              name: 'Projects',
-              url: 'https://ghulammujtaba.com/projects',
-              itemListElement: projects.map((project, idx) => ({
-                '@type': 'CreativeWork',
-                position: idx + 1,
-                name: project.title,
-                description: project.description,
-                url: project.livePreviewLink,
-                image: `/` + project.imgSrc,
-              })),
-            })
+              "@context": "https://schema.org",
+              "@type": "BreadcrumbList",
+              itemListElement: [
+                {
+                  "@type": "ListItem",
+                  position: 1,
+                  name: "Home",
+                  item: "https://ghulammujtaba.com/",
+                },
+                {
+                  "@type": "ListItem",
+                  position: 2,
+                  name: "Projects",
+                  item: "https://ghulammujtaba.com/projects",
+                },
+              ],
+            }),
           }}
         />
       </Head>
-      <div style={{ backgroundColor: theme === 'dark' ? '#1d2127' : '#ffffff', overflowX: 'hidden', minHeight: '100vh' }}>
+      <div
+        style={{
+          backgroundColor: theme === "dark" ? "#1d2127" : "#ffffff",
+          overflowX: "hidden",
+          minHeight: "100vh",
+        }}
+      >
         {/* Desktop NavBar */}
         <div className="hide-on-mobile">
           <NavBar />
@@ -153,10 +192,41 @@ const ProjectsPage = () => {
           <section className={`project-hero fade-in`}>
             <div className="hero-bg-visual-soft" aria-hidden="true">
               {/* Abstract lines SVG background */}
-              <svg width="100%" height="100%" viewBox="0 0 900 220" fill="none" xmlns="http://www.w3.org/2000/svg" style={{position:'absolute',top:0,left:0,width:'100%',height:'100%'}}>
-                <polyline points="60,60 200,40 350,100 500,60 700,120 850,60" stroke="#3b82f6" strokeWidth="2.5" opacity="0.13" fill="none" />
-                <polyline points="100,120 300,80 450,180 600,100 800,180" stroke="#60a5fa" strokeWidth="2" opacity="0.10" fill="none" />
-                <polyline points="80,180 250,160 400,200 650,160 820,200" stroke="#a5b4fc" strokeWidth="1.5" opacity="0.09" fill="none" />
+              <svg
+                width="100%"
+                height="100%"
+                viewBox="0 0 900 220"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                style={{
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
+                  width: "100%",
+                  height: "100%",
+                }}
+              >
+                <polyline
+                  points="60,60 200,40 350,100 500,60 700,120 850,60"
+                  stroke="#3b82f6"
+                  strokeWidth="2.5"
+                  opacity="0.13"
+                  fill="none"
+                />
+                <polyline
+                  points="100,120 300,80 450,180 600,100 800,180"
+                  stroke="#60a5fa"
+                  strokeWidth="2"
+                  opacity="0.10"
+                  fill="none"
+                />
+                <polyline
+                  points="80,180 250,160 400,200 650,160 820,200"
+                  stroke="#a5b4fc"
+                  strokeWidth="1.5"
+                  opacity="0.09"
+                  fill="none"
+                />
                 <circle cx="60" cy="60" r="4" fill="#3b82f6" opacity="0.18" />
                 <circle cx="850" cy="60" r="3" fill="#3b82f6" opacity="0.13" />
                 <circle cx="800" cy="180" r="3" fill="#60a5fa" opacity="0.13" />
@@ -174,7 +244,8 @@ const ProjectsPage = () => {
                 Innovating Across Web, Mobile, Desktop, AI, and Data Science
               </h2>
               <p className="refined-intro-desc animated-fadein-delayed">
-                Explore impactful projects where technology, design, and problem solving converge—each a testament to innovation and quality.
+                Explore impactful projects where technology, design, and problem
+                solving converge—each a testament to innovation and quality.
               </p>
             </div>
           </section>
@@ -183,7 +254,7 @@ const ProjectsPage = () => {
             {TAGS.map((tag, i) => (
               <button
                 key={tag}
-                className={`project-tag-btn${selectedTag === tag ? ' active' : ''}`}
+                className={`project-tag-btn${selectedTag === tag ? " active" : ""}`}
                 onClick={() => setSelectedTag(tag)}
                 aria-pressed={selectedTag === tag}
                 style={{ transitionDelay: `${i * 60}ms` }}
@@ -193,16 +264,29 @@ const ProjectsPage = () => {
             ))}
           </div>
           <div className="project-grid">
-            {filteredProjects.map((project, idx) => (
-              <div
-                key={project.title}
-                className="project-grid-card card-animate"
-                style={{ animationDelay: `${idx * 120}ms` }}
-              >
-                {/* Ensure images have alt text for SEO */}
-                <Project1 projectOverride={{ ...project, imgAlt: project.title + ' screenshot' }} />
+            {clientLoading ? (
+              <div className="loading-wrap">
+                <Spinner size="lg" label="Loading projects" />
+                <span className="sr-only">Loading projects…</span>
               </div>
-            ))}
+            ) : filteredProjects.length === 0 ? (
+              <div
+                className="empty-projects"
+                style={{ color: theme === "dark" ? "#cccccc" : "#4b5563" }}
+              >
+                {projectsError || clientError
+                  ? "Projects could not be loaded. Please try again later."
+                  : selectedTag === "All"
+                  ? "No projects available at the moment."
+                  : `No projects found for tag: ${selectedTag}.`}
+              </div>
+            ) : (
+              filteredProjects.map((project) => (
+                <div key={project._id} className="project-grid-card">
+                  <Project1 project={project} />
+                </div>
+              ))
+            )}
           </div>
           <Footer />
         </div>
@@ -212,17 +296,17 @@ const ProjectsPage = () => {
           width: 100vw;
           z-index: 100;
         }
-          /* position: fixed; */
-          /* top: 0; */
-          /* left: 0; */
-  
+        /* position: fixed; */
+        /* top: 0; */
+        /* left: 0; */
+
         .projects-page-bg.dark .mobile-navbar-row {
           background: #23272f !important;
-          box-shadow: 0 2px 8px 0 rgba(34,34,59,0.13);
+          box-shadow: 0 2px 8px 0 rgba(34, 34, 59, 0.13);
         }
         .projects-page-bg.dark .mobile-navbar-row {
           background: #23272f;
-          box-shadow: 0 2px 8px 0 rgba(34,34,59,0.13);
+          box-shadow: 0 2px 8px 0 rgba(34, 34, 59, 0.13);
         }
         .mobile-logo-align {
           display: flex;
@@ -243,15 +327,23 @@ const ProjectsPage = () => {
             z-index: 100;
             background: transparent;
           }
-            /* position: fixed; */
-            /* top: 0; */
-            /* left: 0; */
+          /* position: fixed; */
+          /* top: 0; */
+          /* left: 0; */
         }
-        .hide-on-mobile { display: block; }
-        .show-on-mobile { display: none; }
+        .hide-on-mobile {
+          display: block;
+        }
+        .show-on-mobile {
+          display: none;
+        }
         @media (max-width: 800px) {
-          .hide-on-mobile { display: none !important; }
-          .show-on-mobile { display: block !important; }
+          .hide-on-mobile {
+            display: none !important;
+          }
+          .show-on-mobile {
+            display: block !important;
+          }
         }
         .project-icons-row {
           display: flex;
@@ -262,7 +354,13 @@ const ProjectsPage = () => {
         }
         .animated-gradient-headline span {
           display: inline-block;
-          background: linear-gradient(270deg, #2563eb, #60a5fa, #a5b4fc, #2563eb);
+          background: linear-gradient(
+            270deg,
+            #2563eb,
+            #60a5fa,
+            #a5b4fc,
+            #2563eb
+          );
           background-size: 200% 200%;
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
@@ -271,19 +369,27 @@ const ProjectsPage = () => {
           animation: gradientMove 3.5s ease-in-out infinite;
         }
         @keyframes gradientMove {
-          0% { background-position: 0% 50%; }
-          50% { background-position: 100% 50%; }
-          100% { background-position: 0% 50%; }
+          0% {
+            background-position: 0% 50%;
+          }
+          50% {
+            background-position: 100% 50%;
+          }
+          100% {
+            background-position: 0% 50%;
+          }
         }
         .animated-fadein {
           opacity: 0;
           transform: translateY(18px);
-          animation: fadeInUp 1.1s cubic-bezier(.39,.575,.565,1.000) 0.3s forwards;
+          animation: fadeInUp 1.1s cubic-bezier(0.39, 0.575, 0.565, 1) 0.3s
+            forwards;
         }
         .animated-fadein-delayed {
           opacity: 0;
           transform: translateY(18px);
-          animation: fadeInUp 1.1s cubic-bezier(.39,.575,.565,1.000) 0.7s forwards;
+          animation: fadeInUp 1.1s cubic-bezier(0.39, 0.575, 0.565, 1) 0.7s
+            forwards;
         }
         .fade-in {
           opacity: 0;
@@ -292,18 +398,20 @@ const ProjectsPage = () => {
         .fade-in-up {
           opacity: 0;
           transform: translateY(30px);
-          animation: fadeInUp 0.7s cubic-bezier(.39,.575,.565,1.000) forwards;
+          animation: fadeInUp 0.7s cubic-bezier(0.39, 0.575, 0.565, 1) forwards;
         }
         .fade-in-up .project-tag-btn {
           opacity: 0;
           transform: translateY(20px);
-          animation: fadeInUp 0.5s cubic-bezier(.39,.575,.565,1.000) forwards;
+          animation: fadeInUp 0.5s cubic-bezier(0.39, 0.575, 0.565, 1) forwards;
         }
         .fade-in-up .project-tag-btn {
           animation-delay: inherit;
         }
         @keyframes fadeIn {
-          to { opacity: 1; }
+          to {
+            opacity: 1;
+          }
         }
         @keyframes fadeInUp {
           to {
@@ -314,12 +422,15 @@ const ProjectsPage = () => {
         .card-animate {
           opacity: 0;
           transform: translateY(40px) scale(0.98);
-          animation: cardFadeIn 0.7s cubic-bezier(.39,.575,.565,1.000) forwards;
+          animation: cardFadeIn 0.7s cubic-bezier(0.39, 0.575, 0.565, 1)
+            forwards;
         }
         .card-animate:hover {
           transform: translateY(-8px) scale(1.03);
-          box-shadow: 0 8px 32px 0 rgba(60,60,100,0.18);
-          transition: box-shadow 0.3s, transform 0.3s;
+          box-shadow: 0 8px 32px 0 rgba(60, 60, 100, 0.18);
+          transition:
+            box-shadow 0.3s,
+            transform 0.3s;
         }
         @keyframes cardFadeIn {
           to {
@@ -378,7 +489,7 @@ const ProjectsPage = () => {
           letter-spacing: -1px;
           margin-bottom: 0.5rem;
           line-height: 1.1;
-          text-shadow: 0 4px 24px rgba(60,100,200,0.10);
+          text-shadow: 0 4px 24px rgba(60, 100, 200, 0.1);
         }
         .refined-intro-sub {
           font-size: 1.35rem;
@@ -386,7 +497,7 @@ const ProjectsPage = () => {
           font-weight: 600;
           margin-bottom: 0.7rem;
           letter-spacing: 0.02em;
-          text-shadow: 0 2px 12px rgba(60,100,200,0.08);
+          text-shadow: 0 2px 12px rgba(60, 100, 200, 0.08);
         }
         .refined-intro-desc {
           font-size: 1.13rem;
@@ -396,7 +507,7 @@ const ProjectsPage = () => {
           margin: 0 auto;
           line-height: 1.6;
           letter-spacing: 0.01em;
-          text-shadow: 0 1px 6px rgba(60,100,200,0.06);
+          text-shadow: 0 1px 6px rgba(60, 100, 200, 0.06);
         }
         .refined-intro-centered {
           align-items: center;
@@ -422,10 +533,19 @@ const ProjectsPage = () => {
           color: #bbb;
         }
         @media (max-width: 600px) {
-          .refined-intro-main { font-size: 1.2rem; }
-          .refined-intro-sub { font-size: 0.98rem; }
-          .project-hero { padding: 1.3rem 0 0.7rem 0; border-radius: 0 0 12px 12px; }
-          .hero-bg-visual-soft { height: 120px; }
+          .refined-intro-main {
+            font-size: 1.2rem;
+          }
+          .refined-intro-sub {
+            font-size: 0.98rem;
+          }
+          .project-hero {
+            padding: 1.3rem 0 0.7rem 0;
+            border-radius: 0 0 12px 12px;
+          }
+          .hero-bg-visual-soft {
+            height: 120px;
+          }
         }
         .project-tags {
           display: flex;
@@ -448,8 +568,10 @@ const ProjectsPage = () => {
           font-size: 1rem;
           font-weight: 500;
           cursor: pointer;
-          transition: all 0.2s, box-shadow 0.3s;
-          box-shadow: 0 2px 8px 0 rgba(60,60,100,0.06);
+          transition:
+            all 0.2s,
+            box-shadow 0.3s;
+          box-shadow: 0 2px 8px 0 rgba(60, 60, 100, 0.06);
         }
         @media (max-width: 600px) {
           .project-tag-btn {
@@ -458,11 +580,12 @@ const ProjectsPage = () => {
             margin-bottom: 0.2rem;
           }
         }
-        .project-tag-btn.active, .project-tag-btn:hover {
+        .project-tag-btn.active,
+        .project-tag-btn:hover {
           background: #22223b;
           color: #fff;
           border-color: #22223b;
-          box-shadow: 0 4px 16px 0 rgba(34,34,59,0.18);
+          box-shadow: 0 4px 16px 0 rgba(34, 34, 59, 0.18);
           transform: translateY(-2px) scale(1.05);
         }
         .projects-page-bg.dark .project-tag-btn {
@@ -470,7 +593,8 @@ const ProjectsPage = () => {
           color: #eee;
           border-color: #23272f;
         }
-        .projects-page-bg.dark .project-tag-btn.active, .projects-page-bg.dark .project-tag-btn:hover {
+        .projects-page-bg.dark .project-tag-btn.active,
+        .projects-page-bg.dark .project-tag-btn:hover {
           background: #fff;
           color: #22223b;
           border-color: #fff;
@@ -508,24 +632,124 @@ const ProjectsPage = () => {
           width: 100%;
           max-width: 420px;
         }
+        .loading-wrap {
+          grid-column: 1 / -1;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 2rem 0;
+        }
+        .sr-only {
+          position: absolute;
+          width: 1px;
+          height: 1px;
+          padding: 0;
+          margin: -1px;
+          overflow: hidden;
+          clip: rect(0, 0, 0, 0);
+          white-space: nowrap;
+          border: 0;
+        }
+        .empty-projects {
+          grid-column: 1 / -1;
+          text-align: center;
+          padding: 2rem 1rem;
+        }
         @media (max-width: 600px) {
           .project-grid-card {
             max-width: 98vw;
             width: 100%;
             margin: 0 auto;
             border-radius: 16px;
-            box-shadow: 0 2px 12px 0 rgba(60,60,100,0.10);
+            box-shadow: 0 2px 12px 0 rgba(60, 60, 100, 0.1);
             background: #fff;
             justify-content: center;
           }
           .projects-page-bg.dark .project-grid-card {
             background: #23272f;
-            box-shadow: 0 2px 12px 0 rgba(34,34,59,0.16);
+            box-shadow: 0 2px 12px 0 rgba(34, 34, 59, 0.16);
           }
         }
       `}</style>
     </>
   );
 };
+
+export async function getServerSideProps() {
+  await dbConnect();
+
+  const raw = await Project.find({ published: true })
+    .sort({ createdAt: -1 })
+    .lean();
+
+  const LinkSchema = z
+    .object({
+      live: z.string().url().optional().or(z.literal("")),
+      github: z.string().url().optional().or(z.literal("")),
+    })
+    .partial();
+  const ProjectSchema = z.object({
+    _id: z.any(),
+    title: z.string().min(1).optional(),
+    description: z.string().optional(),
+    image: z.string().optional(),
+    imageFit: z.enum(["contain", "cover", "fill", "none", "scale-down"]).optional(),
+    tags: z.array(z.string()).optional(),
+    category: z
+      .enum([
+        "All",
+        "Software Development",
+        "Web Development",
+        "AI",
+        "Data Science",
+        "UI/UX",
+        "Others",
+      ])
+      .optional(),
+    links: LinkSchema.optional(),
+  });
+  const ProjectsSchema = z.array(ProjectSchema);
+
+  const parsed = ProjectsSchema.safeParse(raw);
+  let normalized;
+  if (!parsed.success) {
+    // eslint-disable-next-line no-console
+    console.warn("Projects validation failed; falling back to best-effort normalization.");
+    normalized = Array.isArray(raw)
+      ? raw.map((p) => ({
+          _id: p?._id?.toString?.() || String(p?._id || ""),
+          title: typeof p?.title === "string" && p.title.trim() ? p.title : "Untitled",
+          description: typeof p?.description === "string" ? p.description : "",
+          image: typeof p?.image === "string" ? p.image : "",
+          imageFit: typeof p?.imageFit === "string" ? p.imageFit : undefined,
+          tags: Array.isArray(p?.tags) ? p.tags : [],
+          category: typeof p?.category === "string" && p.category.trim() ? p.category : "Others",
+          links: {
+            live: typeof p?.links?.live === "string" ? p.links.live : "",
+            github: typeof p?.links?.github === "string" ? p.links.github : "",
+          },
+        }))
+      : [];
+  } else {
+    // Normalize minimal shape used by UI to avoid undefined access downstream
+    normalized = parsed.data.map((p) => ({
+      _id: p._id?.toString?.() || String(p._id),
+      title: p.title || "Untitled",
+      description: p.description || "",
+      image: p.image || "",
+      imageFit: p.imageFit || undefined,
+      tags: Array.isArray(p.tags) ? p.tags : [],
+      category: p.category || "Others",
+      links: { live: p.links?.live || "", github: p.links?.github || "" },
+    }));
+  }
+
+  return {
+    props: {
+      projects: JSON.parse(JSON.stringify(normalized)),
+      projectsError: parsed.success ? null : "invalid_data",
+    },
+  };
+}
 
 export default ProjectsPage;

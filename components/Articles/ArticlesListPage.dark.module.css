@@ -1,0 +1,38 @@
+.heroTitle {
+  color: #ffffff;
+}
+.heroSubtitle {
+  color: #e5e5e5;
+}
+.searchInput {
+  background: #1d2127;
+  border-color: #272c34;
+  color: #e5e5e5;
+}
+.searchInput::placeholder {
+  color: #cccccc;
+}
+.skeletonCard {
+  background: #23272f;
+}
+.skelImage {
+  background: linear-gradient(90deg, #2a2f37, #23272f, #2a2f37);
+}
+.skelLine {
+  background: linear-gradient(90deg, #2a2f37, #23272f, #2a2f37);
+}
+.pageBtn {
+  background: #1d2127;
+  color: #e5e5e5;
+  border-color: #272c34;
+}
+.pageBtn:hover:not(:disabled) {
+  border-color: rgba(69, 115, 223, 0.35);
+  box-shadow: 0 0 0 3px rgba(69, 115, 223, 0.18);
+}
+.pageInfo {
+  color: #cccccc;
+}
+.empty {
+  color: #e5e5e5;
+}

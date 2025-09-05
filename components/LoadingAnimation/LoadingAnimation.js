@@ -1,0 +1,130 @@
+import React, { useEffect, useMemo, useState } from "react";
+import { useTheme } from "../../context/ThemeContext";
+import styles from "./LoadingAnimation.module.css";
+
+const LoadingAnimation = ({
+  visible = true,
+  backdropBlur,
+  backdropOpacity,
+  showStars = true,
+  size = "md", // 'sm' | 'md' | 'lg'
+  fullscreen = true,
+  message,
+  progress, // 0-100
+  variant = "atom", // 'atom' | 'ring'
+  sizePx, // for ring variant (number)
+}) => {
+  const { theme } = useTheme();
+  const [stars, setStars] = useState([]);
+
+  const bgColor = useMemo(() => {
+    if (typeof backdropOpacity !== "number") return undefined;
+    const base = theme === "dark" ? [29, 33, 39] : [255, 255, 255];
+    return `rgba(${base[0]}, ${base[1]}, ${base[2]}, ${Math.max(0, Math.min(backdropOpacity, 1))})`;
+  }, [backdropOpacity, theme]);
+
+  // generate a light starfield after mount to avoid SSR mismatch
+  useEffect(() => {
+    if (!showStars) return;
+    const base = size === "lg" ? 14 : size === "sm" ? 6 : 10;
+    const count = base;
+    const s = Array.from({ length: count }).map((_, i) => {
+      const size = Math.random() * 2 + 1; // 1-3px
+      const x = Math.random() * 100; // %
+      const y = Math.random() * 100; // %
+      const delay = Math.random() * 2; // 0-2s
+      const dur = 2 + Math.random() * 2; // 2-4s
+      return { id: i, size, x, y, delay, dur };
+    });
+    setStars(s);
+  }, [showStars, size]);
+
+  const scale = size === "sm" ? 0.8 : size === "lg" ? 1.2 : 1;
+  const ringSize = useMemo(() => {
+    if (typeof sizePx === "number" && sizePx > 0) return sizePx;
+    if (size === "sm") return 16;
+    if (size === "lg") return 24;
+    return 20; // md
+  }, [sizePx, size]);
+
+  return (
+    <div
+      className={`${styles.container} ${!fullscreen ? styles.inline : ""} ${!visible ? styles.hidden : ""}`}
+      data-theme={theme}
+      role={typeof progress === "number" ? "progressbar" : "status"}
+      aria-live="polite"
+      aria-busy={visible}
+      aria-hidden={!visible}
+      aria-label={message || "Loading"}
+      aria-valuemin={typeof progress === "number" ? 0 : undefined}
+      aria-valuemax={typeof progress === "number" ? 100 : undefined}
+      aria-valuenow={typeof progress === "number" ? Math.max(0, Math.min(100, progress)) : undefined}
+      style={{
+        backdropFilter: typeof backdropBlur === "number" ? `blur(${backdropBlur}px)` : undefined,
+        WebkitBackdropFilter: typeof backdropBlur === "number" ? `blur(${backdropBlur}px)` : undefined,
+        backgroundColor: bgColor,
+      }}
+    >
+      {variant === "atom" && (
+        <>
+          {/* ambient starfield */}
+          {showStars && (
+            <div className={styles.stars} aria-hidden>
+              {stars.map((s) => (
+                <span
+                  key={s.id}
+                  className={styles.star}
+                  style={{
+                    width: s.size,
+                    height: s.size,
+                    left: `${s.x}%`,
+                    top: `${s.y}%`,
+                    animationDelay: `${s.delay}s`,
+                    animationDuration: `${s.dur}s`,
+                  }}
+                />
+              ))}
+            </div>
+          )}
+          <div className={styles.spinnerBox} style={{ transform: `scale(${scale})` }}>
+            <div className={styles.orbitContainer1}>
+              <div className={styles.orbit}>
+                <div className={styles.electron}></div>
+              </div>
+            </div>
+            <div className={styles.orbitContainer2}>
+              <div className={styles.orbit}>
+                <div className={styles.electron}></div>
+              </div>
+            </div>
+            <div className={styles.centralCore}></div>
+          </div>
+        </>
+      )}
+      {variant === "ring" && (
+        <div className={styles.ringWrap} style={{ width: ringSize, height: ringSize }}>
+          <span className={styles.ringTrack} />
+          <span className={styles.ringIndicator} />
+        </div>
+      )}
+      {(message || typeof progress === "number") && (
+        <div className={styles.meta}>
+          {message && <div className={styles.message}>{message}</div>}
+          {typeof progress === "number" && (
+            <div className={styles.progress} aria-hidden>
+              <div className={styles.progressTrack}>
+                <div
+                  className={styles.progressBar}
+                  style={{ width: `${Math.max(0, Math.min(100, progress))}%` }}
+                />
+              </div>
+              <span className={styles.progressText}>{Math.round(Math.max(0, Math.min(100, progress)))}%</span>
+            </div>
+          )}
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default LoadingAnimation;

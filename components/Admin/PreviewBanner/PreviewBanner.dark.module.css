@@ -1,0 +1,5 @@
+.banner {
+  background: #2a2a2a;
+  color: #fbbf24; /* amber-400 for contrast */
+  border-bottom-color: #4b5563; /* gray-600 */
+}

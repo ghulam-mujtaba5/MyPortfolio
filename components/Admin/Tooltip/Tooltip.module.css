@@ -1,0 +1,76 @@
+.wrapper {
+  position: relative;
+  display: inline-flex;
+}
+
+.bubble {
+  position: absolute;
+  z-index: 50;
+  left: 50%;
+  transform: translate(-50%, -6px) scale(0.98);
+  bottom: 100%;
+  margin-bottom: 8px;
+  padding: 6px 8px;
+  background: rgba(17, 24, 39, 0.95);
+  color: #fff;
+  border-radius: 6px;
+  font-size: 12px;
+  line-height: 1;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    opacity 120ms ease,
+    transform 120ms ease;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+}
+
+/* Show on hover/focus */
+.wrapper:hover .bubble,
+.wrapper:focus-within .bubble {
+  opacity: 1;
+  transform: translate(-50%, -10px) scale(1);
+}
+
+/* Placements */
+.top .bubble {
+  bottom: 100%;
+}
+.bottom .bubble {
+  top: 100%;
+  bottom: auto;
+  transform: translate(-50%, 6px) scale(0.98);
+}
+.bottom:hover .bubble,
+.bottom:focus-within .bubble {
+  transform: translate(-50%, 10px) scale(1);
+}
+.left .bubble {
+  left: auto;
+  right: 100%;
+  top: 50%;
+  bottom: auto;
+  transform: translate(-6px, -50%) scale(0.98);
+}
+.left:hover .bubble,
+.left:focus-within .bubble {
+  transform: translate(-10px, -50%) scale(1);
+}
+.right .bubble {
+  left: 100%;
+  top: 50%;
+  bottom: auto;
+  transform: translate(6px, -50%) scale(0.98);
+}
+.right:hover .bubble,
+.right:focus-within .bubble {
+  transform: translate(10px, -50%) scale(1);
+}
+
+@media (prefers-color-scheme: dark) {
+  .bubble {
+    background: rgba(31, 41, 55, 0.95);
+    color: #e5e7eb;
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.45);
+  }
+}

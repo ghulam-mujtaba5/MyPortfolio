@@ -1,0 +1,26 @@
+.widgetContainer {
+  background-color: #ffffff;
+  border: 1px solid #e3e6ea;
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.02),
+    0 4px 12px rgba(0, 0, 0, 0.04);
+}
+
+.widgetContainer:hover {
+  box-shadow:
+    0 4px 8px rgba(0, 0, 0, 0.03),
+    0 6px 16px rgba(0, 0, 0, 0.05);
+}
+
+.iconContainer {
+  background-color: #eef2ff; /* A light version of brand blue */
+  color: #4573df; /* Brand Blue */
+}
+
+.title {
+  color: #555555;
+}
+
+.value {
+  color: #000000;
+}

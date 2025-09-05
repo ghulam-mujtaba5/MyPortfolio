@@ -1,0 +1,34 @@
+.title {
+  color: #ffffff;
+}
+.meta {
+  color: #e5e5e5;
+}
+.tag {
+  color: #e5e5e5;
+  background: #1d2127;
+  border: 1px solid #272c34;
+}
+.article :global(p) {
+  color: #e5e5e5;
+}
+.article :global(blockquote) {
+  border-left-color: #263241;
+  color: #e5e5e5;
+  background: #19212c;
+}
+.highlightCard {
+  border: 1px solid #263241;
+  background: #19212c;
+}
+.progressBar {
+  background: linear-gradient(90deg, #60a5fa, #3b82f6);
+}
+.shareBtn {
+  border: 1px solid #263241;
+  background: #1d2127;
+  color: #ffffff;
+}
+.shareBtn:hover {
+  background: #151b24;
+}

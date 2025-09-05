@@ -1,0 +1,4 @@
+.header h1 { color: var(--text); }
+.header p { color: var(--muted-text, color-mix(in oklab, var(--text) 70%, transparent)); }
+.sectionTitle { color: var(--text); }
+.widget { background-color: var(--bg-elev-1); border-color: var(--border); color: var(--text); }

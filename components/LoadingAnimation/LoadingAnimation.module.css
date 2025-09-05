@@ -1,0 +1,375 @@
+.container {
+  --loader-bg: rgba(255, 255, 255, 0.88);
+  /* Light mode palette: vibrant yet soft blues for visibility on white */
+  --orbit-color-1: #3c6eea; /* Brand Blue vib */
+  --orbit-color-2: #6fa2ff; /* Light Blue */
+  --orbit-color-3: #b7cdf8; /* Softest Blue (slightly darker for contrast) */
+  --core-color: #3c6eea; /* Blue core for light mode */
+
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--loader-bg);
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
+  z-index: 9999;
+  /* smooth show/hide */
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transition:
+    opacity 220ms ease,
+    visibility 220ms step-end,
+    background-color 0.3s ease;
+}
+
+.container[data-theme="dark"] {
+  --loader-bg: rgba(29, 33, 39, 0.8);
+  --orbit-color-1: #4573df; /* Brand Blue */
+  --orbit-color-2: #7aa0e8; /* Lighter Blue */
+  --orbit-color-3: #a8c0f0; /* Lightest Blue */
+  --core-color: #ffffff;
+}
+
+/* hidden state when not visible but still mounted */
+.hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition:
+    opacity 180ms ease,
+    visibility 0s linear 180ms, /* hide after fade-out */
+    background-color 0.3s ease;
+}
+
+/* Inline mode: use loader as an inline/embedded block instead of fullscreen */
+.inline {
+  position: relative;
+  inset: auto;
+  width: auto;
+  height: auto;
+  padding: 12px;
+  background: transparent;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  border-radius: 12px;
+  z-index: auto;
+}
+
+.inline .stars { display: none; }
+
+/* ATOMIC ORBIT ANIMATION - STABLE IMPLEMENTATION */
+
+.spinnerBox {
+  width: 200px;
+  height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  perspective: 1000px;
+  transform-style: preserve-3d;
+  animation: drift 10s ease-in-out infinite alternate;
+}
+
+/* Soft aura glow behind the spinner */
+.spinnerBox::before {
+  content: "";
+  position: absolute;
+  inset: -20%;
+  background: radial-gradient(60% 60% at 50% 50%, color-mix(in srgb, var(--orbit-color-2) 40%, transparent) 0%, transparent 70%);
+  filter: blur(30px);
+  opacity: 0.35;
+  animation: aura 6s ease-in-out infinite;
+  z-index: 0;
+}
+
+.spinnerBox > * { position: relative; z-index: 1; }
+
+/* Ultra-compact ring variant (for buttons/table rows) */
+.ringWrap {
+  position: relative;
+  display: inline-block;
+  vertical-align: middle;
+  box-sizing: border-box;
+  contain: content;
+}
+
+.ringTrack {
+  position: absolute;
+  inset: 0;
+  border-radius: 999px;
+  box-sizing: border-box;
+  border: 2px solid color-mix(in srgb, var(--orbit-color-3) 45%, transparent);
+  opacity: 0.8;
+}
+
+.ringIndicator {
+  position: absolute;
+  inset: 0;
+  border-radius: 999px;
+  box-sizing: border-box;
+  border: 2px solid transparent;
+  border-top-color: var(--orbit-color-1);
+  border-right-color: var(--orbit-color-2);
+  animation: ring-spin 0.8s linear infinite;
+  filter: drop-shadow(0 0 4px color-mix(in srgb, var(--orbit-color-2) 60%, transparent));
+}
+
+.orbitContainer1,
+.orbitContainer2 {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transform-style: preserve-3d;
+}
+
+/* Static 3D tilts are applied to the containers */
+.orbitContainer1 {
+  transform: rotateX(70deg) rotateY(20deg);
+}
+
+.orbitContainer2 {
+  transform: rotateX(70deg) rotateY(-50deg);
+}
+
+/* The orbit itself only handles the 2D spin */
+.orbit {
+  width: 160px;
+  height: 160px;
+  border: 2px solid var(--orbit-color-1);
+  border-radius: 50%;
+  position: relative;
+  transform-style: preserve-3d;
+  animation: spin 4s linear infinite;
+  filter: drop-shadow(0 0 5px color-mix(in srgb, var(--orbit-color-1) 50%, transparent));
+}
+
+.orbitContainer2 .orbit {
+  width: 160px;
+  height: 160px;
+  border-color: var(--orbit-color-2);
+  animation-duration: 3.5s;
+  animation-direction: reverse;
+  animation-delay: -0.8s;
+  filter: drop-shadow(0 0 5px color-mix(in srgb, var(--orbit-color-2) 50%, transparent));
+}
+
+.electron {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background-color: currentColor;
+  border-radius: 50%;
+  top: 50%;
+  left: -5px; /* (width / -2) */
+  transform: translateY(-50%);
+  color: var(--orbit-color-1);
+  box-shadow: 0 0 12px currentColor, 0 0 20px currentColor;
+  animation: electron-pulse 1.2s ease-in-out infinite;
+}
+
+.electron::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-20%, -50%);
+  width: 14px;
+  height: 6px;
+  border-radius: 6px / 3px;
+  background: radial-gradient(ellipse at left, currentColor 30%, transparent 70%);
+  filter: blur(1px) opacity(0.7);
+}
+
+.orbitContainer2 .electron {
+  color: var(--orbit-color-2);
+  animation-delay: -0.6s;
+}
+
+.centralCore {
+  width: 20px;
+  height: 20px;
+  background: radial-gradient(circle at 35% 35%, #ffffff88 0%, var(--core-color) 35%, color-mix(in srgb, var(--core-color) 40%, #000) 100%);
+  border-radius: 50%;
+  box-shadow: 0 0 14px var(--core-color), 0 0 28px color-mix(in srgb, var(--core-color) 60%, transparent);
+  animation: pulse-core 2.5s ease-in-out infinite;
+}
+
+@keyframes spin {
+  from { transform: rotateZ(0deg); }
+  to   { transform: rotateZ(360deg); }
+}
+
+@keyframes drift {
+  from { transform: rotateX(2deg) rotateY(4deg); }
+  to   { transform: rotateX(-2deg) rotateY(-4deg); }
+}
+
+@keyframes aura {
+  0%, 100% { opacity: 0.25; transform: scale(0.98) rotate(0deg); }
+  50%      { opacity: 0.45; transform: scale(1.03) rotate(10deg); }
+}
+
+@keyframes ring-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+@keyframes pulse-core {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 14px var(--core-color), 0 0 28px color-mix(in srgb, var(--core-color) 60%, transparent);
+  }
+  50% {
+    transform: scale(1.1);
+    box-shadow: 0 0 22px var(--core-color), 0 0 36px color-mix(in srgb, var(--core-color) 80%, transparent);
+  }
+}
+
+@keyframes electron-pulse {
+  0%, 100% {
+    transform: translateY(-50%) scale(1);
+    filter: brightness(1);
+  }
+  50% {
+    transform: translateY(-50%) scale(1.15);
+    filter: brightness(1.15);
+  }
+}
+
+/* Starfield (remains unchanged) */
+.stars {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.star {
+  position: absolute;
+  background: currentColor;
+  color: var(--orbit-color-3);
+  border-radius: 50%;
+  opacity: 0.35;
+  animation: twinkle 3s ease-in-out infinite;
+  filter: drop-shadow(0 0 4px currentColor);
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0.25; transform: scale(1); }
+  50% { opacity: 0.85; transform: scale(1.2); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spinnerBox {
+    animation: none;
+  }
+  .spinnerBox::before { animation: none; }
+  .orbit1,
+  .orbit2 {
+    animation: none;
+    /* Set a static, clear transform for reduced motion */
+    transform: rotateX(60deg) rotateY(0deg);
+  }
+  .orbit2 {
+    transform: rotateX(60deg) rotateY(60deg);
+  }
+  .orbit1 {
+    animation-delay: 0s;
+  }
+  .orbit2 {
+    animation-delay: 0.5s;
+  }
+  .centralCore {
+    animation: none;
+  }
+  .star {
+    animation: none;
+    opacity: 0.6;
+  }
+  .ringIndicator { animation: none; }
+}
+
+/* Metadata: message + progress */
+.meta {
+  margin-top: 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  color: #2b2f36;
+}
+
+.container[data-theme="dark"] .meta { color: #e9eef7; }
+
+.message {
+  font-size: 0.95rem;
+  line-height: 1.2;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+  opacity: 0.9;
+}
+
+.progress {
+  width: min(360px, 72vw);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.progressTrack {
+  position: relative;
+  flex: 1 1 auto;
+  height: 6px;
+  background: color-mix(in srgb, var(--orbit-color-3) 30%, transparent);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.progressBar {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 0%;
+  background: linear-gradient(90deg, var(--orbit-color-1), var(--orbit-color-2));
+  border-radius: 999px;
+  transition: width 260ms ease;
+  box-shadow: 0 0 10px color-mix(in srgb, var(--orbit-color-2) 60%, transparent);
+}
+
+.progressText {
+  font-variant-numeric: tabular-nums;
+  min-width: 3ch;
+  text-align: right;
+  font-size: 0.9rem;
+  opacity: 0.85;
+}
+
+/* Responsive sizing for small screens */
+@media (max-width: 480px) {
+  .spinnerBox {
+    width: 140px;
+    height: 140px;
+  }
+  /* preserve distinct radii on small screens */
+  .orbit1 { width: 110px; height: 110px; }
+  .orbit2 { width: 130px; height: 130px; }
+  .electron {
+    width: 10px;
+    height: 10px;
+    left: -5px;
+  }
+  .centralCore {
+    width: 16px;
+    height: 16px;
+  }
+}

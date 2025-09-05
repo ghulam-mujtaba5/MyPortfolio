@@ -13,11 +13,13 @@
 
   padding: 30px 6%; /* Padding on left and right */
   box-sizing: border-box;
-  background-color: var(--background-color); /* Ensures background color matches theme */
+  background-color: var(
+    --background-color
+  ); /* Ensures background color matches theme */
 }
 
 .title {
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
   font-size: 24px;
   font-weight: bold;
   margin-bottom: 20px;

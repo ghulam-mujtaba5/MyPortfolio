@@ -3,13 +3,16 @@
 .active {
   background-color: #4573df !important;
   color: #fff !important;
-  box-shadow: 0 4px 16px 0 rgba(34,34,59,0.18);
+  box-shadow: 0 4px 16px 0 rgba(34, 34, 59, 0.18);
   transform: scale(1.05);
 }
 /* Styles for the Home button text */
 
 .header * {
-  transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+  transition:
+    background-color 0.3s ease,
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
 .homeText {
@@ -45,7 +48,6 @@
 .contact:hover {
   background-color: #33373c; /* Change to darker color on hover */
   transform: scale(1.05); /* Slight scale effect on hover */
-  
 }
 
 /* Styles for the About section text */
@@ -91,7 +93,6 @@
   width: 40px;
   height: 40px;
   position: relative;
-  
 }
 
 /* Styles for the Logo button container */
@@ -115,8 +116,10 @@
   background-color: #272c34;
   transform: scale(1.03);
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  box-shadow: 0 0 5px #4573df, 0 0 10px #4573df, 0 0 15px #4573df;
-  
+  box-shadow:
+    0 0 5px #4573df,
+    0 0 10px #4573df,
+    0 0 15px #4573df;
 }
 
 /* Styles for the Name animation icon */
@@ -138,7 +141,7 @@
   position: relative;
   transition: transform 0.3s ease; /* Smooth transform transition */
 
-  /* width: 250px;  *//*make all uton stick ot places when hoverred*/ 
+  /* width: 250px;  */ /*make all uton stick ot places when hoverred*/
 }
 
 /* Additional styles for the Logo and Name animation container */
@@ -153,7 +156,6 @@
   opacity: 0; /* Hide the Name animation icon on hover */
   transition: opacity 0.3s ease; /* Smooth opacity transition */
 }
-
 
 /* Styles for the Resume section text */
 .resumeText {
@@ -220,7 +222,6 @@
 /* Styles for the header container */
 .header {
   flex: 1;
-
   border-radius: 50px;
   background-color: #1d2127;
   border: 1px solid #fff;
@@ -230,22 +231,26 @@
   top: 0;
   z-index: 99;
   max-width: 100%;
-  gap: 20px;
+  gap: 10px; /* Adjusted gap */
   text-align: left;
   font-size: 20px;
   color: #fff;
   font-family: "Open Sans";
   margin: 0 20px; /* Add margin */
 }
-.alternativeNameIcon{
 
+.leftNavigation,
+.rightNavigation {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 5px; /* Adjust gap between items */
+}
+.alternativeNameIcon {
   width: 120px;
   position: relative;
-
-
 }
-
-
 
 /* Media query for smaller screens */
 @media screen and (max-width: 768px) {

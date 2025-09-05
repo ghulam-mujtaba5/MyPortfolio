@@ -1,68 +1,63 @@
 .container {
-    margin-top: 10%;
-    position: relative;
-    height: 100%;
-    width: 100%;
-    border-radius: 15px; /* Rounded corners */
+  margin-top: 10%;
+  position: relative;
+  height: 100%;
+  width: 100%;
+  border-radius: 15px; /* Rounded corners */
 }
 
 .aboutMeSection {
-    text-align: left;
-    font-family: 'Open Sans';
-    max-width: 90%;
-    margin: 0 auto;
-    padding: 50px 80px;
-   
+  text-align: left;
+  font-family: "Open Sans";
+  max-width: 90%;
+  margin: 0 auto;
+  padding: 50px 80px;
 }
 
 .title {
-    font-weight: bold;
-    font-size: 1.5rem;
-    margin-bottom: 20px;
+  font-weight: bold;
+  font-size: 1.5rem;
+  margin-bottom: 20px;
 }
 
 .description {
-    font-size: 24px;
-    font-weight: lighter;
-    line-height: 1.5;
-    text-align: justify;
+  font-size: 24px;
+  font-weight: lighter;
+  line-height: 1.5;
+  text-align: justify;
 }
 
 /* Responsive styles */
 @media (max-width: 768px) {
-    .container {
-        margin-top: 5%;
-      
-    }
-    .title {
-        font-size: 22px;
-    }
+  .container {
+    margin-top: 5%;
+  }
+  .title {
+    font-size: 22px;
+  }
 
-    .description {
-        font-size: 18px;
-    }
+  .description {
+    font-size: 18px;
+  }
 }
 
 @media (max-width: 576px) {
+  .container {
+    margin-top: 3%;
+  }
 
-    .container {
-        margin-top: 3%;
-       
-    }
+  .title {
+    font-size: 22px;
+    margin-bottom: 10px;
+    padding-left: 2%;
+  }
 
-    .title {
-        font-size: 22px;
-        margin-bottom: 10px;
-        padding-left: 2%;
-    }
+  .description {
+    font-size: 18px;
+    text-align: justify;
+  }
 
-    .description {
-        font-size: 18px;
-        text-align: justify;
-    }
-
-    .aboutMeSection {
-        padding: 25px 25px;
-       
-    }
+  .aboutMeSection {
+    padding: 25px 25px;
+  }
 }
