@@ -38,6 +38,7 @@ const nextConfig = {
             value: 'www.ghulammujtaba.com', // Main website on localhost
           },
         ],
+    permanent: true,
       },
       {
         source: '/:path*', // SoftBuilt subdomain routes
@@ -48,11 +49,13 @@ const nextConfig = {
             value: 'softbuilt.ghulammujtaba.com', // SoftBuilt subdomain
           },
         ],
+    permanent: true,
       },
       // SoftBuilt subdomain to /softbuilt
       {
         source: '/:path*',
         destination: '/portfolio/:path*',
+    permanent: true,
       },
     ];
   },
