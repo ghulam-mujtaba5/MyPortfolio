@@ -30,6 +30,10 @@ module.exports = {
     if (isCI) {
       return [];
     }
+    // If no MongoDB URI is configured, skip additional DB-backed routes.
+    if (!process.env.MONGODB_URI) {
+      return [];
+    }
     try {
       // Use dynamic import to work with ESM modules from a CJS config
       const { default: dbConnect } = await import("./lib/mongoose.js");

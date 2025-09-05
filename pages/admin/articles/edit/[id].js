@@ -96,6 +96,19 @@ export default function EditArticlePage({ article, previewSecret }) {
 }
 
 export async function getServerSideProps({ params }) {
+  // During static builds or environments without a configured database,
+  // avoid attempting to connect. This prevents build-time errors when
+  // .env.local is not present or during CI where the DB is intentionally
+  // unavailable. Redirect to the admin home with an error query instead.
+  if (!process.env.MONGODB_URI) {
+    return {
+      redirect: {
+        destination: '/admin?error=no_db',
+        permanent: false,
+      },
+    };
+  }
+
   await dbConnect();
 
   let article = null;

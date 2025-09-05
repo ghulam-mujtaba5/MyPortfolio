@@ -1,15 +1,15 @@
 
 
-import SEO from '../components/SEO';
-import NavBar from '../components/NavBar_Mobile/NavBar-mobile';
-import Footer from '../components/Footer/Footer';
+import SEO from '../../components/SEO';
+import NavBar from '../../components/NavBar_Mobile/NavBar-mobile';
+import Footer from '../../components/Footer/Footer';
 
 import React, { useMemo } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import styles from './PrivacyPolicy.module.css';
 
-import { useTheme } from '../context/ThemeContext';
+import { useTheme } from '../../context/ThemeContext';
 
 
 

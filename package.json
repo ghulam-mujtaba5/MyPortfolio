@@ -4,6 +4,7 @@
     "migrate:projects": "node scripts/migrate-projects.js",
     "db:seed": "node scripts/seed-projects.js",
     "build": "next build",
+  "export": "next export",
     "start": "next start",
     "lint": "next lint",
     "postbuild": "next-sitemap --config next-sitemap-config.js",
