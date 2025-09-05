@@ -1,17 +1,17 @@
-import Icon from '../components/Icon/gmicon';
-import SEO from '../components/SEO';
+import Icon from '../../components/Icon/gmicon';
+import SEO from '../../components/SEO';
 
 import React, { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import Head from 'next/head';
-import { useTheme } from '../context/ThemeContext';
-import NavBar from '../components/NavBar_Desktop/nav-bar';
-import NavBarMobile from '../components/NavBar_Mobile/NavBar-mobile';
+import { useTheme } from '../../context/ThemeContext';
+import NavBar from '../../components/NavBar_Desktop/nav-bar';
+import NavBarMobile from '../../components/NavBar_Mobile/NavBar-mobile';
 
-import Footer from '../components/Footer/Footer';
+import Footer from '../../components/Footer/Footer';
 
 // Dynamically import Project1 to avoid SSR issues with next/image
-const Project1 = dynamic(() => import('../components/Projects/Project1'), { ssr: false });
+const Project1 = dynamic(() => import('../../components/Projects/Project1'), { ssr: false });
 
 const TAGS = [
   'All',

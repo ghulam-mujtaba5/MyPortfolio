@@ -26,32 +26,41 @@ const nextConfig = {
   reactStrictMode: true, // Enable React Strict Mode
   productionBrowserSourceMaps: true, // Enable production source maps for better debugging
 
-  async rewrites() {
+  async redirects() {
     return [
-      {
-        source: '/:path*',  // Catch all paths
-        destination: '/portfolio/:path*', // Redirect to the portfolio folder for localhost
-        has: [
-          {
-            type: 'host',
-            value: 'www.ghulammujtaba.com', // Main website on localhost
-          },
-        ],
-      },
-      {
-        source: '/:path*', // SoftBuilt subdomain routes
-        destination: '/softbuilt/:path*', // Map to the softbuilt folder
-        has: [
-          {
-            type: 'host',
-            value: 'softbuilt.ghulammujtaba.com', // SoftBuilt subdomain
-          },
-        ],
-      },
-      // Fallback for preview deployments or any other domain for preview of vercel
+      // Redirect www to non-www
       {
         source: '/:path*',
-        destination: '/portfolio/:path*',
+        has: [{ type: 'host', value: 'www.ghulammujtaba.com' }],
+        destination: 'https://ghulammujtaba.com/:path*',
+        permanent: true,
+      },
+      // Redirect http to https
+      {
+        source: '/:path*',
+        has: [
+          {
+            type: 'header',
+            key: 'x-forwarded-proto',
+            value: 'http',
+          },
+        ],
+        destination: 'https://ghulammujtaba.com/:path*',
+        permanent: true,
+      },
+      // Main domain to /portfolio
+      {
+        source: '/',
+        has: [{ type: 'host', value: 'ghulammujtaba.com' }],
+        destination: '/portfolio',
+        permanent: true,
+      },
+      // SoftBuilt subdomain to /softbuilt
+      {
+        source: '/',
+        has: [{ type: 'host', value: 'softbuilt.ghulammujtaba.com' }],
+        destination: '/softbuilt',
+        permanent: true,
       },
     ];
   },
