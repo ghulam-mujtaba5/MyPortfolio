@@ -26,6 +26,13 @@
 const nextConfig = {
   reactStrictMode: true, // Enable React Strict Mode
   productionBrowserSourceMaps: true, // Enable production source maps for better debugging
+  // Use Next's static export mode. This replaces the removed `next export` CLI.
+  output: 'export',
+  // Disable Next.js image optimization for static export builds.
+  // The default Image Optimization API is not available for exported sites.
+  images: {
+    unoptimized: true,
+  },
 
   async redirects() {
     return [
