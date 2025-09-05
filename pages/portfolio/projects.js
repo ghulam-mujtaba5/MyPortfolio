@@ -1,7 +1,7 @@
 import Icon from '../../components/Icon/gmicon';
 import SEO from '../../components/SEO';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import dynamic from 'next/dynamic';
 import Head from 'next/head';
 import { useTheme } from '../../context/ThemeContext';
@@ -675,79 +675,29 @@ const ProjectsPage = ({ projects = [], projectsError = null }) => {
   );
 };
 
-export async function getServerSideProps() {
-  await dbConnect();
+// Use static project data instead of database
+import { projects } from "../../data/projects";
 
-  const raw = await Project.find({ published: true })
-    .sort({ createdAt: -1 })
-    .lean();
-
-  const LinkSchema = z
-    .object({
-      live: z.string().url().optional().or(z.literal("")),
-      github: z.string().url().optional().or(z.literal("")),
-    })
-    .partial();
-  const ProjectSchema = z.object({
-    _id: z.any(),
-    title: z.string().min(1).optional(),
-    description: z.string().optional(),
-    image: z.string().optional(),
-    imageFit: z.enum(["contain", "cover", "fill", "none", "scale-down"]).optional(),
-    tags: z.array(z.string()).optional(),
-    category: z
-      .enum([
-        "All",
-        "Software Development",
-        "Web Development",
-        "AI",
-        "Data Science",
-        "UI/UX",
-        "Others",
-      ])
-      .optional(),
-    links: LinkSchema.optional(),
-  });
-  const ProjectsSchema = z.array(ProjectSchema);
-
-  const parsed = ProjectsSchema.safeParse(raw);
-  let normalized;
-  if (!parsed.success) {
-    // eslint-disable-next-line no-console
-    console.warn("Projects validation failed; falling back to best-effort normalization.");
-    normalized = Array.isArray(raw)
-      ? raw.map((p) => ({
-          _id: p?._id?.toString?.() || String(p?._id || ""),
-          title: typeof p?.title === "string" && p.title.trim() ? p.title : "Untitled",
-          description: typeof p?.description === "string" ? p.description : "",
-          image: typeof p?.image === "string" ? p.image : "",
-          imageFit: typeof p?.imageFit === "string" ? p.imageFit : undefined,
-          tags: Array.isArray(p?.tags) ? p.tags : [],
-          category: typeof p?.category === "string" && p.category.trim() ? p.category : "Others",
-          links: {
-            live: typeof p?.links?.live === "string" ? p.links.live : "",
-            github: typeof p?.links?.github === "string" ? p.links.github : "",
-          },
-        }))
-      : [];
-  } else {
-    // Normalize minimal shape used by UI to avoid undefined access downstream
-    normalized = parsed.data.map((p) => ({
-      _id: p._id?.toString?.() || String(p._id),
-      title: p.title || "Untitled",
-      description: p.description || "",
-      image: p.image || "",
-      imageFit: p.imageFit || undefined,
-      tags: Array.isArray(p.tags) ? p.tags : [],
-      category: p.category || "Others",
-      links: { live: p.links?.live || "", github: p.links?.github || "" },
-    }));
-  }
+export async function getStaticProps() {
+  // Transform static data to match expected format
+  const formattedProjects = projects.map(project => ({
+    _id: project.id,
+    title: project.title,
+    description: project.description,
+    image: project.image,
+    imageFit: 'cover',
+    tags: project.technologies,
+    category: project.category,
+    links: {
+      live: project.demoUrl,
+      github: project.githubUrl
+    }
+  }));
 
   return {
     props: {
-      projects: JSON.parse(JSON.stringify(normalized)),
-      projectsError: parsed.success ? null : "invalid_data",
+      projects: formattedProjects,
+      projectsError: null,
     },
   };
 }

@@ -1,7 +1,6 @@
 import React from "react";
 import dynamic from "next/dynamic";
 import ProjectsPreview from "../../components/Projects/ProjectsPreview";
-import ArticlesPreview from "../../components/Articles/ArticlesPreview";
 import NavBarDesktop from "../../components/NavBar_Desktop/nav-bar";
 import NavBarMobile from "../../components/NavBar_Mobile/NavBar-mobile";
 import WelcomeFrame from "../../components/welcome/welcome";
@@ -37,7 +36,6 @@ const Home = ({ previewProjects = [], previewArticles = [] }) => {
     { id: "about-section", label: "About" },
     { route: "/resume", label: "Resume" },
     { route: "/projects", label: "Projects" },
-    { route: "/articles", label: "Articles" },
     { id: "contact-section", label: "Contact" },
   ];
 
@@ -222,17 +220,6 @@ const Home = ({ previewProjects = [], previewArticles = [] }) => {
           </section>
 
           <section
-            id="articles-section"
-            aria-labelledby="articles-section-heading"
-            style={{ width: "100%" }}
-          >
-            <h2 id="articles-section-heading" className="visually-hidden">
-              Articles
-            </h2>
-            <ArticlesPreview articles={previewArticles} />
-          </section>
-
-          <section
             id="contact-section"
             aria-labelledby="contact-section-heading"
             style={{ width: "100%" }}
@@ -284,47 +271,17 @@ const Home = ({ previewProjects = [], previewArticles = [] }) => {
 
 export default Home;
 
-// Server-side fetch of latest published projects for the homepage preview
-import dbConnect from "../../lib/mongoose";
-import Project from "../../models/Project";
-import Article from "../../models/Article";
+// Static data for simplified portfolio - no database needed
+import { getFeaturedProjects } from "../../data/projects";
 
-export async function getServerSideProps() {
-  try {
-    await dbConnect();
-    let docs = await Project.find({ published: true, featuredOnHome: true })
-      .sort({ createdAt: -1 })
-      .limit(3)
-      .lean();
-
-    // Fallback: if no featured projects, show latest published
-    if (!docs || docs.length === 0) {
-      docs = await Project.find({ published: true })
-        .sort({ createdAt: -1 })
-        .limit(3)
-        .lean();
-    }
-
-    // Articles: prefer featured, fallback to latest published
-    let art = await Article.find({ published: true, featuredOnHome: true })
-      .sort({ createdAt: -1 })
-      .limit(3)
-      .lean();
-
-    if (!art || art.length === 0) {
-      art = await Article.find({ published: true })
-        .sort({ createdAt: -1 })
-        .limit(3)
-        .lean();
-    }
-
-    return {
-      props: {
-        previewProjects: JSON.parse(JSON.stringify(docs)),
-        previewArticles: JSON.parse(JSON.stringify(art)),
-      },
-    };
-  } catch (e) {
-    return { props: { previewProjects: [], previewArticles: [] } };
-  }
+export async function getStaticProps() {
+  // Use static project data instead of database
+  const featuredProjects = getFeaturedProjects();
+  
+  return {
+    props: {
+      previewProjects: featuredProjects,
+      previewArticles: [], // No articles for simplified portfolio
+    },
+  };
 }

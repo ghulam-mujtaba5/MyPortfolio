@@ -3,8 +3,6 @@ import dynamic from "next/dynamic";
 import { useState, useEffect, useRef } from "react";
 import { useTheme } from "../../context/ThemeContext";
 import shareStyles from "./ProjectShare.module.css";
-import dbConnect from "../../lib/mongoose";
-import Project from "../../models/Project";
 import ProjectDetail from "../../components/Projects/ProjectDetail";
 
 const NavBarDesktop = dynamic(
@@ -317,23 +315,53 @@ const ProjectPage = ({ project }) => {
   );
 };
 
-export async function getServerSideProps(context) {
-  const { params } = context;
-  await dbConnect();
+// Static data for project details
+import { projects, getProjectBySlug } from "../../data/projects";
 
-  // For public view, fetch by slug and ensure it's published
-  const project = await Project.findOne({
-    slug: params.slug,
-    published: true,
-  }).lean();
+export async function getStaticPaths() {
+  // Generate static paths for all projects
+  const paths = projects.map((project) => ({
+    params: { slug: project.slug }
+  }));
+
+  return {
+    paths,
+    fallback: false
+  };
+}
+
+export async function getStaticProps({ params }) {
+  // Get project by slug from static data
+  const project = getProjectBySlug(params.slug);
 
   if (!project) {
     return { notFound: true };
   }
 
+  // Transform to match expected format
+  const formattedProject = {
+    _id: project.id,
+    slug: project.slug,
+    title: project.title,
+    description: project.description,
+    content: project.content,
+    image: project.image,
+    tags: project.technologies,
+    category: project.category,
+    links: {
+      live: project.demoUrl,
+      github: project.githubUrl
+    },
+    createdAt: project.createdAt,
+    updatedAt: project.createdAt,
+    metaTitle: project.title,
+    metaDescription: project.description,
+    ogImage: project.image
+  };
+
   return {
     props: {
-      project: JSON.parse(JSON.stringify(project)),
+      project: formattedProject,
     },
   };
 }
