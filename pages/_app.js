@@ -3,7 +3,7 @@ import { hasAcceptedCookies } from "../utils/cookieConsent";
 import Head from "next/head";
 import SEO from "../components/SEO";
 import { ThemeProvider } from "../context/ThemeContext";
-import { SessionProvider } from "next-auth/react";
+// SessionProvider removed - no auth needed for simple portfolio
 import { Toaster } from "react-hot-toast";
 import CookieConsentBanner from "../components/CookieConsentBanner/CookieConsentBanner";
 import ThemeToggle from "../components/ThemeToggle/ThemeToggle";
@@ -22,7 +22,7 @@ if (typeof window !== "undefined" && "serviceWorker" in navigator) {
   });
 }
 
-function MyApp({ Component, pageProps, session }) {
+function MyApp({ Component, pageProps }) {
   const router = useRouter();
   const [cookiesAccepted, setCookiesAccepted] = useState(false);
   const [loading, setLoading] = useState(false); // raw router loading
@@ -271,36 +271,34 @@ function MyApp({ Component, pageProps, session }) {
         </>
       )}
 
-      <SessionProvider session={session}>
-        <Toaster
-          position="top-right"
-          toastOptions={{
-            success: {
-              style: {
-                background: "#10B981", // A modern green
-                color: "white",
-              },
+      <Toaster
+        position="top-right"
+        toastOptions={{
+          success: {
+            style: {
+              background: "#10B981", // A modern green
+              color: "white",
             },
-            error: {
-              style: {
-                background: "#EF4444", // A modern red
-                color: "white",
-              },
+          },
+          error: {
+            style: {
+              background: "#EF4444", // A modern red
+              color: "white",
             },
-          }}
+          },
+        }}
+      />
+      <ThemeProvider>
+        <TopProgress active={topActive} done={topDone} />
+        <LoadingAnimation
+          visible={showLoader || manualOverlay}
+          backdropBlur={loaderSettings.backdropBlur}
+          backdropOpacity={loaderSettings.backdropOpacity}
         />
-        <ThemeProvider>
-          <TopProgress active={topActive} done={topDone} />
-          <LoadingAnimation
-            visible={showLoader || manualOverlay}
-            backdropBlur={loaderSettings.backdropBlur}
-            backdropOpacity={loaderSettings.backdropOpacity}
-          />
-          <Component {...pageProps} key={router.asPath} />
-          <ThemeToggle />
-          <CookieConsentBanner />
-        </ThemeProvider>
-      </SessionProvider>
+        <Component {...pageProps} key={router.asPath} />
+        <ThemeToggle />
+        <CookieConsentBanner />
+      </ThemeProvider>
     </Fragment>
   );
 }
