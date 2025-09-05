@@ -1,5 +1,0 @@
-/* deleteButtonDanger styles removed in favor of utilities.btnDanger */
-
-/* Ensure titles are readable in dark mode */
-.previewTitle { color: #e5e7eb; }
-.headerRow h1 { color: #e5e7eb; }

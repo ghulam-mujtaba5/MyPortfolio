@@ -1,158 +1,19 @@
-// // /** @type {import('next').NextConfig} */
-// // const nextConfig = {
-// //   reactStrictMode: true, // Enable React Strict Mode
-
-// //   // Define other configurations as needed
-// //   webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
-// //     // Important: Add support for source maps
-// //     if (!isServer) {
-// //       config.devtool = 'source-map';
-// //     }
-
-// //     // Example: Add any additional webpack plugins or loaders
-// //     // config.plugins.push(new webpack.IgnorePlugin(/\/__tests__\//));
-
-// //     return config;
-// //   },
-
-// //   // Example: Define other Next.js configurations
-// //   // e.g., basePath, assetPrefix, images, redirects, headers, etc.
-// // };
-
-// // module.exports = nextConfig;
-
-
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true, // Enable React Strict Mode
-  productionBrowserSourceMaps: true, // Enable production source maps for better debugging
-  // Use Next's static export mode. This replaces the removed `next export` CLI.
-  output: 'export',
-  // Disable Next.js image optimization for static export builds.
-  // The default Image Optimization API is not available for exported sites.
+  
+  // Basic configuration for portfolio site
   images: {
     unoptimized: true,
   },
 
-  async redirects() {
-    return [
-      // Redirect www to non-www
-      {
-        source: '/:path*',  // Catch all paths
-        destination: '/portfolio/:path*', // Redirect to the portfolio folder for localhost
-        has: [
-          {
-            type: 'host',
-            value: 'www.ghulammujtaba.com', // Main website on localhost
-          },
-        ],
-    permanent: true,
-      },
-      {
-        source: '/:path*', // SoftBuilt subdomain routes
-        destination: '/softbuilt/:path*', // Map to the softbuilt folder
-        has: [
-          {
-            type: 'host',
-            value: 'softbuilt.ghulammujtaba.com', // SoftBuilt subdomain
-          },
-        ],
-    permanent: true,
-      },
-      // SoftBuilt subdomain to /softbuilt
-      {
-        source: '/:path*',
-        destination: '/portfolio/:path*',
-    permanent: true,
-      },
-    ];
-  },
-
-  // Removed custom www to non-www redirect. Vercel will handle this automatically.
-
-  webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
-    // Important: Add support for source maps
-    if (!isServer) {
+  webpack: (config, { buildId, dev, isServer }) => {
+    // Add support for source maps in development
+    if (!isServer && dev) {
       config.devtool = "source-map";
     }
-
-    // Example: Add any additional webpack plugins or loaders
-    // config.plugins.push(new webpack.IgnorePlugin(/\/__tests__\//));
-
     return config;
-  },
-  async headers() {
-    return [
-      {
-        source: "/admin/:path*",
-        headers: [
-          {
-            key: "X-Robots-Tag",
-            value: "noindex, nofollow, noarchive",
-          },
-          {
-            key: "Cache-Control",
-            value: "no-store",
-          },
-        ],
-      },
-      {
-        source: "/(.*)",
-        headers: [
-          // Content Security Policy (CSP)
-          {
-            key: "Content-Security-Policy",
-            value:
-              "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; style-src-elem 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: https://ghulammujtaba.com https://www.freepik.com https://img.freepik.com; connect-src 'self' https://www.google-analytics.com; frame-ancestors 'none'; object-src 'none'; base-uri 'self';",
-          },
-          // Report-Only CSP to capture violations without breaking pages
-          {
-            key: "Content-Security-Policy-Report-Only",
-            value:
-              "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; style-src-elem 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: https://ghulammujtaba.com https://www.freepik.com https://img.freepik.com; connect-src 'self' https://www.google-analytics.com; frame-ancestors 'none'; object-src 'none'; base-uri 'self'; report-uri /api/csp-report; report-to csp-endpoint;",
-          },
-          // Reporting API endpoint mapping
-          {
-            key: "Reporting-Endpoints",
-            value: "csp-endpoint=\"/api/csp-report\"",
-          },
-          // HTTP Strict Transport Security (HSTS)
-          {
-            key: "Strict-Transport-Security",
-            value: "max-age=63072000; includeSubDomains; preload",
-          },
-          // Cross-Origin-Opener-Policy (COOP)
-          {
-            key: "Cross-Origin-Opener-Policy",
-            value: "same-origin",
-          },
-          // X-Frame-Options (XFO)
-          {
-            key: "X-Frame-Options",
-            value: "DENY",
-          },
-        ],
-      },
-    ];
   },
 };
 
 module.exports = nextConfig;
-
-// //for run on loclhost//
-// /** @type {import('next').NextConfig} */
-// const nextConfig = {
-//   reactStrictMode: true,
-
-//   async redirects() {
-//     return [
-//       {
-//         source: '/',
-//         destination: '/portfolio',
-//         permanent: false,
-//       },
-//     ];
-//   },
-// };
-
-// module.exports = nextConfig;
