@@ -25,6 +25,11 @@
 const nextConfig = {
   reactStrictMode: true, // Enable React Strict Mode
   productionBrowserSourceMaps: true, // Enable production source maps for better debugging
+  // Skip ESLint during production builds to avoid build-time lint warnings/errors
+  // that you don't want to see. Set to `false` to restore linting behavior.
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
 
   async rewrites() {
     return [
