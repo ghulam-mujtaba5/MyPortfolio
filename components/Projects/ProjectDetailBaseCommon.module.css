@@ -82,27 +82,44 @@
   border-radius: 2px;
 }
 
-/* Image Container */
+/* Image Container - Dynamic sizing for all image types */
 .imageContainer {
   position: relative;
   width: 100%;
-  max-width: 700px;
+  max-width: 900px; /* Increased from 700px for better desktop app display */
   margin: 0 auto;
   border-radius: 20px;
   overflow: hidden;
   box-shadow: var(--image-shadow, 0 20px 40px rgba(0, 0, 0, 0.15));
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  background: var(--image-placeholder-bg, #f3f4f6);
-  aspect-ratio: 16/10;
+  background: var(--image-container-bg, #f8f9fa); /* Better default background */
+  /* No fixed aspect-ratio - let content determine size */
   display: flex;
   align-items: center;
   justify-content: center;
+  /* Min/max height constraints for better control */
+  min-height: 250px; /* Increased from 200px */
+  max-height: 700px; /* Increased from 600px */
+  padding: 20px; /* Add padding for better spacing */
 }
 
 /* Mobile app screenshot specific styling */
 .imageContainer.mobileApp {
-  max-width: 350px;
-  aspect-ratio: 9/19.5; /* iPhone aspect ratio */
+  max-width: 450px; /* Increased from 400px */
+  max-height: 800px; /* Increased from 700px for taller screenshots */
+  background: transparent; /* Remove background for mobile apps to avoid white space */
+  padding: 0; /* Remove padding for mobile apps */
+  /* Let the image natural ratio determine the container size */
+}
+
+/* Image responsiveness helper */
+.imageContainer img {
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain; /* Ensure full image is visible without cropping */
+  border-radius: inherit;
 }
 
 .imageContainer::before {
@@ -435,6 +452,7 @@
 /* Light mode specific adjustments */
 .light {
   --container-bg: linear-gradient(135deg, #ffffff 0%, #f8f9fa 50%, #f1f3f4 100%);
+  --image-container-bg: #f8f9fa;
 }
 
 /* Dark mode specific adjustments */
@@ -444,6 +462,7 @@
   --title-color-end: #e5e7eb;
   --image-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
   --image-shadow-hover: 0 30px 60px rgba(0, 0, 0, 0.5);
+  --image-container-bg: #1f2937; /* Dark background for image containers */
   --category-bg-start: #4573df;
   --category-bg-end: #5a86e6;
   --tag-bg: #374151;
@@ -488,12 +507,16 @@
   .imageContainer {
     border-radius: 16px;
     max-width: 100%;
-    aspect-ratio: 4/3; /* Better for mobile viewing */
+    max-height: 500px; /* Increased from 400px for better mobile display */
+    padding: 15px; /* Reduced padding for mobile */
+    /* Remove fixed aspect-ratio for mobile too */
   }
 
   .imageContainer.mobileApp {
-    max-width: 280px;
-    aspect-ratio: 9/19.5; /* Proper mobile app ratio */
+    max-width: 320px; /* Increased from 280px */
+    max-height: 600px; /* Increased from 500px for mobile apps on small screens */
+    padding: 0; /* No padding for mobile apps */
+    /* Remove fixed aspect-ratio */
   }
 
   .meta {
@@ -563,7 +586,7 @@
   }
 
   .imageContainer.mobileApp {
-    max-width: 250px;
+    max-width: 280px; /* Better size for very small screens */
   }
 }
 

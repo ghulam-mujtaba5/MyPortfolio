@@ -123,18 +123,24 @@ const ProjectDetail = ({ project, relatedProjects = [] }) => {
             const img = String(image || "").trim();
             const isExternal = /^https?:\/\//i.test(img) || /^\/\//.test(img) || /^data:image\//i.test(img) || /^blob:/.test(img);
             const src = isExternal ? img : (img.startsWith("/") ? img : `/${img}`);
-            const fit = project?.imageFit || "cover";
+            const fit = project?.imageFit || "contain"; // Default to contain for better aspect ratio handling
+            
             return (
               <Image
                 src={src}
                 alt={`${title} preview`}
-                fill
+                width={isMobileApp ? 400 : 700}
+                height={isMobileApp ? 700 : 450}
                 sizes={isMobileApp 
                   ? "(max-width: 768px) 300px, 400px" 
                   : "(max-width: 768px) 100vw, (max-width: 1200px) 700px, 700px"
                 }
                 style={{ 
-                  objectFit: fit
+                  objectFit: fit,
+                  width: '100%',
+                  height: 'auto',
+                  maxWidth: '100%',
+                  maxHeight: isMobileApp ? '700px' : '500px'
                 }}
                 priority
                 placeholder="blur"
