@@ -154,6 +154,11 @@
   box-shadow: 0 10px 30px rgba(0,91,181,0.18);
 }
 
+.ctaPrimary:focus {
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(69,115,223,0.22);
+}
+
 .ctaSecondary {
   background: transparent;
   color: #9fbff5;
@@ -164,4 +169,24 @@
   background: rgba(69,115,223,0.06);
   border-color: #4573df;
   transform: translateY(-2px);
+}
+
+.ctaSecondary:focus {
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(69,115,223,0.12);
+}
+
+/* Compact CTA adjustments */
+.ctaCard {
+  padding: 28px 22px;
+}
+
+.ctaButtons {
+  gap: 12px;
+}
+
+.ctaButton {
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 0.95rem;
 }

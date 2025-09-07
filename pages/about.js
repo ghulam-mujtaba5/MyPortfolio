@@ -537,17 +537,16 @@ export default function AboutPage() {
         {/* Call to action */}
         <section className={`${common.section} ${common.fadeInUp} ${common.ctaSection}`} aria-labelledby="cta-heading">
           <div className={`${common.ctaCard} ${theme === 'dark' ? dark.ctaCard : light.ctaCard}`}>
-            <h2 id="cta-heading" className={common.ctaTitle}>Let's Create Something Amazing Together</h2>
+            <h2 id="cta-heading" className={common.ctaTitle}>Start a project</h2>
             <p className={`${common.ctaDescription} ${theme === 'dark' ? dark.subtitle : light.subtitle}`}>
-              I'm always excited to work on innovative projects and collaborate with like-minded people. 
-              Whether you have a project in mind or just want to connect, I'd love to hear from you!
+              Have a project or want to collaborate? Let's talk.
             </p>
             <div className={common.ctaButtons}>
               <Link href="/contact" className={`${common.ctaButton} ${common.ctaPrimary} ${theme === 'dark' ? dark.ctaPrimary : light.ctaPrimary}`}>
-                Get In Touch
+                Contact
               </Link>
               <Link href="/projects" className={`${common.ctaButton} ${common.ctaSecondary} ${theme === 'dark' ? dark.ctaSecondary : light.ctaSecondary}`}>
-                View My Work
+                Portfolio
               </Link>
             </div>
           </div>
