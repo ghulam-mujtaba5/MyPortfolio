@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState, useMemo, useCallback } from "react";
 import Head from "next/head";
 import SEO from "../../components/SEO";
 import NavBarDesktop from "../../components/NavBar_Desktop/nav-bar";
@@ -49,6 +49,16 @@ export default function ArticlesPage({
     return () => clearTimeout(id);
   }, [q]);
 
+  // Normalize and map raw category strings to one of our 5 display buckets
+  const mapToBucket = useCallback((label) => {
+    const normalized = String(label || "").toLowerCase();
+    if (normalized.includes("academic") || normalized.includes("learning")) return "Academics & Learning";
+    if (normalized.includes("project") || normalized.includes("career")) return "Projects & Career";
+    if (normalized.includes("engineer") || normalized.includes("development")) return "Engineering & Development";
+    if (normalized.includes("tech") || normalized.includes("trend")) return "Tech Insights & Trends";
+    return "Others";
+  }, []);
+
   // Category filters UI (mirrors Projects page tag filter)
   const CATEGORY_FILTERS = useMemo(
     () => [
@@ -61,17 +71,16 @@ export default function ArticlesPage({
     ],
     [],
   );
-  const [selectedCategory, setSelectedCategory] = useState(initialQuery.category || "All");
 
-  // Normalize and map raw category strings to one of our 5 display buckets
-  const mapToBucket = (label) => {
-    const normalized = String(label || "").toLowerCase();
-    if (normalized.includes("academic") || normalized.includes("learning")) return "Academics & Learning";
-    if (normalized.includes("project") || normalized.includes("career")) return "Projects & Career";
-    if (normalized.includes("engineer") || normalized.includes("development")) return "Engineering & Development";
-    if (normalized.includes("tech") || normalized.includes("trend")) return "Tech Insights & Trends";
-    return "Others";
+  // Compute initial category using router query (if present) or SSR-provided initialQuery
+  const computeInitialCategory = () => {
+    const raw = String(router.query?.category || initialQuery.category || "All").trim();
+    if (raw === "All" || CATEGORY_FILTERS.includes(raw)) return raw;
+    if (raw) return mapToBucket(raw);
+    return "All";
   };
+
+  const [selectedCategory, setSelectedCategory] = useState(() => computeInitialCategory());
 
   const filteredArticles = useMemo(() => {
     if (selectedCategory === "All") return articles;
@@ -82,24 +91,18 @@ export default function ArticlesPage({
     });
   }, [articles, selectedCategory]);
 
-  // Keep selectedCategory in sync with URL changes (SSR navigations)
+  // Keep selectedCategory in sync with URL changes (SSR navigations & client navigation)
   useEffect(() => {
-    const rawCategory = String(router.query.category || initialQuery.category || 'All').trim();
-    
-    let targetCategory;
+    // Wait for router to be ready (prevents a hydration race)
+    if (!router.isReady) return;
 
-    if (rawCategory === 'All' || CATEGORY_FILTERS.includes(rawCategory)) {
-      targetCategory = rawCategory;
-    } else if (rawCategory) {
-      targetCategory = mapToBucket(rawCategory);
-    } else {
-      targetCategory = 'All';
-    }
+    const raw = String(router.query?.category || initialQuery.category || 'All').trim();
+    const target = (raw === 'All' || CATEGORY_FILTERS.includes(raw)) ? raw : (raw ? mapToBucket(raw) : 'All');
 
-    if (selectedCategory !== targetCategory) {
-      setSelectedCategory(targetCategory);
+    if (selectedCategory !== target) {
+      setSelectedCategory(target);
     }
-  }, [router.query.category, initialQuery.category]);
+  }, [router.isReady, router.query?.category, initialQuery.category, CATEGORY_FILTERS, selectedCategory, mapToBucket, router]);
 
   const handleSelectCategory = (cat) => {
     setSelectedCategory(cat);
