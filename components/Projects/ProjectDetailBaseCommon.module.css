@@ -4,8 +4,8 @@
 .shareButtonInline {
   display: flex;
   align-items: center;
-  justify-content: center;
-  margin-top: 16px;
+  margin-left: 8px;
+  margin-top: 0;
 }
 
 .shareButtonMeta {
@@ -148,11 +148,12 @@
 /* Meta Information */
 .meta {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
-  gap: 20px;
-  margin: 20px 0;
+  gap: 16px;
+  margin: 32px 0 24px 0;
+  flex-wrap: wrap;
 }
 
 .category {
@@ -190,9 +191,9 @@
 .tags {
   display: flex;
   flex-wrap: wrap;
-  gap: 12px;
-  justify-content: center;
+  gap: 10px;
   align-items: center;
+  margin-right: 8px;
 }
 
 .tag {
