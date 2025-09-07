@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useTheme } from "../../context/ThemeContext";
 import ThemeToggleIcon from "../Icon/gmicon";
 import { formatDateConsistent, formatDateISO } from "../../utils/dateUtils";
+import { generateTableOfContents, addCodeBlockCopyButtons, addHeadingAnchors, scrollToElement } from "../../utils/articleUtils";
 import baseStyles from "./ArticleDetailBaseCommon.module.css";
 import lightStyles from "./ArticleDetail.light.module.css";
 import darkStyles from "./ArticleDetail.dark.module.css";
@@ -14,21 +15,77 @@ const ArticleDetail = ({ article, relatedArticles = [] }) => {
   const [shareOpen, setShareOpen] = useState(false);
   const [copied, setCopied] = useState(false);
   const [shareAnim, setShareAnim] = useState(false);
+  const [estimatedReadTime, setEstimatedReadTime] = useState(null);
+  const [tableOfContents, setTableOfContents] = useState([]);
+  const [activeHeading, setActiveHeading] = useState('');
+  const [showTOC, setShowTOC] = useState(false);
   const contentRef = useRef(null);
   const shareRef = useRef(null);
 
-  // Scroll progress tracking
+  // Calculate reading time based on content
   useEffect(() => {
+    if (article?.content && contentRef.current) {
+      const text = contentRef.current.textContent || '';
+      const wordsPerMinute = 200; // Average reading speed
+      const wordCount = text.trim().split(/\s+/).length;
+      const readTime = Math.ceil(wordCount / wordsPerMinute);
+      setEstimatedReadTime(readTime);
+    }
+  }, [article?.content]);
+
+  // Enhanced scroll progress tracking with throttling
+  useEffect(() => {
+    let ticking = false;
+    
     const handleScroll = () => {
-      const scrollTop = window.scrollY;
-      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-      const progress = (scrollTop / docHeight) * 100;
-      setScrollProgress(Math.min(100, Math.max(0, progress)));
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          const scrollTop = window.scrollY;
+          const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+          const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+          setScrollProgress(Math.min(100, Math.max(0, progress)));
+          ticking = false;
+        });
+        ticking = true;
+      }
     };
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll(); // Initial calculation
+    
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  // Track active heading for TOC
+  useEffect(() => {
+    if (!showTOC || tableOfContents.length === 0) return;
+
+    const headingElements = tableOfContents.map(item => 
+      document.getElementById(item.id)
+    ).filter(Boolean);
+
+    if (headingElements.length === 0) return;
+
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY + 100; // Offset for header
+      
+      let activeId = '';
+      for (let i = headingElements.length - 1; i >= 0; i--) {
+        const element = headingElements[i];
+        if (element.offsetTop <= scrollPosition) {
+          activeId = element.id;
+          break;
+        }
+      }
+      
+      setActiveHeading(activeId);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll(); // Initial check
+    
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [showTOC, tableOfContents]);
 
   // Apply body background for consistency
   useEffect(() => {
@@ -91,7 +148,7 @@ const ArticleDetail = ({ article, relatedArticles = [] }) => {
     return () => document.removeEventListener("mousedown", onDocClick);
   }, [shareOpen]);
 
-  // Prism syntax highlighting
+  // Enhanced Prism syntax highlighting and content processing
   useEffect(() => {
     if (typeof window === "undefined" || !contentRef.current) return;
 
@@ -125,7 +182,23 @@ const ArticleDetail = ({ article, relatedArticles = [] }) => {
       }
     };
 
+    const processContent = () => {
+      // Generate table of contents
+      const toc = generateTableOfContents(article?.content);
+      setTableOfContents(toc);
+      setShowTOC(toc.length > 2); // Show TOC if there are more than 2 headings
+
+      // Add copy buttons to code blocks
+      addCodeBlockCopyButtons(contentRef.current);
+
+      // Add anchor links to headings
+      addHeadingAnchors(contentRef.current);
+    };
+
     loadPrism();
+    
+    // Process content after a short delay to ensure DOM is ready
+    setTimeout(processContent, 100);
   }, [article, theme]);
 
   if (!article) {
@@ -169,6 +242,21 @@ const ArticleDetail = ({ article, relatedArticles = [] }) => {
         aria-valuemax="100"
         aria-label="Reading progress"
       />
+
+      {/* Reading Progress Info */}
+      {(readingTime || estimatedReadTime) && scrollProgress > 0 && (
+        <div className={`${baseStyles.readingProgressInfo} ${themeStyles.readingProgressInfo || ""}`}>
+          <span className={baseStyles.progressText}>
+            {Math.round((100 - scrollProgress) / 100 * (readingTime || estimatedReadTime))} min left
+          </span>
+          <div className={baseStyles.progressBar}>
+            <div 
+              className={baseStyles.progressFill}
+              style={{ width: `${scrollProgress}%` }}
+            />
+          </div>
+        </div>
+      )}
 
       {/* Breadcrumb Navigation */}
       <nav className={`${baseStyles.breadcrumb} ${themeStyles.breadcrumb || ""}`} aria-label="Breadcrumb">
@@ -227,13 +315,13 @@ const ArticleDetail = ({ article, relatedArticles = [] }) => {
             </time>
           </div>
         )}
-        {readingTime && (
+        {(readingTime || estimatedReadTime) && (
           <div className={baseStyles.readingTime}>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
               <path d="M12 6.253v6l3.75 3.75" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
               <circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="2"/>
             </svg>
-            <span>{readingTime} min read</span>
+            <span>{readingTime || estimatedReadTime} min read</span>
           </div>
         )}
       </div>
@@ -355,14 +443,46 @@ const ArticleDetail = ({ article, relatedArticles = [] }) => {
         </div>
       )}
 
+      {/* Table of Contents */}
+      {showTOC && tableOfContents.length > 0 && (
+        <nav className={`${baseStyles.tableOfContents} ${themeStyles.tableOfContents || ""}`} aria-label="Table of contents">
+          <h2 className={`${baseStyles.tocTitle} ${themeStyles.tocTitle || ""}`}>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+            </svg>
+            Table of Contents
+          </h2>
+          <ol className={`${baseStyles.tocList} ${themeStyles.tocList || ""}`}>
+            {tableOfContents.map((item, index) => (
+              <li 
+                key={item.id} 
+                className={`${baseStyles.tocItem} ${themeStyles.tocItem || ""} ${baseStyles[`tocLevel${item.level}`] || ""}`}
+                style={{ '--toc-level': item.level }}
+              >
+                <button
+                  className={`${baseStyles.tocLink} ${themeStyles.tocLink || ""} ${activeHeading === item.id ? baseStyles.tocActive : ''}`}
+                  onClick={() => scrollToElement(item.id)}
+                  aria-label={`Go to section: ${item.text}`}
+                >
+                  <span className={baseStyles.tocNumber}>{index + 1}.</span>
+                  <span className={baseStyles.tocText}>{item.text}</span>
+                </button>
+              </li>
+            ))}
+          </ol>
+        </nav>
+      )}
+
       {/* Article Content */}
       {content && (
         <article 
           ref={contentRef}
           className={`${baseStyles.content} ${themeStyles.content || ""}`}
           dangerouslySetInnerHTML={{ __html: content }}
-          role="article"
+          role="main"
           aria-label="Article content"
+          itemScope
+          itemType="https://schema.org/ArticleBody"
         />
       )}
 
