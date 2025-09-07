@@ -1,4 +1,4 @@
-/* Project1.module.css */
+/* Project Card Light Theme - Enhanced Design */
 
 .projectCard1Parent {
   width: 100%;
@@ -9,51 +9,76 @@
   justify-content: space-between;
   text-align: left;
   font-size: 16px;
-  color: #000;
-  font-family: Poppins;
+  color: #1f2937;
+  font-family: Poppins, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   padding-bottom: 20px;
   margin-bottom: 20px;
+  gap: 30px;
 }
 
 .frameTitle {
   text-align: left;
-  font-family: Open Sans;
+  font-family: "Open Sans", sans-serif;
+  font-size: 24px;
+  font-weight: 600;
+  color: #1f2937;
+  margin: 40px 0 30px;
+  letter-spacing: -0.01em;
 }
 
 .projectCard1 {
   width: 356px;
   position: relative;
   height: 570px;
-  /* Theme variables for buttons (light mode) */
+  border-radius: 20px;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  transform-origin: center;
+  -webkit-tap-highlight-color: transparent;
+  
+  /* Enhanced light theme variables for buttons */
   --btn-live-text: #ffffff;
-  --btn-live-bg-start: #5a86e6; /* lighter of #4573df */
-  --btn-live-bg-end: #4573df;   /* brand primary */
+  --btn-live-bg-start: #5a86e6;
+  --btn-live-bg-end: #4573df;
   --btn-live-border: #3f6ed6;
-  --btn-live-shadow: rgba(69, 115, 223, 0.18);
-  --btn-live-shadow-hover: rgba(69, 115, 223, 0.25);
-  --btn-live-shadow-active: rgba(69, 115, 223, 0.28);
+  --btn-live-shadow: rgba(69, 115, 223, 0.25);
+  --btn-live-shadow-hover: rgba(69, 115, 223, 0.35);
+  --btn-live-shadow-active: rgba(69, 115, 223, 0.4);
 
-  /* Neutral gray style for View Code in light mode */
-  --btn-code-text: #1f2937; /* slate-800 */
-  --btn-code-bg-start: #f7f7f8;
-  --btn-code-bg-end: #f0f2f5;
-  --btn-code-border: rgba(31, 41, 55, 0.14);
-  --btn-code-shadow: rgba(17, 24, 39, 0.06);
-  --btn-code-shadow-hover: rgba(17, 24, 39, 0.1);
-  --btn-code-shadow-active: rgba(17, 24, 39, 0.12);
+  /* Enhanced neutral gray style for View Code in light mode */
+  --btn-code-text: #1f2937;
+  --btn-code-bg-start: #f8f9fa;
+  --btn-code-bg-end: #f1f3f4;
+  --btn-code-border: rgba(31, 41, 55, 0.16);
+  --btn-code-shadow: rgba(17, 24, 39, 0.08);
+  --btn-code-shadow-hover: rgba(17, 24, 39, 0.12);
+  --btn-code-shadow-active: rgba(17, 24, 39, 0.15);
 }
 
 .projectCard1Child {
   position: absolute;
-  height: 99.47%;
-  width: 99.47%;
-  top: 0.53%;
-  right: 0%;
-  bottom: 0%;
-  left: 0.53%;
-  box-shadow: 2px 2px 100px rgba(0, 0, 0, 0.2);
+  height: 100%;
+  width: 100%;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  box-shadow: 
+    0 4px 15px rgba(0, 0, 0, 0.1),
+    0 2px 6px rgba(69, 115, 223, 0.05);
   border-radius: 20px;
-  background-color: #e8ebee;
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+  border: 1px solid rgba(229, 231, 235, 0.6);
+  transition: all 0.3s ease;
+}
+
+.projectCard1:hover .projectCard1Child {
+  box-shadow: 
+    0 8px 25px rgba(0, 0, 0, 0.15),
+    0 4px 12px rgba(69, 115, 223, 0.1);
+  border-color: rgba(69, 115, 223, 0.2);
+  transform: translateY(-2px);
 }
 
 .livePreview {
@@ -61,6 +86,30 @@
   text-decoration: none;
   line-height: 1;
   color: inherit;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: 25px;
+  font-weight: 500;
+  font-size: 14px;
+  background: linear-gradient(135deg, var(--btn-live-bg-start), var(--btn-live-bg-end));
+  color: var(--btn-live-text);
+  border: 1px solid var(--btn-live-border);
+  box-shadow: 0 2px 8px var(--btn-live-shadow);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.livePreview:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px var(--btn-live-shadow-hover);
+  background: linear-gradient(135deg, #3f6ed6, #4573df);
+}
+
+.livePreview:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 6px var(--btn-live-shadow-active);
 }
 
 .viewCode {
@@ -68,56 +117,99 @@
   text-decoration: none;
   line-height: 1;
   color: inherit;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: 25px;
+  font-weight: 500;
+  font-size: 14px;
+  background: linear-gradient(135deg, var(--btn-code-bg-start), var(--btn-code-bg-end));
+  color: var(--btn-code-text);
+  border: 1px solid var(--btn-code-border);
+  box-shadow: 0 2px 6px var(--btn-code-shadow);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.viewCode:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px var(--btn-code-shadow-hover);
+  background: linear-gradient(135deg, #e5e7eb, #f1f3f4);
+  border-color: rgba(31, 41, 55, 0.2);
+}
+
+.viewCode:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 6px var(--btn-code-shadow-active);
 }
 
 .projectImg1 {
   position: absolute;
-  height: 45.61%;
+  height: 45%;
   width: 100%;
-  top: 0%;
-  right: 0%;
-  bottom: 54.39%;
-  left: 0%;
-  border-radius: 20px 20px 0px 0px;
+  top: 0;
+  right: 0;
+  bottom: 55%;
+  left: 0;
+  border-radius: 20px 20px 0 0;
   max-width: 100%;
   overflow: hidden;
   max-height: 100%;
   object-fit: cover;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.projectCard1:hover .projectImg1 {
+  transform: scale(1.05);
 }
 
 .projectTileGoes {
   margin: 0;
   position: absolute;
-  top: 50.35%;
-  left: 16.43%;
-  font-size: 28px;
-  line-height: 26px;
-  font-weight: 500;
-  font-family: inherit;
-  white-space: pre-wrap;
+  top: 50%;
+  left: 8%;
+  right: 8%;
   text-align: center;
+  font-size: 26px;
+  line-height: 1.3;
+  font-weight: 600;
+  font-family: inherit;
+  white-space: normal;
+  color: #1f2937;
+  letter-spacing: -0.01em;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
 .thisIsSample {
   position: absolute;
-  width: 83.74%;
-  top: 55.61%;
+  width: 84%;
+  top: 57%;
   left: 8%;
-  font-size: 18px;
-  line-height: 26px;
-  font-weight: 300;
+  font-size: 16px;
+  line-height: 1.5;
+  font-weight: 400;
   display: flex;
+  text-align: center;
   align-items: center;
+  justify-content: center;
+  color: #6b7280;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
 }
 
 .span {
-  color: #666;
+  color: #9ca3af;
 }
 
 .javaJavaFxMavenSpring {
   font-size: 14px;
-  font-weight: 300;
-  color: #000;
+  font-weight: 500;
+  color: #4573df;
+  letter-spacing: 0.02em;
 }
 
 .techStackContainer1 {
@@ -126,56 +218,153 @@
 
 .techStackContainer {
   position: absolute;
-  width: 83.74%;
-  top: 82.81%;
+  width: 84%;
+  top: 78%;
   left: 8%;
-  line-height: 26px;
+  font-size: 14px;
+  line-height: 1.4;
   display: flex;
   align-items: center;
+  justify-content: center;
   color: #4573df;
+  font-weight: 500;
+  text-align: center;
+  letter-spacing: 0.02em;
 }
 
-.githubIcon {
-  position: absolute;
-  height: 3.51%;
-  width: 5.34%;
-  top: 91.58%;
-  right: 40.26%;
-  bottom: 4.91%;
-  left: 54.4%;
-  max-width: 100%;
-  overflow: hidden;
-  max-height: 100%;
-}
-
+.githubIcon,
 .previewIcon1 {
-  position: absolute;
-  height: 2.63%;
-  width: 3.99%;
-  top: 92.11%;
-  right: 87.21%;
-  bottom: 5.26%;
-  left: 8.8%;
-  max-width: 100%;
-  overflow: hidden;
-  max-height: 100%;
+  display: none; /* Hidden in favor of modern button designs */
 }
 
-/* Media query for small screens */
-@media (max-width: 460px) {
+/* Enhanced actions positioning */
+.actions {
+  position: absolute;
+  left: 8%;
+  right: 8%;
+  bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  z-index: 10;
+}
+
+.leftAction,
+.rightAction {
+  flex: 1;
+  display: flex;
+}
+
+.leftAction {
+  justify-content: flex-start;
+}
+
+.rightAction {
+  justify-content: flex-end;
+}
+
+/* Focus states for accessibility */
+.livePreview:focus-visible,
+.viewCode:focus-visible {
+  outline: 2px solid #4573df;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(69, 115, 223, 0.2);
+}
+
+/* Media queries for responsive design */
+@media (max-width: 576px) {
   .projectCard1Parent {
     justify-content: center;
-    height: auto; /* Adjust height for small screens */
-    align-items: center; /* Center align items */
+    align-items: center;
+    padding: 0 15px;
+    gap: 20px;
   }
 
   .projectCard1 {
     width: 100%;
-    max-width: 90%; /* Allow cards to take up more space on small screens */
-    margin: 20px 0; /* Margin between cards for small screens */
+    max-width: 320px;
+    margin: 15px 0;
+    height: auto;
+    min-height: 500px;
   }
 
   .projectTileGoes {
-    font-size: 24px; /* Slightly reduce title size on small screens */
+    font-size: 22px;
+    top: 48%;
+  }
+
+  .thisIsSample {
+    font-size: 15px;
+    top: 55%;
+  }
+
+  .techStackContainer {
+    top: 75%;
+    font-size: 13px;
+  }
+
+  .actions {
+    bottom: 15px;
+    gap: 8px;
+    left: 6%;
+    right: 6%;
+  }
+
+  .livePreview,
+  .viewCode {
+    padding: 6px 12px;
+    font-size: 13px;
+    gap: 6px;
+  }
+}
+
+@media (max-width: 480px) {
+  .projectCard1 {
+    max-width: 300px;
+    min-height: 480px;
+  }
+
+  .projectTileGoes {
+    font-size: 20px;
+  }
+
+  .thisIsSample {
+    font-size: 14px;
+  }
+
+  .techStackContainer {
+    font-size: 12px;
+  }
+
+  .actions {
+    flex-direction: column;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .leftAction,
+  .rightAction {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* Print styles */
+@media print {
+  .projectCard1 {
+    break-inside: avoid;
+    box-shadow: none;
+    border: 1px solid #ccc;
+  }
+
+  .projectCard1Child {
+    box-shadow: none;
+    background: #ffffff;
+  }
+
+  .livePreview,
+  .viewCode {
+    display: none;
   }
 }

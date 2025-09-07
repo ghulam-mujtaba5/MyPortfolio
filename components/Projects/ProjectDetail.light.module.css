@@ -1,0 +1,237 @@
+/* ProjectDetail Light Theme Styles */
+
+/* Light theme color overrides for optimal contrast and readability */
+.container {
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 50%, #f1f3f4 100%);
+  color: #1f2937;
+}
+
+/* Enhanced title styling for light theme */
+.title {
+  background: linear-gradient(135deg, #1f2937 0%, #374151 50%, #4b5563 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.title::after {
+  background: linear-gradient(90deg, #4573df 0%, #5a86e6 50%, #6b93ff 100%);
+  box-shadow: 0 2px 8px rgba(69, 115, 223, 0.3);
+}
+
+/* Image container light theme enhancements */
+.imageContainer {
+  box-shadow: 
+    0 20px 40px rgba(0, 0, 0, 0.12),
+    0 8px 16px rgba(69, 115, 223, 0.08);
+  border: 1px solid rgba(229, 231, 235, 0.6);
+}
+
+.imageContainer:hover {
+  box-shadow: 
+    0 30px 60px rgba(0, 0, 0, 0.16),
+    0 12px 24px rgba(69, 115, 223, 0.12);
+  border-color: rgba(69, 115, 223, 0.2);
+}
+
+/* Category styling for light theme */
+.category {
+  background: linear-gradient(135deg, #4573df 0%, #5a86e6 100%);
+  color: #ffffff;
+  box-shadow: 
+    0 4px 15px rgba(69, 115, 223, 0.25),
+    0 2px 6px rgba(0, 0, 0, 0.1);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.category:hover {
+  box-shadow: 
+    0 6px 20px rgba(69, 115, 223, 0.35),
+    0 3px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Tags styling for light theme */
+.tag {
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+  color: #374151;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.tag:hover {
+  background: linear-gradient(135deg, #4573df 0%, #5a86e6 100%);
+  color: #ffffff;
+  border-color: #4573df;
+  box-shadow: 
+    0 4px 12px rgba(69, 115, 223, 0.25),
+    0 2px 6px rgba(0, 0, 0, 0.1);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* Description container light theme */
+.description {
+  background: linear-gradient(135deg, #ffffff 0%, #fefefe 100%);
+  color: #374151;
+  border: 1px solid #e5e7eb;
+  box-shadow: 
+    0 8px 25px rgba(0, 0, 0, 0.06),
+    0 3px 10px rgba(69, 115, 223, 0.04);
+}
+
+.description:hover {
+  box-shadow: 
+    0 12px 35px rgba(0, 0, 0, 0.08),
+    0 5px 15px rgba(69, 115, 223, 0.06);
+  border-color: rgba(69, 115, 223, 0.15);
+}
+
+/* Rich text content styling for light theme */
+.description :global(h1),
+.description :global(h2),
+.description :global(h3),
+.description :global(h4),
+.description :global(h5),
+.description :global(h6) {
+  color: #1f2937;
+}
+
+.description :global(h2) {
+  border-bottom-color: #4573df;
+  color: #1f2937;
+}
+
+.description :global(h3) {
+  color: #4573df;
+}
+
+.description :global(strong) {
+  color: #1f2937;
+}
+
+.description :global(em) {
+  color: #4573df;
+}
+
+.description :global(a) {
+  color: #4573df;
+}
+
+.description :global(a:hover) {
+  color: #3f6ed6;
+}
+
+.description :global(blockquote) {
+  background: linear-gradient(135deg, #f8f9fa 0%, #f1f3f4 100%);
+  color: #6b7280;
+  border-left-color: #4573df;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.description :global(code) {
+  background: linear-gradient(135deg, #f1f3f4 0%, #e5e7eb 100%);
+  color: #e91e63;
+  border: 1px solid #d1d5db;
+}
+
+.description :global(pre) {
+  background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
+  color: #f9fafb;
+  border: 1px solid #374151;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Links section light theme */
+.links {
+  background: linear-gradient(135deg, #f8f9fa 0%, #f1f3f4 100%);
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.link {
+  background: linear-gradient(135deg, #4573df 0%, #5a86e6 100%);
+  color: #ffffff;
+  box-shadow: 
+    0 6px 20px rgba(69, 115, 223, 0.25),
+    0 3px 8px rgba(0, 0, 0, 0.1);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.link:hover {
+  box-shadow: 
+    0 10px 30px rgba(69, 115, 223, 0.35),
+    0 5px 12px rgba(0, 0, 0, 0.15);
+  background: linear-gradient(135deg, #3f6ed6 0%, #4573df 100%);
+}
+
+.link:active {
+  box-shadow: 
+    0 4px 15px rgba(69, 115, 223, 0.3),
+    0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Enhanced focus states for light theme */
+.link:focus-visible {
+  outline: 2px solid #4573df;
+  outline-offset: 3px;
+  box-shadow: 
+    0 10px 30px rgba(69, 115, 223, 0.35),
+    0 0 0 4px rgba(69, 115, 223, 0.2);
+}
+
+.tag:focus-visible {
+  outline: 2px solid #4573df;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(69, 115, 223, 0.2);
+}
+
+.category:focus-visible {
+  outline: 2px solid #ffffff;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.4);
+}
+
+/* Light theme specific responsive adjustments */
+@media (max-width: 768px) {
+  .description {
+    background: #ffffff;
+    box-shadow: 
+      0 6px 20px rgba(0, 0, 0, 0.08),
+      0 2px 8px rgba(69, 115, 223, 0.05);
+  }
+
+  .links {
+    background: #f8f9fa;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
+  }
+}
+
+/* Light theme print optimizations */
+@media print {
+  .container {
+    background: #ffffff;
+    color: #000000;
+  }
+
+  .title {
+    color: #000000 !important;
+    -webkit-text-fill-color: unset !important;
+  }
+
+  .description {
+    background: #ffffff;
+    color: #000000;
+    border: 1px solid #cccccc;
+  }
+
+  .tag {
+    background: #f5f5f5;
+    color: #333333;
+    border-color: #cccccc;
+  }
+
+  .category {
+    background: #4573df;
+    color: #ffffff;
+  }
+}

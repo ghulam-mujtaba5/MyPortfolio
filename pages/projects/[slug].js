@@ -85,7 +85,15 @@ const ProjectPage = ({ project }) => {
   }
 
   return (
-    <div>
+    <div style={{ 
+      minHeight: '100vh', 
+      width: '100%',
+      background: theme === 'dark' 
+        ? 'linear-gradient(135deg, #0f1419 0%, #1f2937 50%, #111827 100%)' 
+        : 'linear-gradient(135deg, #ffffff 0%, #f8f9fa 50%, #f1f3f4 100%)',
+      margin: 0,
+      padding: 0
+    }}>
       <Head>
         <title>
           {project.metaTitle || `${project.title} | Project by Ghulam Mujtaba`}
@@ -241,10 +249,12 @@ const ProjectPage = ({ project }) => {
             className={`${shareStyles.shareButton} ${theme === "dark" ? shareStyles.shareButtonDark : ""}`}
           >
             {/* Modern share icon */}
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-              <path d="M15 4h5v5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-              <path d="M10 14L20 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-              <path d="M20 14v5a1 1 0 0 1-1 1h-5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <circle cx="18" cy="5" r="3" fill="currentColor"/>
+              <circle cx="6" cy="12" r="3" fill="currentColor"/>
+              <circle cx="18" cy="19" r="3" fill="currentColor"/>
+              <line x1="8.59" y1="13.51" x2="15.42" y2="17.49" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+              <line x1="15.41" y1="6.51" x2="8.59" y2="10.49" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
             </svg>
           </button>
           {shareOpen && (

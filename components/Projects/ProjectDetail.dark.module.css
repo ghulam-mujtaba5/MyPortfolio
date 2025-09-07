@@ -1,0 +1,311 @@
+/* ProjectDetail Dark Theme Styles */
+
+/* Dark theme color overrides for optimal contrast and eye comfort */
+.container {
+  background: linear-gradient(135deg, #0f1419 0%, #1f2937 50%, #111827 100%);
+  color: #e5e7eb;
+  min-height: 100vh;
+  position: relative;
+}
+
+/* Ensure full coverage for dark mode */
+.container::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, #0f1419 0%, #1f2937 50%, #111827 100%);
+  z-index: -2;
+  pointer-events: none;
+}
+
+/* Enhanced title styling for dark theme */
+.title {
+  background: linear-gradient(135deg, #f9fafb 0%, #e5e7eb 50%, #d1d5db 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.title::after {
+  background: linear-gradient(90deg, #4573df 0%, #5a86e6 50%, #6b93ff 100%);
+  box-shadow: 0 2px 8px rgba(69, 115, 223, 0.4);
+}
+
+/* Image container dark theme enhancements */
+.imageContainer {
+  box-shadow: 
+    0 20px 40px rgba(0, 0, 0, 0.4),
+    0 8px 16px rgba(69, 115, 223, 0.15);
+  border: 1px solid rgba(75, 85, 99, 0.6);
+}
+
+.imageContainer:hover {
+  box-shadow: 
+    0 30px 60px rgba(0, 0, 0, 0.5),
+    0 12px 24px rgba(69, 115, 223, 0.2);
+  border-color: rgba(69, 115, 223, 0.4);
+}
+
+/* Category styling for dark theme */
+.category {
+  background: linear-gradient(135deg, #4573df 0%, #5a86e6 100%);
+  color: #ffffff;
+  box-shadow: 
+    0 4px 15px rgba(69, 115, 223, 0.35),
+    0 2px 6px rgba(0, 0, 0, 0.3);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.category:hover {
+  box-shadow: 
+    0 6px 20px rgba(69, 115, 223, 0.45),
+    0 3px 8px rgba(0, 0, 0, 0.4);
+}
+
+/* Tags styling for dark theme */
+.tag {
+  background: linear-gradient(135deg, #374151 0%, #2d3748 100%);
+  color: #e5e7eb;
+  border: 1px solid #4b5563;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.tag:hover {
+  background: linear-gradient(135deg, #4573df 0%, #5a86e6 100%);
+  color: #ffffff;
+  border-color: #4573df;
+  box-shadow: 
+    0 4px 12px rgba(69, 115, 223, 0.35),
+    0 2px 6px rgba(0, 0, 0, 0.3);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* Description container dark theme */
+.description {
+  background: linear-gradient(135deg, #1f2937 0%, #1a202c 100%) !important;
+  color: #e5e7eb !important;
+  border: 1px solid #374151 !important;
+  box-shadow: 
+    0 8px 25px rgba(0, 0, 0, 0.25),
+    0 3px 10px rgba(69, 115, 223, 0.08);
+}
+
+.description:hover {
+  box-shadow: 
+    0 12px 35px rgba(0, 0, 0, 0.3),
+    0 5px 15px rgba(69, 115, 223, 0.12);
+  border-color: rgba(69, 115, 223, 0.25);
+}
+
+/* Rich text content styling for dark theme */
+.description :global(h1),
+.description :global(h2),
+.description :global(h3),
+.description :global(h4),
+.description :global(h5),
+.description :global(h6) {
+  color: #f9fafb;
+}
+
+.description :global(h2) {
+  border-bottom-color: #4573df;
+  color: #f9fafb;
+}
+
+.description :global(h3) {
+  color: #93c5fd;
+}
+
+.description :global(strong) {
+  color: #f9fafb;
+}
+
+.description :global(em) {
+  color: #93c5fd;
+}
+
+.description :global(a) {
+  color: #93c5fd;
+}
+
+.description :global(a:hover) {
+  color: #60a5fa;
+}
+
+.description :global(blockquote) {
+  background: linear-gradient(135deg, #374151 0%, #2d3748 100%);
+  color: #d1d5db;
+  border-left-color: #4573df;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.description :global(code) {
+  background: linear-gradient(135deg, #374151 0%, #2d3748 100%);
+  color: #fbbf24;
+  border: 1px solid #4b5563;
+}
+
+.description :global(pre) {
+  background: linear-gradient(135deg, #111827 0%, #0f172a 100%);
+  color: #f9fafb;
+  border: 1px solid #374151;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Links section dark theme */
+.links {
+  background: linear-gradient(135deg, #1f2937 0%, #1a202c 100%) !important;
+  border: 1px solid #374151 !important;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.link {
+  background: linear-gradient(135deg, #4573df 0%, #5a86e6 100%);
+  color: #ffffff;
+  box-shadow: 
+    0 6px 20px rgba(69, 115, 223, 0.35),
+    0 3px 8px rgba(0, 0, 0, 0.3);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.link:hover {
+  box-shadow: 
+    0 10px 30px rgba(69, 115, 223, 0.45),
+    0 5px 12px rgba(0, 0, 0, 0.4);
+  background: linear-gradient(135deg, #3f6ed6 0%, #4573df 100%);
+}
+
+.link:active {
+  box-shadow: 
+    0 4px 15px rgba(69, 115, 223, 0.4),
+    0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+/* Enhanced focus states for dark theme */
+.link:focus-visible {
+  outline: 2px solid #60a5fa;
+  outline-offset: 3px;
+  box-shadow: 
+    0 10px 30px rgba(69, 115, 223, 0.45),
+    0 0 0 4px rgba(96, 165, 250, 0.3);
+}
+
+.tag:focus-visible {
+  outline: 2px solid #60a5fa;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(96, 165, 250, 0.3);
+}
+
+.category:focus-visible {
+  outline: 2px solid #ffffff;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.3);
+}
+
+/* Dark theme specific glow effects */
+.description:hover::before {
+  background: linear-gradient(135deg, rgba(69, 115, 223, 0.15), rgba(147, 197, 253, 0.08));
+  opacity: 1;
+}
+
+.imageContainer::before {
+  background: linear-gradient(135deg, rgba(69, 115, 223, 0.12), rgba(147, 197, 253, 0.06));
+}
+
+/* Enhanced hover effects for dark theme */
+.category::before {
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+}
+
+.tag::before {
+  background: linear-gradient(135deg, #4573df, #5a86e6);
+}
+
+.link::before {
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+}
+
+/* Dark theme specific responsive adjustments */
+@media (max-width: 768px) {
+  .description {
+    background: #1f2937;
+    box-shadow: 
+      0 6px 20px rgba(0, 0, 0, 0.3),
+      0 2px 8px rgba(69, 115, 223, 0.1);
+  }
+
+  .links {
+    background: #1f2937;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.25);
+  }
+}
+
+/* Dark theme scrollbar styling (WebKit) */
+.description::-webkit-scrollbar {
+  width: 8px;
+}
+
+.description::-webkit-scrollbar-track {
+  background: #374151;
+  border-radius: 4px;
+}
+
+.description::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #4573df, #5a86e6);
+  border-radius: 4px;
+}
+
+.description::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, #3f6ed6, #4573df);
+}
+
+/* Dark theme print optimizations */
+@media print {
+  .container {
+    background: #ffffff !important;
+    color: #000000 !important;
+  }
+
+  .title {
+    color: #000000 !important;
+    -webkit-text-fill-color: unset !important;
+    background: none !important;
+  }
+
+  .description {
+    background: #ffffff !important;
+    color: #000000 !important;
+    border: 1px solid #cccccc !important;
+  }
+
+  .tag {
+    background: #f5f5f5 !important;
+    color: #333333 !important;
+    border-color: #cccccc !important;
+  }
+
+  .category {
+    background: #4573df !important;
+    color: #ffffff !important;
+  }
+
+  .links {
+    background: #f8f9fa !important;
+    border-color: #cccccc !important;
+  }
+}
+
+/* Dark theme selection colors */
+.description :global(::selection) {
+  background: rgba(69, 115, 223, 0.3);
+  color: #ffffff;
+}
+
+.description :global(::-moz-selection) {
+  background: rgba(69, 115, 223, 0.3);
+  color: #ffffff;
+}
