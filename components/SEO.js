@@ -8,6 +8,7 @@ export default function SEO({
   type = "website",
   canonical = "https://ghulammujtaba.com",
   keywords = "Ghulam Mujtaba, Portfolio, Full Stack Developer, Data Scientist, AI, Projects, Resume",
+  jsonLd, // optional JSON-LD object or array of objects
   children,
 }) {
   // Only render one canonical tag per page. Pass the correct canonical prop from each page.
@@ -28,6 +29,21 @@ export default function SEO({
       <meta name="twitter:image" content={image} />
       {canonical && <link rel="canonical" href={canonical} />}
       <link rel="icon" href="/favicon.ico" />
+      {/* Optional JSON-LD passed as prop */}
+      {jsonLd && Array.isArray(jsonLd)
+        ? jsonLd.map((obj, i) => (
+            <script
+              key={`jsonld-${i}`}
+              type="application/ld+json"
+              dangerouslySetInnerHTML={{ __html: JSON.stringify(obj) }}
+            />
+          ))
+        : jsonLd && (
+            <script
+              type="application/ld+json"
+              dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+            />
+          )}
       {children}
     </Head>
   );

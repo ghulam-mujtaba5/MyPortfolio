@@ -6,3 +6,4 @@ Disallow: /api/
 
 # Sitemaps
 Sitemap: https://ghulammujtaba.com/sitemap.xml
+

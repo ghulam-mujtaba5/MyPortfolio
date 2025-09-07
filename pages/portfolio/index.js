@@ -52,6 +52,7 @@ const Home = ({ previewProjects = [], previewArticles = [] }) => {
         canonical="https://ghulammujtaba.com/"
         keywords="Ghulam Mujtaba, Portfolio, Developer, Data Scientist, AI, Pakistan"
       >
+        {/* Person schema to identify the owner of the site */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -88,6 +89,60 @@ const Home = ({ previewProjects = [], previewArticles = [] }) => {
                 "https://www.linkedin.com/in/ghulamujtabaofficial",
                 "https://github.com/ghulam-mujtaba5",
                 "https://www.instagram.com/ghulamujtabaofficial/"
+              ]
+            }),
+          }}
+        />
+        {/* WebSite schema with SearchAction enables sitelinks search box */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebSite",
+              url: "https://ghulammujtaba.com",
+              name: "Ghulam Mujtaba Portfolio",
+              potentialAction: {
+                "@type": "SearchAction",
+                target: "https://ghulammujtaba.com/search?q={search_term_string}",
+                "query-input": "required name=search_term_string"
+              }
+            }),
+          }}
+        />
+        {/* SiteNavigationElement hints to Google which sections are primary */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "ItemList",
+              itemListElement: [
+                {
+                  "@type": "SiteNavigationElement",
+                  name: "About",
+                  url: "https://ghulammujtaba.com/#about-section"
+                },
+                {
+                  "@type": "SiteNavigationElement",
+                  name: "Resume",
+                  url: "https://ghulammujtaba.com/resume"
+                },
+                {
+                  "@type": "SiteNavigationElement",
+                  name: "Projects",
+                  url: "https://ghulammujtaba.com/projects"
+                },
+                {
+                  "@type": "SiteNavigationElement",
+                  name: "Articles",
+                  url: "https://ghulammujtaba.com/articles"
+                },
+                {
+                  "@type": "SiteNavigationElement",
+                  name: "Contact",
+                  url: "https://ghulammujtaba.com/#contact-section"
+                }
               ]
             }),
           }}

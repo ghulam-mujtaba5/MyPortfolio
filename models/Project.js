@@ -98,6 +98,11 @@ try {
   ProjectSchema.index({ status: 1, createdAt: -1 }, { name: "ProjectStatusCreated_idx" });
   ProjectSchema.index({ pinned: 1, createdAt: -1 }, { name: "ProjectPinnedCreated_idx" });
   ProjectSchema.index({ tags: 1 }, { name: "ProjectTags_idx" });
+  // Full-text index to support public search
+  ProjectSchema.index(
+    { title: "text", description: "text", tags: "text" },
+    { weights: { title: 5, description: 3, tags: 1 }, name: "ProjectTextIndex" }
+  );
 } catch (e) {
   // noop for dev hot-reload
 }
