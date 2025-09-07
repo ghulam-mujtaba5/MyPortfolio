@@ -342,6 +342,48 @@ export default function AboutPage() {
           </div>
         </section>
 
+        {/* Professional Journey (moved up for prominence) */}
+        <section className={`${common.section} ${common.fadeInUp} ${common.prominentSection}`} aria-labelledby="experience-heading">
+          <div className={common.sectionHeader}>
+            <span className={common.sectionIcon}>💼</span>
+            <h2 id="experience-heading" className={`${common.sectionTitle} ${common.prominentTitle}`}>Professional Journey</h2>
+          </div>
+          <div className={common.timeline}>
+            {experience.map((e, idx) => (
+              <div className={`${common.timelineItem} ${common.timelineItemFeatured}`} key={idx}>
+                <div className={common.contentCol}>
+                  <h3 className={common.itemTitle}>{e.role}</h3>
+                  <p className={`${common.itemMeta} ${theme === 'dark' ? dark.itemMeta : light.itemMeta}`}>
+                    {e.company} • <time>{e.start}</time> — <time>{e.end}</time>
+                  </p>
+                  <p className={`${common.itemDesc} ${theme === 'dark' ? dark.subtitle : light.subtitle}`}>
+                    {e.description}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Education (moved up under hero) */}
+        <section className={`${common.section} ${common.fadeInUp} ${common.prominentSection}`} aria-labelledby="education-heading">
+          <div className={common.sectionHeader}>
+            <span className={common.sectionIcon}>🎓</span>
+            <h2 id="education-heading" className={`${common.sectionTitle} ${common.prominentTitle}`}>Education</h2>
+          </div>
+          <div className={`${common.card} ${theme === 'dark' ? dark.card : light.card}`}>
+            <h3 style={{ margin: '0 0 8px 0', fontSize: '1.25rem', fontWeight: 600 }}>
+              Comsats University Islamabad, Lahore Campus
+            </h3>
+            <p className={`${common.subtitle} ${theme === 'dark' ? dark.subtitle : light.subtitle}`} style={{ margin: 0 }}>
+              Bachelor of Science in Software Engineering
+            </p>
+            <p className={`${common.itemMeta} ${theme === 'dark' ? dark.itemMeta : light.itemMeta}`} style={{ marginTop: 8 }}>
+              Expected Graduation: June 2026
+            </p>
+          </div>
+        </section>
+
         {/* Quick Stats */}
         <section className={`${common.section} ${common.fadeInLeft}`} aria-labelledby="stats-heading">
           <div className={common.sectionHeader}>
@@ -389,28 +431,34 @@ export default function AboutPage() {
           </div>
         </section>
 
-        {/* Achievements */}
-        <section className={`${common.section} ${common.fadeInUp}`} aria-labelledby="achievements-heading">
+        {/* How I Work section removed per user request */}
+
+        <section className={`${common.section} ${common.fadeInLeft}`} aria-labelledby="impact-heading">
           <div className={common.sectionHeader}>
-            <span className={common.sectionIcon}>🏆</span>
-            <h2 id="achievements-heading" className={common.sectionTitle}>Key Achievements</h2>
+            <span className={common.sectionIcon}>📈</span>
+            <h2 id="impact-heading" className={common.sectionTitle}>Impact Stories</h2>
           </div>
           <div className={common.achievementsGrid}>
-            {achievements.map((achievement, index) => (
-              <div key={index} className={`${common.card} ${common.achievementCard} ${common.cardHover}`}>
-                <span className={`${common.achievementIcon} ${theme === 'dark' ? dark.achievementIcon : light.achievementIcon}`}>
-                  {achievement.icon}
-                </span>
-                <h3 className={common.achievementTitle}>{achievement.title}</h3>
-                <p className={`${common.achievementDesc} ${theme === 'dark' ? dark.subtitle : light.subtitle}`}>
-                  {achievement.description}
-                </p>
-              </div>
-            ))}
+            <div className={`${common.card} ${common.achievementCard} ${common.cardHover}`}>
+              <h3 className={common.achievementTitle}>Improved LLM Relevance</h3>
+              <p className={`${common.achievementDesc} ${theme === 'dark' ? dark.subtitle : light.subtitle}`}>
+                Evaluated and refined large language model outputs across multiple projects, increasing search relevance and user satisfaction metrics.
+              </p>
+            </div>
+            <div className={`${common.card} ${common.achievementCard} ${common.cardHover}`}>
+              <h3 className={common.achievementTitle}>End-to-end Platform</h3>
+              <p className={`${common.achievementDesc} ${theme === 'dark' ? dark.subtitle : light.subtitle}`}>
+                Built full-stack solutions combining React frontends with ML-powered backends, delivering analytics dashboards and automation features.
+              </p>
+            </div>
+            <div className={`${common.card} ${common.achievementCard} ${common.cardHover}`}>
+              <h3 className={common.achievementTitle}>Certifications to Practice</h3>
+              <p className={`${common.achievementDesc} ${theme === 'dark' ? dark.subtitle : light.subtitle}`}>
+                Earned industry certifications and applied learnings to production projects to improve deployment and scaling practices.
+              </p>
+            </div>
           </div>
         </section>
-
-        {/* About blurb */}
         <section className={`${common.section} ${common.fadeInUp}`} aria-labelledby="aboutme-heading">
           <div className={common.sectionHeader}>
             <span className={common.sectionIcon}>👨‍💻</span>
@@ -465,46 +513,7 @@ export default function AboutPage() {
 
         {/* Projects removed from About page to avoid duplication — see /projects for full listing */}
 
-        {/* Skills */}
-        <section className={`${common.section} ${common.fadeInUp}`} aria-labelledby="skills-heading">
-          <div className={common.sectionHeader}>
-            <span className={common.sectionIcon}>⚡</span>
-            <h2 id="skills-heading" className={common.sectionTitle}>Core Skills</h2>
-          </div>
-          <div className={common.skillsGrid}>
-            {skillsData.map((skill, idx) => (
-              <div key={idx} className={`${common.skillCard} ${theme === 'dark' ? dark.skillCard : light.skillCard}`}>
-                <span className={common.skillIcon}>{skill.icon}</span>
-                <h3 className={common.skillTitle}>{skill.name}</h3>
-                <p className={`${common.skillDesc} ${theme === 'dark' ? dark.subtitle : light.subtitle}`}>
-                  {skill.description}
-                </p>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* Certifications */}
-        <section className={`${common.section} ${common.fadeInLeft}`} aria-labelledby="certifications-heading">
-          <div className={common.sectionHeader}>
-            <span className={common.sectionIcon}>🏆</span>
-            <h2 id="certifications-heading" className={common.sectionTitle}>Certifications</h2>
-          </div>
-          <div className={common.certificationsGrid}>
-            {certificationsData.map((cert, idx) => (
-              <div key={idx} className={`${common.certCard} ${theme === 'dark' ? dark.certCard : light.certCard}`}>
-                <span className={common.certIcon}>{cert.icon}</span>
-                <h3 className={common.certTitle}>{cert.name}</h3>
-                <p className={`${common.certOrg} ${theme === 'dark' ? dark.itemMeta : light.itemMeta}`}>
-                  {cert.organization}
-                </p>
-                <p className={`${common.certDate} ${theme === 'dark' ? dark.subtitle : light.subtitle}`}>
-                  <time>{cert.date}</time>
-                </p>
-              </div>
-            ))}
-          </div>
-        </section>
+        {/* Skills & Certifications removed — replaced with focused How I Work & Impact Stories */}
 
         {/* Interests */}
         <section className={`${common.section} ${common.fadeInRight}`} aria-labelledby="interests-heading">
