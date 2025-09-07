@@ -309,3 +309,218 @@
   background: rgba(69, 115, 223, 0.3);
   color: #ffffff;
 }
+
+/* Enhanced Dark Theme Features */
+
+/* Scroll Progress Dark Theme */
+.scrollProgress {
+  background: linear-gradient(90deg, #4573df 0%, #5a86e6 50%, #6b93ff 100%);
+  box-shadow: 0 0 15px rgba(69, 115, 223, 0.6);
+}
+
+/* Breadcrumb Dark Theme */
+.breadcrumb {
+  background: rgba(31, 41, 55, 0.9);
+  backdrop-filter: blur(10px);
+  border-radius: 8px;
+  padding: 12px 16px;
+  border: 1px solid rgba(75, 85, 99, 0.6);
+}
+
+.breadcrumbLink {
+  color: #9ca3af;
+}
+
+.breadcrumbLink:hover {
+  color: #93c5fd;
+}
+
+.breadcrumbCurrent {
+  color: #f9fafb;
+  font-weight: 600;
+}
+
+/* Reading Info Dark Theme */
+.readingInfo {
+  background: linear-gradient(135deg, rgba(69, 115, 223, 0.15) 0%, rgba(90, 134, 230, 0.08) 100%);
+  border-left-color: #4573df;
+  color: #d1d5db;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Title Underline Enhanced Dark */
+.titleUnderline {
+  background: linear-gradient(90deg, #4573df 0%, #5a86e6 50%, #6b93ff 100%);
+  box-shadow: 0 2px 12px rgba(69, 115, 223, 0.5);
+}
+
+/* Performance Metrics Dark Theme */
+.metricsSection {
+  background: linear-gradient(135deg, #1f2937 0%, #1a202c 100%);
+  border: 1px solid #374151;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+.metricsTitle {
+  color: #f9fafb;
+  background: linear-gradient(135deg, #f9fafb 0%, #93c5fd 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.metric {
+  background: linear-gradient(135deg, #374151 0%, #2d3748 100%);
+  border: 1px solid #4b5563;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.metric:hover {
+  background: linear-gradient(135deg, #4b5563 0%, #374151 100%);
+  border-color: rgba(69, 115, 223, 0.4);
+  box-shadow: 0 8px 25px rgba(69, 115, 223, 0.2);
+}
+
+.metricValue {
+  background: linear-gradient(135deg, #4573df 0%, #93c5fd 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.metricLabel {
+  color: #9ca3af;
+}
+
+/* Enhanced Action Links Dark Theme */
+.primaryLink {
+  background: linear-gradient(135deg, #4573df 0%, #5a86e6 100%);
+  box-shadow: 0 6px 20px rgba(69, 115, 223, 0.4);
+}
+
+.primaryLink:hover {
+  background: linear-gradient(135deg, #3f6ed6 0%, #4975e3 100%);
+  box-shadow: 0 10px 30px rgba(69, 115, 223, 0.5);
+}
+
+.secondaryLink {
+  background: rgba(69, 115, 223, 0.1);
+  border-color: #4573df;
+  color: #93c5fd;
+}
+
+.secondaryLink:hover {
+  background: #4573df;
+  color: #ffffff;
+  box-shadow: 0 8px 25px rgba(69, 115, 223, 0.4);
+}
+
+/* Related Projects Dark Theme */
+.relatedSection {
+  background: linear-gradient(135deg, rgba(31, 41, 55, 0.6) 0%, rgba(26, 32, 44, 0.8) 100%);
+  border-radius: 20px;
+  padding: 40px 30px;
+  margin-top: 60px;
+  border-top: 2px solid rgba(69, 115, 223, 0.3);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+.relatedTitle {
+  background: linear-gradient(135deg, #f9fafb 0%, #93c5fd 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.relatedCard {
+  background: linear-gradient(135deg, #374151 0%, #2d3748 100%);
+  border: 1px solid #4b5563;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+.relatedCard:hover {
+  background: linear-gradient(135deg, #4b5563 0%, #374151 100%);
+  border-color: rgba(69, 115, 223, 0.5);
+  box-shadow: 0 20px 40px rgba(69, 115, 223, 0.25);
+}
+
+.relatedCardTitle {
+  color: #f9fafb;
+}
+
+.relatedCardDesc {
+  color: #d1d5db;
+}
+
+.relatedCardCategory {
+  background: linear-gradient(135deg, rgba(69, 115, 223, 0.2) 0%, rgba(147, 197, 253, 0.1) 100%);
+  color: #93c5fd;
+  border: 1px solid rgba(69, 115, 223, 0.4);
+}
+
+/* Back to Projects Dark Theme */
+.backToProjects {
+  background: linear-gradient(135deg, rgba(31, 41, 55, 0.4) 0%, rgba(26, 32, 44, 0.6) 100%);
+  border-radius: 12px;
+  padding: 20px;
+  border-top: 1px solid rgba(69, 115, 223, 0.3);
+}
+
+.backLink {
+  color: #9ca3af;
+  background: rgba(31, 41, 55, 0.6);
+  border: 1px solid #4b5563;
+}
+
+.backLink:hover {
+  color: #93c5fd;
+  background: rgba(69, 115, 223, 0.1);
+  border-color: rgba(69, 115, 223, 0.4);
+  box-shadow: 0 4px 12px rgba(69, 115, 223, 0.2);
+}
+
+/* Dark Theme Glow Effects */
+.metric:hover {
+  box-shadow: 
+    0 8px 25px rgba(69, 115, 223, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.relatedCard:hover {
+  box-shadow: 
+    0 20px 40px rgba(69, 115, 223, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+/* Enhanced Dark Theme Scrollbars */
+.relatedSection::-webkit-scrollbar {
+  width: 8px;
+}
+
+.relatedSection::-webkit-scrollbar-track {
+  background: #374151;
+  border-radius: 4px;
+}
+
+.relatedSection::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #4573df, #5a86e6);
+  border-radius: 4px;
+}
+
+.relatedSection::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, #3f6ed6, #4573df);
+}
+
+/* Inline Share Button Dark Theme */
+.shareButtonMeta {
+  background: linear-gradient(135deg, rgba(69, 115, 223, 0.15) 0%, rgba(90, 134, 230, 0.08) 100%);
+  color: #93c5fd;
+  border-color: rgba(69, 115, 223, 0.4);
+}
+
+.shareButtonMeta:hover {
+  background: linear-gradient(135deg, #4573df 0%, #5a86e6 100%);
+  color: white;
+  border-color: #4573df;
+  box-shadow: 0 6px 16px rgba(69, 115, 223, 0.4);
+}

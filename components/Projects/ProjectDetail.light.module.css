@@ -235,3 +235,184 @@
     color: #ffffff;
   }
 }
+
+/* Enhanced Light Theme Features */
+
+/* Scroll Progress Light Theme */
+.scrollProgress {
+  background: linear-gradient(90deg, #4573df 0%, #5a86e6 50%, #6b93ff 100%);
+  box-shadow: 0 0 12px rgba(69, 115, 223, 0.4);
+}
+
+/* Breadcrumb Light Theme */
+.breadcrumb {
+  background: rgba(248, 249, 250, 0.8);
+  backdrop-filter: blur(10px);
+  border-radius: 8px;
+  padding: 12px 16px;
+  border: 1px solid rgba(229, 231, 235, 0.6);
+}
+
+.breadcrumbLink {
+  color: #6b7280;
+}
+
+.breadcrumbLink:hover {
+  color: #4573df;
+}
+
+.breadcrumbCurrent {
+  color: #1f2937;
+  font-weight: 600;
+}
+
+/* Reading Info Light Theme */
+.readingInfo {
+  background: linear-gradient(135deg, rgba(69, 115, 223, 0.05) 0%, rgba(90, 134, 230, 0.03) 100%);
+  border-left-color: #4573df;
+  color: #4b5563;
+}
+
+/* Title Underline Enhanced */
+.titleUnderline {
+  background: linear-gradient(90deg, #4573df 0%, #5a86e6 50%, #6b93ff 100%);
+  box-shadow: 0 2px 8px rgba(69, 115, 223, 0.3);
+}
+
+/* Performance Metrics Light Theme */
+.metricsSection {
+  background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05);
+}
+
+.metricsTitle {
+  color: #1f2937;
+  background: linear-gradient(135deg, #1f2937 0%, #4573df 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.metric {
+  background: linear-gradient(135deg, #ffffff 0%, #fefefe 100%);
+  border: 1px solid #f1f3f4;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+}
+
+.metric:hover {
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+  border-color: rgba(69, 115, 223, 0.2);
+  box-shadow: 0 8px 25px rgba(69, 115, 223, 0.1);
+}
+
+.metricValue {
+  background: linear-gradient(135deg, #4573df 0%, #5a86e6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.metricLabel {
+  color: #6b7280;
+}
+
+/* Enhanced Action Links Light Theme */
+.primaryLink {
+  background: linear-gradient(135deg, #4573df 0%, #5a86e6 100%);
+  box-shadow: 0 6px 20px rgba(69, 115, 223, 0.25);
+}
+
+.primaryLink:hover {
+  background: linear-gradient(135deg, #3f6ed6 0%, #4975e3 100%);
+  box-shadow: 0 10px 30px rgba(69, 115, 223, 0.35);
+}
+
+.secondaryLink {
+  background: rgba(69, 115, 223, 0.05);
+  border-color: #4573df;
+  color: #4573df;
+}
+
+.secondaryLink:hover {
+  background: #4573df;
+  color: #ffffff;
+  box-shadow: 0 8px 25px rgba(69, 115, 223, 0.3);
+}
+
+/* Related Projects Light Theme */
+.relatedSection {
+  background: linear-gradient(135deg, rgba(248, 249, 250, 0.5) 0%, rgba(255, 255, 255, 0.8) 100%);
+  border-radius: 20px;
+  padding: 40px 30px;
+  margin-top: 60px;
+  border-top: 2px solid rgba(69, 115, 223, 0.1);
+}
+
+.relatedTitle {
+  background: linear-gradient(135deg, #1f2937 0%, #4573df 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.relatedCard {
+  background: linear-gradient(135deg, #ffffff 0%, #fefefe 100%);
+  border: 1px solid #f1f3f4;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+}
+
+.relatedCard:hover {
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+  border-color: rgba(69, 115, 223, 0.3);
+  box-shadow: 0 20px 40px rgba(69, 115, 223, 0.15);
+}
+
+.relatedCardTitle {
+  color: #1f2937;
+}
+
+.relatedCardDesc {
+  color: #6b7280;
+}
+
+.relatedCardCategory {
+  background: linear-gradient(135deg, rgba(69, 115, 223, 0.1) 0%, rgba(90, 134, 230, 0.05) 100%);
+  color: #4573df;
+  border: 1px solid rgba(69, 115, 223, 0.2);
+}
+
+/* Back to Projects Light Theme */
+.backToProjects {
+  background: linear-gradient(135deg, rgba(248, 249, 250, 0.3) 0%, rgba(255, 255, 255, 0.5) 100%);
+  border-radius: 12px;
+  padding: 20px;
+  border-top: 1px solid rgba(69, 115, 223, 0.1);
+}
+
+.backLink {
+  color: #6b7280;
+  background: rgba(248, 249, 250, 0.5);
+  border: 1px solid #e5e7eb;
+}
+
+.backLink:hover {
+  color: #4573df;
+  background: rgba(69, 115, 223, 0.05);
+  border-color: rgba(69, 115, 223, 0.2);
+  box-shadow: 0 4px 12px rgba(69, 115, 223, 0.1);
+}
+
+/* Inline Share Button Light Theme */
+.shareButtonMeta {
+  background: linear-gradient(135deg, rgba(69, 115, 223, 0.05) 0%, rgba(90, 134, 230, 0.03) 100%);
+  color: #4573df;
+  border-color: rgba(69, 115, 223, 0.2);
+}
+
+.shareButtonMeta:hover {
+  background: linear-gradient(135deg, #4573df 0%, #5a86e6 100%);
+  color: white;
+  border-color: #4573df;
+  box-shadow: 0 6px 16px rgba(69, 115, 223, 0.3);
+}
