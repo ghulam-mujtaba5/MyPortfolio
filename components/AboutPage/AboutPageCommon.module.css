@@ -219,13 +219,13 @@
   transition: opacity 0.3s ease;
 }
 
-.cardHover:hover::before {
-  opacity: 1;
+.cardHover:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.12);
 }
 
-.cardHover:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+.cardHover {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .statCard {
@@ -423,15 +423,15 @@
 }
 
 .fadeInUp {
-  animation: fadeInUp 600ms ease both;
+  animation: fadeInUp 800ms ease both;
 }
 
 .fadeInLeft {
-  animation: fadeInLeft 600ms ease both;
+  animation: fadeInLeft 800ms ease both 0.1s;
 }
 
 .fadeInRight {
-  animation: fadeInRight 600ms ease both;
+  animation: fadeInRight 800ms ease both 0.2s;
 }
 
 @keyframes fadeInUp {
@@ -633,41 +633,60 @@
   transform: translateY(1px) scale(0.998);
 }
 
+/* Enhanced responsive and spacing improvements */
 @media (max-width: 768px) {
   .container {
     padding: 2rem 1rem;
   }
   
   .hero {
-    padding: 2rem;
-    margin-bottom: 3rem;
+    padding: 1.5rem;
+    margin-bottom: 2.5rem;
   }
   
   .heroContent {
     grid-template-columns: 1fr;
     text-align: center;
-    gap: 2rem;
+    gap: 1.5rem;
   }
   
   .avatar {
-    width: 150px;
-    height: 150px;
+    width: 140px;
+    height: 140px;
     margin: 0 auto;
   }
   
   .title {
-    font-size: 2.5rem;
+    font-size: 2.25rem;
+  }
+  
+  .subtitle {
+    font-size: 1.1rem;
+  }
+  
+  .missionStatement {
+    padding: 1.5rem;
+    margin: 1.5rem 0;
+  }
+  
+  .chips {
+    justify-content: center;
+  }
+  
+  .socials {
+    justify-content: center;
   }
   
   .statsGrid,
   .funFactsGrid,
   .achievementsGrid {
     grid-template-columns: 1fr;
+    gap: 16px;
   }
   
   .skillsGrid {
     grid-template-columns: 1fr;
-    gap: 20px;
+    gap: 16px;
   }
   
   .certificationsGrid {
@@ -681,17 +700,19 @@
   }
   
   .ctaTitle {
-    font-size: 2rem;
+    font-size: 1.875rem;
   }
   
   .ctaButtons {
     flex-direction: column;
     align-items: center;
+    gap: 12px;
   }
   
   .ctaButton {
     width: 100%;
-    max-width: 280px;
+    max-width: 260px;
+    padding: 12px 24px;
   }
   
   .timeline {
@@ -704,5 +725,18 @@
   
   .timelineItem::before {
     left: -4px;
+  }
+  
+  .timelineItemFeatured {
+    padding: 1rem;
+    margin-left: 0;
+  }
+  
+  .prominentTitle {
+    font-size: 1.875rem;
+  }
+  
+  .section {
+    margin-bottom: 3rem;
   }
 }

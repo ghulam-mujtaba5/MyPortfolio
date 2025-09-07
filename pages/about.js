@@ -469,47 +469,7 @@ export default function AboutPage() {
           </div>
         </section>
 
-        {/* Experience timeline */}
-        <section className={`${common.section} ${common.fadeInLeft}`} aria-labelledby="experience-heading">
-          <div className={common.sectionHeader}>
-            <span className={common.sectionIcon}>💼</span>
-            <h2 id="experience-heading" className={common.sectionTitle}>Professional Journey</h2>
-          </div>
-          <div className={common.timeline}>
-            {experience.map((e, idx) => (
-              <div className={common.timelineItem} key={idx}>
-                <div className={common.contentCol}>
-                  <h3 className={common.itemTitle}>{e.role}</h3>
-                  <p className={`${common.itemMeta} ${theme === 'dark' ? dark.itemMeta : light.itemMeta}`}>
-                    {e.company} • <time>{e.start}</time> — <time>{e.end}</time>
-                  </p>
-                  <p className={`${common.itemDesc} ${theme === 'dark' ? dark.subtitle : light.subtitle}`}>
-                    {e.description}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* Education */}
-        <section className={`${common.section} ${common.fadeInRight}`} aria-labelledby="education-heading">
-          <div className={common.sectionHeader}>
-            <span className={common.sectionIcon}>🎓</span>
-            <h2 id="education-heading" className={common.sectionTitle}>Education</h2>
-          </div>
-          <div className={`${common.card} ${theme === 'dark' ? dark.card : light.card}`}>
-            <h3 style={{ margin: '0 0 8px 0', fontSize: '1.25rem', fontWeight: 600 }}>
-              Comsats University Islamabad, Lahore Campus
-            </h3>
-            <p className={`${common.subtitle} ${theme === 'dark' ? dark.subtitle : light.subtitle}`} style={{ margin: 0 }}>
-              Bachelor of Science in Software Engineering
-            </p>
-            <p className={`${common.itemMeta} ${theme === 'dark' ? dark.itemMeta : light.itemMeta}`} style={{ marginTop: 8 }}>
-              Expected Graduation: June 2026
-            </p>
-          </div>
-        </section>
+        {/* Professional Journey and Education moved up after hero - removing duplicates */}
 
         {/* Projects removed from About page to avoid duplication — see /projects for full listing */}
 
