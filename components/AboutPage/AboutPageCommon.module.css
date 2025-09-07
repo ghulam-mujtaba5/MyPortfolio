@@ -141,11 +141,25 @@
 .prominentSection {
   margin-top: 1rem;
   padding-top: 8px;
+  position: relative;
+}
+
+.prominentSection::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #4573df, transparent);
+  border-radius: 1px;
+  opacity: 0.3;
 }
 
 .prominentTitle {
   font-size: 2.25rem;
   letter-spacing: -0.5px;
+  margin-bottom: 1.5rem;
 }
 
 .sectionHeader {
@@ -339,10 +353,35 @@
 }
 
 .timelineItemFeatured {
-  padding: 1rem 1.5rem;
+  padding: 1.5rem;
   background: rgba(69,115,223,0.03);
   border-radius: 12px;
   border: 1px solid rgba(69,115,223,0.06);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.timelineItemFeatured::before {
+  left: -8px;
+  z-index: 2;
+}
+
+.timelineItemFeatured::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(69,115,223,0.02) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.timelineItemFeatured:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(69,115,223,0.08);
+  border-color: rgba(69,115,223,0.12);
 }
 
 .timelineItem::before {
