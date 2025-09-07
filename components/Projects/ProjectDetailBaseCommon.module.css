@@ -643,7 +643,7 @@
   .breadcrumb {
     font-size: 11px;
     gap: 3px;
-    margin-top: 90px; /* Much more space to avoid GM icon in top-left corner */
+    margin-top: 110px; /* Increased space to avoid GM icon/top controls on narrow screens */
     margin-bottom: 18px;
     padding: 6px 0;
     margin-left: 0; /* Ensure clear of GM icon area */
@@ -705,7 +705,7 @@
   .breadcrumb {
     font-size: 12px;
     gap: 4px;
-    margin-top: 80px; /* Increased significantly to avoid GM icon in top-left */
+    margin-top: 110px; /* Increased significantly to avoid GM icon in top-left */
     margin-bottom: 24px;
     padding: 8px 0;
     margin-left: 0; /* Ensure it doesn't interfere with GM icon position */
@@ -759,6 +759,32 @@
   }
 }
 
+/* Very small screens (iPhone SE and similar) - push breadcrumb further down */
+@media (max-width: 375px) {
+  .container {
+    /* Ensure the content clears top controls (GM icon / hamburger) on very small screens */
+    padding-top: max(140px, calc(env(safe-area-inset-top, 0px) + 140px));
+  }
+
+  .breadcrumb {
+    margin-top: 170px; /* extra space to avoid top-left UI overlap on very small devices */
+    margin-bottom: 28px;
+    font-size: 11px;
+    gap: 3px;
+    z-index: 40; /* sit above lower content but below any fixed header controls if needed */
+    position: relative;
+  }
+
+  .breadcrumbCurrent {
+    max-width: 160px;
+  }
+
+  /* Slightly reduce title size on very small screens to improve spacing */
+  .title {
+    font-size: clamp(1.4rem, 9vw, 1.9rem);
+  }
+}
+
 /* Print styles */
 @media print {
   .links {
@@ -797,7 +823,7 @@
   font-size: 14px;
   color: var(--text-muted, #6b7280);
   margin-bottom: 20px;
-  margin-top: 20px; /* Increased from 10px to give more space */
+
   padding: 12px 0;
 }
 
