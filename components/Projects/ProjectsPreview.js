@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
-import Link from "next/link";
+import { useRouter } from 'next/router';
 import { useTheme } from "../../context/ThemeContext";
 
 import commonStyles from "./ProjectsPreviewCommon.module.css";
@@ -51,6 +51,8 @@ const ProjectsPreview = ({ projects = [] }) => {
   const themeClass =
     theme === "dark" ? darkStyles.darkTheme : lightStyles.lightTheme;
 
+  const router = useRouter();
+
   return (
     <section className={`${commonStyles.section} ${themeClass}`}>
       <div className={commonStyles.headerRow}>
@@ -66,30 +68,42 @@ const ProjectsPreview = ({ projects = [] }) => {
         )}
         {clientProjects &&
           clientProjects.length > 0 &&
-          clientProjects.map((project) => (
-            <Link
-              key={project._id || project.slug || project.title}
-              href={`/projects/${project.slug}`}
-              passHref
-              style={{
-                textDecoration: "none",
-                color: "inherit",
-                display: "block",
-                borderRadius: "20px",
-                overflow: "hidden",
-                background: "none",
-                boxShadow: "none",
-                transition: "box-shadow 0.3s",
-                minHeight: 340,
-                maxWidth: 420,
-                width: "100%",
-              }}
-            >
-              <div className={commonStyles.projectCard} style={{ borderRadius: "20px", overflow: "hidden", background: "none", boxShadow: "none", minHeight: 340, maxWidth: 420, width: "100%" }}>
-                <Project1 project={project} />
+          clientProjects.map((project) => {
+            const key = project._id || project.slug || project.title;
+            const href = `/projects/${project.slug}`;
+            return (
+              <div
+                key={key}
+                role="link"
+                tabIndex={0}
+                onClick={() => router.push(href)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    router.push(href);
+                  }
+                }}
+                style={{
+                  textDecoration: 'none',
+                  color: 'inherit',
+                  display: 'block',
+                  borderRadius: '20px',
+                  overflow: 'hidden',
+                  background: 'none',
+                  boxShadow: 'none',
+                  transition: 'box-shadow 0.3s',
+                  minHeight: 340,
+                  maxWidth: 420,
+                  width: '100%',
+                  cursor: 'pointer',
+                }}
+              >
+                <div className={commonStyles.projectCard} style={{ borderRadius: '20px', overflow: 'hidden', background: 'none', boxShadow: 'none', minHeight: 340, maxWidth: 420, width: '100%' }}>
+                  <Project1 project={project} />
+                </div>
               </div>
-            </Link>
-          ))}
+            );
+          })}
       </div>
       <div
         style={{

@@ -14,6 +14,20 @@ const NavBar = () => {
   };
 
   const scrollToSection = (sectionId) => {
+    // If not on home, navigate to home first and then set the hash and scroll
+    if (typeof window !== "undefined" && window.location.pathname !== "/") {
+      // Navigate to home and then set hash + scroll
+      window.location.href = "/";
+      // After navigation, browser should land on / and honor the hash if present
+      // We set the hash to help with in-page navigation if the load is instant
+      try {
+        window.location.hash = `#${sectionId}`;
+      } catch (e) {
+        /* ignore */
+      }
+      return;
+    }
+
     const section = document.getElementById(sectionId);
     if (section) {
       section.scrollIntoView({ behavior: "smooth" });

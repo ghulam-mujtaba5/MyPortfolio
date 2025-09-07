@@ -1,0 +1,36 @@
+{
+  "name": "Ghulam Mujtaba",
+  "location": "Lahore, Pakistan",
+  "phone": "03177107849",
+  "email": "ghulammujtaba1005@gmail.com",
+  "website": "https://GhulamMujtaba.com",
+  "github": "https://github.com/ghulam-mujtaba5",
+  "linkedin": "https://www.linkedin.com/in/ghulamujtabaofficial",
+  "summary": "Software Engineer",
+  "jobTitle": "Software Engineer",
+  "university": "Comsats University Islamabad, Lahore Campus",
+  "education": {
+    "degree": "Bachelor of Science in Software Engineering",
+    "expectedGraduation": "June 2026"
+  },
+  "experience": [
+    {
+      "company": "Appen",
+      "role": "AI Data Annotator & AI Model Evaluator (Contract-Based, Remote)",
+      "start": "2022",
+      "end": "2025",
+      "description": "Annotated and evaluated AI-generated content across multiple Appen projects (Uolo V2 & P, Fireweed, Plumeria V2, Emerald), enhancing LLM accuracy and search relevance."
+    }
+  ],
+  "projects": [
+    { "name": "Shop Management & Billing Software", "desc": "Desktop Application using Java, JavaFX, Maven, and Spring for inventory management, sales tracking and automated billing processes." },
+    { "name": "DigiFinSense Mobile App", "desc": "Developed a mobile application using React Native CLI and Supabase for real-time financial analytics and API integration." },
+    { "name": "PulseFocus Desktop APP", "desc": "AI-powered productivity application using blink-detection built with Electron.js for eye-strain management." },
+    { "name": "My Portfolio", "desc": "Web Application using Next.js and React showcasing projects and writing." }
+  ],
+  "skills": ["Java","Python","JavaScript","C","C++","HTML","CSS","JavaFX","Spring","React","React Native","Electron.js","Next.js","Supabase","MongoDB","Git","Figma","Azure","Data Analysis","Data Visualization","Data Annotation"],
+  "certifications": ["Meta Front-End Developer","Google UX Design","Google Data Analytics","Google Project Management","Google Cybersecurity"],
+  "interests": ["Machine Learning","Big Data Analytics","Full stack & AI Development","Large Language Models"],
+  "image": "/images/portfolio-picture.png",
+  "resume": "/Resume.pdf"
+}

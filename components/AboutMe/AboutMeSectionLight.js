@@ -68,11 +68,9 @@ const AboutMeSection = () => {
           animate={controls}
           transition={{ duration: 0.5, delay: 0.4, ease: "easeOut" }}
         >
-          I am a Software Engineer with expertise in developing software
-          solutions that integrate emerging technologies such as Data Science,
-          Machine Learning, and AI Development. Dedicated to achieving
-          excellence from ideation and design to development and seamless
-          integration.
+          I translate complex ML and data ideas into production-grade products. I
+          partner with product teams to deliver measurable outcomes — faster
+          insights, smarter automation, and better user experiences.
         </motion.p>
       </div>
     </motion.section>

@@ -18,10 +18,26 @@ const NavBar = () => {
         ? router.asPath.split("#")[0]
         : router.pathname;
     const targetHash = `#${sectionId}`;
+
+    // If not on the home page, navigate to the home page first, then set the hash and scroll
     if (basePath !== "/") {
-      router.push("/" + targetHash);
+      router.push("/").then(() => {
+        if (typeof window !== "undefined") {
+          // Update the URL hash and attempt smooth scroll once the page is loaded
+          try {
+            window.location.hash = targetHash;
+          } catch (e) {
+            /* ignore */
+          }
+          window.requestAnimationFrame(() => {
+            const section = document.getElementById(sectionId);
+            if (section) section.scrollIntoView({ behavior: "smooth" });
+          });
+        }
+      });
       return;
     }
+
     // Already on home: ensure URL hash reflects target, then smooth scroll
     if (typeof window !== "undefined" && window.location.hash !== targetHash) {
       // Update hash without a full navigation
