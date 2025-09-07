@@ -32,10 +32,11 @@ const Footer = ({
 
   return (
     <footer className={`${commonStyles.footer} ${themeStyles.footer}`}>
+      {/* full-bleed background sits behind the centered frame */}
+      <div
+        className={`${commonStyles.footerBackground} ${themeStyles.footerBackground}`}
+      />
       <div className={commonStyles.footerFrame}>
-        <div
-          className={`${commonStyles.footerBackground} ${themeStyles.footerBackground}`}
-        />
         <Image
           className={commonStyles.copyrightIcon}
           alt="Copyright Icon"
