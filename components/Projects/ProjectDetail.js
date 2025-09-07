@@ -61,7 +61,7 @@ const ProjectDetail = ({ project, relatedProjects = [] }) => {
         }}>
           <h1 style={{ fontSize: "2rem", marginBottom: "1rem" }}>Project Not Found</h1>
           <p style={{ fontSize: "1.1rem", opacity: 0.8 }}>
-            The project you're looking for doesn't exist or has been removed.
+            The project you&apos;re looking for doesn&apos;t exist or has been removed.
           </p>
         </div>
       </div>
