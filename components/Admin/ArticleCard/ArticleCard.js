@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import Icon from '../Icon/Icon';
 import StatusPill from '../StatusPill/StatusPill';
 import Tooltip from '../Tooltip/Tooltip';
+import { formatDateConsistent } from '../../../utils/dateUtils';
 import commonStyles from './ArticleCard.module.css';
 import lightStyles from './ArticleCard.light.module.css';
 import darkStyles from './ArticleCard.dark.module.css';
@@ -114,7 +115,7 @@ const ArticleCard = ({ article, isSelected, onSelect, onDelete, onPin, pinning =
             </span>
             <span>
               <Icon name="calendar" size={14} />{' '}
-              {new Date(article.createdAt).toLocaleDateString()}
+              {formatDateConsistent(article.createdAt)}
             </span>
             {article.readingTime && (
               <span>

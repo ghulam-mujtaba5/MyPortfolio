@@ -1,0 +1,136 @@
+/* ArticleDetail Light Theme Styles */
+
+.container {
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 50%, #f1f3f4 100%);
+}
+
+.title {
+  background: linear-gradient(135deg, #1f2937, #374151);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.titleUnderline {
+  background: linear-gradient(90deg, #4573df, #5a86e6);
+}
+
+.imageContainer {
+  background: #f8f9fa;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+.imageContainer:hover {
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.2);
+}
+
+.readingInfo {
+  background: rgba(69, 115, 223, 0.05);
+  color: #6b7280;
+  border-left-color: #4573df;
+}
+
+.tag {
+  background: #f1f3f4;
+  color: #374151;
+  border-color: #e5e7eb;
+}
+
+.tag:hover {
+  color: white;
+  border-color: #4573df;
+}
+
+.shareButtonMeta {
+  background: #f1f3f4;
+  color: #374151;
+  border-color: #e5e7eb;
+}
+
+.shareButtonMeta:hover {
+  background: #4573df;
+  color: white;
+  border-color: #4573df;
+}
+
+.sharePopup {
+  background: #fff;
+  color: #111827;
+  border-color: #e5e7eb;
+  box-shadow: 0 10px 30px rgba(0,0,0,.1);
+}
+
+.shareOption:hover {
+  background: rgba(69, 115, 223, 0.1);
+}
+
+.excerpt {
+  background: #f8f9fa;
+  color: #6b7280;
+  border-left-color: #4573df;
+}
+
+.content {
+  background: #ffffff;
+  color: #374151;
+  border-color: #e5e7eb;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+}
+
+.breadcrumbLink {
+  color: #6b7280;
+}
+
+.breadcrumbLink:hover {
+  color: #4573df;
+}
+
+.breadcrumbSeparator {
+  color: #9ca3af;
+}
+
+.breadcrumbCurrent {
+  color: #1f2937;
+}
+
+.relatedTitle {
+  background: linear-gradient(135deg, #1f2937, #374151);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.relatedCard {
+  background: #ffffff;
+  border-color: #e5e7eb;
+}
+
+.relatedCard:hover {
+  border-color: #4573df;
+}
+
+.relatedCardTitle {
+  color: #1f2937;
+}
+
+.relatedCardDesc {
+  color: #6b7280;
+}
+
+.relatedCardMeta {
+  background: #f1f3f4;
+  color: #374151;
+}
+
+.backLink {
+  color: #6b7280;
+}
+
+.backLink:hover {
+  color: #4573df;
+  background: rgba(69, 115, 223, 0.05);
+}
+
+.scrollProgress {
+  background: linear-gradient(90deg, #4573df, #5a86e6);
+}

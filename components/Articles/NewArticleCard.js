@@ -1,4 +1,5 @@
 import React from "react";
+import { formatDateConsistent } from "../../utils/dateUtils";
 import styles from "./NewArticleCard.module.css";
 
 // Reusable Icon component for actions
@@ -36,7 +37,7 @@ const NewArticleCard = ({ article }) => {
       <div className={styles.content}>
         <h3 className={styles.title}>{title}</h3>
         <p className={styles.meta}>
-          By {author} on {new Date(date).toLocaleDateString()}
+          By {author} on {formatDateConsistent(date)}
         </p>
         <div className={styles.footer}>
           <span className={`${styles.status} ${getStatusClass(status)}`}>
