@@ -4,7 +4,8 @@
 .container {
   background: linear-gradient(135deg, #0f1419 0%, #1f2937 50%, #111827 100%);
   color: #e5e7eb;
-  min-height: 100vh;
+  /* Make content area account for footer height so footer sits flush */
+  min-height: calc(100vh - 80px);
   position: relative;
 }
 
@@ -231,6 +232,10 @@
 
 /* Dark theme specific responsive adjustments */
 @media (max-width: 768px) {
+  .container {
+    /* Account for smaller footer height on mobile */
+    min-height: calc(100vh - 65px);
+  }
   .description {
     background: #1f2937;
     box-shadow: 

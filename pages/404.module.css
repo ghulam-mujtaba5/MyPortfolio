@@ -1,6 +1,7 @@
 /* Enhanced 404 page styles for modern UI/UX, theme support, and animation */
 .wrapper {
-  min-height: 100vh;
+  /* Make content area account for footer height so footer sits flush */
+  min-height: calc(100vh - 80px);
   display: flex;
   flex-direction: column;
   justify-content: center;

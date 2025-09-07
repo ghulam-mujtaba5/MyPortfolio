@@ -1,8 +1,15 @@
 .adminContainer {
   display: flex;
-  min-height: 100vh;
+  /* Make content area account for footer height so footer sits flush */
+  min-height: calc(100vh - 80px);
   /* Establish stacking context so child z-index behaves predictably */
   position: relative;
+}
+
+@media (max-width: 768px) {
+  .adminContainer {
+    min-height: calc(100vh - 65px);
+  }
 }
 
 .sidebar {

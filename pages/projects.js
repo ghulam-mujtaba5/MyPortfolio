@@ -447,7 +447,8 @@ const ProjectsPage = ({ projects = [], projectsError = null }) => {
           }
         }
         .projects-page-bg {
-          min-height: 100vh;
+          /* Make content area account for footer height so footer sits flush */
+          min-height: calc(100vh - 80px);
           background: #ffffff;
           transition: background 0.3s;
         }
@@ -541,6 +542,9 @@ const ProjectsPage = ({ projects = [], projectsError = null }) => {
           color: #bbb;
         }
         @media (max-width: 600px) {
+          .projects-page-bg {
+            min-height: calc(100vh - 65px);
+          }
           .refined-intro-main {
             font-size: 1.2rem;
           }

@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useTheme } from "../../context/ThemeContext";
+import ThemeToggleIcon from "../Icon/gmicon";
 import baseStyles from "./ProjectDetailBaseCommon.module.css";
 import lightStyles from "./ProjectDetail.light.module.css";
 import darkStyles from "./ProjectDetail.dark.module.css";
@@ -82,6 +83,11 @@ const ProjectDetail = ({ project, relatedProjects = [] }) => {
 
   return (
     <div className={`${baseStyles.container} ${themeStyles.container || ""} ${theme === "dark" ? baseStyles.dark : baseStyles.light}`}>
+      {/* GM Icon */}
+      <div className={`${baseStyles.gmIcon} ${themeStyles.gmIcon || ""} ${theme === "light" ? "light" : "dark"}`}>
+        <ThemeToggleIcon />
+      </div>
+
       {/* Scroll Progress Indicator */}
       <div 
         className={`${baseStyles.scrollProgress} ${themeStyles.scrollProgress || ""}`}
