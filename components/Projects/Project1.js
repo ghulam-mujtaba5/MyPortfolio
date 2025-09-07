@@ -32,16 +32,7 @@ const ProjectCard = React.memo(({ project, frameStyles, theme }) => {
   const handleCardClick = (e) => {
     // Don't trigger card click if clicking on links
     if (e.target.closest("a")) return;
-
-    // Open the live preview link when clicking the card
-    const live = String(project?.links?.live || "").trim();
-    const hasLive = !!(live && live !== "#");
-    if (hasLive) {
-      // External live preview
-      window.open(live, "_blank", "noopener,noreferrer");
-      return;
-    }
-    // Fallback: navigate to detail page if slug exists
+    // Always navigate to detail page
     const slug = project?.slug || project?.slug?.toString?.();
     if (slug) router.push(`/projects/${slug}`);
   };

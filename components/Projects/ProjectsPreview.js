@@ -67,10 +67,14 @@ const ProjectsPreview = ({ projects = [] }) => {
         {clientProjects &&
           clientProjects.length > 0 &&
           clientProjects.map((project) => (
-            <div
+            <Link
               key={project._id || project.slug || project.title}
-              className={commonStyles.projectCard}
+              href={`/projects/${project.slug}`}
+              passHref
               style={{
+                textDecoration: "none",
+                color: "inherit",
+                display: "block",
                 borderRadius: "20px",
                 overflow: "hidden",
                 background: "none",
@@ -81,8 +85,10 @@ const ProjectsPreview = ({ projects = [] }) => {
                 width: "100%",
               }}
             >
-              <Project1 project={project} />
-            </div>
+              <div className={commonStyles.projectCard} style={{ borderRadius: "20px", overflow: "hidden", background: "none", boxShadow: "none", minHeight: 340, maxWidth: 420, width: "100%" }}>
+                <Project1 project={project} />
+              </div>
+            </Link>
           ))}
       </div>
       <div
