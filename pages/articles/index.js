@@ -84,10 +84,21 @@ export default function ArticlesPage({
 
   // Keep selectedCategory in sync with URL changes (SSR navigations)
   useEffect(() => {
-    const raw = String(router.query.category || initialQuery.category || "").trim();
-    if (!raw) return; // keep default
-    const b = mapToBucket(raw);
-    if (b !== selectedCategory) setSelectedCategory(b);
+    const rawCategory = String(router.query.category || initialQuery.category || 'All').trim();
+    
+    let targetCategory;
+
+    if (rawCategory === 'All' || CATEGORY_FILTERS.includes(rawCategory)) {
+      targetCategory = rawCategory;
+    } else if (rawCategory) {
+      targetCategory = mapToBucket(rawCategory);
+    } else {
+      targetCategory = 'All';
+    }
+
+    if (selectedCategory !== targetCategory) {
+      setSelectedCategory(targetCategory);
+    }
   }, [router.query.category, initialQuery.category]);
 
   const handleSelectCategory = (cat) => {
