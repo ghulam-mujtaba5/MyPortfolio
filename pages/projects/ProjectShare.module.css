@@ -1,8 +1,10 @@
-.shareBar {
+ .shareBar {
   position: fixed;
-  top: 50%;
-  right: 20px;
-  transform: translateY(-50%);
+  bottom: 32px;
+  right: 32px;
+  top: auto;
+  left: auto;
+  transform: none;
   display: flex;
   flex-direction: column;
   z-index: 1000;
@@ -131,20 +133,22 @@
 }
 
 /* Mobile responsiveness */
+@media (max-width: 1024px) {
+  .shareBar {
+    bottom: 24px;
+    right: 24px;
+  }
+}
+
 @media (max-width: 768px) {
   .shareBar {
-    position: fixed;
     bottom: 20px;
     right: 20px;
-    top: auto;
-    transform: none;
   }
-
   .shareButton {
     width: 48px;
     height: 48px;
   }
-
   .shareMenu {
     bottom: 60px;
     right: 0;
@@ -154,21 +158,18 @@
 
 @media (max-width: 480px) {
   .shareBar {
-    bottom: 16px;
-    right: 16px;
+    bottom: 12px;
+    right: 12px;
   }
-
   .shareButton {
     width: 44px;
     height: 44px;
   }
-
   .shareMenu {
     bottom: 56px;
     min-width: 160px;
     padding: 8px;
   }
-
   .shareItem {
     padding: 10px 12px;
     font-size: 13px;
