@@ -65,6 +65,7 @@ const ProjectsPage = ({ projects = [], projectsError = null }) => {
           setClientProjects(
             list.map((p) => ({
               _id: p?._id?.toString?.() || String(p?._id || ""),
+              slug: typeof p?.slug === "string" ? p.slug : "",
               title: typeof p?.title === "string" && p.title.trim() ? p.title : "Untitled",
               description: typeof p?.description === "string" ? p.description : "",
               image: typeof p?.image === "string" ? p.image : "",
@@ -92,7 +93,11 @@ const ProjectsPage = ({ projects = [], projectsError = null }) => {
         position: idx + 1,
         name: project?.title || "Untitled",
         description: project?.description || "",
-        url: project?.links?.live || "",
+        // Prefer live URL; fallback to project detail page if available
+        url:
+          (project?.links?.live && String(project.links.live).trim() && String(project.links.live).trim() !== "#"
+            ? project.links.live
+            : (project?.slug ? `https://ghulammujtaba.com/projects/${project.slug}` : "")),
         image: project?.image || "",
       }));
       return JSON.stringify({
@@ -693,6 +698,7 @@ export async function getServerSideProps() {
     .partial();
   const ProjectSchema = z.object({
     _id: z.any(),
+    slug: z.string().min(1).optional(),
     title: z.string().min(1).optional(),
     description: z.string().optional(),
     image: z.string().optional(),
@@ -721,6 +727,7 @@ export async function getServerSideProps() {
     normalized = Array.isArray(raw)
       ? raw.map((p) => ({
           _id: p?._id?.toString?.() || String(p?._id || ""),
+          slug: typeof p?.slug === "string" ? p.slug : "",
           title: typeof p?.title === "string" && p.title.trim() ? p.title : "Untitled",
           description: typeof p?.description === "string" ? p.description : "",
           image: typeof p?.image === "string" ? p.image : "",
@@ -737,6 +744,7 @@ export async function getServerSideProps() {
     // Normalize minimal shape used by UI to avoid undefined access downstream
     normalized = parsed.data.map((p) => ({
       _id: p._id?.toString?.() || String(p._id),
+      slug: p.slug || "",
       title: p.title || "Untitled",
       description: p.description || "",
       image: p.image || "",

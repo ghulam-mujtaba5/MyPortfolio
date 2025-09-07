@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import { useRouter } from "next/router";
 import { useTheme } from "../../context/ThemeContext";
 import styles from "./projectLight.module.css";
 import darkStyles from "./ProjectDark.module.css";
@@ -8,6 +9,7 @@ import commonStyles from "./ProjectCommon.module.css";
 const ProjectCard = React.memo(({ project, frameStyles, theme }) => {
   const cardRef = useRef(null);
   const [isVisible, setIsVisible] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -33,9 +35,15 @@ const ProjectCard = React.memo(({ project, frameStyles, theme }) => {
 
     // Open the live preview link when clicking the card
     const live = String(project?.links?.live || "").trim();
-    if (live) {
+    const hasLive = !!(live && live !== "#");
+    if (hasLive) {
+      // External live preview
       window.open(live, "_blank", "noopener,noreferrer");
+      return;
     }
+    // Fallback: navigate to detail page if slug exists
+    const slug = project?.slug || project?.slug?.toString?.();
+    if (slug) router.push(`/projects/${slug}`);
   };
 
   return (
@@ -45,7 +53,12 @@ const ProjectCard = React.memo(({ project, frameStyles, theme }) => {
       aria-labelledby={`project-title-${project.title}`}
       ref={cardRef}
       onClick={handleCardClick}
-      onKeyPress={(e) => e.key === "Enter" && handleCardClick(e)}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          handleCardClick(e);
+        }
+      }}
       tabIndex="0"
     >
       <div
@@ -53,7 +66,10 @@ const ProjectCard = React.memo(({ project, frameStyles, theme }) => {
       />
       <div className={`${commonStyles.actions}`} onClick={(e) => e.stopPropagation()}>
         <div className={commonStyles.leftAction}>
-          {String(project?.links?.live || "").trim() && (
+          {(() => {
+            const live = String(project?.links?.live || "").trim();
+            return live && live !== "#";
+          })() && (
             <a
               className={`${commonStyles.livePreview} ${frameStyles.livePreview}`}
               href={project.links.live}
@@ -66,7 +82,10 @@ const ProjectCard = React.memo(({ project, frameStyles, theme }) => {
           )}
         </div>
         <div className={commonStyles.rightAction}>
-          {String(project?.links?.github || "").trim() && (
+          {(() => {
+            const gh = String(project?.links?.github || "").trim();
+            return gh && gh !== "#";
+          })() && (
             <a
               className={`${commonStyles.viewCode} ${frameStyles.viewCode}`}
               href={project.links.github}
