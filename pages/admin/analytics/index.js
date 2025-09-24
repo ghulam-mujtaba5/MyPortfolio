@@ -9,6 +9,7 @@ import darkStyles from "./analytics.dark.module.css";
 import { useTheme } from "../../../context/ThemeContext";
 import utilities from "../../../styles/utilities.module.css";
 import InlineSpinner from "../../../components/LoadingAnimation/InlineSpinner";
+import Icon from "../../../components/Admin/Icon/Icon";
 import {
   Sparklines,
   SparklinesLine,
