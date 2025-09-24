@@ -1,14 +1,120 @@
-.published { background-color: #142a1c; color: #86efac; }
-.published .dot { background-color: #4ade80; }
+.published { 
+  background: rgba(20, 42, 28, 0.85);
+  color: #86efac; /* green-400 */
+  border-color: rgba(34, 197, 94, 0.3);
+  box-shadow: 0 2px 6px rgba(22, 163, 74, 0.25);
+}
 
-.draft { background-color: #1f2937; color: #d1d5db; }
-.draft .dot { background-color: #9ca3af; }
+.published .dot {
+  background: linear-gradient(135deg, #4ade80, #22c55e);
+}
 
-.scheduled { background-color: #22253a; color: #a5b4fc; }
-.scheduled .dot { background-color: #818cf8; }
+.draft { 
+  background: rgba(31, 41, 55, 0.85);
+  color: #d1d5db; /* gray-300 */
+  border-color: rgba(156, 163, 175, 0.3);
+  box-shadow: 0 2px 6px rgba(107, 114, 128, 0.25);
+}
 
-.home { background-color: #0b2733; color: #7dd3fc; }
-.home .dot { background-color: #38bdf8; }
+.draft .dot {
+  background: linear-gradient(135deg, #9ca3af, #6b7280);
+}
 
-.nothome { background-color: #1f2937; color: #9ca3af; }
-.nothome .dot { background-color: #6b7280; }
+.scheduled { 
+  background: rgba(34, 37, 58, 0.85);
+  color: #a5b4fc; /* indigo-400 */
+  border-color: rgba(99, 102, 241, 0.3);
+  box-shadow: 0 2px 6px rgba(99, 102, 241, 0.25);
+}
+
+.scheduled .dot {
+  background: linear-gradient(135deg, #818cf8, #6366f1);
+}
+
+.home { 
+  background: rgba(11, 39, 51, 0.85);
+  color: #7dd3fc; /* sky-300 */
+  border-color: rgba(56, 189, 248, 0.3);
+  box-shadow: 0 2px 6px rgba(56, 189, 248, 0.25);
+}
+
+.home .dot {
+  background: linear-gradient(135deg, #38bdf8, #0ea5e9);
+}
+
+.nothome { 
+  background: rgba(31, 41, 55, 0.85);
+  color: #9ca3af; /* gray-400 */
+  border-color: rgba(156, 163, 175, 0.3);
+  box-shadow: 0 2px 6px rgba(156, 163, 175, 0.25);
+}
+
+.nothome .dot {
+  background: linear-gradient(135deg, #9ca3af, #6b7280);
+}
+
+.pending { 
+  background: rgba(46, 34, 12, 0.85);
+  color: #fde047; /* yellow-300 */
+  border-color: rgba(245, 158, 11, 0.3);
+  box-shadow: 0 2px 6px rgba(245, 158, 11, 0.25);
+}
+
+.pending .dot {
+  background: linear-gradient(135deg, #fbbf24, #f59e0b);
+}
+
+.archived { 
+  background: rgba(41, 24, 61, 0.85);
+  color: #c4b5fd; /* violet-300 */
+  border-color: rgba(139, 92, 246, 0.3);
+  box-shadow: 0 2px 6px rgba(139, 92, 246, 0.25);
+}
+
+.archived .dot {
+  background: linear-gradient(135deg, #a78bfa, #8b5cf6);
+}
+
+.error { 
+  background: rgba(48, 17, 17, 0.85);
+  color: #fca5a5; /* red-300 */
+  border-color: rgba(239, 68, 68, 0.3);
+  box-shadow: 0 2px 6px rgba(239, 68, 68, 0.25);
+}
+
+.error .dot {
+  background: linear-gradient(135deg, #f87171, #ef4444);
+}
+
+.success { 
+  background: rgba(20, 42, 28, 0.85);
+  color: #86efac; /* green-400 */
+  border-color: rgba(34, 197, 94, 0.3);
+  box-shadow: 0 2px 6px rgba(34, 197, 94, 0.25);
+}
+
+.success .dot {
+  background: linear-gradient(135deg, #4ade80, #22c55e);
+}
+
+.warning { 
+  background: rgba(46, 34, 12, 0.85);
+  color: #fde047; /* yellow-300 */
+  border-color: rgba(245, 158, 11, 0.3);
+  box-shadow: 0 2px 6px rgba(245, 158, 11, 0.25);
+}
+
+.warning .dot {
+  background: linear-gradient(135deg, #fbbf24, #f59e0b);
+}
+
+.info { 
+  background: rgba(19, 34, 64, 0.85);
+  color: #93c5fd; /* blue-300 */
+  border-color: rgba(59, 130, 246, 0.3);
+  box-shadow: 0 2px 6px rgba(59, 130, 246, 0.25);
+}
+
+.info .dot {
+  background: linear-gradient(135deg, #60a5fa, #3b82f6);
+}

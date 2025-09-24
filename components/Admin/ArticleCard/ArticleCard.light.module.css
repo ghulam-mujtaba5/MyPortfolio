@@ -1,5 +1,5 @@
 .card {
-    background-color: #e8ebee; /* light bg */
+    background-color: rgba(255, 255, 255, 0.7); /* light bg with transparency */
     border-color: rgba(0, 0, 0, 0.08);
   }
   
@@ -8,7 +8,10 @@
   }
   
   .excerpt,
-  .metaBottom,
+  .metaBottom {
+    color: #64748b; /* slate-500 */
+  }
+  
   .selectionOverlay,
   .checkbox,
   .tags {
@@ -18,4 +21,8 @@
   /* Optional: tweak image overlay for light */
   .coverImageOverlay {
     background: linear-gradient(to top, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0) 55%);
+  }
+  
+  .imagePlaceholder {
+    color: #94a3b8; /* slate-400 */
   }

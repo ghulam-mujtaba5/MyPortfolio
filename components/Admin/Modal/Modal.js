@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useTheme } from "../../../context/ThemeContext";
 import commonStyles from "./Modal.module.css";
 import lightStyles from "./Modal.light.module.css";
@@ -18,38 +18,50 @@ const Modal = ({
 }) => {
   const { theme } = useTheme();
   const themeStyles = theme === "dark" ? darkStyles : lightStyles;
-  const modalRef = React.useRef(null);
-  const prevFocusRef = React.useRef(null);
-  const confirmBtnRef = React.useRef(null);
+  const modalRef = useRef(null);
+  const prevFocusRef = useRef(null);
+  const confirmBtnRef = useRef(null);
+  const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    const handleEsc = (event) => {
-      if (event.keyCode === 27) onClose();
-    };
     if (isOpen) {
+      // Set visibility for animation
+      setIsVisible(true);
+      
       // Remember the element that had focus before opening
       try {
         prevFocusRef.current = document.activeElement;
       } catch {}
+      
+      // Handle ESC key
+      const handleEsc = (event) => {
+        if (event.key === "Escape") onClose();
+      };
+      
       window.addEventListener("keydown", handleEsc);
       document.body.style.overflow = "hidden";
+      
       // Move focus into the dialog
-      try {
-        setTimeout(() => {
+      const focusTimer = setTimeout(() => {
+        try {
           const node = modalRef.current;
           if (!node) return;
+          
           // If provided, focus the caller-provided element first
           if (initialFocusRef?.current && typeof initialFocusRef.current.focus === "function") {
             return initialFocusRef.current.focus();
           }
+          
           // If we have a confirm button, prefer it as initial focus
           if (onConfirm && confirmBtnRef.current && typeof confirmBtnRef.current.focus === "function") {
             return confirmBtnRef.current.focus();
           }
+          
           // Try close button first, else first focusable
           const closeBtn = node.querySelector("button");
           if (closeBtn && typeof closeBtn.focus === "function")
             return closeBtn.focus();
+            
           const focusables = node.querySelectorAll(
             'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
           );
@@ -59,8 +71,9 @@ const Modal = ({
             typeof focusables[0].focus === "function"
           )
             focusables[0].focus();
-        }, 0);
-      } catch {}
+        } catch {}
+      }, 100);
+      
       // Basic focus trap
       const trap = (e) => {
         if (e.key !== "Tab") return;
@@ -82,14 +95,28 @@ const Modal = ({
           first.focus();
         }
       };
+      
       window.addEventListener("keydown", trap);
+      
       return () => {
+        window.removeEventListener("keydown", handleEsc);
         window.removeEventListener("keydown", trap);
+        clearTimeout(focusTimer);
+      };
+    } else {
+      // When closing, wait for animation to finish before hiding
+      const timer = setTimeout(() => {
+        setIsVisible(false);
+      }, 300);
+      
+      return () => {
+        clearTimeout(timer);
       };
     }
+  }, [isOpen, onClose]);
 
+  useEffect(() => {
     return () => {
-      window.removeEventListener("keydown", handleEsc);
       document.body.style.overflow = "unset";
       // Restore focus back to the previously focused element
       try {
@@ -99,14 +126,17 @@ const Modal = ({
         }
       } catch {}
     };
-  }, [isOpen, onClose]);
+  }, []);
 
-  if (!isOpen) return null;
+  if (!isOpen && !isVisible) return null;
 
   return (
-    <div className={commonStyles.overlay} onClick={onClose}>
+    <div 
+      className={`${commonStyles.overlay} ${isOpen ? commonStyles.open : ''}`} 
+      onClick={onClose}
+    >
       <div
-        className={`${commonStyles.modal} ${themeStyles.modal}`}
+        className={`${commonStyles.modal} ${themeStyles.modal} ${isOpen ? commonStyles.open : ''}`}
         onClick={(e) => e.stopPropagation()}
         role="dialog"
         aria-modal="true"
@@ -123,16 +153,20 @@ const Modal = ({
             onClick={onClose}
             aria-label="Close dialog"
           >
-            &times;
+            ×
           </button>
         </div>
-        <div className={commonStyles.content}>{children}</div>
+        <div className={`${commonStyles.content} ${themeStyles.content}`}>{children}</div>
         {onConfirm && (
-          <div className={commonStyles.footer}>
+          <div className={`${commonStyles.footer} ${themeStyles.footer}`}>
             <button className={`${utilities.btn} ${utilities.btnSecondary}`} onClick={onClose}>
               {cancelText}
             </button>
-            <button ref={confirmBtnRef} className={`${utilities.btn} ${utilities.btnPrimary}`} onClick={onConfirm}>
+            <button 
+              ref={confirmBtnRef} 
+              className={`${utilities.btn} ${utilities.btnPrimary}`} 
+              onClick={onConfirm}
+            >
               {confirmText}
             </button>
           </div>

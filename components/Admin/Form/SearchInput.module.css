@@ -8,36 +8,38 @@
 
 .icon {
   position: absolute;
-  left: 0.875rem;
+  left: 1rem;
   pointer-events: none;
-  color: var(--color-text-tertiary);
-  transition: color 0.2s ease-in-out;
+  color: var(--text-muted);
+  transition: all 0.2s ease;
   z-index: 1;
 }
 
 .input {
   width: 100%;
-  padding: 0.625rem 0.875rem 0.625rem 2.5rem; /* Increased left padding for icon */
-  border-radius: 0.5rem;
-  border: 1px solid var(--color-border);
-  background-color: var(--color-bg-secondary);
-  color: var(--color-text-primary);
+  padding: 0.75rem 1rem 0.75rem 3rem;
+  border-radius: 12px;
+  border: 1px solid transparent;
+  background: var(--bg-elev-2);
+  color: var(--text);
   font-size: 0.875rem;
-  transition:
-    border-color 0.2s ease-in-out,
-    box-shadow 0.2s ease-in-out;
-  min-height: 40px; /* Ensure minimum height to prevent overlapping */
+  transition: all 0.3s ease;
+  min-height: 44px;
   box-sizing: border-box;
+  box-shadow: var(--input-shadow);
+  backdrop-filter: blur(10px);
 }
 
 .input:focus {
   outline: none;
-  border-color: var(--color-primary);
-  box-shadow: 0 0 0 3px var(--color-primary-shadow);
+  border-color: var(--primary);
+  box-shadow: var(--focus-ring);
+  background: var(--bg-elev-1);
+  transform: translateY(-2px);
 }
 
 .input::placeholder {
-  color: var(--color-text-tertiary);
+  color: var(--text-muted);
 }
 
 /* Ensure proper spacing and prevent content overlap */
@@ -49,21 +51,38 @@
   cursor: pointer;
 }
 
+/* Enhanced hover state */
+.input:hover {
+  box-shadow: var(--input-shadow-hover);
+  transform: translateY(-1px);
+}
+
+/* Light Theme Overrides */
+[data-theme="light"] .input {
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+[data-theme="light"] .input:focus {
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid var(--primary);
+}
+
 /* Dark Theme Overrides */
-@media (prefers-color-scheme: dark) {
-  .icon {
-    color: var(--color-text-tertiary-dark);
-  }
-  .input {
-    border-color: var(--color-border-dark);
-    background-color: var(--color-bg-secondary-dark);
-    color: var(--color-text-primary-dark);
-  }
-  .input:focus {
-    border-color: var(--color-primary-dark);
-    box-shadow: 0 0 0 3px var(--color-primary-dark-shadow);
-  }
-  .input::placeholder {
-    color: var(--color-text-tertiary-dark);
-  }
+[data-theme="dark"] .input {
+  background: rgba(30, 30, 30, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+[data-theme="dark"] .input:focus {
+  background: rgba(30, 30, 30, 0.9);
+  border: 1px solid var(--primary);
+}
+
+[data-theme="dark"] .icon {
+  color: var(--text-muted);
+}
+
+[data-theme="dark"] .input::placeholder {
+  color: var(--text-muted);
 }

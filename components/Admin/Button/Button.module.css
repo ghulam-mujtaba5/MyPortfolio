@@ -1,0 +1,41 @@
+/* Button Component Styles */
+/* These styles extend the base button styles from buttons.module.css */
+
+/* Spinner for loading state */
+.spinner {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid transparent;
+  border-top-color: currentColor;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-right: 8px;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Icon positioning */
+.iconLeft {
+  display: inline-flex;
+  margin-right: 8px;
+}
+
+.iconRight {
+  display: inline-flex;
+  margin-left: 8px;
+}
+
+/* Loading text */
+.loadingText {
+  opacity: 0.8;
+}
+
+/* Ensure the button component inherits all the modern styles */
+.btn {
+  /* This will inherit all styles from utilities.btn */
+}

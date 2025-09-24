@@ -8,9 +8,11 @@
   padding: 1.5rem;
   border-radius: var(--card-radius);
   background: var(--bg-elev-1);
-  box-shadow: var(--shadow-sm);
+  box-shadow: var(--admin-card-shadow);
   border: 1px solid var(--border);
   margin-bottom: 1.5rem;
+  backdrop-filter: blur(10px);
+  transform: translateZ(0);
 }
 
 .formRow {
@@ -33,26 +35,35 @@
   font-weight: 500;
   font-size: var(--text-sm);
   color: var(--text);
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
 }
 
 .formControl {
   width: 100%;
-  padding: 0.75rem 1rem;
-  border-radius: var(--radius-md);
-  border: 1px solid var(--border);
+  padding: 0.85rem 1.15rem;
+  border-radius: 12px;
+  border: 1px solid transparent;
   background: var(--bg-elev-2);
   color: var(--text);
   font-size: var(--text-md);
-  transition: all 0.2s ease;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: var(--input-shadow);
+  backdrop-filter: blur(10px);
+  transform: translateZ(0);
+  will-change: transform, box-shadow;
 }
 
 .formControl:focus {
   outline: none;
   border-color: var(--primary);
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+  box-shadow: var(--focus-ring-strong);
   background: var(--bg-elev-1);
+  transform: translateY(-2px);
+}
+
+.formControl:hover:not(:focus) {
+  box-shadow: var(--input-shadow-hover);
+  transform: translateY(-1px);
 }
 
 .formControl::placeholder {
@@ -66,37 +77,48 @@
 }
 
 .formGroupFloating .formControl {
-  padding-top: 1.25rem;
-  padding-bottom: 0.5rem;
+  padding-top: 1.5rem;
+  padding-bottom: 0.75rem;
 }
 
 .formGroupFloating .formLabel {
   position: absolute;
-  top: 1rem;
-  left: 1rem;
+  top: 1.25rem;
+  left: 1.15rem;
   font-size: var(--text-sm);
   color: var(--text-muted);
   pointer-events: none;
-  transition: all 0.2s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   background: transparent;
-  padding: 0 2px;
+  padding: 0 4px;
   z-index: 1;
+  transform-origin: left top;
 }
 
 .formGroupFloating .formControl:focus + .formLabel,
 .formGroupFloating .formControl:not(:placeholder-shown) + .formLabel {
-  top: 0.5rem;
+  top: 0.75rem;
   font-size: 0.75rem;
   color: var(--primary);
   background: var(--bg-elev-2);
+  transform: translateY(-10px) scale(0.9);
 }
 
 /* Textarea specific styles */
 .formTextarea {
   composes: formControl;
-  min-height: 120px;
+  min-height: 140px;
   resize: vertical;
   font-family: inherit;
+  padding: 1rem 1.15rem;
+}
+
+.formTextarea:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: var(--focus-ring-strong);
+  background: var(--bg-elev-1);
+  transform: translateY(-2px);
 }
 
 /* Select dropdown styles */
@@ -104,33 +126,70 @@
   composes: formControl;
   appearance: none;
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
-  background-position: right 0.5rem center;
+  background-position: right 1rem center;
   background-repeat: no-repeat;
   background-size: 1.5em 1.5em;
-  padding-right: 2.5rem;
+  padding-right: 3rem;
+}
+
+.formSelect:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: var(--focus-ring-strong);
+  background: var(--bg-elev-1);
+  transform: translateY(-2px);
 }
 
 /* Checkbox and radio styles */
 .formCheck {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: 0.85rem;
   margin-bottom: 0.5rem;
+  position: relative;
 }
 
 .formCheckInput {
-  width: 1.25rem;
-  height: 1.25rem;
+  width: 1.5rem;
+  height: 1.5rem;
   accent-color: var(--primary);
-  border-radius: var(--radius-sm);
+  border-radius: 6px;
   border: 1px solid var(--border);
   background: var(--bg-elev-2);
   cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: var(--input-shadow);
+  position: relative;
+  overflow: hidden;
+}
+
+.formCheckInput::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: width 0.4s ease, height 0.4s ease;
+}
+
+.formCheckInput:active::before {
+  width: 200px;
+  height: 200px;
 }
 
 .formCheckInput:focus {
   outline: none;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+  box-shadow: var(--focus-ring);
+  border-color: var(--primary);
+}
+
+.formCheckInput:checked {
+  background: var(--primary);
+  border-color: var(--primary);
 }
 
 /* Help text and error messages */
@@ -139,6 +198,7 @@
   margin-top: 0.5rem;
   font-size: var(--text-sm);
   color: var(--text-muted);
+  transition: all 0.2s ease;
 }
 
 .formTextError {
@@ -153,20 +213,43 @@
   display: flex;
   align-items: stretch;
   width: 100%;
+  border-radius: 12px;
+  box-shadow: var(--input-shadow);
+  backdrop-filter: blur(10px);
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.inputGroup:hover {
+  box-shadow: var(--input-shadow-hover);
+  transform: translateY(-1px);
+}
+
+.inputGroup:focus-within {
+  box-shadow: var(--focus-ring-strong);
+  transform: translateY(-2px);
 }
 
 .inputGroup .formControl {
   position: relative;
   flex: 1 1 auto;
   margin-bottom: 0;
-  border-radius: var(--radius-md);
+  border-radius: 0;
+  border: none;
+  box-shadow: none;
+  transform: none;
+}
+
+.inputGroup .formControl:focus {
+  box-shadow: none;
+  transform: none;
 }
 
 .inputGroup-prepend,
 .inputGroup-append {
   display: flex;
   align-items: center;
-  padding: 0.5rem 0.75rem;
+  padding: 0.75rem 1rem;
   margin-bottom: 0;
   font-size: var(--text-md);
   font-weight: 400;
@@ -175,17 +258,16 @@
   text-align: center;
   white-space: nowrap;
   background-color: var(--bg-elev-2);
-  border: 1px solid var(--border);
+  border: none;
+  backdrop-filter: blur(10px);
 }
 
 .inputGroup-prepend {
-  border-right: 0;
-  border-radius: var(--radius-md) 0 0 var(--radius-md);
+  border-radius: 12px 0 0 12px;
 }
 
 .inputGroup-append {
-  border-left: 0;
-  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  border-radius: 0 12px 12px 0;
 }
 
 /* Card styles with proper spacing to prevent overlapping */
@@ -199,13 +281,20 @@
   border-radius: var(--card-radius);
   background: var(--bg-elev-1);
   border: 1px solid var(--border);
-  box-shadow: var(--shadow-sm);
+  box-shadow: var(--admin-card-shadow);
   margin-bottom: 1.5rem;
   overflow: hidden;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+}
+
+.formCard:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--admin-card-shadow-hover);
 }
 
 .formCardHeader {
-  padding: 1rem 1.5rem;
+  padding: 1.25rem 1.75rem;
   margin-bottom: 0;
   background-color: var(--bg-elev-2);
   border-bottom: 1px solid var(--border);
@@ -213,26 +302,34 @@
 
 .formCardHeader h3 {
   margin: 0;
-  font-size: 1.125rem;
+  font-size: 1.25rem;
   font-weight: 600;
 }
 
 .formCardBody {
   flex: 1 1 auto;
-  padding: 1.5rem;
+  padding: 1.75rem;
 }
 
 /* Details/accordion component to prevent content overlap */
 .formDetails {
   border: 1px solid var(--border);
-  border-radius: var(--radius-md);
+  border-radius: 12px;
   margin-bottom: 1rem;
   background: var(--bg-elev-1);
   overflow: hidden;
+  box-shadow: var(--input-shadow);
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+}
+
+.formDetails:hover {
+  box-shadow: var(--input-shadow-hover);
+  transform: translateY(-1px);
 }
 
 .formDetailsSummary {
-  padding: 1rem 1.5rem;
+  padding: 1.25rem 1.75rem;
   cursor: pointer;
   font-weight: 500;
   outline: none;
@@ -241,11 +338,14 @@
   align-items: center;
   justify-content: space-between;
   background: var(--bg-elev-2);
-  transition: background-color 0.2s ease;
+  transition: all 0.3s ease;
+  border-radius: 12px;
+  margin: -1px;
 }
 
 .formDetailsSummary:hover {
   background: var(--bg-elev-1);
+  transform: translateY(-1px);
 }
 
 .formDetailsSummary::marker {
@@ -254,8 +354,8 @@
 
 .formDetailsSummary::after {
   content: "▼";
-  font-size: 0.75rem;
-  transition: transform 0.2s ease;
+  font-size: 0.85rem;
+  transition: transform 0.3s ease;
 }
 
 .formDetails[open] .formDetailsSummary::after {
@@ -263,54 +363,258 @@
 }
 
 .formDetailsContent {
-  padding: 1.5rem;
+  padding: 1.75rem;
   border-top: 1px solid var(--border);
   background: var(--bg-elev-1);
+}
+
+/* Switch/Toggle component */
+.formSwitch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 26px;
+}
+
+.formSwitch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.formSlider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--border);
+  transition: .3s;
+  border-radius: 34px;
+}
+
+.formSlider:before {
+  position: absolute;
+  content: "";
+  height: 20px;
+  width: 20px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: .3s;
+  border-radius: 50%;
+}
+
+.formSwitch input:checked + .formSlider {
+  background-color: var(--primary);
+}
+
+.formSwitch input:focus + .formSlider {
+  box-shadow: 0 0 1px var(--primary);
+}
+
+.formSwitch input:checked + .formSlider:before {
+  transform: translateX(24px);
+}
+
+/* Range slider */
+.formRange {
+  width: 100%;
+  height: 6px;
+  border-radius: 3px;
+  background: var(--bg-elev-2);
+  outline: none;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.formRange::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--primary);
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  transition: all 0.2s ease;
+}
+
+.formRange::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--primary);
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  transition: all 0.2s ease;
+  border: none;
+}
+
+.formRange::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+}
+
+.formRange::-moz-range-thumb:hover {
+  transform: scale(1.2);
+}
+
+/* File input */
+.formFile {
+  width: 100%;
+  padding: 0.85rem 1.15rem;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: var(--bg-elev-2);
+  color: var(--text);
+  font-size: var(--text-md);
+  transition: all 0.3s ease;
+  box-shadow: var(--input-shadow);
+}
+
+.formFile:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: var(--focus-ring);
+}
+
+/* Light Theme Overrides */
+[data-theme="light"] .formControl {
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+[data-theme="light"] .formControl:focus {
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid var(--primary);
+}
+
+[data-theme="light"] .formCheckInput {
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="light"] .inputGroup-prepend,
+[data-theme="light"] .inputGroup-append {
+  background-color: rgba(255, 255, 255, 0.7);
+}
+
+[data-theme="light"] .formCard {
+  background: rgba(255, 255, 255, 0.7);
+}
+
+[data-theme="light"] .formCardHeader {
+  background-color: rgba(255, 255, 255, 0.9);
+}
+
+[data-theme="light"] .formDetails {
+  background: rgba(255, 255, 255, 0.7);
+}
+
+[data-theme="light"] .formDetailsSummary {
+  background: rgba(255, 255, 255, 0.9);
+}
+
+[data-theme="light"] .formDetailsContent {
+  background: rgba(255, 255, 255, 0.7);
+}
+
+/* Dark Theme Overrides */
+[data-theme="dark"] .formControl {
+  background: rgba(30, 30, 30, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+[data-theme="dark"] .formControl:focus {
+  background: rgba(30, 30, 30, 0.9);
+  border: 1px solid var(--primary);
+}
+
+[data-theme="dark"] .formCheckInput {
+  background: rgba(30, 30, 30, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] .inputGroup-prepend,
+[data-theme="dark"] .inputGroup-append {
+  background-color: rgba(30, 30, 30, 0.7);
+}
+
+[data-theme="dark"] .formCard {
+  background: rgba(30, 30, 30, 0.7);
+}
+
+[data-theme="dark"] .formCardHeader {
+  background-color: rgba(30, 30, 30, 0.9);
+}
+
+[data-theme="dark"] .formDetails {
+  background: rgba(30, 30, 30, 0.7);
+}
+
+[data-theme="dark"] .formDetailsSummary {
+  background: rgba(30, 30, 30, 0.9);
+}
+
+[data-theme="dark"] .formDetailsContent {
+  background: rgba(30, 30, 30, 0.7);
 }
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .formContainer {
-    padding: 1rem;
+    padding: 1.25rem;
+    border-radius: 14px;
   }
   
   .formRow {
     grid-template-columns: 1fr;
-    gap: 1rem;
+    gap: 1.25rem;
   }
   
   .formControl {
-    padding: 0.625rem 0.875rem;
+    padding: 0.75rem 1rem;
   }
   
   .formGroupFloating .formControl {
-    padding-top: 1.125rem;
-    padding-bottom: 0.375rem;
+    padding-top: 1.375rem;
+    padding-bottom: 0.625rem;
   }
   
   .formGroupFloating .formLabel {
-    top: 0.875rem;
-    left: 0.875rem;
+    top: 1.125rem;
+    left: 1rem;
   }
   
   .formGroupFloating .formControl:focus + .formLabel,
   .formGroupFloating .formControl:not(:placeholder-shown) + .formLabel {
-    top: 0.375rem;
+    top: 0.625rem;
     font-size: 0.75rem;
+    transform: translateY(-8px) scale(0.9);
   }
   
   .formCardHeader,
   .formCardBody,
   .formDetailsSummary,
   .formDetailsContent {
-    padding: 1rem;
+    padding: 1.25rem;
+  }
+  
+  .inputGroup-prepend,
+  .inputGroup-append {
+    padding: 0.625rem 0.875rem;
+  }
+  
+  .formTextarea {
+    padding: 0.875rem 1rem;
   }
 }
 
 /* Focus visible styles for accessibility */
 .formControl.focusVisible,
 .formCheckInput.focusVisible {
-  box-shadow: var(--focus-ring);
+  box-shadow: var(--focus-ring-strong);
 }
 
 /* Disabled states */
@@ -318,13 +622,17 @@
 .formSelect:disabled,
 .formTextarea:disabled {
   background-color: var(--bg-elev-2);
-  opacity: 0.6;
+  opacity: 0.5;
   cursor: not-allowed;
+  transform: none !important;
+  box-shadow: var(--input-shadow);
 }
 
 /* Readonly states */
 .formControl[readonly] {
   background-color: var(--bg-elev-2);
-  opacity: 0.8;
+  opacity: 0.7;
   cursor: default;
+  transform: none !important;
+  box-shadow: var(--input-shadow);
 }

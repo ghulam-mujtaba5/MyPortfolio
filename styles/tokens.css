@@ -33,7 +33,7 @@
 
   /* Radius */
   --radius-sm: 6px;
-  --radius-md: 10px;
+  --radius-md: 12px;
   --radius-lg: 16px;
   --radius-xl: 24px;
   --radius-full: 9999px;
@@ -76,14 +76,58 @@
   --text-muted: #9fb1c3;
 
   --primary: #3b82f6;
+  --primary-dark: #2563eb;
   --primary-foreground: #ffffff;
   --success: #10b981;
+  --success-dark: #059669;
   --warning: #f59e0b;
+  --warning-dark: #d97706;
   --danger: #ef4444;
+  --danger-dark: #dc2626;
   --info: #06b6d4;
+  --info-dark: #0891b2;
 
-  --focus-ring: 2px solid rgba(59, 130, 246, 0.55);
+  --focus-ring: 0 0 0 2px rgba(59, 130, 246, 0.55);
+  --focus-ring-strong: 0 0 0 3px rgba(59, 130, 246, 0.75);
+
+  /* Shadows for modern 2025 design */
+  --input-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  --input-shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.12);
+  --btn-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  --btn-shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.12);
+  --btn-shadow-active: 0 1px 4px rgba(0, 0, 0, 0.08);
   
+  /* Button-specific shadows */
+  --btn-primary-shadow: 0 4px 12px rgba(59, 130, 246, 0.25);
+  --btn-primary-shadow-hover: 0 6px 16px rgba(59, 130, 246, 0.35);
+  --btn-primary-shadow-active: 0 2px 8px rgba(59, 130, 246, 0.2);
+  
+  --btn-secondary-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  --btn-secondary-shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.12);
+  --btn-secondary-shadow-active: 0 1px 4px rgba(0, 0, 0, 0.08);
+  
+  --btn-danger-shadow: 0 4px 12px rgba(239, 68, 68, 0.25);
+  --btn-danger-shadow-hover: 0 6px 16px rgba(239, 68, 68, 0.35);
+  --btn-danger-shadow-active: 0 2px 8px rgba(239, 68, 68, 0.2);
+  
+  --btn-success-shadow: 0 4px 12px rgba(16, 185, 129, 0.25);
+  --btn-success-shadow-hover: 0 6px 16px rgba(16, 185, 129, 0.35);
+  --btn-success-shadow-active: 0 2px 8px rgba(16, 185, 129, 0.2);
+  
+  --btn-outline-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  --btn-outline-shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.1);
+  --btn-outline-shadow-active: 0 1px 4px rgba(0, 0, 0, 0.05);
+  
+  --btn-ghost-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  --btn-ghost-shadow-hover: 0 2px 6px rgba(0, 0, 0, 0.1);
+  --btn-ghost-shadow-active: 0 1px 3px rgba(0, 0, 0, 0.05);
+  
+  --btn-icon-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  --btn-icon-shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.12);
+  --btn-icon-shadow-active: 0 1px 4px rgba(0, 0, 0, 0.08);
+  
+  --btn-group-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+
   /* Admin-specific design tokens for consistent styling */
   --admin-card-radius: var(--radius-lg);
   --admin-card-border: 1px solid var(--border);
@@ -106,13 +150,56 @@
   --text-muted: #5b7187;
 
   --primary: #2563eb;
+  --primary-dark: #1d4ed8;
   --primary-foreground: #ffffff;
   --success: #059669;
+  --success-dark: #047857;
   --warning: #d97706;
+  --warning-dark: #b45309;
   --danger: #dc2626;
+  --danger-dark: #b91c1c;
   --info: #0891b2;
+  --info-dark: #0e7490;
 
-  --focus-ring: 2px solid rgba(37, 99, 235, 0.55);
+  --focus-ring: 0 0 0 2px rgba(37, 99, 235, 0.55);
+  --focus-ring-strong: 0 0 0 3px rgba(37, 99, 235, 0.75);
+
+  /* Light theme shadows */
+  --input-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  --input-shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.1);
+  --btn-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+  --btn-shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.1);
+  --btn-shadow-active: 0 1px 4px rgba(0, 0, 0, 0.06);
+  
+  --btn-primary-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+  --btn-primary-shadow-hover: 0 6px 16px rgba(37, 99, 235, 0.3);
+  --btn-primary-shadow-active: 0 2px 8px rgba(37, 99, 235, 0.15);
+  
+  --btn-secondary-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+  --btn-secondary-shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.1);
+  --btn-secondary-shadow-active: 0 1px 4px rgba(0, 0, 0, 0.06);
+  
+  --btn-danger-shadow: 0 4px 12px rgba(220, 38, 38, 0.2);
+  --btn-danger-shadow-hover: 0 6px 16px rgba(220, 38, 38, 0.3);
+  --btn-danger-shadow-active: 0 2px 8px rgba(220, 38, 38, 0.15);
+  
+  --btn-success-shadow: 0 4px 12px rgba(5, 150, 105, 0.2);
+  --btn-success-shadow-hover: 0 6px 16px rgba(5, 150, 105, 0.3);
+  --btn-success-shadow-active: 0 2px 8px rgba(5, 150, 105, 0.15);
+  
+  --btn-outline-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  --btn-outline-shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.1);
+  --btn-outline-shadow-active: 0 1px 4px rgba(0, 0, 0, 0.05);
+  
+  --btn-ghost-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  --btn-ghost-shadow-hover: 0 2px 6px rgba(0, 0, 0, 0.1);
+  --btn-ghost-shadow-active: 0 1px 3px rgba(0, 0, 0, 0.05);
+  
+  --btn-icon-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+  --btn-icon-shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.1);
+  --btn-icon-shadow-active: 0 1px 4px rgba(0, 0, 0, 0.06);
+  
+  --btn-group-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
 }
 
 /* Dark Theme */
@@ -126,13 +213,56 @@
   --text-muted: #94a7ba;
 
   --primary: #3b82f6;
+  --primary-dark: #2563eb;
   --primary-foreground: #ffffff;
   --success: #10b981;
+  --success-dark: #059669;
   --warning: #f59e0b;
+  --warning-dark: #d97706;
   --danger: #ef4444;
+  --danger-dark: #dc2626;
   --info: #06b6d4;
+  --info-dark: #0891b2;
 
-  --focus-ring: 2px solid rgba(59, 130, 246, 0.55);
+  --focus-ring: 0 0 0 2px rgba(59, 130, 246, 0.55);
+  --focus-ring-strong: 0 0 0 3px rgba(59, 130, 246, 0.75);
+
+  /* Dark theme shadows */
+  --input-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  --input-shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.3);
+  --btn-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  --btn-shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.3);
+  --btn-shadow-active: 0 1px 4px rgba(0, 0, 0, 0.2);
+  
+  --btn-primary-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+  --btn-primary-shadow-hover: 0 6px 16px rgba(59, 130, 246, 0.4);
+  --btn-primary-shadow-active: 0 2px 8px rgba(59, 130, 246, 0.25);
+  
+  --btn-secondary-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  --btn-secondary-shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.3);
+  --btn-secondary-shadow-active: 0 1px 4px rgba(0, 0, 0, 0.2);
+  
+  --btn-danger-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+  --btn-danger-shadow-hover: 0 6px 16px rgba(239, 68, 68, 0.4);
+  --btn-danger-shadow-active: 0 2px 8px rgba(239, 68, 68, 0.25);
+  
+  --btn-success-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+  --btn-success-shadow-hover: 0 6px 16px rgba(16, 185, 129, 0.4);
+  --btn-success-shadow-active: 0 2px 8px rgba(16, 185, 129, 0.25);
+  
+  --btn-outline-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  --btn-outline-shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.25);
+  --btn-outline-shadow-active: 0 1px 4px rgba(0, 0, 0, 0.15);
+  
+  --btn-ghost-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+  --btn-ghost-shadow-hover: 0 2px 6px rgba(0, 0, 0, 0.25);
+  --btn-ghost-shadow-active: 0 1px 3px rgba(0, 0, 0, 0.15);
+  
+  --btn-icon-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  --btn-icon-shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.3);
+  --btn-icon-shadow-active: 0 1px 4px rgba(0, 0, 0, 0.2);
+  
+  --btn-group-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 }
 
 /* Utility classes (minimal, shared) */
@@ -159,16 +289,17 @@
 
 /* Base element defaults that can be composed in modules */
 :root {
-  --btn-height: 36px;
+  --btn-height: 44px;
   --btn-radius: var(--radius-md);
-  --input-height: 36px;
+  --input-height: 44px;
   --card-radius: var(--radius-lg);
 }
 
 /* Small screens: larger touch targets and compact FAB envelope */
 @media (max-width: 480px) {
   :root {
-    --input-height: 44px;
+    --input-height: 48px;
+    --btn-height: 48px;
     --fab-safe: 64px;
     
     /* Adjusted spacing for mobile */

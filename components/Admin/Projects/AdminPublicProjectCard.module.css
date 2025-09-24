@@ -1,17 +1,21 @@
 .cardWrapper {
-  background: var(--surface);
+  background: var(--bg-elev-1);
   border-radius: var(--admin-card-radius);
   border: var(--admin-card-border);
   box-shadow: var(--admin-card-shadow);
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   overflow: hidden;
   margin-bottom: var(--space-2);
+  backdrop-filter: blur(10px);
+  transform: translateZ(0);
+  will-change: transform, box-shadow;
 }
 
 .cardWrapper:hover {
-  transform: translateY(-4px);
+  transform: translateY(-6px);
   box-shadow: var(--admin-card-shadow-hover);
+  border-color: var(--primary);
 }
 
 .cardWrapper::before {
@@ -23,7 +27,12 @@
   height: 4px;
   background: linear-gradient(90deg, var(--primary), var(--success));
   border-radius: var(--admin-card-radius) var(--admin-card-radius) 0 0;
-  opacity: 0.7;
+  opacity: 0.8;
+  transition: opacity 0.3s ease;
+}
+
+.cardWrapper:hover::before {
+  opacity: 1;
 }
 
 .cardHeader {
@@ -31,9 +40,10 @@
   align-items: center;
   justify-content: space-between;
   gap: var(--space-2);
-  padding: var(--space-2) var(--space-3);
+  padding: var(--space-3) var(--space-4);
   border-bottom: 1px solid var(--border);
-  background: var(--bg-elev-1);
+  background: var(--bg-elev-2);
+  backdrop-filter: blur(5px);
 }
 
 .selectSection {
@@ -44,7 +54,7 @@
 
 .selectLabel {
   font-size: var(--text-sm);
-  opacity: 0.75;
+  opacity: 0.8;
   color: var(--text);
 }
 
@@ -57,25 +67,29 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
-  border-radius: var(--radius-md);
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
   border: 1px solid var(--border);
   background: var(--bg-elev-2);
   color: var(--text);
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: var(--btn-icon-shadow);
+  backdrop-filter: blur(5px);
 }
 
 .actionButton:hover {
   background: var(--primary);
   color: var(--primary-foreground);
   border-color: var(--primary);
-  transform: translateY(-2px);
+  transform: translateY(-3px);
+  box-shadow: var(--btn-icon-shadow-hover);
 }
 
 .actionButton:active {
-  transform: translateY(0);
+  transform: translateY(-1px);
+  box-shadow: var(--btn-icon-shadow-active);
 }
 
 .actionButtonDanger {
@@ -93,27 +107,81 @@
   background: var(--primary);
   color: var(--primary-foreground);
   border-color: var(--primary);
+  box-shadow: var(--btn-primary-shadow);
 }
 
 .statusSection {
   display: flex;
   align-items: center;
   gap: var(--space-2);
-  padding: var(--space-3);
+  padding: var(--space-4);
   flex-wrap: wrap;
 }
 
 .pinnedBadge {
   font-size: var(--text-xs);
-  padding: 2px 8px;
+  padding: 3px 10px;
   border-radius: 999px;
-  background: var(--primary-light);
-  border: 1px solid var(--primary-border);
+  background: rgba(59, 130, 246, 0.15);
+  border: 1px solid rgba(59, 130, 246, 0.3);
   color: var(--primary);
   font-weight: 500;
+  backdrop-filter: blur(5px);
+  transition: all 0.2s ease;
+}
+
+.pinnedBadge:hover {
+  background: rgba(59, 130, 246, 0.25);
+  transform: translateY(-2px);
 }
 
 .publicCardWrapper {
   pointer-events: none;
-  padding: 0 var(--space-3) var(--space-3);
+  padding: 0 var(--space-4) var(--space-4);
+}
+
+/* Light Theme Overrides */
+[data-theme="light"] .cardWrapper {
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="light"] .cardWrapper:hover {
+  background: rgba(255, 255, 255, 0.9);
+}
+
+[data-theme="light"] .cardHeader {
+  background: rgba(255, 255, 255, 0.8);
+}
+
+[data-theme="light"] .actionButton {
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="light"] .actionButton:hover {
+  background: var(--primary);
+}
+
+/* Dark Theme Overrides */
+[data-theme="dark"] .cardWrapper {
+  background: rgba(30, 30, 30, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] .cardWrapper:hover {
+  background: rgba(30, 30, 30, 0.9);
+}
+
+[data-theme="dark"] .cardHeader {
+  background: rgba(30, 30, 30, 0.8);
+}
+
+[data-theme="dark"] .actionButton {
+  background: rgba(30, 30, 30, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] .actionButton:hover {
+  background: var(--primary);
 }

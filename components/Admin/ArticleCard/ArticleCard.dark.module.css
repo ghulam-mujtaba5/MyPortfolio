@@ -1,6 +1,6 @@
 .card {
-    background-color: #272c34; /* dark bg */
-    border-color: rgba(255, 255, 255, 0.08);
+    background-color: rgba(35, 35, 35, 0.7); /* dark bg with transparency */
+    border-color: rgba(255, 255, 255, 0.1);
   }
   
   .title {
@@ -13,11 +13,12 @@
   }
   
   .coverImage {
-    background-color: #1f2937; /* subtle dark surface behind image */
+    background-color: rgba(30, 30, 30, 0.7); /* subtle dark surface behind image */
   }
   
   .imagePlaceholder {
     color: #94a3b8; /* slate-400 */
+    background-color: rgba(25, 25, 25, 0.7);
   }
   
   /* Optional: stronger bottom fade on dark */

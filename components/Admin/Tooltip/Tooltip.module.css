@@ -5,24 +5,31 @@
 
 .bubble {
   position: absolute;
-  z-index: 50;
+  z-index: var(--z-tooltip);
   left: 50%;
-  transform: translate(-50%, -6px) scale(0.98);
+  transform: translate(-50%, -6px) scale(0.95);
   bottom: 100%;
   margin-bottom: 8px;
-  padding: 6px 8px;
-  background: rgba(17, 24, 39, 0.95);
-  color: #fff;
-  border-radius: 6px;
-  font-size: 12px;
-  line-height: 1;
+  padding: 0.5rem 0.75rem;
+  background: var(--surface);
+  color: var(--text);
+  border-radius: var(--radius-md);
+  font-size: var(--text-xs);
+  font-weight: 500;
+  line-height: 1.4;
   white-space: nowrap;
   opacity: 0;
   pointer-events: none;
-  transition:
-    opacity 120ms ease,
-    transform 120ms ease;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: var(--shadow-lg);
+  border: var(--admin-card-border);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transform-origin: center bottom;
+  min-width: max-content;
+  max-width: 200px;
+  word-wrap: break-word;
+  text-align: center;
 }
 
 /* Show on hover/focus */
@@ -36,41 +43,100 @@
 .top .bubble {
   bottom: 100%;
 }
+
 .bottom .bubble {
   top: 100%;
   bottom: auto;
-  transform: translate(-50%, 6px) scale(0.98);
+  transform: translate(-50%, 6px) scale(0.95);
+  margin-bottom: 0;
+  margin-top: 8px;
 }
+
 .bottom:hover .bubble,
 .bottom:focus-within .bubble {
   transform: translate(-50%, 10px) scale(1);
 }
+
 .left .bubble {
   left: auto;
   right: 100%;
   top: 50%;
   bottom: auto;
-  transform: translate(-6px, -50%) scale(0.98);
+  transform: translate(-6px, -50%) scale(0.95);
+  margin-right: 8px;
+  margin-top: 0;
+  margin-bottom: 0;
 }
+
 .left:hover .bubble,
 .left:focus-within .bubble {
   transform: translate(-10px, -50%) scale(1);
 }
+
 .right .bubble {
   left: 100%;
   top: 50%;
   bottom: auto;
-  transform: translate(6px, -50%) scale(0.98);
+  transform: translate(6px, -50%) scale(0.95);
+  margin-left: 8px;
+  margin-top: 0;
+  margin-bottom: 0;
 }
+
 .right:hover .bubble,
 .right:focus-within .bubble {
   transform: translate(10px, -50%) scale(1);
 }
 
-@media (prefers-color-scheme: dark) {
+/* Arrow */
+.bubble::before {
+  content: '';
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: inherit;
+  border: inherit;
+  transform: rotate(45deg);
+  z-index: -1;
+}
+
+.top .bubble::before {
+  bottom: -5px;
+  left: 50%;
+  transform: translateX(-50%) rotate(45deg);
+}
+
+.bottom .bubble::before {
+  top: -5px;
+  left: 50%;
+  transform: translateX(-50%) rotate(45deg);
+}
+
+.left .bubble::before {
+  right: -5px;
+  top: 50%;
+  transform: translateY(-50%) rotate(45deg);
+}
+
+.right .bubble::before {
+  left: -5px;
+  top: 50%;
+  transform: translateY(-50%) rotate(45deg);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
   .bubble {
-    background: rgba(31, 41, 55, 0.95);
-    color: #e5e7eb;
-    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.45);
+    font-size: var(--text-sm);
+    padding: 0.6rem 0.85rem;
+    max-width: 240px;
+  }
+}
+
+@media (max-width: 480px) {
+  .bubble {
+    font-size: var(--text-sm);
+    padding: 0.65rem 0.9rem;
+    max-width: 260px;
   }
 }
