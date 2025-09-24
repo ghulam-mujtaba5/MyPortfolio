@@ -160,10 +160,9 @@
   :root {
     --input-height: 44px;
     --fab-safe: 64px;
+    /* Adjusted spacing for mobile */
+    --space-8: 24px;
+    --space-6: 20px;
+    --space-4: 12px;
   }
-  
-  /* Adjusted spacing for mobile */
-  --space-8: 24px;
-  --space-6: 20px;
-  --space-4: 12px;
 }
