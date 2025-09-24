@@ -5,7 +5,22 @@
   border: 1px solid var(--border);
   background-color: var(--bg-elev-1);
   box-shadow: var(--shadow-sm);
-  min-width: 0; /* prevent overflow pushing siblings */
+  min-width: 0;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  position: relative;
+}
+
+.tableWrapper::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary), var(--info));
+  opacity: 0.7;
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
 }
 
 .table {
@@ -16,7 +31,7 @@
 
 .table th,
 .table td {
-  padding: var(--space-3) var(--space-4);
+  padding: var(--space-4) var(--space-5);
   border-bottom: 1px solid var(--border);
   text-align: left;
   vertical-align: middle;
@@ -26,27 +41,66 @@
   background-color: var(--bg-elev-2);
   font-weight: 600;
   color: var(--text);
+  position: relative;
+  text-transform: uppercase;
+  font-size: var(--text-xs);
+  letter-spacing: 0.05em;
+}
+
+.table th::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--border);
+}
+
+.table tr:hover td {
+  background-color: rgba(0, 0, 0, 0.02);
 }
 
 .actions {
   display: flex;
-  gap: var(--space-4);
+  gap: var(--space-3);
+  align-items: center;
 }
 
 .actionButton {
   color: var(--primary);
   background: none;
   border: none;
-  padding: 0;
+  padding: var(--space-2);
   cursor: pointer;
+  border-radius: var(--radius-md);
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.actionButton:hover {
+  background-color: rgba(59, 130, 246, 0.1);
+  transform: scale(1.1);
 }
 
 .deleteButton {
   color: var(--danger);
   background: none;
   border: none;
-  padding: 0;
+  padding: var(--space-2);
   cursor: pointer;
+  border-radius: var(--radius-md);
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.deleteButton:hover {
+  background-color: rgba(239, 68, 68, 0.1);
+  transform: scale(1.1);
 }
 
 /* Layout & Sections */
@@ -54,25 +108,51 @@
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 var(--space-4);
-  /* Keep content clear of the FAB in bottom-right with safe fallbacks */
   padding-right: calc(var(--space-4) + var(--fab-safe, 0px) + var(--safe-area-right, 0px));
   margin-bottom: calc(var(--space-6) + var(--fab-safe, 0px) + var(--safe-area-bottom, 0px));
-  min-width: 0; /* allow shrink inside layout */
+  min-width: 0;
 }
 
 .sectionCard {
   border-radius: var(--radius-lg);
-  border: 1px solid;
+  border: 1px solid var(--border);
   padding: var(--space-6);
   box-shadow: var(--shadow-sm);
-  min-width: 0; /* ensure card doesn't overflow grid */
+  min-width: 0;
+  background: var(--surface);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.sectionCard:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.sectionCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary), var(--success));
+  opacity: 0.7;
 }
 
 .sectionTitle {
   font-family: var(--font-sans);
   font-size: var(--text-2xl);
-  font-weight: 600;
+  font-weight: 700;
   margin: 0 0 var(--space-4);
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  letter-spacing: -0.02em;
 }
 
 /* Forms */
@@ -94,10 +174,22 @@
 .input,
 .select {
   width: 100%;
-  padding: var(--space-2) var(--space-3);
-  border: 1px solid;
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--border);
   border-radius: var(--radius-md);
   font-family: var(--font-sans);
+  font-size: var(--text-md);
+  background: var(--bg-elev-1);
+  color: var(--text);
+  transition: all 0.2s ease;
+}
+
+.input:focus,
+.select:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+  background: var(--bg-elev-2);
 }
 
 /* buttonPrimary/buttonSecondary removed in favor of utilities.btn variants */
@@ -106,17 +198,27 @@
   display: flex;
   justify-content: flex-end;
   gap: var(--space-3);
-  margin-top: var(--space-4);
-  flex-wrap: wrap; /* allow buttons to wrap on small widths to avoid collisions */
+  margin-top: var(--space-6);
+  flex-wrap: wrap;
 }
 
 .pageTitle {
   font-family: var(--font-sans);
-  font-size: var(--text-3xl);
-  font-weight: 700;
-  line-height: 1.25;
-  margin: 0;
+  font-size: var(--text-4xl);
+  font-weight: 800;
+  line-height: 1.2;
+  margin: 0 0 var(--space-2);
   color: var(--text);
+  letter-spacing: -0.03em;
+}
+
+.pageSubtitle {
+  font-family: var(--font-sans);
+  font-size: var(--text-lg);
+  color: var(--text-muted);
+  margin: 0 0 var(--space-8);
+  font-weight: 400;
+  max-width: 600px;
 }
 
 .capitalize { text-transform: capitalize; }
@@ -126,7 +228,14 @@
 .mtLg { margin-top: var(--space-8); }
 
 /* Feedback */
-.errorText { font-weight: 500; }
+.errorText { 
+  font-weight: 500;
+  color: var(--danger);
+  padding: var(--space-3);
+  border-radius: var(--radius-md);
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+}
 
 /* A11y */
 .srOnly {
@@ -143,3 +252,59 @@
 
 /* Destructive */
 /* buttonDanger removed in favor of utilities.btnDanger */
+
+/* Responsive improvements */
+@media (max-width: 768px) {
+  .pageContainer {
+    padding: 0 var(--space-4);
+  }
+  
+  .sectionCard {
+    padding: var(--space-5);
+  }
+  
+  .sectionTitle {
+    font-size: var(--text-xl);
+  }
+  
+  .pageTitle {
+    font-size: var(--text-3xl);
+  }
+  
+  .table th,
+  .table td {
+    padding: var(--space-3) var(--space-4);
+  }
+  
+  .actions {
+    gap: var(--space-2);
+  }
+}
+
+@media (max-width: 480px) {
+  .pageContainer {
+    padding: 0 var(--space-3);
+  }
+  
+  .sectionCard {
+    padding: var(--space-4);
+  }
+  
+  .sectionTitle {
+    font-size: var(--text-lg);
+  }
+  
+  .pageTitle {
+    font-size: var(--text-2xl);
+  }
+  
+  .formGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .table th,
+  .table td {
+    padding: var(--space-2) var(--space-3);
+    font-size: var(--text-sm);
+  }
+}

@@ -12,8 +12,11 @@ import {
   FaFileAlt,
   FaProjectDiagram,
   FaComments,
+  FaChartLine,
+  FaClock,
+  FaUserCheck,
 } from "react-icons/fa";
-import { formatDistanceToNow } from "date-fns";
+import { formatDistanceToNow, format } from "date-fns";
 import Head from "next/head";
 import commonStyles from "./dashboard.module.css";
 import lightStyles from "./dashboard.light.module.css";
@@ -58,7 +61,27 @@ const AdminDashboard = () => {
     {
       header: "User",
       key: "user",
-      render: (row) => row.user?.name || row.userName || "—",
+      render: (row) => (
+        <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+          <div
+            style={{
+              width: "32px",
+              height: "32px",
+              borderRadius: "50%",
+              backgroundColor: "var(--primary)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              color: "white",
+              fontWeight: "bold",
+              fontSize: "0.75rem",
+            }}
+          >
+            {row.user?.name?.charAt(0) || row.userName?.charAt(0) || "U"}
+          </div>
+          <span>{row.user?.name || row.userName || "—"}</span>
+        </div>
+      ),
     },
     {
       header: "Action",
@@ -66,14 +89,41 @@ const AdminDashboard = () => {
       render: (row) => {
         const act = (row.action || "").replace(/_/g, " ");
         const ent = row.entity || row.entityType || "";
-        return `${act}${ent ? ` • ${ent}` : ""}`;
+        return (
+          <div>
+            <div style={{ fontWeight: 500 }}>{act}</div>
+            {ent && (
+              <div
+                style={{
+                  fontSize: "0.75rem",
+                  color: "var(--text-muted)",
+                  marginTop: "0.125rem",
+                }}
+              >
+                {ent}
+              </div>
+            )}
+          </div>
+        );
       },
     },
     {
       header: "Timestamp",
       key: "createdAt",
-      render: (row) =>
-        formatDistanceToNow(new Date(row.createdAt), { addSuffix: true }),
+      render: (row) => (
+        <div>
+          <div>{formatDistanceToNow(new Date(row.createdAt), { addSuffix: true })}</div>
+          <div
+            style={{
+              fontSize: "0.75rem",
+              color: "var(--text-muted)",
+              marginTop: "0.125rem",
+            }}
+          >
+            {format(new Date(row.createdAt), "MMM d, yyyy h:mm a")}
+          </div>
+        </div>
+      ),
     },
   ];
 
@@ -119,10 +169,16 @@ const AdminDashboard = () => {
         <title>Admin Dashboard - My Portfolio</title>
       </Head>
       <div className={`${commonStyles.dashboardContainer} ${themeStyles.dashboardContainer}`}>
-        <header className={`${commonStyles.header} ${themeStyles.header}`}>
+        <motion.header 
+          className={`${commonStyles.header} ${themeStyles.header}`}
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
           <h1>Dashboard</h1>
-          <p>Welcome back, Admin!</p>
-        </header>
+          <p>Welcome back, Admin! Here's what's happening with your portfolio today.</p>
+        </motion.header>
+        
         <motion.div
           className={`${commonStyles.widgetsGrid} ${themeStyles.widgetsGrid}`}
           variants={containerVariants}
@@ -158,7 +214,10 @@ const AdminDashboard = () => {
             />
           </motion.div>
 
-          <motion.div className={`${commonStyles.chartArea} ${themeStyles.chartArea}`} variants={itemVariants}>
+          <motion.div 
+            className={`${commonStyles.chartArea} ${themeStyles.chartArea}`} 
+            variants={itemVariants}
+          >
             <ChartCard title="Page Views" hasData={hasChartData}>
               <SampleLineChart
                 key={`pv-${chartLabels.join("|")}-${chartDataPoints.join("|")}`}
@@ -169,8 +228,31 @@ const AdminDashboard = () => {
             </ChartCard>
           </motion.div>
 
-          <motion.div className={`${commonStyles.fullWidthCard} ${themeStyles.fullWidthCard}`} variants={itemVariants}>
-            <h2 className={`${commonStyles.sectionTitle} ${themeStyles.sectionTitle}`}>Recent Activity</h2>
+          <motion.div 
+            className={`${commonStyles.fullWidthCard} ${themeStyles.fullWidthCard}`} 
+            variants={itemVariants}
+          >
+            <div className={commonStyles.tableHeader}>
+              <h2 className={`${commonStyles.sectionTitle} ${themeStyles.sectionTitle}`}>
+                <FaClock style={{ color: "var(--primary)" }} />
+                Recent Activity
+              </h2>
+              <div className={commonStyles.tableActions}>
+                <button 
+                  className="btn btn-sm btn-ghost"
+                  style={{ 
+                    padding: "0.25rem 0.5rem", 
+                    fontSize: "0.75rem",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "0.25rem"
+                  }}
+                >
+                  <FaUserCheck size={12} />
+                  View All
+                </button>
+              </div>
+            </div>
             <Table columns={activityColumns} data={recentActivity} />
           </motion.div>
         </motion.div>

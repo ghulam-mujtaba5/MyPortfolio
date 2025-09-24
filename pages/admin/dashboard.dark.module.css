@@ -1,4 +1,39 @@
-.header h1 { color: var(--text); }
-.header p { color: var(--muted-text, color-mix(in oklab, var(--text) 70%, transparent)); }
-.sectionTitle { color: var(--text); }
-.widget { background-color: var(--bg-elev-1); border-color: var(--border); color: var(--text); }
+.dashboardContainer { 
+  background-color: var(--bg); 
+}
+
+.header h1 { 
+  color: var(--text); 
+}
+
+.header p { 
+  color: var(--muted-text, color-mix(in oklab, var(--text) 70%, transparent)); 
+}
+
+.sectionTitle { 
+  color: var(--text); 
+}
+
+.widget { 
+  background-color: var(--bg-elev-1); 
+  border-color: var(--border); 
+  color: var(--text); 
+}
+
+.modernCard {
+  background: rgba(25, 33, 44, 0.7);
+  border: 1px solid rgba(58, 65, 76, 0.7);
+  box-shadow: 
+    0 1px 3px rgba(0, 0, 0, 0.15),
+    0 4px 12px rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.modernCard:hover {
+  box-shadow: 
+    0 2px 6px rgba(0, 0, 0, 0.2),
+    0 8px 20px rgba(0, 0, 0, 0.2);
+  border-color: rgba(58, 65, 76, 1);
+  background: rgba(25, 33, 44, 0.8);
+}

@@ -18,9 +18,14 @@ const DeleteConfirmModal = ({ user, onCancel, onConfirm, isDeleting }) => {
   const cancelRef = useRef(null);
   return (
     <Modal isOpen={true} onClose={onCancel} title="Delete User" initialFocusRef={cancelRef}>
-      <p>
-        Are you sure you want to delete <strong>{user?.name}</strong>? This action cannot be undone.
-      </p>
+      <div style={{ marginBottom: "1.5rem" }}>
+        <p style={{ marginBottom: "0.5rem" }}>
+          Are you sure you want to delete <strong>{user?.name}</strong>? This action cannot be undone.
+        </p>
+        <p style={{ fontSize: "0.875rem", color: "var(--text-muted)" }}>
+          This will permanently remove the user and all associated data.
+        </p>
+      </div>
       <div className={commonStyles.actionsRow}>
         <button ref={cancelRef} type="button" onClick={onCancel} className={`${utilities.btn} ${utilities.btnSecondary}`}>
           Cancel
@@ -70,33 +75,41 @@ const EditUserModal = ({ user, onClose, onUserUpdate }) => {
     <Modal isOpen={true} onClose={onClose} title="Edit User" initialFocusRef={nameRef}>
       <form onSubmit={handleUpdate}>
         <div className={commonStyles.formGrid}>
-          <label htmlFor="edit_name" className={utilities.srOnly}>Name</label>
-          <input
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            id="edit_name"
-            ref={nameRef}
-            className={`${commonStyles.input} ${themeStyles.input}`}
-          />
-          <label htmlFor="edit_email" className={utilities.srOnly}>Email</label>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            id="edit_email"
-            className={`${commonStyles.input} ${themeStyles.input}`}
-          />
-          <label htmlFor="edit_role" className={utilities.srOnly}>Role</label>
-          <select
-            value={role}
-            onChange={(e) => setRole(e.target.value)}
-            id="edit_role"
-            className={`${commonStyles.select} ${themeStyles.select}`}
-          >
-            <option value="editor">Editor</option>
-            <option value="admin">Admin</option>
-          </select>
+          <div>
+            <label htmlFor="edit_name" className={commonStyles.label}>Name</label>
+            <input
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              id="edit_name"
+              ref={nameRef}
+              className={`${commonStyles.input} ${themeStyles.input}`}
+              required
+            />
+          </div>
+          <div>
+            <label htmlFor="edit_email" className={commonStyles.label}>Email</label>
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              id="edit_email"
+              className={`${commonStyles.input} ${themeStyles.input}`}
+              required
+            />
+          </div>
+          <div>
+            <label htmlFor="edit_role" className={commonStyles.label}>Role</label>
+            <select
+              value={role}
+              onChange={(e) => setRole(e.target.value)}
+              id="edit_role"
+              className={`${commonStyles.select} ${themeStyles.select}`}
+            >
+              <option value="editor">Editor</option>
+              <option value="admin">Admin</option>
+            </select>
+          </div>
         </div>
         <div className={commonStyles.actionsRow}>
           <button type="button" onClick={onClose} className={`${utilities.btn} ${utilities.btnSecondary}`}>
@@ -228,60 +241,67 @@ const UsersPage = () => {
       )}
       <div className={commonStyles.pageContainer}>
         <div className={commonStyles.mtLg}>
-          <h1 className={`${commonStyles.pageTitle} ${themeStyles.sectionTitle}`} style={{ display: "flex", alignItems: "center", gap: 8 }}>
+          <h1 className={`${commonStyles.pageTitle} ${themeStyles.sectionTitle}`}>
             User Management
-            {loading && (
-              <span style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
-                <InlineSpinner sizePx={16} />
-                <span className={commonStyles.muted || undefined}>Loading…</span>
-              </span>
-            )}
           </h1>
+          <p className={commonStyles.pageSubtitle}>
+            Manage all users, their roles, and permissions in your admin system.
+          </p>
 
           <div className={`${commonStyles.sectionCard} ${themeStyles.sectionCard} ${commonStyles.mtLg}`}>
-            <h2 className={`${commonStyles.sectionTitle} ${themeStyles.sectionTitle}`}>Create New User</h2>
+            <h2 className={`${commonStyles.sectionTitle} ${themeStyles.sectionTitle}`}>
+              <span>Create New User</span>
+            </h2>
             <form onSubmit={handleCreateUser} aria-busy={creating}>
               <div className={commonStyles.formGrid}>
-                <label htmlFor="create_name" className={utilities.srOnly}>Name</label>
-                <input
-                  type="text"
-                  placeholder="Name"
-                  value={newName}
-                  onChange={(e) => setNewName(e.target.value)}
-                  id="create_name"
-                  className={`${commonStyles.input} ${themeStyles.input}`}
-                  required
-                />
-                <label htmlFor="create_email" className={utilities.srOnly}>Email</label>
-                <input
-                  type="email"
-                  placeholder="Email"
-                  value={newEmail}
-                  onChange={(e) => setNewEmail(e.target.value)}
-                  id="create_email"
-                  className={`${commonStyles.input} ${themeStyles.input}`}
-                  required
-                />
-                <label htmlFor="create_password" className={utilities.srOnly}>Password</label>
-                <input
-                  type="password"
-                  placeholder="Password"
-                  value={newPassword}
-                  onChange={(e) => setNewPassword(e.target.value)}
-                  id="create_password"
-                  className={`${commonStyles.input} ${themeStyles.input}`}
-                  required
-                />
-                <label htmlFor="create_role" className={utilities.srOnly}>Role</label>
-                <select
-                  value={newRole}
-                  onChange={(e) => setNewRole(e.target.value)}
-                  id="create_role"
-                  className={`${commonStyles.select} ${themeStyles.select}`}
-                >
-                  <option value="editor">Editor</option>
-                  <option value="admin">Admin</option>
-                </select>
+                <div>
+                  <label htmlFor="create_name" className={commonStyles.label}>Name</label>
+                  <input
+                    type="text"
+                    placeholder="Full Name"
+                    value={newName}
+                    onChange={(e) => setNewName(e.target.value)}
+                    id="create_name"
+                    className={`${commonStyles.input} ${themeStyles.input}`}
+                    required
+                  />
+                </div>
+                <div>
+                  <label htmlFor="create_email" className={commonStyles.label}>Email</label>
+                  <input
+                    type="email"
+                    placeholder="user@example.com"
+                    value={newEmail}
+                    onChange={(e) => setNewEmail(e.target.value)}
+                    id="create_email"
+                    className={`${commonStyles.input} ${themeStyles.input}`}
+                    required
+                  />
+                </div>
+                <div>
+                  <label htmlFor="create_password" className={commonStyles.label}>Password</label>
+                  <input
+                    type="password"
+                    placeholder="Secure password"
+                    value={newPassword}
+                    onChange={(e) => setNewPassword(e.target.value)}
+                    id="create_password"
+                    className={`${commonStyles.input} ${themeStyles.input}`}
+                    required
+                  />
+                </div>
+                <div>
+                  <label htmlFor="create_role" className={commonStyles.label}>Role</label>
+                  <select
+                    value={newRole}
+                    onChange={(e) => setNewRole(e.target.value)}
+                    id="create_role"
+                    className={`${commonStyles.select} ${themeStyles.select}`}
+                  >
+                    <option value="editor">Editor</option>
+                    <option value="admin">Admin</option>
+                  </select>
+                </div>
               </div>
               <button
                 type="submit"
@@ -295,9 +315,11 @@ const UsersPage = () => {
           </div>
 
           <div className={`${commonStyles.sectionCard} ${themeStyles.sectionCard} ${commonStyles.mtLg}`}>
-            <h2 className={`${commonStyles.sectionTitle} ${themeStyles.sectionTitle}`}>All Users</h2>
+            <h2 className={`${commonStyles.sectionTitle} ${themeStyles.sectionTitle}`}>
+              <span>All Users</span>
+            </h2>
             {loading && (
-              <div style={{ padding: 12, display: "flex", alignItems: "center", gap: 8 }}>
+              <div style={{ padding: "1.5rem", display: "flex", alignItems: "center", gap: "0.5rem" }}>
                 <InlineSpinner sizePx={18} />
                 <span className={commonStyles.muted || undefined}>Loading users…</span>
               </div>
@@ -317,9 +339,49 @@ const UsersPage = () => {
                   <tbody>
                     {users.map((user) => (
                       <tr key={user._id}>
-                        <td>{user.name}</td>
+                        <td>
+                          <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
+                            <div
+                              style={{
+                                width: "36px",
+                                height: "36px",
+                                borderRadius: "50%",
+                                backgroundColor: "var(--primary)",
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                color: "white",
+                                fontWeight: "600",
+                                fontSize: "0.875rem",
+                              }}
+                            >
+                              {user.name.charAt(0).toUpperCase()}
+                            </div>
+                            <span>{user.name}</span>
+                          </div>
+                        </td>
                         <td>{user.email}</td>
-                        <td className={commonStyles.capitalize}>{user.role}</td>
+                        <td className={commonStyles.capitalize}>
+                          <span
+                            style={{
+                              padding: "0.25rem 0.75rem",
+                              borderRadius: "var(--radius-full)",
+                              fontSize: "0.75rem",
+                              fontWeight: "600",
+                              backgroundColor: user.role === "admin" 
+                                ? "rgba(59, 130, 246, 0.1)" 
+                                : "rgba(16, 185, 129, 0.1)",
+                              color: user.role === "admin" 
+                                ? "var(--primary)" 
+                                : "var(--success)",
+                              border: `1px solid ${user.role === "admin" 
+                                ? "rgba(59, 130, 246, 0.2)" 
+                                : "rgba(16, 185, 129, 0.2)"}`
+                            }}
+                          >
+                            {user.role}
+                          </span>
+                        </td>
                         <td className={`${commonStyles.actions} ${themeStyles.actions}`}>
                           {isDeleting && userToDelete && userToDelete._id === user._id ? (
                             <span style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
@@ -332,6 +394,7 @@ const UsersPage = () => {
                                 onClick={() => openEditModal(user)}
                                 className={`${utilities.btn} ${utilities.btnIcon} ${themeStyles.actionButton}`}
                                 disabled={isDeleting}
+                                title="Edit user"
                               >
                                 <FiEdit />
                               </button>
@@ -339,6 +402,7 @@ const UsersPage = () => {
                                 onClick={() => openDeleteModal(user)}
                                 className={`${utilities.btn} ${utilities.btnIcon} ${themeStyles.deleteButton}`}
                                 disabled={isDeleting}
+                                title="Delete user"
                               >
                                 <FiTrash2 />
                               </button>

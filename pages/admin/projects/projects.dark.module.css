@@ -1,5 +1,52 @@
 /* deleteButtonDanger styles removed in favor of utilities.btnDanger */
 
 /* Ensure titles are readable in dark mode */
-.previewTitle { color: #e5e7eb; }
-.headerRow h1 { color: #e5e7eb; }
+.previewTitle { 
+  color: #e5e7eb; 
+}
+
+.headerRow { 
+  background: rgba(25, 33, 44, 0.8);
+  border-color: rgba(58, 65, 76, 0.7);
+  box-shadow: 
+    0 1px 3px rgba(0, 0, 0, 0.15),
+    0 4px 12px rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.headerRow::before {
+  background: linear-gradient(90deg, var(--primary), var(--success));
+}
+
+.headerRow h1 { 
+  color: #ffffff;
+}
+
+.twoCol > div:first-child {
+  background: rgba(25, 33, 44, 0.8);
+  border-color: rgba(58, 65, 76, 0.7);
+  box-shadow: 
+    0 1px 3px rgba(0, 0, 0, 0.15),
+    0 4px 12px rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.twoCol > div:first-child::before {
+  background: linear-gradient(90deg, var(--primary), var(--info));
+}
+
+.twoCol > div:last-child {
+  background: rgba(25, 33, 44, 0.8);
+  border-color: rgba(58, 65, 76, 0.7);
+  box-shadow: 
+    0 1px 3px rgba(0, 0, 0, 0.15),
+    0 4px 12px rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.twoCol > div:last-child::before {
+  background: linear-gradient(90deg, var(--info), var(--warning));
+}

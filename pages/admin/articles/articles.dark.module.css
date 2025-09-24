@@ -1,139 +1,111 @@
-.title {
-  color: var(--color-text-primary-dark);
+/* Articles Page - Dark Theme */
+
+.filters {
+  background: rgba(25, 33, 44, 0.8);
+  border-color: rgba(58, 65, 76, 0.7);
+  box-shadow: 
+    0 1px 3px rgba(0, 0, 0, 0.15),
+    0 4px 12px rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 
-/* Header gradient panel (dark) */
-.header {
-  background: radial-gradient(1200px 300px at 10% -20%, rgba(129,140,248,0.12), transparent 60%),
-              radial-gradient(800px 200px at 90% -10%, rgba(16,185,129,0.12), transparent 60%);
-  border: 1px solid var(--color-border-dark);
-  border-radius: 14px;
-  padding: 0.75rem 1rem;
+.filters::before {
+  background: linear-gradient(90deg, var(--primary), var(--info));
 }
 
-/* Search result rows (dark) */
-.resultRow:hover {
-  background-color: var(--color-bg-secondary-dark);
-  border-color: var(--color-border-dark);
-}
-.resultActive {
-  background-color: var(--color-bg-tertiary-dark);
-  border-color: var(--color-primary-dark);
-  box-shadow: 0 0 0 2px rgba(129,140,248,0.18);
-}
-.resultRow:focus-within {
-  border-color: var(--color-primary-dark);
-  box-shadow: 0 0 0 2px rgba(129,140,248,0.25);
+.filterBar {
+  background: rgba(25, 33, 44, 0.8);
+  border-color: rgba(58, 65, 76, 0.7);
+  box-shadow: 
+    0 1px 3px rgba(0, 0, 0, 0.15),
+    0 4px 12px rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
 
-/* Search input (dark) */
-.searchInput {
-  background-color: var(--color-bg-dark);
-  border-color: var(--color-border-dark);
-  color: var(--color-text-primary-dark);
-}
-.searchInput::placeholder { color: var(--color-text-secondary-dark); }
-.searchInput:focus-visible {
-  border-color: var(--color-primary-dark);
-  box-shadow: 0 0 0 2px rgba(129,140,248,0.22);
-}
-
-/* Chips (dark) */
-.chipGray { background: #111827; color: #e5e7eb; border-color: #374151; }
-.chipAmber { background: #78350f; color: #fde68a; border-color: #92400e; }
-.chipGreen { background: #064e3b; color: #bbf7d0; border-color: #065f46; }
-
-/* Section divider (dark) */
-.sectionDivider { border-top: 1px solid var(--color-border-dark); }
-
-/* Highlights (dark) */
-.quoteCard { background: #0b1220; border-color: var(--color-border-dark); }
-
-.filterLabel {
-  color: var(--color-text-secondary-dark);
+.filterBar:hover {
+  box-shadow: 
+    0 2px 6px rgba(0, 0, 0, 0.2),
+    0 8px 20px rgba(0, 0, 0, 0.2);
+  border-color: rgba(58, 65, 76, 1);
 }
 
 .quickFiltersContainer {
-  background: rgba(17, 24, 39, 0.6);
-  border: 1px solid var(--color-border-dark);
+  background: rgba(31, 41, 55, 0.5);
+  border-color: rgba(58, 65, 76, 0.7);
+}
+
+.filterChip {
+  background: rgba(31, 41, 55, 0.5);
+  color: #ffffff;
+  border-color: rgba(58, 65, 76, 0.7);
+}
+
+.filterChip:hover {
+  background: rgba(58, 65, 76, 0.7);
+  border-color: rgba(58, 65, 76, 1);
+}
+
+.activeChip {
+  background: var(--primary);
+  color: var(--primary-foreground);
+  border-color: var(--primary);
 }
 
 .selectionBar {
-  background-color: var(--color-primary-dark-light);
-  border: 1px solid var(--color-primary-dark-border);
-  color: var(--color-primary-dark);
+  background: rgba(25, 33, 44, 0.8);
+  border-color: rgba(58, 65, 76, 0.7);
+  box-shadow: 
+    0 1px 3px rgba(0, 0, 0, 0.15),
+    0 4px 12px rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 
-.tableWrapper {
-  border: 1px solid var(--color-border-dark);
+.selectionBar::before {
+  background: linear-gradient(90deg, var(--primary), var(--danger));
 }
 
 .table th {
-  background-color: var(--color-bg-tertiary-dark);
-  border-bottom: 1px solid var(--color-border-dark);
-  color: var(--color-text-secondary-dark);
+  background: rgba(31, 41, 55, 0.5);
+  color: #ffffff;
 }
 
-.table td {
-  border-bottom: 1px solid var(--color-border-dark);
+.table th::after {
+  background: rgba(58, 65, 76, 0.7);
 }
 
-.table tbody tr:hover {
-  background-color: var(--color-bg-secondary-dark);
+.table tbody tr:hover td {
+  background-color: rgba(31, 41, 55, 0.3);
 }
 
-.paginationText {
-  color: var(--color-text-secondary-dark);
+.resultRow {
+  background: rgba(25, 33, 44, 0.8);
+  border-color: rgba(58, 65, 76, 0.7);
 }
 
-.pagination {
-  border-top: 1px solid var(--color-border-dark);
-  background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0.04));
+.resultRow:hover {
+  border-color: var(--primary);
 }
 
-/* Admin Search status colors (dark) */
-.statusText { color: #cbd5e1; }
-.statusError { color: #f87171; }
-
-/* Themed icon buttons removed; use utilities.btnPrimary instead */
-
-/* Shared Filters container (dark) */
-.filters {
-  background: rgba(17, 24, 39, 0.6);
-  border: 1px solid var(--color-border-dark);
-  box-shadow: var(--shadow-xs);
+.resultActive {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.25);
 }
 
-/* Filter chips (dark) for Projects/Articles quick filters */
-.filterChip {
-  background: var(--color-bg-secondary-dark);
-  border-color: var(--color-border-dark);
-  color: var(--color-text-secondary-dark);
-}
-.filterChip:hover {
-  background: var(--color-bg-tertiary-dark);
-  border-color: var(--color-border-dark);
-}
-.filterChip:focus-visible {
-  outline: none;
-  box-shadow: 0 0 0 2px rgba(129,140,248,0.22);
-  border-color: var(--color-primary-dark);
-}
-.activeChip {
-  background: var(--color-primary-dark-light);
-  border-color: var(--color-primary-dark-border);
-  color: var(--color-primary-dark);
-  box-shadow: 0 0 0 2px rgba(129,140,248,0.14);
+.searchInput {
+  background: rgba(17, 24, 39, 0.8);
+  border-color: rgba(58, 65, 76, 0.7);
+  color: #ffffff;
 }
 
-/* Modern filter bar container (dark) */
-.filterBar {
-  background: rgba(17, 24, 39, 0.6);
-  border: 1px solid var(--color-border-dark);
-  box-shadow: var(--shadow-xs);
+.searchInput:focus-visible {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25);
 }
 
-/* Respect reduced motion */
-@media (prefers-reduced-motion: reduce) {
-  /* icon button primary handled by utilities; no local transitions */
+.quoteCard {
+  background: rgba(31, 41, 55, 0.5);
+  border-color: rgba(58, 65, 76, 0.7);
 }

@@ -1,16 +1,99 @@
-.errorText { color: var(--danger); }
-.tableWrapper { background-color: var(--bg-elev-1); border-color: var(--border); box-shadow: var(--shadow-sm); }
-.table th { background-color: var(--bg-elev-2); color: var(--text); }
-.table td, .table th { border-bottom-color: var(--border); }
-.actionButton { color: var(--primary); }
-.deleteButton { color: var(--danger); }
+.errorText { 
+  color: var(--danger);
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+.tableWrapper { 
+  background-color: rgba(255, 255, 255, 0.9);
+  border-color: rgba(219, 226, 234, 0.8);
+  box-shadow: 
+    0 1px 3px rgba(0, 0, 0, 0.05),
+    0 4px 12px rgba(0, 0, 0, 0.05);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.tableWrapper::before {
+  background: linear-gradient(90deg, var(--primary), var(--info));
+}
+
+.table th { 
+  background-color: rgba(245, 247, 250, 0.8);
+  color: #000000;
+}
+
+.table th::after {
+  background: rgba(219, 226, 234, 0.8);
+}
+
+.table td, 
+.table th { 
+  border-bottom-color: rgba(219, 226, 234, 0.8);
+}
+
+.table tr:hover td {
+  background-color: rgba(245, 247, 250, 0.5);
+}
+
+.actionButton { 
+  color: var(--primary);
+  background: transparent;
+}
+
+.actionButton:hover {
+  background-color: rgba(37, 99, 235, 0.1);
+}
+
+.deleteButton { 
+  color: var(--danger);
+  background: transparent;
+}
+
+.deleteButton:hover {
+  background-color: rgba(220, 38, 38, 0.1);
+}
 
 /* Sections */
-.sectionCard { background-color: var(--bg-elev-1); border-color: var(--border); }
-.sectionTitle { color: var(--text); }
+.sectionCard { 
+  background: rgba(255, 255, 255, 0.9);
+  border-color: rgba(219, 226, 234, 0.8);
+  box-shadow: 
+    0 1px 3px rgba(0, 0, 0, 0.05),
+    0 4px 12px rgba(0, 0, 0, 0.05);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.sectionCard::before {
+  background: linear-gradient(90deg, var(--primary), var(--success));
+}
+
+.sectionCard:hover {
+  box-shadow: 
+    0 2px 6px rgba(0, 0, 0, 0.08),
+    0 8px 20px rgba(0, 0, 0, 0.08);
+  border-color: rgba(219, 226, 234, 1);
+}
+
+.sectionTitle { 
+  color: #000000;
+}
 
 /* Form controls */
-.input, .select { background-color: var(--bg-elev-1); border-color: var(--border); color: var(--text); }
-.input:focus, .select:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.20); }
+.input, 
+.select { 
+  background-color: rgba(255, 255, 255, 0.8);
+  border-color: rgba(219, 226, 234, 0.8);
+  color: #000000;
+}
+
+.input:focus, 
+.select:focus { 
+  outline: none; 
+  border-color: var(--primary); 
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.20);
+  background: rgba(245, 247, 250, 0.8);
+}
 
 /* Buttons moved to styles/utilities.module.css (.btn variants) */

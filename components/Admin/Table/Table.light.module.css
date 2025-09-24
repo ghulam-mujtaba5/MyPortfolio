@@ -1,25 +1,35 @@
 .tableContainer {
-  background-color: #ffffff;
-  border: 1px solid #e3e6ea;
-  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(219, 226, 234, 0.8);
+  box-shadow: 
+    0 1px 3px rgba(0, 0, 0, 0.05),
+    0 4px 12px rgba(0, 0, 0, 0.05);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 
 .th {
+  background: rgba(245, 247, 250, 0.8);
   color: #555555;
+}
+
+.th::after {
+  background: rgba(219, 226, 234, 0.8);
 }
 
 .td {
   color: #222222;
 }
 
-.tr {
-  border-color: #e3e6ea;
-}
-
-.tr:last-child {
-  border-bottom: none;
+.tr:hover .td {
+  background: rgba(245, 247, 250, 0.5);
 }
 
 .noData {
   color: #555555;
+}
+
+.tableHeader {
+  background: rgba(245, 247, 250, 0.8);
+  border-bottom: 1px solid rgba(219, 226, 234, 0.8);
 }

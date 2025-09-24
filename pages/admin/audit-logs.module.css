@@ -2,8 +2,7 @@
   max-width: 1280px;
   margin: 0 auto;
   padding: var(--space-6);
-  min-width: 0; /* allow shrink inside layout */
-  /* Right safe area so FAB does not overlap content on small widths */
+  min-width: 0;
   padding-right: calc(
     var(--space-6) + var(--fab-safe, 0px) + var(--safe-area-right, 0px)
   );
@@ -11,57 +10,98 @@
 
 .pageHeader {
   display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: var(--space-4);
-  margin-bottom: var(--space-4);
+  flex-direction: column;
+  gap: var(--space-2);
+  margin-bottom: var(--space-6);
+  padding: var(--space-6);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+  position: relative;
+  overflow: hidden;
+}
+
+.pageHeader::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary), var(--info));
+  opacity: 0.7;
 }
 
 .pageTitle {
   font-family: var(--font-sans);
-  font-size: var(--text-2xl);
-  font-weight: 700;
+  font-size: var(--text-4xl);
+  font-weight: 800;
   margin: 0;
+  color: var(--text);
+  letter-spacing: -0.03em;
 }
 
 .pageSubtitle {
   font-family: var(--font-sans);
-  font-size: var(--text-sm);
-  color: var(--muted-text, color-mix(in oklab, var(--text) 70%, transparent));
-  margin: 4px 0 0;
+  font-size: var(--text-lg);
+  color: var(--text-muted);
+  margin: 0;
+  font-weight: 400;
+  max-width: 600px;
 }
 
 .filtersCard {
   background: var(--bg-elev-1);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
-  padding: var(--space-4);
+  padding: var(--space-5);
   box-shadow: var(--shadow-sm);
-  min-width: 0; /* prevent overflow from inputs */
+  min-width: 0;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  position: relative;
+  overflow: hidden;
+  margin-bottom: var(--space-6);
+}
+
+.filtersCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary), var(--success));
+  opacity: 0.7;
 }
 
 .filtersGrid {
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
   gap: var(--space-4);
-  align-items: end; /* align inputs nicely at the bottom */
+  align-items: end;
 }
 
 .fieldGroup {
   grid-column: span 12;
   position: relative;
   padding-top: var(--space-2);
-  min-width: 0; /* allow shrinking inside grid track */
+  min-width: 0;
 }
+
 .span2 {
   grid-column: span 12;
 }
+
 .span3 {
   grid-column: span 12;
 }
+
 .span4 {
   grid-column: span 12;
 }
+
 @media (min-width: 768px) {
   .span2 {
     grid-column: span 2;
@@ -84,7 +124,7 @@
   top: -12px;
   left: 12px;
   font-size: var(--text-xs);
-  color: var(--muted-text, color-mix(in oklab, var(--text) 70%, transparent));
+  color: var(--text-muted);
   padding: 0 6px;
   line-height: 20px;
   border-radius: var(--radius-sm);
@@ -95,22 +135,25 @@
   max-width: calc(100% - 24px);
   overflow: hidden;
   text-overflow: ellipsis;
+  font-weight: 500;
 }
 
 .input,
 .select {
   width: 100%;
   height: var(--input-height);
-  padding: var(--space-2) var(--space-3);
+  padding: var(--space-3) var(--space-4);
   border-radius: var(--radius-md);
   border: 1px solid var(--border);
   background: var(--bg-elev-1);
   color: var(--text);
-  min-width: 0; /* allow content to shrink */
+  min-width: 0;
   appearance: none;
   -webkit-appearance: none;
   line-height: 1.2;
   font-size: var(--text-md);
+  font-family: var(--font-sans);
+  transition: all 0.2s ease;
 }
 
 /* Custom caret for selects (theme-aware via currentColor) */
@@ -119,7 +162,7 @@
   background-repeat: no-repeat;
   background-position: right 10px center;
   background-size: 14px;
-  padding-right: 40px; /* room for caret */
+  padding-right: 40px;
 }
 
 /* iOS zoom prevention: keep at least 16px on very small screens */
@@ -134,7 +177,8 @@
 .select:focus {
   outline: none;
   border-color: var(--primary);
-  box-shadow: 0 0 0 3px rgba(69, 115, 223, 0.15);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+  background: var(--bg-elev-2);
 }
 
 .actionsRight {
@@ -144,7 +188,9 @@
   justify-content: flex-end;
   flex-wrap: wrap;
   gap: var(--space-2);
+  margin-top: var(--space-2);
 }
+
 @media (min-width: 768px) {
   .actionsRight {
     grid-column: span 12;
@@ -166,11 +212,9 @@
     gap: var(--space-2);
   }
   .actionsRight > * {
-    flex: 1 1 auto; /* wide tap targets */
+    flex: 1 1 auto;
   }
 }
-
-/* .primaryBtn removed in favor of utilities.btn + utilities.btnPrimary */
 
 .card {
   background: var(--bg-elev-1);
@@ -179,7 +223,22 @@
   padding: var(--space-5);
   margin-top: var(--space-4);
   box-shadow: var(--shadow-sm);
-  min-width: 0; /* ensure table/card content doesn't push siblings */
+  min-width: 0;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  position: relative;
+  overflow: hidden;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary), var(--danger));
+  opacity: 0.7;
 }
 
 .loading {
@@ -188,10 +247,9 @@
 }
 
 .paginationWrap {
-  margin-top: var(--space-3);
+  margin-top: var(--space-4);
   display: flex;
   justify-content: flex-end;
-  /* Keep pagination away from the FAB in bottom-right */
   padding-right: calc(var(--fab-safe, 0px) + var(--safe-area-right, 0px));
 }
 
@@ -199,25 +257,30 @@
   display: inline-flex;
   align-items: center;
   height: 26px;
-  padding: 0 var(--space-2);
-  border-radius: var(--radius-full, 9999px);
+  padding: 0 var(--space-3);
+  border-radius: var(--radius-full);
   font-size: var(--text-xs);
   font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
+
 .badge_success {
-  background: rgba(51, 165, 82, 0.12);
-  color: #2f8e46;
-  border: 1px solid rgba(51, 165, 82, 0.35);
+  background: rgba(16, 185, 129, 0.15);
+  color: var(--success);
+  border: 1px solid rgba(16, 185, 129, 0.3);
 }
+
 .badge_warning {
-  background: rgba(255, 193, 7, 0.12);
-  color: #8a6d00;
-  border: 1px solid rgba(255, 193, 7, 0.35);
+  background: rgba(245, 158, 11, 0.15);
+  color: var(--warning);
+  border: 1px solid rgba(245, 158, 11, 0.3);
 }
+
 .badge_danger {
-  background: rgba(239, 68, 68, 0.12);
-  color: #b71c1c;
-  border: 1px solid rgba(239, 68, 68, 0.35);
+  background: rgba(239, 68, 68, 0.15);
+  color: var(--danger);
+  border: 1px solid rgba(239, 68, 68, 0.3);
 }
 
 .code {
@@ -225,7 +288,11 @@
     ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
     "Courier New", monospace;
   font-size: var(--text-xs);
-  color: var(--muted-text, color-mix(in oklab, var(--text) 70%, transparent));
+  color: var(--text-muted);
+  background: var(--bg-elev-2);
+  padding: 2px 6px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
 }
 
 /* Pagination (structure) */
@@ -234,11 +301,81 @@
   align-items: center;
   justify-content: space-between;
   margin-top: var(--space-4);
+  padding: var(--space-4);
+  border-radius: var(--radius-md);
+  background: var(--bg-elev-2);
+  border: 1px solid var(--border);
 }
-
-/* .pagerButton removed in favor of utilities.btn + utilities.btnSecondary */
 
 .pagerMeta {
   font-size: var(--text-sm);
-  color: var(--muted-text, color-mix(in oklab, var(--text) 70%, transparent));
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+/* Responsive improvements */
+@media (max-width: 768px) {
+  .pageWrap {
+    padding: var(--space-4);
+  }
+  
+  .pageHeader {
+    padding: var(--space-4);
+  }
+  
+  .pageTitle {
+    font-size: var(--text-3xl);
+  }
+  
+  .pageSubtitle {
+    font-size: var(--text-md);
+  }
+  
+  .filtersCard {
+    padding: var(--space-4);
+  }
+  
+  .card {
+    padding: var(--space-4);
+  }
+  
+  .filtersGrid {
+    gap: var(--space-3);
+  }
+}
+
+@media (max-width: 480px) {
+  .pageWrap {
+    padding: var(--space-3);
+  }
+  
+  .pageHeader {
+    padding: var(--space-3);
+  }
+  
+  .pageTitle {
+    font-size: var(--text-2xl);
+  }
+  
+  .filtersCard {
+    padding: var(--space-3);
+  }
+  
+  .card {
+    padding: var(--space-3);
+  }
+  
+  .fieldGroup {
+    grid-column: span 12;
+  }
+  
+  .span2, .span3, .span4 {
+    grid-column: span 12;
+  }
+  
+  .pagination {
+    flex-direction: column;
+    gap: var(--space-3);
+    align-items: stretch;
+  }
 }

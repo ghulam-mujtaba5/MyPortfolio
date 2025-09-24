@@ -1,140 +1,111 @@
-.title {
-  color: var(--color-text-primary);
-}
+/* Articles Page - Light Theme */
 
-/* Header gradient panel (light) */
-.header {
-  background: radial-gradient(1200px 300px at 10% -20%, rgba(79,70,229,0.12), transparent 60%),
-              radial-gradient(800px 200px at 90% -10%, rgba(16,185,129,0.10), transparent 60%);
-  border: 1px solid var(--color-border);
-  border-radius: 14px;
-  padding: 0.75rem 1rem;
-}
-
-/* Chips (light) */
-.chipGray { background: #f3f4f6; color: #374151; border-color: #e5e7eb; }
-.chipAmber { background: #fef3c7; color: #92400e; border-color: #fde68a; }
-.chipGreen { background: #dcfce7; color: #065f46; border-color: #bbf7d0; }
-
-/* Shared Filters container (light) */
 .filters {
-  background: rgba(255, 255, 255, 0.6);
-  border: 1px solid var(--color-border);
-  box-shadow: var(--shadow-xs);
+  background: rgba(255, 255, 255, 0.9);
+  border-color: rgba(219, 226, 234, 0.8);
+  box-shadow: 
+    0 1px 3px rgba(0, 0, 0, 0.05),
+    0 4px 12px rgba(0, 0, 0, 0.05);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 
-/* Section divider (light) */
-.sectionDivider { border-top: 1px solid var(--color-border); }
-
-/* Highlights (light) */
-.quoteCard { background: #f9fafb; border-color: var(--color-border); }
-
-.filterLabel {
-  color: var(--color-text-secondary);
+.filters::before {
+  background: linear-gradient(90deg, var(--primary), var(--info));
 }
 
-/* Quick filters container (light) */
-.quickFiltersContainer {
-  background: rgba(255, 255, 255, 0.6);
-  border: 1px solid var(--color-border);
-}
-
-/* Modern filter bar container (light) */
 .filterBar {
-  background: rgba(255, 255, 255, 0.6);
-  border: 1px solid var(--color-border);
-  box-shadow: var(--shadow-xs);
+  background: rgba(255, 255, 255, 0.9);
+  border-color: rgba(219, 226, 234, 0.8);
+  box-shadow: 
+    0 1px 3px rgba(0, 0, 0, 0.05),
+    0 4px 12px rgba(0, 0, 0, 0.05);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.filterBar:hover {
+  box-shadow: 
+    0 2px 6px rgba(0, 0, 0, 0.08),
+    0 8px 20px rgba(0, 0, 0, 0.08);
+  border-color: rgba(219, 226, 234, 1);
+}
+
+.quickFiltersContainer {
+  background: rgba(245, 247, 250, 0.8);
+  border-color: rgba(219, 226, 234, 0.8);
+}
+
+.filterChip {
+  background: rgba(245, 247, 250, 0.8);
+  color: #000000;
+  border-color: rgba(219, 226, 234, 0.8);
+}
+
+.filterChip:hover {
+  background: rgba(219, 226, 234, 0.8);
+  border-color: rgba(219, 226, 234, 1);
+}
+
+.activeChip {
+  background: var(--primary);
+  color: var(--primary-foreground);
+  border-color: var(--primary);
 }
 
 .selectionBar {
-  background-color: var(--color-primary-light);
-  border: 1px solid var(--color-primary-border);
-  color: var(--color-primary);
+  background: rgba(255, 255, 255, 0.9);
+  border-color: rgba(219, 226, 234, 0.8);
+  box-shadow: 
+    0 1px 3px rgba(0, 0, 0, 0.05),
+    0 4px 12px rgba(0, 0, 0, 0.05);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 
-.tableWrapper {
-  border: 1px solid var(--color-border);
+.selectionBar::before {
+  background: linear-gradient(90deg, var(--primary), var(--danger));
 }
 
 .table th {
-  background-color: var(--color-bg-secondary);
-  border-bottom: 1px solid var(--color-border);
-  color: var(--color-text-secondary);
+  background: rgba(245, 247, 250, 0.8);
+  color: #000000;
 }
 
-.table td {
-  border-bottom: 1px solid var(--color-border);
+.table th::after {
+  background: rgba(219, 226, 234, 0.8);
 }
 
-.table tbody tr:hover {
-  background-color: var(--color-bg-tertiary);
+.table tbody tr:hover td {
+  background-color: rgba(245, 247, 250, 0.5);
 }
 
-.paginationText {
-  color: var(--color-text-secondary);
+.resultRow {
+  background: rgba(255, 255, 255, 0.9);
+  border-color: rgba(219, 226, 234, 0.8);
 }
 
-.pagination {
-  border-top: 1px solid var(--color-border);
-  background: linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,0.02));
-}
-
-/* Admin Search status colors (light) */
-.statusText { color: #374151; }
-.statusError { color: #b91c1c; }
-
-/* Themed icon buttons removed; use utilities.btnPrimary instead */
-
-/* Filter chips (light) for Projects/Articles quick filters */
-.filterChip {
-  background: var(--color-bg-secondary);
-  border-color: var(--color-border);
-  color: var(--color-text-secondary);
-}
-.filterChip:hover {
-  background: var(--color-bg-tertiary);
-  border-color: var(--color-border);
-}
-.filterChip:focus-visible {
-  outline: none;
-  box-shadow: 0 0 0 2px rgba(79,70,229,0.20);
-  border-color: var(--color-primary);
-}
-.activeChip {
-  background: var(--color-primary-light);
-  border-color: var(--color-primary-border);
-  color: var(--color-primary);
-  box-shadow: 0 0 0 2px rgba(79,70,229,0.12);
-}
-
-/* Search result rows (light) */
 .resultRow:hover {
-  background-color: var(--color-bg-secondary);
-  border-color: var(--color-border);
+  border-color: var(--primary);
 }
+
 .resultActive {
-  background-color: var(--color-bg-tertiary);
-  border-color: var(--color-primary);
-  box-shadow: 0 0 0 2px rgba(79,70,229,0.15);
-}
-.resultRow:focus-within {
-  border-color: var(--color-primary);
-  box-shadow: 0 0 0 2px rgba(79,70,229,0.2);
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
 }
 
-/* Search input (light) */
 .searchInput {
-  background-color: var(--color-bg);
-  border-color: var(--color-border);
-  color: var(--color-text-primary);
-}
-.searchInput::placeholder { color: var(--color-text-secondary); }
-.searchInput:focus-visible {
-  border-color: var(--color-primary);
-  box-shadow: 0 0 0 2px rgba(79,70,229,0.20);
+  background: rgba(255, 255, 255, 0.8);
+  border-color: rgba(219, 226, 234, 0.8);
+  color: #000000;
 }
 
-/* Respect reduced motion */
-@media (prefers-reduced-motion: reduce) {
-  /* icon button primary handled by utilities; no local transitions */
+.searchInput:focus-visible {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+}
+
+.quoteCard {
+  background: rgba(245, 247, 250, 0.8);
+  border-color: rgba(219, 226, 234, 0.8);
 }

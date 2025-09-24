@@ -1,30 +1,102 @@
-.pageTitle { color: var(--text); }
-.pageSubtitle { color: var(--muted-text, color-mix(in oklab, var(--text) 70%, transparent)); }
+.pageHeader {
+  background: rgba(25, 33, 44, 0.8);
+  border-color: rgba(58, 65, 76, 0.7);
+  box-shadow: 
+    0 1px 3px rgba(0, 0, 0, 0.15),
+    0 4px 12px rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
 
-.filtersCard { background: var(--bg-elev-1); border-color: var(--border); }
+.pageHeader::before {
+  background: linear-gradient(90deg, var(--primary), var(--info));
+}
+
+.pageTitle {
+  color: #ffffff;
+}
+
+.pageSubtitle {
+  color: #cccccc;
+}
+
+.filtersCard {
+  background: rgba(25, 33, 44, 0.8);
+  border-color: rgba(58, 65, 76, 0.7);
+  box-shadow: 
+    0 1px 3px rgba(0, 0, 0, 0.15),
+    0 4px 12px rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.filtersCard::before {
+  background: linear-gradient(90deg, var(--primary), var(--success));
+}
+
+.label {
+  background: rgba(17, 24, 39, 0.8);
+  border-color: rgba(58, 65, 76, 0.7);
+  color: #cccccc;
+}
+
 .input,
-.select { background: var(--bg-elev-1); border-color: var(--border); color: var(--text); }
-/* .primaryBtn removed in favor of utilities.btn + utilities.btnPrimary */
-.card { background: var(--bg-elev-1); border-color: var(--border); }
-.loading { color: var(--text); }
+.select {
+  background: rgba(17, 24, 39, 0.8);
+  border-color: rgba(58, 65, 76, 0.7);
+  color: #ffffff;
+}
+
+.input:focus,
+.select:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25);
+  background: rgba(31, 41, 55, 0.5);
+}
+
+.card {
+  background: rgba(25, 33, 44, 0.8);
+  border-color: rgba(58, 65, 76, 0.7);
+  box-shadow: 
+    0 1px 3px rgba(0, 0, 0, 0.15),
+    0 4px 12px rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.card::before {
+  background: linear-gradient(90deg, var(--primary), var(--danger));
+}
+
+.code {
+  background: rgba(31, 41, 55, 0.5);
+  border-color: rgba(58, 65, 76, 0.7);
+  color: #cccccc;
+}
+
+.pagination {
+  background: rgba(31, 41, 55, 0.5);
+  border-color: rgba(58, 65, 76, 0.7);
+}
+
+.pagerMeta {
+  color: #cccccc;
+}
 
 .badge_success {
-  background: rgba(51, 165, 82, 0.18);
-  color: #74d69a;
-  border-color: rgba(51, 165, 82, 0.4);
+  background: rgba(16, 185, 129, 0.2);
+  color: var(--success);
+  border: 1px solid rgba(16, 185, 129, 0.4);
 }
+
 .badge_warning {
-  background: rgba(255, 193, 7, 0.18);
-  color: #ffd166;
-  border-color: rgba(255, 193, 7, 0.4);
+  background: rgba(245, 158, 11, 0.2);
+  color: var(--warning);
+  border: 1px solid rgba(245, 158, 11, 0.4);
 }
+
 .badge_danger {
-  background: rgba(239, 68, 68, 0.18);
-  color: #fca5a5;
-  border-color: rgba(239, 68, 68, 0.4);
+  background: rgba(239, 68, 68, 0.2);
+  color: var(--danger);
+  border: 1px solid rgba(239, 68, 68, 0.4);
 }
-
-.code { color: var(--muted-text, color-mix(in oklab, var(--text) 70%, transparent)); }
-
-/* Pagination (dark) - using utilities.btn utilities.btnSecondary for buttons */
-.pagerMeta { color: var(--muted-text, color-mix(in oklab, var(--text) 70%, transparent)); }

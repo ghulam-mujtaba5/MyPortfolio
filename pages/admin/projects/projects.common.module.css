@@ -1,22 +1,150 @@
-.headerRow { display: flex; align-items: center; justify-content: space-between; }
-.headerRow h1 { margin: 0; }
+.headerRow { 
+  display: flex; 
+  align-items: center; 
+  justify-content: space-between;
+  margin-bottom: var(--space-6);
+  padding: var(--space-4) var(--space-6);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+  position: relative;
+  overflow: hidden;
+}
 
-.twoCol { display: grid; grid-template-columns: 2fr 1fr; gap: 2rem; }
-.previewScale { transform: scale(0.9); transform-origin: top left; }
+.headerRow::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary), var(--success));
+  opacity: 0.7;
+}
+
+.headerRow h1 { 
+  margin: 0;
+  font-size: var(--text-4xl);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--text);
+}
+
+.twoCol { 
+  display: grid; 
+  grid-template-columns: 2fr 1fr; 
+  gap: var(--space-6);
+  margin-top: var(--space-4);
+}
+
+.previewScale { 
+  transform: scale(0.9); 
+  transform-origin: top left; 
+}
 
 /* Ensure the form column is always interactive and above the preview column */
 .twoCol > div:first-child {
   position: relative;
-  z-index: 2; /* bring form above */
+  z-index: 2;
+  background: var(--bg-elev-1);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+  position: relative;
+  overflow: hidden;
+}
+
+.twoCol > div:first-child::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary), var(--info));
+  opacity: 0.7;
 }
 
 /* Prevent the preview column from overlapping the form column */
 .twoCol > div:last-child {
   position: relative;
   z-index: 1;
-  overflow: hidden; /* clip absolutely-positioned elements inside preview */
+  overflow: hidden;
+  background: var(--bg-elev-1);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+  position: relative;
+  overflow: hidden;
+}
+
+.twoCol > div:last-child::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--info), var(--warning));
+  opacity: 0.7;
 }
 
 /* deleteButton removed; use utilities.btn variants instead */
 
-.srOnly { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+.srOnly { 
+  position: absolute; 
+  width: 1px; 
+  height: 1px; 
+  padding: 0; 
+  margin: -1px; 
+  overflow: hidden; 
+  clip: rect(0, 0, 0, 0); 
+  white-space: nowrap; 
+  border: 0; 
+}
+
+/* Responsive improvements */
+@media (max-width: 768px) {
+  .headerRow {
+    padding: var(--space-3) var(--space-4);
+    flex-direction: column;
+    gap: var(--space-3);
+    align-items: flex-start;
+  }
+  
+  .headerRow h1 {
+    font-size: var(--text-3xl);
+  }
+  
+  .twoCol {
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+  }
+  
+  .twoCol > div:first-child,
+  .twoCol > div:last-child {
+    padding: var(--space-4);
+  }
+}
+
+@media (max-width: 480px) {
+  .headerRow {
+    padding: var(--space-3);
+  }
+  
+  .headerRow h1 {
+    font-size: var(--text-2xl);
+  }
+  
+  .twoCol {
+    gap: var(--space-3);
+  }
+  
+  .twoCol > div:first-child,
+  .twoCol > div:last-child {
+    padding: var(--space-3);
+  }
+}

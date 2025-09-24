@@ -1,8 +1,6 @@
 .adminContainer {
   display: flex;
-  /* Make content area account for footer height so footer sits flush */
   min-height: calc(100vh - 80px);
-  /* Establish stacking context so child z-index behaves predictably */
   position: relative;
 }
 
@@ -17,26 +15,49 @@
   padding: var(--space-8) var(--space-4);
   display: flex;
   flex-direction: column;
-  transition: background-color var(--duration-normal) var(--ease-standard);
+  transition: all var(--duration-normal) var(--ease-standard);
+  border-right: 1px solid var(--border);
+  background: var(--bg-elev-1);
+  box-shadow: var(--shadow-sm);
+  z-index: var(--z-sticky);
+  position: relative;
+  overflow: hidden;
+}
+
+.sidebar::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary), var(--info));
+  opacity: 0.7;
 }
 
 .logo {
   font-family: var(--font-sans);
   font-size: var(--text-2xl);
-  font-weight: 500;
+  font-weight: 800;
   text-align: center;
   margin-bottom: var(--space-10);
+  color: var(--text);
+  letter-spacing: -0.03em;
 }
 
 .nav ul {
   list-style: none;
   padding: 0;
   margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
 }
 
 .nav li a,
 .logoutButton {
-  display: block;
+  display: flex;
+  align-items: center;
   width: 100%;
   text-align: left;
   padding: var(--space-3) var(--space-6);
@@ -47,24 +68,62 @@
   border: none;
   border-radius: var(--radius-md);
   cursor: pointer;
-  transition:
-    background-color var(--duration-normal) var(--ease-standard),
-    color var(--duration-normal) var(--ease-standard);
+  transition: all var(--duration-normal) var(--ease-standard);
+  color: var(--text);
+  position: relative;
+  overflow: hidden;
+  background: transparent;
+}
+
+.nav li a::before,
+.logoutButton::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: var(--primary);
+  transform: scaleY(0);
+  transition: transform 0.3s ease;
+}
+
+.nav li a:hover,
+.logoutButton:hover {
+  background-color: var(--bg-elev-2);
+  color: var(--text);
+  transform: translateX(4px);
+}
+
+.nav li a:hover::before,
+.logoutButton:hover::before {
+  transform: scaleY(1);
+}
+
+.active {
+  background-color: var(--primary) !important;
+  color: var(--primary-foreground) !important;
+  font-weight: 600;
+}
+
+.active::before {
+  transform: scaleY(1) !important;
+  background: white !important;
 }
 
 .mainContent {
   flex: 1;
   padding: var(--space-8);
-  /* Add extra bottom padding to prevent overlap with fixed "+ Create" button */
   padding-bottom: calc(
     var(--space-8) + var(--fab-safe, 0px) + var(--safe-area-bottom, 0px)
   );
-  /* Add right padding so bottom-right UI (pagination, FAB-adjacent controls) isn't obscured */
   padding-right: calc(
     var(--space-8) + var(--fab-safe, 0px) + var(--safe-area-right, 0px)
   );
   overflow-y: auto;
   transition: background-color var(--duration-normal) var(--ease-standard);
+  background: var(--bg);
+  min-width: 0;
 }
 
 /* Theme Selector */
@@ -78,6 +137,7 @@
   display: block;
   margin-bottom: var(--space-2);
   opacity: 0.7;
+  color: var(--text);
 }
 
 .themeSelector {
@@ -86,6 +146,16 @@
   border-radius: var(--radius-md);
   font-family: var(--font-sans);
   font-size: var(--text-sm);
+  border: 1px solid var(--border);
+  background: var(--bg-elev-1);
+  color: var(--text);
+  transition: all 0.2s ease;
+}
+
+.themeSelector:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
 }
 
 /* Quick Create Button */
@@ -93,7 +163,6 @@
   position: fixed;
   right: var(--space-6);
   bottom: var(--space-6);
-  /* Keep above cards/popovers but below modals/toasts */
   z-index: var(--z-popover);
   border: none;
   border-radius: var(--radius-full);
@@ -102,13 +171,18 @@
   font-weight: 600;
   font-size: var(--text-md);
   cursor: pointer;
-  transition:
-    transform var(--duration-normal) var(--ease-standard),
-    box-shadow var(--duration-normal) var(--ease-standard);
+  transition: all var(--duration-normal) var(--ease-standard);
+  background: var(--primary);
+  color: var(--primary-foreground);
+  box-shadow: var(--shadow-md);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
 }
 
 .quickCreateButton:hover {
   transform: scale(1.05);
+  box-shadow: var(--shadow-lg);
 }
 
 /* Small screens: slightly smaller FAB size and margins to free up space */
@@ -118,6 +192,35 @@
     bottom: var(--space-4);
     padding: var(--space-3) var(--space-4);
     font-size: var(--text-sm);
+  }
+  
+  .sidebar {
+    width: 70px;
+    padding: var(--space-6) var(--space-2);
+  }
+  
+  .logo {
+    font-size: var(--text-lg);
+    margin-bottom: var(--space-8);
+  }
+  
+  .nav li a span,
+  .logoutButton span {
+    display: none;
+  }
+  
+  .nav li a,
+  .logoutButton {
+    justify-content: center;
+    padding: var(--space-3);
+  }
+  
+  .mainContent {
+    padding: var(--space-6);
+  }
+  
+  .themeSelectorContainer {
+    display: none;
   }
 }
 
