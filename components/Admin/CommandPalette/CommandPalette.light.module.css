@@ -1,28 +1,51 @@
 .overlay {
-  background-color: rgba(255, 255, 255, 0.8);
+  background-color: rgba(255, 255, 255, 0.7);
 }
 
 .modal {
-  background-color: #ffffff;
-  border: 1px solid #e5e7eb;
+  background-color: rgba(255, 255, 255, 0.95);
+  border: 1px solid rgba(219, 226, 234, 0.8);
+  box-shadow: 
+    0 1px 3px rgba(0, 0, 0, 0.05),
+    0 4px 12px rgba(0, 0, 0, 0.05);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.modal::before {
+  background: linear-gradient(90deg, var(--primary), var(--info));
 }
 
 .input {
-  background-color: #ffffff;
+  background-color: rgba(255, 255, 255, 0.8);
   color: #1f2937;
+  border-bottom: 1px solid rgba(219, 226, 234, 0.8);
+}
+
+.input:focus {
+  background: rgba(245, 247, 250, 0.8);
+  border-bottom-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
 }
 
 .resultItem {
-  border-top-color: #e5e7eb;
+  border-top-color: rgba(219, 226, 234, 0.8);
   color: #374151;
 }
 
 .resultItem:hover,
 .activeItem {
-  background-color: #f3f4f6;
+  background-color: rgba(245, 247, 250, 0.8);
+  transform: translateX(4px);
 }
 
 .resultType {
-  background-color: #e5e7eb;
+  background-color: rgba(219, 226, 234, 0.5);
   color: #4b5563;
+}
+
+.tipsRow {
+  background: rgba(245, 247, 250, 0.8);
+  border-top: 1px solid rgba(219, 226, 234, 0.8);
+  color: #6b7280;
 }

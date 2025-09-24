@@ -1,42 +1,96 @@
 .dashboard {
-  padding: 2rem;
+  padding: var(--space-6);
+  padding-right: calc(var(--space-6) + var(--fab-safe, 0px) + var(--safe-area-right, 0px));
+  padding-bottom: calc(var(--space-6) + var(--fab-safe, 0px) + var(--safe-area-bottom, 0px));
+  max-width: 1200px;
+  margin: 0 auto;
+  min-width: 0;
 }
 
 .title {
-  font-size: 2.25rem;
-  font-weight: 700;
-  color: #111827;
-  margin-bottom: 2rem;
+  font-family: var(--font-sans);
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin: 0 0 2rem 0;
+  color: var(--text);
+  letter-spacing: -0.03em;
+  background: linear-gradient(90deg, var(--primary), var(--info));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  position: relative;
+  padding-bottom: 0.75rem;
+}
+
+.title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 120px;
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary), var(--info));
+  border-radius: 4px;
 }
 
 .statsGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: 1.5rem;
   margin-bottom: 2rem;
 }
 
 .statCard {
-  background-color: white;
-  padding: 1.5rem;
-  border-radius: 12px;
-  box-shadow:
-    0 4px 6px -1px rgba(0, 0, 0, 0.1),
-    0 2px 4px -2px rgba(0, 0, 0, 0.1);
+  padding: 1.75rem;
+  border-radius: var(--admin-card-radius);
+  min-width: 0;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  border: var(--admin-card-border);
+  box-shadow: var(--admin-card-shadow);
+  background: var(--surface);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 
-.statCard h2 {
+.statCard:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--admin-card-shadow-hover);
+}
+
+.statCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary), var(--info));
+  border-radius: var(--admin-card-radius) var(--admin-card-radius) 0 0;
+  opacity: 0.7;
+}
+
+.statCard h3 {
+  font-family: var(--font-sans);
   font-size: 1rem;
-  color: #4b5563;
-  margin: 0 0 0.5rem 0;
+  color: var(--text-muted);
+  margin: 0 0 0.75rem 0;
   font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 .statCard p {
-  font-size: 2.5rem;
-  font-weight: 700;
-  color: #4f46e5;
+  font-family: var(--font-sans);
+  font-size: 2.25rem;
+  font-weight: 800;
+  color: var(--text);
   margin: 0;
+  background: linear-gradient(90deg, var(--primary), var(--info));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .bottomGrid {
@@ -47,22 +101,42 @@
 
 .recentActivity,
 .quickActions {
-  background-color: white;
-  padding: 1.5rem;
-  border-radius: 12px;
-  box-shadow:
-    0 4px 6px -1px rgba(0, 0, 0, 0.1),
-    0 2px 4px -2px rgba(0, 0, 0, 0.1);
+  padding: 1.75rem;
+  border-radius: var(--admin-card-radius);
+  min-width: 0;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  border: var(--admin-card-border);
+  box-shadow: var(--admin-card-shadow);
+  background: var(--surface);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.recentActivity::before,
+.quickActions::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary), var(--success));
+  border-radius: var(--admin-card-radius) var(--admin-card-radius) 0 0;
+  opacity: 0.7;
 }
 
 .recentActivity h2,
 .quickActions h2 {
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: #111827;
-  margin: 0 0 1rem 0;
-  border-bottom: 1px solid #e5e7eb;
-  padding-bottom: 0.75rem;
+  font-family: var(--font-sans);
+  font-size: 1.375rem;
+  font-weight: 700;
+  margin: 0 0 1.25rem 0;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
 }
 
 .recentActivity ul {
@@ -75,8 +149,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.75rem 0;
-  border-bottom: 1px solid #f3f4f6;
+  padding: 0.875rem 0;
+  border-bottom: 1px solid var(--border);
 }
 
 .recentActivity li:last-child {
@@ -85,31 +159,38 @@
 
 .recentActivity span {
   font-weight: 500;
-  color: #374151;
+  color: var(--text);
+  font-family: var(--font-sans);
 }
 
 .recentActivity small {
-  color: #6b7280;
+  color: var(--text-muted);
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
 }
 
 .quickButton {
   display: block;
   width: 100%;
-  padding: 0.75rem 1rem;
-  margin-bottom: 0.75rem;
+  padding: 0.875rem 1.25rem;
+  margin-bottom: 0.875rem;
   border: none;
-  border-radius: 8px;
-  background-color: #4f46e5;
+  border-radius: var(--admin-btn-radius);
+  background: linear-gradient(90deg, var(--primary), #4f46e5);
   color: white;
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
   text-align: center;
-  transition: background-color 0.2s;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 6px rgba(59, 130, 246, 0.15);
+  font-family: var(--font-sans);
 }
 
 .quickButton:hover {
-  background-color: #4338ca;
+  background: linear-gradient(90deg, #2563eb, #4338ca);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 8px rgba(59, 130, 246, 0.2);
 }
 
 .quickButton:last-child {

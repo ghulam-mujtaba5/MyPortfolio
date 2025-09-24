@@ -1,34 +1,55 @@
 .statCard {
-  background-color: #ffffff;
-  border: 1px solid #e8e8e8;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(219, 226, 234, 0.8);
+  box-shadow: 
+    0 1px 3px rgba(0, 0, 0, 0.05),
+    0 4px 12px rgba(0, 0, 0, 0.05);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.statCard::before {
+  background: linear-gradient(90deg, var(--primary), var(--info));
 }
 
 .statCard h3 {
-  color: #595959;
+  color: #555555;
 }
 
 .statCard p {
-  color: #262626;
+  color: #000000;
 }
 
-.chartContainer {
-  background-color: #ffffff;
-  border: 1px solid #e8e8e8;
+.recentActivity,
+.quickActions {
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(219, 226, 234, 0.8);
+  box-shadow: 
+    0 1px 3px rgba(0, 0, 0, 0.05),
+    0 4px 12px rgba(0, 0, 0, 0.05);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.recentActivity::before,
+.quickActions::before {
+  background: linear-gradient(90deg, var(--primary), var(--success));
 }
 
 .recentActivity ul li {
-  border-bottom: 1px solid #f0f0f0;
+  border-bottom: 1px solid rgba(219, 226, 234, 0.8);
 }
 
 .recentActivity ul li:last-child {
   border-bottom: none;
 }
 
-.quickActions button {
-  background-color: #1890ff;
-  color: white;
+.quickButton {
+  background: linear-gradient(90deg, var(--primary), #4f46e5);
+  box-shadow: 0 4px 6px rgba(37, 99, 235, 0.1);
 }
 
-.quickActions button:hover {
-  background-color: #40a9ff;
+.quickButton:hover {
+  background: linear-gradient(90deg, #2563eb, #4338ca);
+  box-shadow: 0 6px 8px rgba(37, 99, 235, 0.15);
 }

@@ -18,20 +18,18 @@ const Dashboard = ({ stats, recentActivity }) => {
       <h1 className={commonStyles.title}>Dashboard</h1>
 
       <div className={commonStyles.statsGrid}>
-        <div className={`${commonStyles.statCard} ${themeStyles.statCard}`}>
+        <div className={`${commonStyles.statCard}`}>
           <h3>Total Articles</h3>
           <p>{safeStats.articles}</p>
         </div>
-        <div className={`${commonStyles.statCard} ${themeStyles.statCard}`}>
+        <div className={`${commonStyles.statCard}`}>
           <h3>Total Projects</h3>
           <p>{safeStats.projects}</p>
         </div>
       </div>
 
       <div className={commonStyles.bottomGrid}>
-        <div
-          className={`${commonStyles.recentActivity} ${themeStyles.recentActivity}`}
-        >
+        <div className={`${commonStyles.recentActivity}`}>
           <h2>Recent Activity</h2>
           <ul>
             {safeRecentActivity.map((item) => (
@@ -43,21 +41,15 @@ const Dashboard = ({ stats, recentActivity }) => {
           </ul>
         </div>
 
-        <div
-          className={`${commonStyles.quickActions} ${themeStyles.quickActions}`}
-        >
+        <div className={`${commonStyles.quickActions}`}>
           <h2>Quick Actions</h2>
           <Link href="/admin/articles/new" passHref>
-            <button
-              className={`${commonStyles.quickButton} ${utilities.btn} ${utilities.btnPrimary}`}
-            >
+            <button className={`${commonStyles.quickButton}`}>
               New Article
             </button>
           </Link>
           <Link href="/admin/projects/new" passHref>
-            <button
-              className={`${commonStyles.quickButton} ${utilities.btn} ${utilities.btnPrimary}`}
-            >
+            <button className={`${commonStyles.quickButton}`}>
               New Project
             </button>
           </Link>

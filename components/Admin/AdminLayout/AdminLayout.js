@@ -42,7 +42,7 @@ export default function AdminLayout({ children, title }) {
             {navItems.map((item) => (
               <li key={item.href}>
                 <Link href={item.href} className={`${router.pathname === item.href ? `${commonStyles.active} ${themeStyles.active}` : ''}`}>
-                  {item.label}
+                  <span>{item.label}</span>
                 </Link>
               </li>
             ))}
@@ -52,13 +52,13 @@ export default function AdminLayout({ children, title }) {
                   href="/temp-loading"
                   className={`${router.pathname === '/temp-loading' ? `${commonStyles.active} ${themeStyles.active}` : ''}`}
                 >
-                  Loading Demo (Dev)
+                  <span>Loading Demo (Dev)</span>
                 </Link>
               </li>
             )}
             <li>
               <button onClick={() => signOut({ callbackUrl: '/admin/login' })} className={`${commonStyles.logoutButton} ${themeStyles.logoutButton}`}>
-                Logout
+                <span>Logout</span>
               </button>
             </li>
           </ul>
