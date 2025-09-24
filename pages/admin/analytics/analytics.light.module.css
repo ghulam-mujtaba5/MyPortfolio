@@ -62,13 +62,13 @@
 }
 
 /* Section cards */
-.sectionCard { 
+.breakdownCard { 
   background: linear-gradient(145deg, #ffffff, #f9fafb);
   border: 1px solid rgba(0, 0, 0, 0.05);
   box-shadow: 0 4px 12px rgba(0,0,0,0.05);
 }
 
-.sectionCard:hover {
+.breakdownCard:hover {
   border-color: rgba(59, 130, 246, 0.3);
 }
 
@@ -83,6 +83,17 @@
   border-color: #9ca3af;
 }
 
+.listItem {
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
 .listItem:hover {
   background: #f3f4f6;
+  border-color: rgba(59, 130, 246, 0.3);
+}
+
+.subTitle {
+  background: rgba(249, 250, 251, 0.8);
+  border: 1px solid rgba(0, 0, 0, 0.05);
 }

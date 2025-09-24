@@ -672,54 +672,72 @@ const AnalyticsPage = () => {
             <Icon name="eye" size={18} />
             Top Viewed
           </h3>
-          <div className={commonStyles.twoCol}>
-            <div>
-              <h4 className={commonStyles.subTitle}>
-                <Icon name="file-text" size={16} />
-                Articles
-              </h4>
-              {stats?.topViewedArticles?.length > 0 ? (
-                <ul className={commonStyles.list}>
-                  {stats?.topViewedArticles?.map((a) => (
-                    <li
-                      key={a.slug}
-                      className={commonStyles.listItem}
-                      onClick={() => router.push(`/admin/articles/edit/${a._id || a.id}`)}
-                    >
-                      <Icon name="file-text" size={14} />
-                      {a.title} — {a.views} views
-                    </li>
-                  ))}
-                </ul>
-              ) : (
-                <div className={commonStyles.emptyState}>
-                  <p>No articles found</p>
+          <div className={commonStyles.twoColWrapper}>
+            <div className={commonStyles.twoCol}>
+              <div className={commonStyles.column}>
+                <h4 className={commonStyles.subTitle}>
+                  <Icon name="file-text" size={16} />
+                  Articles
+                </h4>
+                <div className={commonStyles.listContainer}>
+                  {stats?.topViewedArticles?.length > 0 ? (
+                    <ul className={commonStyles.list}>
+                      {stats?.topViewedArticles?.map((a) => (
+                        <li
+                          key={a.slug}
+                          className={commonStyles.listItem}
+                          onClick={() => router.push(`/admin/articles/edit/${a._id || a.id}`)}
+                        >
+                          <Icon name="file-text" size={14} />
+                          <div>
+                            <div>{a.title}</div>
+                            <div style={{ fontSize: '0.875rem', color: 'var(--text-muted)', marginTop: '0.25rem' }}>
+                              {a.views} views
+                            </div>
+                          </div>
+                        </li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <div className={commonStyles.emptyState}>
+                      <Icon name="file-text" size={48} />
+                      <p>No articles found</p>
+                    </div>
+                  )}
                 </div>
-              )}
-            </div>
-            <div>
-              <h4 className={commonStyles.subTitle}>
-                <Icon name="briefcase" size={16} />
-                Projects
-              </h4>
-              {stats?.topViewedProjects?.length > 0 ? (
-                <ul className={commonStyles.list}>
-                  {stats?.topViewedProjects?.map((p) => (
-                    <li
-                      key={p.slug}
-                      className={commonStyles.listItem}
-                      onClick={() => router.push(`/admin/projects/edit/${p._id || p.id}`)}
-                    >
-                      <Icon name="briefcase" size={14} />
-                      {p.title} — {p.views} views
-                    </li>
-                  ))}
-                </ul>
-              ) : (
-                <div className={commonStyles.emptyState}>
-                  <p>No projects found</p>
+              </div>
+              <div className={commonStyles.column}>
+                <h4 className={commonStyles.subTitle}>
+                  <Icon name="briefcase" size={16} />
+                  Projects
+                </h4>
+                <div className={commonStyles.listContainer}>
+                  {stats?.topViewedProjects?.length > 0 ? (
+                    <ul className={commonStyles.list}>
+                      {stats?.topViewedProjects?.map((p) => (
+                        <li
+                          key={p.slug}
+                          className={commonStyles.listItem}
+                          onClick={() => router.push(`/admin/projects/edit/${p._id || p.id}`)}
+                        >
+                          <Icon name="briefcase" size={14} />
+                          <div>
+                            <div>{p.title}</div>
+                            <div style={{ fontSize: '0.875rem', color: 'var(--text-muted)', marginTop: '0.25rem' }}>
+                              {p.views} views
+                            </div>
+                          </div>
+                        </li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <div className={commonStyles.emptyState}>
+                      <Icon name="briefcase" size={48} />
+                      <p>No projects found</p>
+                    </div>
+                  )}
                 </div>
-              )}
+              </div>
             </div>
           </div>
         </div>
@@ -728,56 +746,84 @@ const AnalyticsPage = () => {
             <Icon name="clock" size={18} />
             Recent Activity
           </h3>
-          <div className={commonStyles.twoCol}>
-            <div>
-              <h4 className={commonStyles.subTitle}>
-                <Icon name="file-text" size={16} />
-                Articles
-              </h4>
-              {stats?.recentArticles?.length > 0 ? (
-                <ul className={commonStyles.list}>
-                  {stats?.recentArticles?.map((a) => (
-                    <li
-                      key={a.slug}
-                      className={commonStyles.listItem}
-                      onClick={() => router.push(`/admin/articles/edit/${a._id || a.id}`)}
-                    >
-                      <Icon name="file-text" size={14} />
-                      {a.title} — {new Date(a.createdAt).toLocaleString()} {" "}
-                      {a.published ? "(Published)" : "(Draft)"}
-                    </li>
-                  ))}
-                </ul>
-              ) : (
-                <div className={commonStyles.emptyState}>
-                  <p>No recent articles</p>
+          <div className={commonStyles.twoColWrapper}>
+            <div className={commonStyles.twoCol}>
+              <div className={commonStyles.column}>
+                <h4 className={commonStyles.subTitle}>
+                  <Icon name="file-text" size={16} />
+                  Articles
+                </h4>
+                <div className={commonStyles.listContainer}>
+                  {stats?.recentArticles?.length > 0 ? (
+                    <ul className={commonStyles.list}>
+                      {stats?.recentArticles?.map((a) => (
+                        <li
+                          key={a.slug}
+                          className={commonStyles.listItem}
+                          onClick={() => router.push(`/admin/articles/edit/${a._id || a.id}`)}
+                        >
+                          <Icon name="file-text" size={14} />
+                          <div>
+                            <div>{a.title}</div>
+                            <div style={{ fontSize: '0.875rem', color: 'var(--text-muted)', marginTop: '0.25rem' }}>
+                              {new Date(a.createdAt).toLocaleDateString()} {" "}
+                              <span style={{ 
+                                color: a.published ? 'var(--success)' : 'var(--warning)',
+                                fontWeight: '500'
+                              }}>
+                                {a.published ? "(Published)" : "(Draft)"}
+                              </span>
+                            </div>
+                          </div>
+                        </li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <div className={commonStyles.emptyState}>
+                      <Icon name="file-text" size={48} />
+                      <p>No recent articles</p>
+                    </div>
+                  )}
                 </div>
-              )}
-            </div>
-            <div>
-              <h4 className={commonStyles.subTitle}>
-                <Icon name="briefcase" size={16} />
-                Projects
-              </h4>
-              {stats?.recentProjects?.length > 0 ? (
-                <ul className={commonStyles.list}>
-                  {stats?.recentProjects?.map((p) => (
-                    <li
-                      key={p.slug}
-                      className={commonStyles.listItem}
-                      onClick={() => router.push(`/admin/projects/edit/${p._id || p.id}`)}
-                    >
-                      <Icon name="briefcase" size={14} />
-                      {p.title} — {new Date(p.createdAt).toLocaleString()} {" "}
-                      {p.published ? "(Published)" : "(Draft)"}
-                    </li>
-                  ))}
-                </ul>
-              ) : (
-                <div className={commonStyles.emptyState}>
-                  <p>No recent projects</p>
+              </div>
+              <div className={commonStyles.column}>
+                <h4 className={commonStyles.subTitle}>
+                  <Icon name="briefcase" size={16} />
+                  Projects
+                </h4>
+                <div className={commonStyles.listContainer}>
+                  {stats?.recentProjects?.length > 0 ? (
+                    <ul className={commonStyles.list}>
+                      {stats?.recentProjects?.map((p) => (
+                        <li
+                          key={p.slug}
+                          className={commonStyles.listItem}
+                          onClick={() => router.push(`/admin/projects/edit/${p._id || p.id}`)}
+                        >
+                          <Icon name="briefcase" size={14} />
+                          <div>
+                            <div>{p.title}</div>
+                            <div style={{ fontSize: '0.875rem', color: 'var(--text-muted)', marginTop: '0.25rem' }}>
+                              {new Date(p.createdAt).toLocaleDateString()} {" "}
+                              <span style={{ 
+                                color: p.published ? 'var(--success)' : 'var(--warning)',
+                                fontWeight: '500'
+                              }}>
+                                {p.published ? "(Published)" : "(Draft)"}
+                              </span>
+                            </div>
+                          </div>
+                        </li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <div className={commonStyles.emptyState}>
+                      <Icon name="briefcase" size={48} />
+                      <p>No recent projects</p>
+                    </div>
+                  )}
                 </div>
-              )}
+              </div>
             </div>
           </div>
         </div>
