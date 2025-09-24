@@ -14,7 +14,16 @@ const handler = async (req, res) => {
     return res.status(401).json({ success: false, message: "Unauthorized" });
   }
 
-  await dbConnect();
+  try {
+    await dbConnect();
+  } catch (dbError) {
+    console.error("Database connection error:", dbError);
+    return res.status(500).json({ 
+      success: false, 
+      message: "Database connection failed. Please check server logs.",
+      error: process.env.NODE_ENV === 'development' ? dbError.message : undefined
+    });
+  }
 
   // Default to configured ADMIN_EMAIL user; fallback to token.id if available
   let userId;
@@ -53,9 +62,14 @@ const handler = async (req, res) => {
         });
         return res.status(200).json({ success: true, data: searches });
       } catch (error) {
+        console.error("Error fetching saved searches:", error);
         return res
-          .status(400)
-          .json({ success: false, message: "Failed to fetch saved searches" });
+          .status(500)
+          .json({ 
+            success: false, 
+            message: "Failed to fetch saved searches",
+            error: process.env.NODE_ENV === 'development' ? error.message : undefined
+          });
       }
       break;
 
@@ -64,10 +78,12 @@ const handler = async (req, res) => {
         const search = await SavedSearch.create({ ...req.body, userId });
         return res.status(201).json({ success: true, data: search });
       } catch (error) {
-        return res.status(400).json({
+        console.error("Error saving search:", error);
+        return res.status(500).json({
           success: false,
           message: "Failed to save search",
           errors: error?.errors || null,
+          error: process.env.NODE_ENV === 'development' ? error.message : undefined
         });
       }
       break;
@@ -86,9 +102,14 @@ const handler = async (req, res) => {
         }
         return res.status(200).json({ success: true, data: {} });
       } catch (error) {
+        console.error("Error deleting saved search:", error);
         return res
-          .status(400)
-          .json({ success: false, message: "Failed to delete saved search" });
+          .status(500)
+          .json({ 
+            success: false, 
+            message: "Failed to delete saved search",
+            error: process.env.NODE_ENV === 'development' ? error.message : undefined
+          });
       }
       break;
 

@@ -81,7 +81,7 @@ const AnalyticsPage = () => {
         {
           label: "Articles by Status",
           data: stats.articleStats.map((s) => s.count),
-          backgroundColor: ["#36A2EB", "#FF6384"],
+          backgroundColor: ["#3b82f6", "#94a3b8"],
         },
       ],
     };
@@ -92,7 +92,7 @@ const AnalyticsPage = () => {
         {
           label: "Projects by Status",
           data: stats.projectStats.map((s) => s.count),
-          backgroundColor: ["#4BC0C0", "#FFCD56"],
+          backgroundColor: ["#10b981", "#94a3b8"],
         },
       ],
     };
@@ -103,8 +103,10 @@ const AnalyticsPage = () => {
         {
           label: "Articles Created Over Time",
           data: stats.articlesByDate.map((d) => d.count),
-          borderColor: "#4f46e5",
-          tension: 0.1,
+          borderColor: "#3b82f6",
+          backgroundColor: "rgba(59, 130, 246, 0.1)",
+          tension: 0.3,
+          fill: true,
         },
       ],
     };
@@ -115,8 +117,10 @@ const AnalyticsPage = () => {
         {
           label: "Projects Created Over Time",
           data: stats.projectsByDate.map((d) => d.count),
-          borderColor: "#14b8a6",
-          tension: 0.1,
+          borderColor: "#10b981",
+          backgroundColor: "rgba(16, 185, 129, 0.1)",
+          tension: 0.3,
+          fill: true,
         },
       ],
     };
@@ -139,14 +143,18 @@ const AnalyticsPage = () => {
         {
           label: "Articles",
           data: combinedLabels.map((d) => articleCountByDate.get(d) || 0),
-          borderColor: "#4f46e5",
-          tension: 0.1,
+          borderColor: "#3b82f6",
+          backgroundColor: "rgba(59, 130, 246, 0.1)",
+          tension: 0.3,
+          fill: true,
         },
         {
           label: "Projects",
           data: combinedLabels.map((d) => projectCountByDate.get(d) || 0),
-          borderColor: "#14b8a6",
-          tension: 0.1,
+          borderColor: "#10b981",
+          backgroundColor: "rgba(16, 185, 129, 0.1)",
+          tension: 0.3,
+          fill: true,
         },
       ],
     };
@@ -174,140 +182,37 @@ const AnalyticsPage = () => {
   if (loading)
     return (
       <AdminLayout>
-        <div style={{ padding: 24, display: "flex", alignItems: "center", gap: 8 }}>
+        <div className={commonStyles.loadingState}>
           <InlineSpinner sizePx={20} />
-          <span>Loading analytics…</span>
+          <span>Loading analytics dashboard...</span>
         </div>
       </AdminLayout>
     );
   if (error)
     return (
       <AdminLayout>
-        <p>Error: {error}</p>
+        <div className={commonStyles.errorState}>
+          <Icon name="alert-triangle" size={48} />
+          <h3>Error Loading Analytics</h3>
+          <p>{error}</p>
+          <button 
+            onClick={() => window.location.reload()} 
+            className={`${utilities.btn} ${utilities.btnPrimary}`}
+          >
+            <Icon name="refresh-ccw" size={16} />
+            Retry
+          </button>
+        </div>
       </AdminLayout>
     );
 
   return (
     <AdminLayout title="Analytics">
       <h1 className={commonStyles.pageTitle}>Analytics Dashboard</h1>
-      {/* KPI Tiles with Sparklines */}
-      <div className={`${commonStyles.kpiGrid}`}>
-        <div className={`${commonStyles.kpiCard} ${themeStyles.kpiCard}`}>
-          <div className={commonStyles.kpiTitle}>Total Articles</div>
-          <div className={commonStyles.kpiRow}>
-            <div className={commonStyles.kpiValue}>
-              {stats?.kpis?.totalArticles ?? "-"}
-            </div>
-            {(() => {
-              const delta = computeDeltaPct(stats?.articlesByDate || [], 7);
-              if (delta === null) return null;
-              const pos = delta >= 0;
-              const sign = pos ? "+" : "";
-              return (
-                <span className={`${commonStyles.deltaText} ${pos ? themeStyles.deltaPositive : themeStyles.deltaNegative}`}>
-                  {sign}
-                  {delta.toFixed(1)}% vs prev 7d
-                </span>
-              );
-            })()}
-          </div>
-          <Sparklines
-            data={(stats?.articlesByDate || []).map((d) => d.count)}
-            height={30}
-            margin={5}
-          >
-            <SparklinesLine color="#4f46e5" className={commonStyles.sparklineNoFill} />
-            <SparklinesSpots size={2} />
-            <SparklinesReferenceLine type="mean" className={commonStyles.sparklineRefMean} />
-          </Sparklines>
-        </div>
-        <div className={`${commonStyles.kpiCard} ${themeStyles.kpiCard}`}>
-          <div className={commonStyles.kpiTitle}>Published Articles</div>
-          <div className={commonStyles.kpiRow}>
-            <div className={commonStyles.kpiValue}>
-              {stats?.kpis?.publishedArticles ?? "-"}
-            </div>
-            {(() => {
-              const delta = computeDeltaPct(stats?.articlesByDate || [], 7);
-              if (delta === null) return null;
-              const pos = delta >= 0;
-              const sign = pos ? "+" : "";
-              return (
-                <span className={`${commonStyles.deltaText} ${pos ? themeStyles.deltaPositive : themeStyles.deltaNegative}`}>
-                  {sign}
-                  {delta.toFixed(1)}% vs prev 7d
-                </span>
-              );
-            })()}
-          </div>
-          <Sparklines
-            data={(stats?.articlesByDate || []).map((d) => d.count)}
-            height={30}
-            margin={5}
-          >
-            <SparklinesLine color="#6366f1" className={commonStyles.sparklineNoFill} />
-          </Sparklines>
-        </div>
-        <div className={`${commonStyles.kpiCard} ${themeStyles.kpiCard}`}>
-          <div className={commonStyles.kpiTitle}>Total Projects</div>
-          <div className={commonStyles.kpiRow}>
-            <div className={commonStyles.kpiValue}>
-              {stats?.kpis?.totalProjects ?? "-"}
-            </div>
-            {(() => {
-              const delta = computeDeltaPct(stats?.projectsByDate || [], 7);
-              if (delta === null) return null;
-              const pos = delta >= 0;
-              const sign = pos ? "+" : "";
-              return (
-                <span className={`${commonStyles.deltaText} ${pos ? themeStyles.deltaPositive : themeStyles.deltaNegative}`}>
-                  {sign}
-                  {delta.toFixed(1)}% vs prev 7d
-                </span>
-              );
-            })()}
-          </div>
-          <Sparklines
-            data={(stats?.projectsByDate || []).map((d) => d.count)}
-            height={30}
-            margin={5}
-          >
-            <SparklinesLine color="#14b8a6" className={commonStyles.sparklineNoFill} />
-          </Sparklines>
-        </div>
-        <div className={`${commonStyles.kpiCard} ${themeStyles.kpiCard}`}>
-          <div className={commonStyles.kpiTitle}>Published Projects</div>
-          <div className={commonStyles.kpiRow}>
-            <div className={commonStyles.kpiValue}>
-              {stats?.kpis?.publishedProjects ?? "-"}
-            </div>
-            {(() => {
-              const delta = computeDeltaPct(stats?.projectsByDate || [], 7);
-              if (delta === null) return null;
-              const pos = delta >= 0;
-              const sign = pos ? "+" : "";
-              return (
-                <span className={`${commonStyles.deltaText} ${pos ? themeStyles.deltaPositive : themeStyles.deltaNegative}`}>
-                  {sign}
-                  {delta.toFixed(1)}% vs prev 7d
-                </span>
-              );
-            })()}
-          </div>
-          <Sparklines
-            data={(stats?.projectsByDate || []).map((d) => d.count)}
-            height={30}
-            margin={5}
-          >
-            <SparklinesLine color="#10b981" className={commonStyles.sparklineNoFill} />
-            <SparklinesSpots size={2} />
-            <SparklinesReferenceLine type="mean" className={commonStyles.sparklineRefMean} />
-          </Sparklines>
-        </div>
-      </div>
+      
       {/* Range selector */}
       <div className={commonStyles.rangeBar}>
-        <span className={commonStyles.rangeLabel}>Range:</span>
+        <span className={commonStyles.rangeLabel}>Time Range:</span>
         {[7, 30, 90, 0].map((d) => (
           <button
             key={d}
@@ -325,9 +230,10 @@ const AnalyticsPage = () => {
                 shallow: true,
               });
             }}
-            className={`${utilities.btn} ${utilities.btnSecondary} ${commonStyles.rangeButton} ${themeStyles.rangeButton} ${range === d ? themeStyles.rangeButtonActive : ""}`}
+            className={`${commonStyles.rangeButton} ${themeStyles.rangeButton} ${range === d ? commonStyles.rangeButtonActive : ""} ${range === d ? themeStyles.rangeButtonActive : ""}`}
           >
-            {d === 0 ? "All" : `${d}d`}
+            <Icon name={d === 0 ? "infinity" : "calendar"} size={16} />
+            {d === 0 ? "All Time" : `${d}d`}
           </button>
         ))}
         <button
@@ -449,175 +355,404 @@ const AnalyticsPage = () => {
             a.click();
             URL.revokeObjectURL(url);
           }}
-          className={`${utilities.btn} ${utilities.btnSecondary} ${commonStyles.exportButton} ${themeStyles.exportButton}`}
+          className={`${commonStyles.exportButton} ${themeStyles.exportButton}`}
         >
+          <Icon name="download" size={16} />
           Export CSV
         </button>
       </div>
-      {/* KPI Tiles */}
-      {stats?.kpis && (
-        <div className={commonStyles.kpiGrid}>
-          <div className={`${commonStyles.kpiCard} ${themeStyles.kpiCard}`}>
-            <div className={commonStyles.kpiTitle}>Total Articles</div>
-            <div className={commonStyles.kpiValue}>{stats.kpis.totalArticles}</div>
+
+      {/* KPI Tiles with Sparklines */}
+      <div className={commonStyles.kpiGrid}>
+        <div className={`${commonStyles.kpiCard} ${themeStyles.kpiCard}`}>
+          <div className={commonStyles.kpiTitle}>
+            <Icon name="file-text" size={16} />
+            Total Articles
           </div>
-          <div className={`${commonStyles.kpiCard} ${themeStyles.kpiCard}`}>
-            <div className={commonStyles.kpiTitle}>Published Articles</div>
-            <div className={commonStyles.kpiValue}>{stats.kpis.publishedArticles}</div>
+          <div className={commonStyles.kpiRow}>
+            <h3 className={commonStyles.kpiValue}>
+              {stats?.kpis?.totalArticles ?? "-"}
+            </h3>
+            {(() => {
+              const delta = computeDeltaPct(stats?.articlesByDate || [], 7);
+              if (delta === null) return null;
+              const pos = delta >= 0;
+              const sign = pos ? "+" : "";
+              return (
+                <span className={`${commonStyles.deltaText} ${pos ? commonStyles.deltaPositive : commonStyles.deltaNegative} ${pos ? themeStyles.deltaPositive : themeStyles.deltaNegative}`}>
+                  <Icon name={pos ? "trending-up" : "trending-down"} size={16} />
+                  {sign}
+                  {delta.toFixed(1)}% vs prev 7d
+                </span>
+              );
+            })()}
           </div>
-          <div className={`${commonStyles.kpiCard} ${themeStyles.kpiCard}`}>
-            <div className={commonStyles.kpiTitle}>Total Projects</div>
-            <div className={commonStyles.kpiValue}>{stats.kpis.totalProjects}</div>
-          </div>
-          <div className={`${commonStyles.kpiCard} ${themeStyles.kpiCard}`}>
-            <div className={commonStyles.kpiTitle}>Published Projects</div>
-            <div className={commonStyles.kpiValue}>{stats.kpis.publishedProjects}</div>
-          </div>
+          <Sparklines
+            data={(stats?.articlesByDate || []).map((d) => d.count)}
+            height={40}
+            margin={5}
+          >
+            <SparklinesLine color="#3b82f6" className={commonStyles.sparklineNoFill} />
+            <SparklinesSpots size={2} />
+            <SparklinesReferenceLine type="mean" className={commonStyles.sparklineRefMean} />
+          </Sparklines>
         </div>
-      )}
+        <div className={`${commonStyles.kpiCard} ${themeStyles.kpiCard}`}>
+          <div className={commonStyles.kpiTitle}>
+            <Icon name="check-circle" size={16} />
+            Published Articles
+          </div>
+          <div className={commonStyles.kpiRow}>
+            <h3 className={commonStyles.kpiValue}>
+              {stats?.kpis?.publishedArticles ?? "-"}
+            </h3>
+            {(() => {
+              const delta = computeDeltaPct(stats?.articlesByDate || [], 7);
+              if (delta === null) return null;
+              const pos = delta >= 0;
+              const sign = pos ? "+" : "";
+              return (
+                <span className={`${commonStyles.deltaText} ${pos ? commonStyles.deltaPositive : commonStyles.deltaNegative} ${pos ? themeStyles.deltaPositive : themeStyles.deltaNegative}`}>
+                  <Icon name={pos ? "trending-up" : "trending-down"} size={16} />
+                  {sign}
+                  {delta.toFixed(1)}% vs prev 7d
+                </span>
+              );
+            })()}
+          </div>
+          <Sparklines
+            data={(stats?.articlesByDate || []).map((d) => d.count)}
+            height={40}
+            margin={5}
+          >
+            <SparklinesLine color="#6366f1" className={commonStyles.sparklineNoFill} />
+          </Sparklines>
+        </div>
+        <div className={`${commonStyles.kpiCard} ${themeStyles.kpiCard}`}>
+          <div className={commonStyles.kpiTitle}>
+            <Icon name="briefcase" size={16} />
+            Total Projects
+          </div>
+          <div className={commonStyles.kpiRow}>
+            <h3 className={commonStyles.kpiValue}>
+              {stats?.kpis?.totalProjects ?? "-"}
+            </h3>
+            {(() => {
+              const delta = computeDeltaPct(stats?.projectsByDate || [], 7);
+              if (delta === null) return null;
+              const pos = delta >= 0;
+              const sign = pos ? "+" : "";
+              return (
+                <span className={`${commonStyles.deltaText} ${pos ? commonStyles.deltaPositive : commonStyles.deltaNegative} ${pos ? themeStyles.deltaPositive : themeStyles.deltaNegative}`}>
+                  <Icon name={pos ? "trending-up" : "trending-down"} size={16} />
+                  {sign}
+                  {delta.toFixed(1)}% vs prev 7d
+                </span>
+              );
+            })()}
+          </div>
+          <Sparklines
+            data={(stats?.projectsByDate || []).map((d) => d.count)}
+            height={40}
+            margin={5}
+          >
+            <SparklinesLine color="#10b981" className={commonStyles.sparklineNoFill} />
+          </Sparklines>
+        </div>
+        <div className={`${commonStyles.kpiCard} ${themeStyles.kpiCard}`}>
+          <div className={commonStyles.kpiTitle}>
+            <Icon name="check-circle" size={16} />
+            Published Projects
+          </div>
+          <div className={commonStyles.kpiRow}>
+            <h3 className={commonStyles.kpiValue}>
+              {stats?.kpis?.publishedProjects ?? "-"}
+            </h3>
+            {(() => {
+              const delta = computeDeltaPct(stats?.projectsByDate || [], 7);
+              if (delta === null) return null;
+              const pos = delta >= 0;
+              const sign = pos ? "+" : "";
+              return (
+                <span className={`${commonStyles.deltaText} ${pos ? commonStyles.deltaPositive : commonStyles.deltaNegative} ${pos ? themeStyles.deltaPositive : themeStyles.deltaNegative}`}>
+                  <Icon name={pos ? "trending-up" : "trending-down"} size={16} />
+                  {sign}
+                  {delta.toFixed(1)}% vs prev 7d
+                </span>
+              );
+            })()}
+          </div>
+          <Sparklines
+            data={(stats?.projectsByDate || []).map((d) => d.count)}
+            height={40}
+            margin={5}
+          >
+            <SparklinesLine color="#10b981" className={commonStyles.sparklineNoFill} />
+            <SparklinesSpots size={2} />
+            <SparklinesReferenceLine type="mean" className={commonStyles.sparklineRefMean} />
+          </Sparklines>
+        </div>
+      </div>
+
       <div className={`${commonStyles.chartsGrid} ${themeStyles.chartsGrid}`}>
         <div className={`${commonStyles.chartContainer} ${themeStyles.chartContainer}`}>
-          <h3>Articles by Status</h3>
-          {articleStatusData && <DoughnutChart data={articleStatusData} />}
+          <h3>
+            <Icon name="pie-chart" size={20} />
+            Articles by Status
+          </h3>
+          {articleStatusData ? <DoughnutChart data={articleStatusData} /> : (
+            <div className={commonStyles.emptyState}>
+              <Icon name="file-text" size={48} />
+              <p>No article data available</p>
+            </div>
+          )}
         </div>
         <div className={`${commonStyles.chartContainer} ${themeStyles.chartContainer}`}>
-          <h3>Projects by Status</h3>
-          {projectStatusData && <DoughnutChart data={projectStatusData} />}
+          <h3>
+            <Icon name="pie-chart" size={20} />
+            Projects by Status
+          </h3>
+          {projectStatusData ? <DoughnutChart data={projectStatusData} /> : (
+            <div className={commonStyles.emptyState}>
+              <Icon name="briefcase" size={48} />
+              <p>No project data available</p>
+            </div>
+          )}
         </div>
         <div className={`${commonStyles.chartContainer} ${themeStyles.chartContainer} ${commonStyles.fullWidth} ${themeStyles.fullWidth}`}>
-          <h3>Articles vs Projects (Combined Trend)</h3>
-          {combinedTrendData && <LineChart data={combinedTrendData} />}
+          <h3>
+            <Icon name="bar-chart" size={20} />
+            Articles vs Projects (Combined Trend)
+          </h3>
+          {combinedTrendData ? <LineChart data={combinedTrendData} /> : (
+            <div className={commonStyles.emptyState}>
+              <Icon name="trending-up" size={48} />
+              <p>No trend data available</p>
+            </div>
+          )}
         </div>
         <div className={`${commonStyles.chartContainer} ${themeStyles.chartContainer} ${commonStyles.fullWidth} ${themeStyles.fullWidth}`}>
-          <h3>Article Creation Trend</h3>
-          {articlesTrendData && <LineChart data={articlesTrendData} />}
+          <h3>
+            <Icon name="bar-chart" size={20} />
+            Article Creation Trend
+          </h3>
+          {articlesTrendData ? <LineChart data={articlesTrendData} /> : (
+            <div className={commonStyles.emptyState}>
+              <Icon name="file-text" size={48} />
+              <p>No article trend data available</p>
+            </div>
+          )}
         </div>
         <div className={`${commonStyles.chartContainer} ${themeStyles.chartContainer} ${commonStyles.fullWidth} ${themeStyles.fullWidth}`}>
-          <h3>Project Creation Trend</h3>
-          {projectsTrendData && <LineChart data={projectsTrendData} />}
+          <h3>
+            <Icon name="bar-chart" size={20} />
+            Project Creation Trend
+          </h3>
+          {projectsTrendData ? <LineChart data={projectsTrendData} /> : (
+            <div className={commonStyles.emptyState}>
+              <Icon name="briefcase" size={48} />
+              <p>No project trend data available</p>
+            </div>
+          )}
         </div>
       </div>
 
       {/* Breakdown Sections */}
       <div className={commonStyles.breakdownGrid}>
         <div className={`${commonStyles.sectionCard} ${themeStyles.sectionCard}`}>
-          <h3 className={commonStyles.sectionTitle}>Top Article Tags</h3>
+          <h3 className={commonStyles.sectionTitle}>
+            <Icon name="tag" size={18} />
+            Top Article Tags
+          </h3>
           <div className={commonStyles.chips}>
-            {stats?.articleTags?.map((t) => (
-              <span
-                key={t._id}
-                onClick={() =>
-                  router.push(`/articles?tag=${encodeURIComponent(t._id)}`)
-                }
-                title="View articles with this tag"
-                className={`${commonStyles.chip} ${themeStyles.chip}`}
-              >
-                {t._id} ({t.count})
-              </span>
-            ))}
+            {stats?.articleTags?.length > 0 ? (
+              stats?.articleTags?.map((t) => (
+                <span
+                  key={t._id}
+                  onClick={() =>
+                    router.push(`/articles?tag=${encodeURIComponent(t._id)}`)
+                  }
+                  title="View articles with this tag"
+                  className={`${commonStyles.chip} ${themeStyles.chip}`}
+                >
+                  <Icon name="tag" size={14} />
+                  {t._id} ({t.count})
+                </span>
+              ))
+            ) : (
+              <div className={commonStyles.emptyState}>
+                <p>No article tags found</p>
+              </div>
+            )}
           </div>
         </div>
         <div className={`${commonStyles.sectionCard} ${themeStyles.sectionCard}`}>
-          <h3 className={commonStyles.sectionTitle}>Top Project Tags</h3>
+          <h3 className={commonStyles.sectionTitle}>
+            <Icon name="tag" size={18} />
+            Top Project Tags
+          </h3>
           <div className={commonStyles.chips}>
-            {stats?.projectTags?.map((t) => (
-              <span
-                key={t._id}
-                onClick={() =>
-                  router.push(`/projects?tag=${encodeURIComponent(t._id)}`)
-                }
-                title="View projects with this tag"
-                className={`${commonStyles.chip} ${themeStyles.chip}`}
-              >
-                {t._id} ({t.count})
-              </span>
-            ))}
+            {stats?.projectTags?.length > 0 ? (
+              stats?.projectTags?.map((t) => (
+                <span
+                  key={t._id}
+                  onClick={() =>
+                    router.push(`/projects?tag=${encodeURIComponent(t._id)}`)
+                  }
+                  title="View projects with this tag"
+                  className={`${commonStyles.chip} ${themeStyles.chip}`}
+                >
+                  <Icon name="tag" size={14} />
+                  {t._id} ({t.count})
+                </span>
+              ))
+            ) : (
+              <div className={commonStyles.emptyState}>
+                <p>No project tags found</p>
+              </div>
+            )}
           </div>
         </div>
         <div className={`${commonStyles.sectionCard} ${themeStyles.sectionCard}`}>
-          <h3 className={commonStyles.sectionTitle}>Project Categories</h3>
-          <ul className={commonStyles.list}>
-            {stats?.projectCategories?.map((c) => (
-              <li
-                key={c._id}
-                onClick={() =>
-                  router.push(
-                    `/projects?category=${encodeURIComponent(c._id || "")}`,
-                  )
-                }
-                title="View projects in this category"
-                className={commonStyles.listItem}
-              >
-                {c._id || "Uncategorized"} — {c.count}
-              </li>
-            ))}
-          </ul>
+          <h3 className={commonStyles.sectionTitle}>
+            <Icon name="folder" size={18} />
+            Project Categories
+          </h3>
+          {stats?.projectCategories?.length > 0 ? (
+            <ul className={commonStyles.list}>
+              {stats?.projectCategories?.map((c) => (
+                <li
+                  key={c._id}
+                  onClick={() =>
+                    router.push(
+                      `/projects?category=${encodeURIComponent(c._id || "")}`,
+                    )
+                  }
+                  title="View projects in this category"
+                  className={commonStyles.listItem}
+                >
+                  <Icon name="folder" size={14} />
+                  {c._id || "Uncategorized"} — {c.count}
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <div className={commonStyles.emptyState}>
+              <p>No project categories found</p>
+            </div>
+          )}
         </div>
         <div className={`${commonStyles.sectionCard} ${themeStyles.sectionCard}`}>
-          <h3 className={commonStyles.sectionTitle}>Top Viewed</h3>
+          <h3 className={commonStyles.sectionTitle}>
+            <Icon name="eye" size={18} />
+            Top Viewed
+          </h3>
           <div className={commonStyles.twoCol}>
             <div>
-              <h4 className={commonStyles.subTitle}>Articles</h4>
-              <ul className={commonStyles.list}>
-                {stats?.topViewedArticles?.map((a) => (
-                  <li
-                    key={a.slug}
-                    className={commonStyles.listItem}
-                    onClick={() => router.push(`/admin/articles/edit/${a._id || a.id}`)}
-                  >
-                    {a.title} — {a.views} views
-                  </li>
-                ))}
-              </ul>
+              <h4 className={commonStyles.subTitle}>
+                <Icon name="file-text" size={16} />
+                Articles
+              </h4>
+              {stats?.topViewedArticles?.length > 0 ? (
+                <ul className={commonStyles.list}>
+                  {stats?.topViewedArticles?.map((a) => (
+                    <li
+                      key={a.slug}
+                      className={commonStyles.listItem}
+                      onClick={() => router.push(`/admin/articles/edit/${a._id || a.id}`)}
+                    >
+                      <Icon name="file-text" size={14} />
+                      {a.title} — {a.views} views
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <div className={commonStyles.emptyState}>
+                  <p>No articles found</p>
+                </div>
+              )}
             </div>
             <div>
-              <h4 className={commonStyles.subTitle}>Projects</h4>
-              <ul className={commonStyles.list}>
-                {stats?.topViewedProjects?.map((p) => (
-                  <li
-                    key={p.slug}
-                    className={commonStyles.listItem}
-                    onClick={() => router.push(`/admin/projects/edit/${p._id || p.id}`)}
-                  >
-                    {p.title} — {p.views} views
-                  </li>
-                ))}
-              </ul>
+              <h4 className={commonStyles.subTitle}>
+                <Icon name="briefcase" size={16} />
+                Projects
+              </h4>
+              {stats?.topViewedProjects?.length > 0 ? (
+                <ul className={commonStyles.list}>
+                  {stats?.topViewedProjects?.map((p) => (
+                    <li
+                      key={p.slug}
+                      className={commonStyles.listItem}
+                      onClick={() => router.push(`/admin/projects/edit/${p._id || p.id}`)}
+                    >
+                      <Icon name="briefcase" size={14} />
+                      {p.title} — {p.views} views
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <div className={commonStyles.emptyState}>
+                  <p>No projects found</p>
+                </div>
+              )}
             </div>
           </div>
         </div>
         <div className={`${commonStyles.sectionCard} ${themeStyles.sectionCard}`}>
-          <h3 className={commonStyles.sectionTitle}>Recent Activity</h3>
+          <h3 className={commonStyles.sectionTitle}>
+            <Icon name="clock" size={18} />
+            Recent Activity
+          </h3>
           <div className={commonStyles.twoCol}>
             <div>
-              <h4 className={commonStyles.subTitle}>Articles</h4>
-              <ul className={commonStyles.list}>
-                {stats?.recentArticles?.map((a) => (
-                  <li
-                    key={a.slug}
-                    className={commonStyles.listItem}
-                    onClick={() => router.push(`/admin/articles/edit/${a._id || a.id}`)}
-                  >
-                    {a.title} — {new Date(a.createdAt).toLocaleString()} {" "}
-                    {a.published ? "(Published)" : "(Draft)"}
-                  </li>
-                ))}
-              </ul>
+              <h4 className={commonStyles.subTitle}>
+                <Icon name="file-text" size={16} />
+                Articles
+              </h4>
+              {stats?.recentArticles?.length > 0 ? (
+                <ul className={commonStyles.list}>
+                  {stats?.recentArticles?.map((a) => (
+                    <li
+                      key={a.slug}
+                      className={commonStyles.listItem}
+                      onClick={() => router.push(`/admin/articles/edit/${a._id || a.id}`)}
+                    >
+                      <Icon name="file-text" size={14} />
+                      {a.title} — {new Date(a.createdAt).toLocaleString()} {" "}
+                      {a.published ? "(Published)" : "(Draft)"}
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <div className={commonStyles.emptyState}>
+                  <p>No recent articles</p>
+                </div>
+              )}
             </div>
             <div>
-              <h4 className={commonStyles.subTitle}>Projects</h4>
-              <ul className={commonStyles.list}>
-                {stats?.recentProjects?.map((p) => (
-                  <li
-                    key={p.slug}
-                    className={commonStyles.listItem}
-                    onClick={() => router.push(`/admin/projects/edit/${p._id || p.id}`)}
-                  >
-                    {p.title} — {new Date(p.createdAt).toLocaleString()} {" "}
-                    {p.published ? "(Published)" : "(Draft)"}
-                  </li>
-                ))}
-              </ul>
+              <h4 className={commonStyles.subTitle}>
+                <Icon name="briefcase" size={16} />
+                Projects
+              </h4>
+              {stats?.recentProjects?.length > 0 ? (
+                <ul className={commonStyles.list}>
+                  {stats?.recentProjects?.map((p) => (
+                    <li
+                      key={p.slug}
+                      className={commonStyles.listItem}
+                      onClick={() => router.push(`/admin/projects/edit/${p._id || p.id}`)}
+                    >
+                      <Icon name="briefcase" size={14} />
+                      {p.title} — {new Date(p.createdAt).toLocaleString()} {" "}
+                      {p.published ? "(Published)" : "(Draft)"}
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <div className={commonStyles.emptyState}>
+                  <p>No recent projects</p>
+                </div>
+              )}
             </div>
           </div>
         </div>

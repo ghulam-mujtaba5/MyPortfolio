@@ -1,40 +1,104 @@
 .mediaLibrary {
-  background-color: #1f2937; /* gray-800 */
-  color: #f9fafb; /* gray-50 */
+  background-color: #111827;
+  color: #f9fafb;
 }
 
 .title {
   color: #ffffff;
+  background: linear-gradient(90deg, #3b82f6, #06b6d4);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .uploadButton {
-  background-color: #3b82f6; /* blue-500 */
+  background: linear-gradient(90deg, #2563eb, #3b82f6);
   color: white;
+  box-shadow: 0 4px 6px rgba(37, 99, 235, 0.2);
 }
 
 .uploadButton:hover {
-  background-color: #2563eb; /* blue-600 */
+  background: linear-gradient(90deg, #1d4ed8, #2563eb);
+  box-shadow: 0 6px 8px rgba(37, 99, 235, 0.3);
+  transform: translateY(-2px);
 }
 
 .deleteButton {
-  background-color: #ef4444; /* red-500 */
+  background: linear-gradient(90deg, #ef4444, #f87171);
   color: white;
+  box-shadow: 0 4px 6px rgba(239, 68, 68, 0.2);
 }
 
 .deleteButton:hover {
-  background-color: #dc2626; /* red-600 */
+  background: linear-gradient(90deg, #dc2626, #ef4444);
+  box-shadow: 0 6px 8px rgba(239, 68, 68, 0.3);
+  transform: translateY(-2px);
 }
 
 .assetCard {
-  background-color: #374151; /* gray-700 */
+  background: linear-gradient(145deg, #1f2937, #111827);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 
+    0 1px 3px rgba(0, 0, 0, 0.2),
+    0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.assetCard:hover {
+  border-color: #3b82f6;
+}
+
+.assetCard.selected {
+  border-color: #3b82f6;
+  box-shadow: 0 0 15px rgba(59, 130, 246, 0.4);
 }
 
 .pagination button {
-  background-color: #4b5563; /* gray-600 */
-  border: 1px solid #6b7280; /* gray-500 */
+  background-color: #1f2937;
+  border: 1px solid #374151;
   color: #f9fafb;
 }
 
 .pagination button:hover:not(:disabled) {
-  background-color: #6b7280; /* gray-500 */
+  background-color: #374151;
+}
+
+.searchInput {
+  background: #1f2937;
+  border: 1px solid #374151;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  color: #f9fafb;
+}
+
+.searchInput:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25);
+}
+
+.viewToggle {
+  background: #1f2937;
+  border: 1px solid #374151;
+  color: #f9fafb;
+}
+
+.viewToggle:hover {
+  background: #374151;
+}
+
+.formGroup input,
+.formGroup textarea {
+  background: #1f2937;
+  border: 1px solid #374151;
+  color: #f9fafb;
+}
+
+.formGroup input:focus,
+.formGroup textarea:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25);
+}
+
+.previewImage,
+.editImage {
+  background: #1f2937;
+  border: 1px solid #374151;
 }

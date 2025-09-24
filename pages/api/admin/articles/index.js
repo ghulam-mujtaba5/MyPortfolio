@@ -17,6 +17,16 @@ export default async function handler(req, res) {
 
   try {
     await dbConnect();
+  } catch (dbError) {
+    console.error("Database connection error:", dbError);
+    return res.status(500).json({ 
+      success: false, 
+      message: "Database connection failed. Please check server logs.",
+      error: process.env.NODE_ENV === 'development' ? dbError.message : undefined
+    });
+  }
+
+  try {
     const {
       page = "1",
       limit = "10",
@@ -155,6 +165,10 @@ export default async function handler(req, res) {
     });
   } catch (err) {
     console.error("Admin articles index error:", err);
-    return res.status(500).json({ success: false, message: "Server Error" });
+    return res.status(500).json({ 
+      success: false, 
+      message: "Server Error",
+      error: process.env.NODE_ENV === 'development' ? err.message : undefined
+    });
   }
 }

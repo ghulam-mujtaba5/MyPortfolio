@@ -3,6 +3,7 @@
   display: flex;
   align-items: center;
   width: 100%;
+  min-width: 200px;
 }
 
 .icon {
@@ -11,12 +12,13 @@
   pointer-events: none;
   color: var(--color-text-tertiary);
   transition: color 0.2s ease-in-out;
+  z-index: 1;
 }
 
 .input {
   width: 100%;
-  padding: 0.5rem 0.75rem 0.5rem 2.25rem; /* Left padding for icon */
-  border-radius: 8px;
+  padding: 0.625rem 0.875rem 0.625rem 2.5rem; /* Increased left padding for icon */
+  border-radius: 0.5rem;
   border: 1px solid var(--color-border);
   background-color: var(--color-bg-secondary);
   color: var(--color-text-primary);
@@ -24,6 +26,8 @@
   transition:
     border-color 0.2s ease-in-out,
     box-shadow 0.2s ease-in-out;
+  min-height: 40px; /* Ensure minimum height to prevent overlapping */
+  box-sizing: border-box;
 }
 
 .input:focus {
@@ -34,6 +38,15 @@
 
 .input::placeholder {
   color: var(--color-text-tertiary);
+}
+
+/* Ensure proper spacing and prevent content overlap */
+.input::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+  height: 20px;
+  width: 20px;
+  background: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cline x1='18' y1='6' x2='6' y2='18'%3e%3c/line%3e%3cline x1='6' y1='6' x2='18' y2='18'%3e%3c/line%3e%3c/svg%3e") no-repeat center;
+  cursor: pointer;
 }
 
 /* Dark Theme Overrides */

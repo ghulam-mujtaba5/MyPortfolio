@@ -24,6 +24,15 @@ const SavedSearches = ({ scope }) => {
   const fetchSavedSearches = async () => {
     try {
       const res = await fetch(`/api/admin/saved-searches?scope=${scope}`);
+      if (!res.ok) {
+        const errorData = await res.json().catch(() => ({}));
+        if (errorData.message?.includes('Database connection')) {
+          toast.error("Database connection failed. Please check your MongoDB Atlas settings.");
+        } else {
+          throw new Error(errorData.message || `Failed to fetch saved searches (${res.status})`);
+        }
+        return;
+      }
       const data = await res.json();
       if (data.success) {
         setSavedSearches(data.data);
@@ -73,8 +82,19 @@ const SavedSearches = ({ scope }) => {
           scope,
         }),
       });
+      
+      if (!res.ok) {
+        const errorData = await res.json().catch(() => ({}));
+        if (errorData.message?.includes('Database connection')) {
+          toast.error("Database connection failed. Please check your MongoDB Atlas settings.");
+        } else {
+          throw new Error(errorData.message || `Failed to save search (${res.status})`);
+        }
+        return;
+      }
+      
       const data = await res.json();
-      if (res.ok) {
+      if (data.success) {
         toast.success("Search saved!");
         setNewSearchName("");
         fetchSavedSearches();
@@ -91,13 +111,19 @@ const SavedSearches = ({ scope }) => {
       const res = await fetch(`/api/admin/saved-searches?id=${id}`, {
         method: "DELETE",
       });
-      if (res.ok) {
-        toast.success("Saved search deleted.");
-        fetchSavedSearches();
-      } else {
-        const data = await res.json();
-        throw new Error(data.message || "Failed to delete");
+      
+      if (!res.ok) {
+        const errorData = await res.json().catch(() => ({}));
+        if (errorData.message?.includes('Database connection')) {
+          toast.error("Database connection failed. Please check your MongoDB Atlas settings.");
+        } else {
+          throw new Error(errorData.message || `Failed to delete search (${res.status})`);
+        }
+        return;
       }
+      
+      toast.success("Saved search deleted.");
+      fetchSavedSearches();
     } catch (error) {
       toast.error(error.message);
     }
@@ -198,7 +224,6 @@ const SavedSearches = ({ scope }) => {
       </Modal>
     </div>
   );
-}
-;
+};
 
 export default SavedSearches;

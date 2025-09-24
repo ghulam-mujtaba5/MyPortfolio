@@ -3,12 +3,13 @@
   display: flex;
   align-items: center;
   width: 100%;
+  min-width: 140px; /* Ensure minimum width */
 }
 
 .select {
   width: 100%;
-  padding: 0.5rem 2.25rem 0.5rem 0.75rem; /* Right padding for icon */
-  border-radius: 8px;
+  padding: 0.625rem 2.5rem 0.625rem 0.875rem; /* Increased padding for better spacing */
+  border-radius: 0.5rem;
   border: 1px solid var(--color-border);
   background-color: var(--color-bg-secondary);
   color: var(--color-text-primary);
@@ -20,6 +21,8 @@
   transition:
     border-color 0.2s ease-in-out,
     box-shadow 0.2s ease-in-out;
+  min-height: 40px; /* Match search input height */
+  box-sizing: border-box;
 }
 
 .select:focus {
@@ -30,12 +33,13 @@
 
 .iconWrapper {
   position: absolute;
-  right: 0.75rem;
+  right: 0.875rem;
   pointer-events: none;
   display: flex;
   align-items: center;
   height: 100%;
   color: var(--color-text-tertiary);
+  z-index: 1;
 }
 
 /* Dark Theme Overrides */

@@ -1,36 +1,49 @@
 .container {
   position: relative;
   display: inline-block;
+  width: 100%;
+  min-width: 140px;
 }
-
 
 .dropdownContent {
   position: absolute;
   top: 100%;
   left: 0;
-  background-color: white;
-  border: 1px solid #d1d5db;
-  border-radius: 6px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  background-color: var(--color-bg-primary);
+  border: 1px solid var(--color-border);
+  border-radius: 0.5rem;
+  box-shadow: var(--shadow-lg);
   z-index: 10;
   width: 300px;
   margin-top: 0.25rem;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 
 .saveSection {
   padding: 0.75rem;
-  border-bottom: 1px solid #e5e7eb;
+  border-bottom: 1px solid var(--color-border);
   display: flex;
   gap: 0.5rem;
 }
 
 .input {
   flex-grow: 1;
-  padding: 0.5rem;
-  border: 1px solid #d1d5db;
-  border-radius: 4px;
+  padding: 0.625rem 0.875rem;
+  border: 1px solid var(--color-border);
+  border-radius: 0.375rem;
+  background-color: var(--color-bg-secondary);
+  color: var(--color-text-primary);
+  font-size: 0.875rem;
+  min-height: 40px;
+  box-sizing: border-box;
 }
 
+.input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-primary-shadow);
+}
 
 .searchList {
   list-style: none;
@@ -45,22 +58,53 @@
   justify-content: space-between;
   align-items: center;
   padding: 0.75rem;
+  transition: background-color 0.2s ease;
 }
 
 .searchItem:hover {
-  background-color: #f9fafb;
+  background-color: var(--color-bg-secondary);
 }
 
 .searchName {
   cursor: pointer;
   font-weight: 500;
   flex-grow: 1;
+  color: var(--color-text-primary);
 }
-
-/* Button styles moved to shared utilities.module.css */
 
 .noSearches {
   padding: 0.75rem;
-  color: #6b7280;
+  color: var(--color-text-tertiary);
   text-align: center;
+}
+
+/* Dark Theme Overrides */
+@media (prefers-color-scheme: dark) {
+  .dropdownContent {
+    background-color: var(--color-bg-primary-dark);
+    border-color: var(--color-border-dark);
+  }
+  
+  .input {
+    border-color: var(--color-border-dark);
+    background-color: var(--color-bg-secondary-dark);
+    color: var(--color-text-primary-dark);
+  }
+  
+  .input:focus {
+    border-color: var(--color-primary-dark);
+    box-shadow: 0 0 0 3px var(--color-primary-dark-shadow);
+  }
+  
+  .searchItem:hover {
+    background-color: var(--color-bg-secondary-dark);
+  }
+  
+  .searchName {
+    color: var(--color-text-primary-dark);
+  }
+  
+  .noSearches {
+    color: var(--color-text-tertiary-dark);
+  }
 }

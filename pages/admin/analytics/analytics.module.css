@@ -1,8 +1,175 @@
+.pageTitle {
+  font-size: 2rem;
+  font-weight: 800;
+  margin: 0 0 1.5rem 0;
+  background: linear-gradient(90deg, var(--primary), var(--info));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  position: relative;
+  padding-bottom: 0.5rem;
+}
+
+.pageTitle::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--primary), var(--info));
+  border-radius: 3px;
+}
+
+.rangeBar {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  margin: 1rem 0 2rem;
+  padding: 1rem;
+  background: var(--bg-elev-1);
+  border-radius: var(--radius-md);
+  flex-wrap: wrap;
+}
+
+.rangeLabel {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  margin-right: 0.5rem;
+}
+
+.rangeButton {
+  padding: 0.5rem 1rem;
+  border-radius: 999px;
+  border: 1px solid;
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.rangeButton:hover {
+  transform: translateY(-2px);
+}
+
+.rangeButtonActive {
+  font-weight: 600;
+}
+
+.exportButton {
+  margin-left: auto;
+  padding: 0.5rem 1rem;
+  border: 1px solid;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 500;
+}
+
+.exportButton:hover {
+  transform: translateY(-2px);
+}
+
+/* KPI Grid with modern card design */
+.kpiGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.5rem;
+  margin: 1.5rem 0;
+}
+
+.kpiCard {
+  padding: 1.5rem;
+  border-radius: var(--card-radius);
+  min-width: 0;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  border: 1px solid transparent;
+  box-shadow: var(--shadow-sm);
+}
+
+.kpiCard:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+.kpiCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary), var(--info));
+  border-radius: var(--card-radius) var(--card-radius) 0 0;
+  opacity: 0.7;
+}
+
+.kpiTitle {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  margin: 0 0 0.5rem 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.kpiRow {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.kpiValue {
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1;
+  margin: 0;
+}
+
+.deltaText {
+  font-size: 0.875rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.deltaPositive {
+  color: var(--success);
+}
+
+.deltaNegative {
+  color: var(--danger);
+}
+
+/* Sparklines helpers */
+.sparklineNoFill path {
+  fill: none;
+}
+
+.sparklineRefMean {
+  stroke: var(--text-muted);
+  stroke-opacity: 0.6;
+  stroke-dasharray: 2, 2;
+}
+
+/* Charts Grid */
 .chartsGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 2rem;
-  margin-top: 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 1.5rem;
+  margin: 2rem 0;
   /* Keep grid content clear of the FAB in bottom-right */
   padding-right: calc(0px + var(--fab-safe, 0px) + var(--safe-area-right, 0px));
   margin-bottom: calc(0px + var(--fab-safe, 0px) + var(--safe-area-bottom, 0px));
@@ -11,105 +178,70 @@
 .chartContainer {
   background-color: var(--color-bg-secondary);
   padding: 1.5rem;
-  border-radius: 8px;
+  border-radius: var(--card-radius);
   box-shadow: var(--shadow-md);
+  transition: all 0.3s ease;
+  border: 1px solid transparent;
+}
+
+.chartContainer:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+.chartContainer h3 {
+  margin: 0 0 1.5rem 0;
+  font-size: 1.25rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.chartContainer h3::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, var(--primary), transparent);
+  opacity: 0.3;
 }
 
 .fullWidth {
   grid-column: 1 / -1;
 }
 
-/* Ensure page title is readable in both themes */
-.pageTitle {
-  color: var(--text);
-}
-
-/* Structural classes extracted from inline styles */
-.kpiGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 1rem;
-  margin: 1rem 0;
-}
-
-.kpiCard {
-  padding: 1rem;
-  border: 1px solid;
-  border-radius: 8px;
-  min-width: 0; /* prevent overflow causing overlap */
-}
-
-.kpiTitle {
-  font-size: 12px;
-  opacity: 0.7;
-}
-
-.kpiValue {
-  font-size: 24px;
-  font-weight: 700;
-}
-
-/* KPI row and deltas (structure-only) */
-.kpiRow {
-  display: flex;
-  align-items: baseline;
-  gap: 8px;
-}
-.deltaText {
-  font-size: 12px;
-}
-
-/* Sparklines helpers */
-.sparklineNoFill path {
-  fill: none;
-}
-.sparklineRefMean {
-  stroke: #9ca3af;
-  stroke-opacity: 0.6;
-  stroke-dasharray: 2, 2;
-}
-
-.rangeBar {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-  margin: 8px 0 12px;
-}
-
-.rangeLabel {
-  font-size: 12px;
-  opacity: 0.8;
-}
-
-.rangeButton {
-  padding: 6px 10px;
-  border-radius: 999px;
-  border: 1px solid;
-  background: transparent;
-}
-
-.exportButton {
-  margin-left: auto;
-  padding: 6px 10px;
-  border: 1px solid;
-  border-radius: 6px;
-}
-
+/* Breakdown Sections */
 .breakdownGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 1rem;
-  margin-top: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin: 2rem 0;
   /* Keep grid content clear of the FAB in bottom-right */
   padding-right: calc(0px + var(--fab-safe, 0px) + var(--safe-area-right, 0px));
   margin-bottom: calc(0px + var(--fab-safe, 0px) + var(--safe-area-bottom, 0px));
 }
 
 .sectionCard {
-  padding: 1rem;
-  border: 1px solid;
-  border-radius: 8px;
-  min-width: 0; /* ensure cards shrink correctly */
+  padding: 1.5rem;
+  border-radius: var(--card-radius);
+  min-width: 0;
+  transition: all 0.3s ease;
+  border: 1px solid transparent;
+  box-shadow: var(--shadow-sm);
+}
+
+.sectionCard:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+.sectionCard h3 {
+  margin: 0 0 1rem 0;
+  font-size: 1.125rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
 }
 
 .sectionTitle {
@@ -117,33 +249,44 @@
 }
 
 /* Utilities */
-.mbSm { margin-bottom: 8px; }
-.subTitle { margin: 0; margin-bottom: 8px; }
+.mbSm { 
+  margin-bottom: 0.5rem; 
+}
+
+.subTitle {
+  margin: 0 0 0.75rem 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text);
+}
 
 .chips {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 0.5rem;
 }
 
 .chip {
-  padding: 4px 10px;
+  padding: 0.375rem 0.875rem;
   border: 1px solid;
   border-radius: 999px;
-  font-size: 12px;
+  font-size: 0.8125rem;
   cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-weight: 500;
+}
+
+.chip:hover {
+  transform: translateY(-2px);
 }
 
 .twoCol {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 1rem;
-}
-
-@media (max-width: 768px) {
-  .twoCol {
-    grid-template-columns: 1fr; /* stack on small screens to avoid collision */
-  }
+  gap: 1.5rem;
 }
 
 .list {
@@ -153,4 +296,76 @@
 
 .listItem {
   cursor: pointer;
+  padding: 0.5rem;
+  border-radius: var(--radius-sm);
+  transition: all 0.2s ease;
+  margin-bottom: 0.25rem;
+}
+
+.listItem:hover {
+  background: var(--bg-elev-1);
+  transform: translateX(4px);
+}
+
+.emptyState {
+  text-align: center;
+  padding: 3rem;
+  color: var(--text-muted);
+}
+
+.emptyState svg {
+  width: 48px;
+  height: 48px;
+  margin-bottom: 1rem;
+  opacity: 0.5;
+}
+
+.loadingState {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 2rem;
+  color: var(--text-muted);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .pageTitle {
+    font-size: 1.75rem;
+  }
+  
+  .kpiGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .chartsGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .chartContainer {
+    padding: 1.25rem;
+  }
+  
+  .breakdownGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .twoCol {
+    grid-template-columns: 1fr;
+  }
+  
+  .rangeBar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .exportButton {
+    margin-left: 0;
+    justify-content: center;
+  }
+  
+  .kpiValue {
+    font-size: 1.75rem;
+  }
 }

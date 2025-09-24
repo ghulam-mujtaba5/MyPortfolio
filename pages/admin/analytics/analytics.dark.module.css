@@ -1,17 +1,88 @@
-.chartContainer { background-color: #0f172a; box-shadow: 0 6px 28px rgba(0,0,0,0.45); }
+.chartContainer { 
+  background: linear-gradient(145deg, #1f2937, #111827);
+  box-shadow: 0 6px 28px rgba(0,0,0,0.45);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.chartContainer:hover {
+  border-color: rgba(59, 130, 246, 0.4);
+}
 
 /* KPI cards */
-.kpiCard { background-color: #0b1220; border-color: #334155; }
+.kpiCard { 
+  background: linear-gradient(145deg, #1f2937, #111827);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+}
+
+.kpiCard:hover {
+  border-color: rgba(59, 130, 246, 0.4);
+}
+
+.kpiCard::before {
+  background: linear-gradient(90deg, var(--primary), var(--info));
+}
 
 /* Range controls */
-.rangeButton { border-color: #334155; color: #e5e7eb; }
-.rangeButtonActive { border-color: #818cf8; background: rgba(129,140,248,0.15); color: #a5b4fc; }
-.exportButton { border-color: #334155; }
+.rangeButton { 
+  border-color: #4b5563; 
+  color: #e5e7eb;
+  background: #1f2937;
+}
+
+.rangeButton:hover {
+  background: #374151;
+  border-color: #6b7280;
+}
+
+.rangeButtonActive { 
+  border-color: var(--primary); 
+  background: rgba(59, 130, 246, 0.15);
+  color: #a5b4fc;
+}
+
+.exportButton { 
+  border-color: #4b5563;
+  background: #1f2937;
+  color: #e5e7eb;
+}
+
+.exportButton:hover {
+  background: #374151;
+  border-color: #6b7280;
+}
 
 /* Delta text */
-.deltaPositive { color: #22c55e; }
-.deltaNegative { color: #f87171; }
+.deltaPositive { 
+  color: #22c55e;
+}
+
+.deltaNegative { 
+  color: #f87171;
+}
 
 /* Section cards */
-.sectionCard { background-color: #0b1220; border-color: #334155; }
-.chip { border-color: #334155; }
+.sectionCard { 
+  background: linear-gradient(145deg, #1f2937, #111827);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+}
+
+.sectionCard:hover {
+  border-color: rgba(59, 130, 246, 0.4);
+}
+
+.chip { 
+  border-color: #4b5563;
+  background: #1f2937;
+  color: #e5e7eb;
+}
+
+.chip:hover {
+  background: #374151;
+  border-color: #6b7280;
+}
+
+.listItem:hover {
+  background: #374151;
+}

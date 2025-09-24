@@ -22,6 +22,7 @@ import commonStyles from "./dashboard.module.css";
 import lightStyles from "./dashboard.light.module.css";
 import darkStyles from "./dashboard.dark.module.css";
 import { useTheme } from "../../context/ThemeContext";
+import InlineSpinner from "../../components/LoadingAnimation/InlineSpinner";
 
 const AdminDashboard = () => {
   const [recentActivity, setRecentActivity] = useState([]);
@@ -33,12 +34,18 @@ const AdminDashboard = () => {
   });
   const [viewStats, setViewStats] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [statsError, setStatsError] = useState(null);
 
   useEffect(() => {
     const fetchDashboard = async () => {
       try {
+        setIsLoading(true);
+        setStatsError(null);
         const res = await fetch("/api/admin/stats");
-        if (!res.ok) throw new Error("Failed to load admin stats");
+        if (!res.ok) {
+          const errorData = await res.json().catch(() => ({}));
+          throw new Error(errorData?.message || `Failed to load admin stats (${res.status})`);
+        }
         const json = await res.json();
         const payload = json.data || {};
         setStats(
@@ -48,7 +55,12 @@ const AdminDashboard = () => {
         setViewStats(payload.viewStats || []);
       } catch (error) {
         console.error("Failed to fetch dashboard data:", error);
-        toast.error(error?.message || "Failed to load dashboard data");
+        setStatsError(error.message);
+        toast.error(error?.message || "Failed to load dashboard data. Please check your database connection and try again.");
+        // Set default values to prevent UI breakage
+        setStats({ projects: 0, articles: 0, users: 0, views: 0 });
+        setRecentActivity([]);
+        setViewStats([]);
       } finally {
         setIsLoading(false);
       }
@@ -179,83 +191,139 @@ const AdminDashboard = () => {
           <p>Welcome back, Admin! Here's what's happening with your portfolio today.</p>
         </motion.header>
         
-        <motion.div
-          className={`${commonStyles.widgetsGrid} ${themeStyles.widgetsGrid}`}
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
-        >
-          <motion.div variants={itemVariants}>
-            <StatWidget
-              icon={<FaUsers />}
-              title="Total Users"
-              value={Number(stats.users || 0).toLocaleString()}
-            />
-          </motion.div>
-          <motion.div variants={itemVariants}>
-            <StatWidget
-              icon={<FaFileAlt />}
-              title="Total Articles"
-              value={Number(stats.articles || 0).toLocaleString()}
-            />
-          </motion.div>
-          <motion.div variants={itemVariants}>
-            <StatWidget
-              icon={<FaProjectDiagram />}
-              title="Total Projects"
-              value={Number(stats.projects || 0).toLocaleString()}
-            />
-          </motion.div>
-          <motion.div variants={itemVariants}>
-            <StatWidget
-              icon={<FaComments />}
-              title="Total Views"
-              value={Number(stats.views || 0).toLocaleString()}
-            />
-          </motion.div>
-
-          <motion.div 
-            className={`${commonStyles.chartArea} ${themeStyles.chartArea}`} 
-            variants={itemVariants}
-          >
-            <ChartCard title="Page Views" hasData={hasChartData}>
-              <SampleLineChart
-                key={`pv-${chartLabels.join("|")}-${chartDataPoints.join("|")}`}
-                labels={chartLabels}
-                dataPoints={chartDataPoints}
-                label="Page Views"
-              />
-            </ChartCard>
-          </motion.div>
-
-          <motion.div 
-            className={`${commonStyles.fullWidthCard} ${themeStyles.fullWidthCard}`} 
-            variants={itemVariants}
-          >
-            <div className={commonStyles.tableHeader}>
-              <h2 className={`${commonStyles.sectionTitle} ${themeStyles.sectionTitle}`}>
-                <FaClock style={{ color: "var(--primary)" }} />
-                Recent Activity
-              </h2>
-              <div className={commonStyles.tableActions}>
-                <button 
-                  className="btn btn-sm btn-ghost"
-                  style={{ 
-                    padding: "0.25rem 0.5rem", 
-                    fontSize: "0.75rem",
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "0.25rem"
-                  }}
-                >
-                  <FaUserCheck size={12} />
-                  View All
-                </button>
-              </div>
+        {isLoading ? (
+          <div style={{ 
+            display: 'flex', 
+            justifyContent: 'center', 
+            alignItems: 'center', 
+            height: '200px' 
+          }}>
+            <InlineSpinner sizePx={32} />
+          </div>
+        ) : statsError ? (
+          <div style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: '2rem',
+            borderRadius: '0.5rem',
+            border: '1px solid var(--border)',
+            backgroundColor: 'var(--bg-elev-1)',
+            textAlign: 'center',
+            maxWidth: '500px',
+            margin: '2rem auto'
+          }}>
+            <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>⚠️</div>
+            <h3 style={{ margin: '0 0 0.5rem 0' }}>Unable to Load Dashboard Data</h3>
+            <p style={{ color: 'var(--text-muted)', margin: '0 0 1rem 0' }}>
+              {statsError.includes('Database connection') 
+                ? 'Database connection failed. Please check your MongoDB Atlas IP whitelist settings.' 
+                : statsError}
+            </p>
+            <div style={{ 
+              backgroundColor: 'var(--bg-elev-2)', 
+              padding: '1rem', 
+              borderRadius: '0.5rem', 
+              margin: '1rem 0',
+              textAlign: 'left',
+              fontSize: '0.875rem'
+            }}>
+              <p style={{ margin: '0 0 0.5rem 0', fontWeight: 'bold' }}>Troubleshooting steps:</p>
+              <ol style={{ margin: 0, paddingLeft: '1.25rem' }}>
+                <li>Check your MongoDB Atlas IP whitelist settings</li>
+                <li>Ensure your MONGODB_URI in .env.local is correct</li>
+                <li>Verify your internet connection</li>
+                <li>Restart the development server</li>
+              </ol>
             </div>
-            <Table columns={activityColumns} data={recentActivity} />
+            <button 
+              className="btn btn-primary"
+              onClick={() => window.location.reload()}
+              style={{ marginTop: '0.5rem' }}
+            >
+              Retry
+            </button>
+          </div>
+        ) : (
+          <motion.div
+            className={`${commonStyles.widgetsGrid} ${themeStyles.widgetsGrid}`}
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+          >
+            <motion.div variants={itemVariants}>
+              <StatWidget
+                icon={<FaUsers />}
+                title="Total Users"
+                value={Number(stats.users || 0).toLocaleString()}
+              />
+            </motion.div>
+            <motion.div variants={itemVariants}>
+              <StatWidget
+                icon={<FaFileAlt />}
+                title="Total Articles"
+                value={Number(stats.articles || 0).toLocaleString()}
+              />
+            </motion.div>
+            <motion.div variants={itemVariants}>
+              <StatWidget
+                icon={<FaProjectDiagram />}
+                title="Total Projects"
+                value={Number(stats.projects || 0).toLocaleString()}
+              />
+            </motion.div>
+            <motion.div variants={itemVariants}>
+              <StatWidget
+                icon={<FaComments />}
+                title="Total Views"
+                value={Number(stats.views || 0).toLocaleString()}
+              />
+            </motion.div>
+
+            <motion.div 
+              className={`${commonStyles.chartArea} ${themeStyles.chartArea}`} 
+              variants={itemVariants}
+            >
+              <ChartCard title="Page Views" hasData={hasChartData}>
+                <SampleLineChart
+                  key={`pv-${chartLabels.join("|")}-${chartDataPoints.join("|")}`}
+                  labels={chartLabels}
+                  dataPoints={chartDataPoints}
+                  label="Page Views"
+                />
+              </ChartCard>
+            </motion.div>
+
+            <motion.div 
+              className={`${commonStyles.fullWidthCard} ${themeStyles.fullWidthCard}`} 
+              variants={itemVariants}
+            >
+              <div className={commonStyles.tableHeader}>
+                <h2 className={`${commonStyles.sectionTitle} ${themeStyles.sectionTitle}`}>
+                  <FaClock style={{ color: "var(--primary)" }} />
+                  Recent Activity
+                </h2>
+                <div className={commonStyles.tableActions}>
+                  <button 
+                    className="btn btn-sm btn-ghost"
+                    style={{ 
+                      padding: "0.25rem 0.5rem", 
+                      fontSize: "0.75rem",
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "0.25rem"
+                    }}
+                  >
+                    <FaUserCheck size={12} />
+                    View All
+                  </button>
+                </div>
+              </div>
+              <Table columns={activityColumns} data={recentActivity} />
+            </motion.div>
           </motion.div>
-        </motion.div>
+        )}
       </div>
     </AdminLayout>
   );

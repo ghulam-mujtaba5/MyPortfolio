@@ -1,66 +1,95 @@
 .form {
-  background-color: #f8f9fa;
-  border: 1px solid #dee2e6;
-  padding: 2rem;
-  border-radius: 8px;
+  background-color: #ffffff;
+  border: 1px solid #e5e7eb;
+  padding: 1.5rem;
+  border-radius: var(--card-radius);
 }
 
 .input,
 .textarea {
-  background-color: #fff;
-  color: #212529;
-  border: 1px solid #ced4da;
+  background-color: #ffffff;
+  color: #1f2937;
+  border: 1px solid #d1d5db;
 }
 
 .input:focus,
 .textarea:focus {
-  border-color: #86b7fe;
-  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
 }
 
 .label {
-  color: #212529;
+  color: #1f2937;
 }
 
-
 .details {
-  border-color: #e2e8f0;
+  border-color: #e5e7eb;
 }
 
 .summary {
-  background-color: #f8fafc;
-  color: #1e293b;
+  background-color: #f9fafb;
+  color: #1f2937;
 }
 
 .summary:hover {
-  background-color: #f1f5f9;
+  background-color: #f3f4f6;
 }
 
 .detailsContent {
   background-color: #ffffff;
-  border-top-color: #e2e8f0;
+  border-top-color: #e5e7eb;
 }
 
 .textarea {
   background-color: #ffffff;
-  border-color: #cbd5e1;
-  color: #1e293b;
+  border-color: #d1d5db;
+  color: #1f2937;
 }
 
 .textarea:focus {
-  border-color: var(--primary-color-light);
-  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
 }
 
 .overLimit {
-  border-color: #ef4444 !important; /* red-500 */
+  border-color: #ef4444 !important;
 }
 
-/* Soft warning border (light) */
 .warnLimit {
-  border-color: #f59e0b !important; /* amber-500 */
+  border-color: #f59e0b !important;
 }
 
-/* Counter colors (light) */
-.counterWarn { color: #b45309; } /* amber-700 */
-.counterOver { color: #b91c1c; } /* red-700 */
+.counterWarn { 
+  color: #b45309; 
+}
+
+.counterOver { 
+  color: #ef4444; 
+}
+
+.badgeGood {
+  background-color: #dcfce7;
+  color: #047857;
+  border-color: #bbf7d0;
+}
+
+.badgeWarn {
+  background-color: #fef3c7;
+  color: #b45309;
+  border-color: #fde68a;
+}
+
+.badgeOver {
+  background-color: #fee2e2;
+  color: #b91c1c;
+  border-color: #fecaca;
+}
+
+.badge {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  border: 1px solid;
+}

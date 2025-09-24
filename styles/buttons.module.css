@@ -1,0 +1,261 @@
+/* Modern Button Styles for 2025 Design Trends */
+
+/* Base Button Styles */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-weight: 500;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
+  padding: 0.6rem 1.2rem;
+  font-size: var(--text-sm);
+  position: relative;
+  overflow: hidden;
+  background: transparent;
+  color: var(--text);
+}
+
+.btn:focus {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+.btn:focus-visible {
+  box-shadow: var(--focus-ring);
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+/* Primary Button */
+.btnPrimary {
+  background: linear-gradient(90deg, var(--primary), #4f46e5);
+  color: white;
+  border: none;
+  box-shadow: 0 4px 6px rgba(59, 130, 246, 0.15);
+}
+
+.btnPrimary:hover:not(:disabled) {
+  background: linear-gradient(90deg, #2563eb, #4338ca);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 8px rgba(59, 130, 246, 0.2);
+}
+
+.btnPrimary:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(59, 130, 246, 0.15);
+}
+
+/* Secondary Button */
+.btnSecondary {
+  background: var(--bg-elev-2);
+  color: var(--text);
+  border: 1px solid var(--border);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.btnSecondary:hover:not(:disabled) {
+  background: var(--bg-elev-1);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.08);
+}
+
+.btnSecondary:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+/* Danger Button */
+.btnDanger {
+  background: linear-gradient(90deg, var(--danger), #dc2626);
+  color: white;
+  border: none;
+  box-shadow: 0 4px 6px rgba(239, 68, 68, 0.15);
+}
+
+.btnDanger:hover:not(:disabled) {
+  background: linear-gradient(90deg, #dc2626, #b91c1c);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 8px rgba(239, 68, 68, 0.2);
+}
+
+.btnDanger:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(239, 68, 68, 0.15);
+}
+
+/* Success Button */
+.btnSuccess {
+  background: linear-gradient(90deg, var(--success), #047857);
+  color: white;
+  border: none;
+  box-shadow: 0 4px 6px rgba(16, 185, 129, 0.15);
+}
+
+.btnSuccess:hover:not(:disabled) {
+  background: linear-gradient(90deg, #047857, #065f46);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 8px rgba(16, 185, 129, 0.2);
+}
+
+.btnSuccess:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(16, 185, 129, 0.15);
+}
+
+/* Outline Button */
+.btnOutline {
+  background: transparent;
+  color: var(--primary);
+  border: 1px solid var(--primary);
+}
+
+.btnOutline:hover:not(:disabled) {
+  background: rgba(59, 130, 246, 0.1);
+  transform: translateY(-2px);
+}
+
+.btnOutline:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+/* Ghost Button */
+.btnGhost {
+  background: transparent;
+  color: var(--text);
+  border: 1px solid transparent;
+}
+
+.btnGhost:hover:not(:disabled) {
+  background: var(--bg-elev-1);
+  transform: translateY(-2px);
+}
+
+.btnGhost:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+/* Icon Button */
+.btnIcon {
+  padding: 0.5rem;
+  border-radius: var(--radius-md);
+  background: var(--bg-elev-2);
+  border: 1px solid var(--border);
+  color: var(--text);
+}
+
+.btnIcon:hover:not(:disabled) {
+  background: var(--bg-elev-1);
+  transform: translateY(-2px);
+}
+
+.btnIcon:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+/* Button Sizes */
+.btnSm {
+  padding: 0.4rem 0.8rem;
+  font-size: var(--text-xs);
+}
+
+.btnLg {
+  padding: 0.8rem 1.5rem;
+  font-size: var(--text-md);
+}
+
+.btnBlock {
+  width: 100%;
+  justify-content: center;
+}
+
+/* Button with ripple effect */
+.btn::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: width 0.4s ease, height 0.4s ease;
+}
+
+.btn:active::before {
+  width: 200px;
+  height: 200px;
+}
+
+/* Loading state */
+.btnLoading {
+  position: relative;
+  pointer-events: none;
+}
+
+.btnLoading::after {
+  content: '';
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border: 2px solid transparent;
+  border-top-color: currentColor;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Button group */
+.btnGroup {
+  display: inline-flex;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.btnGroup .btn {
+  border-radius: 0;
+  margin: 0;
+}
+
+.btnGroup .btn:first-child {
+  border-radius: var(--radius-md) 0 0 var(--radius-md);
+}
+
+.btnGroup .btn:last-child {
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+}
+
+.btnGroup .btn:not(:first-child) {
+  border-left: 1px solid var(--border);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .btn {
+    padding: 0.7rem 1.2rem;
+    font-size: var(--text-md);
+  }
+  
+  .btnSm {
+    padding: 0.5rem 0.9rem;
+    font-size: var(--text-sm);
+  }
+  
+  .btnLg {
+    padding: 0.9rem 1.6rem;
+    font-size: var(--text-lg);
+  }
+}

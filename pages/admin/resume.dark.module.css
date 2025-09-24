@@ -1,0 +1,60 @@
+.card {
+  background: linear-gradient(145deg, #1f2937, #111827);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 
+    0 4px 20px rgba(0, 0, 0, 0.25),
+    0 1px 2px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.card::before {
+  background: linear-gradient(90deg, var(--primary), var(--info));
+}
+
+.cardTitle {
+  color: #f9fafb;
+}
+
+.formControl {
+  background: #111827;
+  border: 1px solid #4b5563;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  color: #f9fafb;
+}
+
+.formControl:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25);
+  background: #111827;
+}
+
+.fileName {
+  background: #1f2937;
+  border: 1px solid #4b5563;
+  color: #9ca3af;
+}
+
+.resumeInfo {
+  background: #1f2937;
+  border: 1px solid #4b5563;
+}
+
+.actionButton.primary {
+  background: linear-gradient(90deg, #2563eb, #3b82f6);
+  box-shadow: 0 4px 6px rgba(37, 99, 235, 0.2);
+}
+
+.actionButton.primary:hover:not(:disabled) {
+  background: linear-gradient(90deg, #1d4ed8, #2563eb);
+  box-shadow: 0 6px 8px rgba(37, 99, 235, 0.3);
+}
+
+.actionButton.secondary {
+  background: #1f2937;
+  border: 1px solid #4b5563;
+  color: #f9fafb;
+}
+
+.actionButton.secondary:hover:not(:disabled) {
+  background: #374151;
+}

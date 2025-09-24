@@ -69,8 +69,8 @@
   grid-auto-flow: row;
   gap: var(--space-3);
   margin-bottom: var(--space-3);
-  align-items: center;
-  padding: var(--space-3) var(--space-4);
+  align-items: flex-start; /* Changed from center to prevent overlapping */
+  padding: var(--space-4);
   border-radius: var(--radius-lg);
   -webkit-backdrop-filter: blur(8px);
   backdrop-filter: blur(8px);
@@ -84,6 +84,7 @@
   background: var(--surface);
   border: 1px solid var(--border);
   transition: all 0.3s ease;
+  min-height: 80px; /* Ensure minimum height to prevent content overlap */
 }
 
 .filterBar:hover {
@@ -94,6 +95,27 @@
 @media (min-width: 900px) {
   .filterBar {
     grid-template-columns: minmax(280px, 2fr) repeat(3, minmax(140px, 1fr)) auto;
+  }
+}
+
+/* Ensure proper spacing for filter elements */
+.filterBar > * {
+  min-height: 40px; /* Match the search input height */
+  display: flex;
+  align-items: center;
+}
+
+/* Responsive improvements for filter bar */
+@media (max-width: 768px) {
+  .filterBar {
+    padding: var(--space-3);
+    gap: var(--space-2);
+    grid-template-columns: 1fr;
+    min-height: auto;
+  }
+  
+  .filterBar > * {
+    min-height: auto;
   }
 }
 

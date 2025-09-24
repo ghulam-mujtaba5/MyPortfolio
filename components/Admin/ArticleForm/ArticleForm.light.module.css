@@ -1,58 +1,56 @@
 .label {
-  color: var(--color-text-primary-light);
+  color: var(--text);
 }
 
 .input {
-  background-color: var(--color-bg-primary-light);
-  border-color: var(--color-border-light);
-  color: var(--color-text-primary-light);
+  background-color: #ffffff;
+  border-color: #d1d5db;
+  color: #1f2937;
 }
 
 .input:focus {
-  border-color: var(--color-primary-light);
-  box-shadow: 0 0 0 3px var(--color-primary-light-focus);
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
 }
 
 .error {
-  color: #b91c1c;
+  color: #ef4444;
 }
 
 .details {
-  border-color: #e2e8f0;
+  border-color: #e5e7eb;
 }
 
 .summary {
-  background-color: #f8fafc;
-  color: #1e293b;
+  background-color: #f9fafb;
+  color: #1f2937;
 }
 
 .summary:hover {
-  background-color: #f1f5f9;
+  background-color: #f3f4f6;
 }
 
 .detailsContent {
   background-color: #ffffff;
-  border-top-color: #e2e8f0;
+  border-top-color: #e5e7eb;
 }
 
 .textarea {
   background-color: #ffffff;
-  border-color: #cbd5e1;
-  color: #1e293b;
+  border-color: #d1d5db;
+  color: #1f2937;
 }
 
 .textarea:focus {
-  border-color: var(--primary-color-light);
-  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
 }
-
-
 
 /* Versions & Diff UI overrides (light) */
 .versionItem,
 .diffPane,
 .diffContent {
-  border-color: #e2e8f0;
+  border-color: #e5e7eb;
 }
 
 .diffPane,
@@ -61,7 +59,7 @@
 }
 
 .diffTitle {
-  color: var(--color-text-primary-light);
+  color: #1f2937;
 }
 
 /* Diff tokens (light) */
@@ -75,58 +73,103 @@
 
 /* Version badges (light) */
 .versionBadge {
-  border-color: #e2e8f0;
-  background-color: #f8fafc;
-  color: #0f172a;
+  border-color: #e5e7eb;
+  background-color: #f9fafb;
+  color: #1f2937;
 }
 
 /* Preview frame (light) */
 .previewFrame {
-  border: 1px solid #e5e7eb; /* zinc-200 */
+  border: 1px solid #e5e7eb;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
 }
 
 /* Limit exceeded border (light) */
 .overLimit {
-  border-color: #ef4444 !important; /* red-500 */
+  border-color: #ef4444 !important;
 }
 
 /* Soft warning border (light) */
 .warnLimit {
-  border-color: #f59e0b !important; /* amber-500 */
+  border-color: #f59e0b !important;
 }
 
 /* Counter colors (light) */
-.counterWarn { color: #b45309; } /* amber-700 */
-.counterOver { color: #b91c1c; } /* red-700 */
+.counterWarn { 
+  color: #b45309; 
+}
+
+.counterOver { 
+  color: #ef4444; 
+}
+
+.badgeGood {
+  background-color: #dcfce7;
+  color: #047857;
+  border-color: #bbf7d0;
+}
+
+.badgeWarn {
+  background-color: #fef3c7;
+  color: #b45309;
+  border-color: #fde68a;
+}
+
+.badgeOver {
+  background-color: #fee2e2;
+  color: #b91c1c;
+  border-color: #fecaca;
+}
+
+.badge {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  border: 1px solid;
+}
 
 /* ChipInput theming (light) */
 .chip {
-  border-color: #e5e7eb; /* gray-200 */
-  background-color: #f9fafb; /* gray-50 */
-  color: #1f2937; /* gray-800 */
+  border-color: #e5e7eb;
+  background-color: #f9fafb;
+  color: #1f2937;
 }
 
 .chipMoveBtn {
-  border-color: #e5e7eb; /* gray-200 */
+  border-color: #e5e7eb;
   background-color: #ffffff;
-  color: #374151; /* gray-700 */
+  color: #374151;
 }
+
 .chipMoveBtn:hover {
-  background-color: #f3f4f6; /* gray-100 */
+  background-color: #f3f4f6;
 }
 
 .chipRemoveBtn {
-  border-color: #e5e7eb; /* gray-200 */
+  border-color: #e5e7eb;
   background-color: #ffffff;
-  color: #374151; /* gray-700 */
+  color: #374151;
 }
+
 .chipRemoveBtn:hover {
-  background-color: #f3f4f6; /* gray-100 */
+  background-color: #ef4444;
+  color: white;
+  border-color: #ef4444;
 }
 
 .chipInput {
-  border-color: #d1d5db; /* gray-300 */
+  border-color: #d1d5db;
   background-color: #ffffff;
-  color: #111827; /* gray-900 */
+  color: #111827;
+}
+
+.suggestionItem {
+  background: #f9fafb;
+  border-color: #e5e7eb;
+}
+
+.suggestionItem:hover {
+  background: #f3f4f6;
 }

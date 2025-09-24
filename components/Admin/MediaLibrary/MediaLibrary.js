@@ -4,6 +4,8 @@ import toast from "react-hot-toast";
 import { useTheme } from "../../../context/ThemeContext";
 import ChipInput from "../ArticleForm/ChipInput"; // Re-using ChipInput for tags
 import Modal from "../Modal/Modal";
+import Icon from "../Icon/Icon";
+import InlineSpinner from "../../LoadingAnimation/InlineSpinner";
 
 import styles from "./MediaLibrary.module.css";
 import lightStyles from "./MediaLibrary.light.module.css";
@@ -148,7 +150,7 @@ const MediaLibrary = ({ onSelect, isModal = false }) => {
     }
   };
 
-  if (error) return <div className={styles.error}>{error}</div>;
+  if (error) return <div className={`${styles.error} ${themeStyles.error}`}>{error}</div>;
 
   return (
     <div className={`${styles.mediaLibrary} ${themeStyles.mediaLibrary}`}>
@@ -167,6 +169,7 @@ const MediaLibrary = ({ onSelect, isModal = false }) => {
           <label
             className={`${styles.uploadButton} ${themeStyles.uploadButton}`}
           >
+            <Icon name="upload" size={16} />
             {uploading ? "Uploading..." : "Upload"}
             <input
               type="file"
@@ -181,26 +184,37 @@ const MediaLibrary = ({ onSelect, isModal = false }) => {
               onClick={handleDelete}
               className={`${styles.deleteButton} ${themeStyles.deleteButton}`}
             >
+              <Icon name="trash" size={16} />
               Delete ({selectedAssets.length})
             </button>
           )}
           <button
             onClick={() => setView(view === "grid" ? "list" : "grid")}
-            className={styles.viewToggle}
+            className={`${styles.viewToggle} ${themeStyles.viewToggle}`}
           >
+            <Icon name={view === "grid" ? "list" : "grid"} size={16} />
             {view === "grid" ? "List View" : "Grid View"}
           </button>
         </div>
       </div>
 
       {isLoading ? (
-        <div>Loading Media...</div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '2rem' }}>
+          <InlineSpinner sizePx={16} />
+          <span>Loading Media...</span>
+        </div>
+      ) : assets.length === 0 ? (
+        <div className={styles.emptyState}>
+          <Icon name="image" size={48} />
+          <h3>No Media Found</h3>
+          <p>{searchTerm ? 'No assets match your search.' : 'Upload your first media asset to get started.'}</p>
+        </div>
       ) : (
         <div className={view === "grid" ? styles.grid : styles.list}>
           {assets.map((asset) => (
             <div
               key={asset._id}
-              className={`${styles.assetCard} ${themeStyles.assetCard} ${selectedAssets.includes(asset._id) ? styles.selected : ""}`}
+              className={`${styles.assetCard} ${themeStyles.assetCard} ${selectedAssets.includes(asset._id) ? styles.selected : ""} ${view === "list" ? styles.listView : ""}`}
               onClick={() =>
                 onSelect
                   ? setPreviewingAsset(asset)
@@ -210,16 +224,23 @@ const MediaLibrary = ({ onSelect, isModal = false }) => {
               <img
                 src={asset.url}
                 alt={asset.altText}
-                className={styles.assetImage}
+                className={`${styles.assetImage} ${view === "list" ? styles.listView : ""}`}
               />
               <div className={styles.assetOverlay}>
                 <p className={styles.assetName}>{asset.filename}</p>
+                <div className={styles.assetMeta}>
+                  <span>{new Date(asset.uploadedAt).toLocaleDateString()}</span>
+                  <span>{(asset.tags || []).length} tags</span>
+                </div>
                 <div className={styles.tagContainer}>
-                  {(asset.tags || []).map((tag) => (
+                  {(asset.tags || []).slice(0, 3).map((tag) => (
                     <span key={tag} className={styles.tag}>
                       {tag}
                     </span>
                   ))}
+                  {(asset.tags || []).length > 3 && (
+                    <span className={styles.tag}>+{(asset.tags || []).length - 3}</span>
+                  )}
                 </div>
               </div>
               {!onSelect && (
@@ -231,13 +252,13 @@ const MediaLibrary = ({ onSelect, isModal = false }) => {
                     className={styles.checkbox}
                   />
                   <button
-                    className={styles.editButton}
+                    className={`${styles.editButton} ${themeStyles.editButton}`}
                     onClick={(e) => {
                       e.stopPropagation();
                       setEditingAsset(asset);
                     }}
                   >
-                    Edit
+                    <Icon name="edit" size={14} />
                   </button>
                 </>
               )}
@@ -247,17 +268,19 @@ const MediaLibrary = ({ onSelect, isModal = false }) => {
       )}
 
       <div className={styles.pagination}>
-        <button onClick={() => setPage((p) => p - 1)} disabled={page <= 1}>
+        <button onClick={() => setPage((p) => Math.max(1, p - 1))} disabled={page <= 1}>
+          <Icon name="chevron-left" size={16} />
           Previous
         </button>
         <span>
           Page {page} of {totalPages}
         </span>
         <button
-          onClick={() => setPage((p) => p + 1)}
+          onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
           disabled={page >= totalPages}
         >
           Next
+          <Icon name="chevron-right" size={16} />
         </button>
       </div>
 
@@ -308,11 +331,16 @@ const PreviewModal = ({ asset, onClose, onInsert, themeStyles }) => {
       <div className={styles.formGroup}>
         <strong>Tags:</strong> {(asset.tags || []).join(", ") || "N/A"}
       </div>
+      <div className={styles.formGroup}>
+        <strong>Uploaded:</strong> {new Date(asset.uploadedAt).toLocaleString()}
+      </div>
       <div className={styles.modalActions}>
         <button ref={cancelRef} onClick={onClose} className={`${utilities.btn} ${utilities.btnSecondary}`}>
+          <Icon name="x" size={16} />
           Cancel
         </button>
         <button onClick={onInsert} className={`${utilities.btn} ${utilities.btnPrimary}`}>
+          <Icon name="plus" size={16} />
           Insert Media
         </button>
       </div>
@@ -360,10 +388,12 @@ const EditModal = ({ asset, onClose, onSave, themeStyles }) => {
       </div>
       <div className={styles.modalActions}>
         <button onClick={onClose} className={`${utilities.btn} ${utilities.btnSecondary}`}>
+          <Icon name="x" size={16} />
           Cancel
         </button>
         <button onClick={handleSave} className={`${utilities.btn} ${utilities.btnPrimary}`}>
-          Save
+          <Icon name="save" size={16} />
+          Save Changes
         </button>
       </div>
     </Modal>
@@ -377,9 +407,11 @@ const DeleteConfirmModal = ({ count, onCancel, onConfirm, themeStyles }) => {
       <p>Are you sure you want to delete <strong>{count}</strong> asset(s)? This action cannot be undone.</p>
       <div className={styles.modalActions}>
         <button ref={cancelRef} type="button" onClick={onCancel} className={`${utilities.btn} ${utilities.btnSecondary}`}>
+          <Icon name="x" size={16} />
           Cancel
         </button>
         <button type="button" onClick={onConfirm} className={`${styles.deleteButton} ${themeStyles.deleteButton}`}>
+          <Icon name="trash" size={16} />
           Delete
         </button>
       </div>
