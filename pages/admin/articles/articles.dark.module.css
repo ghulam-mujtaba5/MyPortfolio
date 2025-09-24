@@ -4,7 +4,7 @@
   background: rgba(25, 33, 44, 0.8);
   border-color: rgba(58, 65, 76, 0.7);
   box-shadow: 
-    0 1px 3px rgba(0, 0, 0, 0.15),
+    0 1px 3px rgba(0, 0, 0, 0.15), 
     0 4px 12px rgba(0, 0, 0, 0.15);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
