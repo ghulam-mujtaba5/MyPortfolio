@@ -212,155 +212,161 @@ const AnalyticsPage = () => {
       <h1 className={commonStyles.pageTitle}>Analytics Dashboard</h1>
       
       {/* Range selector */}
-      <div className={commonStyles.rangeBar}>
-        <span className={commonStyles.rangeLabel}>Time Range:</span>
-        {[7, 30, 90, 0].map((d) => (
+      <div className={commonStyles.filterBar}>
+        <div className={commonStyles.filterGroup}>
+          <span className={commonStyles.filterLabel}>Time Range</span>
+          <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+            {[7, 30, 90, 0].map((d) => (
+              <button
+                key={d}
+                type="button"
+                onClick={() => {
+                  setRange(d);
+                  const q = { ...router.query };
+                  if (d === 30) {
+                    // default; remove from URL for cleanliness
+                    delete q.range;
+                  } else {
+                    q.range = String(d);
+                  }
+                  router.push({ pathname: router.pathname, query: q }, undefined, {
+                    shallow: true,
+                  });
+                }}
+                className={`${commonStyles.rangeButton} ${themeStyles.rangeButton} ${range === d ? commonStyles.rangeButtonActive : ""} ${range === d ? themeStyles.rangeButtonActive : ""}`}
+              >
+                <Icon name={d === 0 ? "infinity" : "calendar"} size={16} />
+                {d === 0 ? "All Time" : `${d}d`}
+              </button>
+            ))}
+          </div>
+        </div>
+        <div className={commonStyles.filterActions}>
           <button
-            key={d}
             type="button"
             onClick={() => {
-              setRange(d);
-              const q = { ...router.query };
-              if (d === 30) {
-                // default; remove from URL for cleanliness
-                delete q.range;
-              } else {
-                q.range = String(d);
-              }
-              router.push({ pathname: router.pathname, query: q }, undefined, {
-                shallow: true,
-              });
+              if (!stats) return;
+              const rows = [];
+              const pushSection = (title) => rows.push([title]);
+              const pushHeader = (arr) => rows.push(arr);
+              const pushRows = (arr) => arr.forEach((r) => rows.push(r));
+
+              // KPIs
+              pushSection("KPIs");
+              pushHeader(["Metric", "Value"]);
+              pushRows([
+                ["Total Articles", stats.kpis?.totalArticles ?? ""],
+                ["Published Articles", stats.kpis?.publishedArticles ?? ""],
+                ["Total Projects", stats.kpis?.totalProjects ?? ""],
+                ["Published Projects", stats.kpis?.publishedProjects ?? ""],
+              ]);
+              rows.push([]);
+
+              // Trends
+              pushSection("Articles By Date");
+              pushHeader(["Date", "Count"]);
+              pushRows((stats.articlesByDate || []).map((d) => [d._id, d.count]));
+              rows.push([]);
+              pushSection("Projects By Date");
+              pushHeader(["Date", "Count"]);
+              pushRows((stats.projectsByDate || []).map((d) => [d._id, d.count]));
+              rows.push([]);
+
+              // Tags/Categories
+              pushSection("Article Tags");
+              pushHeader(["Tag", "Count"]);
+              pushRows((stats.articleTags || []).map((t) => [t._id, t.count]));
+              rows.push([]);
+              pushSection("Project Tags");
+              pushHeader(["Tag", "Count"]);
+              pushRows((stats.projectTags || []).map((t) => [t._id, t.count]));
+              rows.push([]);
+              pushSection("Project Categories");
+              pushHeader(["Category", "Count"]);
+              pushRows(
+                (stats.projectCategories || []).map((c) => [
+                  c._id || "Uncategorized",
+                  c.count,
+                ]),
+              );
+              rows.push([]);
+
+              // Top/Recent
+              pushSection("Top Viewed Articles");
+              pushHeader(["Title", "Slug", "Views", "Created At", "Id"]);
+              pushRows(
+                (stats.topViewedArticles || []).map((a) => [
+                  a.title,
+                  a.slug,
+                  a.views,
+                  a.createdAt,
+                  a._id,
+                ]),
+              );
+              rows.push([]);
+              pushSection("Top Viewed Projects");
+              pushHeader(["Title", "Slug", "Views", "Created At", "Id"]);
+              pushRows(
+                (stats.topViewedProjects || []).map((p) => [
+                  p.title,
+                  p.slug,
+                  p.views,
+                  p.createdAt,
+                  p._id,
+                ]),
+              );
+              rows.push([]);
+              pushSection("Recent Articles");
+              pushHeader(["Title", "Slug", "Published", "Created At", "Id"]);
+              pushRows(
+                (stats.recentArticles || []).map((a) => [
+                  a.title,
+                  a.slug,
+                  a.published,
+                  a.createdAt,
+                  a._id,
+                ]),
+              );
+              rows.push([]);
+              pushSection("Recent Projects");
+              pushHeader(["Title", "Slug", "Published", "Created At", "Id"]);
+              pushRows(
+                (stats.recentProjects || []).map((p) => [
+                  p.title,
+                  p.slug,
+                  p.published,
+                  p.createdAt,
+                  p._id,
+                ]),
+              );
+
+              const csv = rows
+                .map((r) =>
+                  r
+                    .map((v) => {
+                      const s = String(v ?? "");
+                      return /[",\n]/.test(s)
+                        ? '"' + s.replace(/"/g, '""') + '"'
+                        : s;
+                    })
+                    .join(","),
+                )
+                .join("\n");
+              const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+              const url = URL.createObjectURL(blob);
+              const a = document.createElement("a");
+              a.href = url;
+              const label = range ? `${range}d` : "all";
+              a.download = `analytics-export-${label}.csv`;
+              a.click();
+              URL.revokeObjectURL(url);
             }}
-            className={`${commonStyles.rangeButton} ${themeStyles.rangeButton} ${range === d ? commonStyles.rangeButtonActive : ""} ${range === d ? themeStyles.rangeButtonActive : ""}`}
+            className={`${commonStyles.exportButton} ${themeStyles.exportButton}`}
           >
-            <Icon name={d === 0 ? "infinity" : "calendar"} size={16} />
-            {d === 0 ? "All Time" : `${d}d`}
+            <Icon name="download" size={16} />
+            Export CSV
           </button>
-        ))}
-        <button
-          type="button"
-          onClick={() => {
-            if (!stats) return;
-            const rows = [];
-            const pushSection = (title) => rows.push([title]);
-            const pushHeader = (arr) => rows.push(arr);
-            const pushRows = (arr) => arr.forEach((r) => rows.push(r));
-
-            // KPIs
-            pushSection("KPIs");
-            pushHeader(["Metric", "Value"]);
-            pushRows([
-              ["Total Articles", stats.kpis?.totalArticles ?? ""],
-              ["Published Articles", stats.kpis?.publishedArticles ?? ""],
-              ["Total Projects", stats.kpis?.totalProjects ?? ""],
-              ["Published Projects", stats.kpis?.publishedProjects ?? ""],
-            ]);
-            rows.push([]);
-
-            // Trends
-            pushSection("Articles By Date");
-            pushHeader(["Date", "Count"]);
-            pushRows((stats.articlesByDate || []).map((d) => [d._id, d.count]));
-            rows.push([]);
-            pushSection("Projects By Date");
-            pushHeader(["Date", "Count"]);
-            pushRows((stats.projectsByDate || []).map((d) => [d._id, d.count]));
-            rows.push([]);
-
-            // Tags/Categories
-            pushSection("Article Tags");
-            pushHeader(["Tag", "Count"]);
-            pushRows((stats.articleTags || []).map((t) => [t._id, t.count]));
-            rows.push([]);
-            pushSection("Project Tags");
-            pushHeader(["Tag", "Count"]);
-            pushRows((stats.projectTags || []).map((t) => [t._id, t.count]));
-            rows.push([]);
-            pushSection("Project Categories");
-            pushHeader(["Category", "Count"]);
-            pushRows(
-              (stats.projectCategories || []).map((c) => [
-                c._id || "Uncategorized",
-                c.count,
-              ]),
-            );
-            rows.push([]);
-
-            // Top/Recent
-            pushSection("Top Viewed Articles");
-            pushHeader(["Title", "Slug", "Views", "Created At", "Id"]);
-            pushRows(
-              (stats.topViewedArticles || []).map((a) => [
-                a.title,
-                a.slug,
-                a.views,
-                a.createdAt,
-                a._id,
-              ]),
-            );
-            rows.push([]);
-            pushSection("Top Viewed Projects");
-            pushHeader(["Title", "Slug", "Views", "Created At", "Id"]);
-            pushRows(
-              (stats.topViewedProjects || []).map((p) => [
-                p.title,
-                p.slug,
-                p.views,
-                p.createdAt,
-                p._id,
-              ]),
-            );
-            rows.push([]);
-            pushSection("Recent Articles");
-            pushHeader(["Title", "Slug", "Published", "Created At", "Id"]);
-            pushRows(
-              (stats.recentArticles || []).map((a) => [
-                a.title,
-                a.slug,
-                a.published,
-                a.createdAt,
-                a._id,
-              ]),
-            );
-            rows.push([]);
-            pushSection("Recent Projects");
-            pushHeader(["Title", "Slug", "Published", "Created At", "Id"]);
-            pushRows(
-              (stats.recentProjects || []).map((p) => [
-                p.title,
-                p.slug,
-                p.published,
-                p.createdAt,
-                p._id,
-              ]),
-            );
-
-            const csv = rows
-              .map((r) =>
-                r
-                  .map((v) => {
-                    const s = String(v ?? "");
-                    return /[",\n]/.test(s)
-                      ? '"' + s.replace(/"/g, '""') + '"'
-                      : s;
-                  })
-                  .join(","),
-              )
-              .join("\n");
-            const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement("a");
-            a.href = url;
-            const label = range ? `${range}d` : "all";
-            a.download = `analytics-export-${label}.csv`;
-            a.click();
-            URL.revokeObjectURL(url);
-          }}
-          className={`${commonStyles.exportButton} ${themeStyles.exportButton}`}
-        >
-          <Icon name="download" size={16} />
-          Export CSV
-        </button>
+        </div>
       </div>
 
       {/* KPI Tiles with Sparklines */}
@@ -388,15 +394,17 @@ const AnalyticsPage = () => {
               );
             })()}
           </div>
-          <Sparklines
-            data={(stats?.articlesByDate || []).map((d) => d.count)}
-            height={40}
-            margin={5}
-          >
-            <SparklinesLine color="#3b82f6" className={commonStyles.sparklineNoFill} />
-            <SparklinesSpots size={2} />
-            <SparklinesReferenceLine type="mean" className={commonStyles.sparklineRefMean} />
-          </Sparklines>
+          <div className={commonStyles.sparklineWrapper}>
+            <Sparklines
+              data={(stats?.articlesByDate || []).map((d) => d.count)}
+              height={40}
+              margin={5}
+            >
+              <SparklinesLine color="#3b82f6" className={commonStyles.sparklineNoFill} />
+              <SparklinesSpots size={2} />
+              <SparklinesReferenceLine type="mean" className={commonStyles.sparklineRefMean} />
+            </Sparklines>
+          </div>
         </div>
         <div className={`${commonStyles.kpiCard} ${themeStyles.kpiCard}`}>
           <div className={commonStyles.kpiTitle}>
@@ -421,13 +429,15 @@ const AnalyticsPage = () => {
               );
             })()}
           </div>
-          <Sparklines
-            data={(stats?.articlesByDate || []).map((d) => d.count)}
-            height={40}
-            margin={5}
-          >
-            <SparklinesLine color="#6366f1" className={commonStyles.sparklineNoFill} />
-          </Sparklines>
+          <div className={commonStyles.sparklineWrapper}>
+            <Sparklines
+              data={(stats?.articlesByDate || []).map((d) => d.count)}
+              height={40}
+              margin={5}
+            >
+              <SparklinesLine color="#6366f1" className={commonStyles.sparklineNoFill} />
+            </Sparklines>
+          </div>
         </div>
         <div className={`${commonStyles.kpiCard} ${themeStyles.kpiCard}`}>
           <div className={commonStyles.kpiTitle}>
@@ -452,13 +462,15 @@ const AnalyticsPage = () => {
               );
             })()}
           </div>
-          <Sparklines
-            data={(stats?.projectsByDate || []).map((d) => d.count)}
-            height={40}
-            margin={5}
-          >
-            <SparklinesLine color="#10b981" className={commonStyles.sparklineNoFill} />
-          </Sparklines>
+          <div className={commonStyles.sparklineWrapper}>
+            <Sparklines
+              data={(stats?.projectsByDate || []).map((d) => d.count)}
+              height={40}
+              margin={5}
+            >
+              <SparklinesLine color="#10b981" className={commonStyles.sparklineNoFill} />
+            </Sparklines>
+          </div>
         </div>
         <div className={`${commonStyles.kpiCard} ${themeStyles.kpiCard}`}>
           <div className={commonStyles.kpiTitle}>
@@ -483,85 +495,97 @@ const AnalyticsPage = () => {
               );
             })()}
           </div>
-          <Sparklines
-            data={(stats?.projectsByDate || []).map((d) => d.count)}
-            height={40}
-            margin={5}
-          >
-            <SparklinesLine color="#10b981" className={commonStyles.sparklineNoFill} />
-            <SparklinesSpots size={2} />
-            <SparklinesReferenceLine type="mean" className={commonStyles.sparklineRefMean} />
-          </Sparklines>
+          <div className={commonStyles.sparklineWrapper}>
+            <Sparklines
+              data={(stats?.projectsByDate || []).map((d) => d.count)}
+              height={40}
+              margin={5}
+            >
+              <SparklinesLine color="#10b981" className={commonStyles.sparklineNoFill} />
+              <SparklinesSpots size={2} />
+              <SparklinesReferenceLine type="mean" className={commonStyles.sparklineRefMean} />
+            </Sparklines>
+          </div>
         </div>
       </div>
 
       <div className={`${commonStyles.chartsGrid} ${themeStyles.chartsGrid}`}>
-        <div className={`${commonStyles.chartContainer} ${themeStyles.chartContainer}`}>
-          <h3>
+        <div className={`${commonStyles.chartCard} ${themeStyles.chartCard}`}>
+          <h3 className={commonStyles.chartHeader}>
             <Icon name="pie-chart" size={20} />
             Articles by Status
           </h3>
-          {articleStatusData ? <DoughnutChart data={articleStatusData} /> : (
-            <div className={commonStyles.emptyState}>
-              <Icon name="file-text" size={48} />
-              <p>No article data available</p>
-            </div>
-          )}
+          <div className={commonStyles.chartContainer}>
+            {articleStatusData ? <DoughnutChart data={articleStatusData} /> : (
+              <div className={commonStyles.emptyState}>
+                <Icon name="file-text" size={48} />
+                <p>No article data available</p>
+              </div>
+            )}
+          </div>
         </div>
-        <div className={`${commonStyles.chartContainer} ${themeStyles.chartContainer}`}>
-          <h3>
+        <div className={`${commonStyles.chartCard} ${themeStyles.chartCard}`}>
+          <h3 className={commonStyles.chartHeader}>
             <Icon name="pie-chart" size={20} />
             Projects by Status
           </h3>
-          {projectStatusData ? <DoughnutChart data={projectStatusData} /> : (
-            <div className={commonStyles.emptyState}>
-              <Icon name="briefcase" size={48} />
-              <p>No project data available</p>
-            </div>
-          )}
+          <div className={commonStyles.chartContainer}>
+            {projectStatusData ? <DoughnutChart data={projectStatusData} /> : (
+              <div className={commonStyles.emptyState}>
+                <Icon name="briefcase" size={48} />
+                <p>No project data available</p>
+              </div>
+            )}
+          </div>
         </div>
-        <div className={`${commonStyles.chartContainer} ${themeStyles.chartContainer} ${commonStyles.fullWidth} ${themeStyles.fullWidth}`}>
-          <h3>
+        <div className={`${commonStyles.chartCard} ${themeStyles.chartCard} ${commonStyles.fullWidth} ${themeStyles.fullWidth}`}>
+          <h3 className={commonStyles.chartHeader}>
             <Icon name="bar-chart" size={20} />
             Articles vs Projects (Combined Trend)
           </h3>
-          {combinedTrendData ? <LineChart data={combinedTrendData} /> : (
-            <div className={commonStyles.emptyState}>
-              <Icon name="trending-up" size={48} />
-              <p>No trend data available</p>
-            </div>
-          )}
+          <div className={commonStyles.chartContainer}>
+            {combinedTrendData ? <LineChart data={combinedTrendData} /> : (
+              <div className={commonStyles.emptyState}>
+                <Icon name="trending-up" size={48} />
+                <p>No trend data available</p>
+              </div>
+            )}
+          </div>
         </div>
-        <div className={`${commonStyles.chartContainer} ${themeStyles.chartContainer} ${commonStyles.fullWidth} ${themeStyles.fullWidth}`}>
-          <h3>
+        <div className={`${commonStyles.chartCard} ${themeStyles.chartCard} ${commonStyles.fullWidth} ${themeStyles.fullWidth}`}>
+          <h3 className={commonStyles.chartHeader}>
             <Icon name="bar-chart" size={20} />
             Article Creation Trend
           </h3>
-          {articlesTrendData ? <LineChart data={articlesTrendData} /> : (
-            <div className={commonStyles.emptyState}>
-              <Icon name="file-text" size={48} />
-              <p>No article trend data available</p>
-            </div>
-          )}
+          <div className={commonStyles.chartContainer}>
+            {articlesTrendData ? <LineChart data={articlesTrendData} /> : (
+              <div className={commonStyles.emptyState}>
+                <Icon name="file-text" size={48} />
+                <p>No article trend data available</p>
+              </div>
+            )}
+          </div>
         </div>
-        <div className={`${commonStyles.chartContainer} ${themeStyles.chartContainer} ${commonStyles.fullWidth} ${themeStyles.fullWidth}`}>
-          <h3>
+        <div className={`${commonStyles.chartCard} ${themeStyles.chartCard} ${commonStyles.fullWidth} ${themeStyles.fullWidth}`}>
+          <h3 className={commonStyles.chartHeader}>
             <Icon name="bar-chart" size={20} />
             Project Creation Trend
           </h3>
-          {projectsTrendData ? <LineChart data={projectsTrendData} /> : (
-            <div className={commonStyles.emptyState}>
-              <Icon name="briefcase" size={48} />
-              <p>No project trend data available</p>
-            </div>
-          )}
+          <div className={commonStyles.chartContainer}>
+            {projectsTrendData ? <LineChart data={projectsTrendData} /> : (
+              <div className={commonStyles.emptyState}>
+                <Icon name="briefcase" size={48} />
+                <p>No project trend data available</p>
+              </div>
+            )}
+          </div>
         </div>
       </div>
 
       {/* Breakdown Sections */}
       <div className={commonStyles.breakdownGrid}>
-        <div className={`${commonStyles.sectionCard} ${themeStyles.sectionCard}`}>
-          <h3 className={commonStyles.sectionTitle}>
+        <div className={`${commonStyles.breakdownCard} ${themeStyles.breakdownCard}`}>
+          <h3 className={commonStyles.breakdownHeader}>
             <Icon name="tag" size={18} />
             Top Article Tags
           </h3>
@@ -574,7 +598,7 @@ const AnalyticsPage = () => {
                     router.push(`/articles?tag=${encodeURIComponent(t._id)}`)
                   }
                   title="View articles with this tag"
-                  className={`${commonStyles.chip} ${themeStyles.chip}`}
+                  className={`${commonStyles.chip} ${themeStyles.chip} ${commonStyles.chipActive}`}
                 >
                   <Icon name="tag" size={14} />
                   {t._id} ({t.count})
@@ -587,8 +611,8 @@ const AnalyticsPage = () => {
             )}
           </div>
         </div>
-        <div className={`${commonStyles.sectionCard} ${themeStyles.sectionCard}`}>
-          <h3 className={commonStyles.sectionTitle}>
+        <div className={`${commonStyles.breakdownCard} ${themeStyles.breakdownCard}`}>
+          <h3 className={commonStyles.breakdownHeader}>
             <Icon name="tag" size={18} />
             Top Project Tags
           </h3>
@@ -601,7 +625,7 @@ const AnalyticsPage = () => {
                     router.push(`/projects?tag=${encodeURIComponent(t._id)}`)
                   }
                   title="View projects with this tag"
-                  className={`${commonStyles.chip} ${themeStyles.chip}`}
+                  className={`${commonStyles.chip} ${themeStyles.chip} ${commonStyles.chipActive}`}
                 >
                   <Icon name="tag" size={14} />
                   {t._id} ({t.count})
@@ -614,8 +638,8 @@ const AnalyticsPage = () => {
             )}
           </div>
         </div>
-        <div className={`${commonStyles.sectionCard} ${themeStyles.sectionCard}`}>
-          <h3 className={commonStyles.sectionTitle}>
+        <div className={`${commonStyles.breakdownCard} ${themeStyles.breakdownCard}`}>
+          <h3 className={commonStyles.breakdownHeader}>
             <Icon name="folder" size={18} />
             Project Categories
           </h3>
@@ -643,8 +667,8 @@ const AnalyticsPage = () => {
             </div>
           )}
         </div>
-        <div className={`${commonStyles.sectionCard} ${themeStyles.sectionCard}`}>
-          <h3 className={commonStyles.sectionTitle}>
+        <div className={`${commonStyles.breakdownCard} ${themeStyles.breakdownCard}`}>
+          <h3 className={commonStyles.breakdownHeader}>
             <Icon name="eye" size={18} />
             Top Viewed
           </h3>
@@ -699,8 +723,8 @@ const AnalyticsPage = () => {
             </div>
           </div>
         </div>
-        <div className={`${commonStyles.sectionCard} ${themeStyles.sectionCard}`}>
-          <h3 className={commonStyles.sectionTitle}>
+        <div className={`${commonStyles.breakdownCard} ${themeStyles.breakdownCard}`}>
+          <h3 className={commonStyles.breakdownHeader}>
             <Icon name="clock" size={18} />
             Recent Activity
           </h3>

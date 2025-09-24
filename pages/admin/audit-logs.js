@@ -11,21 +11,23 @@ import utilities from "../../styles/utilities.module.css";
 import { useTheme } from "../../context/ThemeContext";
 import { formatDistanceToNow } from "date-fns";
 import InlineSpinner from "../../components/LoadingAnimation/InlineSpinner";
+import Icon from "../../components/Admin/Icon/Icon";
 
 const PAGE_SIZE = 20;
 
 const Filters = ({ filters, setFilters, onApply, themeStyles, common }) => {
   return (
-    <div className={`${common.filtersCard} ${themeStyles.filtersCard}`}>
+    <div className={`${common.filterBar} ${themeStyles.filterBar || ""}`}>
       <div className={`${common.filtersGrid} ${themeStyles.filtersGrid || ""}`}>
         <div
           className={`${common.fieldGroup} ${common.span4} ${themeStyles.fieldGroup || ""}`}
         >
           <label className={`${common.label} ${themeStyles.label || ""}`}>
+            <Icon name="search" size={16} />
             Search
           </label>
           <input
-            className={`${common.input} ${themeStyles.input}`}
+            className={`${common.formControl} ${themeStyles.formControl}`}
             placeholder="user, details, entityId"
             value={filters.q}
             onChange={(e) => setFilters((f) => ({ ...f, q: e.target.value }))}
@@ -35,10 +37,11 @@ const Filters = ({ filters, setFilters, onApply, themeStyles, common }) => {
           className={`${common.fieldGroup} ${common.span2} ${themeStyles.fieldGroup || ""}`}
         >
           <label className={`${common.label} ${themeStyles.label || ""}`}>
+            <Icon name="activity" size={16} />
             Action
           </label>
           <select
-            className={`${common.select} ${themeStyles.select}`}
+            className={`${common.formControl} ${common.select} ${themeStyles.formControl} ${themeStyles.select}`}
             value={filters.action}
             onChange={(e) =>
               setFilters((f) => ({ ...f, action: e.target.value }))
@@ -57,10 +60,11 @@ const Filters = ({ filters, setFilters, onApply, themeStyles, common }) => {
           className={`${common.fieldGroup} ${common.span2} ${themeStyles.fieldGroup || ""}`}
         >
           <label className={`${common.label} ${themeStyles.label || ""}`}>
+            <Icon name="database" size={16} />
             Entity
           </label>
           <select
-            className={`${common.select} ${themeStyles.select}`}
+            className={`${common.formControl} ${common.select} ${themeStyles.formControl} ${themeStyles.select}`}
             value={filters.entity}
             onChange={(e) =>
               setFilters((f) => ({ ...f, entity: e.target.value }))
@@ -77,11 +81,12 @@ const Filters = ({ filters, setFilters, onApply, themeStyles, common }) => {
           className={`${common.fieldGroup} ${common.span2} ${themeStyles.fieldGroup || ""}`}
         >
           <label className={`${common.label} ${themeStyles.label || ""}`}>
+            <Icon name="calendar" size={16} />
             From
           </label>
           <input
             type="date"
-            className={`${common.input} ${themeStyles.input}`}
+            className={`${common.formControl} ${themeStyles.formControl}`}
             value={filters.from}
             onChange={(e) =>
               setFilters((f) => ({ ...f, from: e.target.value }))
@@ -92,11 +97,12 @@ const Filters = ({ filters, setFilters, onApply, themeStyles, common }) => {
           className={`${common.fieldGroup} ${common.span2} ${themeStyles.fieldGroup || ""}`}
         >
           <label className={`${common.label} ${themeStyles.label || ""}`}>
+            <Icon name="calendar" size={16} />
             To
           </label>
           <input
             type="date"
-            className={`${common.input} ${themeStyles.input}`}
+            className={`${common.formControl} ${themeStyles.formControl}`}
             value={filters.to}
             onChange={(e) => setFilters((f) => ({ ...f, to: e.target.value }))}
           />
@@ -108,7 +114,8 @@ const Filters = ({ filters, setFilters, onApply, themeStyles, common }) => {
             onClick={onApply}
             className={`${utilities.btn} ${utilities.btnPrimary}`}
           >
-            Apply
+            <Icon name="filter" size={16} />
+            Apply Filters
           </button>
         </div>
       </div>
@@ -240,24 +247,16 @@ const AuditLogsPage = () => {
         <header
           className={`${commonStyles.pageHeader} ${themeStyles.pageHeader || ""}`}
         >
-          <div>
-            <h1
-              className={`${commonStyles.pageTitle} ${themeStyles.pageTitle}`}
-            >
-              Audit Logs
-              {loading && (
-                <span style={{ marginLeft: 8, display: "inline-flex", alignItems: "center", gap: 6 }}>
-                  <InlineSpinner sizePx={16} />
-                  <span>Loading…</span>
-                </span>
-              )}
-            </h1>
-            <p
-              className={`${commonStyles.pageSubtitle} ${themeStyles.pageSubtitle}`}
-            >
-              Track admin actions across Articles, Projects, and Users.
-            </p>
-          </div>
+          <h1
+            className={`${commonStyles.pageTitle} ${themeStyles.pageTitle}`}
+          >
+            Audit Logs
+          </h1>
+          <p
+            className={`${commonStyles.pageSubtitle} ${themeStyles.pageSubtitle}`}
+          >
+            Track admin actions across Articles, Projects, and Users.
+          </p>
         </header>
 
         <motion.div

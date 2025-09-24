@@ -1,0 +1,270 @@
+.filterContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 1.75rem;
+  border-radius: var(--admin-card-radius);
+  background: var(--surface);
+  border: var(--admin-card-border);
+  box-shadow: var(--admin-card-shadow);
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 2rem;
+  transition: all 0.3s ease;
+}
+
+.filterContainer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary), var(--success));
+  border-radius: var(--admin-card-radius) var(--admin-card-radius) 0 0;
+  opacity: 0.8;
+}
+
+.filterContainer:hover {
+  box-shadow: var(--admin-card-shadow-hover);
+  transform: translateY(-2px);
+}
+
+.filterHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.filterTitle {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.filterDescription {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.filterControls {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.filterRow {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.25rem;
+}
+
+.filterGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+}
+
+.filterLabel {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.searchInput {
+  padding: 0.625rem 0.875rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  width: 100%;
+  transition: all 0.2s ease;
+  background: var(--bg-elev-1);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: var(--text-md);
+}
+
+.searchInput:focus-visible {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+}
+
+.chipContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+/* Filter chip base */
+.filterChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-full);
+  font-size: var(--text-sm);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background: var(--bg-elev-2);
+  color: var(--text);
+  font-weight: 500;
+}
+
+.filterChip:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+  background: var(--bg-elev-3);
+}
+
+.filterChip:active { 
+  transform: translateY(1px); 
+}
+
+.activeChip { 
+  font-weight: 600;
+  background: var(--primary);
+  color: var(--primary-foreground);
+  border-color: var(--primary);
+}
+
+.bulkActionsContainer {
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.bulkActionsHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.bulkActionsCount {
+  font-weight: 600;
+  font-size: var(--text-lg);
+  color: var(--text);
+}
+
+.bulkActionsButtons {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.bulkActionButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1rem;
+  border-radius: var(--admin-btn-radius);
+  border: 1px solid var(--border);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-weight: 500;
+  font-size: var(--text-sm);
+  background: var(--bg-elev-1);
+  color: var(--text);
+}
+
+.bulkActionButton:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+}
+
+.bulkActionButton:active {
+  transform: translateY(1px);
+}
+
+.bulkActionButtonPrimary {
+  background: var(--primary);
+  color: var(--primary-foreground);
+  border-color: var(--primary);
+}
+
+.bulkActionButtonPrimary:hover {
+  background: var(--primary-dark);
+  border-color: var(--primary-dark);
+}
+
+.bulkActionButtonSecondary {
+  background: var(--secondary);
+  color: var(--secondary-foreground);
+  border-color: var(--secondary);
+}
+
+.bulkActionButtonSecondary:hover {
+  background: var(--secondary-dark);
+  border-color: var(--secondary-dark);
+}
+
+.bulkActionButtonDanger {
+  background: var(--danger);
+  color: var(--danger-foreground);
+  border-color: var(--danger);
+}
+
+.bulkActionButtonDanger:hover {
+  background: var(--danger-dark);
+  border-color: var(--danger-dark);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .filterContainer {
+    padding: 1.25rem;
+  }
+  
+  .filterRow {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .filterTitle {
+    font-size: 1.125rem;
+  }
+  
+  .bulkActionsButtons {
+    flex-direction: column;
+  }
+  
+  .bulkActionButton {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .filterContainer {
+    padding: 1rem;
+  }
+  
+  .filterRow {
+    gap: 0.875rem;
+  }
+  
+  .filterLabel {
+    font-size: 0.8125rem;
+  }
+  
+  .chipContainer {
+    gap: 0.375rem;
+  }
+  
+  .filterChip {
+    padding: var(--space-1) var(--space-2);
+    font-size: var(--text-xs);
+  }
+}

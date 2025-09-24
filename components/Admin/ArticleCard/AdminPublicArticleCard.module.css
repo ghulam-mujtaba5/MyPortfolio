@@ -1,0 +1,119 @@
+.articleCardWrapper {
+  background: var(--surface);
+  border-radius: var(--admin-card-radius);
+  border: var(--admin-card-border);
+  box-shadow: var(--admin-card-shadow);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: var(--space-2);
+}
+
+.articleCardWrapper:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--admin-card-shadow-hover);
+}
+
+.articleCardWrapper::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary), var(--info));
+  border-radius: var(--admin-card-radius) var(--admin-card-radius) 0 0;
+  opacity: 0.7;
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-elev-1);
+}
+
+.selectSection {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.selectLabel {
+  font-size: var(--text-sm);
+  opacity: 0.75;
+  color: var(--text);
+}
+
+.actionsSection {
+  display: inline-flex;
+  gap: var(--space-1);
+}
+
+.actionButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  background: var(--bg-elev-2);
+  color: var(--text);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.actionButton:hover {
+  background: var(--primary);
+  color: var(--primary-foreground);
+  border-color: var(--primary);
+  transform: translateY(-2px);
+}
+
+.actionButton:active {
+  transform: translateY(0);
+}
+
+.actionButtonDanger {
+  background: var(--danger);
+  color: var(--danger-foreground);
+  border-color: var(--danger);
+}
+
+.actionButtonDanger:hover {
+  background: var(--danger-dark);
+  border-color: var(--danger-dark);
+}
+
+.actionButtonActive {
+  background: var(--primary);
+  color: var(--primary-foreground);
+  border-color: var(--primary);
+}
+
+.statusSection {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  flex-wrap: wrap;
+}
+
+.pinnedBadge {
+  font-size: var(--text-xs);
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--primary-light);
+  border: 1px solid var(--primary-border);
+  color: var(--primary);
+  font-weight: 500;
+}
+
+.publicCardWrapper {
+  pointer-events: none;
+  padding: 0 var(--space-3) var(--space-3);
+}

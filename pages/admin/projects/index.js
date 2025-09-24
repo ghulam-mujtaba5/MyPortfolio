@@ -21,6 +21,7 @@ import projDark from "./projects.dark.module.css";
 import utilities from "../../../styles/utilities.module.css";
 import LoadingAnimation from "../../../components/LoadingAnimation/LoadingAnimation";
 import InlineSpinner from "../../../components/LoadingAnimation/InlineSpinner";
+import EnhancedFilterSection from "../../../components/Admin/Projects/EnhancedFilterSection";
 
 const ProjectsPage = () => {
   const { theme } = useTheme();
@@ -211,95 +212,20 @@ const ProjectsPage = () => {
           )}
           </h1>
           <Link href="/admin/projects/new" className={`${utilities.btn} ${utilities.btnPrimary}`}>
+            <Icon name="plus" size={16} />
             New Project
           </Link>
         </div>
 
-      {/* Filters and Bulk Actions */}
-      <div className={styles.filters}>
-        <input
-          type="text"
-          placeholder="Search by title..."
-          value={q}
-          onChange={(e) => setQ(e.target.value)}
-          className={styles.searchInput}
-          role="searchbox"
-          aria-label="Search projects by title"
+        <EnhancedFilterSection
+          search={q}
+          setSearch={setQ}
+          published={published}
+          featured={featured}
+          router={router}
+          selectedProjects={selectedProjects}
+          handleBulkAction={handleBulkAction}
         />
-        {q ? (
-          <button
-            type="button"
-            className={`${utilities.btn} ${utilities.btnIcon}`}
-            onClick={() => setQ("")}
-            aria-label="Clear search"
-            title="Clear"
-          >
-            Clear
-          </button>
-        ) : null}
-        <div className={styles.quickFilters}>
-          <button
-            className={`${styles.filterChip} ${!published && !featured ? styles.activeChip : ""}`}
-            aria-pressed={!published && !featured}
-            onClick={() =>
-              router.push(
-                `/admin/projects?${new URLSearchParams({ ...router.query, published: "", featured: "", page: 1 })}`,
-              )
-            }
-          >
-            All
-          </button>
-          <button
-            className={`${styles.filterChip} ${published === "true" ? styles.activeChip : ""}`}
-            aria-pressed={published === "true"}
-            onClick={() =>
-              router.push(
-                `/admin/projects?${new URLSearchParams({ ...router.query, published: "true", featured: "", page: 1 })}`,
-              )
-            }
-          >
-            Published
-          </button>
-          <button
-            className={`${styles.filterChip} ${published === "false" ? styles.activeChip : ""}`}
-            aria-pressed={published === "false"}
-            onClick={() =>
-              router.push(
-                `/admin/projects?${new URLSearchParams({ ...router.query, published: "false", featured: "", page: 1 })}`,
-              )
-            }
-          >
-            Draft
-          </button>
-          <button
-            className={`${styles.filterChip} ${featured === "true" ? styles.activeChip : ""}`}
-            aria-pressed={featured === "true"}
-            onClick={() =>
-              router.push(
-                `/admin/projects?${new URLSearchParams({ ...router.query, featured: "true", published: "", page: 1 })}`,
-              )
-            }
-          >
-            Featured
-          </button>
-        </div>
-        {selectedProjects.length > 0 && (
-          <div className={styles.bulkActions}>
-            <button className={`${utilities.btn} ${utilities.btnPrimary}`} onClick={() => handleBulkAction("publish")}>
-              Publish Selected
-            </button>
-            <button className={`${utilities.btn} ${utilities.btnSecondary}`} onClick={() => handleBulkAction("draft")}>
-              Set to Draft
-            </button>
-            <button
-              onClick={() => handleBulkAction("delete")}
-              className={`${utilities.btn} ${utilities.btnDanger}`}
-            >
-              Delete Selected
-            </button>
-          </div>
-        )}
-      </div>
 
       {loading ? (
         <ProjectListSkeleton />

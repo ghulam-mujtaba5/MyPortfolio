@@ -29,6 +29,7 @@ const ResumePage = () => {
   const [uploading, setUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
   const [selectedFile, setSelectedFile] = useState(null);
+  const [dragActive, setDragActive] = useState(false);
 
   const fetchResume = useCallback(async () => {
     setLoading(true);
@@ -58,19 +59,44 @@ const ResumePage = () => {
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      // Validate file type
-      if (file.type !== 'application/pdf') {
-        toast.error('Please select a PDF file.');
-        return;
-      }
-      
-      // Validate file size (max 5MB)
-      if (file.size > 5 * 1024 * 1024) {
-        toast.error('File size exceeds 5MB limit.');
-        return;
-      }
-      
-      setSelectedFile(file);
+      validateAndSetFile(file);
+    }
+  };
+
+  const validateAndSetFile = (file) => {
+    // Validate file type
+    if (file.type !== 'application/pdf') {
+      toast.error('Please select a PDF file.');
+      return;
+    }
+    
+    // Validate file size (max 5MB)
+    if (file.size > 5 * 1024 * 1024) {
+      toast.error('File size exceeds 5MB limit.');
+      return;
+    }
+    
+    setSelectedFile(file);
+  };
+
+  // Drag and drop handlers
+  const handleDrag = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (e.type === "dragenter" || e.type === "dragover") {
+      setDragActive(true);
+    } else if (e.type === "dragleave") {
+      setDragActive(false);
+    }
+  };
+
+  const handleDrop = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setDragActive(false);
+    
+    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+      validateAndSetFile(e.dataTransfer.files[0]);
     }
   };
 
@@ -142,67 +168,112 @@ const ResumePage = () => {
     window.open(url, '_blank');
   };
 
+  const handleRemoveFile = () => {
+    setSelectedFile(null);
+  };
+
   return (
     <AdminLayout title="Resume">
       <div className={styles.pageWrapper}>
-        <header className={styles.header}>
-          <div>
-            <h1 className={styles.title}>Manage Resume</h1>
-            <p className={styles.subtitle}>Upload and manage your professional resume</p>
-          </div>
+        <header className={styles.pageHeader}>
+          <h1 className={styles.pageTitle}>Manage Resume</h1>
+          <p className={styles.pageSubtitle}>Upload and manage your professional resume</p>
         </header>
 
-        <div className={styles.card}>
-          <h2 className={styles.cardTitle}>
+        <div className={styles.sectionCard}>
+          <h2 className={styles.sectionTitle}>
             <Icon name="upload" size={20} />
             Upload New Resume
           </h2>
-          <div className={styles.uploadSection}>
+          
+          {/* Modern Drag & Drop Area */}
+          <div 
+            className={`${styles.uploadArea} ${dragActive ? styles.active : ''}`}
+            onDragEnter={handleDrag}
+            onDragLeave={handleDrag}
+            onDragOver={handleDrag}
+            onDrop={handleDrop}
+          >
+            <Icon name="file-text" size={48} className={styles.uploadIcon} />
+            <div className={styles.uploadText}>
+              <h3>Drag & Drop your resume</h3>
+              <p>PDF files only, maximum 5MB</p>
+            </div>
             <input 
               type="file" 
               onChange={handleFileChange} 
               accept=".pdf" 
-              className={styles.fileInput} 
+              className={styles.fileInput}
               disabled={uploading}
             />
-            {selectedFile && (
-              <p className={styles.fileName}>
-                <Icon name="document" size={16} /> 
-                Selected file: {selectedFile.name}
-              </p>
-            )}
+            
             <div className={styles.actionButtons}>
               <button 
-                onClick={handleUpload} 
-                className={`${styles.actionButton} ${styles.primary}`} 
-                disabled={uploading || !selectedFile}
+                className={`${styles.actionButton} ${styles.secondary}`}
+                onClick={() => document.querySelector(`.${styles.fileInput}`).click()}
+                disabled={uploading}
               >
-                {uploading ? (
-                  <>
-                    <Spinner size="sm" />
-                    <span>Uploading... {uploadProgress}%</span>
-                  </>
-                ) : (
-                  <>
-                    <Icon name="upload" size={16} />
-                    <span>Upload Resume</span>
-                  </>
-                )}
+                <Icon name="folder" size={16} />
+                Browse Files
               </button>
             </div>
-            {uploading && (
+          </div>
+          
+          {/* Selected File Info */}
+          {selectedFile && (
+            <div className={styles.fileInfo}>
+              <Icon name="document" size={16} />
+              <span className={styles.fileName}>{selectedFile.name}</span>
+              <button 
+                onClick={handleRemoveFile}
+                className={styles.actionButton}
+                style={{ padding: '0.25rem', minWidth: 'auto' }}
+                disabled={uploading}
+              >
+                <Icon name="x" size={16} />
+              </button>
+            </div>
+          )}
+          
+          {/* Upload Progress */}
+          {uploading && (
+            <>
               <div className={styles.uploadProgress}>
                 <div 
                   className={styles.uploadProgressFill} 
                   style={{ width: `${uploadProgress}%` }}
                 />
               </div>
-            )}
+              <div className={styles.progressText}>
+                Uploading... {uploadProgress}%
+              </div>
+            </>
+          )}
+          
+          {/* Upload Button */}
+          <div className={styles.actionButtons}>
+            <button 
+              onClick={handleUpload} 
+              className={`${styles.actionButton} ${styles.primary}`} 
+              disabled={uploading || !selectedFile}
+            >
+              {uploading ? (
+                <>
+                  <Spinner size="sm" />
+                  <span>Uploading... {uploadProgress}%</span>
+                </>
+              ) : (
+                <>
+                  <Icon name="upload" size={16} />
+                  <span>Upload Resume</span>
+                </>
+              )}
+            </button>
           </div>
         </div>
 
-        <div className={styles.card}>
-          <h2 className={styles.cardTitle}>
+        <div className={styles.sectionCard}>
+          <h2 className={styles.sectionTitle}>
             <Icon name="document" size={20} />
             Current Resume
           </h2>
@@ -214,8 +285,10 @@ const ResumePage = () => {
           ) : resume ? (
             <div className={styles.resumeInfo}>
               <div>
-                <p><Icon name="document" size={16} /> {resume.filename}</p>
-                <p style={{ fontSize: '0.875rem', color: 'var(--text-muted)', marginTop: '0.25rem' }}>
+                <p>
+                  <Icon name="document" size={16} /> {resume.filename}
+                </p>
+                <p className={styles.resumeMeta}>
                   Uploaded: {new Date(resume.uploadedAt).toLocaleDateString()}
                 </p>
               </div>

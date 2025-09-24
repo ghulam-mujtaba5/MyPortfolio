@@ -1,63 +1,74 @@
+/* Modernized Resume Page Styles with 2025 Design Trends */
+
 .pageWrapper {
-  padding: 2rem;
+  padding: var(--space-6);
   max-width: 1200px;
   margin: 0 auto;
+  padding-right: calc(var(--space-6) + var(--fab-safe, 0px) + var(--safe-area-right, 0px));
+  margin-bottom: calc(var(--space-6) + var(--fab-safe, 0px) + var(--safe-area-bottom, 0px));
 }
 
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 2rem;
-  position: relative;
-  padding-bottom: 1rem;
+.pageHeader {
+  margin-bottom: var(--space-6);
 }
 
-.header::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: linear-gradient(90deg, var(--primary), var(--info));
-  opacity: 0.3;
-}
-
-.title {
-  font-size: 2rem;
+.pageTitle {
+  font-family: var(--font-sans);
+  font-size: 2.5rem;
   font-weight: 800;
+  margin: 0 0 0.5rem 0;
+  color: var(--text);
+  letter-spacing: -0.03em;
   background: linear-gradient(90deg, var(--primary), var(--info));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  margin: 0;
-}
-
-.subtitle {
-  font-size: 1rem;
-  color: var(--text-muted);
-  margin-top: 0.5rem;
-}
-
-.card {
   position: relative;
-  background-color: var(--bg-elev-1);
-  border-radius: var(--card-radius);
-  padding: 1.5rem;
-  margin-bottom: 2rem;
-  box-shadow: var(--shadow-sm);
-  transition: all 0.3s ease;
+  padding-bottom: 0.75rem;
+}
+
+.pageTitle::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 120px;
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary), var(--info));
+  border-radius: 4px;
+}
+
+.pageSubtitle {
+  font-family: var(--font-sans);
+  font-size: var(--text-lg);
+  color: var(--text-muted);
+  margin: 0 0 var(--space-8);
+  font-weight: 400;
+  max-width: 600px;
+}
+
+/* Modern Section Card */
+.sectionCard {
+  padding: 1.75rem;
+  border-radius: var(--admin-card-radius);
+  min-width: 0;
+  position: relative;
   overflow: hidden;
-  border: 1px solid var(--border);
+  transition: all 0.3s ease;
+  border: var(--admin-card-border);
+  box-shadow: var(--admin-card-shadow);
+  background: var(--surface);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  margin-bottom: 2rem;
 }
 
-.card:hover {
+.sectionCard:hover {
   transform: translateY(-4px);
-  box-shadow: var(--shadow-lg);
+  box-shadow: var(--admin-card-shadow-hover);
 }
 
-.card::before {
+.sectionCard::before {
   content: '';
   position: absolute;
   top: 0;
@@ -65,117 +76,100 @@
   right: 0;
   height: 4px;
   background: linear-gradient(90deg, var(--primary), var(--info));
-  border-radius: var(--card-radius) var(--card-radius) 0 0;
+  border-radius: var(--admin-card-radius) var(--admin-card-radius) 0 0;
   opacity: 0.7;
 }
 
-.cardTitle {
-  font-size: 1.25rem;
+.sectionTitle {
+  font-family: var(--font-sans);
+  font-size: 1.375rem;
   font-weight: 700;
-  margin-bottom: 1rem;
+  margin: 0 0 1.5rem 0;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.875rem;
   color: var(--text);
 }
 
-.cardTitle svg {
-  width: 20px;
-  height: 20px;
-}
-
-.formGroup {
-  display: flex;
-  flex-direction: column;
+/* Modern Upload Area */
+.uploadArea {
+  border: 2px dashed var(--border);
+  border-radius: var(--admin-card-radius);
+  padding: 2rem;
+  text-align: center;
+  transition: all 0.3s ease;
+  background: var(--bg-elev-1);
   margin-bottom: 1.5rem;
+  position: relative;
+  overflow: hidden;
 }
 
-.formLabel {
-  display: block;
-  margin-bottom: 0.5rem;
-  font-weight: 500;
-  font-size: var(--text-sm);
+.uploadArea:hover {
+  border-color: var(--primary);
+  background: var(--bg-elev-2);
+}
+
+.uploadArea.active {
+  border-color: var(--primary);
+  background: rgba(59, 130, 246, 0.05);
+}
+
+.uploadIcon {
+  width: 48px;
+  height: 48px;
+  margin: 0 auto 1rem;
+  color: var(--primary);
+  opacity: 0.7;
+}
+
+.uploadText {
+  margin-bottom: 1rem;
+}
+
+.uploadText h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0 0 0.5rem;
   color: var(--text);
 }
 
-.formControl {
+.uploadText p {
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.fileInput {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.fileInfo {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
   padding: 0.75rem 1rem;
+  background: var(--bg-elev-2);
   border-radius: var(--radius-md);
   border: 1px solid var(--border);
-  background: var(--bg-elev-2);
-  color: var(--text);
-  font-size: var(--text-md);
-  transition: all 0.2s ease;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-  width: 100%;
-  max-width: 400px;
-}
-
-.formControl:focus {
-  outline: none;
-  border-color: var(--primary);
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
-  background: var(--bg-elev-1);
-}
-
-.formControl::file-selector-button {
-  background: var(--primary);
-  color: white;
-  border: none;
-  border-radius: var(--radius-sm);
-  padding: 0.5rem 1rem;
-  margin-right: 1rem;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.formControl::file-selector-button:hover {
-  background: var(--primary-foreground);
-  opacity: 0.9;
+  margin-top: 1rem;
 }
 
 .fileName {
-  margin-top: 1rem;
-  color: var(--text-muted);
-  padding: 0.75rem 1rem;
-  background: var(--bg-elev-2);
-  border-radius: var(--radius-md);
-  width: 100%;
-  max-width: 400px;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  border: 1px solid var(--border);
+  flex: 1;
+  font-size: var(--text-sm);
+  color: var(--text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-.resumeInfo {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem;
-  border-radius: var(--radius-md);
-  background: var(--bg-elev-2);
-  border: 1px solid var(--border);
-}
-
-.resumeInfo p {
-  margin: 0;
-  font-weight: 500;
-}
-
-.noResume {
-  text-align: center;
-  padding: 2rem;
-  color: var(--text-muted);
-}
-
-.noResume svg {
-  width: 48px;
-  height: 48px;
-  margin-bottom: 1rem;
-  opacity: 0.5;
-}
-
+/* Modern Action Buttons */
 .actionButtons {
   display: flex;
   gap: 0.75rem;
@@ -188,12 +182,13 @@
   align-items: center;
   gap: 0.5rem;
   padding: 0.6rem 1.2rem;
-  border-radius: var(--radius-md);
+  border-radius: var(--admin-btn-radius);
   font-weight: 500;
   cursor: pointer;
   transition: all 0.2s ease;
   border: 1px solid transparent;
   font-size: var(--text-sm);
+  min-height: 40px;
 }
 
 .actionButton.primary {
@@ -233,33 +228,79 @@
   transform: none;
 }
 
+/* Modern Upload Progress */
 .uploadProgress {
   width: 100%;
-  max-width: 400px;
-  height: 6px;
+  height: 8px;
   background: var(--border);
-  border-radius: 3px;
+  border-radius: 4px;
   overflow: hidden;
-  margin-top: 1rem;
+  margin: 1.5rem 0;
 }
 
 .uploadProgressFill {
   height: 100%;
-  background: var(--primary);
-  border-radius: 3px;
+  background: linear-gradient(90deg, var(--primary), var(--info));
+  border-radius: 4px;
   width: 0%;
   transition: width 0.3s ease;
 }
 
+.progressText {
+  text-align: center;
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+  margin-top: 0.5rem;
+}
+
+/* Modern Resume Info */
+.resumeInfo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border-radius: var(--radius-md);
+  background: var(--bg-elev-2);
+  border: 1px solid var(--border);
+}
+
+.resumeInfo p {
+  margin: 0;
+  font-weight: 500;
+}
+
+.resumeMeta {
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+  margin-top: 0.25rem;
+}
+
+.noResume {
+  text-align: center;
+  padding: 2rem;
+  color: var(--text-muted);
+}
+
+.noResume svg {
+  width: 48px;
+  height: 48px;
+  margin-bottom: 1rem;
+  opacity: 0.5;
+}
+
+/* Error Message */
 .error {
   color: var(--danger);
   font-size: var(--text-sm);
   margin-top: 0.5rem;
   font-weight: 500;
+  padding: 0.75rem;
+  border-radius: var(--radius-md);
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.2);
 }
 
 /* Focus visible styles for accessibility */
-.formControl.focusVisible,
 .actionButton.focusVisible {
   box-shadow: var(--focus-ring);
 }
@@ -267,21 +308,23 @@
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .pageWrapper {
-    padding: 1rem;
+    padding: var(--space-4);
   }
   
-  .header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 1rem;
+  .pageTitle {
+    font-size: var(--text-3xl);
   }
   
-  .title {
-    font-size: 1.75rem;
+  .sectionCard {
+    padding: var(--space-5);
   }
   
-  .card {
-    padding: 1.25rem;
+  .sectionTitle {
+    font-size: var(--text-xl);
+  }
+  
+  .uploadArea {
+    padding: 1.5rem;
   }
   
   .resumeInfo {
@@ -299,9 +342,26 @@
     width: 100%;
     justify-content: center;
   }
+}
+
+@media (max-width: 480px) {
+  .pageWrapper {
+    padding: var(--space-3);
+  }
   
-  .formControl,
-  .fileName {
-    max-width: 100%;
+  .pageTitle {
+    font-size: var(--text-2xl);
+  }
+  
+  .sectionCard {
+    padding: var(--space-4);
+  }
+  
+  .sectionTitle {
+    font-size: var(--text-lg);
+  }
+  
+  .uploadArea {
+    padding: 1.25rem;
   }
 }

@@ -1,3 +1,5 @@
+/* Modernized Audit Logs Page Styles with 2025 Design Trends */
+
 .pageWrap {
   max-width: 1280px;
   margin: 0 auto;
@@ -9,20 +11,63 @@
 }
 
 .pageHeader {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-2);
   margin-bottom: var(--space-6);
-  padding: var(--space-6);
-  border-radius: var(--radius-lg);
-  background: var(--surface);
-  border: 1px solid var(--border);
-  box-shadow: var(--shadow-sm);
-  position: relative;
-  overflow: hidden;
 }
 
-.pageHeader::before {
+.pageTitle {
+  font-family: var(--font-sans);
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin: 0 0 1rem 0;
+  color: var(--text);
+  letter-spacing: -0.03em;
+  background: linear-gradient(90deg, var(--primary), var(--info));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  position: relative;
+  padding-bottom: 0.75rem;
+}
+
+.pageTitle::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 120px;
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary), var(--info));
+  border-radius: 4px;
+}
+
+.pageSubtitle {
+  font-family: var(--font-sans);
+  font-size: var(--text-lg);
+  color: var(--text-muted);
+  margin: 0 0 var(--space-8);
+  font-weight: 400;
+  max-width: 600px;
+}
+
+/* Modern Filter Bar */
+.filterBar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: end;
+  padding: 1.5rem;
+  border-radius: var(--admin-filter-radius);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  background: var(--surface);
+  border: var(--admin-card-border);
+  box-shadow: var(--admin-card-shadow);
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 2rem;
+}
+
+.filterBar::before {
   content: '';
   position: absolute;
   top: 0;
@@ -30,50 +75,30 @@
   right: 0;
   height: 4px;
   background: linear-gradient(90deg, var(--primary), var(--info));
+  border-radius: var(--admin-filter-radius) var(--admin-filter-radius) 0 0;
   opacity: 0.7;
 }
 
-.pageTitle {
-  font-family: var(--font-sans);
-  font-size: var(--text-4xl);
-  font-weight: 800;
-  margin: 0;
-  color: var(--text);
-  letter-spacing: -0.03em;
-}
-
-.pageSubtitle {
-  font-family: var(--font-sans);
-  font-size: var(--text-lg);
-  color: var(--text-muted);
-  margin: 0;
-  font-weight: 400;
-  max-width: 600px;
-}
-
-.filtersCard {
-  background: var(--bg-elev-1);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  padding: var(--space-5);
-  box-shadow: var(--shadow-sm);
+.filterGroup {
+  display: flex;
+  flex-direction: column;
   min-width: 0;
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  position: relative;
-  overflow: hidden;
-  margin-bottom: var(--space-6);
+  flex: 1;
 }
 
-.filtersCard::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 4px;
-  background: linear-gradient(90deg, var(--primary), var(--success));
-  opacity: 0.7;
+.filterLabel {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+.filterActions {
+  display: flex;
+  gap: 1rem;
+  margin-left: auto;
+  align-self: end;
 }
 
 .filtersGrid {
@@ -81,13 +106,6 @@
   grid-template-columns: repeat(12, minmax(0, 1fr));
   gap: var(--space-4);
   align-items: end;
-}
-
-.fieldGroup {
-  grid-column: span 12;
-  position: relative;
-  padding-top: var(--space-2);
-  min-width: 0;
 }
 
 .span2 {
@@ -119,6 +137,13 @@
   min-width: 0;
 }
 
+.fieldGroup {
+  grid-column: span 12;
+  position: relative;
+  padding-top: var(--space-2);
+  min-width: 0;
+}
+
 .label {
   position: absolute;
   top: -12px;
@@ -138,12 +163,11 @@
   font-weight: 500;
 }
 
-.input,
-.select {
+.formControl {
   width: 100%;
   height: var(--input-height);
   padding: var(--space-3) var(--space-4);
-  border-radius: var(--radius-md);
+  border-radius: var(--admin-input-radius);
   border: 1px solid var(--border);
   background: var(--bg-elev-1);
   color: var(--text);
@@ -154,10 +178,11 @@
   font-size: var(--text-md);
   font-family: var(--font-sans);
   transition: all 0.2s ease;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
 /* Custom caret for selects (theme-aware via currentColor) */
-.select {
+.formControl.select {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24'%3E%3Cpath fill='%2394a7ba' d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 10px center;
@@ -167,14 +192,12 @@
 
 /* iOS zoom prevention: keep at least 16px on very small screens */
 @media (max-width: 480px) {
-  .input,
-  .select {
+  .formControl {
     font-size: 16px;
   }
 }
 
-.input:focus,
-.select:focus {
+.formControl:focus {
   outline: none;
   border-color: var(--primary);
   box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
@@ -197,37 +220,20 @@
   }
 }
 
-/* Mobile enhancements */
-@media (max-width: 640px) {
-  .filtersGrid {
-    gap: var(--space-3);
-  }
-  .label {
-    top: -10px;
-    font-size: 11px;
-  }
-  .actionsRight {
-    width: 100%;
-    justify-content: stretch;
-    gap: var(--space-2);
-  }
-  .actionsRight > * {
-    flex: 1 1 auto;
-  }
-}
-
+/* Modern Card */
 .card {
-  background: var(--bg-elev-1);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  padding: var(--space-5);
-  margin-top: var(--space-4);
-  box-shadow: var(--shadow-sm);
+  padding: 1.75rem;
+  border-radius: var(--admin-card-radius);
   min-width: 0;
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
   position: relative;
   overflow: hidden;
+  transition: all 0.3s ease;
+  border: var(--admin-card-border);
+  box-shadow: var(--admin-card-shadow);
+  background: var(--surface);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  margin-bottom: 2rem;
 }
 
 .card::before {
@@ -238,6 +244,7 @@
   right: 0;
   height: 4px;
   background: linear-gradient(90deg, var(--primary), var(--danger));
+  border-radius: var(--admin-card-radius) var(--admin-card-radius) 0 0;
   opacity: 0.7;
 }
 
@@ -253,6 +260,7 @@
   padding-right: calc(var(--fab-safe, 0px) + var(--safe-area-right, 0px));
 }
 
+/* Modern Badges */
 .badge {
   display: inline-flex;
   align-items: center;
@@ -319,10 +327,6 @@
     padding: var(--space-4);
   }
   
-  .pageHeader {
-    padding: var(--space-4);
-  }
-  
   .pageTitle {
     font-size: var(--text-3xl);
   }
@@ -331,7 +335,7 @@
     font-size: var(--text-md);
   }
   
-  .filtersCard {
+  .filterBar {
     padding: var(--space-4);
   }
   
@@ -342,6 +346,20 @@
   .filtersGrid {
     gap: var(--space-3);
   }
+  
+  .filterGroup {
+    grid-column: span 12;
+  }
+  
+  .span2, .span3, .span4 {
+    grid-column: span 12;
+  }
+  
+  .pagination {
+    flex-direction: column;
+    gap: var(--space-3);
+    align-items: stretch;
+  }
 }
 
 @media (max-width: 480px) {
@@ -349,16 +367,24 @@
     padding: var(--space-3);
   }
   
-  .pageHeader {
-    padding: var(--space-3);
-  }
-  
   .pageTitle {
     font-size: var(--text-2xl);
   }
   
-  .filtersCard {
+  .filterBar {
     padding: var(--space-3);
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1.25rem;
+  }
+  
+  .filterActions {
+    margin-left: 0;
+    justify-content: stretch;
+  }
+  
+  .filterActions > * {
+    flex: 1;
   }
   
   .card {
@@ -371,11 +397,5 @@
   
   .span2, .span3, .span4 {
     grid-column: span 12;
-  }
-  
-  .pagination {
-    flex-direction: column;
-    gap: var(--space-3);
-    align-items: stretch;
   }
 }

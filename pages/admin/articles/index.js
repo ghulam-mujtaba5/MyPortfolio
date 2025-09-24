@@ -19,6 +19,7 @@ import InlineSpinner from "../../../components/LoadingAnimation/InlineSpinner";
 import LoadingAnimation from "../../../components/LoadingAnimation/LoadingAnimation";
 import AdminPublicArticleCard from "../../../components/Admin/ArticleCard/AdminPublicArticleCard";
 import SavedSearches from "../../../components/Admin/SavedSearches/SavedSearches";
+import EnhancedFilterSection from "../../../components/Admin/Articles/EnhancedFilterSection";
 
 import commonStyles from "./articles.common.module.css";
 import lightStyles from "./articles.light.module.css";
@@ -236,39 +237,13 @@ const ArticlesPage = () => {
           </Link>
         </header>
 
-        <div className={styles.filterBar}>
-          <SearchInput
-            value={search}
-            onChange={(e) => handleFilterChange("search", e.target.value)}
-            placeholder="Search by title..."
-          />
-          <Select
-            value={status}
-            onChange={(e) => handleFilterChange("status", e.target.value)}
-          >
-            <option value="">All Statuses</option>
-            <option value="published">Published</option>
-            <option value="draft">Draft</option>
-            <option value="scheduled">Scheduled</option>
-          </Select>
-          <Select
-            value={hasCover}
-            onChange={(e) => handleFilterChange("hasCover", e.target.value)}
-          >
-            <option value="">All Covers</option>
-            <option value="true">With Cover</option>
-            <option value="false">No Cover</option>
-          </Select>
-          <Select
-            value={limit}
-            onChange={(e) => handleFilterChange("limit", e.target.value)}
-          >
-            <option value="10">10 / page</option>
-            <option value="20">20 / page</option>
-            <option value="50">50 / page</option>
-          </Select>
-          <SavedSearches scope="articles" />
-        </div>
+        <EnhancedFilterSection
+          search={search}
+          status={status}
+          hasCover={hasCover}
+          limit={limit}
+          handleFilterChange={handleFilterChange}
+        />
 
         {(topTags.length > 0 || topCategories.length > 0) && (
           <div className={styles.quickFiltersContainer}>

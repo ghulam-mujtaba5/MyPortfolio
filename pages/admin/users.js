@@ -3,15 +3,16 @@ import AdminLayout from "../../components/Admin/AdminLayout/AdminLayout";
 import Modal from "../../components/Admin/Modal/Modal";
 import withAdminAuth from "../../lib/withAdminAuth";
 import toast from "react-hot-toast";
-import { FiEdit, FiTrash2 } from "react-icons/fi";
+import { FiEdit, FiTrash2, FiPlus, FiSearch, FiX } from "react-icons/fi";
 import commonStyles from "./users.module.css";
 import lightStyles from "./users.light.module.css";
 import darkStyles from "./users.dark.module.css";
 import utilities from "../../styles/utilities.module.css";
 import { useTheme } from "../../context/ThemeContext";
 import InlineSpinner from "../../components/LoadingAnimation/InlineSpinner";
+import Icon from "../../components/Admin/Icon/Icon";
 
-// Delete Confirmation Modal (top-level so UsersPage can reference it)
+// Delete Confirmation Modal
 const DeleteConfirmModal = ({ user, onCancel, onConfirm, isDeleting }) => {
   const { theme } = useTheme();
   const themeStyles = theme === "dark" ? darkStyles : lightStyles;
@@ -75,36 +76,36 @@ const EditUserModal = ({ user, onClose, onUserUpdate }) => {
     <Modal isOpen={true} onClose={onClose} title="Edit User" initialFocusRef={nameRef}>
       <form onSubmit={handleUpdate}>
         <div className={commonStyles.formGrid}>
-          <div>
-            <label htmlFor="edit_name" className={commonStyles.label}>Name</label>
+          <div className={commonStyles.formGroup}>
+            <label htmlFor="edit_name" className={commonStyles.formLabel}>Name</label>
             <input
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
               id="edit_name"
               ref={nameRef}
-              className={`${commonStyles.input} ${themeStyles.input}`}
+              className={commonStyles.formControl}
               required
             />
           </div>
-          <div>
-            <label htmlFor="edit_email" className={commonStyles.label}>Email</label>
+          <div className={commonStyles.formGroup}>
+            <label htmlFor="edit_email" className={commonStyles.formLabel}>Email</label>
             <input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               id="edit_email"
-              className={`${commonStyles.input} ${themeStyles.input}`}
+              className={commonStyles.formControl}
               required
             />
           </div>
-          <div>
-            <label htmlFor="edit_role" className={commonStyles.label}>Role</label>
+          <div className={commonStyles.formGroup}>
+            <label htmlFor="edit_role" className={commonStyles.formLabel}>Role</label>
             <select
               value={role}
               onChange={(e) => setRole(e.target.value)}
               id="edit_role"
-              className={`${commonStyles.select} ${themeStyles.select}`}
+              className={commonStyles.formControl}
             >
               <option value="editor">Editor</option>
               <option value="admin">Admin</option>
@@ -129,6 +130,7 @@ const UsersPage = () => {
   const { theme } = useTheme();
   const themeStyles = theme === "dark" ? darkStyles : lightStyles;
   const [users, setUsers] = useState([]);
+  const [filteredUsers, setFilteredUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [isEditModalOpen, setEditModalOpen] = useState(false);
@@ -136,6 +138,10 @@ const UsersPage = () => {
   const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
   const [userToDelete, setUserToDelete] = useState(null);
   const [isDeleting, setIsDeleting] = useState(false);
+
+  // Filter state
+  const [searchTerm, setSearchTerm] = useState("");
+  const [roleFilter, setRoleFilter] = useState("");
 
   // Create form state
   const [newName, setNewName] = useState("");
@@ -151,6 +157,7 @@ const UsersPage = () => {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Failed to fetch users");
       setUsers(data);
+      setFilteredUsers(data);
     } catch (e) {
       setError(e.message);
       toast.error(e.message);
@@ -162,6 +169,27 @@ const UsersPage = () => {
   useEffect(() => {
     fetchUsers();
   }, []);
+
+  // Apply filters
+  useEffect(() => {
+    let result = users;
+    
+    // Apply search filter
+    if (searchTerm) {
+      const term = searchTerm.toLowerCase();
+      result = result.filter(user => 
+        user.name.toLowerCase().includes(term) || 
+        user.email.toLowerCase().includes(term)
+      );
+    }
+    
+    // Apply role filter
+    if (roleFilter) {
+      result = result.filter(user => user.role === roleFilter);
+    }
+    
+    setFilteredUsers(result);
+  }, [searchTerm, roleFilter, users]);
 
   const handleCreateUser = async (e) => {
     e.preventDefault();
@@ -222,6 +250,11 @@ const UsersPage = () => {
     setEditModalOpen(true);
   };
 
+  const clearFilters = () => {
+    setSearchTerm("");
+    setRoleFilter("");
+  };
+
   return (
     <AdminLayout>
       {isEditModalOpen && (
@@ -241,62 +274,138 @@ const UsersPage = () => {
       )}
       <div className={commonStyles.pageContainer}>
         <div className={commonStyles.mtLg}>
-          <h1 className={`${commonStyles.pageTitle} ${themeStyles.sectionTitle}`}>
+          <h1 className={commonStyles.pageTitle}>
             User Management
           </h1>
           <p className={commonStyles.pageSubtitle}>
             Manage all users, their roles, and permissions in your admin system.
           </p>
 
-          <div className={`${commonStyles.sectionCard} ${themeStyles.sectionCard} ${commonStyles.mtLg}`}>
-            <h2 className={`${commonStyles.sectionTitle} ${themeStyles.sectionTitle}`}>
-              <span>Create New User</span>
+          {/* Modern Filter Bar */}
+          <div className={commonStyles.filterBar}>
+            <div className={commonStyles.filterGroup}>
+              <label className={commonStyles.filterLabel}>
+                <Icon name="search" size={16} />
+                Search Users
+              </label>
+              <div style={{ position: 'relative' }}>
+                <input
+                  type="text"
+                  placeholder="Search by name or email..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className={commonStyles.formControl}
+                  style={{ paddingLeft: '2.5rem' }}
+                />
+                <Icon 
+                  name="search" 
+                  size={16} 
+                  style={{ 
+                    position: 'absolute', 
+                    left: '1rem', 
+                    top: '50%', 
+                    transform: 'translateY(-50%)', 
+                    color: 'var(--text-muted)' 
+                  }} 
+                />
+                {searchTerm && (
+                  <button 
+                    onClick={() => setSearchTerm("")}
+                    style={{ 
+                      position: 'absolute', 
+                      right: '0.75rem', 
+                      top: '50%', 
+                      transform: 'translateY(-50%)', 
+                      background: 'none', 
+                      border: 'none', 
+                      cursor: 'pointer',
+                      color: 'var(--text-muted)'
+                    }}
+                  >
+                    <Icon name="x" size={16} />
+                  </button>
+                )}
+              </div>
+            </div>
+            
+            <div className={commonStyles.filterGroup}>
+              <label className={commonStyles.filterLabel}>
+                <Icon name="user" size={16} />
+                Role
+              </label>
+              <select
+                value={roleFilter}
+                onChange={(e) => setRoleFilter(e.target.value)}
+                className={commonStyles.formControl}
+              >
+                <option value="">All Roles</option>
+                <option value="admin">Admin</option>
+                <option value="editor">Editor</option>
+              </select>
+            </div>
+            
+            <div className={commonStyles.filterActions}>
+              <button
+                onClick={clearFilters}
+                className={`${utilities.btn} ${utilities.btnSecondary}`}
+                disabled={!searchTerm && !roleFilter}
+              >
+                <Icon name="x" size={16} />
+                Clear Filters
+              </button>
+            </div>
+          </div>
+
+          <div className={`${commonStyles.sectionCard} ${themeStyles.sectionCard}`}>
+            <h2 className={commonStyles.sectionTitle}>
+              <Icon name="user-plus" size={20} />
+              Create New User
             </h2>
             <form onSubmit={handleCreateUser} aria-busy={creating}>
               <div className={commonStyles.formGrid}>
-                <div>
-                  <label htmlFor="create_name" className={commonStyles.label}>Name</label>
+                <div className={commonStyles.formGroup}>
+                  <label htmlFor="create_name" className={commonStyles.formLabel}>Name</label>
                   <input
                     type="text"
                     placeholder="Full Name"
                     value={newName}
                     onChange={(e) => setNewName(e.target.value)}
                     id="create_name"
-                    className={`${commonStyles.input} ${themeStyles.input}`}
+                    className={commonStyles.formControl}
                     required
                   />
                 </div>
-                <div>
-                  <label htmlFor="create_email" className={commonStyles.label}>Email</label>
+                <div className={commonStyles.formGroup}>
+                  <label htmlFor="create_email" className={commonStyles.formLabel}>Email</label>
                   <input
                     type="email"
                     placeholder="user@example.com"
                     value={newEmail}
                     onChange={(e) => setNewEmail(e.target.value)}
                     id="create_email"
-                    className={`${commonStyles.input} ${themeStyles.input}`}
+                    className={commonStyles.formControl}
                     required
                   />
                 </div>
-                <div>
-                  <label htmlFor="create_password" className={commonStyles.label}>Password</label>
+                <div className={commonStyles.formGroup}>
+                  <label htmlFor="create_password" className={commonStyles.formLabel}>Password</label>
                   <input
                     type="password"
                     placeholder="Secure password"
                     value={newPassword}
                     onChange={(e) => setNewPassword(e.target.value)}
                     id="create_password"
-                    className={`${commonStyles.input} ${themeStyles.input}`}
+                    className={commonStyles.formControl}
                     required
                   />
                 </div>
-                <div>
-                  <label htmlFor="create_role" className={commonStyles.label}>Role</label>
+                <div className={commonStyles.formGroup}>
+                  <label htmlFor="create_role" className={commonStyles.formLabel}>Role</label>
                   <select
                     value={newRole}
                     onChange={(e) => setNewRole(e.target.value)}
                     id="create_role"
-                    className={`${commonStyles.select} ${themeStyles.select}`}
+                    className={commonStyles.formControl}
                   >
                     <option value="editor">Editor</option>
                     <option value="admin">Admin</option>
@@ -309,108 +418,109 @@ const UsersPage = () => {
                 disabled={creating}
               >
                 {creating && <InlineSpinner sizePx={16} />}
-                <span style={{ marginLeft: creating ? 6 : 0 }}>{creating ? "Creating…" : "Create User"}</span>
+                <span style={{ marginLeft: creating ? 6 : 0 }}>
+                  <Icon name="plus" size={16} />
+                  {creating ? "Creating…" : "Create User"}
+                </span>
               </button>
             </form>
           </div>
 
-          <div className={`${commonStyles.sectionCard} ${themeStyles.sectionCard} ${commonStyles.mtLg}`}>
-            <h2 className={`${commonStyles.sectionTitle} ${themeStyles.sectionTitle}`}>
-              <span>All Users</span>
+          <div className={`${commonStyles.sectionCard} ${themeStyles.sectionCard}`}>
+            <h2 className={commonStyles.sectionTitle}>
+              <Icon name="users" size={20} />
+              All Users
+              <span style={{ 
+                fontSize: '0.875rem', 
+                fontWeight: 'normal', 
+                color: 'var(--text-muted)', 
+                marginLeft: '0.5rem' 
+              }}>
+                ({filteredUsers.length} users)
+              </span>
             </h2>
             {loading && (
               <div style={{ padding: "1.5rem", display: "flex", alignItems: "center", gap: "0.5rem" }}>
                 <InlineSpinner sizePx={18} />
-                <span className={commonStyles.muted || undefined}>Loading users…</span>
+                <span>Loading users…</span>
               </div>
             )}
-            {error && <p className={`${commonStyles.errorText} ${themeStyles.errorText}`}>Error: {error}</p>}
+            {error && <p className={commonStyles.errorText}>Error: {error}</p>}
             {!loading && !error && (
-              <div className={`${commonStyles.tableWrapper} ${themeStyles.tableWrapper}`} aria-busy={loading}>
-                <table className={`${commonStyles.table} ${themeStyles.table}`}>
+              <div className={commonStyles.tableWrapper} aria-busy={loading}>
+                <table className={commonStyles.table}>
                   <thead>
                     <tr>
-                      <th>Name</th>
+                      <th>User</th>
                       <th>Email</th>
                       <th>Role</th>
                       <th>Actions</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {users.map((user) => (
-                      <tr key={user._id}>
-                        <td>
-                          <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
-                            <div
-                              style={{
-                                width: "36px",
-                                height: "36px",
-                                borderRadius: "50%",
-                                backgroundColor: "var(--primary)",
-                                display: "flex",
-                                alignItems: "center",
-                                justifyContent: "center",
-                                color: "white",
-                                fontWeight: "600",
-                                fontSize: "0.875rem",
-                              }}
+                    {filteredUsers.length === 0 ? (
+                      <tr>
+                        <td colSpan="4" style={{ textAlign: 'center', padding: '2rem', color: 'var(--text-muted)' }}>
+                          <Icon name="users" size={48} style={{ opacity: 0.5, marginBottom: '1rem' }} />
+                          <p>No users found</p>
+                          {(searchTerm || roleFilter) && (
+                            <button 
+                              onClick={clearFilters}
+                              className={`${utilities.btn} ${utilities.btnSecondary}`}
+                              style={{ marginTop: '1rem' }}
                             >
-                              {user.name.charAt(0).toUpperCase()}
-                            </div>
-                            <span>{user.name}</span>
-                          </div>
-                        </td>
-                        <td>{user.email}</td>
-                        <td className={commonStyles.capitalize}>
-                          <span
-                            style={{
-                              padding: "0.25rem 0.75rem",
-                              borderRadius: "var(--radius-full)",
-                              fontSize: "0.75rem",
-                              fontWeight: "600",
-                              backgroundColor: user.role === "admin" 
-                                ? "rgba(59, 130, 246, 0.1)" 
-                                : "rgba(16, 185, 129, 0.1)",
-                              color: user.role === "admin" 
-                                ? "var(--primary)" 
-                                : "var(--success)",
-                              border: `1px solid ${user.role === "admin" 
-                                ? "rgba(59, 130, 246, 0.2)" 
-                                : "rgba(16, 185, 129, 0.2)"}`
-                            }}
-                          >
-                            {user.role}
-                          </span>
-                        </td>
-                        <td className={`${commonStyles.actions} ${themeStyles.actions}`}>
-                          {isDeleting && userToDelete && userToDelete._id === user._id ? (
-                            <span style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
-                              <InlineSpinner sizePx={14} />
-                              <span className={commonStyles.muted || undefined}>Deleting…</span>
-                            </span>
-                          ) : (
-                            <>
-                              <button
-                                onClick={() => openEditModal(user)}
-                                className={`${utilities.btn} ${utilities.btnIcon} ${themeStyles.actionButton}`}
-                                disabled={isDeleting}
-                                title="Edit user"
-                              >
-                                <FiEdit />
-                              </button>
-                              <button
-                                onClick={() => openDeleteModal(user)}
-                                className={`${utilities.btn} ${utilities.btnIcon} ${themeStyles.deleteButton}`}
-                                disabled={isDeleting}
-                                title="Delete user"
-                              >
-                                <FiTrash2 />
-                              </button>
-                            </>
+                              Clear Filters
+                            </button>
                           )}
                         </td>
                       </tr>
-                    ))}
+                    ) : (
+                      filteredUsers.map((user) => (
+                        <tr key={user._id}>
+                          <td>
+                            <div className={commonStyles.userAvatar}>
+                              <div className={commonStyles.avatar}>
+                                {user.name.charAt(0).toUpperCase()}
+                              </div>
+                              <span>{user.name}</span>
+                            </div>
+                          </td>
+                          <td>{user.email}</td>
+                          <td>
+                            <span className={`${commonStyles.roleBadge} ${commonStyles[user.role]}`}>
+                              {user.role}
+                            </span>
+                          </td>
+                          <td className={commonStyles.actions}>
+                            {isDeleting && userToDelete && userToDelete._id === user._id ? (
+                              <span style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
+                                <InlineSpinner sizePx={14} />
+                                <span>Deleting…</span>
+                              </span>
+                            ) : (
+                              <>
+                                <button
+                                  onClick={() => openEditModal(user)}
+                                  className={commonStyles.actionButton}
+                                  disabled={isDeleting}
+                                  title="Edit user"
+                                >
+                                  <FiEdit size={16} />
+                                </button>
+                                <button
+                                  onClick={() => openDeleteModal(user)}
+                                  className={`${commonStyles.actionButton} ${commonStyles.delete}`}
+                                  disabled={isDeleting}
+                                  title="Delete user"
+                                >
+                                  <FiTrash2 size={16} />
+                                </button>
+                              </>
+                            )}
+                          </td>
+                        </tr>
+                      ))
+                    )}
                   </tbody>
                 </table>
               </div>

@@ -83,6 +83,16 @@
   --info: #06b6d4;
 
   --focus-ring: 2px solid rgba(59, 130, 246, 0.55);
+  
+  /* Admin-specific design tokens for consistent styling */
+  --admin-card-radius: var(--radius-lg);
+  --admin-card-border: 1px solid var(--border);
+  --admin-card-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --admin-card-shadow-hover: 0 8px 24px rgba(0, 0, 0, 0.12);
+  
+  --admin-btn-radius: var(--radius-md);
+  --admin-input-radius: var(--radius-md);
+  --admin-filter-radius: var(--radius-lg);
 }
 
 /* Light Theme */

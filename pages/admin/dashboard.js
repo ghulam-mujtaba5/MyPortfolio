@@ -23,6 +23,7 @@ import lightStyles from "./dashboard.light.module.css";
 import darkStyles from "./dashboard.dark.module.css";
 import { useTheme } from "../../context/ThemeContext";
 import InlineSpinner from "../../components/LoadingAnimation/InlineSpinner";
+import Icon from "../../components/Admin/Icon/Icon";
 
 const AdminDashboard = () => {
   const [recentActivity, setRecentActivity] = useState([]);
@@ -201,19 +202,7 @@ const AdminDashboard = () => {
             <InlineSpinner sizePx={32} />
           </div>
         ) : statsError ? (
-          <div style={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-            padding: '2rem',
-            borderRadius: '0.5rem',
-            border: '1px solid var(--border)',
-            backgroundColor: 'var(--bg-elev-1)',
-            textAlign: 'center',
-            maxWidth: '500px',
-            margin: '2rem auto'
-          }}>
+          <div className={commonStyles.errorState}>
             <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>⚠️</div>
             <h3 style={{ margin: '0 0 0.5rem 0' }}>Unable to Load Dashboard Data</h3>
             <p style={{ color: 'var(--text-muted)', margin: '0 0 1rem 0' }}>
@@ -247,80 +236,107 @@ const AdminDashboard = () => {
           </div>
         ) : (
           <motion.div
-            className={`${commonStyles.widgetsGrid} ${themeStyles.widgetsGrid}`}
+            className={commonStyles.widgetsGrid}
             variants={containerVariants}
             initial="hidden"
             animate="visible"
           >
             <motion.div variants={itemVariants}>
-              <StatWidget
-                icon={<FaUsers />}
-                title="Total Users"
-                value={Number(stats.users || 0).toLocaleString()}
-              />
+              <div className={commonStyles.statWidgetCard}>
+                <div className={commonStyles.statWidgetIcon}>
+                  <FaUsers size={24} />
+                </div>
+                <div className={commonStyles.statWidgetTitle}>Total Users</div>
+                <div className={commonStyles.statWidgetValue}>{Number(stats.users || 0).toLocaleString()}</div>
+              </div>
             </motion.div>
             <motion.div variants={itemVariants}>
-              <StatWidget
-                icon={<FaFileAlt />}
-                title="Total Articles"
-                value={Number(stats.articles || 0).toLocaleString()}
-              />
+              <div className={commonStyles.statWidgetCard}>
+                <div className={commonStyles.statWidgetIcon}>
+                  <FaFileAlt size={24} />
+                </div>
+                <div className={commonStyles.statWidgetTitle}>Total Articles</div>
+                <div className={commonStyles.statWidgetValue}>{Number(stats.articles || 0).toLocaleString()}</div>
+              </div>
             </motion.div>
             <motion.div variants={itemVariants}>
-              <StatWidget
-                icon={<FaProjectDiagram />}
-                title="Total Projects"
-                value={Number(stats.projects || 0).toLocaleString()}
-              />
+              <div className={commonStyles.statWidgetCard}>
+                <div className={commonStyles.statWidgetIcon}>
+                  <FaProjectDiagram size={24} />
+                </div>
+                <div className={commonStyles.statWidgetTitle}>Total Projects</div>
+                <div className={commonStyles.statWidgetValue}>{Number(stats.projects || 0).toLocaleString()}</div>
+              </div>
             </motion.div>
             <motion.div variants={itemVariants}>
-              <StatWidget
-                icon={<FaComments />}
-                title="Total Views"
-                value={Number(stats.views || 0).toLocaleString()}
-              />
+              <div className={commonStyles.statWidgetCard}>
+                <div className={commonStyles.statWidgetIcon}>
+                  <FaComments size={24} />
+                </div>
+                <div className={commonStyles.statWidgetTitle}>Total Views</div>
+                <div className={commonStyles.statWidgetValue}>{Number(stats.views || 0).toLocaleString()}</div>
+              </div>
             </motion.div>
 
             <motion.div 
-              className={`${commonStyles.chartArea} ${themeStyles.chartArea}`} 
+              className={commonStyles.chartArea} 
               variants={itemVariants}
             >
-              <ChartCard title="Page Views" hasData={hasChartData}>
-                <SampleLineChart
-                  key={`pv-${chartLabels.join("|")}-${chartDataPoints.join("|")}`}
-                  labels={chartLabels}
-                  dataPoints={chartDataPoints}
-                  label="Page Views"
-                />
-              </ChartCard>
-            </motion.div>
-
-            <motion.div 
-              className={`${commonStyles.fullWidthCard} ${themeStyles.fullWidthCard}`} 
-              variants={itemVariants}
-            >
-              <div className={commonStyles.tableHeader}>
-                <h2 className={`${commonStyles.sectionTitle} ${themeStyles.sectionTitle}`}>
-                  <FaClock style={{ color: "var(--primary)" }} />
-                  Recent Activity
+              <div className={commonStyles.chartCard}>
+                <h2 className={commonStyles.chartHeader}>
+                  <FaChartLine size={20} />
+                  Page Views
                 </h2>
-                <div className={commonStyles.tableActions}>
-                  <button 
-                    className="btn btn-sm btn-ghost"
-                    style={{ 
-                      padding: "0.25rem 0.5rem", 
-                      fontSize: "0.75rem",
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "0.25rem"
-                    }}
-                  >
-                    <FaUserCheck size={12} />
-                    View All
-                  </button>
+                <div className={commonStyles.chartContainer}>
+                  {hasChartData ? (
+                    <SampleLineChart
+                      key={`pv-${chartLabels.join("|")}-${chartDataPoints.join("|")}`}
+                      labels={chartLabels}
+                      dataPoints={chartDataPoints}
+                      label="Page Views"
+                    />
+                  ) : (
+                    <div className={commonStyles.emptyState}>
+                      <Icon name="bar-chart" size={48} />
+                      <p>No chart data available</p>
+                    </div>
+                  )}
                 </div>
               </div>
-              <Table columns={activityColumns} data={recentActivity} />
+            </motion.div>
+
+            <motion.div 
+              className={commonStyles.fullWidthCard} 
+              variants={itemVariants}
+            >
+              <div className={commonStyles.tableCard}>
+                <div className={commonStyles.tableHeader}>
+                  <h2 className={commonStyles.tableHeader}>
+                    <FaClock style={{ color: "var(--primary)" }} />
+                    Recent Activity
+                  </h2>
+                  <div style={{ display: 'flex', gap: '0.5rem' }}>
+                    <button 
+                      className="btn btn-sm btn-ghost"
+                      style={{ 
+                        padding: "0.5rem 1rem", 
+                        fontSize: "0.875rem",
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "0.5rem",
+                        borderRadius: "var(--admin-btn-radius)",
+                        border: "1px solid var(--border)",
+                        background: "var(--bg-elev-1)",
+                        color: "var(--text)"
+                      }}
+                    >
+                      <FaUserCheck size={14} />
+                      View All
+                    </button>
+                  </div>
+                </div>
+                <Table columns={activityColumns} data={recentActivity} />
+              </div>
             </motion.div>
           </motion.div>
         )}
