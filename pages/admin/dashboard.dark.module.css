@@ -14,13 +14,7 @@
   color: var(--text); 
 }
 
-.widget { 
-  background-color: var(--bg-elev-1); 
-  border-color: var(--border); 
-  color: var(--text); 
-}
-
-.modernCard {
+.statCard {
   background: rgba(25, 33, 44, 0.7);
   border: 1px solid rgba(58, 65, 76, 0.7);
   box-shadow: 
@@ -30,10 +24,57 @@
   -webkit-backdrop-filter: blur(10px);
 }
 
-.modernCard:hover {
+.statCard:hover {
   box-shadow: 
     0 2px 6px rgba(0, 0, 0, 0.2),
     0 8px 20px rgba(0, 0, 0, 0.2);
   border-color: rgba(58, 65, 76, 1);
   background: rgba(25, 33, 44, 0.8);
+}
+
+.chartCard {
+  background: rgba(25, 33, 44, 0.7);
+  border: 1px solid rgba(58, 65, 76, 0.7);
+  box-shadow: 
+    0 1px 3px rgba(0, 0, 0, 0.15),
+    0 4px 12px rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.chartCard:hover {
+  box-shadow: 
+    0 2px 6px rgba(0, 0, 0, 0.2),
+    0 8px 20px rgba(0, 0, 0, 0.2);
+  border-color: rgba(58, 65, 76, 1);
+  background: rgba(25, 33, 44, 0.8);
+}
+
+.activityCard {
+  background: rgba(25, 33, 44, 0.7);
+  border: 1px solid rgba(58, 65, 76, 0.7);
+  box-shadow: 
+    0 1px 3px rgba(0, 0, 0, 0.15),
+    0 4px 12px rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.activityCard:hover {
+  box-shadow: 
+    0 2px 6px rgba(0, 0, 0, 0.2),
+    0 8px 20px rgba(0, 0, 0, 0.2);
+  border-color: rgba(58, 65, 76, 1);
+  background: rgba(25, 33, 44, 0.8);
+}
+
+.retryButton {
+  background: var(--primary);
+  border: 1px solid var(--primary);
+  color: white;
+}
+
+.retryButton:hover {
+  background: var(--primary-dark);
+  border-color: var(--primary-dark);
 }

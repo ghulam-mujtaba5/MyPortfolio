@@ -16,12 +16,18 @@ import {
   SparklinesSpots,
   SparklinesReferenceLine,
 } from "react-sparklines";
+import { motion } from "framer-motion";
 
 const AnalyticsPage = () => {
   const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [range, setRange] = useState(30); // days; 0 = all time
+  const [expandedSections, setExpandedSections] = useState({
+    kpi: true,
+    charts: true,
+    breakdown: true
+  });
   const router = useRouter();
 
   // Helper: compute delta % comparing the most recent window vs previous window
@@ -180,6 +186,13 @@ const AnalyticsPage = () => {
   const { theme } = useTheme();
   const themeStyles = theme === "dark" ? darkStyles : lightStyles;
 
+  const toggleSection = (section) => {
+    setExpandedSections(prev => ({
+      ...prev,
+      [section]: !prev[section]
+    }));
+  };
+
   if (loading)
     return (
       <AdminLayout>
@@ -209,15 +222,27 @@ const AnalyticsPage = () => {
 
   return (
     <AdminLayout title="Analytics">
-      <h1 className={commonStyles.pageTitle}>Analytics Dashboard</h1>
+      <motion.h1 
+        className={commonStyles.pageTitle}
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        Analytics Dashboard
+      </motion.h1>
       
       {/* Range selector */}
-      <div className={commonStyles.filterBar}>
+      <motion.div 
+        className={commonStyles.filterBar}
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.1 }}
+      >
         <div className={commonStyles.filterGroup}>
           <span className={commonStyles.filterLabel}>Time Range</span>
           <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
             {[7, 30, 90, 0].map((d) => (
-              <button
+              <motion.button
                 key={d}
                 type="button"
                 onClick={() => {
@@ -234,15 +259,17 @@ const AnalyticsPage = () => {
                   });
                 }}
                 className={`${commonStyles.rangeButton} ${themeStyles.rangeButton} ${range === d ? commonStyles.rangeButtonActive : ""} ${range === d ? themeStyles.rangeButtonActive : ""}`}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
               >
                 <Icon name={d === 0 ? "infinity" : "calendar"} size={16} />
                 {d === 0 ? "All Time" : `${d}d`}
-              </button>
+              </motion.button>
             ))}
           </div>
         </div>
         <div className={commonStyles.filterActions}>
-          <button
+          <motion.button
             type="button"
             onClick={() => {
               if (!stats) return;
@@ -362,472 +389,614 @@ const AnalyticsPage = () => {
               URL.revokeObjectURL(url);
             }}
             className={`${commonStyles.exportButton} ${themeStyles.exportButton}`}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
           >
             <Icon name="download" size={16} />
             Export CSV
-          </button>
+          </motion.button>
         </div>
-      </div>
+      </motion.div>
 
-      {/* KPI Tiles with Sparklines */}
-      <div className={commonStyles.kpiGrid}>
-        <div className={`${commonStyles.kpiCard} ${themeStyles.kpiCard}`}>
-          <div className={commonStyles.kpiTitle}>
-            <Icon name="file-text" size={16} />
-            Total Articles
-          </div>
-          <div className={commonStyles.kpiRow}>
-            <h3 className={commonStyles.kpiValue}>
-              {stats?.kpis?.totalArticles ?? "-"}
-            </h3>
-            {(() => {
-              const delta = computeDeltaPct(stats?.articlesByDate || [], 7);
-              if (delta === null) return null;
-              const pos = delta >= 0;
-              const sign = pos ? "+" : "";
-              return (
-                <span className={`${commonStyles.deltaText} ${pos ? commonStyles.deltaPositive : commonStyles.deltaNegative} ${pos ? themeStyles.deltaPositive : themeStyles.deltaNegative}`}>
-                  <Icon name={pos ? "trending-up" : "trending-down"} size={16} />
-                  {sign}
-                  {delta.toFixed(1)}% vs prev 7d
-                </span>
-              );
-            })()}
-          </div>
-          <div className={commonStyles.sparklineWrapper}>
-            <Sparklines
-              data={(stats?.articlesByDate || []).map((d) => d.count)}
-              height={40}
-              margin={5}
-            >
-              <SparklinesLine color="#3b82f6" className={commonStyles.sparklineNoFill} />
-              <SparklinesSpots size={2} />
-              <SparklinesReferenceLine type="mean" className={commonStyles.sparklineRefMean} />
-            </Sparklines>
-          </div>
-        </div>
-        <div className={`${commonStyles.kpiCard} ${themeStyles.kpiCard}`}>
-          <div className={commonStyles.kpiTitle}>
-            <Icon name="check-circle" size={16} />
-            Published Articles
-          </div>
-          <div className={commonStyles.kpiRow}>
-            <h3 className={commonStyles.kpiValue}>
-              {stats?.kpis?.publishedArticles ?? "-"}
-            </h3>
-            {(() => {
-              const delta = computeDeltaPct(stats?.articlesByDate || [], 7);
-              if (delta === null) return null;
-              const pos = delta >= 0;
-              const sign = pos ? "+" : "";
-              return (
-                <span className={`${commonStyles.deltaText} ${pos ? commonStyles.deltaPositive : commonStyles.deltaNegative} ${pos ? themeStyles.deltaPositive : themeStyles.deltaNegative}`}>
-                  <Icon name={pos ? "trending-up" : "trending-down"} size={16} />
-                  {sign}
-                  {delta.toFixed(1)}% vs prev 7d
-                </span>
-              );
-            })()}
-          </div>
-          <div className={commonStyles.sparklineWrapper}>
-            <Sparklines
-              data={(stats?.articlesByDate || []).map((d) => d.count)}
-              height={40}
-              margin={5}
-            >
-              <SparklinesLine color="#6366f1" className={commonStyles.sparklineNoFill} />
-            </Sparklines>
-          </div>
-        </div>
-        <div className={`${commonStyles.kpiCard} ${themeStyles.kpiCard}`}>
-          <div className={commonStyles.kpiTitle}>
-            <Icon name="briefcase" size={16} />
-            Total Projects
-          </div>
-          <div className={commonStyles.kpiRow}>
-            <h3 className={commonStyles.kpiValue}>
-              {stats?.kpis?.totalProjects ?? "-"}
-            </h3>
-            {(() => {
-              const delta = computeDeltaPct(stats?.projectsByDate || [], 7);
-              if (delta === null) return null;
-              const pos = delta >= 0;
-              const sign = pos ? "+" : "";
-              return (
-                <span className={`${commonStyles.deltaText} ${pos ? commonStyles.deltaPositive : commonStyles.deltaNegative} ${pos ? themeStyles.deltaPositive : themeStyles.deltaNegative}`}>
-                  <Icon name={pos ? "trending-up" : "trending-down"} size={16} />
-                  {sign}
-                  {delta.toFixed(1)}% vs prev 7d
-                </span>
-              );
-            })()}
-          </div>
-          <div className={commonStyles.sparklineWrapper}>
-            <Sparklines
-              data={(stats?.projectsByDate || []).map((d) => d.count)}
-              height={40}
-              margin={5}
-            >
-              <SparklinesLine color="#10b981" className={commonStyles.sparklineNoFill} />
-            </Sparklines>
-          </div>
-        </div>
-        <div className={`${commonStyles.kpiCard} ${themeStyles.kpiCard}`}>
-          <div className={commonStyles.kpiTitle}>
-            <Icon name="check-circle" size={16} />
-            Published Projects
-          </div>
-          <div className={commonStyles.kpiRow}>
-            <h3 className={commonStyles.kpiValue}>
-              {stats?.kpis?.publishedProjects ?? "-"}
-            </h3>
-            {(() => {
-              const delta = computeDeltaPct(stats?.projectsByDate || [], 7);
-              if (delta === null) return null;
-              const pos = delta >= 0;
-              const sign = pos ? "+" : "";
-              return (
-                <span className={`${commonStyles.deltaText} ${pos ? commonStyles.deltaPositive : commonStyles.deltaNegative} ${pos ? themeStyles.deltaPositive : themeStyles.deltaNegative}`}>
-                  <Icon name={pos ? "trending-up" : "trending-down"} size={16} />
-                  {sign}
-                  {delta.toFixed(1)}% vs prev 7d
-                </span>
-              );
-            })()}
-          </div>
-          <div className={commonStyles.sparklineWrapper}>
-            <Sparklines
-              data={(stats?.projectsByDate || []).map((d) => d.count)}
-              height={40}
-              margin={5}
-            >
-              <SparklinesLine color="#10b981" className={commonStyles.sparklineNoFill} />
-              <SparklinesSpots size={2} />
-              <SparklinesReferenceLine type="mean" className={commonStyles.sparklineRefMean} />
-            </Sparklines>
-          </div>
-        </div>
-      </div>
-
-      <div className={`${commonStyles.chartsGrid} ${themeStyles.chartsGrid}`}>
-        <div className={`${commonStyles.chartCard} ${themeStyles.chartCard}`}>
-          <h3 className={commonStyles.chartHeader}>
-            <Icon name="pie-chart" size={20} />
-            Articles by Status
-          </h3>
-          <div className={commonStyles.chartContainer}>
-            {articleStatusData ? <DoughnutChart data={articleStatusData} /> : (
-              <div className={commonStyles.emptyState}>
-                <Icon name="file-text" size={48} />
-                <p>No article data available</p>
-              </div>
-            )}
-          </div>
-        </div>
-        <div className={`${commonStyles.chartCard} ${themeStyles.chartCard}`}>
-          <h3 className={commonStyles.chartHeader}>
-            <Icon name="pie-chart" size={20} />
-            Projects by Status
-          </h3>
-          <div className={commonStyles.chartContainer}>
-            {projectStatusData ? <DoughnutChart data={projectStatusData} /> : (
-              <div className={commonStyles.emptyState}>
-                <Icon name="briefcase" size={48} />
-                <p>No project data available</p>
-              </div>
-            )}
-          </div>
-        </div>
-        <div className={`${commonStyles.chartCard} ${themeStyles.chartCard} ${commonStyles.fullWidth} ${themeStyles.fullWidth}`}>
-          <h3 className={commonStyles.chartHeader}>
-            <Icon name="bar-chart" size={20} />
-            Articles vs Projects (Combined Trend)
-          </h3>
-          <div className={commonStyles.chartContainer}>
-            {combinedTrendData ? <LineChart data={combinedTrendData} /> : (
-              <div className={commonStyles.emptyState}>
-                <Icon name="trending-up" size={48} />
-                <p>No trend data available</p>
-              </div>
-            )}
-          </div>
-        </div>
-        <div className={`${commonStyles.chartCard} ${themeStyles.chartCard} ${commonStyles.fullWidth} ${themeStyles.fullWidth}`}>
-          <h3 className={commonStyles.chartHeader}>
-            <Icon name="bar-chart" size={20} />
-            Article Creation Trend
-          </h3>
-          <div className={commonStyles.chartContainer}>
-            {articlesTrendData ? <LineChart data={articlesTrendData} /> : (
-              <div className={commonStyles.emptyState}>
-                <Icon name="file-text" size={48} />
-                <p>No article trend data available</p>
-              </div>
-            )}
-          </div>
-        </div>
-        <div className={`${commonStyles.chartCard} ${themeStyles.chartCard} ${commonStyles.fullWidth} ${themeStyles.fullWidth}`}>
-          <h3 className={commonStyles.chartHeader}>
-            <Icon name="bar-chart" size={20} />
-            Project Creation Trend
-          </h3>
-          <div className={commonStyles.chartContainer}>
-            {projectsTrendData ? <LineChart data={projectsTrendData} /> : (
-              <div className={commonStyles.emptyState}>
-                <Icon name="briefcase" size={48} />
-                <p>No project trend data available</p>
-              </div>
-            )}
-          </div>
-        </div>
-      </div>
-
-      {/* Breakdown Sections */}
-      <div className={commonStyles.breakdownGrid}>
-        <div className={`${commonStyles.breakdownCard} ${themeStyles.breakdownCard}`}>
-          <h3 className={commonStyles.breakdownHeader}>
-            <Icon name="tag" size={18} />
-            Top Article Tags
-          </h3>
-          <div className={commonStyles.chips}>
-            {stats?.articleTags?.length > 0 ? (
-              stats?.articleTags?.map((t) => (
-                <span
-                  key={t._id}
-                  onClick={() =>
-                    router.push(`/articles?tag=${encodeURIComponent(t._id)}`)
-                  }
-                  title="View articles with this tag"
-                  className={`${commonStyles.chip} ${themeStyles.chip} ${commonStyles.chipActive}`}
-                >
-                  <Icon name="tag" size={14} />
-                  {t._id} ({t.count})
-                </span>
-              ))
-            ) : (
-              <div className={commonStyles.emptyState}>
-                <p>No article tags found</p>
-              </div>
-            )}
-          </div>
-        </div>
-        <div className={`${commonStyles.breakdownCard} ${themeStyles.breakdownCard}`}>
-          <h3 className={commonStyles.breakdownHeader}>
-            <Icon name="tag" size={18} />
-            Top Project Tags
-          </h3>
-          <div className={commonStyles.chips}>
-            {stats?.projectTags?.length > 0 ? (
-              stats?.projectTags?.map((t) => (
-                <span
-                  key={t._id}
-                  onClick={() =>
-                    router.push(`/projects?tag=${encodeURIComponent(t._id)}`)
-                  }
-                  title="View projects with this tag"
-                  className={`${commonStyles.chip} ${themeStyles.chip} ${commonStyles.chipActive}`}
-                >
-                  <Icon name="tag" size={14} />
-                  {t._id} ({t.count})
-                </span>
-              ))
-            ) : (
-              <div className={commonStyles.emptyState}>
-                <p>No project tags found</p>
-              </div>
-            )}
-          </div>
-        </div>
-        <div className={`${commonStyles.breakdownCard} ${themeStyles.breakdownCard}`}>
-          <h3 className={commonStyles.breakdownHeader}>
-            <Icon name="folder" size={18} />
-            Project Categories
-          </h3>
-          {stats?.projectCategories?.length > 0 ? (
-            <ul className={commonStyles.list}>
-              {stats?.projectCategories?.map((c) => (
-                <li
-                  key={c._id}
-                  onClick={() =>
-                    router.push(
-                      `/projects?category=${encodeURIComponent(c._id || "")}`,
-                    )
-                  }
-                  title="View projects in this category"
-                  className={commonStyles.listItem}
-                >
-                  <Icon name="folder" size={14} />
-                  {c._id || "Uncategorized"} — {c.count}
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <div className={commonStyles.emptyState}>
-              <p>No project categories found</p>
+      {/* Statistics Overview Section */}
+      <motion.div 
+        className={commonStyles.sectionHeader}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5, delay: 0.2 }}
+      >
+        <h2 className={commonStyles.sectionTitle}>
+          <Icon name="activity" size={20} />
+          Statistics Overview
+        </h2>
+        <button 
+          className={commonStyles.toggleButton}
+          onClick={() => toggleSection('kpi')}
+          aria-label={expandedSections.kpi ? "Collapse Statistics Overview" : "Expand Statistics Overview"}
+        >
+          <Icon name={expandedSections.kpi ? "chevron-up" : "chevron-down"} size={20} />
+        </button>
+      </motion.div>
+      
+      {expandedSections.kpi && (
+        <motion.div 
+          className={commonStyles.kpiGrid}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+        >
+          <motion.div 
+            className={`${commonStyles.kpiCard} ${themeStyles.kpiCard}`}
+            whileHover={{ y: -5 }}
+            transition={{ type: "spring", stiffness: 300 }}
+          >
+            <div className={commonStyles.kpiTitle}>
+              <Icon name="file-text" size={16} />
+              Total Articles
             </div>
-          )}
-        </div>
-        <div className={`${commonStyles.breakdownCard} ${themeStyles.breakdownCard}`}>
-          <h3 className={commonStyles.breakdownHeader}>
-            <Icon name="eye" size={18} />
-            Top Viewed
-          </h3>
-          <div className={commonStyles.twoColWrapper}>
-            <div className={commonStyles.twoCol}>
-              <div className={commonStyles.column}>
-                <h4 className={commonStyles.subTitle}>
-                  <Icon name="file-text" size={16} />
-                  Articles
-                </h4>
-                <div className={commonStyles.listContainer}>
-                  {stats?.topViewedArticles?.length > 0 ? (
-                    <ul className={commonStyles.list}>
-                      {stats?.topViewedArticles?.map((a) => (
-                        <li
-                          key={a.slug}
-                          className={commonStyles.listItem}
-                          onClick={() => router.push(`/admin/articles/edit/${a._id || a.id}`)}
-                        >
-                          <Icon name="file-text" size={14} />
-                          <div>
-                            <div>{a.title}</div>
-                            <div style={{ fontSize: '0.875rem', color: 'var(--text-muted)', marginTop: '0.25rem' }}>
-                              {a.views} views
-                            </div>
-                          </div>
-                        </li>
-                      ))}
-                    </ul>
-                  ) : (
-                    <div className={commonStyles.emptyState}>
-                      <Icon name="file-text" size={48} />
-                      <p>No articles found</p>
-                    </div>
-                  )}
-                </div>
-              </div>
-              <div className={commonStyles.column}>
-                <h4 className={commonStyles.subTitle}>
-                  <Icon name="briefcase" size={16} />
-                  Projects
-                </h4>
-                <div className={commonStyles.listContainer}>
-                  {stats?.topViewedProjects?.length > 0 ? (
-                    <ul className={commonStyles.list}>
-                      {stats?.topViewedProjects?.map((p) => (
-                        <li
-                          key={p.slug}
-                          className={commonStyles.listItem}
-                          onClick={() => router.push(`/admin/projects/edit/${p._id || p.id}`)}
-                        >
-                          <Icon name="briefcase" size={14} />
-                          <div>
-                            <div>{p.title}</div>
-                            <div style={{ fontSize: '0.875rem', color: 'var(--text-muted)', marginTop: '0.25rem' }}>
-                              {p.views} views
-                            </div>
-                          </div>
-                        </li>
-                      ))}
-                    </ul>
-                  ) : (
-                    <div className={commonStyles.emptyState}>
-                      <Icon name="briefcase" size={48} />
-                      <p>No projects found</p>
-                    </div>
-                  )}
-                </div>
-              </div>
+            <div className={commonStyles.kpiRow}>
+              <h3 className={commonStyles.kpiValue}>
+                {stats?.kpis?.totalArticles ?? "-"}
+              </h3>
+              {(() => {
+                const delta = computeDeltaPct(stats?.articlesByDate || [], 7);
+                if (delta === null) return null;
+                const pos = delta >= 0;
+                const sign = pos ? "+" : "";
+                return (
+                  <span className={`${commonStyles.deltaText} ${pos ? commonStyles.deltaPositive : commonStyles.deltaNegative} ${pos ? themeStyles.deltaPositive : themeStyles.deltaNegative}`}>
+                    <Icon name={pos ? "trending-up" : "trending-down"} size={16} />
+                    {sign}
+                    {delta.toFixed(1)}% vs prev 7d
+                  </span>
+                );
+              })()}
             </div>
-          </div>
-        </div>
-        <div className={`${commonStyles.breakdownCard} ${themeStyles.breakdownCard}`}>
-          <h3 className={commonStyles.breakdownHeader}>
-            <Icon name="clock" size={18} />
-            Recent Activity
-          </h3>
-          <div className={commonStyles.twoColWrapper}>
-            <div className={commonStyles.twoCol}>
-              <div className={commonStyles.column}>
-                <h4 className={commonStyles.subTitle}>
-                  <Icon name="file-text" size={16} />
-                  Articles
-                </h4>
-                <div className={commonStyles.listContainer}>
-                  {stats?.recentArticles?.length > 0 ? (
-                    <ul className={commonStyles.list}>
-                      {stats?.recentArticles?.map((a) => (
-                        <li
-                          key={a.slug}
-                          className={commonStyles.listItem}
-                          onClick={() => router.push(`/admin/articles/edit/${a._id || a.id}`)}
-                        >
-                          <Icon name="file-text" size={14} />
-                          <div>
-                            <div>{a.title}</div>
-                            <div style={{ fontSize: '0.875rem', color: 'var(--text-muted)', marginTop: '0.25rem' }}>
-                              {new Date(a.createdAt).toLocaleDateString()} {" "}
-                              <span style={{ 
-                                color: a.published ? 'var(--success)' : 'var(--warning)',
-                                fontWeight: '500'
-                              }}>
-                                {a.published ? "(Published)" : "(Draft)"}
-                              </span>
-                            </div>
-                          </div>
-                        </li>
-                      ))}
-                    </ul>
-                  ) : (
-                    <div className={commonStyles.emptyState}>
-                      <Icon name="file-text" size={48} />
-                      <p>No recent articles</p>
-                    </div>
-                  )}
+            <div className={commonStyles.sparklineWrapper}>
+              <Sparklines
+                data={(stats?.articlesByDate || []).map((d) => d.count)}
+                height={40}
+                margin={5}
+              >
+                <SparklinesLine color="#3b82f6" className={commonStyles.sparklineNoFill} />
+                <SparklinesSpots size={2} />
+                <SparklinesReferenceLine type="mean" className={commonStyles.sparklineRefMean} />
+              </Sparklines>
+            </div>
+          </motion.div>
+          <motion.div 
+            className={`${commonStyles.kpiCard} ${themeStyles.kpiCard}`}
+            whileHover={{ y: -5 }}
+            transition={{ type: "spring", stiffness: 300 }}
+          >
+            <div className={commonStyles.kpiTitle}>
+              <Icon name="check-circle" size={16} />
+              Published Articles
+            </div>
+            <div className={commonStyles.kpiRow}>
+              <h3 className={commonStyles.kpiValue}>
+                {stats?.kpis?.publishedArticles ?? "-"}
+              </h3>
+              {(() => {
+                const delta = computeDeltaPct(stats?.articlesByDate || [], 7);
+                if (delta === null) return null;
+                const pos = delta >= 0;
+                const sign = pos ? "+" : "";
+                return (
+                  <span className={`${commonStyles.deltaText} ${pos ? commonStyles.deltaPositive : commonStyles.deltaNegative} ${pos ? themeStyles.deltaPositive : themeStyles.deltaNegative}`}>
+                    <Icon name={pos ? "trending-up" : "trending-down"} size={16} />
+                    {sign}
+                    {delta.toFixed(1)}% vs prev 7d
+                  </span>
+                );
+              })()}
+            </div>
+            <div className={commonStyles.sparklineWrapper}>
+              <Sparklines
+                data={(stats?.articlesByDate || []).map((d) => d.count)}
+                height={40}
+                margin={5}
+              >
+                <SparklinesLine color="#6366f1" className={commonStyles.sparklineNoFill} />
+              </Sparklines>
+            </div>
+          </motion.div>
+          <motion.div 
+            className={`${commonStyles.kpiCard} ${themeStyles.kpiCard}`}
+            whileHover={{ y: -5 }}
+            transition={{ type: "spring", stiffness: 300 }}
+          >
+            <div className={commonStyles.kpiTitle}>
+              <Icon name="briefcase" size={16} />
+              Total Projects
+            </div>
+            <div className={commonStyles.kpiRow}>
+              <h3 className={commonStyles.kpiValue}>
+                {stats?.kpis?.totalProjects ?? "-"}
+              </h3>
+              {(() => {
+                const delta = computeDeltaPct(stats?.projectsByDate || [], 7);
+                if (delta === null) return null;
+                const pos = delta >= 0;
+                const sign = pos ? "+" : "";
+                return (
+                  <span className={`${commonStyles.deltaText} ${pos ? commonStyles.deltaPositive : commonStyles.deltaNegative} ${pos ? themeStyles.deltaPositive : themeStyles.deltaNegative}`}>
+                    <Icon name={pos ? "trending-up" : "trending-down"} size={16} />
+                    {sign}
+                    {delta.toFixed(1)}% vs prev 7d
+                  </span>
+                );
+              })()}
+            </div>
+            <div className={commonStyles.sparklineWrapper}>
+              <Sparklines
+                data={(stats?.projectsByDate || []).map((d) => d.count)}
+                height={40}
+                margin={5}
+              >
+                <SparklinesLine color="#10b981" className={commonStyles.sparklineNoFill} />
+              </Sparklines>
+            </div>
+          </motion.div>
+          <motion.div 
+            className={`${commonStyles.kpiCard} ${themeStyles.kpiCard}`}
+            whileHover={{ y: -5 }}
+            transition={{ type: "spring", stiffness: 300 }}
+          >
+            <div className={commonStyles.kpiTitle}>
+              <Icon name="check-circle" size={16} />
+              Published Projects
+            </div>
+            <div className={commonStyles.kpiRow}>
+              <h3 className={commonStyles.kpiValue}>
+                {stats?.kpis?.publishedProjects ?? "-"}
+              </h3>
+              {(() => {
+                const delta = computeDeltaPct(stats?.projectsByDate || [], 7);
+                if (delta === null) return null;
+                const pos = delta >= 0;
+                const sign = pos ? "+" : "";
+                return (
+                  <span className={`${commonStyles.deltaText} ${pos ? commonStyles.deltaPositive : commonStyles.deltaNegative} ${pos ? themeStyles.deltaPositive : themeStyles.deltaNegative}`}>
+                    <Icon name={pos ? "trending-up" : "trending-down"} size={16} />
+                    {sign}
+                    {delta.toFixed(1)}% vs prev 7d
+                  </span>
+                );
+              })()}
+            </div>
+            <div className={commonStyles.sparklineWrapper}>
+              <Sparklines
+                data={(stats?.projectsByDate || []).map((d) => d.count)}
+                height={40}
+                margin={5}
+              >
+                <SparklinesLine color="#10b981" className={commonStyles.sparklineNoFill} />
+                <SparklinesSpots size={2} />
+                <SparklinesReferenceLine type="mean" className={commonStyles.sparklineRefMean} />
+              </Sparklines>
+            </div>
+          </motion.div>
+        </motion.div>
+      )}
+
+      {/* Analytics & Trends Section */}
+      <motion.div 
+        className={commonStyles.sectionHeader}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5, delay: 0.4 }}
+      >
+        <h2 className={commonStyles.sectionTitle}>
+          <Icon name="bar-chart-2" size={20} />
+          Analytics & Trends
+        </h2>
+        <button 
+          className={commonStyles.toggleButton}
+          onClick={() => toggleSection('charts')}
+          aria-label={expandedSections.charts ? "Collapse Analytics & Trends" : "Expand Analytics & Trends"}
+        >
+          <Icon name={expandedSections.charts ? "chevron-up" : "chevron-down"} size={20} />
+        </button>
+      </motion.div>
+      
+      {expandedSections.charts && (
+        <motion.div 
+          className={`${commonStyles.chartsGrid} ${themeStyles.chartsGrid}`}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.5 }}
+        >
+          <motion.div 
+            className={`${commonStyles.chartCard} ${themeStyles.chartCard}`}
+            whileHover={{ y: -5 }}
+            transition={{ type: "spring", stiffness: 300 }}
+          >
+            <h3 className={commonStyles.chartHeader}>
+              <Icon name="pie-chart" size={20} />
+              Articles by Status
+            </h3>
+            <div className={commonStyles.chartContainer}>
+              {articleStatusData ? <DoughnutChart data={articleStatusData} /> : (
+                <div className={commonStyles.emptyState}>
+                  <Icon name="file-text" size={48} />
+                  <p>No article data available</p>
                 </div>
-              </div>
-              <div className={commonStyles.column}>
-                <h4 className={commonStyles.subTitle}>
-                  <Icon name="briefcase" size={16} />
-                  Projects
-                </h4>
-                <div className={commonStyles.listContainer}>
-                  {stats?.recentProjects?.length > 0 ? (
-                    <ul className={commonStyles.list}>
-                      {stats?.recentProjects?.map((p) => (
-                        <li
-                          key={p.slug}
-                          className={commonStyles.listItem}
-                          onClick={() => router.push(`/admin/projects/edit/${p._id || p.id}`)}
-                        >
-                          <Icon name="briefcase" size={14} />
-                          <div>
-                            <div>{p.title}</div>
-                            <div style={{ fontSize: '0.875rem', color: 'var(--text-muted)', marginTop: '0.25rem' }}>
-                              {new Date(p.createdAt).toLocaleDateString()} {" "}
-                              <span style={{ 
-                                color: p.published ? 'var(--success)' : 'var(--warning)',
-                                fontWeight: '500'
-                              }}>
-                                {p.published ? "(Published)" : "(Draft)"}
-                              </span>
+              )}
+            </div>
+          </motion.div>
+          <motion.div 
+            className={`${commonStyles.chartCard} ${themeStyles.chartCard}`}
+            whileHover={{ y: -5 }}
+            transition={{ type: "spring", stiffness: 300 }}
+          >
+            <h3 className={commonStyles.chartHeader}>
+              <Icon name="pie-chart" size={20} />
+              Projects by Status
+            </h3>
+            <div className={commonStyles.chartContainer}>
+              {projectStatusData ? <DoughnutChart data={projectStatusData} /> : (
+                <div className={commonStyles.emptyState}>
+                  <Icon name="briefcase" size={48} />
+                  <p>No project data available</p>
+                </div>
+              )}
+            </div>
+          </motion.div>
+          <motion.div 
+            className={`${commonStyles.chartCard} ${themeStyles.chartCard} ${commonStyles.fullWidth} ${themeStyles.fullWidth}`}
+            whileHover={{ y: -5 }}
+            transition={{ type: "spring", stiffness: 300 }}
+          >
+            <h3 className={commonStyles.chartHeader}>
+              <Icon name="bar-chart" size={20} />
+              Articles vs Projects (Combined Trend)
+            </h3>
+            <div className={commonStyles.chartContainer}>
+              {combinedTrendData ? <LineChart data={combinedTrendData} /> : (
+                <div className={commonStyles.emptyState}>
+                  <Icon name="trending-up" size={48} />
+                  <p>No trend data available</p>
+                </div>
+              )}
+            </div>
+          </motion.div>
+          <motion.div 
+            className={`${commonStyles.chartCard} ${themeStyles.chartCard} ${commonStyles.fullWidth} ${themeStyles.fullWidth}`}
+            whileHover={{ y: -5 }}
+            transition={{ type: "spring", stiffness: 300 }}
+          >
+            <h3 className={commonStyles.chartHeader}>
+              <Icon name="bar-chart" size={20} />
+              Article Creation Trend
+            </h3>
+            <div className={commonStyles.chartContainer}>
+              {articlesTrendData ? <LineChart data={articlesTrendData} /> : (
+                <div className={commonStyles.emptyState}>
+                  <Icon name="file-text" size={48} />
+                  <p>No article trend data available</p>
+                </div>
+              )}
+            </div>
+          </motion.div>
+          <motion.div 
+            className={`${commonStyles.chartCard} ${themeStyles.chartCard} ${commonStyles.fullWidth} ${themeStyles.fullWidth}`}
+            whileHover={{ y: -5 }}
+            transition={{ type: "spring", stiffness: 300 }}
+          >
+            <h3 className={commonStyles.chartHeader}>
+              <Icon name="bar-chart" size={20} />
+              Project Creation Trend
+            </h3>
+            <div className={commonStyles.chartContainer}>
+              {projectsTrendData ? <LineChart data={projectsTrendData} /> : (
+                <div className={commonStyles.emptyState}>
+                  <Icon name="briefcase" size={48} />
+                  <p>No project trend data available</p>
+                </div>
+              )}
+            </div>
+          </motion.div>
+        </motion.div>
+      )}
+
+      {/* Recent Activity Section */}
+      <motion.div 
+        className={commonStyles.sectionHeader}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5, delay: 0.6 }}
+      >
+        <h2 className={commonStyles.sectionTitle}>
+          <Icon name="clock" size={20} />
+          Recent Activity
+        </h2>
+        <button 
+          className={commonStyles.toggleButton}
+          onClick={() => toggleSection('breakdown')}
+          aria-label={expandedSections.breakdown ? "Collapse Recent Activity" : "Expand Recent Activity"}
+        >
+          <Icon name={expandedSections.breakdown ? "chevron-up" : "chevron-down"} size={20} />
+        </button>
+      </motion.div>
+      
+      {expandedSections.breakdown && (
+        <motion.div 
+          className={commonStyles.breakdownGrid}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.7 }}
+        >
+          {/* Top Viewed Section */}
+          <motion.div 
+            className={`${commonStyles.breakdownCard} ${themeStyles.breakdownCard}`}
+            whileHover={{ y: -5 }}
+            transition={{ type: "spring", stiffness: 300 }}
+          >
+            <h3 className={commonStyles.breakdownHeader}>
+              <Icon name="eye" size={18} />
+              Top Viewed Content
+            </h3>
+            <div className={commonStyles.twoColWrapper}>
+              <div className={commonStyles.twoCol}>
+                <div className={commonStyles.column}>
+                  <h4 className={commonStyles.subTitle}>
+                    <Icon name="file-text" size={16} />
+                    Articles
+                  </h4>
+                  <div className={commonStyles.listContainer}>
+                    {stats?.topViewedArticles?.length > 0 ? (
+                      <ul className={commonStyles.list}>
+                        {stats?.topViewedArticles?.map((a) => (
+                          <motion.li
+                            key={a.slug}
+                            className={commonStyles.listItem}
+                            onClick={() => router.push(`/admin/articles/edit/${a._id || a.id}`)}
+                            whileHover={{ x: 10 }}
+                            whileTap={{ scale: 0.98 }}
+                          >
+                            <Icon name="file-text" size={14} />
+                            <div>
+                              <div>{a.title}</div>
+                              <div style={{ fontSize: '0.875rem', color: 'var(--text-muted)', marginTop: '0.25rem' }}>
+                                {a.views} views
+                              </div>
                             </div>
-                          </div>
-                        </li>
-                      ))}
-                    </ul>
-                  ) : (
-                    <div className={commonStyles.emptyState}>
-                      <Icon name="briefcase" size={48} />
-                      <p>No recent projects</p>
-                    </div>
-                  )}
+                          </motion.li>
+                        ))}
+                      </ul>
+                    ) : (
+                      <div className={commonStyles.emptyState}>
+                        <Icon name="file-text" size={48} />
+                        <p>No articles found</p>
+                      </div>
+                    )}
+                  </div>
+                </div>
+                <div className={commonStyles.column}>
+                  <h4 className={commonStyles.subTitle}>
+                    <Icon name="briefcase" size={16} />
+                    Projects
+                  </h4>
+                  <div className={commonStyles.listContainer}>
+                    {stats?.topViewedProjects?.length > 0 ? (
+                      <ul className={commonStyles.list}>
+                        {stats?.topViewedProjects?.map((p) => (
+                          <motion.li
+                            key={p.slug}
+                            className={commonStyles.listItem}
+                            onClick={() => router.push(`/admin/projects/edit/${p._id || p.id}`)}
+                            whileHover={{ x: 10 }}
+                            whileTap={{ scale: 0.98 }}
+                          >
+                            <Icon name="briefcase" size={14} />
+                            <div>
+                              <div>{p.title}</div>
+                              <div style={{ fontSize: '0.875rem', color: 'var(--text-muted)', marginTop: '0.25rem' }}>
+                                {p.views} views
+                              </div>
+                            </div>
+                          </motion.li>
+                        ))}
+                      </ul>
+                    ) : (
+                      <div className={commonStyles.emptyState}>
+                        <Icon name="briefcase" size={48} />
+                        <p>No projects found</p>
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-      </div>
+          </motion.div>
+          
+          {/* Recent Content Section */}
+          <motion.div 
+            className={`${commonStyles.breakdownCard} ${themeStyles.breakdownCard}`}
+            whileHover={{ y: -5 }}
+            transition={{ type: "spring", stiffness: 300 }}
+          >
+            <h3 className={commonStyles.breakdownHeader}>
+              <Icon name="clock" size={18} />
+              Recently Created
+            </h3>
+            <div className={commonStyles.twoColWrapper}>
+              <div className={commonStyles.twoCol}>
+                <div className={commonStyles.column}>
+                  <h4 className={commonStyles.subTitle}>
+                    <Icon name="file-text" size={16} />
+                    Articles
+                  </h4>
+                  <div className={commonStyles.listContainer}>
+                    {stats?.recentArticles?.length > 0 ? (
+                      <ul className={commonStyles.list}>
+                        {stats?.recentArticles?.map((a) => (
+                          <motion.li
+                            key={a.slug}
+                            className={commonStyles.listItem}
+                            onClick={() => router.push(`/admin/articles/edit/${a._id || a.id}`)}
+                            whileHover={{ x: 10 }}
+                            whileTap={{ scale: 0.98 }}
+                          >
+                            <Icon name="file-text" size={14} />
+                            <div>
+                              <div>{a.title}</div>
+                              <div style={{ fontSize: '0.875rem', color: 'var(--text-muted)', marginTop: '0.25rem' }}>
+                                {new Date(a.createdAt).toLocaleDateString()} {" "}
+                                <span style={{ 
+                                  color: a.published ? 'var(--success)' : 'var(--warning)',
+                                  fontWeight: '500'
+                                }}>
+                                  {a.published ? "(Published)" : "(Draft)"}
+                                </span>
+                              </div>
+                            </div>
+                          </motion.li>
+                        ))}
+                      </ul>
+                    ) : (
+                      <div className={commonStyles.emptyState}>
+                        <Icon name="file-text" size={48} />
+                        <p>No recent articles</p>
+                      </div>
+                    )}
+                  </div>
+                </div>
+                <div className={commonStyles.column}>
+                  <h4 className={commonStyles.subTitle}>
+                    <Icon name="briefcase" size={16} />
+                    Projects
+                  </h4>
+                  <div className={commonStyles.listContainer}>
+                    {stats?.recentProjects?.length > 0 ? (
+                      <ul className={commonStyles.list}>
+                        {stats?.recentProjects?.map((p) => (
+                          <motion.li
+                            key={p.slug}
+                            className={commonStyles.listItem}
+                            onClick={() => router.push(`/admin/projects/edit/${p._id || p.id}`)}
+                            whileHover={{ x: 10 }}
+                            whileTap={{ scale: 0.98 }}
+                          >
+                            <Icon name="briefcase" size={14} />
+                            <div>
+                              <div>{p.title}</div>
+                              <div style={{ fontSize: '0.875rem', color: 'var(--text-muted)', marginTop: '0.25rem' }}>
+                                {new Date(p.createdAt).toLocaleDateString()} {" "}
+                                <span style={{ 
+                                  color: p.published ? 'var(--success)' : 'var(--warning)',
+                                  fontWeight: '500'
+                                }}>
+                                  {p.published ? "(Published)" : "(Draft)"}
+                                </span>
+                              </div>
+                            </div>
+                          </motion.li>
+                        ))}
+                      </ul>
+                    ) : (
+                      <div className={commonStyles.emptyState}>
+                        <Icon name="briefcase" size={48} />
+                        <p>No recent projects</p>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+          
+          {/* Tags and Categories Section */}
+          <motion.div 
+            className={`${commonStyles.breakdownCard} ${themeStyles.breakdownCard}`}
+            whileHover={{ y: -5 }}
+            transition={{ type: "spring", stiffness: 300 }}
+          >
+            <h3 className={commonStyles.breakdownHeader}>
+              <Icon name="tag" size={18} />
+              Popular Tags & Categories
+            </h3>
+            <div className={commonStyles.chips}>
+              {stats?.articleTags?.length > 0 ? (
+                stats?.articleTags?.map((t) => (
+                  <motion.span
+                    key={t._id}
+                    onClick={() =>
+                      router.push(`/articles?tag=${encodeURIComponent(t._id)}`)
+                    }
+                    title="View articles with this tag"
+                    className={`${commonStyles.chip} ${themeStyles.chip} ${commonStyles.chipActive}`}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    <Icon name="tag" size={14} />
+                    {t._id} ({t.count})
+                  </motion.span>
+                ))
+              ) : (
+                <div className={commonStyles.emptyState}>
+                  <p>No article tags found</p>
+                </div>
+              )}
+            </div>
+            <div className={commonStyles.chips} style={{ marginTop: '1rem' }}>
+              {stats?.projectTags?.length > 0 ? (
+                stats?.projectTags?.map((t) => (
+                  <motion.span
+                    key={t._id}
+                    onClick={() =>
+                      router.push(`/projects?tag=${encodeURIComponent(t._id)}`)
+                    }
+                    title="View projects with this tag"
+                    className={`${commonStyles.chip} ${themeStyles.chip} ${commonStyles.chipActive}`}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    <Icon name="tag" size={14} />
+                    {t._id} ({t.count})
+                  </motion.span>
+                ))
+              ) : (
+                <div className={commonStyles.emptyState}>
+                  <p>No project tags found</p>
+                </div>
+              )}
+            </div>
+            <div style={{ marginTop: '1rem' }}>
+              <h4 className={commonStyles.subTitle} style={{ margin: '0 0 0.75rem 0' }}>
+                <Icon name="folder" size={16} />
+                Project Categories
+              </h4>
+              {stats?.projectCategories?.length > 0 ? (
+                <ul className={commonStyles.list}>
+                  {stats?.projectCategories?.map((c) => (
+                    <motion.li
+                      key={c._id}
+                      onClick={() =>
+                        router.push(
+                          `/projects?category=${encodeURIComponent(c._id || "")}`,
+                        )
+                      }
+                      title="View projects in this category"
+                      className={commonStyles.listItem}
+                      whileHover={{ x: 10 }}
+                      whileTap={{ scale: 0.98 }}
+                    >
+                      <Icon name="folder" size={14} />
+                      {c._id || "Uncategorized"} — {c.count}
+                    </motion.li>
+                  ))}
+                </ul>
+              ) : (
+                <div className={commonStyles.emptyState}>
+                  <p>No project categories found</p>
+                </div>
+              )}
+            </div>
+          </motion.div>
+        </motion.div>
+      )}
     </AdminLayout>
   );
 };

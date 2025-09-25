@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/router";
 import Head from "next/head";
+import { motion } from "framer-motion";
 import styles from "./login.module.css";
 import lightStyles from "./login.light.module.css";
 import darkStyles from "./login.dark.module.css";
@@ -52,14 +53,48 @@ export default function LoginPage() {
       <Head>
         <title>Admin Login | Ghulam Mujtaba</title>
       </Head>
-      <div className={`${styles.loginContainer} ${themeStyles.loginContainer}`}>
-        <div className={`${styles.loginBox} ${themeStyles.loginBox}`}>
-          <h1 className={`${styles.title} ${themeStyles.title}`}>Admin Panel</h1>
-          <p className={`${styles.subtitle} ${themeStyles.subtitle}`}>
+      <motion.div 
+        className={`${styles.loginContainer} ${themeStyles.loginContainer}`}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5 }}
+      >
+        <motion.div 
+          className={`${styles.loginBox} ${themeStyles.loginBox}`}
+          initial={{ y: -50, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+          whileHover={{ y: -5 }}
+        >
+          <motion.h1 
+            className={`${styles.title} ${themeStyles.title}`}
+            initial={{ x: -30, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            transition={{ duration: 0.5, delay: 0.4 }}
+          >
+            Admin Panel
+          </motion.h1>
+          <motion.p 
+            className={`${styles.subtitle} ${themeStyles.subtitle}`}
+            initial={{ x: -30, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            transition={{ duration: 0.5, delay: 0.5 }}
+          >
             Please sign in to continue
-          </p>
-          <form onSubmit={handleSubmit} aria-busy={loading}>
-            <div className={styles.inputGroup}>
+          </motion.p>
+          <motion.form 
+            onSubmit={handleSubmit} 
+            aria-busy={loading}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5, delay: 0.6 }}
+          >
+            <motion.div 
+              className={styles.inputGroup}
+              initial={{ x: -20, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              transition={{ duration: 0.4, delay: 0.7 }}
+            >
               <label htmlFor="email" className={`${styles.label} ${themeStyles.label}`}>
                 Email Address
               </label>
@@ -72,8 +107,13 @@ export default function LoginPage() {
                 autoComplete="username"
                 className={`${styles.input} ${themeStyles.input}`}
               />
-            </div>
-            <div className={styles.inputGroup}>
+            </motion.div>
+            <motion.div 
+              className={styles.inputGroup}
+              initial={{ x: -20, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              transition={{ duration: 0.4, delay: 0.8 }}
+            >
               <label htmlFor="password" className={`${styles.label} ${themeStyles.label}`}>
                 Password
               </label>
@@ -86,22 +126,31 @@ export default function LoginPage() {
                 autoComplete="current-password"
                 className={`${styles.input} ${themeStyles.input}`}
               />
-            </div>
+            </motion.div>
             {error && (
-              <p className={`${styles.error} ${themeStyles.error}`} role="alert" aria-live="polite">
+              <motion.p 
+                className={`${styles.error} ${themeStyles.error}`} 
+                role="alert" 
+                aria-live="polite"
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3 }}
+              >
                 {error}
-              </p>
+              </motion.p>
             )}
-            <button
+            <motion.button
               type="submit"
               disabled={loading}
               className={`${styles.loginButton} ${themeStyles.loginButton}`}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
             >
               {loading ? "Signing In..." : "Sign In"}
-            </button>
-          </form>
-        </div>
-      </div>
+            </motion.button>
+          </motion.form>
+        </motion.div>
+      </motion.div>
     </>
   );
 }

@@ -37,6 +37,10 @@ const ProjectsPage = () => {
   const [featuringId, setFeaturingId] = useState(null);
   const [applyingBulk, setApplyingBulk] = useState(false);
   const [confirmState, setConfirmState] = useState({ open: false, type: null, payload: null });
+  const [expandedSections, setExpandedSections] = useState({
+    filters: true,
+    projects: true
+  });
   const confirmBtnRef = useRef(null);
   const [q, setQ] = useState("");
 
@@ -50,6 +54,13 @@ const ProjectsPage = () => {
     published = "",
     featured = "",
   } = router.query;
+
+  const toggleSection = (section) => {
+    setExpandedSections(prev => ({
+      ...prev,
+      [section]: !prev[section]
+    }));
+  };
 
   const fetchData = useCallback(async () => {
     setLoading(true);
@@ -217,110 +228,155 @@ const ProjectsPage = () => {
           </Link>
         </div>
 
-        <EnhancedFilterSection
-          search={q}
-          setSearch={setQ}
-          published={published}
-          featured={featured}
-          router={router}
-          selectedProjects={selectedProjects}
-          handleBulkAction={handleBulkAction}
-        />
-
-      {loading ? (
-        <ProjectListSkeleton />
-      ) : (
-        <>
-          <motion.div
-            className={gridStyles.gridContainer}
-            variants={{
-              hidden: { opacity: 0 },
-              visible: {
-                opacity: 1,
-                transition: { staggerChildren: 0.06, delayChildren: 0.02 },
-              },
-            }}
-            initial="hidden"
-            animate="visible"
+        {/* Filters Section */}
+        <div className={styles.sectionHeader}>
+          <h2 className={styles.sectionTitle}>
+            <Icon name="filter" size={20} />
+            Filters & Search
+          </h2>
+          <button 
+            className={styles.toggleButton}
+            onClick={() => toggleSection('filters')}
           >
-            {projects.map((project) => (
-              <motion.div
-                key={project._id || project.id}
-                variants={{ hidden: { opacity: 0, y: 16 }, visible: { opacity: 1, y: 0 } }}
-              >
-                <AdminPublicProjectCard
-                  project={project}
-                  onEdit={() => handleEdit(project._id || project.id)}
-                  onDelete={() => handleDelete(project._id || project.id)}
-                  onPin={() => togglePin(project)}
-                  onFeatureToggle={handleFeatureToggle}
-                  isSelected={selectedProjects.includes(project._id || project.id)}
-                  deleting={deletingId === (project._id || project.id)}
-                  pinning={pinningId === (project._id || project.id)}
-                  featuring={featuringId === (project._id || project.id)}
-                  onSelect={() => {
-                    setSelectedProjects((prev) =>
-                      prev.includes(project._id || project.id)
-                        ? prev.filter((id) => id !== (project._id || project.id))
-                        : [...prev, (project._id || project.id)],
-                    );
-                  }}
-                />
-              </motion.div>
-            ))}
+            <Icon name={expandedSections.filters ? "chevron-up" : "chevron-down"} size={20} />
+          </button>
+        </div>
+        
+        {expandedSections.filters && (
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            <EnhancedFilterSection
+              search={q}
+              setSearch={setQ}
+              published={published}
+              featured={featured}
+              router={router}
+              selectedProjects={selectedProjects}
+              handleBulkAction={handleBulkAction}
+            />
           </motion.div>
-          {/* Pagination Controls */}
-          <div className={styles.pagination}>
-            <button
-              onClick={() =>
-                router.push(
-                  `/admin/projects?${new URLSearchParams({ ...router.query, page: pagination.page - 1 })}`,
-                )
-              }
-              disabled={pagination.page <= 1}
-              className={`${utilities.btn} ${utilities.btnSecondary}`}
-            >
-              Previous
-            </button>
-            <span>
-              Page {pagination.page} of {pagination.totalPages}
-            </span>
-            <button
-              onClick={() =>
-                router.push(
-                  `/admin/projects?${new URLSearchParams({ ...router.query, page: pagination.page + 1 })}`,
-                )
-              }
-              disabled={pagination.page >= pagination.totalPages}
-              className={`${utilities.btn} ${utilities.btnSecondary}`}
-            >
-              Next
-            </button>
-          </div>
-        </>
-      )}
-      <Modal
-        isOpen={confirmState.open}
-        onClose={() => setConfirmState({ open: false, type: null, payload: null })}
-        title={confirmState.type === "bulk-action" ? "Confirm Bulk Action" : "Delete Project"}
-        onConfirm={onConfirm}
-        initialFocusRef={confirmBtnRef}
-        confirmText={confirmState.type === "bulk-action" ? "Confirm" : "Delete"}
-        cancelText="Cancel"
-      >
-        {confirmState.type === "bulk-action" ? (
-          <p>
-            Are you sure you want to {confirmState.payload?.action} {selectedProjects.length} project(s)?
-          </p>
-        ) : (
-          <p>
-            This action will permanently delete this project and cannot be undone.
-          </p>
         )}
-      </Modal>
-      {applyingBulk && (
-        <LoadingAnimation visible={true} showStars={false} size="sm" backdropOpacity={0.3} />
-      )}
+
+        {/* Projects Section */}
+        <div className={styles.sectionHeader}>
+          <h2 className={styles.sectionTitle}>
+            <Icon name="briefcase" size={20} />
+            Projects
+          </h2>
+          <button 
+            className={styles.toggleButton}
+            onClick={() => toggleSection('projects')}
+          >
+            <Icon name={expandedSections.projects ? "chevron-up" : "chevron-down"} size={20} />
+          </button>
+        </div>
+        
+        {expandedSections.projects && (
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            {loading ? (
+              <ProjectListSkeleton />
+            ) : (
+              <>
+                <motion.div
+                  className={gridStyles.gridContainer}
+                  variants={{
+                    hidden: { opacity: 0 },
+                    visible: {
+                      opacity: 1,
+                      transition: { staggerChildren: 0.06, delayChildren: 0.02 },
+                    },
+                  }}
+                  initial="hidden"
+                  animate="visible"
+                >
+                  {projects.map((project) => (
+                    <motion.div
+                      key={project._id || project.id}
+                      variants={{ hidden: { opacity: 0, y: 16 }, visible: { opacity: 1, y: 0 } }}
+                    >
+                      <AdminPublicProjectCard
+                        project={project}
+                        onEdit={() => handleEdit(project._id || project.id)}
+                        onDelete={() => handleDelete(project._id || project.id)}
+                        onPin={() => togglePin(project)}
+                        onFeatureToggle={handleFeatureToggle}
+                        isSelected={selectedProjects.includes(project._id || project.id)}
+                        deleting={deletingId === (project._id || project.id)}
+                        pinning={pinningId === (project._id || project.id)}
+                        featuring={featuringId === (project._id || project.id)}
+                        onSelect={() => {
+                          setSelectedProjects((prev) =>
+                            prev.includes(project._id || project.id)
+                              ? prev.filter((id) => id !== (project._id || project.id))
+                              : [...prev, (project._id || project.id)],
+                          );
+                        }}
+                      />
+                    </motion.div>
+                  ))}
+                </motion.div>
+                {/* Pagination Controls */}
+                <div className={styles.pagination}>
+                  <button
+                    onClick={() =>
+                      router.push(
+                        `/admin/projects?${new URLSearchParams({ ...router.query, page: pagination.page - 1 })}`,
+                      )
+                    }
+                    disabled={pagination.page <= 1}
+                    className={`${utilities.btn} ${utilities.btnSecondary}`}
+                  >
+                    Previous
+                  </button>
+                  <span>
+                    Page {pagination.page} of {pagination.totalPages}
+                  </span>
+                  <button
+                    onClick={() =>
+                      router.push(
+                        `/admin/projects?${new URLSearchParams({ ...router.query, page: pagination.page + 1 })}`,
+                      )
+                    }
+                    disabled={pagination.page >= pagination.totalPages}
+                    className={`${utilities.btn} ${utilities.btnSecondary}`}
+                  >
+                    Next
+                  </button>
+                </div>
+              </>
+            )}
+          </motion.div>
+        )}
+        
+        <Modal
+          isOpen={confirmState.open}
+          onClose={() => setConfirmState({ open: false, type: null, payload: null })}
+          title={confirmState.type === "bulk-action" ? "Confirm Bulk Action" : "Delete Project"}
+          onConfirm={onConfirm}
+          initialFocusRef={confirmBtnRef}
+          confirmText={confirmState.type === "bulk-action" ? "Confirm" : "Delete"}
+          cancelText="Cancel"
+        >
+          {confirmState.type === "bulk-action" ? (
+            <p>
+              Are you sure you want to {confirmState.payload?.action} {selectedProjects.length} project(s)?
+            </p>
+          ) : (
+            <p>
+              This action will permanently delete this project and cannot be undone.
+            </p>
+          )}
+        </Modal>
+        {applyingBulk && (
+          <LoadingAnimation visible={true} showStars={false} size="sm" backdropOpacity={0.3} />
+        )}
       </div>
     </AdminLayout>
   );

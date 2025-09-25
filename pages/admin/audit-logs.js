@@ -243,26 +243,40 @@ const AuditLogsPage = () => {
 
   return (
     <AdminLayout>
-      <div className={`${commonStyles.pageWrap} ${themeStyles.pageWrap || ""}`}>
-        <header
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3 }}
+        className={`${commonStyles.pageWrap} ${themeStyles.pageWrap || ""}`}
+      >
+        <motion.header
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.3, delay: 0.1 }}
           className={`${commonStyles.pageHeader} ${themeStyles.pageHeader || ""}`}
         >
-          <h1
+          <motion.h1
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.4, delay: 0.2 }}
             className={`${commonStyles.pageTitle} ${themeStyles.pageTitle}`}
           >
             Audit Logs
-          </h1>
-          <p
+          </motion.h1>
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.4, delay: 0.3 }}
             className={`${commonStyles.pageSubtitle} ${themeStyles.pageSubtitle}`}
           >
             Track admin actions across Articles, Projects, and Users.
-          </p>
-        </header>
+          </motion.p>
+        </motion.header>
 
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3 }}
+          transition={{ duration: 0.3, delay: 0.4 }}
         >
           <Filters
             filters={filters}
@@ -280,18 +294,32 @@ const AuditLogsPage = () => {
           className={`${commonStyles.card} ${themeStyles.card}`}
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.35, delay: 0.05 }}
+          transition={{ duration: 0.35, delay: 0.5 }}
         >
           {loading ? (
-            <div className={`${commonStyles.loading} ${themeStyles.loading || ""}`} style={{ padding: 16, display: "flex", alignItems: "center", gap: 8 }}>
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className={`${commonStyles.loading} ${themeStyles.loading || ""}`} 
+              style={{ padding: 16, display: "flex", alignItems: "center", gap: 8 }}
+            >
               <InlineSpinner sizePx={18} />
               <span>Loading logs…</span>
-            </div>
+            </motion.div>
           ) : (
             <>
-              <Table columns={columns} data={items} />
-              <div
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.3 }}
+              >
+                <Table columns={columns} data={items} />
+              </motion.div>
+              <motion.div
                 className={`${commonStyles.paginationWrap} ${themeStyles.paginationWrap || ""}`}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.3, delay: 0.1 }}
               >
                 <Pagination
                   page={page}
@@ -299,11 +327,11 @@ const AuditLogsPage = () => {
                   limit={PAGE_SIZE}
                   onPageChange={setPage}
                 />
-              </div>
+              </motion.div>
             </>
           )}
         </motion.div>
-      </div>
+      </motion.div>
     </AdminLayout>
   );
 };

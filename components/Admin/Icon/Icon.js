@@ -16,6 +16,21 @@ import {
   Upload as LucideUpload,
   Download as LucideDownload,
   HelpCircle as LucideHelpCircle,
+  Home as LucideHome,
+  File as LucideFile,
+  FileText as LucideFileText,
+  Users as LucideUsers,
+  BarChart2 as LucideBarChart2,
+  Clipboard as LucideClipboard,
+  LogOut as LucideLogOut,
+  Loader as LucideLoader,
+  Briefcase as LucideBriefcase,
+  Filter as LucideFilter,
+  Tag as LucideTag,
+  Layers as LucideLayers,
+  Grid as LucideGrid,
+  List as LucideList,
+  Save as LucideSave,
 } from "lucide-react";
 
 // Map of supported icon names to components.
@@ -37,8 +52,25 @@ const ICONS = {
   close: LucideX,
   upload: LucideUpload,
   download: LucideDownload,
+  home: LucideHome,
+  file: LucideFile,
+  "file-text": LucideFileText,
+  users: LucideUsers,
+  "bar-chart-2": LucideBarChart2,
+  clipboard: LucideClipboard,
+  "log-out": LucideLogOut,
+  loader: LucideLoader,
+  briefcase: LucideBriefcase,
+  filter: LucideFilter,
+  tag: LucideTag,
+  layers: LucideLayers,
+  grid: LucideGrid,
+  list: LucideList,
+  save: LucideSave,
   // aliases
   open: LucideExternalLink,
+  barChart: LucideBarChart2,
+  chart: LucideBarChart2,
 };
 
 const Icon = ({ name, size = 24, ...props }) => {

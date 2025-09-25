@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import toast from 'react-hot-toast';
 import { useTheme } from '../../context/ThemeContext';
 import { useRouter } from 'next/router';
+import { motion } from 'framer-motion';
 
 import AdminLayout from '../../components/Admin/AdminLayout/AdminLayout';
 import Icon from '../../components/Admin/Icon/Icon';
@@ -174,25 +175,63 @@ const ResumePage = () => {
 
   return (
     <AdminLayout title="Resume">
-      <div className={styles.pageWrapper}>
-        <header className={styles.pageHeader}>
-          <h1 className={styles.pageTitle}>Manage Resume</h1>
-          <p className={styles.pageSubtitle}>Upload and manage your professional resume</p>
-        </header>
+      <motion.div 
+        className={styles.pageWrapper}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.3 }}
+      >
+        <motion.header 
+          className={styles.pageHeader}
+          initial={{ y: -20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.4, delay: 0.1 }}
+        >
+          <motion.h1 
+            className={styles.pageTitle}
+            initial={{ x: -20, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            transition={{ duration: 0.4, delay: 0.2 }}
+          >
+            Manage Resume
+          </motion.h1>
+          <motion.p 
+            className={styles.pageSubtitle}
+            initial={{ x: -20, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            transition={{ duration: 0.4, delay: 0.3 }}
+          >
+            Upload and manage your professional resume
+          </motion.p>
+        </motion.header>
 
-        <div className={styles.sectionCard}>
-          <h2 className={styles.sectionTitle}>
+        <motion.div 
+          className={styles.sectionCard}
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.4, delay: 0.4 }}
+        >
+          <motion.h2 
+            className={styles.sectionTitle}
+            initial={{ x: -20, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            transition={{ duration: 0.4, delay: 0.5 }}
+          >
             <Icon name="upload" size={20} />
             Upload New Resume
-          </h2>
+          </motion.h2>
           
           {/* Modern Drag & Drop Area */}
-          <div 
+          <motion.div 
             className={`${styles.uploadArea} ${dragActive ? styles.active : ''}`}
             onDragEnter={handleDrag}
             onDragLeave={handleDrag}
             onDragOver={handleDrag}
             onDrop={handleDrop}
+            initial={{ scale: 0.95, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ duration: 0.3 }}
+            whileHover={{ scale: 1.02 }}
           >
             <Icon name="file-text" size={48} className={styles.uploadIcon} />
             <div className={styles.uploadText}>
@@ -208,40 +247,52 @@ const ResumePage = () => {
             />
             
             <div className={styles.actionButtons}>
-              <button 
+              <motion.button 
                 className={`${styles.actionButton} ${styles.secondary}`}
                 onClick={() => document.querySelector(`.${styles.fileInput}`).click()}
                 disabled={uploading}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
               >
                 <Icon name="folder" size={16} />
                 Browse Files
-              </button>
+              </motion.button>
             </div>
-          </div>
+          </motion.div>
           
           {/* Selected File Info */}
           {selectedFile && (
-            <div className={styles.fileInfo}>
+            <motion.div 
+              className={styles.fileInfo}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3 }}
+            >
               <Icon name="document" size={16} />
               <span className={styles.fileName}>{selectedFile.name}</span>
-              <button 
+              <motion.button 
                 onClick={handleRemoveFile}
                 className={styles.actionButton}
                 style={{ padding: '0.25rem', minWidth: 'auto' }}
                 disabled={uploading}
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
               >
                 <Icon name="x" size={16} />
-              </button>
-            </div>
+              </motion.button>
+            </motion.div>
           )}
           
           {/* Upload Progress */}
           {uploading && (
             <>
               <div className={styles.uploadProgress}>
-                <div 
+                <motion.div 
                   className={styles.uploadProgressFill} 
                   style={{ width: `${uploadProgress}%` }}
+                  initial={{ width: 0 }}
+                  animate={{ width: `${uploadProgress}%` }}
+                  transition={{ duration: 0.3 }}
                 />
               </div>
               <div className={styles.progressText}>
@@ -252,10 +303,12 @@ const ResumePage = () => {
           
           {/* Upload Button */}
           <div className={styles.actionButtons}>
-            <button 
+            <motion.button 
               onClick={handleUpload} 
               className={`${styles.actionButton} ${styles.primary}`} 
               disabled={uploading || !selectedFile}
+              whileHover={{ scale: uploading || !selectedFile ? 1 : 1.05 }}
+              whileTap={{ scale: uploading || !selectedFile ? 1 : 0.95 }}
             >
               {uploading ? (
                 <>
@@ -268,22 +321,41 @@ const ResumePage = () => {
                   <span>Upload Resume</span>
                 </>
               )}
-            </button>
+            </motion.button>
           </div>
-        </div>
+        </motion.div>
 
-        <div className={styles.sectionCard}>
-          <h2 className={styles.sectionTitle}>
+        <motion.div 
+          className={styles.sectionCard}
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.4, delay: 0.6 }}
+        >
+          <motion.h2 
+            className={styles.sectionTitle}
+            initial={{ x: -20, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            transition={{ duration: 0.4, delay: 0.7 }}
+          >
             <Icon name="document" size={20} />
             Current Resume
-          </h2>
+          </motion.h2>
           {loading ? (
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+            <motion.div 
+              style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+            >
               <Spinner size="sm" />
               <span>Loading resume...</span>
-            </div>
+            </motion.div>
           ) : resume ? (
-            <div className={styles.resumeInfo}>
+            <motion.div 
+              className={styles.resumeInfo}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3 }}
+            >
               <div>
                 <p>
                   <Icon name="document" size={16} /> {resume.filename}
@@ -293,26 +365,33 @@ const ResumePage = () => {
                 </p>
               </div>
               <div className={styles.actionButtons}>
-                <button 
+                <motion.button 
                   onClick={handleDownload}
                   className={`${styles.actionButton} ${styles.secondary}`}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
                 >
                   <Icon name="download" size={16} />
                   <span>Download</span>
-                </button>
+                </motion.button>
               </div>
-            </div>
+            </motion.div>
           ) : (
-            <div className={styles.noResume}>
+            <motion.div 
+              className={styles.noResume}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.3 }}
+            >
               <Icon name="document" size={48} />
               <p>No resume has been uploaded yet.</p>
               <p style={{ fontSize: '0.875rem', marginTop: '0.5rem' }}>
                 Upload your PDF resume using the form above
               </p>
-            </div>
+            </motion.div>
           )}
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
       {uploading && <LoadingAnimation visible={true} />}
     </AdminLayout>
   );

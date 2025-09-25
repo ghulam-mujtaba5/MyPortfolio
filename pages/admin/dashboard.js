@@ -1,9 +1,6 @@
 // pages/admin/dashboard.js
 import AdminLayout from "../../components/Admin/AdminLayout/AdminLayout";
 import toast from "react-hot-toast";
-import StatWidget from "../../components/Admin/Dashboard/StatWidget";
-import ChartCard from "../../components/Admin/Dashboard/ChartCard";
-import SampleLineChart from "../../components/Admin/Charts/SampleLineChart";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Table from "../../components/Admin/Table/Table";
@@ -14,7 +11,6 @@ import {
   FaComments,
   FaChartLine,
   FaClock,
-  FaUserCheck,
 } from "react-icons/fa";
 import { formatDistanceToNow, format } from "date-fns";
 import Head from "next/head";
@@ -24,6 +20,7 @@ import darkStyles from "./dashboard.dark.module.css";
 import { useTheme } from "../../context/ThemeContext";
 import InlineSpinner from "../../components/LoadingAnimation/InlineSpinner";
 import Icon from "../../components/Admin/Icon/Icon";
+import SampleLineChart from "../../components/Admin/Charts/SampleLineChart";
 
 const AdminDashboard = () => {
   const [recentActivity, setRecentActivity] = useState([]);
@@ -75,21 +72,8 @@ const AdminDashboard = () => {
       header: "User",
       key: "user",
       render: (row) => (
-        <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
-          <div
-            style={{
-              width: "32px",
-              height: "32px",
-              borderRadius: "50%",
-              backgroundColor: "var(--primary)",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              color: "white",
-              fontWeight: "bold",
-              fontSize: "0.75rem",
-            }}
-          >
+        <div className={commonStyles.userCell}>
+          <div className={commonStyles.userAvatar}>
             {row.user?.name?.charAt(0) || row.userName?.charAt(0) || "U"}
           </div>
           <span>{row.user?.name || row.userName || "—"}</span>
@@ -103,16 +87,10 @@ const AdminDashboard = () => {
         const act = (row.action || "").replace(/_/g, " ");
         const ent = row.entity || row.entityType || "";
         return (
-          <div>
-            <div style={{ fontWeight: 500 }}>{act}</div>
+          <div className={commonStyles.actionCell}>
+            <div className={commonStyles.actionText}>{act}</div>
             {ent && (
-              <div
-                style={{
-                  fontSize: "0.75rem",
-                  color: "var(--text-muted)",
-                  marginTop: "0.125rem",
-                }}
-              >
+              <div className={commonStyles.entityText}>
                 {ent}
               </div>
             )}
@@ -124,36 +102,15 @@ const AdminDashboard = () => {
       header: "Timestamp",
       key: "createdAt",
       render: (row) => (
-        <div>
+        <div className={commonStyles.timestampCell}>
           <div>{formatDistanceToNow(new Date(row.createdAt), { addSuffix: true })}</div>
-          <div
-            style={{
-              fontSize: "0.75rem",
-              color: "var(--text-muted)",
-              marginTop: "0.125rem",
-            }}
-          >
+          <div className={commonStyles.timestampDetail}>
             {format(new Date(row.createdAt), "MMM d, yyyy h:mm a")}
           </div>
         </div>
       ),
     },
   ];
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-      },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { y: 20, opacity: 0 },
-    visible: { y: 0, opacity: 1 },
-  };
 
   // Prepare chart data from viewStats (DailyStat[] with { date, views })
   const chartLabels = Array.isArray(viewStats)
@@ -180,6 +137,7 @@ const AdminDashboard = () => {
     <AdminLayout>
       <Head>
         <title>Admin Dashboard - My Portfolio</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
       </Head>
       <div className={`${commonStyles.dashboardContainer} ${themeStyles.dashboardContainer}`}>
         <motion.header 
@@ -193,33 +151,22 @@ const AdminDashboard = () => {
         </motion.header>
         
         {isLoading ? (
-          <div style={{ 
-            display: 'flex', 
-            justifyContent: 'center', 
-            alignItems: 'center', 
-            height: '200px' 
-          }}>
+          <div className={commonStyles.loadingContainer}>
             <InlineSpinner sizePx={32} />
+            <span>Loading dashboard data...</span>
           </div>
         ) : statsError ? (
           <div className={commonStyles.errorState}>
-            <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>⚠️</div>
-            <h3 style={{ margin: '0 0 0.5rem 0' }}>Unable to Load Dashboard Data</h3>
-            <p style={{ color: 'var(--text-muted)', margin: '0 0 1rem 0' }}>
+            <div className={commonStyles.errorIcon}>⚠️</div>
+            <h3 className={commonStyles.errorTitle}>Unable to Load Dashboard Data</h3>
+            <p className={commonStyles.errorMessage}>
               {statsError.includes('Database connection') 
                 ? 'Database connection failed. Please check your MongoDB Atlas IP whitelist settings.' 
                 : statsError}
             </p>
-            <div style={{ 
-              backgroundColor: 'var(--bg-elev-2)', 
-              padding: '1rem', 
-              borderRadius: '0.5rem', 
-              margin: '1rem 0',
-              textAlign: 'left',
-              fontSize: '0.875rem'
-            }}>
-              <p style={{ margin: '0 0 0.5rem 0', fontWeight: 'bold' }}>Troubleshooting steps:</p>
-              <ol style={{ margin: 0, paddingLeft: '1.25rem' }}>
+            <div className={commonStyles.errorDetails}>
+              <p className={commonStyles.errorDetailsTitle}>Troubleshooting steps:</p>
+              <ol className={commonStyles.errorSteps}>
                 <li>Check your MongoDB Atlas IP whitelist settings</li>
                 <li>Ensure your MONGODB_URI in .env.local is correct</li>
                 <li>Verify your internet connection</li>
@@ -227,66 +174,121 @@ const AdminDashboard = () => {
               </ol>
             </div>
             <button 
-              className="btn btn-primary"
+              className={`${commonStyles.retryButton} ${themeStyles.retryButton}`}
               onClick={() => window.location.reload()}
-              style={{ marginTop: '0.5rem' }}
             >
               Retry
             </button>
           </div>
         ) : (
-          <motion.div
-            className={commonStyles.widgetsGrid}
-            variants={containerVariants}
-            initial="hidden"
-            animate="visible"
-          >
-            <motion.div variants={itemVariants}>
-              <div className={commonStyles.statWidgetCard}>
-                <div className={commonStyles.statWidgetIcon}>
-                  <FaUsers size={24} />
-                </div>
-                <div className={commonStyles.statWidgetTitle}>Total Users</div>
-                <div className={commonStyles.statWidgetValue}>{Number(stats.users || 0).toLocaleString()}</div>
-              </div>
-            </motion.div>
-            <motion.div variants={itemVariants}>
-              <div className={commonStyles.statWidgetCard}>
-                <div className={commonStyles.statWidgetIcon}>
-                  <FaFileAlt size={24} />
-                </div>
-                <div className={commonStyles.statWidgetTitle}>Total Articles</div>
-                <div className={commonStyles.statWidgetValue}>{Number(stats.articles || 0).toLocaleString()}</div>
-              </div>
-            </motion.div>
-            <motion.div variants={itemVariants}>
-              <div className={commonStyles.statWidgetCard}>
-                <div className={commonStyles.statWidgetIcon}>
-                  <FaProjectDiagram size={24} />
-                </div>
-                <div className={commonStyles.statWidgetTitle}>Total Projects</div>
-                <div className={commonStyles.statWidgetValue}>{Number(stats.projects || 0).toLocaleString()}</div>
-              </div>
-            </motion.div>
-            <motion.div variants={itemVariants}>
-              <div className={commonStyles.statWidgetCard}>
-                <div className={commonStyles.statWidgetIcon}>
-                  <FaComments size={24} />
-                </div>
-                <div className={commonStyles.statWidgetTitle}>Total Views</div>
-                <div className={commonStyles.statWidgetValue}>{Number(stats.views || 0).toLocaleString()}</div>
-              </div>
-            </motion.div>
-
-            <motion.div 
-              className={commonStyles.chartArea} 
-              variants={itemVariants}
+          <>
+            {/* Stats Overview Section */}
+            <motion.section
+              className={commonStyles.section}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
             >
-              <div className={commonStyles.chartCard}>
-                <h2 className={commonStyles.chartHeader}>
-                  <FaChartLine size={20} />
-                  Page Views
+              <div className={commonStyles.sectionHeader}>
+                <h2 className={commonStyles.sectionTitle}>
+                  <Icon name="bar-chart-2" size={20} />
+                  Statistics Overview
                 </h2>
+              </div>
+              
+              <div className={commonStyles.statsGrid}>
+                <motion.div 
+                  className={`${commonStyles.statCard} ${themeStyles.statCard}`}
+                  whileHover={{ y: -5 }}
+                  transition={{ type: "spring", stiffness: 400 }}
+                >
+                  <div className={commonStyles.statIconWrapper}>
+                    <div className={`${commonStyles.statIcon} ${commonStyles.usersIcon}`}>
+                      <FaUsers size={20} />
+                    </div>
+                  </div>
+                  <div className={commonStyles.statContent}>
+                    <h3 className={commonStyles.statLabel}>Total Users</h3>
+                    <p className={commonStyles.statValue}>{Number(stats.users || 0).toLocaleString()}</p>
+                  </div>
+                </motion.div>
+                
+                <motion.div 
+                  className={`${commonStyles.statCard} ${themeStyles.statCard}`}
+                  whileHover={{ y: -5 }}
+                  transition={{ type: "spring", stiffness: 400 }}
+                >
+                  <div className={commonStyles.statIconWrapper}>
+                    <div className={`${commonStyles.statIcon} ${commonStyles.articlesIcon}`}>
+                      <FaFileAlt size={20} />
+                    </div>
+                  </div>
+                  <div className={commonStyles.statContent}>
+                    <h3 className={commonStyles.statLabel}>Total Articles</h3>
+                    <p className={commonStyles.statValue}>{Number(stats.articles || 0).toLocaleString()}</p>
+                  </div>
+                </motion.div>
+                
+                <motion.div 
+                  className={`${commonStyles.statCard} ${themeStyles.statCard}`}
+                  whileHover={{ y: -5 }}
+                  transition={{ type: "spring", stiffness: 400 }}
+                >
+                  <div className={commonStyles.statIconWrapper}>
+                    <div className={`${commonStyles.statIcon} ${commonStyles.projectsIcon}`}>
+                      <FaProjectDiagram size={20} />
+                    </div>
+                  </div>
+                  <div className={commonStyles.statContent}>
+                    <h3 className={commonStyles.statLabel}>Total Projects</h3>
+                    <p className={commonStyles.statValue}>{Number(stats.projects || 0).toLocaleString()}</p>
+                  </div>
+                </motion.div>
+                
+                <motion.div 
+                  className={`${commonStyles.statCard} ${themeStyles.statCard}`}
+                  whileHover={{ y: -5 }}
+                  transition={{ type: "spring", stiffness: 400 }}
+                >
+                  <div className={commonStyles.statIconWrapper}>
+                    <div className={`${commonStyles.statIcon} ${commonStyles.viewsIcon}`}>
+                      <FaComments size={20} />
+                    </div>
+                  </div>
+                  <div className={commonStyles.statContent}>
+                    <h3 className={commonStyles.statLabel}>Total Views</h3>
+                    <p className={commonStyles.statValue}>{Number(stats.views || 0).toLocaleString()}</p>
+                  </div>
+                </motion.div>
+              </div>
+            </motion.section>
+
+            {/* Analytics Section */}
+            <motion.section
+              className={commonStyles.section}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+            >
+              <div className={commonStyles.sectionHeader}>
+                <h2 className={commonStyles.sectionTitle}>
+                  <Icon name="activity" size={20} />
+                  Analytics & Trends
+                </h2>
+              </div>
+              
+              <motion.div 
+                className={`${commonStyles.chartCard} ${themeStyles.chartCard}`}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.2 }}
+              >
+                <div className={commonStyles.chartHeader}>
+                  <h3 className={commonStyles.chartTitle}>
+                    <FaChartLine size={18} />
+                    Page Views
+                  </h3>
+                </div>
                 <div className={commonStyles.chartContainer}>
                   {hasChartData ? (
                     <SampleLineChart
@@ -296,49 +298,39 @@ const AdminDashboard = () => {
                       label="Page Views"
                     />
                   ) : (
-                    <div className={commonStyles.emptyState}>
+                    <div className={commonStyles.emptyChartState}>
                       <Icon name="bar-chart" size={48} />
                       <p>No chart data available</p>
                     </div>
                   )}
                 </div>
-              </div>
-            </motion.div>
+              </motion.div>
+            </motion.section>
 
-            <motion.div 
-              className={commonStyles.fullWidthCard} 
-              variants={itemVariants}
+            {/* Recent Activity Section */}
+            <motion.section
+              className={commonStyles.section}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
             >
-              <div className={commonStyles.tableCard}>
-                <div className={commonStyles.tableHeader}>
-                  <h2 className={commonStyles.tableHeader}>
-                    <FaClock style={{ color: "var(--primary)" }} />
-                    Recent Activity
-                  </h2>
-                  <div style={{ display: 'flex', gap: '0.5rem' }}>
-                    <button 
-                      className="btn btn-sm btn-ghost"
-                      style={{ 
-                        padding: "0.5rem 1rem", 
-                        fontSize: "0.875rem",
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "0.5rem",
-                        borderRadius: "var(--admin-btn-radius)",
-                        border: "1px solid var(--border)",
-                        background: "var(--bg-elev-1)",
-                        color: "var(--text)"
-                      }}
-                    >
-                      <FaUserCheck size={14} />
-                      View All
-                    </button>
-                  </div>
-                </div>
-                <Table columns={activityColumns} data={recentActivity} />
+              <div className={commonStyles.sectionHeader}>
+                <h2 className={commonStyles.sectionTitle}>
+                  <Icon name="clock" size={20} />
+                  Recent Activity
+                </h2>
               </div>
-            </motion.div>
-          </motion.div>
+              
+              <motion.div 
+                className={`${commonStyles.activityCard} ${themeStyles.activityCard}`}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.3 }}
+              >
+                <Table columns={activityColumns} data={recentActivity} />
+              </motion.div>
+            </motion.section>
+          </>
         )}
       </div>
     </AdminLayout>

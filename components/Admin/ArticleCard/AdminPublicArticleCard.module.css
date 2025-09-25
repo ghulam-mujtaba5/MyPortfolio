@@ -138,6 +138,7 @@
 .publicCardWrapper {
   pointer-events: none;
   padding: 0 var(--space-4) var(--space-4);
+  margin-top: 0; /* Remove unwanted top margin */
 }
 
 /* Light Theme Overrides */

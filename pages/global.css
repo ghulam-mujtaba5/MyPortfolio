@@ -2,7 +2,30 @@
 @import url("https://fonts.googleapis.com/css2?family=Manrope:wght@600&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400&display=swap");
+
+html {
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  -moz-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
 body {
   margin: 0;
   line-height: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Fix for admin portal zoom issues */
+@media screen and (max-width: 1200px) {
+  .adminContainer {
+    zoom: 1;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .adminContainer {
+    zoom: 1;
+  }
 }

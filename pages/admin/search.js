@@ -7,6 +7,7 @@ import Tooltip from "../../components/Admin/Tooltip/Tooltip";
 import Highlight from "../../components/Highlight/Highlight";
 import Icon from "../../components/Admin/Icon/Icon";
 import { useTheme } from "../../context/ThemeContext";
+import { motion } from "framer-motion";
 import commonStyles from "./articles/articles.common.module.css";
 import lightStyles from "./articles/articles.light.module.css";
 import darkStyles from "./articles/articles.dark.module.css";
@@ -157,158 +158,201 @@ export default function AdminSearchPage() {
       <div className={commonStyles.visuallyHidden} aria-live="polite" role="status">
         {ariaMsg}
       </div>
-      <div className={commonStyles.header}>
-        <h1 style={{ display: "flex", alignItems: "center", gap: 8 }}>
-          Global Search
-          {loading && (
-            <span style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
-              <InlineSpinner sizePx={16} />
-              <span>Searching…</span>
-            </span>
-          )}
-        </h1>
-      </div>
-      <form onSubmit={onSubmit} className={commonStyles.searchForm}>
-        <input
-          type="text"
-          value={q}
-          onChange={(e) => setQ(e.target.value)}
-          onKeyDown={onKeyDown}
-          ref={inputRef}
-          placeholder="Search articles by title, tag, category..."
-          className={`${commonStyles.searchInput} ${commonStyles.searchInputMax}`}
-          aria-label="Search query"
-          aria-controls={resultsListId}
-          aria-activedescendant={activeIndex >= 0 ? optionId(activeIndex) : undefined}
-          role="combobox"
-          aria-autocomplete="list"
-          aria-expanded={results.length > 0}
-          aria-owns={resultsListId}
-        />
-        {q ? (
-          <button
-            type="button"
-            className={`${utilities.btn} ${utilities.btnIcon}`}
-            onClick={() => {
-              setQ("");
-              setResults([]);
-              setActiveIndex(-1);
-              inputRef.current?.focus();
-            }}
-            aria-label="Clear search"
-            title="Clear"
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3 }}
+      >
+        <div className={commonStyles.header}>
+          <motion.h1 
+            style={{ display: "flex", alignItems: "center", gap: 8 }}
+            initial={{ x: -20, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            transition={{ duration: 0.4 }}
           >
-            Clear
-          </button>
-        ) : null}
-        <Tooltip content="Search">
-          <button
-            type="submit"
-            className={`${utilities.btn} ${utilities.btnIcon} ${utilities.btnPrimary}`}
-            title="Search"
-            aria-label="Search"
-          >
-            Search
-          </button>
-        </Tooltip>
-      </form>
-
-      {loading && (
-        <div className={`${commonStyles.mtSm} ${frameStyles.statusText}`} aria-live="polite" style={{ display: "flex", alignItems: "center", gap: 8 }}>
-          <InlineSpinner sizePx={18} />
-          <span>Searching…</span>
+            Global Search
+            {loading && (
+              <span style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
+                <InlineSpinner sizePx={16} />
+                <span>Searching…</span>
+              </span>
+            )}
+          </motion.h1>
         </div>
-      )}
-      {error && (
-        <p className={`${commonStyles.mtSm} ${frameStyles.statusError}`}>{error}</p>
-      )}
-
-      <div className={commonStyles.mtMd} aria-busy={loading}>
-        {results.length === 0 && !loading && q && <p>No results.</p>}
-        {results.length > 0 && (
-          <div>
-            <div className={commonStyles.resultsMeta}>
-              {results.length} result{results.length !== 1 ? "s" : ""}
-            </div>
-            <ul
-              className={commonStyles.resultsList}
-              id={resultsListId}
-              role="listbox"
-              aria-label="Search results"
-              aria-busy={loading}
+        <motion.form 
+          onSubmit={onSubmit} 
+          className={commonStyles.searchForm}
+          initial={{ y: 10, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.4, delay: 0.1 }}
+        >
+          <input
+            type="text"
+            value={q}
+            onChange={(e) => setQ(e.target.value)}
+            onKeyDown={onKeyDown}
+            ref={inputRef}
+            placeholder="Search articles by title, tag, category..."
+            className={`${commonStyles.searchInput} ${commonStyles.searchInputMax}`}
+            aria-label="Search query"
+            aria-controls={resultsListId}
+            aria-activedescendant={activeIndex >= 0 ? optionId(activeIndex) : undefined}
+            role="combobox"
+            aria-autocomplete="list"
+            aria-expanded={results.length > 0}
+            aria-owns={resultsListId}
+          />
+          {q ? (
+            <motion.button
+              type="button"
+              className={`${utilities.btn} ${utilities.btnIcon}`}
+              onClick={() => {
+                setQ("");
+                setResults([]);
+                setActiveIndex(-1);
+                inputRef.current?.focus();
+              }}
+              aria-label="Clear search"
+              title="Clear"
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
             >
-              {results.map((r, idx) => {
-                const isScheduled =
-                  r.published &&
-                  r.publishAt &&
-                  new Date(r.publishAt) > new Date();
-                const status = r.published
-                  ? isScheduled
-                    ? "Scheduled"
-                    : "Published"
-                  : "Draft";
-                const active = idx === activeIndex;
-                return (
-                  <li
-                    key={r._id}
-                    id={optionId(idx)}
-                    role="option"
-                    aria-selected={active}
-                    ref={(el) => (resultRefs.current[idx] = el)}
-                    className={`${commonStyles.resultRow} ${active ? commonStyles.resultActive : ""}`}
-                    onMouseEnter={() => setActiveIndex(idx)}
-                    onClick={() =>
-                      router.push(
-                        `/admin/articles/preview/${encodeURIComponent(r.slug)}`,
-                      )
-                    }
-                  >
-                    <div className={commonStyles.resultTitle}>
-                      <Highlight text={r.title} highlight={q} />
-                    </div>
-                    <div className={commonStyles.resultMeta}>
-                      <span
-                        className={`${commonStyles.resultChip} ${status === "Draft" ? commonStyles.chipGray : status === "Scheduled" ? commonStyles.chipAmber : commonStyles.chipGreen}`}
-                      >
-                        {status}
-                      </span>
-                      <span className={commonStyles.resultDate}>
-                        {r.createdAt
-                          ? new Date(r.createdAt).toLocaleDateString()
-                          : "-"}
-                      </span>
-                    </div>
-                    <div className={commonStyles.resultActions}>
-                      <Tooltip content="Preview">
-                        <Link
-                          href={`/admin/articles/preview/${encodeURIComponent(r.slug)}`}
-                          className={`${utilities.btn} ${utilities.btnIcon}`}
-                          title="Preview"
-                          aria-label="Preview"
-                        >
-                          <Icon name="eye" aria-hidden="true" />
-                          <span className={commonStyles.visuallyHidden}>Preview</span>
-                        </Link>
-                      </Tooltip>
-                      <Tooltip content="Open in list">
-                        <Link
-                          href={`/admin/articles?search=${encodeURIComponent(r.title)}`}
-                          className={`${utilities.btn} ${utilities.btnIcon}`}
-                          title="Open in list"
-                          aria-label="Open in list"
-                        >
-                          <Icon name="open" aria-hidden="true" />
-                          <span className={commonStyles.visuallyHidden}>Open in list</span>
-                        </Link>
-                      </Tooltip>
-                    </div>
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
+              Clear
+            </motion.button>
+          ) : null}
+          <Tooltip content="Search">
+            <motion.button
+              type="submit"
+              className={`${utilities.btn} ${utilities.btnIcon} ${utilities.btnPrimary}`}
+              title="Search"
+              aria-label="Search"
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+            >
+              Search
+            </motion.button>
+          </Tooltip>
+        </motion.form>
+
+        {loading && (
+          <motion.div 
+            className={`${commonStyles.mtSm} ${frameStyles.statusText}`} 
+            aria-live="polite" 
+            style={{ display: "flex", alignItems: "center", gap: 8 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+          >
+            <InlineSpinner sizePx={18} />
+            <span>Searching…</span>
+          </motion.div>
         )}
-      </div>
+        {error && (
+          <motion.p 
+            className={`${commonStyles.mtSm} ${frameStyles.statusError}`}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+          >
+            {error}
+          </motion.p>
+        )}
+
+        <motion.div 
+          className={commonStyles.mtMd} 
+          aria-busy={loading}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.4, delay: 0.2 }}
+        >
+          {results.length === 0 && !loading && q && <p>No results.</p>}
+          {results.length > 0 && (
+            <div>
+              <div className={commonStyles.resultsMeta}>
+                {results.length} result{results.length !== 1 ? "s" : ""}
+              </div>
+              <ul
+                className={commonStyles.resultsList}
+                id={resultsListId}
+                role="listbox"
+                aria-label="Search results"
+                aria-busy={loading}
+              >
+                {results.map((r, idx) => {
+                  const isScheduled =
+                    r.published &&
+                    r.publishAt &&
+                    new Date(r.publishAt) > new Date();
+                  const status = r.published
+                    ? isScheduled
+                      ? "Scheduled"
+                      : "Published"
+                    : "Draft";
+                  const active = idx === activeIndex;
+                  return (
+                    <motion.li
+                      key={r._id}
+                      id={optionId(idx)}
+                      role="option"
+                      aria-selected={active}
+                      ref={(el) => (resultRefs.current[idx] = el)}
+                      className={`${commonStyles.resultRow} ${active ? commonStyles.resultActive : ""}`}
+                      onMouseEnter={() => setActiveIndex(idx)}
+                      onClick={() =>
+                        router.push(
+                          `/admin/articles/preview/${encodeURIComponent(r.slug)}`,
+                        )
+                      }
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.3, delay: idx * 0.05 }}
+                      whileHover={{ backgroundColor: "var(--bg-elev-2)" }}
+                    >
+                      <div className={commonStyles.resultTitle}>
+                        <Highlight text={r.title} highlight={q} />
+                      </div>
+                      <div className={commonStyles.resultMeta}>
+                        <span
+                          className={`${commonStyles.resultChip} ${status === "Draft" ? commonStyles.chipGray : status === "Scheduled" ? commonStyles.chipAmber : commonStyles.chipGreen}`}
+                        >
+                          {status}
+                        </span>
+                        <span className={commonStyles.resultDate}>
+                          {r.createdAt
+                            ? new Date(r.createdAt).toLocaleDateString()
+                            : "-"}
+                        </span>
+                      </div>
+                      <div className={commonStyles.resultActions}>
+                        <Tooltip content="Preview">
+                          <Link
+                            href={`/admin/articles/preview/${encodeURIComponent(r.slug)}`}
+                            className={`${utilities.btn} ${utilities.btnIcon}`}
+                            title="Preview"
+                            aria-label="Preview"
+                          >
+                            <Icon name="eye" aria-hidden="true" />
+                            <span className={commonStyles.visuallyHidden}>Preview</span>
+                          </Link>
+                        </Tooltip>
+                        <Tooltip content="Open in list">
+                          <Link
+                            href={`/admin/articles?search=${encodeURIComponent(r.title)}`}
+                            className={`${utilities.btn} ${utilities.btnIcon}`}
+                            title="Open in list"
+                            aria-label="Open in list"
+                          >
+                            <Icon name="open" aria-hidden="true" />
+                            <span className={commonStyles.visuallyHidden}>Open in list</span>
+                          </Link>
+                        </Tooltip>
+                      </div>
+                    </motion.li>
+                  );
+                })}
+              </ul>
+            </div>
+          )}
+        </motion.div>
+      </motion.div>
     </AdminLayout>
   );
 }

@@ -88,6 +88,11 @@ const ArticlesPage = () => {
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [confirmTitle, setConfirmTitle] = useState("Confirm action");
   const [confirmMessage, setConfirmMessage] = useState("");
+  const [expandedSections, setExpandedSections] = useState({
+    filters: true,
+    quickFilters: true,
+    articles: true
+  });
   const onConfirmRef = useRef(null);
   const selectAllRef = useRef(null);
   const router = useRouter();
@@ -104,6 +109,13 @@ const ArticlesPage = () => {
     tag = "",
     category = "",
   } = router.query;
+
+  const toggleSection = (section) => {
+    setExpandedSections(prev => ({
+      ...prev,
+      [section]: !prev[section]
+    }));
+  };
 
   const fetchArticles = useCallback(async () => {
     setLoading(true);
@@ -237,43 +249,87 @@ const ArticlesPage = () => {
           </Link>
         </header>
 
-        <EnhancedFilterSection
-          search={search}
-          status={status}
-          hasCover={hasCover}
-          limit={limit}
-          handleFilterChange={handleFilterChange}
-        />
+        {/* Filters Section */}
+        <div className={styles.sectionHeader}>
+          <h2 className={styles.sectionTitle}>
+            <Icon name="filter" size={20} />
+            Filters & Search
+          </h2>
+          <button 
+            className={styles.toggleButton}
+            onClick={() => toggleSection('filters')}
+          >
+            <Icon name={expandedSections.filters ? "chevron-up" : "chevron-down"} size={20} />
+          </button>
+        </div>
+        
+        {expandedSections.filters && (
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            <EnhancedFilterSection
+              search={search}
+              status={status}
+              hasCover={hasCover}
+              limit={limit}
+              handleFilterChange={handleFilterChange}
+            />
+          </motion.div>
+        )}
 
-        {(topTags.length > 0 || topCategories.length > 0) && (
-          <div className={styles.quickFiltersContainer}>
-            {topTags.length > 0 && (
-              <div className={styles.filterGroup}>
-                <span className={styles.filterLabel}>Top Tags:</span>
-                {topTags.map((t) => (
-                  <Chip
-                    key={t}
-                    label={`#${t}`}
-                    onClick={() => handleChipClick("tag", t)}
-                    isActive={tag === t}
-                  />
-                ))}
+        {/* Quick Filters Section */}
+        <div className={styles.sectionHeader}>
+          <h2 className={styles.sectionTitle}>
+            <Icon name="zap" size={20} />
+            Quick Filters
+          </h2>
+          <button 
+            className={styles.toggleButton}
+            onClick={() => toggleSection('quickFilters')}
+          >
+            <Icon name={expandedSections.quickFilters ? "chevron-up" : "chevron-down"} size={20} />
+          </button>
+        </div>
+        
+        {expandedSections.quickFilters && (
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            {(topTags.length > 0 || topCategories.length > 0) && (
+              <div className={styles.quickFiltersContainer}>
+                {topTags.length > 0 && (
+                  <div className={styles.filterGroup}>
+                    <span className={styles.filterLabel}>Top Tags:</span>
+                    {topTags.map((t) => (
+                      <Chip
+                        key={t}
+                        label={`#${t}`}
+                        onClick={() => handleChipClick("tag", t)}
+                        isActive={tag === t}
+                      />
+                    ))}
+                  </div>
+                )}
+                {topCategories.length > 0 && (
+                  <div className={styles.filterGroup}>
+                    <span className={styles.filterLabel}>Top Categories:</span>
+                    {topCategories.map((c) => (
+                      <Chip
+                        key={c}
+                        label={c}
+                        onClick={() => handleChipClick("category", c)}
+                        isActive={category === c}
+                      />
+                    ))}
+                  </div>
+                )}
               </div>
             )}
-            {topCategories.length > 0 && (
-              <div className={styles.filterGroup}>
-                <span className={styles.filterLabel}>Top Categories:</span>
-                {topCategories.map((c) => (
-                  <Chip
-                    key={c}
-                    label={c}
-                    onClick={() => handleChipClick("category", c)}
-                    isActive={category === c}
-                  />
-                ))}
-              </div>
-            )}
-          </div>
+          </motion.div>
         )}
 
         {selectedArticles.length > 0 && (
@@ -296,72 +352,94 @@ const ArticlesPage = () => {
           </motion.div>
         )}
 
-        <div className={styles.tableWrapper}>
-          {loading ? (
-            <ArticleListSkeleton />
-          ) : articles.length > 0 ? (
-            <motion.div
-              className={styles.articleGrid}
-              variants={{
-                visible: { transition: { staggerChildren: 0.05 } },
-              }}
-              initial="hidden"
-              animate="visible"
-            >
-              {articles.map((article) => (
-                <AdminPublicArticleCard
-                  key={article._id || article.id}
-                  article={article}
-                  isSelected={selectedArticles.includes(article._id || article.id)}
-                  onSelect={handleSelectSingle}
-                  onDelete={handleDelete}
-                  onPin={togglePin}
-                  onFeatureToggle={handleFeatureToggle}
-                  pinning={pinningId === (article._id || article.id)}
-                  featuring={featuringId === (article._id || article.id)}
-                />
-              ))}
-            </motion.div>
-          ) : (
-            <EmptyState
-              title="No articles found"
-              message="Try adjusting your search or filters, or create a new article."
-              actions={[
-                {
-                  label: "Create Article",
-                  onClick: () => router.push("/admin/articles/new"),
-                  icon: "plus",
-                },
-                {
-                  label: "Clear Filters",
-                  onClick: () => router.push("/admin/articles"),
-                  variant: "ghost",
-                },
-              ]}
-            />
-          )}
+        {/* Articles Section */}
+        <div className={styles.sectionHeader}>
+          <h2 className={styles.sectionTitle}>
+            <Icon name="file-text" size={20} />
+            Articles
+          </h2>
+          <button 
+            className={styles.toggleButton}
+            onClick={() => toggleSection('articles')}
+          >
+            <Icon name={expandedSections.articles ? "chevron-up" : "chevron-down"} size={20} />
+          </button>
         </div>
+        
+        {expandedSections.articles && (
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            <div className={styles.tableWrapper}>
+              {loading ? (
+                <ArticleListSkeleton />
+              ) : articles.length > 0 ? (
+                <motion.div
+                  className={styles.articleGrid}
+                  variants={{
+                    visible: { transition: { staggerChildren: 0.05 } },
+                  }}
+                  initial="hidden"
+                  animate="visible"
+                >
+                  {articles.map((article) => (
+                    <AdminPublicArticleCard
+                      key={article._id || article.id}
+                      article={article}
+                      isSelected={selectedArticles.includes(article._id || article.id)}
+                      onSelect={handleSelectSingle}
+                      onDelete={handleDelete}
+                      onPin={togglePin}
+                      onFeatureToggle={handleFeatureToggle}
+                      pinning={pinningId === (article._id || article.id)}
+                      featuring={featuringId === (article._id || article.id)}
+                    />
+                  ))}
+                </motion.div>
+              ) : (
+                <EmptyState
+                  title="No articles found"
+                  message="Try adjusting your search or filters, or create a new article."
+                  actions={[
+                    {
+                      label: "Create Article",
+                      onClick: () => router.push("/admin/articles/new"),
+                      icon: "plus",
+                    },
+                    {
+                      label: "Clear Filters",
+                      onClick: () => router.push("/admin/articles"),
+                      variant: "ghost",
+                    },
+                  ]}
+                />
+              )}
+            </div>
 
-        {pagination.totalPages > 1 && (
-          <div className={styles.pagination}>
-            <button
-              className={`${utilities.btn} ${utilities.btnSecondary}`}
-              onClick={() => handleFilterChange("page", pagination.page - 1)}
-              disabled={!pagination.hasPrevPage}
-            >
-              Previous
-            </button>
-            <span className={styles.paginationText}>
-              Page {pagination.page} of {pagination.totalPages}
-            </span>
-            <button
-              className={`${utilities.btn} ${utilities.btnSecondary}`}
-              onClick={() => handleFilterChange("page", pagination.page + 1)}
-              disabled={!pagination.hasNextPage}
-            >
-              Next
-            </button>
-          </div>
+            {pagination.totalPages > 1 && (
+              <div className={styles.pagination}>
+                <button
+                  className={`${utilities.btn} ${utilities.btnSecondary}`}
+                  onClick={() => handleFilterChange("page", pagination.page - 1)}
+                  disabled={!pagination.hasPrevPage}
+                >
+                  Previous
+                </button>
+                <span className={styles.paginationText}>
+                  Page {pagination.page} of {pagination.totalPages}
+                </span>
+                <button
+                  className={`${utilities.btn} ${utilities.btnSecondary}`}
+                  onClick={() => handleFilterChange("page", pagination.page + 1)}
+                  disabled={!pagination.hasNextPage}
+                >
+                  Next
+                </button>
+              </div>
+            )}
+          </motion.div>
         )}
 
         <Modal

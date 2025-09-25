@@ -6,6 +6,7 @@ import ChipInput from "../ArticleForm/ChipInput"; // Re-using ChipInput for tags
 import Modal from "../Modal/Modal";
 import Icon from "../Icon/Icon";
 import InlineSpinner from "../../LoadingAnimation/InlineSpinner";
+import { motion } from "framer-motion";
 
 import styles from "./MediaLibrary.module.css";
 import lightStyles from "./MediaLibrary.light.module.css";
@@ -153,8 +154,18 @@ const MediaLibrary = ({ onSelect, isModal = false }) => {
   if (error) return <div className={`${styles.error} ${themeStyles.error}`}>{error}</div>;
 
   return (
-    <div className={`${styles.mediaLibrary} ${themeStyles.mediaLibrary}`}>
-      <div className={styles.toolbar}>
+    <motion.div 
+      className={`${styles.mediaLibrary} ${themeStyles.mediaLibrary}`}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.3 }}
+    >
+      <motion.div 
+        className={styles.toolbar}
+        initial={{ y: -20, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.4 }}
+      >
         {!isModal && <h1 className={themeStyles.title}>Media Library</h1>}
         <div className={styles.actions}>
           <label htmlFor="media_search" className={styles.srOnly}>Search</label>
@@ -166,8 +177,10 @@ const MediaLibrary = ({ onSelect, isModal = false }) => {
             className={`${styles.searchInput} ${themeStyles.searchInput}`}
             id="media_search"
           />
-          <label
+          <motion.label
             className={`${styles.uploadButton} ${themeStyles.uploadButton}`}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
           >
             <Icon name="upload" size={16} />
             {uploading ? "Uploading..." : "Upload"}
@@ -178,41 +191,59 @@ const MediaLibrary = ({ onSelect, isModal = false }) => {
               disabled={uploading}
               className={styles.hiddenInput}
             />
-          </label>
+          </motion.label>
           {selectedAssets.length > 0 && (
-            <button
+            <motion.button
               onClick={handleDelete}
               className={`${styles.deleteButton} ${themeStyles.deleteButton}`}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
             >
               <Icon name="trash" size={16} />
               Delete ({selectedAssets.length})
-            </button>
+            </motion.button>
           )}
-          <button
+          <motion.button
             onClick={() => setView(view === "grid" ? "list" : "grid")}
             className={`${styles.viewToggle} ${themeStyles.viewToggle}`}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
           >
             <Icon name={view === "grid" ? "list" : "grid"} size={16} />
             {view === "grid" ? "List View" : "Grid View"}
-          </button>
+          </motion.button>
         </div>
-      </div>
+      </motion.div>
 
       {isLoading ? (
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '2rem' }}>
+        <motion.div 
+          style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '2rem' }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+        >
           <InlineSpinner sizePx={16} />
           <span>Loading Media...</span>
-        </div>
+        </motion.div>
       ) : assets.length === 0 ? (
-        <div className={styles.emptyState}>
+        <motion.div 
+          className={styles.emptyState}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4 }}
+        >
           <Icon name="image" size={48} />
           <h3>No Media Found</h3>
           <p>{searchTerm ? 'No assets match your search.' : 'Upload your first media asset to get started.'}</p>
-        </div>
+        </motion.div>
       ) : (
-        <div className={view === "grid" ? styles.grid : styles.list}>
-          {assets.map((asset) => (
-            <div
+        <motion.div 
+          className={view === "grid" ? styles.grid : styles.list}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.4 }}
+        >
+          {assets.map((asset, index) => (
+            <motion.div
               key={asset._id}
               className={`${styles.assetCard} ${themeStyles.assetCard} ${selectedAssets.includes(asset._id) ? styles.selected : ""} ${view === "list" ? styles.listView : ""}`}
               onClick={() =>
@@ -220,6 +251,10 @@ const MediaLibrary = ({ onSelect, isModal = false }) => {
                   ? setPreviewingAsset(asset)
                   : handleSelectAsset(asset._id)
               }
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3, delay: index * 0.05 }}
+              whileHover={{ y: -5 }}
             >
               <img
                 src={asset.url}
@@ -251,38 +286,52 @@ const MediaLibrary = ({ onSelect, isModal = false }) => {
                     readOnly
                     className={styles.checkbox}
                   />
-                  <button
+                  <motion.button
                     className={`${styles.editButton} ${themeStyles.editButton}`}
                     onClick={(e) => {
                       e.stopPropagation();
                       setEditingAsset(asset);
                     }}
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.9 }}
                   >
                     <Icon name="edit" size={14} />
-                  </button>
+                  </motion.button>
                 </>
               )}
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       )}
 
-      <div className={styles.pagination}>
-        <button onClick={() => setPage((p) => Math.max(1, p - 1))} disabled={page <= 1}>
+      <motion.div 
+        className={styles.pagination}
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4, delay: 0.2 }}
+      >
+        <motion.button 
+          onClick={() => setPage((p) => Math.max(1, p - 1))} 
+          disabled={page <= 1}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+        >
           <Icon name="chevron-left" size={16} />
           Previous
-        </button>
+        </motion.button>
         <span>
           Page {page} of {totalPages}
         </span>
-        <button
+        <motion.button
           onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
           disabled={page >= totalPages}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
         >
           Next
           <Icon name="chevron-right" size={16} />
-        </button>
-      </div>
+        </motion.button>
+      </motion.div>
 
       {editingAsset && (
         <EditModal
@@ -313,38 +362,62 @@ const MediaLibrary = ({ onSelect, isModal = false }) => {
           themeStyles={themeStyles}
         />
       )}
-    </div>
+    </motion.div>
   );
 };
 
 const PreviewModal = ({ asset, onClose, onInsert, themeStyles }) => {
   const cancelRef = useRef(null);
   return (
-    <Modal isOpen={true} onClose={onClose} title="Preview & Insert" initialFocusRef={cancelRef}>
-      <img src={asset.url} alt={asset.altText} className={styles.previewImage} />
-      <div className={styles.formGroup}>
-        <strong>Filename:</strong> {asset.filename}
-      </div>
-      <div className={styles.formGroup}>
-        <strong>Alt Text:</strong> {asset.altText || "N/A"}
-      </div>
-      <div className={styles.formGroup}>
-        <strong>Tags:</strong> {(asset.tags || []).join(", ") || "N/A"}
-      </div>
-      <div className={styles.formGroup}>
-        <strong>Uploaded:</strong> {new Date(asset.uploadedAt).toLocaleString()}
-      </div>
-      <div className={styles.modalActions}>
-        <button ref={cancelRef} onClick={onClose} className={`${utilities.btn} ${utilities.btnSecondary}`}>
-          <Icon name="x" size={16} />
-          Cancel
-        </button>
-        <button onClick={onInsert} className={`${utilities.btn} ${utilities.btnPrimary}`}>
-          <Icon name="plus" size={16} />
-          Insert Media
-        </button>
-      </div>
-    </Modal>
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.2 }}
+    >
+      <Modal isOpen={true} onClose={onClose} title="Preview & Insert" initialFocusRef={cancelRef}>
+        <motion.div
+          initial={{ scale: 0.9, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ duration: 0.2 }}
+        >
+          <img src={asset.url} alt={asset.altText} className={styles.previewImage} />
+          <div className={styles.formGroup}>
+            <strong>Filename:</strong> {asset.filename}
+          </div>
+          <div className={styles.formGroup}>
+            <strong>Alt Text:</strong> {asset.altText || "N/A"}
+          </div>
+          <div className={styles.formGroup}>
+            <strong>Tags:</strong> {(asset.tags || []).join(", ") || "N/A"}
+          </div>
+          <div className={styles.formGroup}>
+            <strong>Uploaded:</strong> {new Date(asset.uploadedAt).toLocaleString()}
+          </div>
+          <div className={styles.modalActions}>
+            <motion.button 
+              ref={cancelRef} 
+              onClick={onClose} 
+              className={`${utilities.btn} ${utilities.btnSecondary}`}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <Icon name="x" size={16} />
+              Cancel
+            </motion.button>
+            <motion.button 
+              onClick={onInsert} 
+              className={`${utilities.btn} ${utilities.btnPrimary}`}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <Icon name="plus" size={16} />
+              Insert Media
+            </motion.button>
+          </div>
+        </motion.div>
+      </Modal>
+    </motion.div>
   );
 };
 
@@ -364,58 +437,107 @@ const EditModal = ({ asset, onClose, onSave, themeStyles }) => {
   };
 
   return (
-    <Modal isOpen={true} onClose={onClose} title="Edit Media" initialFocusRef={altRef}>
-      <img src={asset.url} alt={altText} className={styles.editImage} />
-      <div className={styles.formGroup}>
-        <label htmlFor="alt_text">Alt Text</label>
-        <input
-          id="alt_text"
-          type="text"
-          value={altText}
-          onChange={(e) => setAltText(e.target.value)}
-          className={themeStyles.input}
-          ref={altRef}
-        />
-      </div>
-      <div className={styles.formGroup}>
-        <label htmlFor="tags_input">Tags (comma-separated)</label>
-        <ChipInput
-          id="tags_input"
-          value={tags}
-          onChange={setTags}
-          placeholder="Add a tag and press Enter"
-        />
-      </div>
-      <div className={styles.modalActions}>
-        <button onClick={onClose} className={`${utilities.btn} ${utilities.btnSecondary}`}>
-          <Icon name="x" size={16} />
-          Cancel
-        </button>
-        <button onClick={handleSave} className={`${utilities.btn} ${utilities.btnPrimary}`}>
-          <Icon name="save" size={16} />
-          Save Changes
-        </button>
-      </div>
-    </Modal>
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.2 }}
+    >
+      <Modal isOpen={true} onClose={onClose} title="Edit Media" initialFocusRef={altRef}>
+        <motion.div
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.3 }}
+        >
+          <img src={asset.url} alt={altText} className={styles.editImage} />
+          <div className={styles.formGroup}>
+            <label htmlFor="alt_text">Alt Text</label>
+            <input
+              id="alt_text"
+              type="text"
+              value={altText}
+              onChange={(e) => setAltText(e.target.value)}
+              className={themeStyles.input}
+              ref={altRef}
+            />
+          </div>
+          <div className={styles.formGroup}>
+            <label htmlFor="tags_input">Tags (comma-separated)</label>
+            <ChipInput
+              id="tags_input"
+              value={tags}
+              onChange={setTags}
+              placeholder="Add a tag and press Enter"
+            />
+          </div>
+          <div className={styles.modalActions}>
+            <motion.button 
+              onClick={onClose} 
+              className={`${utilities.btn} ${utilities.btnSecondary}`}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <Icon name="x" size={16} />
+              Cancel
+            </motion.button>
+            <motion.button 
+              onClick={handleSave} 
+              className={`${utilities.btn} ${utilities.btnPrimary}`}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <Icon name="save" size={16} />
+              Save Changes
+            </motion.button>
+          </div>
+        </motion.div>
+      </Modal>
+    </motion.div>
   );
 };
 
 const DeleteConfirmModal = ({ count, onCancel, onConfirm, themeStyles }) => {
   const cancelRef = useRef(null);
   return (
-    <Modal isOpen={true} onClose={onCancel} title="Delete Assets" initialFocusRef={cancelRef}>
-      <p>Are you sure you want to delete <strong>{count}</strong> asset(s)? This action cannot be undone.</p>
-      <div className={styles.modalActions}>
-        <button ref={cancelRef} type="button" onClick={onCancel} className={`${utilities.btn} ${utilities.btnSecondary}`}>
-          <Icon name="x" size={16} />
-          Cancel
-        </button>
-        <button type="button" onClick={onConfirm} className={`${styles.deleteButton} ${themeStyles.deleteButton}`}>
-          <Icon name="trash" size={16} />
-          Delete
-        </button>
-      </div>
-    </Modal>
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.2 }}
+    >
+      <Modal isOpen={true} onClose={onCancel} title="Delete Assets" initialFocusRef={cancelRef}>
+        <motion.div
+          initial={{ scale: 0.9, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ duration: 0.2 }}
+        >
+          <p>Are you sure you want to delete <strong>{count}</strong> asset(s)? This action cannot be undone.</p>
+          <div className={styles.modalActions}>
+            <motion.button 
+              ref={cancelRef} 
+              type="button" 
+              onClick={onCancel} 
+              className={`${utilities.btn} ${utilities.btnSecondary}`}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <Icon name="x" size={16} />
+              Cancel
+            </motion.button>
+            <motion.button 
+              type="button" 
+              onClick={onConfirm} 
+              className={`${styles.deleteButton} ${themeStyles.deleteButton}`}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <Icon name="trash" size={16} />
+              Delete
+            </motion.button>
+          </div>
+        </motion.div>
+      </Modal>
+    </motion.div>
   );
 };
 
