@@ -76,52 +76,24 @@ const AnalyticsPage = () => {
   const processChartData = () => {
     if (!stats) return {};
 
-    // Fix the articleStats and projectStats data processing
-    const articleStats = stats.articleStats || [];
-    const projectStats = stats.projectStats || [];
-    
-    // Process article stats to separate published and draft counts
-    let publishedArticles = 0;
-    let draftArticles = 0;
-    
-    articleStats.forEach(stat => {
-      if (stat._id === true) {
-        publishedArticles = stat.count;
-      } else if (stat._id === false) {
-        draftArticles = stat.count;
-      }
-    });
-    
-    // Process project stats to separate published and draft counts
-    let publishedProjects = 0;
-    let draftProjects = 0;
-    
-    projectStats.forEach(stat => {
-      if (stat._id === true) {
-        publishedProjects = stat.count;
-      } else if (stat._id === false) {
-        draftProjects = stat.count;
-      }
-    });
-
     const articleStatusData = {
-      labels: ["Published", "Draft"],
+      labels: stats.articleStats.map((s) => (s._id ? "Published" : "Draft")),
       datasets: [
         {
           label: "Articles by Status",
-          data: [publishedArticles, draftArticles],
-          backgroundColor: ["#10b981", "#94a3b8"],
+          data: stats.articleStats.map((s) => s.count),
+          backgroundColor: ["#3b82f6", "#94a3b8"],
         },
       ],
     };
 
     const projectStatusData = {
-      labels: ["Published", "Draft"],
+      labels: stats.projectStats.map((s) => (s._id ? "Published" : "Draft")),
       datasets: [
         {
           label: "Projects by Status",
-          data: [publishedProjects, draftProjects],
-          backgroundColor: ["#3b82f6", "#94a3b8"],
+          data: stats.projectStats.map((s) => s.count),
+          backgroundColor: ["#10b981", "#94a3b8"],
         },
       ],
     };
