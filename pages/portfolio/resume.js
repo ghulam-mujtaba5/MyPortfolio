@@ -83,7 +83,7 @@ const ResumePage = ({ resume }) => {
           font-size: 16px;
           font-weight: bold;
           color: #ffffff;
-          background-color: #45818e;
+          background-color: var(--brand-primary, #4573df);
           border: none;
           border-radius: 5px;
           text-decoration: none;

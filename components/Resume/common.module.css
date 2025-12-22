@@ -11,7 +11,7 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
-  border-bottom: 2px solid #45818e;
+  border-bottom: 2px solid #4573df;
   padding-bottom: 10px;
 }
 
@@ -22,7 +22,7 @@
 .name {
   font-size: 24px;
   font-weight: bold;
-  color: #45818e;
+  color: #4573df;
 }
 
 .jobTitle {
@@ -47,7 +47,7 @@
 }
 
 .headerImage img {
-  border: 2px solid #45818e;
+  border: 2px solid #4573df;
   border-radius: 50%;
   width: 150px;
   height: 150px;
@@ -65,12 +65,12 @@
   font-size: 20px;
   font-weight: bold;
   margin-bottom: 10px;
-  color: #45818e;
+  color: #4573df;
 }
 
 .sectionDivider {
   border: none;
-  border-top: 2px solid #45818e;
+  border-top: 2px solid #4573df;
   margin-bottom: 10px;
 }
 

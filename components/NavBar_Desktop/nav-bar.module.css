@@ -88,7 +88,7 @@
 .resume:hover,
 .project:hover,
 .contact:hover {
-  background-color: #33373c; /* Change to darker color on hover */
+  background-color: var(--brand-primary, #4573df);
   transform: scale(1.05); /* Slight scale effect on hover */
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
