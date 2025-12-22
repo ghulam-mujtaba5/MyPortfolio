@@ -2,6 +2,44 @@
 /* Scope: documentElement data-theme is managed by context/ThemeContext.js */
 
 :root {
+  /* ==============================================
+     BRAND COLORS (Unified across all pages)
+     ============================================== */
+  
+  /* Primary Brand Blue - The main accent color */
+  --brand-primary: #4573df;
+  --brand-primary-hover: #3b5fc7;
+  --brand-primary-active: #2f4db5;
+  --brand-primary-light: #5a86e6;
+  --brand-primary-muted: rgba(69, 115, 223, 0.1);
+  --brand-primary-shadow: rgba(69, 115, 223, 0.25);
+  
+  /* ==============================================
+     PAGE BACKGROUNDS (Unified light/dark)
+     ============================================== */
+  
+  /* Light mode page backgrounds */
+  --bg-page: #f7f9fc;
+  --bg-elevated: #ffffff;
+  --bg-subtle: #e8ebee;
+  --bg-muted: #f2f5f9;
+  
+  /* ==============================================
+     TEXT COLORS (Unified)
+     ============================================== */
+  
+  --text-primary: #1f2937;
+  --text-secondary: #4b5563;
+  --text-tertiary: #6b7280;
+  
+  /* ==============================================
+     BORDER COLORS
+     ============================================== */
+  
+  --border-default: #dbe2ea;
+  --border-subtle: rgba(0, 0, 0, 0.08);
+  --border-focus: #4573df;
+  
   /* Typography */
   --font-sans: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
   --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
@@ -141,6 +179,30 @@
 
 /* Light Theme */
 :root[data-theme="light"] {
+  /* Page backgrounds */
+  --bg-page: #f7f9fc;
+  --bg-elevated: #ffffff;
+  --bg-subtle: #e8ebee;
+  --bg-muted: #f2f5f9;
+  
+  /* Text colors */
+  --text-primary: #1f2937;
+  --text-secondary: #4b5563;
+  --text-tertiary: #6b7280;
+  
+  /* Border colors */
+  --border-default: #dbe2ea;
+  --border-subtle: rgba(0, 0, 0, 0.08);
+  --border-focus: #4573df;
+  
+  /* Brand colors (light adjustments) */
+  --brand-primary: #4573df;
+  --brand-primary-hover: #3b5fc7;
+  --brand-primary-active: #2f4db5;
+  --brand-primary-light: #5a86e6;
+  --brand-primary-muted: rgba(69, 115, 223, 0.1);
+  --brand-primary-shadow: rgba(69, 115, 223, 0.25);
+  
   --bg: #f7f9fc;
   --bg-elev-1: #ffffff;
   --bg-elev-2: #f2f5f9;
@@ -204,6 +266,30 @@
 
 /* Dark Theme */
 :root[data-theme="dark"] {
+  /* Page backgrounds */
+  --bg-page: #0b0f14;
+  --bg-elevated: #19212c;
+  --bg-subtle: #151b24;
+  --bg-muted: #11161d;
+  
+  /* Text colors */
+  --text-primary: #e6edf3;
+  --text-secondary: #b8c5d3;
+  --text-tertiary: #94a7ba;
+  
+  /* Border colors */
+  --border-default: #263241;
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-focus: #4f8cff;
+  
+  /* Brand colors (dark adjustments for better visibility) */
+  --brand-primary: #4f8cff;
+  --brand-primary-hover: #5a96ff;
+  --brand-primary-active: #6ba0ff;
+  --brand-primary-light: #7eb3ff;
+  --brand-primary-muted: rgba(79, 140, 255, 0.15);
+  --brand-primary-shadow: rgba(79, 140, 255, 0.3);
+  
   --bg: #0b0f14;
   --bg-elev-1: #11161d;
   --bg-elev-2: #151b24;

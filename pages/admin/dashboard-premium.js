@@ -470,44 +470,6 @@ const AdminDashboard = () => {
                 </div>
               </motion.section>
 
-              {/* Analytics Chart */}
-              <motion.section 
-                className={styles.chartSection}
-                variants={itemVariants}
-              >
-                <div className={styles.sectionHeader}>
-                  <div className={styles.sectionTitle}>
-                    <Icons.Chart />
-                    <h2>Analytics & Trends</h2>
-                  </div>
-                </div>
-                
-                <div className={styles.chartCard}>
-                  <div className={styles.chartHeader}>
-                    <h3>Page Views</h3>
-                    <div className={styles.chartLegend}>
-                      <span className={styles.legendDot}></span>
-                      <span>Last 7 days</span>
-                    </div>
-                  </div>
-                  <div className={styles.chartBody}>
-                    {hasChartData ? (
-                      <SampleLineChart
-                        key={`pv-${chartLabels.join("|")}`}
-                        labels={chartLabels}
-                        dataPoints={chartDataPoints}
-                        label="Page Views"
-                      />
-                    ) : (
-                      <div className={styles.emptyChart}>
-                        <Icons.Chart />
-                        <p>No chart data available yet</p>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </motion.section>
-
               {/* Recent Activity */}
               <motion.section 
                 className={styles.activitySection}

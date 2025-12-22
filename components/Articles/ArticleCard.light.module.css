@@ -1,47 +1,47 @@
 .card {
-  background: #e8ebee;
-  border: 1px solid #dbe1e6;
+  background: var(--bg-subtle, #e8ebee);
+  border: 1px solid var(--border-default, #dbe2ea);
   /* Button theme variables (light mode) align with project buttons */
   --btn-live-text: #ffffff;
-  --btn-live-bg-start: #5a86e6; /* lighter of #4573df */
-  --btn-live-bg-end: #4573df;   /* brand primary */
-  --btn-live-border: #3f6ed6;
-  --btn-live-shadow: rgba(69, 115, 223, 0.18);
+  --btn-live-bg-start: var(--brand-primary-light, #5a86e6);
+  --btn-live-bg-end: var(--brand-primary, #4573df);
+  --btn-live-border: var(--brand-primary-hover, #3b5fc7);
+  --btn-live-shadow: var(--brand-primary-shadow, rgba(69, 115, 223, 0.18));
   --btn-live-shadow-hover: rgba(69, 115, 223, 0.25);
   --btn-live-shadow-active: rgba(69, 115, 223, 0.28);
 }
 .content {
-  background: #e8ebee;
-  color: #222222;
+  background: var(--bg-subtle, #e8ebee);
+  color: var(--text-primary, #1f2937);
 }
 .title {
-  color: #0f172a;
+  color: var(--text-primary, #1f2937);
 }
 .title a {
-  color: #4573df;
+  color: var(--brand-primary, #4573df);
   text-decoration: none;
 }
 .title a:hover {
-  color: #005bb5;
+  color: var(--brand-primary-hover, #3b5fc7);
   text-decoration: none;
 }
 .excerpt {
-  color: #4b5563;
+  color: var(--text-secondary, #4b5563);
 }
 .tag {
-  color: #4573df;
-  background: rgba(69, 115, 223, 0.08);
+  color: var(--brand-primary, #4573df);
+  background: var(--brand-primary-muted, rgba(69, 115, 223, 0.08));
   border-color: rgba(69, 115, 223, 0.28);
 }
 .readMore {
-  color: #4573df;
+  color: var(--brand-primary, #4573df);
 }
 .readMore:hover {
-  background: rgba(69, 115, 223, 0.1);
+  background: var(--brand-primary-muted, rgba(69, 115, 223, 0.1));
   border-color: rgba(69, 115, 223, 0.28);
 }
 .badge {
-  color: #0f172a;
+  color: var(--text-primary, #1f2937);
   background: rgba(255, 255, 255, 0.7);
-  border: 1px solid rgba(17, 24, 39, 0.08);
+  border: 1px solid var(--border-subtle, rgba(17, 24, 39, 0.08));
 }

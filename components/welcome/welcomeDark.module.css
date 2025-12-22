@@ -1,17 +1,17 @@
 /* welcomeDark.module.css */
 
 .darkContainer {
-  color: #ffffff; /* Dark mode text color */
+  color: var(--text-primary, #e6edf3); /* Dark mode text color */
 }
 
 .text {
-  color: #ffffff; /* Dark mode text color */
+  color: var(--text-primary, #e6edf3); /* Dark mode text color */
 }
 
 .ghulamMujtaba {
-  color: #ffffff; /* Dark mode text color */
+  color: var(--text-primary, #e6edf3); /* Dark mode text color */
 }
 
 .paragraph {
-  color: #ffffff; /* Dark mode text color */
+  color: var(--text-secondary, #b8c5d3); /* Dark mode text color */
 }

@@ -40,7 +40,7 @@
 
 /* Active/selected state for nav buttons */
 .active {
-  background-color: #4573df !important;
+  background-color: var(--brand-primary, #4573df) !important;
   color: #fff !important;
   box-shadow: 0 4px 16px 0 rgba(34, 34, 59, 0.18);
   transform: scale(1.05);
@@ -145,7 +145,7 @@
   cursor: pointer;
   border: 0;
   padding: 14.4px 5.5px 14.3px;
-  background-color: #4573df;
+  background-color: var(--brand-primary, #4573df);
   height: 46px;
   width: 46px;
   border-radius: 50px;
@@ -163,9 +163,9 @@
 .logoHover {
   background-color: #272c34;
   transform: scale(1.08) rotateZ(2deg);
-  box-shadow: 0 0 5px #4573df,
-              0 0 10px #4573df,
-              0 0 15px #4573df,
+  box-shadow: 0 0 5px var(--brand-primary, #4573df),
+              0 0 10px var(--brand-primary, #4573df),
+              0 0 15px var(--brand-primary, #4573df),
               0 8px 24px rgba(0, 0, 0, 0.3);
 }
 

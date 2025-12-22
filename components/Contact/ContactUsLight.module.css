@@ -1,21 +1,20 @@
 .contactSection {
-  color: #000;
+  color: var(--text-primary, #1f2937);
 }
 
 .contactFormBackground {
-  background-color: #e8ebee;
+  background-color: var(--bg-subtle, #e8ebee);
 }
 
 .nameInput,
 .emailInput,
 .messageInput {
-  border: 1px solid #fff;
-
-  background-color: #fff;
+  border: 1px solid var(--border-default, #dbe2ea);
+  background-color: var(--bg-elevated, #ffffff);
 }
 
 .sendButtonBorder {
-  background-color: #4573df;
+  background-color: var(--brand-primary, #4573df);
 }
 
 .sendLabel {
@@ -24,27 +23,25 @@
 
 .sendButton {
   color: #fff;
-  background-color: #4573df;
-
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: var(--brand-primary, #4573df);
+  box-shadow: 0 2px 4px var(--brand-primary-shadow, rgba(69, 115, 223, 0.25));
 }
 
 .sendButton:hover .sendButtonBorder {
-  background-color: rgba(69, 115, 223, 0.9);
+  background-color: var(--brand-primary-hover, #3b5fc7);
 }
 
 .pulse-animation {
-  background-color: rgba(69, 115, 223, 0.3);
+  background-color: var(--brand-primary-muted, rgba(69, 115, 223, 0.3));
 }
 
 .darkModeButton {
-  color: #000;
+  color: var(--text-primary, #1f2937);
 }
 
 .darkModeButtonBorder {
   box-shadow: 0px 0px 14px rgba(0, 0, 0, 0.13);
-
-  background-color: #e8ebee;
+  background-color: var(--bg-subtle, #e8ebee);
 }
 
 .buttonState {
@@ -77,38 +74,36 @@
 }
 
 .successMessage {
-  color: #34a853;
+  color: var(--success, #10b981);
 }
 
 .errorMessage {
-  color: #e81123;
+  color: var(--danger, #dc2626);
 }
 
 /* Media query for screens of width 430px and height 932px */
 @media (max-width: 768px) {
   .contactSection {
-    background-color: #e8ebee;
+    background-color: var(--bg-subtle, #e8ebee);
   }
 
   .contactForm {
-    background-color: #e8ebee;
-
+    background-color: var(--bg-subtle, #e8ebee);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
   }
 
   .nameInput,
   .emailInput,
   .messageInput {
-    border: 1px solid #ccc;
+    border: 1px solid var(--border-default, #dbe2ea);
   }
 
   .sendButton {
-    background-color: #4573df;
-
+    background-color: var(--brand-primary, #4573df);
     color: #fff;
   }
 
   .sendButton:hover {
-    background-color: #365bb8;
+    background-color: var(--brand-primary-hover, #3b5fc7);
   }
 }

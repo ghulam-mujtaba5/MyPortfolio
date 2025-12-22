@@ -1,10 +1,10 @@
 .page {
-  background: linear-gradient(180deg, #f8fafc 0%, #ffffff 50%, #f0f4f8 100%);
-  color: #1f2937;
+  background: linear-gradient(180deg, var(--bg-page, #f7f9fc) 0%, var(--bg-elevated, #ffffff) 50%, var(--bg-muted, #f2f5f9) 100%);
+  color: var(--text-primary, #1f2937);
 }
 
 .title {
-  background: linear-gradient(135deg, #1f2937 0%, #4573df 50%, #10b981 100%);
+  background: linear-gradient(135deg, var(--text-primary, #1f2937) 0%, var(--brand-primary, #4573df) 50%, var(--success, #10b981) 100%);
   background-size: 200% 200%;
   background-clip: text;
   -webkit-background-clip: text;
@@ -12,7 +12,7 @@
 }
 
 .subtitle { 
-  color: #4b5563; 
+  color: var(--text-secondary, #4b5563); 
 }
 
 .chip { 
@@ -29,17 +29,17 @@
 }
 
 .socialLink { 
-  color: #2563eb; 
-  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
-  border-color: #e2e8f0;
+  color: var(--brand-primary, #4573df); 
+  background: linear-gradient(135deg, var(--bg-elevated, #ffffff) 0%, var(--bg-page, #f7f9fc) 100%);
+  border-color: var(--border-default, #dbe2ea);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
 
 .socialLink:hover {
-  background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
-  border-color: #3b82f6;
-  color: #1d4ed8;
-  box-shadow: 0 8px 20px rgba(59, 130, 246, 0.15);
+  background: linear-gradient(135deg, var(--brand-primary-muted, rgba(69, 115, 223, 0.1)) 0%, rgba(69, 115, 223, 0.15) 100%);
+  border-color: var(--brand-primary, #4573df);
+  color: var(--brand-primary-hover, #3b5fc7);
+  box-shadow: 0 8px 20px var(--brand-primary-shadow, rgba(69, 115, 223, 0.15));
 }
 
 .card { 
@@ -53,18 +53,18 @@
 }
 
 .kpiValue { 
-  background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+  background: linear-gradient(135deg, var(--brand-primary, #4573df) 0%, var(--brand-primary-hover, #3b5fc7) 100%);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 .kpiLabel { 
-  color: #6b7280; 
+  color: var(--text-tertiary, #6b7280); 
 }
 
 .dot { 
-  background: linear-gradient(135deg, #3b82f6, #1d4ed8); 
+  background: linear-gradient(135deg, var(--brand-primary, #4573df), var(--brand-primary-hover, #3b5fc7)); 
 }
 
 .itemMeta { 
@@ -79,9 +79,9 @@
 }
 
 .skill:hover {
-  background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
-  border-color: #3b82f6;
-  box-shadow: 0 8px 20px rgba(59, 130, 246, 0.15);
+  background: linear-gradient(135deg, var(--brand-primary-muted, rgba(69, 115, 223, 0.1)) 0%, rgba(69, 115, 223, 0.15) 100%);
+  border-color: var(--brand-primary, #4573df);
+  box-shadow: 0 8px 20px var(--brand-primary-shadow, rgba(69, 115, 223, 0.15));
 }
 
 .button { 
@@ -130,8 +130,8 @@
 }
 
 .skillIcon {
-  color: #3b82f6;
-  background: linear-gradient(135deg, rgba(59, 130, 246, 0.12) 0%, rgba(59, 130, 246, 0.04) 100%);
+  color: var(--brand-primary, #4573df);
+  background: linear-gradient(135deg, var(--brand-primary-muted, rgba(69, 115, 223, 0.12)) 0%, rgba(69, 115, 223, 0.04) 100%);
 }
 
 /* Certifications Cards */

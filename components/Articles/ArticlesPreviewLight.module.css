@@ -1,13 +1,13 @@
 /* Light theme styles for ArticlesPreview (mirrors ProjectsPreview Light) */
 
 .lightTheme {
-  --text-color: #222;
-  --button-text: #4573df;
+  --text-color: var(--text-primary, #1f2937);
+  --button-text: var(--brand-primary, #4573df);
   --button-bg: transparent;
-  --button-border: #4573df;
-  --button-hover-bg: #4573df;
+  --button-border: var(--brand-primary, #4573df);
+  --button-hover-bg: var(--brand-primary, #4573df);
   --button-hover-text: #ffffff;
-  --button-hover-border: #4573df;
+  --button-hover-border: var(--brand-primary, #4573df);
 }
 
 .title {
@@ -22,9 +22,9 @@
 
 .viewAll:hover,
 .viewAll:focus {
-  background: #4573df;
+  background: var(--brand-primary, #4573df);
   color: #ffffff;
-  border-color: #4573df;
+  border-color: var(--brand-primary, #4573df);
   outline: none;
   transform: translateY(-2px);
   box-shadow: none;

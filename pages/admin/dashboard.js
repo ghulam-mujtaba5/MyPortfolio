@@ -11,7 +11,6 @@ import Link from "next/link";
 import styles from "./dashboard.premium.module.css";
 import InlineSpinner from "../../components/LoadingAnimation/InlineSpinner";
 import { Sparkline, ProgressRing } from "../../components/Admin/Charts";
-import SampleLineChart from "../../components/Admin/Charts/SampleLineChart";
 
 // Modern SVG Icons
 const Icons = {
@@ -117,7 +116,6 @@ const AdminDashboard = () => {
     users: 0,
     views: 0,
   });
-  const [viewStats, setViewStats] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [statsError, setStatsError] = useState(null);
   const [refreshing, setRefreshing] = useState(false);
@@ -135,7 +133,6 @@ const AdminDashboard = () => {
         payload.stats || { projects: 0, articles: 0, users: 0, views: 0 },
       );
       setRecentActivity(payload.recentActivity || []);
-      setViewStats(payload.viewStats || []);
       setStatsError(null);
     } catch (error) {
       console.error("Failed to fetch dashboard data:", error);
@@ -143,7 +140,6 @@ const AdminDashboard = () => {
       toast.error(error?.message || "Failed to load dashboard data.");
       setStats({ projects: 0, articles: 0, users: 0, views: 0 });
       setRecentActivity([]);
-      setViewStats([]);
     }
   };
 
@@ -261,23 +257,6 @@ const AdminDashboard = () => {
       ),
     },
   ];
-
-  // Chart data preparation
-  const chartLabels = Array.isArray(viewStats)
-    ? viewStats.map((d, i) => {
-        const dt = d?.date ? new Date(d.date) : null;
-        return dt && !isNaN(dt)
-          ? dt.toLocaleDateString(undefined, { month: "short", day: "numeric" })
-          : `#${i + 1}`;
-      })
-    : [];
-  const chartDataPoints = Array.isArray(viewStats)
-    ? viewStats.map((d) => {
-        const n = Number(d?.views);
-        return Number.isFinite(n) ? n : 0;
-      })
-    : [];
-  const hasChartData = chartLabels.length > 0 && chartLabels.length === chartDataPoints.length;
 
   const activityRows = useMemo(() => {
     if (!Array.isArray(recentActivity)) return [];
@@ -453,44 +432,6 @@ const AdminDashboard = () => {
                         <span className={styles.quickActionLabel}>Search</span>
                       </Link>
                     </div>
-                  </div>
-                </div>
-              </motion.section>
-
-              {/* Analytics Chart */}
-              <motion.section 
-                className={styles.chartSection}
-                variants={itemVariants}
-              >
-                <div className={styles.sectionHeader}>
-                  <div className={styles.sectionTitle}>
-                    <Icons.Chart />
-                    <h2>Analytics & Trends</h2>
-                  </div>
-                </div>
-                
-                <div className={styles.chartCard}>
-                  <div className={styles.chartHeader}>
-                    <h3>Page Views</h3>
-                    <div className={styles.chartLegend}>
-                      <span className={styles.legendDot}></span>
-                      <span>Last 7 days</span>
-                    </div>
-                  </div>
-                  <div className={styles.chartBody}>
-                    {hasChartData ? (
-                      <SampleLineChart
-                        key={`pv-${chartLabels.join("|")}`}
-                        labels={chartLabels}
-                        dataPoints={chartDataPoints}
-                        label="Page Views"
-                      />
-                    ) : (
-                      <div className={styles.emptyChart}>
-                        <Icons.Chart />
-                        <p>No chart data available yet</p>
-                      </div>
-                    )}
                   </div>
                 </div>
               </motion.section>
