@@ -1,0 +1,544 @@
+/* =================================================
+   ADMIN PREMIUM DESIGN SYSTEM
+   Inspired by Megicode Internal Portal (2025)
+   Premium, Modern, Enterprise-Grade UI
+   ================================================= */
+
+/* ========== ADMIN CSS CUSTOM PROPERTIES ========== */
+:root {
+  /* Primary Brand Colors */
+  --admin-primary: #3b82f6;
+  --admin-primary-light: rgba(59, 130, 246, 0.15);
+  --admin-primary-dark: #2563eb;
+  --admin-primary-rgb: 59, 130, 246;
+  --admin-primary-gradient: linear-gradient(135deg, #3b82f6 0%, #6366f1 100%);
+  
+  /* Secondary/Accent Colors */
+  --admin-secondary: #8b5cf6;
+  --admin-secondary-light: rgba(139, 92, 246, 0.15);
+  --admin-secondary-gradient: linear-gradient(135deg, #8b5cf6 0%, #a855f7 100%);
+  
+  /* Semantic Colors */
+  --admin-success: #10b981;
+  --admin-success-light: rgba(16, 185, 129, 0.15);
+  --admin-success-gradient: linear-gradient(135deg, #10b981 0%, #34d399 100%);
+  
+  --admin-warning: #f59e0b;
+  --admin-warning-light: rgba(245, 158, 11, 0.15);
+  --admin-warning-gradient: linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%);
+  
+  --admin-error: #ef4444;
+  --admin-error-light: rgba(239, 68, 68, 0.15);
+  --admin-error-gradient: linear-gradient(135deg, #ef4444 0%, #f87171 100%);
+  
+  --admin-info: #06b6d4;
+  --admin-info-light: rgba(6, 182, 212, 0.15);
+  --admin-info-gradient: linear-gradient(135deg, #06b6d4 0%, #22d3ee 100%);
+  
+  /* Spacing System (8px base grid) */
+  --admin-space-xs: 4px;
+  --admin-space-sm: 8px;
+  --admin-space-md: 16px;
+  --admin-space-lg: 24px;
+  --admin-space-xl: 32px;
+  --admin-space-2xl: 48px;
+  --admin-space-3xl: 64px;
+  
+  /* Border Radius */
+  --admin-radius-sm: 6px;
+  --admin-radius-md: 10px;
+  --admin-radius-lg: 14px;
+  --admin-radius-xl: 20px;
+  --admin-radius-full: 9999px;
+  
+  /* Shadows - Premium Glass Effect */
+  --admin-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.06);
+  --admin-shadow-md: 0 4px 12px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06);
+  --admin-shadow-lg: 0 10px 32px rgba(0, 0, 0, 0.12), 0 4px 12px rgba(0, 0, 0, 0.08);
+  --admin-shadow-xl: 0 20px 48px rgba(0, 0, 0, 0.15), 0 8px 24px rgba(0, 0, 0, 0.1);
+  --admin-shadow-glow: 0 0 32px rgba(var(--admin-primary-rgb), 0.2);
+  --admin-shadow-glow-lg: 0 0 48px rgba(var(--admin-primary-rgb), 0.3);
+  
+  /* Glass Morphism */
+  --admin-glass-bg: rgba(255, 255, 255, 0.85);
+  --admin-glass-border: rgba(255, 255, 255, 0.3);
+  --admin-glass-blur: blur(16px);
+  --admin-glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+  
+  /* Typography Scale */
+  --admin-text-xs: 0.75rem;    /* 12px */
+  --admin-text-sm: 0.875rem;   /* 14px */
+  --admin-text-base: 1rem;     /* 16px */
+  --admin-text-lg: 1.125rem;   /* 18px */
+  --admin-text-xl: 1.25rem;    /* 20px */
+  --admin-text-2xl: 1.5rem;    /* 24px */
+  --admin-text-3xl: 1.875rem;  /* 30px */
+  --admin-text-4xl: 2.25rem;   /* 36px */
+  --admin-text-5xl: 3rem;      /* 48px */
+  
+  /* Font Weights */
+  --admin-font-normal: 400;
+  --admin-font-medium: 500;
+  --admin-font-semibold: 600;
+  --admin-font-bold: 700;
+  --admin-font-extrabold: 800;
+  
+  /* Transitions */
+  --admin-transition: 0.2s ease;
+  --admin-transition-slow: 0.3s ease;
+  --admin-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --admin-ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  
+  /* Layout */
+  --admin-sidebar-width: 280px;
+  --admin-sidebar-collapsed: 80px;
+  --admin-header-height: 72px;
+  --admin-content-max-width: 1400px;
+  
+  /* Z-Index Scale */
+  --admin-z-dropdown: 20;
+  --admin-z-sticky: 30;
+  --admin-z-fixed: 40;
+  --admin-z-modal: 50;
+  --admin-z-popover: 60;
+  --admin-z-tooltip: 70;
+}
+
+/* ========== DARK THEME OVERRIDES ========== */
+:root[data-theme="dark"] {
+  --admin-glass-bg: rgba(31, 41, 55, 0.85);
+  --admin-glass-border: rgba(75, 85, 99, 0.3);
+  --admin-glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  
+  --admin-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.2), 0 1px 2px rgba(0, 0, 0, 0.12);
+  --admin-shadow-md: 0 4px 12px rgba(0, 0, 0, 0.25), 0 2px 4px rgba(0, 0, 0, 0.15);
+  --admin-shadow-lg: 0 10px 32px rgba(0, 0, 0, 0.3), 0 4px 12px rgba(0, 0, 0, 0.2);
+  --admin-shadow-xl: 0 20px 48px rgba(0, 0, 0, 0.35), 0 8px 24px rgba(0, 0, 0, 0.25);
+}
+
+/* ========== PREMIUM ANIMATIONS ========== */
+@keyframes adminFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes adminSlideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes adminScaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes adminPulseGlow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(var(--admin-primary-rgb), 0.15);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(var(--admin-primary-rgb), 0.25);
+  }
+}
+
+@keyframes adminShimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes adminFloat {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+@keyframes adminSpin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes adminBounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+@keyframes adminPing {
+  75%, 100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+
+@keyframes adminProgress {
+  0% {
+    width: 0%;
+  }
+  100% {
+    width: var(--progress-value, 0%);
+  }
+}
+
+/* ========== UTILITY CLASSES ========== */
+.admin-animate-fadeIn {
+  animation: adminFadeIn 0.4s var(--admin-ease-out) forwards;
+}
+
+.admin-animate-slideIn {
+  animation: adminSlideIn 0.4s var(--admin-ease-out) forwards;
+}
+
+.admin-animate-scaleIn {
+  animation: adminScaleIn 0.3s var(--admin-ease-out) forwards;
+}
+
+.admin-animate-float {
+  animation: adminFloat 3s ease-in-out infinite;
+}
+
+.admin-animate-pulse {
+  animation: adminPulseGlow 2s ease-in-out infinite;
+}
+
+.admin-animate-spin {
+  animation: adminSpin 1s linear infinite;
+}
+
+.admin-animate-bounce {
+  animation: adminBounce 1s ease-in-out infinite;
+}
+
+/* Staggered children animation */
+.admin-stagger > * {
+  animation: adminFadeIn 0.4s var(--admin-ease-out) forwards;
+  opacity: 0;
+}
+
+.admin-stagger > *:nth-child(1) { animation-delay: 0ms; }
+.admin-stagger > *:nth-child(2) { animation-delay: 50ms; }
+.admin-stagger > *:nth-child(3) { animation-delay: 100ms; }
+.admin-stagger > *:nth-child(4) { animation-delay: 150ms; }
+.admin-stagger > *:nth-child(5) { animation-delay: 200ms; }
+.admin-stagger > *:nth-child(6) { animation-delay: 250ms; }
+.admin-stagger > *:nth-child(7) { animation-delay: 300ms; }
+.admin-stagger > *:nth-child(8) { animation-delay: 350ms; }
+
+/* Hover Effects */
+.admin-hover-lift {
+  transition: transform var(--admin-transition), box-shadow var(--admin-transition);
+}
+
+.admin-hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--admin-shadow-lg);
+}
+
+.admin-hover-scale {
+  transition: transform var(--admin-transition);
+}
+
+.admin-hover-scale:hover {
+  transform: scale(1.02);
+}
+
+.admin-hover-glow {
+  transition: box-shadow var(--admin-transition);
+}
+
+.admin-hover-glow:hover {
+  box-shadow: var(--admin-shadow-glow);
+}
+
+/* Glass Morphism Helper */
+.admin-glass {
+  background: var(--admin-glass-bg);
+  backdrop-filter: var(--admin-glass-blur);
+  -webkit-backdrop-filter: var(--admin-glass-blur);
+  border: 1px solid var(--admin-glass-border);
+  box-shadow: var(--admin-glass-shadow);
+}
+
+/* Gradient Text */
+.admin-gradient-text {
+  background: var(--admin-primary-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Skeleton Loading */
+.admin-skeleton {
+  background: linear-gradient(90deg, 
+    var(--border) 25%, 
+    var(--bg-elev-2) 50%, 
+    var(--border) 75%
+  );
+  background-size: 200% 100%;
+  animation: adminShimmer 1.5s ease-in-out infinite;
+  border-radius: var(--admin-radius-md);
+}
+
+/* Progress Ring */
+.admin-progress-ring {
+  transform: rotate(-90deg);
+}
+
+.admin-progress-ring-circle {
+  transition: stroke-dashoffset 0.5s var(--admin-ease-out);
+  stroke-linecap: round;
+}
+
+/* Badge Styles */
+.admin-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  font-size: var(--admin-text-xs);
+  font-weight: var(--admin-font-medium);
+  border-radius: var(--admin-radius-full);
+  white-space: nowrap;
+}
+
+.admin-badge-primary {
+  background: var(--admin-primary-light);
+  color: var(--admin-primary);
+}
+
+.admin-badge-success {
+  background: var(--admin-success-light);
+  color: var(--admin-success);
+}
+
+.admin-badge-warning {
+  background: var(--admin-warning-light);
+  color: var(--admin-warning);
+}
+
+.admin-badge-error {
+  background: var(--admin-error-light);
+  color: var(--admin-error);
+}
+
+.admin-badge-info {
+  background: var(--admin-info-light);
+  color: var(--admin-info);
+}
+
+.admin-badge-secondary {
+  background: var(--admin-secondary-light);
+  color: var(--admin-secondary);
+}
+
+/* Status Dot */
+.admin-status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--admin-success);
+  position: relative;
+}
+
+.admin-status-dot::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  animation: adminPing 1.5s cubic-bezier(0, 0, 0.2, 1) infinite;
+  background: inherit;
+}
+
+.admin-status-dot-warning {
+  background: var(--admin-warning);
+}
+
+.admin-status-dot-error {
+  background: var(--admin-error);
+}
+
+.admin-status-dot-info {
+  background: var(--admin-info);
+}
+
+/* Divider */
+.admin-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border), transparent);
+  margin: var(--admin-space-lg) 0;
+}
+
+/* Empty State */
+.admin-empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--admin-space-3xl);
+  text-align: center;
+  color: var(--text-muted);
+}
+
+.admin-empty-state-icon {
+  width: 64px;
+  height: 64px;
+  margin-bottom: var(--admin-space-lg);
+  opacity: 0.5;
+}
+
+.admin-empty-state-title {
+  font-size: var(--admin-text-xl);
+  font-weight: var(--admin-font-semibold);
+  margin: 0 0 var(--admin-space-sm);
+  color: var(--text);
+}
+
+.admin-empty-state-description {
+  font-size: var(--admin-text-sm);
+  margin: 0;
+  max-width: 300px;
+}
+
+/* Trend Indicators */
+.admin-trend {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: var(--admin-text-xs);
+  font-weight: var(--admin-font-medium);
+  padding: 2px 8px;
+  border-radius: var(--admin-radius-full);
+}
+
+.admin-trend-up {
+  background: var(--admin-success-light);
+  color: var(--admin-success);
+}
+
+.admin-trend-down {
+  background: var(--admin-error-light);
+  color: var(--admin-error);
+}
+
+.admin-trend-neutral {
+  background: var(--bg-elev-2);
+  color: var(--text-muted);
+}
+
+/* Sparkline Container */
+.admin-sparkline {
+  height: 32px;
+  width: 100%;
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+}
+
+.admin-sparkline-bar {
+  flex: 1;
+  background: var(--admin-primary-light);
+  border-radius: 2px 2px 0 0;
+  transition: height var(--admin-transition), background var(--admin-transition);
+  min-height: 2px;
+}
+
+.admin-sparkline-bar:hover {
+  background: var(--admin-primary);
+}
+
+/* Tooltip */
+.admin-tooltip {
+  position: relative;
+}
+
+.admin-tooltip::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 6px 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--admin-radius-md);
+  font-size: var(--admin-text-xs);
+  white-space: nowrap;
+  box-shadow: var(--admin-shadow-md);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity var(--admin-transition), visibility var(--admin-transition);
+  z-index: var(--admin-z-tooltip);
+}
+
+.admin-tooltip:hover::after {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Scrollbar Styling */
+.admin-scrollbar::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.admin-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.admin-scrollbar::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: var(--admin-radius-full);
+  transition: background var(--admin-transition);
+}
+
+.admin-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+/* Focus Ring */
+.admin-focus-ring:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px var(--admin-primary);
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

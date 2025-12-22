@@ -1,5 +1,7 @@
-// pages/admin/dashboard.js
-// Enhanced Premium Dashboard with KPI cards, sparklines, and modern UI
+/**
+ * Enhanced Admin Dashboard - Premium Version
+ * Features: KPI cards with sparklines, progress rings, modern animations
+ */
 import AdminLayout from "../../components/Admin/AdminLayout/AdminLayout";
 import toast from "react-hot-toast";
 import { useEffect, useState, useMemo } from "react";
@@ -9,11 +11,12 @@ import { formatDistanceToNow, format } from "date-fns";
 import Head from "next/head";
 import Link from "next/link";
 import styles from "./dashboard.premium.module.css";
+import { useTheme } from "../../context/ThemeContext";
 import InlineSpinner from "../../components/LoadingAnimation/InlineSpinner";
 import { Sparkline, ProgressRing } from "../../components/Admin/Charts";
 import SampleLineChart from "../../components/Admin/Charts/SampleLineChart";
 
-// Modern SVG Icons
+// Icon components for cleaner code
 const Icons = {
   Users: () => (
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -29,6 +32,7 @@ const Icons = {
       <polyline points="14,2 14,8 20,8"/>
       <line x1="16" y1="13" x2="8" y2="13"/>
       <line x1="16" y1="17" x2="8" y2="17"/>
+      <polyline points="10,9 9,9 8,9"/>
     </svg>
   ),
   Projects: () => (
@@ -95,7 +99,9 @@ const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
-    transition: { staggerChildren: 0.1 },
+    transition: {
+      staggerChildren: 0.1,
+    },
   },
 };
 
@@ -104,11 +110,16 @@ const itemVariants = {
   visible: {
     opacity: 1,
     y: 0,
-    transition: { type: "spring", stiffness: 300, damping: 24 },
+    transition: {
+      type: "spring",
+      stiffness: 300,
+      damping: 24,
+    },
   },
 };
 
 const AdminDashboard = () => {
+  const { theme } = useTheme();
   const [recentActivity, setRecentActivity] = useState([]);
   const [showAllActivity, setShowAllActivity] = useState(false);
   const [stats, setStats] = useState({
@@ -163,7 +174,7 @@ const AdminDashboard = () => {
     toast.success("Dashboard refreshed!");
   };
 
-  // Generate trend data for sparklines
+  // Generate mock trend data for sparklines (in production, use real historical data)
   const generateTrendData = (currentValue, variance = 0.2) => {
     const data = [];
     for (let i = 0; i < 7; i++) {
@@ -217,6 +228,7 @@ const AdminDashboard = () => {
     },
   ], [stats]);
 
+  // Table columns for activity
   const activityColumns = [
     {
       header: "User",
@@ -228,6 +240,7 @@ const AdminDashboard = () => {
           </div>
           <div className={styles.userInfo}>
             <span className={styles.userName}>{row.user?.name || row.userName || "Unknown"}</span>
+            <span className={styles.userEmail}>{row.user?.email || ""}</span>
           </div>
         </div>
       ),
@@ -262,7 +275,7 @@ const AdminDashboard = () => {
     },
   ];
 
-  // Chart data preparation
+  // Chart data
   const chartLabels = Array.isArray(viewStats)
     ? viewStats.map((d, i) => {
         const dt = d?.date ? new Date(d.date) : null;

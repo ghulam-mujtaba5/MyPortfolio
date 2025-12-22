@@ -1,21 +1,19 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
-import { useTheme } from "../../../context/ThemeContext";
 import ChipInput from "../ArticleForm/ChipInput"; // Re-using ChipInput for tags
 import Modal from "../Modal/Modal";
 import Icon from "../Icon/Icon";
 import InlineSpinner from "../../LoadingAnimation/InlineSpinner";
 import { motion } from "framer-motion";
 
-import styles from "./MediaLibrary.module.css";
-import lightStyles from "./MediaLibrary.light.module.css";
-import darkStyles from "./MediaLibrary.dark.module.css";
+import styles from "./MediaLibrary.premium.module.css";
 import utilities from "../../../styles/utilities.module.css";
 
 const MediaLibrary = ({ onSelect, isModal = false }) => {
-  const { theme } = useTheme();
-  const themeStyles = theme === "dark" ? darkStyles : lightStyles;
+  // Removed legacy theme styles
+
+
 
   // top progress helpers
   const topStart = () => {
@@ -151,11 +149,11 @@ const MediaLibrary = ({ onSelect, isModal = false }) => {
     }
   };
 
-  if (error) return <div className={`${styles.error} ${themeStyles.error}`}>{error}</div>;
+  if (error) return <div className={`${styles.error}`}>{error}</div>;
 
   return (
     <motion.div 
-      className={`${styles.mediaLibrary} ${themeStyles.mediaLibrary}`}
+      className={`${styles.mediaLibrary}`}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.3 }}
@@ -166,7 +164,7 @@ const MediaLibrary = ({ onSelect, isModal = false }) => {
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.4 }}
       >
-        {!isModal && <h1 className={themeStyles.title}>Media Library</h1>}
+        {!isModal && <h1 className={styles.title}>Media Library</h1>}
         <div className={styles.actions}>
           <label htmlFor="media_search" className={styles.srOnly}>Search</label>
           <input
@@ -174,11 +172,11 @@ const MediaLibrary = ({ onSelect, isModal = false }) => {
             placeholder="Search by filename or tag..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className={`${styles.searchInput} ${themeStyles.searchInput}`}
+            className={`${styles.searchInput}`}
             id="media_search"
           />
           <motion.label
-            className={`${styles.uploadButton} ${themeStyles.uploadButton}`}
+            className={`${styles.uploadButton}`}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
@@ -195,7 +193,7 @@ const MediaLibrary = ({ onSelect, isModal = false }) => {
           {selectedAssets.length > 0 && (
             <motion.button
               onClick={handleDelete}
-              className={`${styles.deleteButton} ${themeStyles.deleteButton}`}
+              className={`${styles.deleteButton}`}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
@@ -205,7 +203,7 @@ const MediaLibrary = ({ onSelect, isModal = false }) => {
           )}
           <motion.button
             onClick={() => setView(view === "grid" ? "list" : "grid")}
-            className={`${styles.viewToggle} ${themeStyles.viewToggle}`}
+            className={`${styles.viewToggle}`}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
@@ -245,7 +243,7 @@ const MediaLibrary = ({ onSelect, isModal = false }) => {
           {assets.map((asset, index) => (
             <motion.div
               key={asset._id}
-              className={`${styles.assetCard} ${themeStyles.assetCard} ${selectedAssets.includes(asset._id) ? styles.selected : ""} ${view === "list" ? styles.listView : ""}`}
+              className={`${styles.assetCard} ${selectedAssets.includes(asset._id) ? styles.selected : ""} ${view === "list" ? styles.listView : ""}`}
               onClick={() =>
                 onSelect
                   ? setPreviewingAsset(asset)
@@ -287,7 +285,7 @@ const MediaLibrary = ({ onSelect, isModal = false }) => {
                     className={styles.checkbox}
                   />
                   <motion.button
-                    className={`${styles.editButton} ${themeStyles.editButton}`}
+                    className={`${styles.editButton}`}
                     onClick={(e) => {
                       e.stopPropagation();
                       setEditingAsset(asset);
@@ -338,7 +336,7 @@ const MediaLibrary = ({ onSelect, isModal = false }) => {
           asset={editingAsset}
           onClose={() => setEditingAsset(null)}
           onSave={handleSaveMetadata}
-          themeStyles={themeStyles}
+          
         />
       )}
 
@@ -350,7 +348,7 @@ const MediaLibrary = ({ onSelect, isModal = false }) => {
             onSelect(previewingAsset);
             setPreviewingAsset(null);
           }}
-          themeStyles={themeStyles}
+          
         />
       )}
 
@@ -359,14 +357,14 @@ const MediaLibrary = ({ onSelect, isModal = false }) => {
           count={selectedAssets.length}
           onCancel={() => setDeleteModalOpen(false)}
           onConfirm={confirmDelete}
-          themeStyles={themeStyles}
+          
         />
       )}
     </motion.div>
   );
 };
 
-const PreviewModal = ({ asset, onClose, onInsert, themeStyles }) => {
+const PreviewModal = ({ asset, onClose, onInsert }) => {
   const cancelRef = useRef(null);
   return (
     <motion.div
@@ -421,7 +419,7 @@ const PreviewModal = ({ asset, onClose, onInsert, themeStyles }) => {
   );
 };
 
-const EditModal = ({ asset, onClose, onSave, themeStyles }) => {
+const EditModal = ({ asset, onClose, onSave }) => {
   const [altText, setAltText] = useState(asset.altText || "");
   const [tags, setTags] = useState((asset.tags || []).join(", "));
   const altRef = useRef(null);
@@ -457,7 +455,7 @@ const EditModal = ({ asset, onClose, onSave, themeStyles }) => {
               type="text"
               value={altText}
               onChange={(e) => setAltText(e.target.value)}
-              className={themeStyles.input}
+              className={styles.input}
               ref={altRef}
             />
           </div>
@@ -496,7 +494,7 @@ const EditModal = ({ asset, onClose, onSave, themeStyles }) => {
   );
 };
 
-const DeleteConfirmModal = ({ count, onCancel, onConfirm, themeStyles }) => {
+const DeleteConfirmModal = ({ count, onCancel, onConfirm }) => {
   const cancelRef = useRef(null);
   return (
     <motion.div
@@ -527,7 +525,7 @@ const DeleteConfirmModal = ({ count, onCancel, onConfirm, themeStyles }) => {
             <motion.button 
               type="button" 
               onClick={onConfirm} 
-              className={`${styles.deleteButton} ${themeStyles.deleteButton}`}
+              className={`${styles.deleteButton}`}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >

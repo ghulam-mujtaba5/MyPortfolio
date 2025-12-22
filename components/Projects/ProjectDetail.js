@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useTheme } from "../../context/ThemeContext";
 import ThemeToggleIcon from "../Icon/gmicon";
+import ProjectGallery from "./ProjectGallery";
 import baseStyles from "./ProjectDetailBaseCommon.module.css";
 import lightStyles from "./ProjectDetail.light.module.css";
 import darkStyles from "./ProjectDetail.dark.module.css";
@@ -68,7 +69,7 @@ const ProjectDetail = ({ project, relatedProjects = [] }) => {
     );
   }
 
-  const { title, description, image, showImage, tags, category, links } = project;
+  const { title, description, image, showImage, showGallery, gallery, tags, category, links } = project;
 
   // Combine styles based on theme
   const themeStyles = theme === "dark" ? darkStyles : lightStyles;
@@ -80,6 +81,10 @@ const ProjectDetail = ({ project, relatedProjects = [] }) => {
                      tags?.some(tag => tag.toLowerCase().includes('app')) ||
                      title?.toLowerCase().includes('mobile') ||
                      title?.toLowerCase().includes('app');
+
+  // Determine if we should show gallery (has gallery images) or single image
+  const hasGalleryImages = gallery && gallery.length > 0;
+  const shouldShowGallery = showGallery !== false && (hasGalleryImages || (showImage && image));
 
   return (
     <div className={`${baseStyles.container} ${themeStyles.container || ""} ${theme === "dark" ? baseStyles.dark : baseStyles.light}`}>
@@ -122,40 +127,15 @@ const ProjectDetail = ({ project, relatedProjects = [] }) => {
         <div className={`${baseStyles.titleUnderline} ${themeStyles.titleUnderline || ""}`} />
       </h1>
 
-      {/* Project Image */}
-      {showImage && image && (
-        <div className={`${baseStyles.imageContainer} ${themeStyles.imageContainer || ""} ${isMobileApp ? baseStyles.mobileApp : ""}`}>
-          {(() => {
-            const img = String(image || "").trim();
-            const isExternal = /^https?:\/\//i.test(img) || /^\/\//.test(img) || /^data:image\//i.test(img) || /^blob:/.test(img);
-            const src = isExternal ? img : (img.startsWith("/") ? img : `/${img}`);
-            const fit = project?.imageFit || "contain"; // Default to contain for better aspect ratio handling
-            
-            return (
-              <Image
-                src={src}
-                alt={`${title} preview`}
-                width={isMobileApp ? 400 : 700}
-                height={isMobileApp ? 700 : 450}
-                sizes={isMobileApp 
-                  ? "(max-width: 768px) 300px, 400px" 
-                  : "(max-width: 768px) 100vw, (max-width: 1200px) 700px, 700px"
-                }
-                style={{ 
-                  objectFit: fit,
-                  width: '100%',
-                  height: 'auto',
-                  maxWidth: '100%',
-                  maxHeight: isMobileApp ? '700px' : '500px'
-                }}
-                priority
-                placeholder="blur"
-                unoptimized={isExternal}
-                blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R7XTvhRakHcMm3+hPM4cBDBj5SJ2H+pD7bFaRKTXuMhNB1O8Dq3wA8QRnKLi5TlwT5WbUZrJeCPmvdVuKldJVEHPMCgw4wnTrA7cY1x5Vt7U2kJQqGDVGnGv4u5h7PF5vhT46wJwNBJLQCuNq8AV/9k="
-              />
-            );
-          })()}
-        </div>
+      {/* Project Gallery/Image Showcase */}
+      {shouldShowGallery && (
+        <ProjectGallery
+          mainImage={showImage ? image : null}
+          gallery={hasGalleryImages ? gallery : []}
+          title={title}
+          imageFit={project?.imageFit || "contain"}
+          isMobileApp={isMobileApp}
+        />
       )}
 
       {/* Meta Information */}

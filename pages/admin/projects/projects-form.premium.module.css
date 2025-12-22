@@ -1,0 +1,93 @@
+/* =================================================
+   PROJECT FORM - PREMIUM DESIGN
+   ================================================= */
+
+.pageWrapper {
+  padding: var(--admin-space-xl);
+  max-width: var(--admin-content-max-width);
+  margin: 0 auto;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--admin-space-xl);
+}
+
+.title {
+  font-size: var(--admin-text-3xl);
+  font-weight: var(--admin-font-bold);
+  color: var(--text);
+  letter-spacing: -0.02em;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--admin-space-sm);
+}
+
+.savingIndicator {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--admin-space-xs);
+  color: var(--text-muted);
+  font-size: var(--admin-text-sm);
+  font-weight: var(--admin-font-normal);
+  margin-left: var(--admin-space-md);
+}
+
+.twoCol {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: var(--admin-space-lg);
+  align-items: start;
+}
+
+.formColumn {
+  background: var(--bg-elev-1);
+  border: 1px solid var(--border);
+  border-radius: var(--admin-radius-lg);
+  padding: var(--admin-space-lg);
+  box-shadow: var(--admin-shadow-sm);
+}
+
+.previewColumn {
+  background: var(--bg-elev-1);
+  border: 1px solid var(--border);
+  border-radius: var(--admin-radius-lg);
+  padding: var(--admin-space-lg);
+  box-shadow: var(--admin-shadow-sm);
+  position: sticky;
+  top: var(--admin-space-lg);
+}
+
+.previewTitle {
+  font-size: var(--admin-text-lg);
+  font-weight: var(--admin-font-semibold);
+  color: var(--text);
+  margin-bottom: var(--admin-space-md);
+  padding-bottom: var(--admin-space-sm);
+  border-bottom: 1px solid var(--border);
+}
+
+.previewScale {
+  transform: scale(0.9);
+  transform-origin: top left;
+  width: 111%; /* Compensate for scale */
+}
+
+@media (max-width: 1024px) {
+  .twoCol {
+    grid-template-columns: 1fr;
+  }
+  
+  .previewColumn {
+    position: static;
+    margin-top: var(--admin-space-lg);
+  }
+  
+  .previewScale {
+    transform: none;
+    width: 100%;
+  }
+}

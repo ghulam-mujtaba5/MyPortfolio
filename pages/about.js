@@ -10,6 +10,14 @@ import dark from "../components/AboutPage/AboutPageDark.module.css";
 import { useTheme } from "../context/ThemeContext";
 import ScrollReveal from "../components/AnimatedUI/ScrollReveal";
 import { Tooltip } from "../components/Popover/Popover";
+import { useParallax, useScrollAnimation } from "../hooks/useScrollAnimation";
+import { 
+  Rocket, Target, Zap, TrendingUp, 
+  Trophy, Lightbulb, Award, 
+  Code, Brain, BarChart, Cloud, Settings, Palette,
+  Briefcase, GraduationCap, MapPin, Mail, Github, Linkedin,
+  Activity, BookOpen
+} from 'lucide-react';
 
 const NavBarDesktop = dynamic(() => import("../components/NavBar_Desktop/nav-bar"), { ssr: false });
 const NavBarMobile = dynamic(() => import("../components/NavBar_Mobile/NavBar-mobile"), { ssr: false });
@@ -86,22 +94,22 @@ const interests = [
 
 const funFacts = [
   {
-    icon: '🚀',
+    icon: <Rocket size={32} />,
     title: 'Innovation Mindset',
     text: 'Always exploring cutting-edge technologies and implementing creative solutions to complex problems.'
   },
   {
-    icon: '🎯',
+    icon: <Target size={32} />,
     title: 'Problem Solver',
     text: 'Passionate about turning challenging requirements into elegant, user-friendly applications.'
   },
   {
-    icon: '⚡',
+    icon: <Zap size={32} />,
     title: 'Fast Learner',
     text: 'Quickly adapts to new frameworks and technologies, staying ahead of industry trends.'
   },
   {
-    icon: '🌱',
+    icon: <TrendingUp size={32} />,
     title: 'Growth Oriented',
     text: 'Continuously improving skills through hands-on projects and learning from the developer community.'
   }
@@ -109,17 +117,17 @@ const funFacts = [
 
 const achievements = [
   {
-    icon: '🏆',
+    icon: <Trophy size={40} />,
     title: 'AI Model Excellence',
     description: 'Successfully evaluated and improved LLM accuracy across multiple Appen projects, contributing to enhanced search relevance.'
   },
   {
-    icon: '💡',
+    icon: <Lightbulb size={40} />,
     title: 'Full-Stack Innovation',
     description: 'Developed diverse applications from desktop billing software to mobile financial analytics platforms.'
   },
   {
-    icon: '🎓',
+    icon: <Award size={40} />,
     title: 'Certified Professional',
     description: 'Earned 5 Google certifications and Meta Front-End Developer certification, demonstrating expertise across multiple domains.'
   }
@@ -127,32 +135,32 @@ const achievements = [
 
 const skillsData = [
   {
-    icon: '🚀',
+    icon: <Code size={40} />,
     name: 'Full-Stack Development',
     description: 'Modern web applications with React, Next.js, Node.js, and cloud platforms'
   },
   {
-    icon: '🤖',
+    icon: <Brain size={40} />,
     name: 'AI & Machine Learning',
     description: 'Deep learning models, computer vision, NLP, and AI-powered solutions'
   },
   {
-    icon: '📊',
+    icon: <BarChart size={40} />,
     name: 'Data Science',
     description: 'Statistical analysis, data visualization, and predictive modeling'
   },
   {
-    icon: '☁️',
+    icon: <Cloud size={40} />,
     name: 'Cloud Architecture',
     description: 'AWS, Google Cloud, containerization, and scalable infrastructure'
   },
   {
-    icon: '🔧',
+    icon: <Settings size={40} />,
     name: 'DevOps & Automation',
     description: 'CI/CD pipelines, testing automation, and deployment optimization'
   },
   {
-    icon: '🎨',
+    icon: <Palette size={40} />,
     name: 'UI/UX Design',
     description: 'User-centered design, prototyping, and modern design systems'
   }
@@ -160,25 +168,25 @@ const skillsData = [
 
 const certificationsData = [
   {
-    icon: '☁️',
+    icon: <Cloud size={32} />,
     name: 'Google Cloud Professional Data Engineer',
     organization: 'Google Cloud',
     date: '2024'
   },
   {
-    icon: '📊',
+    icon: <BarChart size={32} />,
     name: 'Google Data Analytics Certificate',
     organization: 'Google Career Certificates',
     date: '2023'
   },
   {
-    icon: '🤖',
+    icon: <Brain size={32} />,
     name: 'Machine Learning Specialization',
     organization: 'DeepLearning.AI',
     date: '2023'
   },
   {
-    icon: '⚡',
+    icon: <Zap size={32} />,
     name: 'TensorFlow Developer Certificate',
     organization: 'TensorFlow',
     date: '2023'
@@ -187,22 +195,22 @@ const certificationsData = [
 
 const interestsData = [
   {
-    icon: '🚀',
+    icon: <Rocket size={32} />,
     name: 'Startup & Business Development',
     description: 'Learning how tech ideas grow into impactful businesses'
   },
   {
-    icon: '📚',
+    icon: <BookOpen size={32} />,
     name: 'Technology Research',
     description: 'Staying updated with emerging AI trends and experimental technologies'
   },
   {
-    icon: '🏃‍♂️',
+    icon: <Activity size={32} />,
     name: 'Fitness & Running',
     description: 'Maintaining physical and mental health through regular exercise'
   },
   {
-    icon: '💡',
+    icon: <Lightbulb size={32} />,
     name: 'Innovation & Strategy',
     description: 'Connecting software engineering with problem-solving at scale'
   }
@@ -210,6 +218,7 @@ const interestsData = [
 
 export default function AboutPage() {
   const { theme } = useTheme();
+  const { ref: heroRef, style: heroStyle } = useParallax(0.1);
 
   // Populate person data from local scraped JSON when available
   let scraped = {};
@@ -289,7 +298,7 @@ export default function AboutPage() {
         <ScrollReveal animation="fadeInUp" width="100%">
           <section className={`${common.hero}`} aria-labelledby="about-hero-title">
             <div className={common.heroContent}>
-              <div>
+              <div ref={heroRef} style={heroStyle}>
                 <img
                   src={scraped.image ? scraped.image.replace(/^\//, '') : '/images/portfolio-picture.png'}
                   alt="Ghulam Mujtaba"
@@ -317,17 +326,20 @@ export default function AboutPage() {
 
                 <div className={common.chips}>
                   <span className={`${common.chip} ${theme === 'dark' ? dark.chip : light.chip}`}>
-                    📍 {scraped.location || 'Lahore, Pakistan'}
+                    <MapPin size={16} style={{ display: 'inline', marginRight: 4, verticalAlign: 'text-bottom' }} />
+                    {scraped.location || 'Lahore, Pakistan'}
                   </span>
                   <span className={`${common.chip} ${theme === 'dark' ? dark.chip : light.chip}`}>
-                    🎓 {scraped.university || 'Comsats University, Lahore'}
+                    <GraduationCap size={16} style={{ display: 'inline', marginRight: 4, verticalAlign: 'text-bottom' }} />
+                    {scraped.university || 'Comsats University, Lahore'}
                   </span>
                   <Tooltip 
                     content="I am currently open to new opportunities and collaborations." 
                     placement="top"
                     trigger={
                       <span className={`${common.chip} ${theme === 'dark' ? dark.chip : light.chip}`}>
-                        💼 Available for Work
+                        <Briefcase size={16} style={{ display: 'inline', marginRight: 4, verticalAlign: 'text-bottom' }} />
+                        Available for Work
                       </span>
                     }
                   />
@@ -336,15 +348,15 @@ export default function AboutPage() {
                 <div className={common.socials}>
                   <a className={`${common.socialLink} ${theme === 'dark' ? dark.socialLink : light.socialLink}`} 
                      href="mailto:ghulammujtaba1005@gmail.com">
-                    📧 Email
+                    <Mail size={18} style={{ display: 'inline', marginRight: 6, verticalAlign: 'text-bottom' }} /> Email
                   </a>
                   <a className={`${common.socialLink} ${theme === 'dark' ? dark.socialLink : light.socialLink}`} 
                      href="https://github.com/ghulam-mujtaba5" target="_blank" rel="noopener noreferrer">
-                    🔗 GitHub
+                    <Github size={18} style={{ display: 'inline', marginRight: 6, verticalAlign: 'text-bottom' }} /> GitHub
                   </a>
                   <a className={`${common.socialLink} ${theme === 'dark' ? dark.socialLink : light.socialLink}`} 
                      href="https://www.linkedin.com/in/ghulamujtabaofficial" target="_blank" rel="noopener noreferrer">
-                    💼 LinkedIn
+                    <Linkedin size={18} style={{ display: 'inline', marginRight: 6, verticalAlign: 'text-bottom' }} /> LinkedIn
                   </a>
                 </div>
               </div>
@@ -356,7 +368,7 @@ export default function AboutPage() {
         <ScrollReveal animation="fadeInUp" width="100%">
           <section className={`${common.section} ${common.prominentSection}`} aria-labelledby="experience-heading">
             <div className={common.sectionHeader}>
-              <span className={common.sectionIcon}>💼</span>
+              <Briefcase className={common.sectionIcon} />
               <h2 id="experience-heading" className={`${common.sectionTitle} ${common.prominentTitle}`}>Professional Journey</h2>
             </div>
             <div className={common.timeline}>
@@ -381,7 +393,7 @@ export default function AboutPage() {
         <ScrollReveal animation="fadeInUp" width="100%">
           <section className={`${common.section} ${common.prominentSection}`} aria-labelledby="education-heading">
             <div className={common.sectionHeader}>
-              <span className={common.sectionIcon}>🎓</span>
+              <GraduationCap className={common.sectionIcon} />
               <h2 id="education-heading" className={`${common.sectionTitle} ${common.prominentTitle}`}>Education</h2>
             </div>
             <div className={`${common.card} ${theme === 'dark' ? dark.card : light.card}`}>
@@ -402,7 +414,7 @@ export default function AboutPage() {
         <ScrollReveal animation="fadeInLeft" width="100%">
           <section className={`${common.section}`} aria-labelledby="stats-heading">
             <div className={common.sectionHeader}>
-              <span className={common.sectionIcon}>📊</span>
+              <BarChart className={common.sectionIcon} />
               <h2 id="stats-heading" className={common.sectionTitle}>Quick Stats</h2>
             </div>
             <div className={common.statsGrid}>
@@ -430,7 +442,7 @@ export default function AboutPage() {
         <ScrollReveal animation="fadeInRight" width="100%">
           <section className={`${common.section}`} aria-labelledby="facts-heading">
             <div className={common.sectionHeader}>
-              <span className={common.sectionIcon}>✨</span>
+              <Zap className={common.sectionIcon} />
               <h2 id="facts-heading" className={common.sectionTitle}>What Drives Me</h2>
             </div>
             <div className={common.funFactsGrid}>
@@ -454,28 +466,21 @@ export default function AboutPage() {
         <ScrollReveal animation="fadeInLeft" width="100%">
           <section className={`${common.section}`} aria-labelledby="impact-heading">
             <div className={common.sectionHeader}>
-              <span className={common.sectionIcon}>📈</span>
+              <TrendingUp className={common.sectionIcon} />
               <h2 id="impact-heading" className={common.sectionTitle}>Impact Stories</h2>
             </div>
             <div className={common.achievementsGrid}>
-              <div className={`${common.card} ${common.achievementCard} ${common.cardHover}`}>
-                <h3 className={common.achievementTitle}>Improved LLM Relevance</h3>
-                <p className={`${common.achievementDesc} ${theme === 'dark' ? dark.subtitle : light.subtitle}`}>
-                  Evaluated and refined large language model outputs across multiple projects, increasing search relevance and user satisfaction metrics.
-                </p>
-              </div>
-              <div className={`${common.card} ${common.achievementCard} ${common.cardHover}`}>
-                <h3 className={common.achievementTitle}>End-to-end Platform</h3>
-                <p className={`${common.achievementDesc} ${theme === 'dark' ? dark.subtitle : light.subtitle}`}>
-                  Built full-stack solutions combining React frontends with ML-powered backends, delivering analytics dashboards and automation features.
-                </p>
-              </div>
-              <div className={`${common.card} ${common.achievementCard} ${common.cardHover}`}>
-                <h3 className={common.achievementTitle}>Certifications to Practice</h3>
-                <p className={`${common.achievementDesc} ${theme === 'dark' ? dark.subtitle : light.subtitle}`}>
-                  Earned industry certifications and applied learnings to production projects to improve deployment and scaling practices.
-                </p>
-              </div>
+              {achievements.map((achievement, index) => (
+                <div key={index} className={`${common.card} ${common.achievementCard} ${common.cardHover}`}>
+                  <span className={`${common.achievementIcon} ${theme === 'dark' ? dark.achievementIcon : light.achievementIcon}`}>
+                    {achievement.icon}
+                  </span>
+                  <h3 className={common.achievementTitle}>{achievement.title}</h3>
+                  <p className={`${common.achievementDesc} ${theme === 'dark' ? dark.subtitle : light.subtitle}`}>
+                    {achievement.description}
+                  </p>
+                </div>
+              ))}
             </div>
           </section>
         </ScrollReveal>
@@ -483,11 +488,11 @@ export default function AboutPage() {
         <ScrollReveal animation="fadeInUp" width="100%">
           <section className={`${common.section}`} aria-labelledby="aboutme-heading">
             <div className={common.sectionHeader}>
-              <span className={common.sectionIcon}>👨‍💻</span>
+              <Code className={common.sectionIcon} />
               <h2 id="aboutme-heading" className={common.sectionTitle}>About Me</h2>
             </div>
             <div className={`${common.card} ${theme === 'dark' ? dark.card : light.card}`}>
-              <AboutMeSection />
+              <AboutMeSection showTitle={false} />
             </div>
           </section>
         </ScrollReveal>
@@ -502,7 +507,7 @@ export default function AboutPage() {
         <ScrollReveal animation="fadeInRight" width="100%">
           <section className={`${common.section}`} aria-labelledby="interests-heading">
             <div className={common.sectionHeader}>
-              <span className={common.sectionIcon}>🎯</span>
+              <Activity className={common.sectionIcon} />
               <h2 id="interests-heading" className={common.sectionTitle}>When I'm Not Coding</h2>
             </div>
             <div className={common.interestsGrid}>

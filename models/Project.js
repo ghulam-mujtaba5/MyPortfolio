@@ -22,8 +22,17 @@ const ProjectSchema = new mongoose.Schema(
       required: [true, "Description is required."],
     },
     image: {
-      type: String, // URL to the image from upload or direct link
+      type: String, // URL to the main/cover image from upload or direct link
       default: "",
+    },
+    gallery: {
+      type: [{
+        url: { type: String, required: true },
+        caption: { type: String, default: "" },
+        alt: { type: String, default: "" },
+        order: { type: Number, default: 0 }
+      }],
+      default: [],
     },
     imageFit: {
       type: String,
@@ -31,6 +40,10 @@ const ProjectSchema = new mongoose.Schema(
       default: undefined,
     },
     showImage: {
+      type: Boolean,
+      default: true,
+    },
+    showGallery: {
       type: Boolean,
       default: true,
     },

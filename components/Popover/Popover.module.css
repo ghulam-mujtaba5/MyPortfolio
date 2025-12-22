@@ -205,3 +205,39 @@
     transition-duration: 0.01ms !important;
   }
 }
+
+/* CSS Anchor Positioning Support */
+@supports (anchor-name: --foo) {
+  .popover {
+    inset: auto;
+  }
+  
+  .popover.placement-top {
+    bottom: anchor(top);
+    left: anchor(center);
+    transform: translateX(-50%);
+    margin-bottom: 8px;
+  }
+  
+  .popover.placement-bottom {
+    top: anchor(bottom);
+    left: anchor(center);
+    transform: translateX(-50%);
+    margin-top: 8px;
+  }
+  
+  .popover.placement-left {
+    right: anchor(left);
+    top: anchor(center);
+    transform: translateY(-50%);
+    margin-right: 8px;
+  }
+  
+  .popover.placement-right {
+    left: anchor(right);
+    top: anchor(center);
+    transform: translateY(-50%);
+    margin-left: 8px;
+  }
+}
+

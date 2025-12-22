@@ -6,18 +6,14 @@ import { useRouter } from "next/router";
 import toast from "react-hot-toast";
 import AdminLayout from "../../../components/Admin/AdminLayout/AdminLayout";
 import { useTheme } from "../../../context/ThemeContext";
-import commonStyles from "../articles/articles.common.module.css";
-import lightStyles from "../articles/articles.light.module.css";
-import darkStyles from "../articles/articles.dark.module.css";
 import AdminPublicProjectCard from "../../../components/Admin/Projects/AdminPublicProjectCard";
 import gridStyles from "../../../styles/AdminGrid.module.css"; // Shared grid styles
+
 import Icon from "../../../components/Admin/Icon/Icon";
 import Tooltip from "../../../components/Admin/Tooltip/Tooltip";
 import { ProjectListSkeleton } from "../../../components/Admin/Skeletons/Skeletons";
 import Modal from "../../../components/Admin/Modal/Modal";
-import projCommon from "./projects.common.module.css";
-import projLight from "./projects.light.module.css";
-import projDark from "./projects.dark.module.css";
+import styles from "./projects.premium.module.css";
 import utilities from "../../../styles/utilities.module.css";
 import LoadingAnimation from "../../../components/LoadingAnimation/LoadingAnimation";
 import InlineSpinner from "../../../components/LoadingAnimation/InlineSpinner";
@@ -25,9 +21,8 @@ import EnhancedFilterSection from "../../../components/Admin/Projects/EnhancedFi
 
 const ProjectsPage = () => {
   const { theme } = useTheme();
-  const themeStyles = theme === "dark" ? darkStyles : lightStyles;
-  const projTheme = theme === "dark" ? projDark : projLight;
-  const styles = { ...commonStyles, ...themeStyles };
+  // Removed legacy theme styles
+
   const [projects, setProjects] = useState([]);
   const [pagination, setPagination] = useState({});
   const [loading, setLoading] = useState(true);

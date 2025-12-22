@@ -86,9 +86,12 @@
   color: #374151;
 }
 
-.funFactIcon,
+.funFactIcon {
+  color: #10b981;
+}
+
 .achievementIcon {
-  filter: hue-rotate(0deg) saturate(1.2);
+  color: #f59e0b;
 }
 
 /* Skills Cards */
@@ -128,6 +131,10 @@
   transform: translateY(-3px);
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
   border-color: #22c55e;
+}
+
+.interestIcon {
+  color: #16a34a;
 }
 
 /* Call to Action */

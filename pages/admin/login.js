@@ -3,17 +3,13 @@ import { signIn } from "next-auth/react";
 import { useRouter } from "next/router";
 import Head from "next/head";
 import { motion } from "framer-motion";
-import styles from "./login.module.css";
-import lightStyles from "./login.light.module.css";
-import darkStyles from "./login.dark.module.css";
-import { useTheme } from "../../context/ThemeContext";
+import styles from "./login.premium.module.css";
 import { authOptions } from "../api/auth/[...nextauth]";
 import { getServerSession } from "next-auth/next";
-// Removed utilities button classes in favor of module-scoped styles
 
 export default function LoginPage() {
-  const { theme } = useTheme();
-  const themeStyles = theme === "dark" ? darkStyles : lightStyles;
+  // Removed legacy theme styles
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -54,20 +50,20 @@ export default function LoginPage() {
         <title>Admin Login | Ghulam Mujtaba</title>
       </Head>
       <motion.div 
-        className={`${styles.loginContainer} ${themeStyles.loginContainer}`}
+        className={`${styles.loginContainer}`}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5 }}
       >
         <motion.div 
-          className={`${styles.loginBox} ${themeStyles.loginBox}`}
+          className={`${styles.loginBox}`}
           initial={{ y: -50, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.5, delay: 0.2 }}
           whileHover={{ y: -5 }}
         >
           <motion.h1 
-            className={`${styles.title} ${themeStyles.title}`}
+            className={`${styles.title}`}
             initial={{ x: -30, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.4 }}
@@ -75,7 +71,7 @@ export default function LoginPage() {
             Admin Panel
           </motion.h1>
           <motion.p 
-            className={`${styles.subtitle} ${themeStyles.subtitle}`}
+            className={`${styles.subtitle}`}
             initial={{ x: -30, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.5 }}
@@ -95,7 +91,7 @@ export default function LoginPage() {
               animate={{ x: 0, opacity: 1 }}
               transition={{ duration: 0.4, delay: 0.7 }}
             >
-              <label htmlFor="email" className={`${styles.label} ${themeStyles.label}`}>
+              <label htmlFor="email" className={`${styles.label}`}>
                 Email Address
               </label>
               <input
@@ -105,7 +101,7 @@ export default function LoginPage() {
                 onChange={(e) => setEmail(e.target.value)}
                 required
                 autoComplete="username"
-                className={`${styles.input} ${themeStyles.input}`}
+                className={`${styles.input}`}
               />
             </motion.div>
             <motion.div 
@@ -114,7 +110,7 @@ export default function LoginPage() {
               animate={{ x: 0, opacity: 1 }}
               transition={{ duration: 0.4, delay: 0.8 }}
             >
-              <label htmlFor="password" className={`${styles.label} ${themeStyles.label}`}>
+              <label htmlFor="password" className={`${styles.label}`}>
                 Password
               </label>
               <input
@@ -124,12 +120,12 @@ export default function LoginPage() {
                 onChange={(e) => setPassword(e.target.value)}
                 required
                 autoComplete="current-password"
-                className={`${styles.input} ${themeStyles.input}`}
+                className={`${styles.input}`}
               />
             </motion.div>
             {error && (
               <motion.p 
-                className={`${styles.error} ${themeStyles.error}`} 
+                className={`${styles.error}`} 
                 role="alert" 
                 aria-live="polite"
                 initial={{ opacity: 0, y: -10 }}
@@ -142,7 +138,7 @@ export default function LoginPage() {
             <motion.button
               type="submit"
               disabled={loading}
-              className={`${styles.loginButton} ${themeStyles.loginButton}`}
+              className={`${styles.loginButton}`}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >

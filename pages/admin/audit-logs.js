@@ -4,9 +4,7 @@ import withAdminAuth from "../../lib/withAdminAuth";
 import toast from "react-hot-toast";
 import { motion } from "framer-motion";
 import Table from "../../components/Admin/Table/Table";
-import commonStyles from "./audit-logs.module.css";
-import lightStyles from "./audit-logs.light.module.css";
-import darkStyles from "./audit-logs.dark.module.css";
+import styles from "./audit-logs.premium.module.css";
 import utilities from "../../styles/utilities.module.css";
 import { useTheme } from "../../context/ThemeContext";
 import { formatDistanceToNow } from "date-fns";
@@ -15,33 +13,29 @@ import Icon from "../../components/Admin/Icon/Icon";
 
 const PAGE_SIZE = 20;
 
-const Filters = ({ filters, setFilters, onApply, themeStyles, common }) => {
+const Filters = ({ filters, setFilters, onApply }) => {
   return (
-    <div className={`${common.filterBar} ${themeStyles.filterBar || ""}`}>
-      <div className={`${common.filtersGrid} ${themeStyles.filtersGrid || ""}`}>
-        <div
-          className={`${common.fieldGroup} ${common.span4} ${themeStyles.fieldGroup || ""}`}
-        >
-          <label className={`${common.label} ${themeStyles.label || ""}`}>
+    <div className={styles.filterBar}>
+      <div className={styles.filtersGrid}>
+        <div className={`${styles.fieldGroup} ${styles.span4}`}>
+          <label className={styles.label}>
             <Icon name="search" size={16} />
             Search
           </label>
           <input
-            className={`${common.formControl} ${themeStyles.formControl}`}
+            className={styles.formControl}
             placeholder="user, details, entityId"
             value={filters.q}
             onChange={(e) => setFilters((f) => ({ ...f, q: e.target.value }))}
           />
         </div>
-        <div
-          className={`${common.fieldGroup} ${common.span2} ${themeStyles.fieldGroup || ""}`}
-        >
-          <label className={`${common.label} ${themeStyles.label || ""}`}>
+        <div className={`${styles.fieldGroup} ${styles.span2}`}>
+          <label className={styles.label}>
             <Icon name="activity" size={16} />
             Action
           </label>
           <select
-            className={`${common.formControl} ${common.select} ${themeStyles.formControl} ${themeStyles.select}`}
+            className={`${styles.formControl} ${styles.select}`}
             value={filters.action}
             onChange={(e) =>
               setFilters((f) => ({ ...f, action: e.target.value }))
@@ -56,15 +50,13 @@ const Filters = ({ filters, setFilters, onApply, themeStyles, common }) => {
             <option value="login_fail">Login Fail</option>
           </select>
         </div>
-        <div
-          className={`${common.fieldGroup} ${common.span2} ${themeStyles.fieldGroup || ""}`}
-        >
-          <label className={`${common.label} ${themeStyles.label || ""}`}>
+        <div className={`${styles.fieldGroup} ${styles.span2}`}>
+          <label className={styles.label}>
             <Icon name="database" size={16} />
             Entity
           </label>
           <select
-            className={`${common.formControl} ${common.select} ${themeStyles.formControl} ${themeStyles.select}`}
+            className={`${styles.formControl} ${styles.select}`}
             value={filters.entity}
             onChange={(e) =>
               setFilters((f) => ({ ...f, entity: e.target.value }))
@@ -77,39 +69,33 @@ const Filters = ({ filters, setFilters, onApply, themeStyles, common }) => {
             <option value="Auth">Auth</option>
           </select>
         </div>
-        <div
-          className={`${common.fieldGroup} ${common.span2} ${themeStyles.fieldGroup || ""}`}
-        >
-          <label className={`${common.label} ${themeStyles.label || ""}`}>
+        <div className={`${styles.fieldGroup} ${styles.span2}`}>
+          <label className={styles.label}>
             <Icon name="calendar" size={16} />
             From
           </label>
           <input
             type="date"
-            className={`${common.formControl} ${themeStyles.formControl}`}
+            className={styles.formControl}
             value={filters.from}
             onChange={(e) =>
               setFilters((f) => ({ ...f, from: e.target.value }))
             }
           />
         </div>
-        <div
-          className={`${common.fieldGroup} ${common.span2} ${themeStyles.fieldGroup || ""}`}
-        >
-          <label className={`${common.label} ${themeStyles.label || ""}`}>
+        <div className={`${styles.fieldGroup} ${styles.span2}`}>
+          <label className={styles.label}>
             <Icon name="calendar" size={16} />
             To
           </label>
           <input
             type="date"
-            className={`${common.formControl} ${themeStyles.formControl}`}
+            className={styles.formControl}
             value={filters.to}
             onChange={(e) => setFilters((f) => ({ ...f, to: e.target.value }))}
           />
         </div>
-        <div
-          className={`${common.actionsRight} ${themeStyles.actionsRight || ""}`}
-        >
+        <div className={styles.actionsRight}>
           <button
             onClick={onApply}
             className={`${utilities.btn} ${utilities.btnPrimary}`}
@@ -127,10 +113,8 @@ const Filters = ({ filters, setFilters, onApply, themeStyles, common }) => {
 
 const Pagination = ({ page, total, limit, onPageChange }) => {
   const totalPages = Math.max(Math.ceil(total / limit), 1);
-  const { theme } = useTheme();
-  const themeStyles = theme === "dark" ? darkStyles : lightStyles;
   return (
-    <div className={commonStyles.pagination}>
+    <div className={styles.pagination}>
       <button
         className={`${utilities.btn} ${utilities.btnSecondary}`}
         onClick={() => onPageChange(Math.max(page - 1, 1))}
@@ -138,7 +122,7 @@ const Pagination = ({ page, total, limit, onPageChange }) => {
       >
         Previous
       </button>
-      <div className={`${commonStyles.pagerMeta} ${themeStyles.pagerMeta}`}>
+      <div className={styles.pagerMeta}>
         Page {page} of {totalPages}
       </div>
       <button
@@ -197,8 +181,6 @@ const AuditLogsPage = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [queryString]);
 
-  const { theme } = useTheme();
-  const themeStyles = theme === "dark" ? darkStyles : lightStyles;
   const columns = [
     {
       header: "Time",
@@ -221,7 +203,7 @@ const AuditLogsPage = () => {
               : "warning";
         return (
           <span
-            className={`${commonStyles.badge} ${themeStyles.badge || ""} ${themeStyles["badge_" + tone]}`}
+            className={`${styles.badge} ${styles["badge_" + tone]}`}
           >
             {label}
           </span>
@@ -233,7 +215,7 @@ const AuditLogsPage = () => {
       header: "Entity ID",
       key: "entityId",
       render: (row) => (
-        <code className={`${commonStyles.code} ${themeStyles.code || ""}`}>
+        <code className={styles.code}>
           {row.entityId || "-"}
         </code>
       ),
@@ -247,19 +229,19 @@ const AuditLogsPage = () => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3 }}
-        className={`${commonStyles.pageWrap} ${themeStyles.pageWrap || ""}`}
+        className={styles.pageWrap}
       >
         <motion.header
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.3, delay: 0.1 }}
-          className={`${commonStyles.pageHeader} ${themeStyles.pageHeader || ""}`}
+          className={styles.pageHeader}
         >
           <motion.h1
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.4, delay: 0.2 }}
-            className={`${commonStyles.pageTitle} ${themeStyles.pageTitle}`}
+            className={styles.pageTitle}
           >
             Audit Logs
           </motion.h1>
@@ -267,7 +249,7 @@ const AuditLogsPage = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.4, delay: 0.3 }}
-            className={`${commonStyles.pageSubtitle} ${themeStyles.pageSubtitle}`}
+            className={styles.pageSubtitle}
           >
             Track admin actions across Articles, Projects, and Users.
           </motion.p>
@@ -285,13 +267,11 @@ const AuditLogsPage = () => {
               setPage(1);
               fetchLogs();
             }}
-            themeStyles={themeStyles}
-            common={commonStyles}
           />
         </motion.div>
 
         <motion.div
-          className={`${commonStyles.card} ${themeStyles.card}`}
+          className={styles.card}
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.35, delay: 0.5 }}
@@ -300,7 +280,7 @@ const AuditLogsPage = () => {
             <motion.div 
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              className={`${commonStyles.loading} ${themeStyles.loading || ""}`} 
+              className={styles.loading} 
               style={{ padding: 16, display: "flex", alignItems: "center", gap: 8 }}
             >
               <InlineSpinner sizePx={18} />
@@ -316,7 +296,7 @@ const AuditLogsPage = () => {
                 <Table columns={columns} data={items} />
               </motion.div>
               <motion.div
-                className={`${commonStyles.paginationWrap} ${themeStyles.paginationWrap || ""}`}
+                className={styles.paginationWrap}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.3, delay: 0.1 }}

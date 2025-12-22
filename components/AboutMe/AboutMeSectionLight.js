@@ -5,7 +5,7 @@ import commonStyles from "./AboutMeSectionCommon.module.css";
 import lightStyles from "./AboutMeSectionLight.module.css";
 import darkStyles from "./AboutMeSectionDark.module.css";
 
-const AboutMeSection = () => {
+const AboutMeSection = ({ showTitle = true }) => {
   const { theme } = useTheme();
 
   const themeStyles = theme === "dark" ? darkStyles : lightStyles;
@@ -54,14 +54,16 @@ const AboutMeSection = () => {
       ref={ref}
     >
       <div className={sectionClass}>
-        <motion.h2
-          className={titleClass}
-          initial={{ opacity: 0, y: -30 }}
-          animate={controls}
-          transition={{ duration: 0.5, delay: 0.2, ease: "easeOut" }}
-        >
-          About me
-        </motion.h2>
+        {showTitle && (
+          <motion.h2
+            className={titleClass}
+            initial={{ opacity: 0, y: -30 }}
+            animate={controls}
+            transition={{ duration: 0.5, delay: 0.2, ease: "easeOut" }}
+          >
+            About me
+          </motion.h2>
+        )}
         <motion.p
           className={descriptionClass}
           initial={{ opacity: 0, y: 20 }}

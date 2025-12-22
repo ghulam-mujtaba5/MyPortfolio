@@ -4,18 +4,14 @@ import Modal from "../../components/Admin/Modal/Modal";
 import withAdminAuth from "../../lib/withAdminAuth";
 import toast from "react-hot-toast";
 import { motion } from "framer-motion";
-import commonStyles from "./users.module.css";
-import lightStyles from "./users.light.module.css";
-import darkStyles from "./users.dark.module.css";
+import commonStyles from "./users.premium.module.css";
 import utilities from "../../styles/utilities.module.css";
-import { useTheme } from "../../context/ThemeContext";
 import InlineSpinner from "../../components/LoadingAnimation/InlineSpinner";
 import Icon from "../../components/Admin/Icon/Icon";
 
 // Delete Confirmation Modal
 const DeleteConfirmModal = ({ user, onCancel, onConfirm, isDeleting }) => {
-  const { theme } = useTheme();
-  const themeStyles = theme === "dark" ? darkStyles : lightStyles;
+  // Removed legacy theme styles
   const cancelRef = useRef(null);
   return (
     <motion.div
@@ -55,8 +51,7 @@ const DeleteConfirmModal = ({ user, onCancel, onConfirm, isDeleting }) => {
 
 // Edit User Modal Component
 const EditUserModal = ({ user, onClose, onUserUpdate }) => {
-  const { theme } = useTheme();
-  const themeStyles = theme === "dark" ? darkStyles : lightStyles;
+  
   const nameRef = useRef(null);
   const [name, setName] = useState(user.name);
   const [email, setEmail] = useState(user.email);
@@ -152,8 +147,7 @@ const EditUserModal = ({ user, onClose, onUserUpdate }) => {
 };
 
 const UsersPage = () => {
-  const { theme } = useTheme();
-  const themeStyles = theme === "dark" ? darkStyles : lightStyles;
+  
   const [users, setUsers] = useState([]);
   const [filteredUsers, setFilteredUsers] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -411,7 +405,7 @@ const UsersPage = () => {
           </motion.div>
 
           <motion.div 
-            className={`${commonStyles.sectionCard} ${themeStyles.sectionCard}`}
+            className={`${commonStyles.sectionCard}`}
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.4, delay: 0.4 }}
@@ -499,7 +493,7 @@ const UsersPage = () => {
           </motion.div>
 
           <motion.div 
-            className={`${commonStyles.sectionCard} ${themeStyles.sectionCard}`}
+            className={`${commonStyles.sectionCard}`}
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.4, delay: 0.7 }}

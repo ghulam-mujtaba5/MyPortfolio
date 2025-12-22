@@ -1,0 +1,384 @@
+/* =================================================
+   MEDIA LIBRARY - PREMIUM DESIGN
+   ================================================= */
+
+.mediaLibrary {
+  padding: var(--admin-space-lg);
+  background: var(--bg);
+  border-radius: var(--admin-radius-lg);
+  min-height: 600px;
+}
+
+.title {
+  font-size: var(--admin-text-2xl);
+  font-weight: var(--admin-font-bold);
+  color: var(--text);
+  margin: 0;
+}
+
+/* Toolbar */
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--admin-space-xl);
+  flex-wrap: wrap;
+  gap: var(--admin-space-md);
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: var(--admin-space-sm);
+  flex-wrap: wrap;
+}
+
+.searchInput {
+  padding: var(--admin-space-sm) var(--admin-space-md);
+  border-radius: var(--admin-radius-md);
+  border: 1px solid var(--border);
+  background: var(--bg-elev-1);
+  color: var(--text);
+  font-size: var(--admin-text-sm);
+  min-width: 240px;
+  transition: all var(--admin-transition);
+}
+
+.input {
+  width: 100%;
+  padding: var(--admin-space-sm) var(--admin-space-md);
+  border-radius: var(--admin-radius-md);
+  border: 1px solid var(--border);
+  background: var(--bg-elev-1);
+  color: var(--text);
+  font-size: var(--admin-text-sm);
+  transition: all var(--admin-transition);
+}
+
+.input:focus,
+.searchInput:focus {
+  border-color: var(--admin-primary);
+  box-shadow: 0 0 0 2px var(--admin-primary-light);
+  outline: none;
+}
+
+.uploadButton {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--admin-space-sm);
+  padding: var(--admin-space-sm) var(--admin-space-md);
+  background: var(--admin-primary);
+  color: white;
+  border-radius: var(--admin-radius-md);
+  font-size: var(--admin-text-sm);
+  font-weight: var(--admin-font-medium);
+  cursor: pointer;
+  transition: all var(--admin-transition);
+  border: none;
+}
+
+.uploadButton:hover {
+  background: var(--admin-primary-dark);
+  transform: translateY(-2px);
+  box-shadow: var(--admin-shadow-md);
+}
+
+.hiddenInput {
+  display: none;
+}
+
+.deleteButton {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--admin-space-sm);
+  padding: var(--admin-space-sm) var(--admin-space-md);
+  background: var(--admin-error-light);
+  color: var(--admin-error);
+  border-radius: var(--admin-radius-md);
+  font-size: var(--admin-text-sm);
+  font-weight: var(--admin-font-medium);
+  cursor: pointer;
+  transition: all var(--admin-transition);
+  border: 1px solid transparent;
+}
+
+.deleteButton:hover {
+  background: var(--admin-error);
+  color: white;
+}
+
+.viewToggle {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--admin-space-sm);
+  padding: var(--admin-space-sm) var(--admin-space-md);
+  background: var(--bg-elev-2);
+  color: var(--text);
+  border-radius: var(--admin-radius-md);
+  font-size: var(--admin-text-sm);
+  font-weight: var(--admin-font-medium);
+  cursor: pointer;
+  transition: all var(--admin-transition);
+  border: 1px solid var(--border);
+}
+
+.viewToggle:hover {
+  background: var(--bg-elev-3);
+  border-color: var(--text-muted);
+}
+
+/* Grid View */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: var(--admin-space-md);
+}
+
+/* List View */
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--admin-space-sm);
+}
+
+/* Asset Card */
+.assetCard {
+  position: relative;
+  border-radius: var(--admin-radius-md);
+  overflow: hidden;
+  background: var(--bg-elev-1);
+  border: 1px solid var(--border);
+  transition: all var(--admin-transition);
+  cursor: pointer;
+  aspect-ratio: 1;
+}
+
+.assetCard:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--admin-shadow-md);
+  border-color: var(--admin-primary);
+}
+
+.assetCard.selected {
+  border-color: var(--admin-primary);
+  box-shadow: 0 0 0 2px var(--admin-primary);
+}
+
+.assetImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--admin-transition-slow);
+}
+
+.assetCard:hover .assetImage {
+  transform: scale(1.05);
+}
+
+.assetOverlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: var(--admin-space-md);
+  background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+  color: white;
+  opacity: 0;
+  transition: opacity var(--admin-transition);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.assetCard:hover .assetOverlay {
+  opacity: 1;
+}
+
+.assetName {
+  font-size: var(--admin-text-sm);
+  font-weight: var(--admin-font-medium);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 4px;
+}
+
+.assetMeta {
+  font-size: var(--admin-text-xs);
+  opacity: 0.8;
+  display: flex;
+  justify-content: space-between;
+}
+
+/* List View Overrides */
+.assetCard.listView {
+  aspect-ratio: auto;
+  display: flex;
+  align-items: center;
+  padding: var(--admin-space-sm);
+  height: 80px;
+}
+
+.assetImage.listView {
+  width: 64px;
+  height: 64px;
+  border-radius: var(--admin-radius-sm);
+  margin-right: var(--admin-space-md);
+}
+
+.assetCard.listView .assetOverlay {
+  position: static;
+  background: none;
+  color: var(--text);
+  opacity: 1;
+  padding: 0;
+  flex: 1;
+  display: block;
+}
+
+.assetCard.listView .assetName {
+  font-size: var(--admin-text-base);
+  color: var(--text);
+}
+
+.assetCard.listView .assetMeta {
+  color: var(--text-muted);
+}
+
+/* Tags */
+.tagContainer {
+  display: flex;
+  gap: 4px;
+  margin-top: 4px;
+}
+
+.tag {
+  background: rgba(255,255,255,0.2);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 10px;
+}
+
+.assetCard.listView .tag {
+  background: var(--bg-elev-3);
+  color: var(--text-muted);
+}
+
+/* Checkbox */
+.checkbox {
+  position: absolute;
+  top: var(--admin-space-sm);
+  left: var(--admin-space-sm);
+  width: 18px;
+  height: 18px;
+  accent-color: var(--admin-primary);
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity var(--admin-transition);
+}
+
+.assetCard:hover .checkbox,
+.assetCard.selected .checkbox {
+  opacity: 1;
+}
+
+/* Edit Button */
+.editButton {
+  position: absolute;
+  top: var(--admin-space-sm);
+  right: var(--admin-space-sm);
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: white;
+  color: var(--text);
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  opacity: 0;
+  transition: all var(--admin-transition);
+  box-shadow: var(--admin-shadow-sm);
+}
+
+.assetCard:hover .editButton {
+  opacity: 1;
+}
+
+.editButton:hover {
+  background: var(--admin-primary);
+  color: white;
+}
+
+/* Pagination */
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--admin-space-md);
+  margin-top: var(--admin-space-xl);
+  padding-top: var(--admin-space-lg);
+  border-top: 1px solid var(--border);
+}
+
+/* Empty State */
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--admin-space-3xl);
+  color: var(--text-muted);
+  text-align: center;
+}
+
+.emptyState h3 {
+  margin: var(--admin-space-md) 0 var(--admin-space-sm);
+  color: var(--text);
+}
+
+/* Modal Styles */
+.previewImage {
+  max-width: 100%;
+  max-height: 400px;
+  border-radius: var(--admin-radius-md);
+  margin-bottom: var(--admin-space-md);
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.editImage {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: var(--admin-radius-md);
+  margin-bottom: var(--admin-space-md);
+}
+
+.formGroup {
+  margin-bottom: var(--admin-space-md);
+}
+
+.formGroup label {
+  display: block;
+  margin-bottom: var(--admin-space-xs);
+  font-weight: var(--admin-font-medium);
+  font-size: var(--admin-text-sm);
+}
+
+.modalActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--admin-space-sm);
+  margin-top: var(--admin-space-lg);
+}
+
+.error {
+  padding: var(--admin-space-md);
+  background: var(--admin-error-light);
+  color: var(--admin-error);
+  border-radius: var(--admin-radius-md);
+  margin-bottom: var(--admin-space-md);
+}

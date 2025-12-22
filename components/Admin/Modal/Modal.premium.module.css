@@ -1,0 +1,120 @@
+/* Modal.premium.module.css */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.overlay.open {
+  opacity: 1;
+}
+
+.modal {
+  width: 90%;
+  max-width: 500px;
+  max-height: 90vh;
+  background: var(--admin-card-bg);
+  border-radius: var(--admin-radius-lg);
+  box-shadow: var(--admin-shadow-lg);
+  border: 1px solid var(--admin-border);
+  display: flex;
+  flex-direction: column;
+  transform: scale(0.95);
+  opacity: 0;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.modal.open {
+  transform: scale(1);
+  opacity: 1;
+}
+
+.header {
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid var(--admin-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--admin-text-primary);
+  margin: 0;
+}
+
+.closeButton {
+  background: transparent;
+  border: none;
+  color: var(--admin-text-secondary);
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0.25rem;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.closeButton:hover {
+  background: var(--admin-bg-secondary);
+  color: var(--admin-text-primary);
+}
+
+.content {
+  padding: 1.5rem;
+  overflow-y: auto;
+  color: var(--admin-text-primary);
+}
+
+.footer {
+  padding: 1.25rem 1.5rem;
+  border-top: 1px solid var(--admin-border);
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  background: var(--admin-bg-secondary);
+  border-radius: 0 0 var(--admin-radius-lg) var(--admin-radius-lg);
+}
+
+/* Button styles override */
+.btn {
+  padding: 0.5rem 1rem;
+  border-radius: var(--admin-radius-md);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
+}
+
+.btnSecondary {
+  background: transparent;
+  border-color: var(--admin-border);
+  color: var(--admin-text-primary);
+}
+
+.btnSecondary:hover {
+  background: var(--admin-bg-secondary);
+  border-color: var(--admin-text-secondary);
+}
+
+.btnPrimary {
+  background: var(--admin-primary);
+  color: white;
+  box-shadow: var(--admin-shadow-sm);
+}
+
+.btnPrimary:hover {
+  background: var(--admin-primary-hover);
+  transform: translateY(-1px);
+}

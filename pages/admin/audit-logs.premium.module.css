@@ -1,0 +1,178 @@
+/* =================================================
+   AUDIT LOGS - PREMIUM DESIGN
+   ================================================= */
+
+.pageWrap {
+  padding: var(--admin-space-xl);
+  max-width: var(--admin-content-max-width);
+  margin: 0 auto;
+}
+
+.pageHeader {
+  margin-bottom: var(--admin-space-xl);
+}
+
+.pageTitle {
+  font-size: var(--admin-text-3xl);
+  font-weight: var(--admin-font-bold);
+  color: var(--text);
+  margin-bottom: var(--admin-space-xs);
+}
+
+.pageSubtitle {
+  font-size: var(--admin-text-base);
+  color: var(--text-muted);
+}
+
+/* Filters */
+.filterBar {
+  background: var(--bg-elev-1);
+  border-radius: var(--admin-radius-lg);
+  border: 1px solid var(--border);
+  padding: var(--admin-space-lg);
+  margin-bottom: var(--admin-space-xl);
+}
+
+.filtersGrid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: var(--admin-space-md);
+  align-items: flex-end;
+}
+
+.fieldGroup {
+  display: flex;
+  flex-direction: column;
+  gap: var(--admin-space-xs);
+}
+
+.span4 { grid-column: span 4; }
+.span2 { grid-column: span 2; }
+
+.label {
+  display: flex;
+  align-items: center;
+  gap: var(--admin-space-xs);
+  font-size: var(--admin-text-sm);
+  font-weight: var(--admin-font-medium);
+  color: var(--text);
+}
+
+.formControl {
+  width: 100%;
+  padding: var(--admin-space-sm) var(--admin-space-md);
+  border-radius: var(--admin-radius-md);
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text);
+  font-size: var(--admin-text-sm);
+  transition: all var(--admin-transition);
+}
+
+.formControl:focus {
+  border-color: var(--admin-primary);
+  box-shadow: 0 0 0 2px var(--admin-primary-light);
+  outline: none;
+}
+
+.select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 36px;
+}
+
+.actionsRight {
+  grid-column: span 2;
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* Card */
+.card {
+  background: var(--bg-elev-1);
+  border-radius: var(--admin-radius-lg);
+  border: 1px solid var(--border);
+  overflow: hidden;
+  box-shadow: var(--admin-shadow-sm);
+}
+
+.loading {
+  padding: var(--admin-space-xl);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--admin-space-md);
+  color: var(--text-muted);
+}
+
+/* Pagination */
+.paginationWrap {
+  padding: var(--admin-space-md);
+  border-top: 1px solid var(--border);
+  background: var(--bg-elev-1);
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--admin-space-md);
+}
+
+.pagerMeta {
+  font-size: var(--admin-text-sm);
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Badges */
+.badge {
+  display: inline-flex;
+  padding: 2px 8px;
+  border-radius: var(--admin-radius-full);
+  font-size: var(--admin-text-xs);
+  font-weight: var(--admin-font-medium);
+  text-transform: capitalize;
+}
+
+.badge_success {
+  background: var(--admin-success-light);
+  color: var(--admin-success);
+}
+
+.badge_danger {
+  background: var(--admin-error-light);
+  color: var(--admin-error);
+}
+
+.badge_warning {
+  background: var(--admin-warning-light);
+  color: var(--admin-warning);
+}
+
+.code {
+  font-family: monospace;
+  font-size: var(--admin-text-xs);
+  padding: 2px 4px;
+  background: var(--bg-elev-2);
+  border-radius: 4px;
+  color: var(--text);
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .filtersGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .span4, .span2, .actionsRight {
+    grid-column: auto;
+  }
+}
+
+@media (max-width: 640px) {
+  .filtersGrid {
+    grid-template-columns: 1fr;
+  }
+}

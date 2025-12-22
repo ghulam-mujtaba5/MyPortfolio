@@ -5,18 +5,13 @@ import InlineSpinner from "../../../components/LoadingAnimation/InlineSpinner";
 import ProjectForm from "../../../components/Admin/ProjectForm/ProjectForm";
 import Project1 from "../../../components/Projects/Project1";
 import { useState } from "react";
-import { useTheme } from "../../../context/ThemeContext";
-import commonStyles from "./projects.common.module.css";
-import lightStyles from "./projects.light.module.css";
-import darkStyles from "./projects.dark.module.css";
+import styles from "./projects-form.premium.module.css";
 
 export default function NewProjectPage() {
   const router = useRouter();
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [previewData, setPreviewData] = useState({});
-  const { theme } = useTheme();
-  const themeStyles = theme === "dark" ? darkStyles : lightStyles;
 
   const handleSave = async (data) => {
     setErrors({});
@@ -58,17 +53,17 @@ export default function NewProjectPage() {
 
   return (
     <AdminLayout title="New Project">
-      <h1 style={{ display: "flex", alignItems: "center", gap: 8 }}>
+      <h1 className={styles.title}>
         Create New Project
         {isSubmitting && (
-          <span className={commonStyles.muted} style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
+          <span className={styles.savingIndicator}>
             <InlineSpinner sizePx={16} />
             Saving…
           </span>
         )}
       </h1>
-      <div className={commonStyles.twoCol}>
-        <div>
+      <div className={styles.twoCol}>
+        <div className={styles.formColumn}>
           <ProjectForm
             onSave={handleSave}
             serverErrors={errors}
@@ -76,9 +71,9 @@ export default function NewProjectPage() {
             onDataChange={setPreviewData}
           />
         </div>
-        <div style={{ pointerEvents: "none" }}>
-          <h3 className={themeStyles.previewTitle}>Live Preview</h3>
-          <div className={commonStyles.previewScale}>
+        <div className={styles.previewColumn}>
+          <h3 className={styles.previewTitle}>Live Preview</h3>
+          <div className={styles.previewScale}>
             <Project1 projectOverride={previewData} />
           </div>
         </div>

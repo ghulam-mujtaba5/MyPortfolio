@@ -1,9 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useTheme } from "../../../context/ThemeContext";
-import commonStyles from "./Modal.module.css";
-import lightStyles from "./Modal.light.module.css";
-import darkStyles from "./Modal.dark.module.css";
-import utilities from "../../../styles/utilities.module.css";
+import styles from "./Modal.premium.module.css";
 
 const Modal = ({
   isOpen,
@@ -16,8 +12,6 @@ const Modal = ({
   confirmText = "Confirm",
   cancelText = "Cancel",
 }) => {
-  const { theme } = useTheme();
-  const themeStyles = theme === "dark" ? darkStyles : lightStyles;
   const modalRef = useRef(null);
   const prevFocusRef = useRef(null);
   const confirmBtnRef = useRef(null);
@@ -132,11 +126,11 @@ const Modal = ({
 
   return (
     <div 
-      className={`${commonStyles.overlay} ${isOpen ? commonStyles.open : ''}`} 
+      className={`${styles.overlay} ${isOpen ? styles.open : ''}`} 
       onClick={onClose}
     >
       <div
-        className={`${commonStyles.modal} ${themeStyles.modal} ${isOpen ? commonStyles.open : ''}`}
+        className={`${styles.modal} ${isOpen ? styles.open : ''}`}
         onClick={(e) => e.stopPropagation()}
         role="dialog"
         aria-modal="true"
@@ -144,27 +138,27 @@ const Modal = ({
         aria-describedby={ariaDescribedBy}
         ref={modalRef}
       >
-        <div className={`${commonStyles.header} ${themeStyles.header}`}>
-          <h2 id="modal-title" className={commonStyles.title}>
+        <div className={styles.header}>
+          <h2 id="modal-title" className={styles.title}>
             {title}
           </h2>
           <button
-            className={`${commonStyles.closeButton} ${themeStyles.closeButton}`}
+            className={styles.closeButton}
             onClick={onClose}
             aria-label="Close dialog"
           >
             ×
           </button>
         </div>
-        <div className={`${commonStyles.content} ${themeStyles.content}`}>{children}</div>
+        <div className={styles.content}>{children}</div>
         {onConfirm && (
-          <div className={`${commonStyles.footer} ${themeStyles.footer}`}>
-            <button className={`${utilities.btn} ${utilities.btnSecondary}`} onClick={onClose}>
+          <div className={styles.footer}>
+            <button className={`${styles.btn} ${styles.btnSecondary}`} onClick={onClose}>
               {cancelText}
             </button>
             <button 
               ref={confirmBtnRef} 
-              className={`${utilities.btn} ${utilities.btnPrimary}`} 
+              className={`${styles.btn} ${styles.btnPrimary}`} 
               onClick={onConfirm}
             >
               {confirmText}

@@ -8,18 +8,13 @@ import Project from "../../../../models/Project";
 import mongoose from "mongoose";
 
 import { useState, useEffect, useRef } from "react";
-import { useTheme } from "../../../../context/ThemeContext";
 import Modal from "../../../../components/Admin/Modal/Modal";
-import commonStyles from "../projects.common.module.css";
-import lightStyles from "../projects.light.module.css";
-import darkStyles from "../projects.dark.module.css";
+import styles from "../projects-form.premium.module.css";
 import utilities from "../../../../styles/utilities.module.css";
 
 export default function EditProjectPage({ project, previewSecret }) {
   const router = useRouter();
   const [previewData, setPreviewData] = useState(project);
-  const { theme } = useTheme();
-  const themeStyles = theme === "dark" ? darkStyles : lightStyles;
   const [showDelete, setShowDelete] = useState(false);
   const confirmRef = useRef(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -86,8 +81,8 @@ export default function EditProjectPage({ project, previewSecret }) {
 
   return (
     <AdminLayout title={`Edit: ${project.title}`}>
-      <div className={commonStyles.headerRow}>
-        <h1>Edit Project</h1>
+      <div className={styles.header}>
+        <h1 className={styles.title}>Edit Project</h1>
         <button
           onClick={() => setShowDelete(true)}
           className={`${utilities.btn} ${utilities.btnDanger}`}
@@ -95,8 +90,8 @@ export default function EditProjectPage({ project, previewSecret }) {
           Delete
         </button>
       </div>
-      <div className={commonStyles.twoCol}>
-        <div>
+      <div className={styles.twoCol}>
+        <div className={styles.formColumn}>
           <ProjectForm
             project={project}
             onSave={handleSave}
@@ -106,9 +101,9 @@ export default function EditProjectPage({ project, previewSecret }) {
             serverErrors={serverErrors}
           />
         </div>
-        <div>
-          <h3 className={themeStyles.previewTitle}>Live Preview</h3>
-          <div className={commonStyles.previewScale}>
+        <div className={styles.previewColumn}>
+          <h3 className={styles.previewTitle}>Live Preview</h3>
+          <div className={styles.previewScale}>
             <Project1 projectOverride={previewData} />
           </div>
         </div>

@@ -34,6 +34,7 @@ export const Popover = ({
   const popoverRef = useRef(null);
   const triggerRef = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
+  const anchorName = `--anchor-${id.replace(/[^a-zA-Z0-9-]/g, '')}`; // Ensure valid CSS identifier
 
   // Toggle popover visibility
   const toggle = useCallback(() => {
@@ -119,6 +120,7 @@ export const Popover = ({
         <div
           ref={triggerRef}
           className={styles.trigger}
+          style={{ anchorName }}
           role="button"
           tabIndex={0}
           onClick={toggle}
@@ -138,6 +140,7 @@ export const Popover = ({
         id={id}
         popover={manual ? 'manual' : 'auto'}
         className={`${styles.popover} ${styles[`placement-${placement}`]} ${className}`}
+        style={{ positionAnchor: anchorName }}
       >
         {children}
       </div>

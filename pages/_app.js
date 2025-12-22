@@ -15,6 +15,7 @@ import TopProgress from "../components/TopProgress/TopProgress";
 import "./global.css";
 import "../styles/tokens.css";
 import "../styles/animations.css";
+import "../styles/admin-premium.css";
 
 // Register service worker for PWA
 if (typeof window !== "undefined" && "serviceWorker" in navigator) {

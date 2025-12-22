@@ -8,15 +8,12 @@ import Highlight from "../../components/Highlight/Highlight";
 import Icon from "../../components/Admin/Icon/Icon";
 import { useTheme } from "../../context/ThemeContext";
 import { motion } from "framer-motion";
-import commonStyles from "./articles/articles.common.module.css";
-import lightStyles from "./articles/articles.light.module.css";
-import darkStyles from "./articles/articles.dark.module.css";
+import styles from "./search.premium.module.css";
 import utilities from "../../styles/utilities.module.css";
 import InlineSpinner from "../../components/LoadingAnimation/InlineSpinner";
 
 export default function AdminSearchPage() {
   const { theme } = useTheme();
-  const frameStyles = theme === "dark" ? darkStyles : lightStyles;
   const router = useRouter();
   const [q, setQ] = useState(router.query.q || "");
   const [loading, setLoading] = useState(false);
@@ -155,15 +152,16 @@ export default function AdminSearchPage() {
 
   return (
     <AdminLayout title="Admin Search">
-      <div className={commonStyles.visuallyHidden} aria-live="polite" role="status">
+      <div className={styles.visuallyHidden} aria-live="polite" role="status">
         {ariaMsg}
       </div>
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3 }}
+        className={styles.pageWrapper}
       >
-        <div className={commonStyles.header}>
+        <div className={styles.header}>
           <motion.h1 
             style={{ display: "flex", alignItems: "center", gap: 8 }}
             initial={{ x: -20, opacity: 0 }}
@@ -181,7 +179,7 @@ export default function AdminSearchPage() {
         </div>
         <motion.form 
           onSubmit={onSubmit} 
-          className={commonStyles.searchForm}
+          className={styles.searchForm}
           initial={{ y: 10, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.4, delay: 0.1 }}
@@ -193,7 +191,7 @@ export default function AdminSearchPage() {
             onKeyDown={onKeyDown}
             ref={inputRef}
             placeholder="Search articles by title, tag, category..."
-            className={`${commonStyles.searchInput} ${commonStyles.searchInputMax}`}
+            className={styles.searchInput}
             aria-label="Search query"
             aria-controls={resultsListId}
             aria-activedescendant={activeIndex >= 0 ? optionId(activeIndex) : undefined}
@@ -236,7 +234,7 @@ export default function AdminSearchPage() {
 
         {loading && (
           <motion.div 
-            className={`${commonStyles.mtSm} ${frameStyles.statusText}`} 
+            className={`${styles.mtSm} ${styles.statusText}`} 
             aria-live="polite" 
             style={{ display: "flex", alignItems: "center", gap: 8 }}
             initial={{ opacity: 0 }}
@@ -248,7 +246,7 @@ export default function AdminSearchPage() {
         )}
         {error && (
           <motion.p 
-            className={`${commonStyles.mtSm} ${frameStyles.statusError}`}
+            className={`${styles.mtSm} ${styles.statusError}`}
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
           >
@@ -257,7 +255,7 @@ export default function AdminSearchPage() {
         )}
 
         <motion.div 
-          className={commonStyles.mtMd} 
+          className={styles.mtMd} 
           aria-busy={loading}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -266,11 +264,11 @@ export default function AdminSearchPage() {
           {results.length === 0 && !loading && q && <p>No results.</p>}
           {results.length > 0 && (
             <div>
-              <div className={commonStyles.resultsMeta}>
+              <div className={styles.resultsMeta}>
                 {results.length} result{results.length !== 1 ? "s" : ""}
               </div>
               <ul
-                className={commonStyles.resultsList}
+                className={styles.resultsList}
                 id={resultsListId}
                 role="listbox"
                 aria-label="Search results"
@@ -294,7 +292,7 @@ export default function AdminSearchPage() {
                       role="option"
                       aria-selected={active}
                       ref={(el) => (resultRefs.current[idx] = el)}
-                      className={`${commonStyles.resultRow} ${active ? commonStyles.resultActive : ""}`}
+                      className={`${styles.resultRow} ${active ? styles.resultActive : ""}`}
                       onMouseEnter={() => setActiveIndex(idx)}
                       onClick={() =>
                         router.push(
@@ -306,22 +304,22 @@ export default function AdminSearchPage() {
                       transition={{ duration: 0.3, delay: idx * 0.05 }}
                       whileHover={{ backgroundColor: "var(--bg-elev-2)" }}
                     >
-                      <div className={commonStyles.resultTitle}>
+                      <div className={styles.resultTitle}>
                         <Highlight text={r.title} highlight={q} />
                       </div>
-                      <div className={commonStyles.resultMeta}>
+                      <div className={styles.resultMeta}>
                         <span
-                          className={`${commonStyles.resultChip} ${status === "Draft" ? commonStyles.chipGray : status === "Scheduled" ? commonStyles.chipAmber : commonStyles.chipGreen}`}
+                          className={`${styles.resultChip} ${status === "Draft" ? styles.chipGray : status === "Scheduled" ? styles.chipAmber : styles.chipGreen}`}
                         >
                           {status}
                         </span>
-                        <span className={commonStyles.resultDate}>
+                        <span className={styles.resultDate}>
                           {r.createdAt
                             ? new Date(r.createdAt).toLocaleDateString()
                             : "-"}
                         </span>
                       </div>
-                      <div className={commonStyles.resultActions}>
+                      <div className={styles.resultActions}>
                         <Tooltip content="Preview">
                           <Link
                             href={`/admin/articles/preview/${encodeURIComponent(r.slug)}`}
@@ -330,7 +328,7 @@ export default function AdminSearchPage() {
                             aria-label="Preview"
                           >
                             <Icon name="eye" aria-hidden="true" />
-                            <span className={commonStyles.visuallyHidden}>Preview</span>
+                            <span className={styles.visuallyHidden}>Preview</span>
                           </Link>
                         </Tooltip>
                         <Tooltip content="Open in list">
@@ -341,7 +339,7 @@ export default function AdminSearchPage() {
                             aria-label="Open in list"
                           >
                             <Icon name="open" aria-hidden="true" />
-                            <span className={commonStyles.visuallyHidden}>Open in list</span>
+                            <span className={styles.visuallyHidden}>Open in list</span>
                           </Link>
                         </Tooltip>
                       </div>

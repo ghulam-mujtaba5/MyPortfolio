@@ -22,16 +22,12 @@ import SavedSearches from "../../../components/Admin/SavedSearches/SavedSearches
 import EnhancedFilterSection from "../../../components/Admin/Articles/EnhancedFilterSection";
 
 import commonStyles from "./articles.common.module.css";
-import lightStyles from "./articles.light.module.css";
-import darkStyles from "./articles.dark.module.css";
+import styles from "./articles.premium.module.css";
 import utilities from "../../../styles/utilities.module.css";
 
 const ArticlesPage = () => {
-  const { theme } = useTheme();
-  const styles = {
-    ...commonStyles,
-    ...(theme === "dark" ? darkStyles : lightStyles),
-  };
+  // Removed theme-based style selection in favor of premium styles
+
 
   const handleFeatureToggle = async (id, featured) => {
     setFeaturingId(id);

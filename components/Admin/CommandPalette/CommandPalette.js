@@ -2,9 +2,7 @@ import { useState, useEffect, useCallback, useMemo, useRef } from "react";
 import { useRouter } from "next/router";
 import { useTheme } from "../../../context/ThemeContext";
 
-import commonStyles from "./CommandPalette.module.css";
-import lightStyles from "./CommandPalette.light.module.css";
-import darkStyles from "./CommandPalette.dark.module.css";
+import styles from "./CommandPalette.premium.module.css";
 
 export default function CommandPalette() {
   const [isOpen, setIsOpen] = useState(false);
@@ -12,12 +10,25 @@ export default function CommandPalette() {
   const [results, setResults] = useState([]);
   const [activeIndex, setActiveIndex] = useState(-1);
   const router = useRouter();
-  const { theme, mode, setThemeMode, toggleTheme } = useTheme();
-  const themeStyles = theme === "dark" ? darkStyles : lightStyles;
+  const { setThemeMode, toggleTheme } = useTheme();
   const isCommandMode = query.startsWith(">");
   const inputRef = useRef(null);
   const containerRef = useRef(null);
   const prevFocusRef = useRef(null);
+
+  // Allow other components (e.g., AdminLayout top bar) to open/close the palette.
+  useEffect(() => {
+    const onToggle = (e) => {
+      const detail = (e && e.detail) || {};
+      const shouldOpen = typeof detail.open === "boolean" ? detail.open : true;
+      if (typeof detail.query === "string") {
+        setQuery(detail.query);
+      }
+      setIsOpen(shouldOpen);
+    };
+    window.addEventListener("admin:cmdk", onToggle);
+    return () => window.removeEventListener("admin:cmdk", onToggle);
+  }, []);
 
   const commands = useMemo(() => {
     const runScheduler = async () => {
@@ -53,9 +64,39 @@ export default function CommandPalette() {
         action: () => router.push("/admin/projects"),
       },
       {
+        id: "go-media",
+        label: "Go to Media",
+        action: () => router.push("/admin/media"),
+      },
+      {
+        id: "go-resume",
+        label: "Go to Resume",
+        action: () => router.push("/admin/resume"),
+      },
+      {
+        id: "go-search",
+        label: "Go to Search",
+        action: () => router.push("/admin/search"),
+      },
+      {
+        id: "go-pins",
+        label: "Go to Pins",
+        action: () => router.push("/admin/pins"),
+      },
+      {
+        id: "go-users",
+        label: "Go to Users",
+        action: () => router.push("/admin/users"),
+      },
+      {
         id: "go-analytics",
         label: "Go to Analytics",
         action: () => router.push("/admin/analytics"),
+      },
+      {
+        id: "go-audit-logs",
+        label: "Go to Audit Logs",
+        action: () => router.push("/admin/audit-logs"),
       },
       {
         id: "new-article",
@@ -265,11 +306,11 @@ export default function CommandPalette() {
 
   return (
     <div
-      className={`${commonStyles.overlay} ${themeStyles.overlay}`}
+      className={styles.overlay}
       onClick={() => setIsOpen(false)}
     >
       <div
-        className={`${commonStyles.modal} ${themeStyles.modal}`}
+        className={styles.modal}
         onClick={(e) => e.stopPropagation()}
         ref={containerRef}
         role="dialog"
@@ -287,15 +328,15 @@ export default function CommandPalette() {
           }
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          className={`${commonStyles.input} ${themeStyles.input}`}
+          className={styles.input}
           ref={inputRef}
         />
         {results.length > 0 && (
-          <ul className={commonStyles.resultsList}>
+          <ul className={styles.resultsList}>
             {results.map((item, index) => (
               <li
                 key={item._id}
-                className={`${commonStyles.resultItem} ${index === activeIndex ? commonStyles.activeItem : ""}`}
+                className={`${styles.resultItem} ${index === activeIndex ? styles.activeItem : ""}`}
                 onClick={() =>
                   item.__kind === "command"
                     ? handleCommand(item)
@@ -305,7 +346,7 @@ export default function CommandPalette() {
               >
                 <span>{item.title || item.name}</span>
                 <span
-                  className={`${commonStyles.resultType} ${themeStyles.resultType}`}
+                  className={styles.resultType}
                 >
                   {item.__kind === "command" ? "Command" : item.type}
                 </span>
@@ -313,7 +354,7 @@ export default function CommandPalette() {
             ))}
           </ul>
         )}
-        <div id="command-palette-help" className={commonStyles.tipsRow}>
+        <div id="command-palette-help" className={styles.tipsRow}>
           <span>Tip: Type &gt; to run commands</span>
           <span>Navigate: ↑/↓ • Run: Enter • Close: Esc</span>
         </div>

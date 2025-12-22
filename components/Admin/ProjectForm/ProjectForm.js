@@ -5,6 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { projectSchema } from "../../../lib/validation/schemas";
 import RichTextEditor from "../RichTextEditor/RichTextEditor";
 import ImageUploader from "../ImageUploader/ImageUploader";
+import GalleryManager from "../GalleryManager/GalleryManager";
 import { useTheme } from "../../../context/ThemeContext";
 
 import commonStyles from "./ProjectForm.module.css";
@@ -49,8 +50,10 @@ function ProjectForm({
       "links.live": project.links?.live === "#" ? "" : (project.links?.live || ""),
       "links.github": project.links?.github === "#" ? "" : (project.links?.github || ""),
       image: project.image === "#" ? "" : (project.image || ""),
+      gallery: project.gallery || [],
       imageFit: project.imageFit || "cover",
       showImage: project.showImage !== undefined ? project.showImage : true,
+      showGallery: project.showGallery !== undefined ? project.showGallery : true,
       published: project.published || false,
       featuredOnHome: project.featuredOnHome || false,
       metaTitle: project.metaTitle || "",
@@ -169,6 +172,7 @@ function ProjectForm({
       links,
       image: ensureProtocol(data.image || ""),
       ogImage: ensureProtocol(data.ogImage || ""),
+      gallery: data.gallery || [],
       tags: data.tags
         .split(",")
         .map((tag) => tag.trim())
@@ -188,6 +192,10 @@ function ProjectForm({
 
   const handleOgImageUpdate = (imageUrl) => {
     setValue("ogImage", ensureProtocol(imageUrl), { shouldValidate: true });
+  };
+
+  const handleGalleryChange = (newGallery) => {
+    setValue("gallery", newGallery, { shouldValidate: true, shouldDirty: true });
   };
 
   // Meta length helpers (traffic-light thresholds + remaining + ARIA announcements)
@@ -414,6 +422,34 @@ function ProjectForm({
         {errors.image && (
           <p className={commonStyles.error}>{errors.image.message}</p>
         )}
+      </div>
+
+      {/* Gallery Section */}
+      <div className={`${commonStyles.formGroup} ${commonStyles.fullWidth}`}>
+        <div className={commonStyles.row} style={{ gap: 12, marginBottom: 8 }}>
+          <label className={`${commonStyles.label} ${themeStyles.label}`} style={{ margin: 0 }}>
+            <Controller
+              name="showGallery"
+              control={control}
+              render={({ field: { value, onChange, onBlur, ref } }) => (
+                <input
+                  type="checkbox"
+                  checked={!!value}
+                  onChange={(e) => onChange(e.target.checked)}
+                  onBlur={onBlur}
+                  ref={ref}
+                  className={commonStyles.checkbox}
+                />
+              )}
+            />
+            Show Gallery on Project Page
+          </label>
+        </div>
+        <GalleryManager
+          gallery={watch("gallery") || []}
+          onChange={handleGalleryChange}
+          maxImages={20}
+        />
       </div>
 
       <div className={commonStyles.srOnly} aria-live="polite" role="status">{ariaMessage}</div>

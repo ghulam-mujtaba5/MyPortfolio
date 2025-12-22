@@ -1,0 +1,65 @@
+/* Table.premium.module.css */
+.tableContainer {
+  width: 100%;
+  overflow-x: auto;
+  border-radius: var(--admin-radius-lg);
+  background: var(--admin-card-bg);
+  border: 1px solid var(--admin-border);
+  box-shadow: var(--admin-shadow-sm);
+  transition: all 0.3s ease;
+}
+
+.table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 0.875rem;
+}
+
+.th {
+  text-align: left;
+  padding: 1rem 1.5rem;
+  font-weight: 600;
+  color: var(--admin-text-secondary);
+  background: var(--admin-bg-secondary);
+  border-bottom: 1px solid var(--admin-border);
+  white-space: nowrap;
+  transition: background 0.3s ease;
+}
+
+.td {
+  padding: 1rem 1.5rem;
+  color: var(--admin-text-primary);
+  border-bottom: 1px solid var(--admin-border);
+  vertical-align: middle;
+  transition: color 0.3s ease;
+}
+
+.tr {
+  transition: background-color 0.2s ease;
+}
+
+.tr:last-child .td {
+  border-bottom: none;
+}
+
+.tr:hover {
+  background-color: var(--admin-hover);
+}
+
+.noData {
+  padding: 3rem;
+  text-align: center;
+  color: var(--admin-text-secondary);
+  font-style: italic;
+  background: var(--admin-card-bg);
+  border-radius: var(--admin-radius-lg);
+  border: 1px solid var(--admin-border);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .th, .td {
+    padding: 0.75rem 1rem;
+  }
+}

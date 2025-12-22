@@ -9,22 +9,13 @@ import Icon from '../../components/Admin/Icon/Icon';
 import Spinner from '../../components/Spinner/Spinner';
 import LoadingAnimation from '../../components/LoadingAnimation/LoadingAnimation';
 
-import commonStyles from './resume.module.css';
-import lightStyles from './resume.light.module.css';
-import darkStyles from './resume.dark.module.css';
+import styles from './resume.premium.module.css';
 import utilities from '../../styles/utilities.module.css';
 
 const ResumePage = () => {
   const { theme } = useTheme();
   const router = useRouter();
   
-  const themeStyles = theme === 'dark' ? darkStyles : lightStyles;
-  
-  const styles = {
-    ...commonStyles,
-    ...themeStyles,
-  };
-
   const [resume, setResume] = useState(null);
   const [loading, setLoading] = useState(true);
   const [uploading, setUploading] = useState(false);

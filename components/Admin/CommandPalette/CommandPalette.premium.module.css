@@ -1,0 +1,106 @@
+/* CommandPalette.premium.module.css */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  z-index: 9999;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 15vh;
+  animation: fadeIn 0.2s ease-out;
+}
+
+.modal {
+  width: 100%;
+  max-width: 640px;
+  background: var(--admin-card-bg);
+  border-radius: var(--admin-radius-lg);
+  box-shadow: var(--admin-shadow-lg);
+  border: 1px solid var(--admin-border);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  animation: slideDown 0.2s ease-out;
+}
+
+.input {
+  width: 100%;
+  padding: 1.25rem 1.5rem;
+  font-size: 1.125rem;
+  border: none;
+  border-bottom: 1px solid var(--admin-border);
+  background: transparent;
+  color: var(--admin-text-primary);
+  outline: none;
+}
+
+.input::placeholder {
+  color: var(--admin-text-secondary);
+}
+
+.resultsList {
+  list-style: none;
+  margin: 0;
+  padding: 0.5rem;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.resultItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  margin-bottom: 2px;
+  border-radius: var(--admin-radius-md);
+  cursor: pointer;
+  transition: all 0.1s ease;
+  color: var(--admin-text-primary);
+}
+
+.resultItem:hover,
+.activeItem {
+  background: var(--admin-primary);
+  color: white;
+}
+
+.resultType {
+  font-size: 0.75rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  background: var(--admin-bg-secondary);
+  color: var(--admin-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+}
+
+.activeItem .resultType {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+}
+
+.tipsRow {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.75rem 1.5rem;
+  background: var(--admin-bg-secondary);
+  border-top: 1px solid var(--admin-border);
+  font-size: 0.75rem;
+  color: var(--admin-text-secondary);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideDown {
+  from { transform: translateY(-20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}

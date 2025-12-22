@@ -75,4 +75,15 @@ export const ThemeProvider = ({ children }) => {
   );
 };
 
-export const useTheme = () => useContext(ThemeContext);
+export const useTheme = () => {
+  const ctx = useContext(ThemeContext);
+  // Allow components to render in isolation (tests/storybook) without crashing.
+  // In the real app, `ThemeProvider` is mounted in `pages/_app.js`.
+  if (ctx) return ctx;
+  return {
+    theme: "light",
+    mode: "auto",
+    toggleTheme: () => {},
+    setThemeMode: () => {},
+  };
+};

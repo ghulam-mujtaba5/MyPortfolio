@@ -1,0 +1,125 @@
+/* =================================================
+   LOGIN PAGE - PREMIUM DESIGN
+   ================================================= */
+
+.loginContainer {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Background Effect */
+.loginContainer::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle at center, rgba(var(--admin-primary-rgb), 0.1) 0%, transparent 50%);
+  animation: adminSpin 20s linear infinite;
+  pointer-events: none;
+}
+
+.loginBox {
+  width: 100%;
+  max-width: 400px;
+  padding: var(--admin-space-2xl);
+  background: var(--admin-glass-bg);
+  backdrop-filter: var(--admin-glass-blur);
+  -webkit-backdrop-filter: var(--admin-glass-blur);
+  border: 1px solid var(--admin-glass-border);
+  border-radius: var(--admin-radius-xl);
+  box-shadow: var(--admin-shadow-xl);
+  position: relative;
+  z-index: 1;
+}
+
+.title {
+  font-size: var(--admin-text-3xl);
+  font-weight: var(--admin-font-bold);
+  text-align: center;
+  margin-bottom: var(--admin-space-xs);
+  background: var(--admin-primary-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.subtitle {
+  text-align: center;
+  color: var(--text-muted);
+  font-size: var(--admin-text-sm);
+  margin-bottom: var(--admin-space-xl);
+}
+
+.inputGroup {
+  margin-bottom: var(--admin-space-lg);
+}
+
+.label {
+  display: block;
+  font-size: var(--admin-text-sm);
+  font-weight: var(--admin-font-medium);
+  color: var(--text);
+  margin-bottom: var(--admin-space-xs);
+}
+
+.input {
+  width: 100%;
+  padding: var(--admin-space-md);
+  border-radius: var(--admin-radius-md);
+  border: 1px solid var(--border);
+  background: var(--bg-elev-1);
+  color: var(--text);
+  font-size: var(--admin-text-base);
+  transition: all var(--admin-transition);
+}
+
+.input:focus {
+  border-color: var(--admin-primary);
+  box-shadow: 0 0 0 2px var(--admin-primary-light);
+  outline: none;
+  background: var(--bg);
+}
+
+.error {
+  padding: var(--admin-space-md);
+  background: var(--admin-error-light);
+  color: var(--admin-error);
+  border-radius: var(--admin-radius-md);
+  font-size: var(--admin-text-sm);
+  text-align: center;
+  margin-bottom: var(--admin-space-lg);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+.loginButton {
+  width: 100%;
+  padding: var(--admin-space-md);
+  border-radius: var(--admin-radius-md);
+  border: none;
+  background: var(--admin-primary-gradient);
+  color: white;
+  font-size: var(--admin-text-base);
+  font-weight: var(--admin-font-semibold);
+  cursor: pointer;
+  transition: all var(--admin-transition);
+  box-shadow: var(--admin-shadow-lg);
+}
+
+.loginButton:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--admin-shadow-glow);
+  opacity: 0.9;
+}
+
+.loginButton:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+}

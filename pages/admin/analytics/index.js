@@ -3,10 +3,7 @@ import AdminLayout from "../../../components/Admin/AdminLayout/AdminLayout";
 import { useRouter } from "next/router";
 import LineChart from "../../../components/Admin/Charts/LineChart";
 import DoughnutChart from "../../../components/Admin/Charts/DoughnutChart";
-import commonStyles from "./analytics.module.css";
-import lightStyles from "./analytics.light.module.css";
-import darkStyles from "./analytics.dark.module.css";
-import { useTheme } from "../../../context/ThemeContext";
+import styles from "./analytics.premium.module.css";
 import utilities from "../../../styles/utilities.module.css";
 import InlineSpinner from "../../../components/LoadingAnimation/InlineSpinner";
 import Icon from "../../../components/Admin/Icon/Icon";
@@ -183,9 +180,6 @@ const AnalyticsPage = () => {
     combinedTrendData,
   } = processChartData();
 
-  const { theme } = useTheme();
-  const themeStyles = theme === "dark" ? darkStyles : lightStyles;
-
   const toggleSection = (section) => {
     setExpandedSections(prev => ({
       ...prev,
@@ -196,7 +190,7 @@ const AnalyticsPage = () => {
   if (loading)
     return (
       <AdminLayout>
-        <div className={commonStyles.loadingState}>
+        <div className={styles.loadingState}>
           <InlineSpinner sizePx={20} />
           <span>Loading analytics dashboard...</span>
         </div>
@@ -205,7 +199,7 @@ const AnalyticsPage = () => {
   if (error)
     return (
       <AdminLayout>
-        <div className={commonStyles.errorState}>
+        <div className={styles.errorState}>
           <Icon name="alert-triangle" size={48} />
           <h3>Error Loading Analytics</h3>
           <p>{error}</p>
@@ -223,7 +217,7 @@ const AnalyticsPage = () => {
   return (
     <AdminLayout title="Analytics">
       <motion.h1 
-        className={commonStyles.pageTitle}
+        className={styles.pageTitle}
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
@@ -233,13 +227,13 @@ const AnalyticsPage = () => {
       
       {/* Range selector */}
       <motion.div 
-        className={commonStyles.filterBar}
+        className={styles.filterBar}
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.1 }}
       >
-        <div className={commonStyles.filterGroup}>
-          <span className={commonStyles.filterLabel}>Time Range</span>
+        <div className={styles.filterGroup}>
+          <span className={styles.filterLabel}>Time Range</span>
           <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
             {[7, 30, 90, 0].map((d) => (
               <motion.button
@@ -258,7 +252,7 @@ const AnalyticsPage = () => {
                     shallow: true,
                   });
                 }}
-                className={`${commonStyles.rangeButton} ${themeStyles.rangeButton} ${range === d ? commonStyles.rangeButtonActive : ""} ${range === d ? themeStyles.rangeButtonActive : ""}`}
+                className={`${styles.rangeButton} ${range === d ? styles.rangeButtonActive : ""} ${range === d ? styles.rangeButtonActive : ""}`}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
@@ -268,7 +262,7 @@ const AnalyticsPage = () => {
             ))}
           </div>
         </div>
-        <div className={commonStyles.filterActions}>
+        <div className={styles.filterActions}>
           <motion.button
             type="button"
             onClick={() => {
@@ -388,7 +382,7 @@ const AnalyticsPage = () => {
               a.click();
               URL.revokeObjectURL(url);
             }}
-            className={`${commonStyles.exportButton} ${themeStyles.exportButton}`}
+            className={`${styles.exportButton}`}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
@@ -400,17 +394,17 @@ const AnalyticsPage = () => {
 
       {/* Statistics Overview Section */}
       <motion.div 
-        className={commonStyles.sectionHeader}
+        className={styles.sectionHeader}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5, delay: 0.2 }}
       >
-        <h2 className={commonStyles.sectionTitle}>
+        <h2 className={styles.sectionTitle}>
           <Icon name="activity" size={20} />
           Statistics Overview
         </h2>
         <button 
-          className={commonStyles.toggleButton}
+          className={styles.toggleButton}
           onClick={() => toggleSection('kpi')}
           aria-label={expandedSections.kpi ? "Collapse Statistics Overview" : "Expand Statistics Overview"}
         >
@@ -420,22 +414,22 @@ const AnalyticsPage = () => {
       
       {expandedSections.kpi && (
         <motion.div 
-          className={commonStyles.kpiGrid}
+          className={styles.kpiGrid}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.3 }}
         >
           <motion.div 
-            className={`${commonStyles.kpiCard} ${themeStyles.kpiCard}`}
+            className={`${styles.kpiCard}`}
             whileHover={{ y: -5 }}
             transition={{ type: "spring", stiffness: 300 }}
           >
-            <div className={commonStyles.kpiTitle}>
+            <div className={styles.kpiTitle}>
               <Icon name="file-text" size={16} />
               Total Articles
             </div>
-            <div className={commonStyles.kpiRow}>
-              <h3 className={commonStyles.kpiValue}>
+            <div className={styles.kpiRow}>
+              <h3 className={styles.kpiValue}>
                 {stats?.kpis?.totalArticles ?? "-"}
               </h3>
               {(() => {
@@ -444,7 +438,7 @@ const AnalyticsPage = () => {
                 const pos = delta >= 0;
                 const sign = pos ? "+" : "";
                 return (
-                  <span className={`${commonStyles.deltaText} ${pos ? commonStyles.deltaPositive : commonStyles.deltaNegative} ${pos ? themeStyles.deltaPositive : themeStyles.deltaNegative}`}>
+                  <span className={`${styles.deltaText} ${pos ? styles.deltaPositive : styles.deltaNegative}`}>
                     <Icon name={pos ? "trending-up" : "trending-down"} size={16} />
                     {sign}
                     {delta.toFixed(1)}% vs prev 7d
@@ -452,29 +446,29 @@ const AnalyticsPage = () => {
                 );
               })()}
             </div>
-            <div className={commonStyles.sparklineWrapper}>
+            <div className={styles.sparklineWrapper}>
               <Sparklines
                 data={(stats?.articlesByDate || []).map((d) => d.count)}
                 height={40}
                 margin={5}
               >
-                <SparklinesLine color="#3b82f6" className={commonStyles.sparklineNoFill} />
+                <SparklinesLine color="#3b82f6" className={styles.sparklineNoFill} />
                 <SparklinesSpots size={2} />
-                <SparklinesReferenceLine type="mean" className={commonStyles.sparklineRefMean} />
+                <SparklinesReferenceLine type="mean" className={styles.sparklineRefMean} />
               </Sparklines>
             </div>
           </motion.div>
           <motion.div 
-            className={`${commonStyles.kpiCard} ${themeStyles.kpiCard}`}
+            className={`${styles.kpiCard}`}
             whileHover={{ y: -5 }}
             transition={{ type: "spring", stiffness: 300 }}
           >
-            <div className={commonStyles.kpiTitle}>
+            <div className={styles.kpiTitle}>
               <Icon name="check-circle" size={16} />
               Published Articles
             </div>
-            <div className={commonStyles.kpiRow}>
-              <h3 className={commonStyles.kpiValue}>
+            <div className={styles.kpiRow}>
+              <h3 className={styles.kpiValue}>
                 {stats?.kpis?.publishedArticles ?? "-"}
               </h3>
               {(() => {
@@ -483,7 +477,7 @@ const AnalyticsPage = () => {
                 const pos = delta >= 0;
                 const sign = pos ? "+" : "";
                 return (
-                  <span className={`${commonStyles.deltaText} ${pos ? commonStyles.deltaPositive : commonStyles.deltaNegative} ${pos ? themeStyles.deltaPositive : themeStyles.deltaNegative}`}>
+                  <span className={`${styles.deltaText} ${pos ? styles.deltaPositive : styles.deltaNegative}`}>
                     <Icon name={pos ? "trending-up" : "trending-down"} size={16} />
                     {sign}
                     {delta.toFixed(1)}% vs prev 7d
@@ -491,27 +485,27 @@ const AnalyticsPage = () => {
                 );
               })()}
             </div>
-            <div className={commonStyles.sparklineWrapper}>
+            <div className={styles.sparklineWrapper}>
               <Sparklines
                 data={(stats?.articlesByDate || []).map((d) => d.count)}
                 height={40}
                 margin={5}
               >
-                <SparklinesLine color="#6366f1" className={commonStyles.sparklineNoFill} />
+                <SparklinesLine color="#6366f1" className={styles.sparklineNoFill} />
               </Sparklines>
             </div>
           </motion.div>
           <motion.div 
-            className={`${commonStyles.kpiCard} ${themeStyles.kpiCard}`}
+            className={`${styles.kpiCard}`}
             whileHover={{ y: -5 }}
             transition={{ type: "spring", stiffness: 300 }}
           >
-            <div className={commonStyles.kpiTitle}>
+            <div className={styles.kpiTitle}>
               <Icon name="briefcase" size={16} />
               Total Projects
             </div>
-            <div className={commonStyles.kpiRow}>
-              <h3 className={commonStyles.kpiValue}>
+            <div className={styles.kpiRow}>
+              <h3 className={styles.kpiValue}>
                 {stats?.kpis?.totalProjects ?? "-"}
               </h3>
               {(() => {
@@ -520,7 +514,7 @@ const AnalyticsPage = () => {
                 const pos = delta >= 0;
                 const sign = pos ? "+" : "";
                 return (
-                  <span className={`${commonStyles.deltaText} ${pos ? commonStyles.deltaPositive : commonStyles.deltaNegative} ${pos ? themeStyles.deltaPositive : themeStyles.deltaNegative}`}>
+                  <span className={`${styles.deltaText} ${pos ? styles.deltaPositive : styles.deltaNegative}`}>
                     <Icon name={pos ? "trending-up" : "trending-down"} size={16} />
                     {sign}
                     {delta.toFixed(1)}% vs prev 7d
@@ -528,27 +522,27 @@ const AnalyticsPage = () => {
                 );
               })()}
             </div>
-            <div className={commonStyles.sparklineWrapper}>
+            <div className={styles.sparklineWrapper}>
               <Sparklines
                 data={(stats?.projectsByDate || []).map((d) => d.count)}
                 height={40}
                 margin={5}
               >
-                <SparklinesLine color="#10b981" className={commonStyles.sparklineNoFill} />
+                <SparklinesLine color="#10b981" className={styles.sparklineNoFill} />
               </Sparklines>
             </div>
           </motion.div>
           <motion.div 
-            className={`${commonStyles.kpiCard} ${themeStyles.kpiCard}`}
+            className={`${styles.kpiCard}`}
             whileHover={{ y: -5 }}
             transition={{ type: "spring", stiffness: 300 }}
           >
-            <div className={commonStyles.kpiTitle}>
+            <div className={styles.kpiTitle}>
               <Icon name="check-circle" size={16} />
               Published Projects
             </div>
-            <div className={commonStyles.kpiRow}>
-              <h3 className={commonStyles.kpiValue}>
+            <div className={styles.kpiRow}>
+              <h3 className={styles.kpiValue}>
                 {stats?.kpis?.publishedProjects ?? "-"}
               </h3>
               {(() => {
@@ -557,7 +551,7 @@ const AnalyticsPage = () => {
                 const pos = delta >= 0;
                 const sign = pos ? "+" : "";
                 return (
-                  <span className={`${commonStyles.deltaText} ${pos ? commonStyles.deltaPositive : commonStyles.deltaNegative} ${pos ? themeStyles.deltaPositive : themeStyles.deltaNegative}`}>
+                  <span className={`${styles.deltaText} ${pos ? styles.deltaPositive : styles.deltaNegative}`}>
                     <Icon name={pos ? "trending-up" : "trending-down"} size={16} />
                     {sign}
                     {delta.toFixed(1)}% vs prev 7d
@@ -565,15 +559,15 @@ const AnalyticsPage = () => {
                 );
               })()}
             </div>
-            <div className={commonStyles.sparklineWrapper}>
+            <div className={styles.sparklineWrapper}>
               <Sparklines
                 data={(stats?.projectsByDate || []).map((d) => d.count)}
                 height={40}
                 margin={5}
               >
-                <SparklinesLine color="#10b981" className={commonStyles.sparklineNoFill} />
+                <SparklinesLine color="#10b981" className={styles.sparklineNoFill} />
                 <SparklinesSpots size={2} />
-                <SparklinesReferenceLine type="mean" className={commonStyles.sparklineRefMean} />
+                <SparklinesReferenceLine type="mean" className={styles.sparklineRefMean} />
               </Sparklines>
             </div>
           </motion.div>
@@ -582,17 +576,17 @@ const AnalyticsPage = () => {
 
       {/* Analytics & Trends Section */}
       <motion.div 
-        className={commonStyles.sectionHeader}
+        className={styles.sectionHeader}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5, delay: 0.4 }}
       >
-        <h2 className={commonStyles.sectionTitle}>
+        <h2 className={styles.sectionTitle}>
           <Icon name="bar-chart-2" size={20} />
           Analytics & Trends
         </h2>
         <button 
-          className={commonStyles.toggleButton}
+          className={styles.toggleButton}
           onClick={() => toggleSection('charts')}
           aria-label={expandedSections.charts ? "Collapse Analytics & Trends" : "Expand Analytics & Trends"}
         >
@@ -602,23 +596,23 @@ const AnalyticsPage = () => {
       
       {expandedSections.charts && (
         <motion.div 
-          className={`${commonStyles.chartsGrid} ${themeStyles.chartsGrid}`}
+          className={`${styles.chartsGrid}`}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.5 }}
         >
           <motion.div 
-            className={`${commonStyles.chartCard} ${themeStyles.chartCard}`}
+            className={`${styles.chartCard}`}
             whileHover={{ y: -5 }}
             transition={{ type: "spring", stiffness: 300 }}
           >
-            <h3 className={commonStyles.chartHeader}>
+            <h3 className={styles.chartHeader}>
               <Icon name="pie-chart" size={20} />
               Articles by Status
             </h3>
-            <div className={commonStyles.chartContainer}>
+            <div className={styles.chartContainer}>
               {articleStatusData ? <DoughnutChart data={articleStatusData} /> : (
-                <div className={commonStyles.emptyState}>
+                <div className={styles.emptyState}>
                   <Icon name="file-text" size={48} />
                   <p>No article data available</p>
                 </div>
@@ -626,17 +620,17 @@ const AnalyticsPage = () => {
             </div>
           </motion.div>
           <motion.div 
-            className={`${commonStyles.chartCard} ${themeStyles.chartCard}`}
+            className={`${styles.chartCard}`}
             whileHover={{ y: -5 }}
             transition={{ type: "spring", stiffness: 300 }}
           >
-            <h3 className={commonStyles.chartHeader}>
+            <h3 className={styles.chartHeader}>
               <Icon name="pie-chart" size={20} />
               Projects by Status
             </h3>
-            <div className={commonStyles.chartContainer}>
+            <div className={styles.chartContainer}>
               {projectStatusData ? <DoughnutChart data={projectStatusData} /> : (
-                <div className={commonStyles.emptyState}>
+                <div className={styles.emptyState}>
                   <Icon name="briefcase" size={48} />
                   <p>No project data available</p>
                 </div>
@@ -644,17 +638,17 @@ const AnalyticsPage = () => {
             </div>
           </motion.div>
           <motion.div 
-            className={`${commonStyles.chartCard} ${themeStyles.chartCard} ${commonStyles.fullWidth} ${themeStyles.fullWidth}`}
+            className={`${styles.chartCard} ${styles.fullWidth}`}
             whileHover={{ y: -5 }}
             transition={{ type: "spring", stiffness: 300 }}
           >
-            <h3 className={commonStyles.chartHeader}>
+            <h3 className={styles.chartHeader}>
               <Icon name="bar-chart" size={20} />
               Articles vs Projects (Combined Trend)
             </h3>
-            <div className={commonStyles.chartContainer}>
+            <div className={styles.chartContainer}>
               {combinedTrendData ? <LineChart data={combinedTrendData} /> : (
-                <div className={commonStyles.emptyState}>
+                <div className={styles.emptyState}>
                   <Icon name="trending-up" size={48} />
                   <p>No trend data available</p>
                 </div>
@@ -662,17 +656,17 @@ const AnalyticsPage = () => {
             </div>
           </motion.div>
           <motion.div 
-            className={`${commonStyles.chartCard} ${themeStyles.chartCard} ${commonStyles.fullWidth} ${themeStyles.fullWidth}`}
+            className={`${styles.chartCard} ${styles.fullWidth}`}
             whileHover={{ y: -5 }}
             transition={{ type: "spring", stiffness: 300 }}
           >
-            <h3 className={commonStyles.chartHeader}>
+            <h3 className={styles.chartHeader}>
               <Icon name="bar-chart" size={20} />
               Article Creation Trend
             </h3>
-            <div className={commonStyles.chartContainer}>
+            <div className={styles.chartContainer}>
               {articlesTrendData ? <LineChart data={articlesTrendData} /> : (
-                <div className={commonStyles.emptyState}>
+                <div className={styles.emptyState}>
                   <Icon name="file-text" size={48} />
                   <p>No article trend data available</p>
                 </div>
@@ -680,17 +674,17 @@ const AnalyticsPage = () => {
             </div>
           </motion.div>
           <motion.div 
-            className={`${commonStyles.chartCard} ${themeStyles.chartCard} ${commonStyles.fullWidth} ${themeStyles.fullWidth}`}
+            className={`${styles.chartCard} ${styles.fullWidth}`}
             whileHover={{ y: -5 }}
             transition={{ type: "spring", stiffness: 300 }}
           >
-            <h3 className={commonStyles.chartHeader}>
+            <h3 className={styles.chartHeader}>
               <Icon name="bar-chart" size={20} />
               Project Creation Trend
             </h3>
-            <div className={commonStyles.chartContainer}>
+            <div className={styles.chartContainer}>
               {projectsTrendData ? <LineChart data={projectsTrendData} /> : (
-                <div className={commonStyles.emptyState}>
+                <div className={styles.emptyState}>
                   <Icon name="briefcase" size={48} />
                   <p>No project trend data available</p>
                 </div>
@@ -702,17 +696,17 @@ const AnalyticsPage = () => {
 
       {/* Recent Activity Section */}
       <motion.div 
-        className={commonStyles.sectionHeader}
+        className={styles.sectionHeader}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5, delay: 0.6 }}
       >
-        <h2 className={commonStyles.sectionTitle}>
+        <h2 className={styles.sectionTitle}>
           <Icon name="clock" size={20} />
           Recent Activity
         </h2>
         <button 
-          className={commonStyles.toggleButton}
+          className={styles.toggleButton}
           onClick={() => toggleSection('breakdown')}
           aria-label={expandedSections.breakdown ? "Collapse Recent Activity" : "Expand Recent Activity"}
         >
@@ -722,35 +716,35 @@ const AnalyticsPage = () => {
       
       {expandedSections.breakdown && (
         <motion.div 
-          className={commonStyles.breakdownGrid}
+          className={styles.breakdownGrid}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.7 }}
         >
           {/* Top Viewed Section */}
           <motion.div 
-            className={`${commonStyles.breakdownCard} ${themeStyles.breakdownCard}`}
+            className={`${styles.breakdownCard}`}
             whileHover={{ y: -5 }}
             transition={{ type: "spring", stiffness: 300 }}
           >
-            <h3 className={commonStyles.breakdownHeader}>
+            <h3 className={styles.breakdownHeader}>
               <Icon name="eye" size={18} />
               Top Viewed Content
             </h3>
-            <div className={commonStyles.twoColWrapper}>
-              <div className={commonStyles.twoCol}>
-                <div className={commonStyles.column}>
-                  <h4 className={commonStyles.subTitle}>
+            <div className={styles.twoColWrapper}>
+              <div className={styles.twoCol}>
+                <div className={styles.column}>
+                  <h4 className={styles.subTitle}>
                     <Icon name="file-text" size={16} />
                     Articles
                   </h4>
-                  <div className={commonStyles.listContainer}>
+                  <div className={styles.listContainer}>
                     {stats?.topViewedArticles?.length > 0 ? (
-                      <ul className={commonStyles.list}>
+                      <ul className={styles.list}>
                         {stats?.topViewedArticles?.map((a) => (
                           <motion.li
                             key={a.slug}
-                            className={commonStyles.listItem}
+                            className={styles.listItem}
                             onClick={() => router.push(`/admin/articles/edit/${a._id || a.id}`)}
                             whileHover={{ x: 10 }}
                             whileTap={{ scale: 0.98 }}
@@ -766,25 +760,25 @@ const AnalyticsPage = () => {
                         ))}
                       </ul>
                     ) : (
-                      <div className={commonStyles.emptyState}>
+                      <div className={styles.emptyState}>
                         <Icon name="file-text" size={48} />
                         <p>No articles found</p>
                       </div>
                     )}
                   </div>
                 </div>
-                <div className={commonStyles.column}>
-                  <h4 className={commonStyles.subTitle}>
+                <div className={styles.column}>
+                  <h4 className={styles.subTitle}>
                     <Icon name="briefcase" size={16} />
                     Projects
                   </h4>
-                  <div className={commonStyles.listContainer}>
+                  <div className={styles.listContainer}>
                     {stats?.topViewedProjects?.length > 0 ? (
-                      <ul className={commonStyles.list}>
+                      <ul className={styles.list}>
                         {stats?.topViewedProjects?.map((p) => (
                           <motion.li
                             key={p.slug}
-                            className={commonStyles.listItem}
+                            className={styles.listItem}
                             onClick={() => router.push(`/admin/projects/edit/${p._id || p.id}`)}
                             whileHover={{ x: 10 }}
                             whileTap={{ scale: 0.98 }}
@@ -800,7 +794,7 @@ const AnalyticsPage = () => {
                         ))}
                       </ul>
                     ) : (
-                      <div className={commonStyles.emptyState}>
+                      <div className={styles.emptyState}>
                         <Icon name="briefcase" size={48} />
                         <p>No projects found</p>
                       </div>
@@ -813,28 +807,28 @@ const AnalyticsPage = () => {
           
           {/* Recent Content Section */}
           <motion.div 
-            className={`${commonStyles.breakdownCard} ${themeStyles.breakdownCard}`}
+            className={`${styles.breakdownCard}`}
             whileHover={{ y: -5 }}
             transition={{ type: "spring", stiffness: 300 }}
           >
-            <h3 className={commonStyles.breakdownHeader}>
+            <h3 className={styles.breakdownHeader}>
               <Icon name="clock" size={18} />
               Recently Created
             </h3>
-            <div className={commonStyles.twoColWrapper}>
-              <div className={commonStyles.twoCol}>
-                <div className={commonStyles.column}>
-                  <h4 className={commonStyles.subTitle}>
+            <div className={styles.twoColWrapper}>
+              <div className={styles.twoCol}>
+                <div className={styles.column}>
+                  <h4 className={styles.subTitle}>
                     <Icon name="file-text" size={16} />
                     Articles
                   </h4>
-                  <div className={commonStyles.listContainer}>
+                  <div className={styles.listContainer}>
                     {stats?.recentArticles?.length > 0 ? (
-                      <ul className={commonStyles.list}>
+                      <ul className={styles.list}>
                         {stats?.recentArticles?.map((a) => (
                           <motion.li
                             key={a.slug}
-                            className={commonStyles.listItem}
+                            className={styles.listItem}
                             onClick={() => router.push(`/admin/articles/edit/${a._id || a.id}`)}
                             whileHover={{ x: 10 }}
                             whileTap={{ scale: 0.98 }}
@@ -856,25 +850,25 @@ const AnalyticsPage = () => {
                         ))}
                       </ul>
                     ) : (
-                      <div className={commonStyles.emptyState}>
+                      <div className={styles.emptyState}>
                         <Icon name="file-text" size={48} />
                         <p>No recent articles</p>
                       </div>
                     )}
                   </div>
                 </div>
-                <div className={commonStyles.column}>
-                  <h4 className={commonStyles.subTitle}>
+                <div className={styles.column}>
+                  <h4 className={styles.subTitle}>
                     <Icon name="briefcase" size={16} />
                     Projects
                   </h4>
-                  <div className={commonStyles.listContainer}>
+                  <div className={styles.listContainer}>
                     {stats?.recentProjects?.length > 0 ? (
-                      <ul className={commonStyles.list}>
+                      <ul className={styles.list}>
                         {stats?.recentProjects?.map((p) => (
                           <motion.li
                             key={p.slug}
-                            className={commonStyles.listItem}
+                            className={styles.listItem}
                             onClick={() => router.push(`/admin/projects/edit/${p._id || p.id}`)}
                             whileHover={{ x: 10 }}
                             whileTap={{ scale: 0.98 }}
@@ -896,7 +890,7 @@ const AnalyticsPage = () => {
                         ))}
                       </ul>
                     ) : (
-                      <div className={commonStyles.emptyState}>
+                      <div className={styles.emptyState}>
                         <Icon name="briefcase" size={48} />
                         <p>No recent projects</p>
                       </div>
@@ -909,15 +903,15 @@ const AnalyticsPage = () => {
           
           {/* Tags and Categories Section */}
           <motion.div 
-            className={`${commonStyles.breakdownCard} ${themeStyles.breakdownCard}`}
+            className={`${styles.breakdownCard}`}
             whileHover={{ y: -5 }}
             transition={{ type: "spring", stiffness: 300 }}
           >
-            <h3 className={commonStyles.breakdownHeader}>
+            <h3 className={styles.breakdownHeader}>
               <Icon name="tag" size={18} />
               Popular Tags & Categories
             </h3>
-            <div className={commonStyles.chips}>
+            <div className={styles.chips}>
               {stats?.articleTags?.length > 0 ? (
                 stats?.articleTags?.map((t) => (
                   <motion.span
@@ -926,7 +920,7 @@ const AnalyticsPage = () => {
                       router.push(`/articles?tag=${encodeURIComponent(t._id)}`)
                     }
                     title="View articles with this tag"
-                    className={`${commonStyles.chip} ${themeStyles.chip} ${commonStyles.chipActive}`}
+                    className={`${styles.chip} ${styles.chipActive}`}
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                   >
@@ -935,12 +929,12 @@ const AnalyticsPage = () => {
                   </motion.span>
                 ))
               ) : (
-                <div className={commonStyles.emptyState}>
+                <div className={styles.emptyState}>
                   <p>No article tags found</p>
                 </div>
               )}
             </div>
-            <div className={commonStyles.chips} style={{ marginTop: '1rem' }}>
+            <div className={styles.chips} style={{ marginTop: '1rem' }}>
               {stats?.projectTags?.length > 0 ? (
                 stats?.projectTags?.map((t) => (
                   <motion.span
@@ -949,7 +943,7 @@ const AnalyticsPage = () => {
                       router.push(`/projects?tag=${encodeURIComponent(t._id)}`)
                     }
                     title="View projects with this tag"
-                    className={`${commonStyles.chip} ${themeStyles.chip} ${commonStyles.chipActive}`}
+                    className={`${styles.chip} ${styles.chipActive}`}
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                   >
@@ -958,18 +952,18 @@ const AnalyticsPage = () => {
                   </motion.span>
                 ))
               ) : (
-                <div className={commonStyles.emptyState}>
+                <div className={styles.emptyState}>
                   <p>No project tags found</p>
                 </div>
               )}
             </div>
             <div style={{ marginTop: '1rem' }}>
-              <h4 className={commonStyles.subTitle} style={{ margin: '0 0 0.75rem 0' }}>
+              <h4 className={styles.subTitle} style={{ margin: '0 0 0.75rem 0' }}>
                 <Icon name="folder" size={16} />
                 Project Categories
               </h4>
               {stats?.projectCategories?.length > 0 ? (
-                <ul className={commonStyles.list}>
+                <ul className={styles.list}>
                   {stats?.projectCategories?.map((c) => (
                     <motion.li
                       key={c._id}
@@ -979,7 +973,7 @@ const AnalyticsPage = () => {
                         )
                       }
                       title="View projects in this category"
-                      className={commonStyles.listItem}
+                      className={styles.listItem}
                       whileHover={{ x: 10 }}
                       whileTap={{ scale: 0.98 }}
                     >
@@ -989,7 +983,7 @@ const AnalyticsPage = () => {
                   ))}
                 </ul>
               ) : (
-                <div className={commonStyles.emptyState}>
+                <div className={styles.emptyState}>
                   <p>No project categories found</p>
                 </div>
               )}
