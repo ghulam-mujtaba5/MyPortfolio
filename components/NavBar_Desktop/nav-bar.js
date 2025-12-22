@@ -102,7 +102,7 @@ const NavBar = () => {
       </div>
 
       {/* Logo and Name Animation */}
-      <Link href="http://softbuilt.ghulammujtaba.com" passHref>
+      <Link href="/" passHref>
         <div
           className={styles.logoAnimation}
           onMouseEnter={() => handleMouseHover(true)}
@@ -111,33 +111,22 @@ const NavBar = () => {
           <button className={`${styles.logo} ${hover ? styles.logoHover : ""}`}>
             <img
               className={styles.logoIcon}
-              alt="Logo"
-              src={hover ? "/sb.svg" : "/gmVectorDark.svg"}
+              alt="GM Logo"
+              src="/gmVectorDark.svg"
               style={{
-                width: hover ? "30px" : "40px",
-                height: hover ? "30px" : "40px",
+                width: "40px",
+                height: "40px",
               }}
             />
           </button>
           <div className={styles.typo}>
-            {!hover && (
-              <img
-                className={styles.nameIcon}
-                loading="lazy"
-                alt="Ghulam Mujtaba"
-                src="/ghulam-mujtaba.svg"
-                style={{ maxWidth: "100%", height: "auto" }}
-              />
-            )}
-            {hover && (
-              <img
-                className={styles.alternativeNameIcon}
-                loading="lazy"
-                alt="SoftBuilt"
-                src="/sbname.svg"
-                style={{ maxWidth: "100%", height: "auto" }}
-              />
-            )}
+            <img
+              className={styles.nameIcon}
+              loading="lazy"
+              alt="Ghulam Mujtaba"
+              src="/ghulam-mujtaba.svg"
+              style={{ maxWidth: "100%", height: "auto" }}
+            />
           </div>
         </div>
       </Link>

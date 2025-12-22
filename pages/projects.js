@@ -188,7 +188,7 @@ const ProjectsPage = ({ projects = [], projectsError = null }) => {
         <div className="show-on-mobile mobile-navbar-container">
           <div className="mobile-navbar-row">
             <div className="mobile-logo-align">
-              <Icon name="sbicon" size={32} />
+              <Icon name="gmicon" size={32} />
             </div>
             <div className="mobile-hamburger-align">
               {/* Ensure menu is always visible in NavBarMobile */}

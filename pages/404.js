@@ -17,7 +17,7 @@ export default function Custom404() {
       >
         <Image
           src={theme === "dark" ? "/gmVectorDark.svg" : "/gmVector.svg"}
-          alt="Logo"
+          alt="GM Logo"
           width={80}
           height={80}
           className={styles.logo}

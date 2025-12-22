@@ -30,7 +30,7 @@
 }
 
 .theme-toggle-icon img {
-  width: 32px; /* Slightly smaller for better balance */
+  width: 32px;
   height: 32px;
   object-fit: contain;
   transition: filter 0.3s;

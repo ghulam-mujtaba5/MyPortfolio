@@ -21,7 +21,6 @@ MyPortfolio/
   pages/             # Next.js pages (routing)
     api/             # API routes (db-ping available)
     portfolio/       # Main landing pages
-    softbuilt/       # Sub-site content
     projects.js      # All projects page (currently static)
     _app.js, 404.js, privacy-policy.js, etc.
   public/            # Static assets
@@ -33,7 +32,6 @@ MyPortfolio/
 
 - `pages/portfolio/index.js`: Main portfolio landing. Sections include welcome, about, skills, certifications (BadgeScroll), projects preview, contact, footer.
 - `pages/projects.js`: Projects gallery with filters (tags) and rich layout, currently static data.
-- `pages/softbuilt/index.js`: Softbuilt subdomain content (served via rewrites).
 - `pages/privacy-policy.js` and `pages/PrivacyPolicy.module.css`.
 - `pages/api/db-ping.js`: Health check for DB connection.
 - `pages/404.js`: Custom 404.
@@ -50,7 +48,7 @@ MyPortfolio/
 - Projects: `components/Projects/` includes `Project1`, preview grid, and CSS modules. Currently uses static array.
 - Contact: `components/Contact/ContactUs` with modular styles.
 - Footer: `components/Footer/Footer`.
-- Icons: `components/Icon/gmicon.js`, `sbicon.js` with CSS.
+- Icons: `components/Icon/gmicon.js` with CSS.
 - Cookie Consent: `components/CookieConsentBanner/`.
 - SEO: `components/SEO.js` central meta/OG tags helper.
 

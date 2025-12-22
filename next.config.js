@@ -25,11 +25,9 @@
 const nextConfig = {
   reactStrictMode: true, // Enable React Strict Mode
   productionBrowserSourceMaps: true, // Enable production source maps for better debugging
-  // Skip ESLint during production builds to avoid build-time lint warnings/errors
-  // that you don't want to see. Set to `false` to restore linting behavior.
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
+  // Next.js 16: Turbopack is enabled by default. Since this project also customizes webpack,
+  // provide an explicit Turbopack config to avoid build errors about mixed configurations.
+  turbopack: {},
 
   async rewrites() {
     return [
@@ -40,16 +38,6 @@ const nextConfig = {
           {
             type: "host",
             value: "www.ghulammujtaba.com", // Main website on localhost
-          },
-        ],
-      },
-      {
-        source: "/:path((?!api/|admin/|_next/|static/).*)", // SoftBuilt subdomain routes (exclude only admin and internals; rewrite articles/projects under /softbuilt)
-        destination: "/softbuilt/:path*", // Map to the softbuilt folder
-        has: [
-          {
-            type: "host",
-            value: "softbuilt.ghulammujtaba.com", // SoftBuilt subdomain
           },
         ],
       },

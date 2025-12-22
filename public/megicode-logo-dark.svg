@@ -1,0 +1,79 @@
+<svg width="32" height="32" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+<!-- Megicode Logo - Dark Theme (for dark backgrounds, light icon) -->
+<path d="M18 46V20" stroke="url(#paint0_dark)" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M46 46V20" stroke="url(#paint1_dark)" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M18 20L32 36" stroke="url(#paint2_dark)" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M46 20L32 36" stroke="url(#paint3_dark)" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M12 40L6 32L12 24" stroke="#3b82f6" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M52 24L58 32L52 40" stroke="#3b82f6" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+<path opacity="0.6" d="M18 23.5C19.933 23.5 21.5 21.933 21.5 20C21.5 18.067 19.933 16.5 18 16.5C16.067 16.5 14.5 18.067 14.5 20C14.5 21.933 16.067 23.5 18 23.5Z" fill="url(#paint4_dark)"/>
+<path opacity="0.6" d="M46 23.5C47.933 23.5 49.5 21.933 49.5 20C49.5 18.067 47.933 16.5 46 16.5C44.067 16.5 42.5 18.067 42.5 20C42.5 21.933 44.067 23.5 46 23.5Z" fill="url(#paint5_dark)"/>
+<path opacity="0.6" d="M32 39.5C33.933 39.5 35.5 37.933 35.5 36C35.5 34.067 33.933 32.5 32 32.5C30.067 32.5 28.5 34.067 28.5 36C28.5 37.933 30.067 39.5 32 39.5Z" fill="url(#paint6_dark)"/>
+<path d="M18 22.8C19.5464 22.8 20.8 21.5464 20.8 20C20.8 18.4536 19.5464 17.2 18 17.2C16.4536 17.2 15.2 18.4536 15.2 20C15.2 21.5464 16.4536 22.8 18 22.8Z" fill="url(#paint7_dark)"/>
+<path d="M46 22.8C47.5464 22.8 48.8 21.5464 48.8 20C48.8 18.4536 47.5464 17.2 46 17.2C44.4536 17.2 43.2 18.4536 43.2 20C43.2 21.5464 44.4536 22.8 46 22.8Z" fill="url(#paint8_dark)"/>
+<path d="M32 38.8C33.5464 38.8 34.8 37.5464 34.8 36C34.8 34.4536 33.5464 33.2 32 33.2C30.4536 33.2 29.2 34.4536 29.2 36C29.2 37.5464 30.4536 38.8 32 38.8Z" fill="url(#paint9_dark)"/>
+<path opacity="0.9" d="M18 21.2C18.6627 21.2 19.2 20.6627 19.2 20C19.2 19.3373 18.6627 18.8 18 18.8C17.3372 18.8 16.8 19.3373 16.8 20C16.8 20.6627 17.3372 21.2 18 21.2Z" fill="url(#paint10_dark)"/>
+<path opacity="0.9" d="M46 21.2C46.6627 21.2 47.2 20.6627 47.2 20C47.2 19.3373 46.6627 18.8 46 18.8C45.3372 18.8 44.8 19.3373 44.8 20C44.8 20.6627 45.3372 21.2 46 21.2Z" fill="url(#paint11_dark)"/>
+<path opacity="0.9" d="M32 37.2C32.6627 37.2 33.2 36.6627 33.2 36C33.2 35.3373 32.6627 34.8 32 34.8C31.3372 34.8 30.8 35.3373 30.8 36C30.8 36.6627 31.3372 37.2 32 37.2Z" fill="url(#paint12_dark)"/>
+<defs>
+<linearGradient id="paint0_dark" x1="18" y1="20" x2="18" y2="46" gradientUnits="userSpaceOnUse">
+<stop stop-color="#ffffff"/>
+<stop offset="0.5" stop-color="#EAF6FF"/>
+<stop offset="1" stop-color="#CFE8EF"/>
+</linearGradient>
+<linearGradient id="paint1_dark" x1="46" y1="20" x2="46" y2="46" gradientUnits="userSpaceOnUse">
+<stop stop-color="#ffffff"/>
+<stop offset="0.5" stop-color="#EAF6FF"/>
+<stop offset="1" stop-color="#CFE8EF"/>
+</linearGradient>
+<linearGradient id="paint2_dark" x1="18" y1="20" x2="32" y2="36" gradientUnits="userSpaceOnUse">
+<stop stop-color="#ffffff"/>
+<stop offset="0.5" stop-color="#EAF6FF"/>
+<stop offset="1" stop-color="#CFE8EF"/>
+</linearGradient>
+<linearGradient id="paint3_dark" x1="46" y1="20" x2="32" y2="36" gradientUnits="userSpaceOnUse">
+<stop stop-color="#ffffff"/>
+<stop offset="0.5" stop-color="#EAF6FF"/>
+<stop offset="1" stop-color="#CFE8EF"/>
+</linearGradient>
+<linearGradient id="paint4_dark" x1="14.5" y1="16.5" x2="21.5" y2="23.5" gradientUnits="userSpaceOnUse">
+<stop stop-color="#3b82f6"/>
+<stop offset="1" stop-color="#2563eb"/>
+</linearGradient>
+<linearGradient id="paint5_dark" x1="42.5" y1="16.5" x2="49.5" y2="23.5" gradientUnits="userSpaceOnUse">
+<stop stop-color="#3b82f6"/>
+<stop offset="1" stop-color="#2563eb"/>
+</linearGradient>
+<linearGradient id="paint6_dark" x1="28.5" y1="32.5" x2="35.5" y2="39.5" gradientUnits="userSpaceOnUse">
+<stop stop-color="#3b82f6"/>
+<stop offset="1" stop-color="#2563eb"/>
+</linearGradient>
+<linearGradient id="paint7_dark" x1="15.2" y1="17.2" x2="20.8" y2="22.8" gradientUnits="userSpaceOnUse">
+<stop stop-color="#3b82f6"/>
+<stop offset="1" stop-color="#2563eb"/>
+</linearGradient>
+<linearGradient id="paint8_dark" x1="43.2" y1="17.2" x2="48.8" y2="22.8" gradientUnits="userSpaceOnUse">
+<stop stop-color="#3b82f6"/>
+<stop offset="1" stop-color="#2563eb"/>
+</linearGradient>
+<linearGradient id="paint9_dark" x1="29.2" y1="33.2" x2="34.8" y2="38.8" gradientUnits="userSpaceOnUse">
+<stop stop-color="#3b82f6"/>
+<stop offset="1" stop-color="#2563eb"/>
+</linearGradient>
+<linearGradient id="paint10_dark" x1="16.8" y1="18.8" x2="19.2" y2="21.2" gradientUnits="userSpaceOnUse">
+<stop stop-color="#ffffff"/>
+<stop offset="0.5" stop-color="#EAF6FF"/>
+<stop offset="1" stop-color="#CFE8EF"/>
+</linearGradient>
+<linearGradient id="paint11_dark" x1="44.8" y1="18.8" x2="47.2" y2="21.2" gradientUnits="userSpaceOnUse">
+<stop stop-color="#ffffff"/>
+<stop offset="0.5" stop-color="#EAF6FF"/>
+<stop offset="1" stop-color="#CFE8EF"/>
+</linearGradient>
+<linearGradient id="paint12_dark" x1="30.8" y1="34.8" x2="33.2" y2="37.2" gradientUnits="userSpaceOnUse">
+<stop stop-color="#ffffff"/>
+<stop offset="0.5" stop-color="#EAF6FF"/>
+<stop offset="1" stop-color="#CFE8EF"/>
+</linearGradient>
+</defs>
+</svg>

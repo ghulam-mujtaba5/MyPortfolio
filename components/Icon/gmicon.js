@@ -15,13 +15,14 @@ const ThemeToggleIcon = () => {
   const iconRef = useRef(null);
 
   const handleIconClick = useCallback(() => {
-    window.location.href = "https://softbuilt.ghulammujtaba.com"; // Change to your subdomain
+    window.location.href = "/"; // Navigate to homepage
   }, []);
 
   const iconClass = useMemo(() => {
     return `${styles["theme-toggle-icon"]} ${isInView ? styles.animate : ""} ${theme === "light" ? styles.light : styles.dark}`;
   }, [theme, isInView, styles]);
 
+  // Use the GM logo - light theme shows dark icon, dark theme shows light icon
   const iconSrc = useMemo(() => {
     return theme === "light" ? "/gmVector.svg" : "/gmVectorDark.svg";
   }, [theme]);
@@ -58,7 +59,7 @@ const ThemeToggleIcon = () => {
       className={iconClass}
       onClick={handleIconClick}
       role="button"
-      aria-label="Toggle Theme and Navigate to SoftBuilt"
+      aria-label="Navigate to Homepage"
       tabIndex={0}
       onKeyDown={(e) => {
         if (e.key === "Enter" || e.key === " ") {

@@ -88,7 +88,7 @@ const NavBar = () => {
             <img
               className={styles.logoIcon}
               alt="Company Logo"
-              src={hover ? "gmVectorDark.svg" : "sb.svg"} // Different SVG based on hover state
+              src={hover ? "/gmVectorDark.svg" : "/sb.svg"} // Different SVG based on hover state
               style={{
                 width: hover ? "35px" : "27px", // Adjust width based on hover state
                 height: hover ? "35px" : "27px", // Adjust height based on hover state

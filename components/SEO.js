@@ -28,7 +28,26 @@ export default function SEO({
       <meta name="twitter:description" content={description} />
       <meta name="twitter:image" content={image} />
       {canonical && <link rel="canonical" href={canonical} />}
-      <link rel="icon" href="/favicon.ico" />
+      
+      {/* Favicon - Multiple formats for maximum compatibility */}
+      <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+      <link rel="icon" href="/gm-icon-32.png" sizes="32x32" type="image/png" />
+      <link rel="icon" href="/gm-icon-16.png" sizes="16x16" type="image/png" />
+      <link rel="shortcut icon" href="/favicon.png" />
+      
+      {/* Apple Touch Icons */}
+      <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+      <link rel="apple-touch-icon" sizes="180x180" href="/gm-icon-180.png" />
+      <link rel="apple-touch-icon" sizes="152x152" href="/gm-icon-128.png" />
+      
+      {/* PWA Manifest */}
+      <link rel="manifest" href="/manifest.json" />
+      
+      {/* Microsoft Tiles */}
+      <meta name="msapplication-TileImage" content="/gm-icon-256.png" />
+      <meta name="msapplication-TileColor" content="#23272F" />
+      <meta name="msapplication-config" content="/browserconfig.xml" />
+      
       {/* Optional JSON-LD passed as prop */}
       {jsonLd && Array.isArray(jsonLd)
         ? jsonLd.map((obj, i) => (

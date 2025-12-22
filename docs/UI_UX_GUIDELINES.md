@@ -13,7 +13,6 @@ Last updated: 2025-08-12
 ## 2. Information Architecture
 
 - Primary sections: Home (Portfolio), Projects, Resume, Contact, Privacy.
-- Secondary: Softbuilt sub-site.
 - Use breadcrumbs only for deep hierarchies (blogs/admin later).
 
 ## 3. Navigation

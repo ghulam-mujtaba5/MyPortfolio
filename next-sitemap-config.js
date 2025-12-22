@@ -12,7 +12,6 @@ module.exports = {
     "/admin",
     "/admin/*",
     "/api/*",
-    "/softbuilt/admin/*",
     "/sitemap.xml",
     "/sitemap-dynamic.xml",
   ],
@@ -88,13 +87,6 @@ module.exports = {
     // Custom frequency and priority settings for specific paths
     if (path === "/resume") {
       changefreq = "weekly";
-    }
-
-    // Check for specific subdomain paths
-    if (path.startsWith("/softbuilt")) {
-      fullUrl = `https://softbuilt.ghulammujtaba.com${path}`; // Use HTTPS for subdomain
-      changefreq = "daily"; // Custom frequency for subdomain
-      priority = 0.8; // Higher priority for subdomain pages
     }
 
     return {
