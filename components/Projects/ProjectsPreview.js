@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import { useRouter } from 'next/router';
 import { useTheme } from "../../context/ThemeContext";
+import { useScrollTrigger } from "../../hooks/useScrollAnimation";
 
 import commonStyles from "./ProjectsPreviewCommon.module.css";
 import lightStyles from "./ProjectsPreviewLight.module.css";
@@ -15,6 +16,7 @@ import Project1 from "./Project1";
 const ProjectsPreview = ({ projects = [] }) => {
   const { theme } = useTheme();
   const [clientProjects, setClientProjects] = useState(projects);
+  const { ref: containerRef, hasEntered } = useScrollTrigger({ threshold: 0.15 });
 
   useEffect(() => {
     // If no projects provided from SSR, fetch a small set client-side as a fallback
@@ -54,7 +56,14 @@ const ProjectsPreview = ({ projects = [] }) => {
   const router = useRouter();
 
   return (
-    <section className={`${commonStyles.section} ${themeClass}`}>
+    <section 
+      ref={containerRef}
+      className={`${commonStyles.section} ${themeClass}`}
+      style={{
+        animation: hasEntered ? 'fadeInUp 0.6s ease-out' : 'none',
+        opacity: hasEntered ? 1 : 0.7,
+      }}
+    >
       <div className={commonStyles.headerRow}>
         <h2 className={`${commonStyles.title} ${themeStyles.title}`}>
           Projects
@@ -68,7 +77,7 @@ const ProjectsPreview = ({ projects = [] }) => {
         )}
         {clientProjects &&
           clientProjects.length > 0 &&
-          clientProjects.map((project) => {
+          clientProjects.map((project, index) => {
             const key = project._id || project.slug || project.title;
             const href = `/projects/${project.slug}`;
             return (
@@ -91,11 +100,21 @@ const ProjectsPreview = ({ projects = [] }) => {
                   overflow: 'hidden',
                   background: 'none',
                   boxShadow: 'none',
-                  transition: 'box-shadow 0.3s',
+                  transition: 'all var(--duration-normal) var(--ease-out)',
                   minHeight: 340,
                   maxWidth: 420,
                   width: '100%',
                   cursor: 'pointer',
+                  animation: hasEntered ? `fadeInUp 0.6s ease-out ${index * 50}ms both` : 'none',
+                  willChange: 'transform, opacity',
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-4px)';
+                  e.currentTarget.style.boxShadow = 'var(--shadow-lg)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.boxShadow = 'none';
                 }}
               >
                 <div className={commonStyles.projectCard} style={{ borderRadius: '20px', overflow: 'hidden', background: 'none', boxShadow: 'none', minHeight: 340, maxWidth: 420, width: '100%' }}>
@@ -111,6 +130,7 @@ const ProjectsPreview = ({ projects = [] }) => {
           display: "flex",
           justifyContent: "center",
           marginTop: "2.5rem",
+          animation: hasEntered ? 'fadeInUp 0.6s ease-out 300ms both' : 'none',
         }}
       >
         <button

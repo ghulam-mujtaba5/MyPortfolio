@@ -1,5 +1,6 @@
 import React, { useRef, useState, useEffect } from "react";
 import { useTheme } from "../../context/ThemeContext";
+import { useScrollTrigger } from "../../hooks/useScrollAnimation";
 import commonStyles from "./ServicesFrameCommon.module.css";
 import lightStyles from "./ServicesFrame.module.css";
 import darkStyles from "./ServicesFrameDark.module.css";
@@ -8,6 +9,7 @@ const ServicesFrame = () => {
   const { theme } = useTheme();
   const frameStyles = theme === "dark" ? darkStyles : lightStyles;
   const [visible, setVisible] = useState([]);
+  const { ref: sectionRef, hasEntered: sectionEntered } = useScrollTrigger({ threshold: 0.1 });
 
   const skillCardRefs = useRef([]);
 
@@ -73,7 +75,7 @@ const ServicesFrame = () => {
       setVisible(cardsVisible);
     };
 
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     handleScroll(); // Trigger scroll check on component mount
 
     return () => window.removeEventListener("scroll", handleScroll);
@@ -81,8 +83,13 @@ const ServicesFrame = () => {
 
   return (
     <section
+      ref={sectionRef}
       className={`${commonStyles.skillFrame} ${frameStyles.skillFrame}`}
       aria-labelledby="Soft Built Services"
+      style={{
+        animation: sectionEntered ? 'fadeInUp 0.6s ease-out' : 'none',
+        opacity: sectionEntered ? 1 : 0.7,
+      }}
     >
       <h2
         id="Soft Built Services"
@@ -96,6 +103,19 @@ const ServicesFrame = () => {
           key={index}
           ref={(el) => (skillCardRefs.current[index] = el)}
           aria-labelledby={`${category.title.replace(/ /g, "-")}-title`}
+          style={{
+            animation: sectionEntered ? `fadeInUp 0.6s ease-out ${index * 100}ms both` : 'none',
+            transition: 'all var(--duration-normal) var(--ease-out)',
+            willChange: 'transform, opacity',
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.transform = 'translateY(-4px)';
+            e.currentTarget.style.boxShadow = 'var(--shadow-lg)';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.transform = 'translateY(0)';
+            e.currentTarget.style.boxShadow = 'none';
+          }}
         >
           <header className={`${commonStyles.header} ${frameStyles.header}`}>
             <img
@@ -114,6 +134,9 @@ const ServicesFrame = () => {
             <div
               key={skillIndex}
               className={`${commonStyles.skillRow} ${frameStyles.skillRow}`}
+              style={{
+                animation: sectionEntered ? `fadeInUp 0.6s ease-out ${(index * 100) + (skillIndex * 30)}ms both` : 'none',
+              }}
             >
               <img
                 className={`${commonStyles.icon} ${frameStyles.icon}`}

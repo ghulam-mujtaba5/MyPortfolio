@@ -23,6 +23,7 @@ const ContactSection = dynamic(
 );
 import { useTheme } from "../../context/ThemeContext";
 import ThemeToggleIcon from "../../components/Icon/gmicon";
+import ScrollReveal from "../../components/AnimatedUI/ScrollReveal";
 
 import Head from "next/head";
 import SEO from "../../components/SEO";
@@ -229,7 +230,9 @@ const Home = ({ previewProjects = [], previewArticles = [] }) => {
             <h2 id="about-section-heading" className="visually-hidden">
               About Me
             </h2>
-            <AboutMeSection />
+            <ScrollReveal animation="fadeInUp" width="100%">
+              <AboutMeSection />
+            </ScrollReveal>
           </section>
 
           <section
@@ -240,7 +243,9 @@ const Home = ({ previewProjects = [], previewArticles = [] }) => {
             <h2 id="languages-section-heading" className="visually-hidden">
               Languages
             </h2>
-            <Languages />
+            <ScrollReveal animation="fadeInUp" width="100%">
+              <Languages />
+            </ScrollReveal>
           </section>
 
           <section
@@ -251,7 +256,9 @@ const Home = ({ previewProjects = [], previewArticles = [] }) => {
             <h2 id="skills-section-heading" className="visually-hidden">
               Skills
             </h2>
-            <SkillFrame />
+            <ScrollReveal animation="fadeInUp" width="100%">
+              <SkillFrame />
+            </ScrollReveal>
           </section>
 
           {/* ✅ BadgeScroll section inserted below skills and above projects */}
@@ -262,7 +269,9 @@ const Home = ({ previewProjects = [], previewArticles = [] }) => {
             <h2 id="certifications-heading" className="visually-hidden">
               Certifications
             </h2>
-            <BadgeScroll />
+            <ScrollReveal animation="fadeInLeft" width="100%">
+              <BadgeScroll />
+            </ScrollReveal>
           </section>
 
           <section
@@ -273,7 +282,9 @@ const Home = ({ previewProjects = [], previewArticles = [] }) => {
             <h2 id="project-section-heading" className="visually-hidden">
               Projects
             </h2>
-            <ProjectsPreview projects={previewProjects} />
+            <ScrollReveal animation="fadeInUp" width="100%">
+              <ProjectsPreview projects={previewProjects} />
+            </ScrollReveal>
           </section>
 
           <section
@@ -284,7 +295,9 @@ const Home = ({ previewProjects = [], previewArticles = [] }) => {
             <h2 id="articles-section-heading" className="visually-hidden">
               Articles
             </h2>
-            <ArticlesPreview articles={previewArticles} />
+            <ScrollReveal animation="fadeInUp" width="100%">
+              <ArticlesPreview articles={previewArticles} />
+            </ScrollReveal>
           </section>
 
           <section
@@ -295,14 +308,16 @@ const Home = ({ previewProjects = [], previewArticles = [] }) => {
             <h2 id="contact-section-heading" className="visually-hidden">
               Contact
             </h2>
-            <ContactSection
-              plexusMaxNodes={100}
-              plexusMaxDistance={120}
-              plexusSpeed={0.7}
-              plexusInteraction={"attract"}
-              plexusIntensity={1}
-              plexusHoverBoost={true}
-            />
+            <ScrollReveal animation="fadeInUp" width="100%">
+              <ContactSection
+                plexusMaxNodes={100}
+                plexusMaxDistance={120}
+                plexusSpeed={0.7}
+                plexusInteraction={"attract"}
+                plexusIntensity={1}
+                plexusHoverBoost={true}
+              />
+            </ScrollReveal>
           </section>
         </main>
 

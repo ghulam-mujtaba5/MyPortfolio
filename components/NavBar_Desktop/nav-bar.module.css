@@ -1,18 +1,58 @@
-/* Active/selected state for nav buttons */
+/* Navbar visibility animations */
+.header {
+  transition: transform var(--duration-normal) var(--ease-out),
+              box-shadow var(--duration-normal) var(--ease-out),
+              opacity var(--duration-normal) var(--ease-out);
+}
+
+.visible {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.hidden {
+  transform: translateY(-100%);
+  opacity: 0;
+}
+
+/* Navigation item animations */
+.navItem {
+  position: relative;
+  overflow: hidden;
+}
+
+.navItem::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  transition: left var(--duration-normal) var(--ease-out);
+  pointer-events: none;
+}
+
+.navItem:hover::before {
+  left: 100%;
+}
+
 /* Active/selected state for nav buttons */
 .active {
   background-color: #4573df !important;
   color: #fff !important;
   box-shadow: 0 4px 16px 0 rgba(34, 34, 59, 0.18);
   transform: scale(1.05);
+  animation: popIn var(--duration-normal) cubic-bezier(0.34, 1.56, 0.64, 1);
 }
+
 /* Styles for the Home button text */
 
 .header * {
   transition:
-    background-color 0.3s ease,
-    transform 0.3s ease,
-    box-shadow 0.3s ease;
+    background-color var(--duration-normal) var(--ease-out),
+    transform var(--duration-normal) var(--ease-out),
+    box-shadow var(--duration-normal) var(--ease-out);
 }
 
 .homeText {
@@ -38,6 +78,7 @@
   flex-direction: row;
   align-items: center;
   justify-content: center;
+  animation: fadeInDown var(--duration-normal) var(--ease-out);
 }
 
 /* Hover effect for all elements */
@@ -48,6 +89,7 @@
 .contact:hover {
   background-color: #33373c; /* Change to darker color on hover */
   transform: scale(1.05); /* Slight scale effect on hover */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 /* Styles for the About section text */
@@ -67,6 +109,7 @@
   align-items: center;
   justify-content: center;
   padding: 20px 40px;
+  animation: fadeInDown var(--duration-normal) var(--ease-out) 50ms both;
 }
 
 /* Styles for the Skills section text */
@@ -86,6 +129,7 @@
   align-items: center;
   justify-content: center;
   padding: 20px 40px;
+  animation: fadeInDown var(--duration-normal) var(--ease-out) 100ms both;
 }
 
 /* Styles for the Logo icon */
@@ -109,17 +153,19 @@
   align-items: center;
   justify-content: center;
   box-sizing: border-box;
-  transition: transform 0.3s ease; /* Add transition for smooth animation */
+  transition: transform var(--duration-normal) var(--ease-out),
+              box-shadow var(--duration-normal) var(--ease-out),
+              background-color var(--duration-normal) var(--ease-out);
+  animation: popIn var(--duration-normal) cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .logoHover {
   background-color: #272c34;
-  transform: scale(1.03);
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  box-shadow:
-    0 0 5px #4573df,
-    0 0 10px #4573df,
-    0 0 15px #4573df;
+  transform: scale(1.08) rotateZ(2deg);
+  box-shadow: 0 0 5px #4573df,
+              0 0 10px #4573df,
+              0 0 15px #4573df,
+              0 8px 24px rgba(0, 0, 0, 0.3);
 }
 
 /* Styles for the Name animation icon */
@@ -127,7 +173,8 @@
   height: 20.3px;
   width: 190px;
   position: relative;
-  transition: opacity 0.3s ease; /* Smooth opacity transition */
+  transition: opacity var(--duration-normal) var(--ease-out),
+              transform var(--duration-normal) var(--ease-out);
 }
 
 /* Styles for the Logo and Name animation container */
@@ -139,9 +186,8 @@
   align-items: center;
   justify-content: center;
   position: relative;
-  transition: transform 0.3s ease; /* Smooth transform transition */
-
-  /* width: 250px;  */ /*make all uton stick ot places when hoverred*/
+  transition: transform var(--duration-normal) var(--ease-out);
+  animation: scaleIn var(--duration-normal) cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 /* Additional styles for the Logo and Name animation container */
@@ -154,7 +200,8 @@
 /* Animation for hovering on the Name animation container */
 .typo:hover .nameIcon {
   opacity: 0; /* Hide the Name animation icon on hover */
-  transition: opacity 0.3s ease; /* Smooth opacity transition */
+  transform: translateX(-10px);
+  transition: all var(--duration-normal) var(--ease-out);
 }
 
 /* Styles for the Resume section text */
@@ -174,6 +221,7 @@
   align-items: center;
   justify-content: center;
   padding: 20px 40px;
+  animation: fadeInDown var(--duration-normal) var(--ease-out) 150ms both;
 }
 
 /* Styles for the Project section text */
@@ -193,6 +241,7 @@
   align-items: center;
   justify-content: center;
   padding: 20px 40px;
+  animation: fadeInDown var(--duration-normal) var(--ease-out) 200ms both;
 }
 
 /* Styles for the Contact section text */
@@ -217,6 +266,7 @@
   overflow: hidden;
   justify-content: center;
   padding: 20px 40px;
+  animation: fadeInDown var(--duration-normal) var(--ease-out) 250ms both;
 }
 
 /* Styles for the header container */
@@ -247,9 +297,26 @@
   justify-content: center;
   gap: 5px; /* Adjust gap between items */
 }
+
 .alternativeNameIcon {
   width: 120px;
   position: relative;
+}
+
+/* Keyframes for navbar animations */
+@keyframes popIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.02);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 /* Media query for smaller screens */
@@ -259,3 +326,16 @@
     display: none;
   }
 }
+
+/* Accessibility: Reduce motion */
+@media (prefers-reduced-motion: reduce) {
+  .header,
+  .navItem,
+  .logo,
+  .logoAnimation,
+  .nameIcon {
+    animation: none !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+

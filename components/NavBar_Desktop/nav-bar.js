@@ -1,11 +1,35 @@
 import styles from "./nav-bar.module.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/router"; // Import useRouter from Next.js
 import Link from "next/link"; // Import Link from Next.js
+import { useScrollDirection } from "../../hooks/useScrollAnimation";
 
 const NavBar = () => {
   const [hover, setHover] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
   const router = useRouter(); // Initialize the router
+  const { scrollDirection } = useScrollDirection();
+
+  // Auto-hide navbar on scroll down, show on scroll up
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      
+      if (currentScrollY > lastScrollY + 50 && currentScrollY > 100) {
+        setIsVisible(false);
+      } else if (currentScrollY < lastScrollY - 50 || currentScrollY < 100) {
+        setIsVisible(true);
+      }
+      
+      setLastScrollY(currentScrollY);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [lastScrollY]);
 
   const handleMouseHover = (state) => {
     setHover(state);
@@ -73,12 +97,12 @@ const NavBar = () => {
   const isContact = path === "/" && hash === "#contact-section";
 
   return (
-    <header className={styles.header}>
+    <header className={`${styles.header} ${isVisible ? styles.visible : styles.hidden}`}>
       {/* Left side navigation */}
       <div className={styles.leftNavigation}>
         {/* Home button */}
         <button
-          className={`${styles.home} ${isHome ? styles.active : ""}`}
+          className={`${styles.home} ${isHome ? styles.active : ""} ${styles.navItem}`}
           onClick={() => handleScrollToSection("home-section")}
         >
           <b className={styles.homeText}>Home</b>
@@ -86,7 +110,7 @@ const NavBar = () => {
 
         {/* About section */}
         <div
-          className={`${styles.about} ${isAbout ? styles.active : ""}`}
+          className={`${styles.about} ${isAbout ? styles.active : ""} ${styles.navItem}`}
           onClick={() => handleScrollToSection("about-section")}
         >
           <div className={styles.aboutText}>About</div>
@@ -95,7 +119,7 @@ const NavBar = () => {
 
       {/* Articles section */}
       <div
-        className={`${styles.project} ${isArticles ? styles.active : ""}`}
+        className={`${styles.project} ${isArticles ? styles.active : ""} ${styles.navItem}`}
         onClick={() => handleNavigation("/articles")}
       >
         <div className={styles.projectText}>Articles</div>
@@ -135,7 +159,7 @@ const NavBar = () => {
       <div className={styles.rightNavigation}>
         {/* Resume section */}
         <div
-          className={`${styles.resume} ${isResume ? styles.active : ""}`}
+          className={`${styles.resume} ${isResume ? styles.active : ""} ${styles.navItem}`}
           onClick={() => handleNavigation("/resume")}
         >
           <div className={styles.resumeText}>Resume</div>
@@ -143,7 +167,7 @@ const NavBar = () => {
 
         {/* Project section */}
         <div
-          className={`${styles.project} ${isProjects ? styles.active : ""}`}
+          className={`${styles.project} ${isProjects ? styles.active : ""} ${styles.navItem}`}
           onClick={() => handleNavigation("/projects")}
         >
           <div className={styles.projectText}>Projects</div>
@@ -151,7 +175,7 @@ const NavBar = () => {
 
         {/* Contact section */}
         <div
-          className={`${styles.contact} ${isContact ? styles.active : ""}`}
+          className={`${styles.contact} ${isContact ? styles.active : ""} ${styles.navItem}`}
           onClick={() => handleScrollToSection("contact-section")}
         >
           <div className={styles.contactText}>Contact</div>

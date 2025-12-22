@@ -3,6 +3,7 @@ import SEO from '../../components/SEO';
 import { useTheme } from '../../context/ThemeContext';
 import Resume from '../../components/Resume/Resume';
 import Footer from '../../components/Footer/Footer';
+import ScrollReveal from '../../components/AnimatedUI/ScrollReveal';
 
 const ResumePage = ({ resume }) => {
   const { theme } = useTheme();
@@ -57,15 +58,19 @@ const ResumePage = ({ resume }) => {
         />
       </SEO>
       <main className={theme === 'dark' ? 'darkTheme' : 'lightTheme'}>
-        <Resume />
+        <ScrollReveal animation="fadeInUp" width="100%">
+          <Resume />
+        </ScrollReveal>
         {resume && (
-          <a
-            href={`/api/download-resume?url=${encodeURIComponent(resume.url)}&filename=${encodeURIComponent(resume.filename)}`}
-            className="downloadButton"
-            download
-          >
-            Download Resume PDF
-          </a>
+          <ScrollReveal animation="fadeInUp" delay={200}>
+            <a
+              href={`/api/download-resume?url=${encodeURIComponent(resume.url)}&filename=${encodeURIComponent(resume.filename)}`}
+              className="downloadButton"
+              download
+            >
+              Download Resume PDF
+            </a>
+          </ScrollReveal>
         )}
       </main>
       <Footer />

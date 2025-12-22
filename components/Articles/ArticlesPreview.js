@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useTheme } from "../../context/ThemeContext";
+import { useScrollTrigger } from "../../hooks/useScrollAnimation";
 import ArticleCard from "./ArticleCard";
 import commonStyles from "./ArticlesPreviewCommon.module.css";
 import lightStyles from "./ArticlesPreviewLight.module.css";
@@ -8,6 +9,7 @@ import darkStyles from "./ArticlesPreviewDark.module.css";
 const ArticlesPreview = ({ articles = [] }) => {
   const { theme } = useTheme();
   const [clientArticles, setClientArticles] = useState(articles);
+  const { ref: containerRef, hasEntered } = useScrollTrigger({ threshold: 0.15 });
 
   useEffect(() => {
     if (!articles || articles.length === 0) {
@@ -36,7 +38,14 @@ const ArticlesPreview = ({ articles = [] }) => {
   const themeClass = theme === "dark" ? darkStyles.darkTheme : lightStyles.lightTheme;
 
   return (
-    <section className={`${commonStyles.section} ${themeClass}`}>
+    <section 
+      ref={containerRef}
+      className={`${commonStyles.section} ${themeClass}`}
+      style={{
+        animation: hasEntered ? 'fadeInUp 0.6s ease-out' : 'none',
+        opacity: hasEntered ? 1 : 0.7,
+      }}
+    >
       <div className={commonStyles.headerRow}>
         <h2 className={`${commonStyles.title} ${themeStyles.title}`}>Articles</h2>
       </div>
@@ -47,16 +56,35 @@ const ArticlesPreview = ({ articles = [] }) => {
           </div>
         )}
         {clientArticles && clientArticles.length > 0 &&
-          clientArticles.map((article) => (
+          clientArticles.map((article, index) => (
             <div
               key={article._id || article.slug || article.title}
               className={commonStyles.projectCard}
+              style={{
+                animation: hasEntered ? `fadeInUp 0.6s ease-out ${index * 50}ms both` : 'none',
+                willChange: 'transform, opacity',
+                transition: 'all var(--duration-normal) var(--ease-out)',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = 'translateY(-4px)';
+                e.currentTarget.style.boxShadow = 'var(--shadow-lg)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = 'translateY(0)';
+                e.currentTarget.style.boxShadow = 'none';
+              }}
             >
               <ArticleCard article={article} />
             </div>
           ))}
       </div>
-      <div style={{ width: "100%", display: "flex", justifyContent: "center", marginTop: "2.5rem" }}>
+      <div style={{ 
+        width: "100%", 
+        display: "flex", 
+        justifyContent: "center", 
+        marginTop: "2.5rem",
+        animation: hasEntered ? 'fadeInUp 0.6s ease-out 300ms both' : 'none',
+      }}>
         <button
           className={`${commonStyles.viewAll} ${themeStyles.viewAll}`}
           type="button"

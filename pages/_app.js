@@ -14,6 +14,7 @@ import LoadingAnimation from "../components/LoadingAnimation/LoadingAnimation";
 import TopProgress from "../components/TopProgress/TopProgress";
 import "./global.css";
 import "../styles/tokens.css";
+import "../styles/animations.css";
 
 // Register service worker for PWA
 if (typeof window !== "undefined" && "serviceWorker" in navigator) {
@@ -83,19 +84,42 @@ function MyApp({ Component, pageProps, session }) {
       }, 250);
     };
 
-    router.events.on("routeChangeStart", handleStart);
-    router.events.on("routeChangeComplete", handleComplete);
-    router.events.on("routeChangeError", handleComplete);
+    // View Transitions API integration for smooth page navigation
+    const handleViewTransition = (callback) => {
+      if (document.startViewTransition && window.matchMedia('(prefers-reduced-motion: no-preference)').matches) {
+        document.startViewTransition(() => {
+          callback();
+        });
+      } else {
+        callback();
+      }
+    };
+
+    const wrappedHandleStart = () => {
+      handleViewTransition(() => {
+        handleStart();
+      });
+    };
+
+    const wrappedHandleComplete = () => {
+      handleViewTransition(() => {
+        handleComplete();
+      });
+    };
+
+    router.events.on("routeChangeStart", wrappedHandleStart);
+    router.events.on("routeChangeComplete", wrappedHandleComplete);
+    router.events.on("routeChangeError", wrappedHandleComplete);
     // Also support hash-only changes
-    router.events.on("hashChangeStart", handleStart);
-    router.events.on("hashChangeComplete", handleComplete);
+    router.events.on("hashChangeStart", wrappedHandleStart);
+    router.events.on("hashChangeComplete", wrappedHandleComplete);
 
     return () => {
-      router.events.off("routeChangeStart", handleStart);
-      router.events.off("routeChangeComplete", handleComplete);
-      router.events.off("routeChangeError", handleComplete);
-      router.events.off("hashChangeStart", handleStart);
-      router.events.off("hashChangeComplete", handleComplete);
+      router.events.off("routeChangeStart", wrappedHandleStart);
+      router.events.off("routeChangeComplete", wrappedHandleComplete);
+      router.events.off("routeChangeError", wrappedHandleComplete);
+      router.events.off("hashChangeStart", wrappedHandleStart);
+      router.events.off("hashChangeComplete", wrappedHandleComplete);
       clearTimeout(topSafetyRef.current);
       clearTimeout(topDoneTimerRef.current);
     };

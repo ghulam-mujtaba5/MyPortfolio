@@ -1,0 +1,207 @@
+/* Popover.module.css
+   Styles for Web Popover API components with smooth animations
+*/
+
+.trigger {
+  cursor: pointer;
+  user-select: none;
+}
+
+.popover {
+  position: fixed;
+  z-index: var(--z-popover);
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+  box-shadow: var(--shadow-lg);
+  max-width: 400px;
+  animation: popIn var(--duration-normal) cubic-bezier(0.34, 1.56, 0.64, 1);
+  animation-timeline: auto;
+  backdrop-filter: blur(10px);
+}
+
+.popover:popover-open {
+  animation: popIn var(--duration-normal) cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.popover:not(:popover-open) {
+  animation: slideDown var(--duration-fast) var(--ease-out);
+}
+
+/* Placement variants */
+.popover.placement-top {
+  animation-name: slideInFromBottom;
+}
+
+.popover.placement-bottom {
+  animation-name: slideInFromTop;
+}
+
+.popover.placement-left {
+  animation-name: slideInFromRight;
+}
+
+.popover.placement-right {
+  animation-name: slideInFromLeft;
+}
+
+@keyframes slideInFromTop {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInFromBottom {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInFromLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInFromRight {
+  from {
+    opacity: 0;
+    transform: translateX(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Tooltip styling */
+.tooltip {
+  max-width: 250px;
+  padding: var(--space-3) var(--space-4);
+  font-size: var(--text-sm);
+  background-color: var(--bg-elev-1);
+  border-color: transparent;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  animation: fadeInUp var(--duration-fast) var(--ease-out);
+}
+
+.tooltip:popover-open {
+  animation: fadeInUp var(--duration-fast) var(--ease-out);
+}
+
+/* Dropdown styling */
+.dropdown {
+  min-width: 180px;
+  padding: var(--space-2) 0;
+  animation: slideInFromTop var(--duration-normal) var(--ease-out);
+}
+
+.dropdownContent {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.dropdownItem {
+  padding: var(--space-3) var(--space-4);
+  text-align: left;
+  background: transparent;
+  border: none;
+  color: var(--text);
+  cursor: pointer;
+  transition: all var(--duration-fast) var(--ease-out);
+  font-size: var(--text-md);
+  width: 100%;
+}
+
+.dropdownItem:hover {
+  background-color: var(--bg-elev-2);
+  padding-left: var(--space-5);
+}
+
+.dropdownItem:active {
+  background-color: var(--bg);
+}
+
+/* Context Menu styling */
+.contextMenu {
+  position: fixed;
+  z-index: var(--z-modal);
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-xl);
+  animation: popIn var(--duration-normal) cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.contextMenuContent {
+  display: flex;
+  flex-direction: column;
+  min-width: 200px;
+}
+
+.contextMenuItem {
+  padding: var(--space-3) var(--space-4);
+  text-align: left;
+  background: transparent;
+  border: none;
+  color: var(--text);
+  cursor: pointer;
+  transition: all var(--duration-fast) var(--ease-out);
+  font-size: var(--text-md);
+}
+
+.contextMenuItem:hover {
+  background-color: var(--bg-elev-2);
+}
+
+.contextMenuItem:active {
+  background-color: var(--primary);
+  color: white;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .popover {
+    max-width: 90vw;
+    max-height: 80vh;
+    overflow-y: auto;
+  }
+
+  .dropdown {
+    min-width: 150px;
+  }
+
+  .contextMenu {
+    max-width: 90vw;
+  }
+}
+
+/* Accessibility: Reduce motion */
+@media (prefers-reduced-motion: reduce) {
+  .popover,
+  .tooltip,
+  .dropdown,
+  .contextMenu,
+  .dropdownItem,
+  .contextMenuItem {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

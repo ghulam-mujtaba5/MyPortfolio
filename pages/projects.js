@@ -38,6 +38,7 @@ const sections = [
 
 import Link from "next/link";
 import Spinner from "../components/Spinner/Spinner";
+import ScrollReveal from "../components/AnimatedUI/ScrollReveal";
 
 const ProjectsPage = ({ projects = [], projectsError = null }) => {
   const { theme } = useTheme();
@@ -289,10 +290,16 @@ const ProjectsPage = ({ projects = [], projectsError = null }) => {
                   : `No projects found for tag: ${selectedTag}.`}
               </div>
             ) : (
-              filteredProjects.map((project) => (
-                <div key={project._id} className="project-grid-card">
+              filteredProjects.map((project, index) => (
+                <ScrollReveal 
+                  key={project._id} 
+                  className="project-grid-card"
+                  animation="fadeInUp"
+                  delay={index * 50} // Stagger effect
+                  width="100%"
+                >
                   <Project1 project={project} />
-                </div>
+                </ScrollReveal>
               ))
             )}
           </div>

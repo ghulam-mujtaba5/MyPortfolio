@@ -1,0 +1,747 @@
+/* Modern Web Animations Module
+   Combines View Transitions API, Scroll-Driven Animations, CSS Anchor Positioning, and Web Popover API
+   Maintains brand consistency with smooth, professional effects
+*/
+
+/* ============================================================================
+   KEYFRAME ANIMATIONS - Foundation for all motion effects
+   ============================================================================ */
+
+/* Entrance Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeInRight {
+  from {
+    opacity: 0;
+    transform: translateX(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Scale Animations */
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes scaleInCenter {
+  from {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes popIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.02);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Rotation Animations */
+@keyframes rotateIn {
+  from {
+    opacity: 0;
+    transform: rotate(-12deg) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: rotate(0) scale(1);
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* Bounce Animations */
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+}
+
+/* Shimmer/Skeleton Loading */
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+/* Glow Effect */
+@keyframes glow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(59, 130, 246, 0.5);
+  }
+}
+
+/* Slide In Animation */
+@keyframes slideInFromLeft {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideInFromRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Morphing Animation */
+@keyframes morph {
+  0% {
+    border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+  }
+  50% {
+    border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%;
+  }
+  100% {
+    border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+  }
+}
+
+/* Float Animation */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+/* ============================================================================
+   UTILITY CLASSES - Ready-to-use animation classes
+   ============================================================================ */
+
+/* Fade Effects */
+.fadeIn {
+  animation: fadeIn var(--duration-normal) var(--ease-out);
+}
+
+.fadeInUp {
+  animation: fadeInUp var(--duration-normal) var(--ease-out);
+}
+
+.fadeInDown {
+  animation: fadeInDown var(--duration-normal) var(--ease-out);
+}
+
+.fadeInLeft {
+  animation: fadeInLeft var(--duration-normal) var(--ease-out);
+}
+
+.fadeInRight {
+  animation: fadeInRight var(--duration-normal) var(--ease-out);
+}
+
+/* Scale Effects */
+.scaleIn {
+  animation: scaleIn var(--duration-normal) var(--ease-out);
+}
+
+.scaleInCenter {
+  animation: scaleInCenter var(--duration-normal) cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.popIn {
+  animation: popIn var(--duration-normal) cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Rotation Effects */
+.rotateIn {
+  animation: rotateIn var(--duration-normal) var(--ease-out);
+}
+
+.spin {
+  animation: spin 1s linear infinite;
+}
+
+.pulse {
+  animation: pulse 2s var(--ease-standard) infinite;
+}
+
+/* Movement Effects */
+.bounce {
+  animation: bounce 1s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite;
+}
+
+.slideUp {
+  animation: slideUp var(--duration-normal) var(--ease-out);
+}
+
+.slideDown {
+  animation: slideDown var(--duration-normal) var(--ease-out);
+}
+
+.float {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* Entrance Animations with Delays */
+.fadeInDelay1 {
+  animation: fadeInUp var(--duration-normal) var(--ease-out) 100ms both;
+}
+
+.fadeInDelay2 {
+  animation: fadeInUp var(--duration-normal) var(--ease-out) 200ms both;
+}
+
+.fadeInDelay3 {
+  animation: fadeInUp var(--duration-normal) var(--ease-out) 300ms both;
+}
+
+.fadeInDelay4 {
+  animation: fadeInUp var(--duration-normal) var(--ease-out) 400ms both;
+}
+
+.fadeInDelay5 {
+  animation: fadeInUp var(--duration-normal) var(--ease-out) 500ms both;
+}
+
+/* Stagger Effect Helpers */
+.staggerContainer {
+  display: grid;
+}
+
+.staggerContainer > * {
+  animation: fadeInUp var(--duration-normal) var(--ease-out) both;
+}
+
+.staggerContainer > *:nth-child(1) {
+  animation-delay: 0ms;
+}
+
+.staggerContainer > *:nth-child(2) {
+  animation-delay: 50ms;
+}
+
+.staggerContainer > *:nth-child(3) {
+  animation-delay: 100ms;
+}
+
+.staggerContainer > *:nth-child(4) {
+  animation-delay: 150ms;
+}
+
+.staggerContainer > *:nth-child(5) {
+  animation-delay: 200ms;
+}
+
+.staggerContainer > *:nth-child(6) {
+  animation-delay: 250ms;
+}
+
+/* ============================================================================
+   HOVER & INTERACTION ANIMATIONS
+   ============================================================================ */
+
+.hoverLift {
+  transition: transform var(--duration-fast) var(--ease-out),
+              box-shadow var(--duration-fast) var(--ease-out);
+}
+
+.hoverLift:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+.hoverScale {
+  transition: transform var(--duration-fast) var(--ease-out);
+}
+
+.hoverScale:hover {
+  transform: scale(1.02);
+}
+
+.hoverGlow {
+  transition: box-shadow var(--duration-normal) var(--ease-out);
+}
+
+.hoverGlow:hover {
+  box-shadow: var(--focus-ring-strong);
+}
+
+.hoverBrightness {
+  transition: filter var(--duration-fast) var(--ease-out);
+}
+
+.hoverBrightness:hover {
+  filter: brightness(1.1);
+}
+
+.hoverShadow {
+  transition: box-shadow var(--duration-fast) var(--ease-out);
+}
+
+.hoverShadow:hover {
+  box-shadow: var(--shadow-xl);
+}
+
+/* ============================================================================
+   VIEW TRANSITIONS API SUPPORT
+   ============================================================================ */
+
+.viewTransition {
+  view-transition-name: auto;
+}
+
+/* Page transition effect */
+.pageTransition {
+  animation: fadeIn var(--duration-normal) var(--ease-out);
+}
+
+/* Element transition effect */
+.elementTransition {
+  transition: all var(--duration-normal) var(--ease-out);
+}
+
+/* ============================================================================
+   SCROLL-DRIVEN ANIMATIONS
+   ============================================================================ */
+
+/* Reveal on scroll animation */
+.revealOnScroll {
+  opacity: 0;
+  transform: translateY(24px);
+  animation: fadeInUp var(--duration-normal) var(--ease-out) forwards;
+  animation-timeline: view();
+  animation-range: entry 0% cover 30%;
+}
+
+/* Parallax effect on scroll */
+.parallaxOnScroll {
+  animation: float var(--duration-slow) ease-in-out forwards;
+  animation-timeline: view();
+  animation-range: entry 0% cover 100%;
+}
+
+/* Fade in as you scroll into view */
+.fadeOnScroll {
+  opacity: 0;
+  animation: fadeIn var(--duration-normal) ease-in forwards;
+  animation-timeline: view();
+  animation-range: entry 0% cover 40%;
+}
+
+/* Scale up as you scroll into view */
+.scaleOnScroll {
+  transform: scale(0.95);
+  animation: scaleInCenter var(--duration-normal) var(--ease-out) forwards;
+  animation-timeline: view();
+  animation-range: entry 0% cover 30%;
+}
+
+/* Rotate in as you scroll into view */
+.rotateOnScroll {
+  transform: rotate(-6deg) scale(0.95);
+  animation: rotateIn var(--duration-normal) var(--ease-out) forwards;
+  animation-timeline: view();
+  animation-range: entry 0% cover 30%;
+}
+
+/* ============================================================================
+   SMOOTH TRANSITIONS
+   ============================================================================ */
+
+.smoothTransition {
+  transition: all var(--duration-normal) var(--ease-out);
+}
+
+.smoothTransitionFast {
+  transition: all var(--duration-fast) var(--ease-out);
+}
+
+.smoothTransitionSlow {
+  transition: all var(--duration-slow) var(--ease-out);
+}
+
+/* Specific property transitions */
+.transitionOpacity {
+  transition: opacity var(--duration-normal) var(--ease-out);
+}
+
+.transitionTransform {
+  transition: transform var(--duration-normal) var(--ease-out);
+}
+
+.transitionColors {
+  transition: color var(--duration-normal) var(--ease-out),
+              background-color var(--duration-normal) var(--ease-out),
+              border-color var(--duration-normal) var(--ease-out);
+}
+
+.transitionShadow {
+  transition: box-shadow var(--duration-normal) var(--ease-out);
+}
+
+/* ============================================================================
+   POPOVER ANIMATIONS
+   ============================================================================ */
+
+.popoverEnter {
+  animation: popIn var(--duration-normal) cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.popoverExit {
+  animation: slideDown var(--duration-fast) var(--ease-out);
+}
+
+/* Tooltip animation */
+.tooltipEnter {
+  animation: fadeInUp var(--duration-fast) var(--ease-out);
+}
+
+.tooltipExit {
+  animation: fadeInDown var(--duration-fast) var(--ease-out);
+}
+
+/* Dropdown animation */
+.dropdownEnter {
+  animation: slideInFromTop var(--duration-normal) var(--ease-out);
+  origin: top center;
+}
+
+.dropdownExit {
+  animation: slideDown var(--duration-fast) var(--ease-out);
+}
+
+@keyframes slideInFromTop {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ============================================================================
+   MODAL ANIMATIONS
+   ============================================================================ */
+
+.modalBackdropEnter {
+  animation: fadeIn var(--duration-normal) var(--ease-out);
+}
+
+.modalBackdropExit {
+  animation: fadeIn var(--duration-fast) var(--ease-out) reverse;
+}
+
+.modalContentEnter {
+  animation: scaleInCenter var(--duration-normal) cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.modalContentExit {
+  animation: scaleIn var(--duration-fast) var(--ease-out) reverse;
+}
+
+/* ============================================================================
+   LOADING & SKELETON ANIMATIONS
+   ============================================================================ */
+
+.shimmerLoading {
+  background: linear-gradient(
+    90deg,
+    var(--bg-elev-1) 0%,
+    var(--bg-elev-2) 50%,
+    var(--bg-elev-1) 100%
+  );
+  background-size: 1000px 100%;
+  animation: shimmer 2s infinite;
+}
+
+.pulseLoading {
+  animation: pulse 2s var(--ease-standard) infinite;
+}
+
+/* ============================================================================
+   RESPONSIVE ANIMATION ADJUSTMENTS
+   ============================================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Mobile/Small Screen Optimizations */
+@media (max-width: 768px) {
+  .fadeInUp,
+  .fadeInDown,
+  .fadeInLeft,
+  .fadeInRight,
+  .scaleIn,
+  .popIn,
+  .rotateIn {
+    animation-duration: var(--duration-fast);
+  }
+
+  .revealOnScroll {
+    animation-duration: var(--duration-fast);
+  }
+}
+
+/* High-Performance: Use will-change sparingly */
+.willChangeTransform {
+  will-change: transform;
+}
+
+.willChangeOpacity {
+  will-change: opacity;
+}
+
+.willChangeAll {
+  will-change: transform, opacity;
+}
+
+/* Use will-change with caution - remove after animation */
+@media (prefers-reduced-motion: no-preference) {
+  .hoverLift,
+  .hoverScale,
+  .hoverGlow {
+    will-change: auto;
+  }
+
+  .hoverLift:hover {
+    will-change: transform;
+  }
+}
+
+/* ============================================================================
+   UTILITY HELPERS FOR COMMON PATTERNS
+   ============================================================================ */
+
+/* Link hover animations */
+.linkHoverUnderline {
+  position: relative;
+  text-decoration: none;
+}
+
+.linkHoverUnderline::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: currentColor;
+  transition: width var(--duration-normal) var(--ease-out);
+}
+
+.linkHoverUnderline:hover::after {
+  width: 100%;
+}
+
+/* Button press animation */
+.buttonPress {
+  transition: all var(--duration-fast) var(--ease-out);
+}
+
+.buttonPress:active {
+  transform: scale(0.98);
+}
+
+/* Text animation on load */
+.textReveal {
+  overflow: hidden;
+}
+
+.textRevealSpan {
+  display: inline-block;
+  animation: slideUp var(--duration-normal) var(--ease-out);
+}
+
+/* ============================================================================
+   CSS ANCHOR POSITIONING - Layout positioning helpers
+   ============================================================================ */
+
+/* Anchor positioning is a native feature - these are utility classes for common patterns */
+.anchorPositioned {
+  position: absolute;
+  position-anchor: use-named-anchor;
+}
+
+.anchorTop {
+  anchor-default: use-named-anchor;
+  align-self: start;
+}
+
+.anchorBottom {
+  anchor-default: use-named-anchor;
+  align-self: end;
+}
+
+.anchorCenter {
+  anchor-default: use-named-anchor;
+  align-self: center;
+}
+
+/* ============================================================================
+   Z-INDEX ANIMATION LAYER MANAGEMENT
+   ============================================================================ */
+
+.layerBackground {
+  z-index: 1;
+  animation: fadeIn var(--duration-slow) var(--ease-out);
+}
+
+.layerContent {
+  z-index: 10;
+  animation: slideUp var(--duration-normal) var(--ease-out);
+}
+
+.layerOverlay {
+  z-index: var(--z-modal);
+  animation: fadeIn var(--duration-normal) var(--ease-out);
+}
+
+.layerPopover {
+  z-index: var(--z-popover);
+  animation: popIn var(--duration-normal) cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* ============================================================================
+   PERFORMANCE OPTIMIZATION
+   ============================================================================ */
+
+/* Optimize transform animations for GPU acceleration */
+.gpu {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+@supports (scroll-behavior: smooth) {
+  html {
+    scroll-behavior: smooth;
+  }
+}

@@ -4,6 +4,7 @@ import SEO from "../components/SEO";
 import dbConnect from "../lib/mongoose";
 import Article from "../models/Article";
 import Project from "../models/Project";
+import ScrollReveal from "../components/AnimatedUI/ScrollReveal";
 
 const clamp = (n, min, max) => Math.max(min, Math.min(max, n));
 
@@ -53,18 +54,20 @@ export default function SearchPage({ q, page, limit, articleResults, projectResu
           <section style={{ marginBottom: 32 }}>
             <h2>Articles</h2>
             <ul style={{ listStyle: "none", padding: 0, marginTop: 12 }}>
-              {articleResults.map((a) => (
-                <li key={a.slug} style={{ padding: "12px 0", borderBottom: "1px solid #eee" }}>
-                  <Link href={`/articles/${a.slug}`} style={{ fontSize: 18, fontWeight: 600 }}>{a.title}</Link>
-                  {a.excerpt && <p style={{ margin: "6px 0", color: "#444" }}>{a.excerpt}</p>}
-                  {Array.isArray(a.tags) && a.tags.length > 0 && (
-                    <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-                      {a.tags.slice(0, 5).map((t) => (
-                        <span key={t} style={{ fontSize: 12, background: "#f3f4f6", padding: "2px 6px", borderRadius: 4 }}>#{t}</span>
-                      ))}
-                    </div>
-                  )}
-                </li>
+              {articleResults.map((a, index) => (
+                <ScrollReveal key={a.slug} animation="fadeInUp" delay={index * 50} width="100%" as="li">
+                  <div style={{ padding: "12px 0", borderBottom: "1px solid #eee" }}>
+                    <Link href={`/articles/${a.slug}`} style={{ fontSize: 18, fontWeight: 600 }}>{a.title}</Link>
+                    {a.excerpt && <p style={{ margin: "6px 0", color: "#444" }}>{a.excerpt}</p>}
+                    {Array.isArray(a.tags) && a.tags.length > 0 && (
+                      <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+                        {a.tags.slice(0, 5).map((t) => (
+                          <span key={t} style={{ fontSize: 12, background: "#f3f4f6", padding: "2px 6px", borderRadius: 4 }}>#{t}</span>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </ScrollReveal>
               ))}
             </ul>
           </section>
@@ -74,18 +77,20 @@ export default function SearchPage({ q, page, limit, articleResults, projectResu
           <section style={{ marginBottom: 32 }}>
             <h2>Projects</h2>
             <ul style={{ listStyle: "none", padding: 0, marginTop: 12 }}>
-              {projectResults.map((p) => (
-                <li key={p.slug} style={{ padding: "12px 0", borderBottom: "1px solid #eee" }}>
-                  <Link href={`/projects/${p.slug}`} style={{ fontSize: 18, fontWeight: 600 }}>{p.title}</Link>
-                  {p.description && <p style={{ margin: "6px 0", color: "#444" }}>{p.description.substring(0, 160)}</p>}
-                  {Array.isArray(p.tags) && p.tags.length > 0 && (
-                    <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-                      {p.tags.slice(0, 5).map((t) => (
-                        <span key={t} style={{ fontSize: 12, background: "#f3f4f6", padding: "2px 6px", borderRadius: 4 }}>#{t}</span>
-                      ))}
-                    </div>
-                  )}
-                </li>
+              {projectResults.map((p, index) => (
+                <ScrollReveal key={p.slug} animation="fadeInUp" delay={index * 50} width="100%" as="li">
+                  <div style={{ padding: "12px 0", borderBottom: "1px solid #eee" }}>
+                    <Link href={`/projects/${p.slug}`} style={{ fontSize: 18, fontWeight: 600 }}>{p.title}</Link>
+                    {p.description && <p style={{ margin: "6px 0", color: "#444" }}>{p.description.substring(0, 160)}</p>}
+                    {Array.isArray(p.tags) && p.tags.length > 0 && (
+                      <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+                        {p.tags.slice(0, 5).map((t) => (
+                          <span key={t} style={{ fontSize: 12, background: "#f3f4f6", padding: "2px 6px", borderRadius: 4 }}>#{t}</span>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </ScrollReveal>
               ))}
             </ul>
           </section>

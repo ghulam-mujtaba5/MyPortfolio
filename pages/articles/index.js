@@ -14,6 +14,7 @@ import darkCss from "../../components/Articles/ArticlesListPage.dark.module.css"
 import Spinner from "../../components/Spinner/Spinner";
 import dbConnect from "../../lib/dbConnect";
 import Article from "../../models/Article";
+import ScrollReveal from "../../components/AnimatedUI/ScrollReveal";
 
 export default function ArticlesPage({
   initialArticles = [],
@@ -286,8 +287,15 @@ export default function ArticlesPage({
 
           {!loading && !error && filteredArticles.length > 0 && (
             <div className={listCss.grid}>
-              {filteredArticles.map((a) => (
-                <ArticleCard key={a._id} article={a} />
+              {filteredArticles.map((a, index) => (
+                <ScrollReveal 
+                  key={a._id} 
+                  animation="fadeInUp" 
+                  delay={index * 50}
+                  width="100%"
+                >
+                  <ArticleCard article={a} />
+                </ScrollReveal>
               ))}
             </div>
           )}

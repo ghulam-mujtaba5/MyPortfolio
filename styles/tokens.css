@@ -293,6 +293,13 @@
   --btn-radius: var(--radius-md);
   --input-height: 44px;
   --card-radius: var(--radius-lg);
+
+  /* CSS Anchor Positioning tokens */
+  --anchor-offset-x: 0;
+  --anchor-offset-y: 0;
+  --anchor-align: center;
+  --popover-offset-x: 0;
+  --popover-offset-y: 8px;
 }
 
 /* Small screens: larger touch targets and compact FAB envelope */
