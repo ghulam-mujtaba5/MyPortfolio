@@ -27,3 +27,5 @@ npm-debug.log*
 .next
 .cache
 .next.js
+.vercel
+.env*.local
