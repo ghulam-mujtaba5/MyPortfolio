@@ -7,6 +7,8 @@ const bcrypt = require('bcryptjs');
 const dbConnect = require('../lib/mongoose.js').default;
 const User = require('../models/User.js').default;
 
+
+
 async function main() {
   const [email, password, nameArg] = process.argv.slice(2);
   if (!email || !password) {
