@@ -1,0 +1,86 @@
+/* ============================================
+   Skeletons Premium Unified Styles
+   Uses CSS variables with data-theme selectors
+   ============================================ */
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.skeletonBox {
+  background-color: var(--bg-elev-2);
+  border-radius: var(--radius-md, 6px);
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Light theme overrides */
+[data-theme="light"] .skeletonBox {
+  background-color: #e0e0e0;
+}
+
+/* Dark theme overrides */
+[data-theme="dark"] .skeletonBox {
+  background-color: #4a4a4a;
+}
+
+.gridContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.card {
+  border-radius: var(--admin-card-radius, 12px);
+  overflow: hidden;
+  background: var(--bg-elev-1);
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--border);
+  box-shadow: var(--admin-card-shadow);
+}
+
+.imageContainer {
+  width: 100%;
+  padding-top: 56.25%; /* 16:9 Aspect Ratio */
+  position: relative;
+}
+
+.image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.content {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.tags {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.badges {
+  display: flex;
+  gap: 0.5rem;
+}
+
+/* Size utilities */
+.w80p { width: 80%; }
+.w60p { width: 60%; }
+.w70 { width: 70px; }
+.w50 { width: 50px; }
+.h20 { height: 20px; }
+.h16 { height: 16px; }

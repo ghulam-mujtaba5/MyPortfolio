@@ -1,14 +1,12 @@
-import { useTheme } from "next-themes";
-import styles from "./Skeletons.module.css";
+import styles from "./Skeletons.premium.module.css";
 
 export const SkeletonBox = ({ className = "" }) => (
   <div className={`${styles.skeletonBox} ${className}`} />
 );
 
 export const ArticleListSkeleton = () => {
-  const { theme } = useTheme();
   return (
-    <div className={`${styles.gridContainer} ${theme === "dark" ? styles.dark : ""}`}>
+    <div className={styles.gridContainer}>
       {Array.from({ length: 6 }).map((_, i) => (
         <div key={i} className={styles.card}>
           <div className={styles.imageContainer}>

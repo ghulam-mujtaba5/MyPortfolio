@@ -1,17 +1,12 @@
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/router";
 import toast from "react-hot-toast";
-import { useTheme } from "../../../context/ThemeContext";
-import commonStyles from "./SavedSearches.module.css";
-import lightStyles from "./SavedSearches.light.module.css";
-import darkStyles from "./SavedSearches.dark.module.css";
+import styles from "./SavedSearches.premium.module.css";
 import Icon from "../Icon/Icon";
 import Modal from "../Modal/Modal";
 import utilities from "../../../styles/utilities.module.css";
 
 const SavedSearches = ({ scope }) => {
-  const { theme } = useTheme();
-  const themeStyles = theme === "dark" ? darkStyles : lightStyles;
   const [savedSearches, setSavedSearches] = useState([]);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [newSearchName, setNewSearchName] = useState("");
@@ -141,7 +136,7 @@ const SavedSearches = ({ scope }) => {
 
   const dropdownId = "saved-searches-menu";
   return (
-    <div className={`${commonStyles.container} ${themeStyles.container}`} ref={dropdownRef}>
+    <div className={styles.container} ref={dropdownRef}>
       <button
         onClick={() => setIsDropdownOpen(!isDropdownOpen)}
         className={`${utilities.btn} ${utilities.btnSm} ${utilities.btnSecondary}`}
@@ -156,15 +151,15 @@ const SavedSearches = ({ scope }) => {
         <div
           id={dropdownId}
           role="menu"
-          className={`${commonStyles.dropdownContent} ${themeStyles.dropdownContent}`}
+          className={styles.dropdownContent}
         >
-          <div className={`${commonStyles.saveSection} ${themeStyles.saveSection}`}>
+          <div className={styles.saveSection}>
             <input
               type="text"
               value={newSearchName}
               onChange={(e) => setNewSearchName(e.target.value)}
               placeholder="Name current search..."
-              className={`${commonStyles.input} ${themeStyles.input}`}
+              className={styles.input}
               aria-label="Saved search name"
               onKeyDown={(e) => {
                 if (e.key === "Enter") handleSaveSearch();
@@ -174,13 +169,13 @@ const SavedSearches = ({ scope }) => {
               Save
             </button>
           </div>
-          <ul className={commonStyles.searchList}>
+          <ul className={styles.searchList}>
             {savedSearches.length > 0 ? (
               savedSearches.map((search) => (
-                <li key={search._id} className={`${commonStyles.searchItem} ${themeStyles.searchItem}`} role="none">
+                <li key={search._id} className={styles.searchItem} role="none">
                   <span
                     onClick={() => applySearch(search.query)}
-                    className={`${commonStyles.searchName} ${themeStyles.searchName}`}
+                    className={styles.searchName}
                     role="menuitem"
                     tabIndex={0}
                     onKeyDown={(e) => {
@@ -200,7 +195,7 @@ const SavedSearches = ({ scope }) => {
                 </li>
               ))
             ) : (
-              <li className={`${commonStyles.noSearches} ${themeStyles.noSearches}`}>No saved searches yet.</li>
+              <li className={styles.noSearches}>No saved searches yet.</li>
             )}
           </ul>
         </div>

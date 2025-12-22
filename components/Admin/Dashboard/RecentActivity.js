@@ -1,11 +1,7 @@
 import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
-import { useTheme } from "../../../context/ThemeContext";
 import { formatDistanceToNow } from "date-fns";
-
-import commonStyles from "./RecentActivity.module.css";
-import lightStyles from "./RecentActivity.light.module.css";
-import darkStyles from "./RecentActivity.dark.module.css";
+import styles from "./RecentActivity.premium.module.css";
 
 // A simple icon component for different actions
 const ActionIcon = ({ action }) => {
@@ -17,14 +13,12 @@ const ActionIcon = ({ action }) => {
     bulk_delete: "🗑️🗑️",
     login_fail: "❌",
   };
-  return <span className={commonStyles.icon}>{icons[action] || "⚙️"}</span>;
+  return <span className={styles.icon}>{icons[action] || "⚙️"}</span>;
 };
 
 export default function RecentActivity() {
   const [activity, setActivity] = useState([]);
   const [loading, setLoading] = useState(true);
-  const { theme } = useTheme();
-  const themeStyles = theme === "dark" ? darkStyles : lightStyles;
 
   useEffect(() => {
     const fetchActivity = async () => {
@@ -47,32 +41,30 @@ export default function RecentActivity() {
 
   if (loading) {
     return (
-      <div className={`${commonStyles.container} ${themeStyles.container}`}>
+      <div className={styles.container}>
         Loading activity...
       </div>
     );
   }
 
   return (
-    <div className={`${commonStyles.container} ${themeStyles.container}`}>
-      <h2 className={`${commonStyles.title} ${themeStyles.title}`}>
+    <div className={styles.container}>
+      <h2 className={styles.title}>
         Recent Activity
       </h2>
-      <ul className={commonStyles.activityList}>
+      <ul className={styles.activityList}>
         {activity.map((log) => (
           <li
             key={log._id}
-            className={`${commonStyles.activityItem} ${themeStyles.activityItem}`}
+            className={styles.activityItem}
           >
             <ActionIcon action={log.action} />
-            <div className={commonStyles.activityDetails}>
-              <p className={commonStyles.activityText}>
+            <div className={styles.activityDetails}>
+              <p className={styles.activityText}>
                 <strong>{log.userName}</strong> {log.action.replace("_", " ")}d
                 a(n) <strong>{log.entity}</strong>.
               </p>
-              <p
-                className={`${commonStyles.activityTime} ${themeStyles.activityTime}`}
-              >
+              <p className={styles.activityTime}>
                 {formatDistanceToNow(new Date(log.createdAt), {
                   addSuffix: true,
                 })}

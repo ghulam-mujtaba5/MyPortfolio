@@ -1,0 +1,157 @@
+/* =================================================
+   DASHBOARD - PREMIUM DESIGN
+   Uses CSS variables for automatic theme adaptation
+   ================================================= */
+
+.dashboard {
+  padding: 0;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--text);
+  margin-bottom: 2rem;
+  letter-spacing: -0.025em;
+  background: var(--heading-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.statCard {
+  background: var(--bg-elev-1);
+  border: var(--admin-card-border);
+  border-radius: var(--admin-card-radius);
+  padding: 1.75rem;
+  box-shadow: var(--admin-card-shadow);
+  backdrop-filter: blur(10px);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.statCard:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--admin-card-shadow-hover);
+  border-color: var(--primary);
+}
+
+.statCard h3 {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  font-weight: 500;
+  margin-bottom: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.statCard p {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0;
+  background: var(--heading-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.bottomGrid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 1.5rem;
+}
+
+@media (max-width: 1024px) {
+  .bottomGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.recentActivity,
+.quickActions {
+  background: var(--bg-elev-1);
+  border: var(--admin-card-border);
+  border-radius: var(--admin-card-radius);
+  padding: 1.75rem;
+  box-shadow: var(--admin-card-shadow);
+  backdrop-filter: blur(10px);
+}
+
+.recentActivity h2,
+.quickActions h2 {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 1.25rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.recentActivity ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.recentActivity li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--border);
+  transition: all 0.2s ease;
+}
+
+.recentActivity li:last-child {
+  border-bottom: none;
+}
+
+.recentActivity li:hover {
+  padding-left: 0.5rem;
+  background: linear-gradient(90deg, var(--bg-elev-2) 0%, transparent 100%);
+}
+
+.recentActivity li span {
+  color: var(--text);
+  font-weight: 500;
+}
+
+.recentActivity li small {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+
+.quickButton {
+  display: block;
+  width: 100%;
+  padding: 1rem 1.25rem;
+  margin-bottom: 0.75rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text);
+  background: var(--bg-elev-2);
+  border: 1px solid var(--border);
+  border-radius: var(--admin-radius);
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  text-align: left;
+}
+
+.quickButton:last-child {
+  margin-bottom: 0;
+}
+
+.quickButton:hover {
+  background: var(--primary);
+  color: #fff;
+  border-color: var(--primary);
+  transform: translateX(6px);
+  box-shadow: var(--btn-shadow-hover);
+}

@@ -4,13 +4,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import dynamic from "next/dynamic";
 import { articleSchema } from "../../../lib/validation/schemas";
 import ImageUploader from "../ImageUploader/ImageUploader";
-import { useTheme } from "../../../context/ThemeContext";
 import toast from "react-hot-toast";
 import Modal from "../Modal/Modal";
 
-import commonStyles from "./ArticleForm.module.css";
-import lightStyles from "./ArticleForm.light.module.css";
-import darkStyles from "./ArticleForm.dark.module.css";
+import styles from "./ArticleForm.premium.module.css";
 import ChipInput from "./ChipInput";
 import utilities from "../../../styles/utilities.module.css";
 // Removed inline card preview; page-level preview uses PublicArticleCard
@@ -31,8 +28,6 @@ export default function ArticleForm({
   isSubmitting,
   onDataChange,
 }) {
-  const { theme } = useTheme();
-  const themeStyles = theme === "dark" ? darkStyles : lightStyles;
   const [previewSplit, setPreviewSplit] = useState(false);
   const [previewDevice, setPreviewDevice] = useState("desktop"); // 'desktop' | 'tablet' | 'mobile'
   const [autoSaveStatus, setAutoSaveStatus] = useState(""); // '', 'saving', 'saved'
@@ -244,9 +239,9 @@ export default function ArticleForm({
     diffArr.map((d, idx) => {
       if (d.type === "equal") return <span key={idx}>{d.text}</span>;
       if (d.type === "removed" && side === "current")
-        return <span key={idx} className={`${commonStyles.diffMark} ${themeStyles.diffRemoved}`}>{d.text}</span>;
+        return <span key={idx} className={`${styles.diffMark} ${styles.diffRemoved}`}>{d.text}</span>;
       if (d.type === "added" && side === "version")
-        return <span key={idx} className={`${commonStyles.diffMark} ${themeStyles.diffAdded}`}>{d.text}</span>;
+        return <span key={idx} className={`${styles.diffMark} ${styles.diffAdded}`}>{d.text}</span>;
       return <span key={idx}>{d.text}</span>;
     })
   );
@@ -524,15 +519,15 @@ export default function ArticleForm({
 
   const getTitleStatus = () => {
     if (metaTitleLen <= 60) return { label: "Good", cls: "", border: "" };
-    if (metaTitleLen <= 70) return { label: "Warn", cls: themeStyles.counterWarn, border: themeStyles.warnLimit };
-    return { label: "Over", cls: themeStyles.counterOver, border: themeStyles.overLimit };
+    if (metaTitleLen <= 70) return { label: "Warn", cls: styles.counterWarn, border: styles.warnLimit };
+    return { label: "Over", cls: styles.counterOver, border: styles.overLimit };
   };
 
   const getDescStatus = () => {
     if (metaDescLen >= 150 && metaDescLen <= 160) return { label: "Good", cls: "", border: "" };
     if ((metaDescLen >= 120 && metaDescLen < 150) || (metaDescLen > 160 && metaDescLen <= 180))
-      return { label: "Warn", cls: themeStyles.counterWarn, border: themeStyles.warnLimit };
-    return { label: "Over", cls: themeStyles.counterOver, border: themeStyles.overLimit };
+      return { label: "Warn", cls: styles.counterWarn, border: styles.warnLimit };
+    return { label: "Over", cls: styles.counterOver, border: styles.overLimit };
   };
 
   const titleStatus = getTitleStatus();
@@ -541,26 +536,26 @@ export default function ArticleForm({
   return (
     <form
       onSubmit={handleSubmit(handleFormSubmit)}
-      className={commonStyles.form}
+      className={styles.form}
       noValidate
     >
-      <div className={commonStyles.srOnly} aria-live="polite" role="status">
+      <div className={styles.srOnly} aria-live="polite" role="status">
         {ariaMessage}
       </div>
       <div
-        className={`${commonStyles.formGroup} ${commonStyles.fullWidth} ${commonStyles.rowBetween}`}
+        className={`${styles.formGroup} ${styles.fullWidth} ${styles.rowBetween}`}
       >
-        <div className={`${commonStyles.row} ${commonStyles.alignCenter} ${commonStyles.gapMd}`}>
-          <span className={`${themeStyles.label} ${commonStyles.muted}`}>
+        <div className={`${styles.row} ${styles.alignCenter} ${styles.gapMd}`}>
+          <span className={`${styles.label} ${styles.muted}`}>
             Word count: {wordCount}
           </span>
-          <span className={`${themeStyles.label} ${commonStyles.muted}`}>
+          <span className={`${styles.label} ${styles.muted}`}>
             Reading time: ~{readingTime} min
           </span>
         </div>
-        <div className={`${commonStyles.row} ${commonStyles.alignCenter} ${commonStyles.gapSm}`}>
+        <div className={`${styles.row} ${styles.alignCenter} ${styles.gapSm}`}>
           {autoSaveStatus && (
-            <span className={`${themeStyles.label} ${commonStyles.textSm} ${commonStyles.muted}`}>
+            <span className={`${styles.label} ${styles.textSm} ${styles.muted}`}>
               {autoSaveStatus === "saving" ? "Saving…" : "Saved"}
             </span>
           )}
@@ -573,7 +568,7 @@ export default function ArticleForm({
           </button>
           {/* Inline card preview toggle removed; page-level preview is used now */}
           {previewSplit && (
-            <div className={commonStyles.inlineBtnGroup}>
+            <div className={styles.inlineBtnGroup}>
               <button
                 type="button"
                 className={`${utilities.btn} ${utilities.btnSecondary}`}
@@ -603,63 +598,63 @@ export default function ArticleForm({
         </div>
       </div>
       {/* Inline card preview removed; see page-level preview in edit/new pages */}
-      <div className={`${commonStyles.formGroup} ${commonStyles.fullWidth}`}>
+      <div className={`${styles.formGroup} ${styles.fullWidth}`}>
         <label
           htmlFor="title"
-          className={`${commonStyles.label} ${themeStyles.label}`}
+          className={`${styles.label} ${styles.label}`}
         >
           Title
         </label>
         <input
           id="title"
           {...register("title")}
-          className={`${commonStyles.input} ${themeStyles.input}`}
+          className={`${styles.input} ${styles.input}`}
         />
         {errors.title && (
-          <p className={`${commonStyles.error} ${themeStyles.error}`}>
+          <p className={`${styles.error} ${styles.error}`}>
             {errors.title.message}
           </p>
         )}
       </div>
 
-      <div className={commonStyles.formGroup}>
-        <label className={`${commonStyles.label} ${themeStyles.label}`}>
+      <div className={styles.formGroup}>
+        <label className={`${styles.label} ${styles.label}`}>
           Slug
         </label>
         <input
           {...register("slug")}
-          className={`${commonStyles.input} ${themeStyles.input}`}
+          className={`${styles.input} ${styles.input}`}
           placeholder="my-article-slug"
         />
-        <p className={commonStyles.helpText}>
+        <p className={styles.helpText}>
           URL-friendly identifier. Auto-generated from title if left blank.
           {dupWarning && (
-            <span className={`${themeStyles.error} ${commonStyles.ml8}`}>
+            <span className={`${styles.error} ${styles.ml8}`}>
               {dupWarning}
             </span>
           )}
         </p>
         {errors.slug && (
-          <p className={`${commonStyles.error} ${themeStyles.error}`}>
+          <p className={`${styles.error} ${styles.error}`}>
             {errors.slug.message}
           </p>
         )}
       </div>
 
-      <div className={commonStyles.formGroup}>
+      <div className={styles.formGroup}>
         <label
           htmlFor="tags"
-          className={`${commonStyles.label} ${themeStyles.label}`}
+          className={`${styles.label} ${styles.label}`}
         >
           Tags (comma-separated)
         </label>
         <input
           id="tags"
           {...register("tags")}
-          className={`${commonStyles.input} ${themeStyles.input}`}
+          className={`${styles.input} ${styles.input}`}
         />
         {errors.tags && (
-          <p className={`${commonStyles.error} ${themeStyles.error}`}>
+          <p className={`${styles.error} ${styles.error}`}>
             {errors.tags.message}
           </p>
         )}
@@ -672,20 +667,20 @@ export default function ArticleForm({
         />
       </div>
 
-      <div className={commonStyles.formGroup}>
+      <div className={styles.formGroup}>
         <label
           htmlFor="categories"
-          className={`${commonStyles.label} ${themeStyles.label}`}
+          className={`${styles.label} ${styles.label}`}
         >
           Categories (comma-separated)
         </label>
         <input
           id="categories"
           {...register("categories")}
-          className={`${commonStyles.input} ${themeStyles.input}`}
+          className={`${styles.input} ${styles.input}`}
         />
         {errors.categories && (
-          <p className={`${commonStyles.error} ${themeStyles.error}`}>
+          <p className={`${styles.error} ${styles.error}`}>
             {errors.categories.message}
           </p>
         )}
@@ -731,28 +726,28 @@ export default function ArticleForm({
         </div>
       </div>
 
-      <div className={`${commonStyles.formGroup} ${commonStyles.fullWidth}`}>
+      <div className={`${styles.formGroup} ${styles.fullWidth}`}>
         <label
           htmlFor="excerpt"
-          className={`${commonStyles.label} ${themeStyles.label}`}
+          className={`${styles.label} ${styles.label}`}
         >
           Excerpt
         </label>
         <textarea
           id="excerpt"
           {...register("excerpt")}
-          className={`${commonStyles.input} ${themeStyles.input}`}
+          className={`${styles.input} ${styles.input}`}
           rows="4"
         />
         {errors.excerpt && (
-          <p className={`${commonStyles.error} ${themeStyles.error}`}>
+          <p className={`${styles.error} ${styles.error}`}>
             {errors.excerpt.message}
           </p>
         )}
       </div>
 
-      <div className={`${commonStyles.formGroup} ${commonStyles.fullWidth}`}>
-        <label className={`${commonStyles.label} ${themeStyles.label}`}>
+      <div className={`${styles.formGroup} ${styles.fullWidth}`}>
+        <label className={`${styles.label} ${styles.label}`}>
           Cover Image
         </label>
         <ImageUploader
@@ -762,14 +757,14 @@ export default function ArticleForm({
           useImage={watch("showCoverImage")}
           onAltTextChange={handleCoverImageAltChange}
         />
-        <div className={commonStyles.row} style={{ gap: 12, marginTop: 8 }}>
-          <label className={`${commonStyles.label} ${themeStyles.label}`} htmlFor="coverImageFit" style={{ margin: 0 }}>
+        <div className={styles.row} style={{ gap: 12, marginTop: 8 }}>
+          <label className={`${styles.label} ${styles.label}`} htmlFor="coverImageFit" style={{ margin: 0 }}>
             Image fit
           </label>
           <select
             id="coverImageFit"
             {...register("coverImageFit")}
-            className={`${commonStyles.input} ${themeStyles.input}`}
+            className={`${styles.input} ${styles.input}`}
             style={{ maxWidth: 220 }}
           >
             <option value="cover">cover</option>
@@ -780,24 +775,24 @@ export default function ArticleForm({
           </select>
         </div>
         {errors.coverImage && (
-          <p className={`${commonStyles.error} ${themeStyles.error}`}>
+          <p className={`${styles.error} ${styles.error}`}>
             {errors.coverImage.message}
           </p>
         )}
         <input type="hidden" {...register("coverImageAlt")} />
         {errors.coverImageAlt && (
-          <p className={`${commonStyles.error} ${themeStyles.error}`}>
+          <p className={`${styles.error} ${styles.error}`}>
             {errors.coverImageAlt.message}
           </p>
         )}
       </div>
 
-      <div className={`${commonStyles.formGroup} ${commonStyles.fullWidth}`}>
-        <label className={`${commonStyles.label} ${themeStyles.label}`}>
+      <div className={`${styles.formGroup} ${styles.fullWidth}`}>
+        <label className={`${styles.label} ${styles.label}`}>
           Content
         </label>
         {previewSplit ? (
-          <div className={commonStyles.twoCol}>
+          <div className={styles.twoCol}>
             <Controller
               name="content"
               control={control}
@@ -805,18 +800,18 @@ export default function ArticleForm({
                 <RichTextEditor value={field.value} onChange={field.onChange} />
               )}
             />
-            <div className={commonStyles.previewOuter}>
+            <div className={styles.previewOuter}>
               <div
                 className={[
-                  commonStyles.previewFrameBase,
-                  previewDevice === "tablet" ? commonStyles.previewDeviceTablet : "",
-                  previewDevice === "mobile" ? commonStyles.previewDeviceMobile : "",
-                  previewDevice === "desktop" ? "" : themeStyles.previewFrame,
+                  styles.previewFrameBase,
+                  previewDevice === "tablet" ? styles.previewDeviceTablet : "",
+                  previewDevice === "mobile" ? styles.previewDeviceMobile : "",
+                  previewDevice === "desktop" ? "" : styles.previewFrame,
                 ].filter(Boolean).join(" ")}
               >
                 <div
                   ref={previewRef}
-                  className={commonStyles.previewContent}
+                  className={styles.previewContent}
                   dangerouslySetInnerHTML={{
                     __html: formValues?.content || "",
                   }}
@@ -835,84 +830,84 @@ export default function ArticleForm({
         )}
         {/* Removed tone adjustment controls */}
         {errors.content && (
-          <p className={`${commonStyles.error} ${themeStyles.error}`}>
+          <p className={`${styles.error} ${styles.error}`}>
             {errors.content.message}
           </p>
         )}
       </div>
 
-      <details className={`${commonStyles.details} ${themeStyles.details}`}>
-        <summary className={`${commonStyles.summary} ${themeStyles.summary}`}>
+      <details className={`${styles.details} ${styles.details}`}>
+        <summary className={`${styles.summary} ${styles.summary}`}>
           SEO Settings
         </summary>
-        <div className={commonStyles.detailsContent}>
+        <div className={styles.detailsContent}>
           <div
-            className={`${commonStyles.formGroup} ${commonStyles.fullWidth}`}
+            className={`${styles.formGroup} ${styles.fullWidth}`}
           >
             <label
               htmlFor="metaTitle"
-              className={`${commonStyles.label} ${themeStyles.label}`}
+              className={`${styles.label} ${styles.label}`}
             >
               Meta Title
             </label>
             <input
               id="metaTitle"
               {...register("metaTitle")}
-              className={`${commonStyles.input} ${themeStyles.input} ${titleStatus.border}`}
+              className={`${styles.input} ${styles.input} ${titleStatus.border}`}
               placeholder="Optimal length: 50-60 characters"
             />
-            <div className={commonStyles.helpText}>
+            <div className={styles.helpText}>
               <span>Recommended 50–60 characters.</span>
-              <span className={`${commonStyles.helpRight} ${titleStatus.cls}`} aria-live="polite">
+              <span className={`${styles.helpRight} ${titleStatus.cls}`} aria-live="polite">
                 {metaTitleLen}/60 • {titleStatus.label}
               </span>
             </div>
             {errors.metaTitle && (
-              <p className={`${commonStyles.error} ${themeStyles.error}`}>
+              <p className={`${styles.error} ${styles.error}`}>
                 {errors.metaTitle.message}
               </p>
             )}
           </div>
 
           <div
-            className={`${commonStyles.formGroup} ${commonStyles.fullWidth}`}
+            className={`${styles.formGroup} ${styles.fullWidth}`}
           >
             <label
               htmlFor="metaDescription"
-              className={`${commonStyles.label} ${themeStyles.label}`}
+              className={`${styles.label} ${styles.label}`}
             >
               Meta Description
             </label>
             <textarea
               id="metaDescription"
               {...register("metaDescription")}
-              className={`${commonStyles.textarea} ${themeStyles.textarea} ${descStatus.border}`}
+              className={`${styles.textarea} ${styles.textarea} ${descStatus.border}`}
               placeholder="Optimal length: 150-160 characters"
               rows="3"
             ></textarea>
-            <div className={commonStyles.helpText}>
+            <div className={styles.helpText}>
               <span>Recommended 150–160 characters.</span>
-              <span className={`${commonStyles.helpRight} ${descStatus.cls}`} aria-live="polite">
+              <span className={`${styles.helpRight} ${descStatus.cls}`} aria-live="polite">
                 {metaDescLen}/160 • {descStatus.label}
               </span>
             </div>
             {errors.metaDescription && (
-              <p className={`${commonStyles.error} ${themeStyles.error}`}>
+              <p className={`${styles.error} ${styles.error}`}>
                 {errors.metaDescription.message}
               </p>
             )}
           </div>
 
-          <div className={`${commonStyles.formGroup} ${commonStyles.fullWidth}`}>
-            <label className={`${commonStyles.label} ${themeStyles.label}`}>
+          <div className={`${styles.formGroup} ${styles.fullWidth}`}>
+            <label className={`${styles.label} ${styles.label}`}>
               Open Graph Image (for social sharing)
             </label>
             <ImageUploader
               onUpload={handleOgImageUpdate}
               initialImageUrl={watch("ogImage")}
             />
-            <div className={`${commonStyles.rowBetween}`}>
-              <p className={commonStyles.helpText}>
+            <div className={`${styles.rowBetween}`}>
+              <p className={styles.helpText}>
                 Recommended size: 1200x630px.
               </p>
               <button
@@ -930,7 +925,7 @@ export default function ArticleForm({
               </button>
             </div>
             {errors.ogImage && (
-              <p className={`${commonStyles.error} ${themeStyles.error}`}>
+              <p className={`${styles.error} ${styles.error}`}>
                 {errors.ogImage.message}
               </p>
             )}
@@ -940,31 +935,31 @@ export default function ArticleForm({
 
       {/* Diff Modal handled below with visual highlighting */}
 
-      <div className={`${commonStyles.formGroup} ${commonStyles.fullWidth}`}>
+      <div className={`${styles.formGroup} ${styles.fullWidth}`}>
         <label
-          className={`${commonStyles.checkboxContainer} ${themeStyles.label}`}
+          className={`${styles.checkboxContainer} ${styles.label}`}
         >
           <input type="checkbox" {...register("published")} />
           Published
         </label>
       </div>
 
-      <div className={`${commonStyles.formGroup} ${commonStyles.fullWidth}`}>
+      <div className={`${styles.formGroup} ${styles.fullWidth}`}>
         <label
-          className={`${commonStyles.checkboxContainer} ${themeStyles.label}`}
+          className={`${styles.checkboxContainer} ${styles.label}`}
         >
           <input type="checkbox" {...register("featuredOnHome")} />
           Show on Home
         </label>
-        <p className={commonStyles.helpText}>
+        <p className={styles.helpText}>
           Toggle whether this article appears on the homepage sections.
         </p>
       </div>
 
-      <div className={`${commonStyles.formGroup} ${commonStyles.fullWidth}`}>
+      <div className={`${styles.formGroup} ${styles.fullWidth}`}>
         <label
           htmlFor="publishAt"
-          className={`${commonStyles.label} ${themeStyles.label}`}
+          className={`${styles.label} ${styles.label}`}
         >
           Schedule Publish (optional)
         </label>
@@ -972,20 +967,20 @@ export default function ArticleForm({
           id="publishAt"
           type="datetime-local"
           {...register("publishAt")}
-          className={`${commonStyles.input} ${themeStyles.input}`}
+          className={`${styles.input} ${styles.input}`}
         />
-        <p className={commonStyles.helpText}>
+        <p className={styles.helpText}>
           If set and in the future, article will appear as Scheduled until that
           time.
         </p>
         {errors.publishAt && (
-          <p className={`${commonStyles.error} ${themeStyles.error}`}>
+          <p className={`${styles.error} ${styles.error}`}>
             {errors.publishAt.message}
           </p>
         )}
       </div>
 
-      <div className={`${commonStyles.formGroup} ${commonStyles.fullWidth}`}>
+      <div className={`${styles.formGroup} ${styles.fullWidth}`}>
         <button
           type="submit"
           className={`${utilities.btn} ${utilities.btnPrimary}`}
@@ -995,8 +990,8 @@ export default function ArticleForm({
         </button>
       </div>
       {/* Version History */}
-      <div className={commonStyles.versionsSection}>
-        <div className={commonStyles.versionsActions}>
+      <div className={styles.versionsSection}>
+        <div className={styles.versionsActions}>
           <strong>Version History</strong>
           <button
             type="button"
@@ -1010,36 +1005,36 @@ export default function ArticleForm({
         {versionsLoading ? (
           <p>Loading versions...</p>
         ) : (
-          <ul className={commonStyles.versionsList}>
+          <ul className={styles.versionsList}>
             {versions.length === 0 ? (
-              <li className={commonStyles.noVersions}>No versions saved yet.</li>
+              <li className={styles.noVersions}>No versions saved yet.</li>
             ) : (
               versions.map((v) => (
                 <li
                   key={v._id}
-                  className={commonStyles.versionItem}
+                  className={styles.versionItem}
                   tabIndex={0}
                   onKeyDown={(e) => handleVersionKey(e, v)}
                   aria-label={`Version ${v.title || "(Untitled)"} saved at ${new Date(v.createdAt).toLocaleString()}. Press Enter to preview diff, R to restore, or Delete to remove.`}
                 >
-                  <div className={commonStyles.versionMeta}>
+                  <div className={styles.versionMeta}>
                     <strong>{v.title}</strong>
-                    <div className={commonStyles.versionRow}>
+                    <div className={styles.versionRow}>
                       <span>Saved at {new Date(v.createdAt).toLocaleString()}</span>
                       {(() => {
                         const changed = getChangedFields(v);
                         if (changed.length === 0) return null;
                         return (
-                          <div className={commonStyles.versionBadges} aria-label="Changed fields">
+                          <div className={styles.versionBadges} aria-label="Changed fields">
                             {changed.map((c) => (
-                              <span key={c} className={`${commonStyles.versionBadge} ${themeStyles.versionBadge}`}>{c}</span>
+                              <span key={c} className={`${styles.versionBadge} ${styles.versionBadge}`}>{c}</span>
                             ))}
                           </div>
                         );
                       })()}
                     </div>
                   </div>
-                  <div className={commonStyles.versionActions}>
+                  <div className={styles.versionActions}>
                     <button
                       type="button"
                       className={`${utilities.btn} ${utilities.btnSecondary}`}
@@ -1115,30 +1110,30 @@ export default function ArticleForm({
           title="Compare with selected version"
         >
           {versionForDiff && (
-            <div className={commonStyles.diffGrid}>
-              <div className={commonStyles.diffPane}>
-                <div className={commonStyles.diffTitle}>Current</div>
-                <div className={commonStyles.diffContent}>
+            <div className={styles.diffGrid}>
+              <div className={styles.diffPane}>
+                <div className={styles.diffTitle}>Current</div>
+                <div className={styles.diffContent}>
                   <div><strong>Title:</strong> {renderDiffSpans(diffWords(watch("title") || "", versionForDiff.title || ""), "current")}</div>
                   <div><strong>Excerpt:</strong> {renderDiffSpans(diffWords(watch("excerpt") || "", versionForDiff.excerpt || ""), "current")}</div>
                   <div><strong>Tags:</strong> {renderDiffSpans(diffWords((watch("tags") || ""), (versionForDiff.tags || []).join(", ")), "current")}</div>
                   <div><strong>Categories:</strong> {renderDiffSpans(diffWords((watch("categories") || ""), (versionForDiff.categories || []).join(", ")), "current")}</div>
                   <div><strong>Content:</strong>
-                    <div className={commonStyles.diffBlockSpacing}>
+                    <div className={styles.diffBlockSpacing}>
                       {renderDiffSpans(diffWords((watch("content") || "").replace(/<[^>]*>/g, " "), (versionForDiff.content || "").replace(/<[^>]*>/g, " ")), "current")}
                     </div>
                   </div>
                 </div>
               </div>
-              <div className={commonStyles.diffPane}>
-                <div className={commonStyles.diffTitle}>Selected Version</div>
-                <div className={commonStyles.diffContent}>
+              <div className={styles.diffPane}>
+                <div className={styles.diffTitle}>Selected Version</div>
+                <div className={styles.diffContent}>
                   <div><strong>Title:</strong> {renderDiffSpans(diffWords(watch("title") || "", versionForDiff.title || ""), "version")}</div>
                   <div><strong>Excerpt:</strong> {renderDiffSpans(diffWords(watch("excerpt") || "", versionForDiff.excerpt || ""), "version")}</div>
                   <div><strong>Tags:</strong> {renderDiffSpans(diffWords((watch("tags") || ""), (versionForDiff.tags || []).join(", ")), "version")}</div>
                   <div><strong>Categories:</strong> {renderDiffSpans(diffWords((watch("categories") || ""), (versionForDiff.categories || []).join(", ")), "version")}</div>
                   <div><strong>Content:</strong>
-                    <div className={commonStyles.diffBlockSpacing}>
+                    <div className={styles.diffBlockSpacing}>
                       {renderDiffSpans(diffWords((watch("content") || "").replace(/<[^>]*>/g, " "), (versionForDiff.content || "").replace(/<[^>]*>/g, " ")), "version")}
                     </div>
                   </div>
@@ -1146,7 +1141,7 @@ export default function ArticleForm({
               </div>
             </div>
           )}
-          <div className={commonStyles.modalFooter}>
+          <div className={styles.modalFooter}>
             <button className={`${utilities.btn} ${utilities.btnPrimary}`} onClick={() => { if (versionForDiff) restoreVersion(versionForDiff); closeDiff(); }}>Restore this Version</button>
             <button className={`${utilities.btn} ${utilities.btnSecondary}`} onClick={closeDiff}>Close</button>
           </div>

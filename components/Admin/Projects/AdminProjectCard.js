@@ -1,7 +1,6 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useTheme } from "../../../context/ThemeContext";
 import adminStyles from "./AdminProjectCard.module.css"; // Admin-specific styles
 import Icon from "../Icon/Icon";
 import Tooltip from "../Tooltip/Tooltip";
@@ -20,8 +19,6 @@ const AdminProjectCard = ({
   deleting = false,
   pinning = false,
 }) => {
-  const { theme } = useTheme();
-
   const safeId = project._id || project.id;
 
   const handleCheckExistence = async () => {
@@ -53,7 +50,7 @@ const AdminProjectCard = ({
 
   return (
     <div
-      className={`${adminStyles.card} ${theme === "dark" ? adminStyles.dark : ""} ${isSelected ? adminStyles.selected : ""}`}
+      className={`${adminStyles.card} ${isSelected ? adminStyles.selected : ""}`}
     >
       <input
         type="checkbox"

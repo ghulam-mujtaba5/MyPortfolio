@@ -1,8 +1,5 @@
 import React from "react";
-import commonStyles from "./StatusPill.module.css";
-import lightStyles from "./StatusPill.light.module.css";
-import darkStyles from "./StatusPill.dark.module.css";
-import { useTheme } from "../../../context/ThemeContext";
+import styles from "./StatusPill.premium.module.css";
 
 const StatusPill = ({ 
   status, 
@@ -11,29 +8,23 @@ const StatusPill = ({
   size = "md",
   className = ""
 }) => {
-  const { theme } = useTheme();
-  const themeStyles = theme === "dark" ? darkStyles : lightStyles;
-  
   // Determine the status key for styling
   const statusKey = (variant || status || "draft").toLowerCase().replace(/\s+/g, "");
   
-  // Get the appropriate CSS classes
-  const statusClass = commonStyles[statusKey] || commonStyles.draft;
-  const themeStatusClass = themeStyles[statusKey] || themeStyles.draft;
+  // Get the appropriate CSS class
+  const statusClass = styles[statusKey] || styles.draft;
   
   // Size classes
   const sizeClasses = {
-    sm: commonStyles.small,
-    md: commonStyles.medium,
-    lg: commonStyles.large
+    sm: styles.small,
+    md: "",
+    lg: styles.large
   };
   
   // Combine all classes
   const pillClasses = [
-    commonStyles.pill,
-    themeStyles.pill,
+    styles.pill,
     statusClass,
-    themeStatusClass,
     sizeClasses[size],
     className
   ].filter(Boolean).join(" ");
@@ -43,8 +34,7 @@ const StatusPill = ({
 
   return (
     <div className={pillClasses} role="status" aria-label={`${displayText} status`}>
-      <span className={`${commonStyles.dot} ${themeStyles.dot}`}></span>
-      <span className={commonStyles.text}>{displayText}</span>
+      <span className={styles.text}>{displayText}</span>
     </div>
   );
 };

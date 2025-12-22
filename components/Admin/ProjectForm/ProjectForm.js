@@ -6,11 +6,8 @@ import { projectSchema } from "../../../lib/validation/schemas";
 import RichTextEditor from "../RichTextEditor/RichTextEditor";
 import ImageUploader from "../ImageUploader/ImageUploader";
 import GalleryManager from "../GalleryManager/GalleryManager";
-import { useTheme } from "../../../context/ThemeContext";
 
-import commonStyles from "./ProjectForm.module.css";
-import lightStyles from "./ProjectForm.light.module.css";
-import darkStyles from "./ProjectForm.dark.module.css";
+import styles from "./ProjectForm.premium.module.css";
 import utilities from "../../../styles/utilities.module.css";
 
 function ProjectForm({
@@ -21,8 +18,6 @@ function ProjectForm({
   isSubmitting,
   serverErrors = {},
 }) {
-  const { theme } = useTheme();
-  const themeStyles = theme === "dark" ? darkStyles : lightStyles;
   // Local state and refs
   const [ariaMessage, setAriaMessage] = useState("");
   const [dupWarning, setDupWarning] = useState("");
@@ -204,18 +199,18 @@ function ProjectForm({
 
   const getTitleStatus = () => {
     if (metaTitleLen <= 60)
-      return { label: "Good", cls: "", border: "", badge: themeStyles.badgeGood };
+      return { label: "Good", cls: "", border: "", badge: styles.badgeGood };
     if (metaTitleLen <= 70)
-      return { label: "Warn", cls: themeStyles.counterWarn, border: themeStyles.warnLimit, badge: themeStyles.badgeWarn };
-    return { label: "Over", cls: themeStyles.counterOver, border: themeStyles.overLimit, badge: themeStyles.badgeOver };
+      return { label: "Warn", cls: styles.counterWarn, border: styles.warnLimit, badge: styles.badgeWarn };
+    return { label: "Over", cls: styles.counterOver, border: styles.overLimit, badge: styles.badgeOver };
   };
 
   const getDescStatus = () => {
     if (metaDescLen >= 150 && metaDescLen <= 160)
-      return { label: "Good", cls: "", border: "", badge: themeStyles.badgeGood };
+      return { label: "Good", cls: "", border: "", badge: styles.badgeGood };
     if ((metaDescLen >= 120 && metaDescLen < 150) || (metaDescLen > 160 && metaDescLen <= 180))
-      return { label: "Warn", cls: themeStyles.counterWarn, border: themeStyles.warnLimit, badge: themeStyles.badgeWarn };
-    return { label: "Over", cls: themeStyles.counterOver, border: themeStyles.overLimit, badge: themeStyles.badgeOver };
+      return { label: "Warn", cls: styles.counterWarn, border: styles.warnLimit, badge: styles.badgeWarn };
+    return { label: "Over", cls: styles.counterOver, border: styles.overLimit, badge: styles.badgeOver };
   };
 
   const titleStatus = getTitleStatus();
@@ -241,43 +236,43 @@ function ProjectForm({
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className={`${commonStyles.form} ${themeStyles.form}`}
+      className={`${styles.form} ${styles.form}`}
       noValidate
     >
-      <div className={`${commonStyles.formGroup} ${commonStyles.fullWidth}`}>
+      <div className={`${styles.formGroup} ${styles.fullWidth}`}>
         <label
           htmlFor="title"
-          className={`${commonStyles.label} ${themeStyles.label}`}
+          className={`${styles.label} ${styles.label}`}
         >
           Project Title
         </label>
         <input
           id="title"
           {...register("title")}
-          className={`${commonStyles.input} ${themeStyles.input}`}
+          className={`${styles.input} ${styles.input}`}
         />
         {errors.title && (
-          <p className={commonStyles.error}>{errors.title.message}</p>
+          <p className={styles.error}>{errors.title.message}</p>
         )}
-        <div className={commonStyles.helpText}>
+        <div className={styles.helpText}>
           Slug: <code>/{liveSlug || "your-slug"}</code>{" "}
           {autoSaveStatus && (
-            <span className={`${commonStyles.ml8} ${commonStyles.muted}`}>
+            <span className={`${styles.ml8} ${styles.muted}`}>
               — {autoSaveStatus}
             </span>
           )}{" "}
           {dupWarning && (
-            <span className={`${commonStyles.ml8} ${commonStyles.dangerText}`}>
+            <span className={`${styles.ml8} ${styles.dangerText}`}>
               {dupWarning}
             </span>
           )}
         </div>
       </div>
 
-      <div className={`${commonStyles.formGroup} ${commonStyles.fullWidth}`}>
+      <div className={`${styles.formGroup} ${styles.fullWidth}`}>
         <label
           htmlFor="description"
-          className={`${commonStyles.label} ${themeStyles.label}`}
+          className={`${styles.label} ${styles.label}`}
         >
           Description
         </label>
@@ -287,59 +282,59 @@ function ProjectForm({
           render={({ field }) => <RichTextEditor {...field} />}
         />
         {errors.description && (
-          <p className={commonStyles.error}>{errors.description.message}</p>
+          <p className={styles.error}>{errors.description.message}</p>
         )}
       </div>
 
-      <div className={commonStyles.formGroup}>
+      <div className={styles.formGroup}>
         <label
           htmlFor="tags"
-          className={`${commonStyles.label} ${themeStyles.label}`}
+          className={`${styles.label} ${styles.label}`}
         >
           Tags (comma-separated)
         </label>
         <input
           id="tags"
           {...register("tags")}
-          className={`${commonStyles.input} ${themeStyles.input}`}
+          className={`${styles.input} ${styles.input}`}
         />
         {errors.tags && (
-          <p className={commonStyles.error}>{errors.tags.message}</p>
+          <p className={styles.error}>{errors.tags.message}</p>
         )}
       </div>
 
-      <div className={commonStyles.formGroup}>
+      <div className={styles.formGroup}>
         <label
           htmlFor="status"
-          className={`${commonStyles.label} ${themeStyles.label}`}
+          className={`${styles.label} ${styles.label}`}
         >
           Status
         </label>
         <select
           id="status"
           {...register("status")}
-          className={`${commonStyles.input} ${themeStyles.input}`}
+          className={`${styles.input} ${styles.input}`}
         >
           <option value="In Progress">In Progress</option>
           <option value="Completed">Completed</option>
           <option value="Archived">Archived</option>
         </select>
         {errors.status && (
-          <p className={commonStyles.error}>{errors.status.message}</p>
+          <p className={styles.error}>{errors.status.message}</p>
         )}
       </div>
 
-      <div className={commonStyles.formGroup}>
+      <div className={styles.formGroup}>
         <label
           htmlFor="category"
-          className={`${commonStyles.label} ${themeStyles.label}`}
+          className={`${styles.label} ${styles.label}`}
         >
           Category
         </label>
         <select
           id="category"
           {...register("category")}
-          className={`${commonStyles.input} ${themeStyles.input}`}
+          className={`${styles.input} ${styles.input}`}
         >
           <option value="All">All</option>
           <option value="Software Development">Software Development</option>
@@ -350,14 +345,14 @@ function ProjectForm({
           <option value="Others">Others</option>
         </select>
         {errors.category && (
-          <p className={commonStyles.error}>{errors.category.message}</p>
+          <p className={styles.error}>{errors.category.message}</p>
         )}
       </div>
 
-      <div className={commonStyles.formGroup}>
+      <div className={styles.formGroup}>
         <label
           htmlFor="links.live"
-          className={`${commonStyles.label} ${themeStyles.label}`}
+          className={`${styles.label} ${styles.label}`}
         >
           Live URL
         </label>
@@ -366,17 +361,17 @@ function ProjectForm({
           type="url"
           {...register("links.live")}
           onBlur={(e) => setValue("links.live", ensureProtocol(e.target.value), { shouldValidate: true })}
-          className={`${commonStyles.input} ${themeStyles.input}`}
+          className={`${styles.input} ${styles.input}`}
         />
         {errors.links?.live && (
-          <p className={commonStyles.error}>{errors.links.live.message}</p>
+          <p className={styles.error}>{errors.links.live.message}</p>
         )}
       </div>
 
-      <div className={commonStyles.formGroup}>
+      <div className={styles.formGroup}>
         <label
           htmlFor="links.github"
-          className={`${commonStyles.label} ${themeStyles.label}`}
+          className={`${styles.label} ${styles.label}`}
         >
           GitHub URL
         </label>
@@ -385,15 +380,15 @@ function ProjectForm({
           type="url"
           {...register("links.github")}
           onBlur={(e) => setValue("links.github", ensureProtocol(e.target.value), { shouldValidate: true })}
-          className={`${commonStyles.input} ${themeStyles.input}`}
+          className={`${styles.input} ${styles.input}`}
         />
         {errors.links?.github && (
-          <p className={commonStyles.error}>{errors.links.github.message}</p>
+          <p className={styles.error}>{errors.links.github.message}</p>
         )}
       </div>
 
-      <div className={`${commonStyles.formGroup} ${commonStyles.fullWidth}`}>
-        <label className={`${commonStyles.label} ${themeStyles.label}`}>
+      <div className={`${styles.formGroup} ${styles.fullWidth}`}>
+        <label className={`${styles.label} ${styles.label}`}>
           Project Image
         </label>
         <ImageUploader
@@ -402,14 +397,14 @@ function ProjectForm({
           onImageUsageChange={handleImageUsageChange}
           useImage={watch("showImage")}
         />
-        <div className={commonStyles.row} style={{ gap: 12, marginTop: 8 }}>
-          <label className={`${commonStyles.label} ${themeStyles.label}`} htmlFor="imageFit" style={{ margin: 0 }}>
+        <div className={styles.row} style={{ gap: 12, marginTop: 8 }}>
+          <label className={`${styles.label} ${styles.label}`} htmlFor="imageFit" style={{ margin: 0 }}>
             Image fit
           </label>
           <select
             id="imageFit"
             {...register("imageFit")}
-            className={`${commonStyles.input} ${themeStyles.input}`}
+            className={`${styles.input} ${styles.input}`}
             style={{ maxWidth: 220 }}
           >
             <option value="cover">cover</option>
@@ -420,14 +415,14 @@ function ProjectForm({
           </select>
         </div>
         {errors.image && (
-          <p className={commonStyles.error}>{errors.image.message}</p>
+          <p className={styles.error}>{errors.image.message}</p>
         )}
       </div>
 
       {/* Gallery Section */}
-      <div className={`${commonStyles.formGroup} ${commonStyles.fullWidth}`}>
-        <div className={commonStyles.row} style={{ gap: 12, marginBottom: 8 }}>
-          <label className={`${commonStyles.label} ${themeStyles.label}`} style={{ margin: 0 }}>
+      <div className={`${styles.formGroup} ${styles.fullWidth}`}>
+        <div className={styles.row} style={{ gap: 12, marginBottom: 8 }}>
+          <label className={`${styles.label} ${styles.label}`} style={{ margin: 0 }}>
             <Controller
               name="showGallery"
               control={control}
@@ -438,7 +433,7 @@ function ProjectForm({
                   onChange={(e) => onChange(e.target.checked)}
                   onBlur={onBlur}
                   ref={ref}
-                  className={commonStyles.checkbox}
+                  className={styles.checkbox}
                 />
               )}
             />
@@ -452,75 +447,75 @@ function ProjectForm({
         />
       </div>
 
-      <div className={commonStyles.srOnly} aria-live="polite" role="status">{ariaMessage}</div>
-      <details className={`${commonStyles.details} ${themeStyles.details}`}>
-        <summary className={`${commonStyles.summary} ${themeStyles.summary}`}>
+      <div className={styles.srOnly} aria-live="polite" role="status">{ariaMessage}</div>
+      <details className={`${styles.details} ${styles.details}`}>
+        <summary className={`${styles.summary} ${styles.summary}`}>
           SEO Settings
         </summary>
-        <div className={commonStyles.detailsContent}>
-          <div className={`${commonStyles.formGroup} ${commonStyles.fullWidth}`}>
+        <div className={styles.detailsContent}>
+          <div className={`${styles.formGroup} ${styles.fullWidth}`}>
             <label
               htmlFor="metaTitle"
-              className={`${commonStyles.label} ${themeStyles.label}`}
+              className={`${styles.label} ${styles.label}`}
             >
               Meta Title
-              <span className={`${themeStyles.badge} ${titleStatus.badge}`} style={{ marginLeft: 8 }}>{titleStatus.label}</span>
+              <span className={`${styles.badge} ${titleStatus.badge}`} style={{ marginLeft: 8 }}>{titleStatus.label}</span>
             </label>
             <input
               id="metaTitle"
               {...register("metaTitle")}
-              className={`${commonStyles.input} ${themeStyles.input} ${titleStatus.border}`}
+              className={`${styles.input} ${styles.input} ${titleStatus.border}`}
               placeholder="Optimal length: 50-60 characters"
             />
-            <div className={commonStyles.helpText}>
+            <div className={styles.helpText}>
               <span>Recommended 50–60 characters.</span>
-              <span className={`${commonStyles.floatRight} ${titleStatus.cls}`} aria-live="polite">
+              <span className={`${styles.floatRight} ${titleStatus.cls}`} aria-live="polite">
                 {remainingTitle} left • {titleStatus.label}
               </span>
             </div>
             {errors.metaTitle && (
-              <p className={commonStyles.error}>{errors.metaTitle.message}</p>
+              <p className={styles.error}>{errors.metaTitle.message}</p>
             )}
           </div>
 
-          <div className={`${commonStyles.formGroup} ${commonStyles.fullWidth}`}>
+          <div className={`${styles.formGroup} ${styles.fullWidth}`}>
             <label
               htmlFor="metaDescription"
-              className={`${commonStyles.label} ${themeStyles.label}`}
+              className={`${styles.label} ${styles.label}`}
             >
               Meta Description
-              <span className={`${themeStyles.badge} ${descStatus.badge}`} style={{ marginLeft: 8 }}>{descStatus.label}</span>
+              <span className={`${styles.badge} ${descStatus.badge}`} style={{ marginLeft: 8 }}>{descStatus.label}</span>
             </label>
             <textarea
               id="metaDescription"
               {...register("metaDescription")}
-              className={`${commonStyles.textarea} ${themeStyles.textarea} ${descStatus.border}`}
+              className={`${styles.textarea} ${styles.textarea} ${descStatus.border}`}
               placeholder="Optimal length: 150-160 characters"
               rows="3"
             ></textarea>
-            <div className={commonStyles.helpText}>
+            <div className={styles.helpText}>
               <span>Recommended 150–160 characters.</span>
-              <span className={`${commonStyles.floatRight} ${descStatus.cls}`} aria-live="polite">
+              <span className={`${styles.floatRight} ${descStatus.cls}`} aria-live="polite">
                 {remainingDesc} left • {descStatus.label}
               </span>
             </div>
             {errors.metaDescription && (
-              <p className={commonStyles.error}>
+              <p className={styles.error}>
                 {errors.metaDescription.message}
               </p>
             )}
           </div>
 
-          <div className={`${commonStyles.formGroup} ${commonStyles.fullWidth}`}>
-            <label className={`${commonStyles.label} ${themeStyles.label}`}>
+          <div className={`${styles.formGroup} ${styles.fullWidth}`}>
+            <label className={`${styles.label} ${styles.label}`}>
               Open Graph Image (for social sharing)
             </label>
             <ImageUploader
               onUpload={handleOgImageUpdate}
               initialImageUrl={watch("ogImage")}
             />
-            <div className={commonStyles.rowBetween}>
-              <p className={commonStyles.helpText}>
+            <div className={styles.rowBetween}>
+              <p className={styles.helpText}>
                 Recommended size: 1200x630px.
               </p>
               <button
@@ -538,14 +533,14 @@ function ProjectForm({
               </button>
             </div>
             {errors.ogImage && (
-              <p className={commonStyles.error}>{errors.ogImage.message}</p>
+              <p className={styles.error}>{errors.ogImage.message}</p>
             )}
           </div>
         </div>
       </details>
 
-      <div className={`${commonStyles.formGroup} ${commonStyles.fullWidth}`}>
-        <label className={`${commonStyles.label} ${themeStyles.label}`}>
+      <div className={`${styles.formGroup} ${styles.fullWidth}`}>
+        <label className={`${styles.label} ${styles.label}`}>
           <Controller
             name="published"
             control={control}
@@ -556,7 +551,7 @@ function ProjectForm({
                 onChange={(e) => onChange(e.target.checked)}
                 onBlur={onBlur}
                 ref={ref}
-                className={commonStyles.checkbox}
+                className={styles.checkbox}
               />
             )}
           />
@@ -564,10 +559,10 @@ function ProjectForm({
         </label>
       </div>
 
-      <div className={`${commonStyles.formGroup} ${commonStyles.fullWidth}`}>
+      <div className={`${styles.formGroup} ${styles.fullWidth}`}>
         <label
           htmlFor="scheduledAt"
-          className={`${commonStyles.label} ${themeStyles.label}`}
+          className={`${styles.label} ${styles.label}`}
         >
           Schedule Publish (optional)
         </label>
@@ -575,19 +570,19 @@ function ProjectForm({
           id="scheduledAt"
           type="datetime-local"
           {...register("scheduledAt")}
-          className={`${commonStyles.input} ${themeStyles.input}`}
+          className={`${styles.input} ${styles.input}`}
         />
-        <div className={commonStyles.helpText}>
+        <div className={styles.helpText}>
           Set a future date/time to schedule. Project will remain draft until
           then unless your backend job auto-publishes.
         </div>
         {errors.scheduledAt && (
-          <p className={commonStyles.error}>{errors.scheduledAt.message}</p>
+          <p className={styles.error}>{errors.scheduledAt.message}</p>
         )}
       </div>
 
-      <div className={`${commonStyles.formGroup} ${commonStyles.fullWidth}`}>
-        <label className={`${commonStyles.label} ${themeStyles.label}`}>
+      <div className={`${styles.formGroup} ${styles.fullWidth}`}>
+        <label className={`${styles.label} ${styles.label}`}>
           <Controller
             name="featuredOnHome"
             control={control}
@@ -598,7 +593,7 @@ function ProjectForm({
                 onChange={(e) => onChange(e.target.checked)}
                 onBlur={onBlur}
                 ref={ref}
-                className={commonStyles.checkbox}
+                className={styles.checkbox}
               />
             )}
           />
@@ -606,7 +601,7 @@ function ProjectForm({
         </label>
       </div>
 
-      <div className={`${commonStyles.formGroup} ${commonStyles.fullWidth} ${commonStyles.row} ${commonStyles.gapSm}`}>
+      <div className={`${styles.formGroup} ${styles.fullWidth} ${styles.row} ${styles.gapSm}`}>
         <button
           type="button"
           className={`${utilities.btn} ${utilities.btnSecondary}`}

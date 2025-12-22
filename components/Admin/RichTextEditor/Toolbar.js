@@ -9,27 +9,21 @@ import {
   FaUndo,
   FaRedo,
 } from "react-icons/fa";
-import { useTheme } from "../../../context/ThemeContext";
 
-import commonStyles from "./RichTextEditor.module.css";
-import lightStyles from "./RichTextEditor.light.module.css";
-import darkStyles from "./RichTextEditor.dark.module.css";
+import styles from "./RichTextEditor.premium.module.css";
 
 const Toolbar = ({ editor }) => {
-  const { theme } = useTheme();
-  const themeStyles = theme === "dark" ? darkStyles : lightStyles;
-
   if (!editor) {
     return null;
   }
 
   const getButtonClass = (type, options = {}) => {
     const isActive = editor.isActive(type, options);
-    return `${commonStyles.toolbarButton} ${themeStyles.toolbarButton} ${isActive ? commonStyles.active : ""} ${isActive ? themeStyles.active : ""}`;
+    return `${styles.toolbarButton} ${isActive ? styles.active : ""}`;
   };
 
   return (
-    <div className={`${commonStyles.toolbar} ${themeStyles.toolbar}`}>
+    <div className={styles.toolbar}>
       <button
         type="button"
         onClick={() => editor.chain().focus().toggleBold().run()}
@@ -82,14 +76,14 @@ const Toolbar = ({ editor }) => {
       <button
         type="button"
         onClick={() => editor.chain().focus().undo().run()}
-        className={`${commonStyles.toolbarButton} ${themeStyles.toolbarButton}`}
+        className={styles.toolbarButton}
       >
         <FaUndo />
       </button>
       <button
         type="button"
         onClick={() => editor.chain().focus().redo().run()}
-        className={`${commonStyles.toolbarButton} ${themeStyles.toolbarButton}`}
+        className={styles.toolbarButton}
       >
         <FaRedo />
       </button>

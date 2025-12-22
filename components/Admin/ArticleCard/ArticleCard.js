@@ -5,13 +5,10 @@ import Icon from '../Icon/Icon';
 import StatusPill from '../StatusPill/StatusPill';
 import Tooltip from '../Tooltip/Tooltip';
 import { formatDateConsistent } from '../../../utils/dateUtils';
-import commonStyles from './ArticleCard.module.css';
-import lightStyles from './ArticleCard.light.module.css';
-import darkStyles from './ArticleCard.dark.module.css';
+import styles from './ArticleCard.premium.module.css';
 import Chip from '../Chip/Chip';
-import { FiTrash2, FiEdit, FiEye, FiCopy, FiCheckCircle, FiXCircle, FiHelpCircle } from "react-icons/fi";
+import { FiHelpCircle } from "react-icons/fi";
 import toast from "react-hot-toast";
-import { useTheme } from '../../../context/ThemeContext';
 import utilities from '../../../styles/utilities.module.css';
 import Spinner from '../../Spinner/Spinner';
 
@@ -51,65 +48,62 @@ const ArticleCard = ({ article, isSelected, onSelect, onDelete, onPin, pinning =
     }
   };
 
-  const { theme } = useTheme();
-  const themeStyles = theme === 'dark' ? darkStyles : lightStyles;
-
   return (
     <motion.div
       variants={cardVariants}
-      className={`${commonStyles.card} ${themeStyles.card} ${isSelected ? `${commonStyles.selected} ${themeStyles.selected}` : ''}`}
+      className={`${styles.card} ${isSelected ? styles.selected : ''}`}
     >
-      <div className={`${commonStyles.selectionOverlay} ${themeStyles.selectionOverlay}`}>
+      <div className={styles.selectionOverlay}>
         <input
           type="checkbox"
           checked={isSelected}
           onChange={(e) => onSelect(e, id)}
-          className={`${commonStyles.checkbox} ${themeStyles.checkbox}`}
+          className={styles.checkbox}
         />
       </div>
-      <div className={`${commonStyles.cardContent} ${themeStyles.cardContent}`}>
-        <div className={`${commonStyles.coverImage} ${themeStyles.coverImage}`}>
+      <div className={styles.cardContent}>
+        <div className={styles.coverImage}>
           {article.coverImage ? (
             <img src={article.coverImage} alt={article.title} />
           ) : (
-            <div className={`${commonStyles.imagePlaceholder} ${themeStyles.imagePlaceholder}`}>
+            <div className={styles.imagePlaceholder}>
               <Icon name="image" size={48} />
             </div>
           )}
-          <div className={`${commonStyles.coverImageOverlay} ${themeStyles.coverImageOverlay}`}></div>
-          <div className={`${commonStyles.metaTop} ${themeStyles.metaTop}`}>
+          <div className={styles.coverImageOverlay}></div>
+          <div className={styles.metaTop}>
             <StatusPill status={article.status} />
           </div>
         </div>
-        <div className={`${commonStyles.info} ${themeStyles.info}`}>
-          <div className={`${commonStyles.tags} ${themeStyles.tags}`}>
+        <div className={styles.info}>
+          <div className={styles.tags}>
             {Array.isArray(article.categories) && article.categories.map((category) => {
               const key = String(category || "");
               const normalized = key.toLowerCase();
-              let catClass = commonStyles.catOthers;
-              if (normalized.includes("academic") || normalized.includes("learning")) catClass = commonStyles.catAcademics;
-              else if (normalized.includes("project") || normalized.includes("career")) catClass = commonStyles.catProjects;
-              else if (normalized.includes("engineer") || normalized.includes("development")) catClass = commonStyles.catEngineering;
-              else if (normalized.includes("tech") || normalized.includes("trend")) catClass = commonStyles.catTech;
+              let catClass = styles.catOthers;
+              if (normalized.includes("academic") || normalized.includes("learning")) catClass = styles.catAcademics;
+              else if (normalized.includes("project") || normalized.includes("career")) catClass = styles.catProjects;
+              else if (normalized.includes("engineer") || normalized.includes("development")) catClass = styles.catEngineering;
+              else if (normalized.includes("tech") || normalized.includes("trend")) catClass = styles.catTech;
               return (
-                <Chip key={key} label={key} className={`${commonStyles.categoryBadge} ${catClass}`} />
+                <Chip key={key} label={key} className={`${styles.categoryBadge} ${catClass}`} />
               );
             })}
             {Array.isArray(article.tags) && article.tags.slice(0, 2).map((tag) => (
-              <Chip key={tag} label={`#${tag}`} className={commonStyles.tagBadge} />
+              <Chip key={tag} label={`#${tag}`} className={styles.tagBadge} />
             ))}
           </div>
-          <h3 className={`${commonStyles.title} ${themeStyles.title}`}>
+          <h3 className={styles.title}>
             <Link href={`/admin/articles/edit/${id}`}>
               {article.title}
             </Link>
           </h3>
           {article.excerpt && (
-            <p className={`${commonStyles.excerpt} ${themeStyles.excerpt}`} title={article.excerpt}>
+            <p className={styles.excerpt} title={article.excerpt}>
               {article.excerpt}
             </p>
           )}
-          <div className={`${commonStyles.metaBottom} ${themeStyles.metaBottom}`}>
+          <div className={styles.metaBottom}>
             <span>
               <Icon name="eye" size={14} /> {article.views || 0}
             </span>
@@ -125,14 +119,14 @@ const ArticleCard = ({ article, isSelected, onSelect, onDelete, onPin, pinning =
           </div>
         </div>
                 {process.env.NEXT_PUBLIC_SHOW_DEBUG === 'true' && (
-          <div className={`${commonStyles.debugInfo} ${themeStyles.debugInfo}`}>
+          <div className={styles.debugInfo}>
             <small>ID: {safeId || 'N/A'}</small>
-            <button onClick={handleCheckExistence} className={`${commonStyles.debugButton} ${themeStyles.debugButton}`} title="Check if this ID exists in the DB">
+            <button onClick={handleCheckExistence} className={styles.debugButton} title="Check if this ID exists in the DB">
               <FiHelpCircle /> Check ID
             </button>
           </div>
         )}
-        <div className={`${commonStyles.actions} ${themeStyles.actions}`}>
+        <div className={styles.actions}>
           <Tooltip content="Edit">
             <Link
               href={`/admin/articles/edit/${id}`}

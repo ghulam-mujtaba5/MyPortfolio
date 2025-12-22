@@ -1,0 +1,135 @@
+/* =================================================
+   STATUS PILL - PREMIUM DESIGN
+   Uses CSS variables for automatic theme adaptation
+   ================================================= */
+
+/* Base styles */
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.775rem;
+  font-weight: 600;
+  letter-spacing: 0.025em;
+  text-transform: capitalize;
+  padding: 0.3rem 0.7rem;
+  border-radius: 999px;
+  border-width: 1px;
+  border-style: solid;
+  white-space: nowrap;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  backdrop-filter: blur(10px);
+}
+
+.iconLeft,
+.iconRight {
+  display: flex;
+  align-items: center;
+  font-size: 0.85rem;
+}
+
+/* Status Variants with CSS variables */
+.published {
+  background: linear-gradient(135deg, rgba(34, 197, 94, 0.15) 0%, rgba(22, 163, 74, 0.15) 100%);
+  border-color: rgba(34, 197, 94, 0.4);
+  color: #15803d;
+}
+
+[data-theme="dark"] .published {
+  background: linear-gradient(135deg, rgba(34, 197, 94, 0.2) 0%, rgba(22, 163, 74, 0.2) 100%);
+  border-color: rgba(34, 197, 94, 0.5);
+  color: #86efac;
+}
+
+.draft {
+  background: linear-gradient(135deg, rgba(251, 191, 36, 0.15) 0%, rgba(245, 158, 11, 0.15) 100%);
+  border-color: rgba(251, 191, 36, 0.4);
+  color: #b45309;
+}
+
+[data-theme="dark"] .draft {
+  background: linear-gradient(135deg, rgba(251, 191, 36, 0.2) 0%, rgba(245, 158, 11, 0.2) 100%);
+  border-color: rgba(251, 191, 36, 0.5);
+  color: #fcd34d;
+}
+
+.archived {
+  background: linear-gradient(135deg, rgba(100, 116, 139, 0.1) 0%, rgba(71, 85, 105, 0.1) 100%);
+  border-color: rgba(100, 116, 139, 0.3);
+  color: #475569;
+}
+
+[data-theme="dark"] .archived {
+  background: linear-gradient(135deg, rgba(100, 116, 139, 0.2) 0%, rgba(71, 85, 105, 0.2) 100%);
+  border-color: rgba(100, 116, 139, 0.5);
+  color: #cbd5e1;
+}
+
+.deleted {
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.15) 0%, rgba(220, 38, 38, 0.15) 100%);
+  border-color: rgba(239, 68, 68, 0.4);
+  color: #b91c1c;
+}
+
+[data-theme="dark"] .deleted {
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.2) 0%, rgba(220, 38, 38, 0.2) 100%);
+  border-color: rgba(239, 68, 68, 0.5);
+  color: #fca5a5;
+}
+
+.pending {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.15) 0%, rgba(37, 99, 235, 0.15) 100%);
+  border-color: rgba(59, 130, 246, 0.4);
+  color: #1d4ed8;
+}
+
+[data-theme="dark"] .pending {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.2) 0%, rgba(37, 99, 235, 0.2) 100%);
+  border-color: rgba(59, 130, 246, 0.5);
+  color: #93c5fd;
+}
+
+.scheduled {
+  background: linear-gradient(135deg, rgba(168, 85, 247, 0.15) 0%, rgba(139, 92, 246, 0.15) 100%);
+  border-color: rgba(168, 85, 247, 0.4);
+  color: #7c3aed;
+}
+
+[data-theme="dark"] .scheduled {
+  background: linear-gradient(135deg, rgba(168, 85, 247, 0.2) 0%, rgba(139, 92, 246, 0.2) 100%);
+  border-color: rgba(168, 85, 247, 0.5);
+  color: #c4b5fd;
+}
+
+.featured {
+  background: linear-gradient(135deg, rgba(236, 72, 153, 0.15) 0%, rgba(219, 39, 119, 0.15) 100%);
+  border-color: rgba(236, 72, 153, 0.4);
+  color: #be185d;
+}
+
+[data-theme="dark"] .featured {
+  background: linear-gradient(135deg, rgba(236, 72, 153, 0.2) 0%, rgba(219, 39, 119, 0.2) 100%);
+  border-color: rgba(236, 72, 153, 0.5);
+  color: #f9a8d4;
+}
+
+/* Size variants */
+.small {
+  font-size: 0.7rem;
+  padding: 0.2rem 0.5rem;
+}
+
+.small .iconLeft,
+.small .iconRight {
+  font-size: 0.75rem;
+}
+
+.large {
+  font-size: 0.875rem;
+  padding: 0.4rem 0.9rem;
+}
+
+.large .iconLeft,
+.large .iconRight {
+  font-size: 1rem;
+}

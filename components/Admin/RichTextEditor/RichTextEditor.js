@@ -3,23 +3,18 @@ import { useState, useMemo, useEffect, useRef } from "react";
 import dynamic from "next/dynamic";
 import StarterKit from "@tiptap/starter-kit";
 import Image from "@tiptap/extension-image";
-import { useTheme } from "../../../context/ThemeContext";
 import Toolbar from "./Toolbar";
 import Modal from "../../Admin/Modal/Modal";
 import { toast } from "react-hot-toast";
 import InlineSpinner from "../../LoadingAnimation/InlineSpinner";
 
-import commonStyles from "./RichTextEditor.module.css";
-import lightStyles from "./RichTextEditor.light.module.css";
-import darkStyles from "./RichTextEditor.dark.module.css";
+import styles from "./RichTextEditor.premium.module.css";
 
 const MediaLibrary = dynamic(() => import("../MediaLibrary/MediaLibrary"), {
   ssr: false,
 });
 
 const RichTextEditor = ({ value, onChange }) => {
-  const { theme } = useTheme();
-  const themeStyles = theme === "dark" ? darkStyles : lightStyles;
   const [isMediaOpen, setIsMediaOpen] = useState(false);
   const [isCodeOpen, setIsCodeOpen] = useState(false);
   const [isMarkdownOpen, setIsMarkdownOpen] = useState(false);
@@ -79,7 +74,7 @@ const RichTextEditor = ({ value, onChange }) => {
     },
     editorProps: {
       attributes: {
-        class: `${commonStyles.editor} ${themeStyles.editor}`,
+        class: styles.editor,
       },
     },
   });
@@ -190,35 +185,33 @@ const RichTextEditor = ({ value, onChange }) => {
   }, []);
 
   return (
-    <div
-      className={`${commonStyles.editorContainer} ${themeStyles.editorContainer}`}
-    >
+    <div className={styles.editorContainer}>
       <Toolbar editor={editor} />
-      <div className={`${commonStyles.rowEnd} ${commonStyles.myXs} ${commonStyles.gapSm}`}>
+      <div className={`${styles.rowEnd} ${styles.myXs} ${styles.gapSm}`}>
         <button
           type="button"
-          className={commonStyles.toolbarButton}
+          className={styles.toolbarButton}
           onClick={() => setIsMediaOpen(true)}
         >
           Insert Media
         </button>
         <button
           type="button"
-          className={commonStyles.toolbarButton}
+          className={styles.toolbarButton}
           onClick={() => setIsCodeOpen(true)}
         >
           Insert Code
         </button>
         <button
           type="button"
-          className={commonStyles.toolbarButton}
+          className={styles.toolbarButton}
           onClick={() => setIsMarkdownOpen(true)}
         >
           Import Markdown
         </button>
         <button
           type="button"
-          className={commonStyles.toolbarButton}
+          className={styles.toolbarButton}
           onClick={() => {
             setSourceText(editor.getHTML());
             setIsSourceOpen(true);
@@ -228,14 +221,14 @@ const RichTextEditor = ({ value, onChange }) => {
         </button>
         <button
           type="button"
-          className={commonStyles.toolbarButton}
+          className={styles.toolbarButton}
           onClick={() => setIsSnippetsOpen(true)}
         >
           Blocks & Snippets
         </button>
         <button
           type="button"
-          className={commonStyles.toolbarButton}
+          className={styles.toolbarButton}
           onClick={() => setIsFindOpen(true)}
         >
           Find & Replace
@@ -270,15 +263,15 @@ const RichTextEditor = ({ value, onChange }) => {
         onClose={() => setIsSnippetsOpen(false)}
         title="Blocks & Snippets"
       >
-        <div className={`${commonStyles.grid} ${commonStyles.gapMd}`}>
+        <div className={`${styles.grid} ${styles.gapMd}`}>
           <section>
-            <h4 className={commonStyles.myXs}>Built-in Blocks</h4>
-            <div className={`${commonStyles.row} ${commonStyles.wrap} ${commonStyles.gapSm}`}>
+            <h4 className={styles.myXs}>Built-in Blocks</h4>
+            <div className={`${styles.row} ${styles.wrap} ${styles.gapSm}`}>
               {BUILTIN_BLOCKS.map((b) => (
                 <button
                   key={b.id}
                   type="button"
-                  className={commonStyles.toolbarButton}
+                  className={styles.toolbarButton}
                   onClick={() => {
                     if (editor)
                       editor.chain().focus().insertContent(b.html).run();
@@ -291,28 +284,28 @@ const RichTextEditor = ({ value, onChange }) => {
             </div>
           </section>
           <section>
-            <h4 className={commonStyles.myXs}>My Snippets</h4>
+            <h4 className={styles.myXs}>My Snippets</h4>
             {isLoadingSnippets ? (
-              <p className={commonStyles.row + " " + commonStyles.alignCenter + " " + commonStyles.gapXs}>
+              <p className={styles.row + " " + styles.alignCenter + " " + styles.gapXs}>
                 <InlineSpinner sizePx={16} />
                 <span>Loading snippets…</span>
               </p>
             ) : customSnippets.length === 0 ? (
-              <p className={commonStyles.muted}>No custom snippets yet.</p>
+              <p className={styles.muted}>No custom snippets yet.</p>
             ) : null}
-            <div className={`${commonStyles.grid} ${commonStyles.gapSm}`}>
+            <div className={`${styles.grid} ${styles.gapSm}`}>
               {customSnippets.map((s) => (
                 <div
                   key={s._id}
-                  className={`${commonStyles.itemBox} ${commonStyles.rowBetween} ${commonStyles.alignCenter}`}
+                  className={`${styles.itemBox} ${styles.rowBetween} ${styles.alignCenter}`}
                 >
-                  <div className={`${commonStyles.row} ${commonStyles.alignCenter} ${commonStyles.gapSm}`}>
+                  <div className={`${styles.row} ${styles.alignCenter} ${styles.gapSm}`}>
                     <strong>{s.name}</strong>
                   </div>
-                  <div className={`${commonStyles.row} ${commonStyles.gapXs}`}>
+                  <div className={`${styles.row} ${styles.gapXs}`}>
                     <button
                       type="button"
-                      className={commonStyles.toolbarButton}
+                      className={styles.toolbarButton}
                       onClick={() => {
                         if (editor)
                           editor.chain().focus().insertContent(s.html).run();
@@ -323,7 +316,7 @@ const RichTextEditor = ({ value, onChange }) => {
                     </button>
                     <button
                       type="button"
-                      className={commonStyles.toolbarButton}
+                      className={styles.toolbarButton}
                       onClick={() => confirmDeleteSnippet(s._id)}
                     >
                       Delete
@@ -332,7 +325,7 @@ const RichTextEditor = ({ value, onChange }) => {
                 </div>
               ))}
             </div>
-            <div className={`${commonStyles.row} ${commonStyles.gapSm} ${commonStyles.mtSm}`}>
+            <div className={`${styles.row} ${styles.gapSm} ${styles.mtSm}`}>
               <input
                 type="text"
                 placeholder="Snippet name"
@@ -341,7 +334,7 @@ const RichTextEditor = ({ value, onChange }) => {
               />
               <button
                 type="button"
-                className={commonStyles.toolbarButton}
+                className={styles.toolbarButton}
                 onClick={() => {
                   if (!editor) return;
                   const sel = window.getSelection && window.getSelection();
@@ -376,9 +369,9 @@ const RichTextEditor = ({ value, onChange }) => {
         onClose={() => setIsCodeOpen(false)}
         title="Insert Code Snippet"
       >
-        <div className={`${commonStyles.col} ${commonStyles.gapSm}`}>
+        <div className={`${styles.col} ${styles.gapSm}`}>
           <label
-            className={`${commonStyles.toolbarButton} ${commonStyles.rowInline} ${commonStyles.alignCenter} ${commonStyles.gapSm}`}
+            className={`${styles.toolbarButton} ${styles.rowInline} ${styles.alignCenter} ${styles.gapSm}`}
           >
             Language
             <select
@@ -400,12 +393,12 @@ const RichTextEditor = ({ value, onChange }) => {
             value={codeText}
             onChange={(e) => setCodeText(e.target.value)}
             placeholder="Paste code here"
-            className={commonStyles.codeTextarea}
+            className={styles.codeTextarea}
           />
-          <div className={`${commonStyles.rowEnd} ${commonStyles.gapSm}`}>
+          <div className={`${styles.rowEnd} ${styles.gapSm}`}>
             <button
               type="button"
-              className={commonStyles.toolbarButton}
+              className={styles.toolbarButton}
               onClick={() => {
                 setCodeText("");
                 setIsCodeOpen(false);
@@ -415,7 +408,7 @@ const RichTextEditor = ({ value, onChange }) => {
             </button>
             <button
               type="button"
-              className={commonStyles.toolbarButton}
+              className={styles.toolbarButton}
               onClick={() => {
                 if (editor && codeText.trim()) {
                   const safe = codeText
@@ -444,18 +437,18 @@ const RichTextEditor = ({ value, onChange }) => {
         onClose={() => setIsMarkdownOpen(false)}
         title="Import Markdown"
       >
-        <div className={`${commonStyles.col} ${commonStyles.gapSm}`}>
+        <div className={`${styles.col} ${styles.gapSm}`}>
           <textarea
             rows={12}
             value={markdownText}
             onChange={(e) => setMarkdownText(e.target.value)}
             placeholder="# Heading\n\nWrite Markdown here..."
-            className={commonStyles.codeTextarea}
+            className={styles.codeTextarea}
           />
-          <div className={`${commonStyles.rowEnd} ${commonStyles.gapSm}`}>
+          <div className={`${styles.rowEnd} ${styles.gapSm}`}>
             <button
               type="button"
-              className={commonStyles.toolbarButton}
+              className={styles.toolbarButton}
               onClick={() => {
                 setMarkdownText("");
                 setIsMarkdownOpen(false);
@@ -465,7 +458,7 @@ const RichTextEditor = ({ value, onChange }) => {
             </button>
             <button
               type="button"
-              className={commonStyles.toolbarButton}
+              className={styles.toolbarButton}
               onClick={() => {
                 if (editor && markdownText.trim()) {
                   const html = convertMarkdownToHtml(markdownText);
@@ -488,7 +481,7 @@ const RichTextEditor = ({ value, onChange }) => {
         onClose={() => setIsFindOpen(false)}
         title="Find & Replace"
       >
-        <div className={`${commonStyles.grid} ${commonStyles.gapSm}`}>
+        <div className={`${styles.grid} ${styles.gapSm}`}>
           <input
             type="text"
             placeholder="Find..."
@@ -501,7 +494,7 @@ const RichTextEditor = ({ value, onChange }) => {
             value={replaceText}
             onChange={(e) => setReplaceText(e.target.value)}
           />
-          <label className={`${commonStyles.row} ${commonStyles.alignCenter} ${commonStyles.gapXs}`}>
+          <label className={`${styles.row} ${styles.alignCenter} ${styles.gapXs}`}>
             <input
               type="checkbox"
               checked={caseSensitive}
@@ -509,17 +502,17 @@ const RichTextEditor = ({ value, onChange }) => {
             />
             Case sensitive
           </label>
-          <div className={`${commonStyles.rowEnd} ${commonStyles.gapSm}`}>
+          <div className={`${styles.rowEnd} ${styles.gapSm}`}>
             <button
               type="button"
-              className={commonStyles.toolbarButton}
+              className={styles.toolbarButton}
               onClick={() => setIsFindOpen(false)}
             >
               Close
             </button>
             <button
               type="button"
-              className={commonStyles.toolbarButton}
+              className={styles.toolbarButton}
               disabled={!findText}
               onClick={() => {
                 if (!editor) return;
@@ -573,25 +566,25 @@ const RichTextEditor = ({ value, onChange }) => {
         onClose={() => setIsSourceOpen(false)}
         title="Edit HTML Source"
       >
-        <div className={`${commonStyles.col} ${commonStyles.gapSm}`}>
+        <div className={`${styles.col} ${styles.gapSm}`}>
           <textarea
             rows={15}
             value={sourceText}
             onChange={(e) => setSourceText(e.target.value)}
             placeholder="HTML content..."
-            className={commonStyles.codeTextarea}
+            className={styles.codeTextarea}
           />
-          <div className={`${commonStyles.rowEnd} ${commonStyles.gapSm}`}>
+          <div className={`${styles.rowEnd} ${styles.gapSm}`}>
             <button
               type="button"
-              className={commonStyles.toolbarButton}
+              className={styles.toolbarButton}
               onClick={() => setIsSourceOpen(false)}
             >
               Cancel
             </button>
             <button
               type="button"
-              className={commonStyles.toolbarButton}
+              className={styles.toolbarButton}
               onClick={() => {
                 if (editor && sourceText.trim()) {
                   editor.commands.setContent(sourceText, false);

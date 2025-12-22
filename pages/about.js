@@ -10,13 +10,15 @@ import dark from "../components/AboutPage/AboutPageDark.module.css";
 import { useTheme } from "../context/ThemeContext";
 import ScrollReveal from "../components/AnimatedUI/ScrollReveal";
 import { Tooltip } from "../components/Popover/Popover";
-import { useParallax, useScrollAnimation } from "../hooks/useScrollAnimation";
+import { useParallax, useScrollAnimation, useScrollTrigger } from "../hooks/useScrollAnimation";
+import { useViewTransition } from "../hooks/useViewTransition";
 import { 
-  Rocket, Target, Zap, TrendingUp, 
+  Sparkles, Target, Zap, TrendingUp, 
   Trophy, Lightbulb, Award, 
-  Code, Brain, BarChart, Cloud, Settings, Palette,
+  Code2, Brain, BarChart3, Cloud, Cpu, Palette,
   Briefcase, GraduationCap, MapPin, Mail, Github, Linkedin,
-  Activity, BookOpen
+  Heart, BookOpen, Rocket, Star, Users, ArrowRight, 
+  CircleCheck, Flame, Globe, Terminal, Database, Shield
 } from 'lucide-react';
 
 const NavBarDesktop = dynamic(() => import("../components/NavBar_Desktop/nav-bar"), { ssr: false });
@@ -94,22 +96,22 @@ const interests = [
 
 const funFacts = [
   {
-    icon: <Rocket size={32} />,
+    icon: <Sparkles size={28} strokeWidth={1.5} />,
     title: 'Innovation Mindset',
     text: 'Always exploring cutting-edge technologies and implementing creative solutions to complex problems.'
   },
   {
-    icon: <Target size={32} />,
+    icon: <Target size={28} strokeWidth={1.5} />,
     title: 'Problem Solver',
     text: 'Passionate about turning challenging requirements into elegant, user-friendly applications.'
   },
   {
-    icon: <Zap size={32} />,
+    icon: <Flame size={28} strokeWidth={1.5} />,
     title: 'Fast Learner',
     text: 'Quickly adapts to new frameworks and technologies, staying ahead of industry trends.'
   },
   {
-    icon: <TrendingUp size={32} />,
+    icon: <TrendingUp size={28} strokeWidth={1.5} />,
     title: 'Growth Oriented',
     text: 'Continuously improving skills through hands-on projects and learning from the developer community.'
   }
@@ -117,17 +119,17 @@ const funFacts = [
 
 const achievements = [
   {
-    icon: <Trophy size={40} />,
+    icon: <Trophy size={32} strokeWidth={1.5} />,
     title: 'AI Model Excellence',
     description: 'Successfully evaluated and improved LLM accuracy across multiple Appen projects, contributing to enhanced search relevance.'
   },
   {
-    icon: <Lightbulb size={40} />,
+    icon: <Lightbulb size={32} strokeWidth={1.5} />,
     title: 'Full-Stack Innovation',
     description: 'Developed diverse applications from desktop billing software to mobile financial analytics platforms.'
   },
   {
-    icon: <Award size={40} />,
+    icon: <Award size={32} strokeWidth={1.5} />,
     title: 'Certified Professional',
     description: 'Earned 5 Google certifications and Meta Front-End Developer certification, demonstrating expertise across multiple domains.'
   }
@@ -135,32 +137,32 @@ const achievements = [
 
 const skillsData = [
   {
-    icon: <Code size={40} />,
+    icon: <Code2 size={32} strokeWidth={1.5} />,
     name: 'Full-Stack Development',
     description: 'Modern web applications with React, Next.js, Node.js, and cloud platforms'
   },
   {
-    icon: <Brain size={40} />,
+    icon: <Brain size={32} strokeWidth={1.5} />,
     name: 'AI & Machine Learning',
     description: 'Deep learning models, computer vision, NLP, and AI-powered solutions'
   },
   {
-    icon: <BarChart size={40} />,
+    icon: <BarChart3 size={32} strokeWidth={1.5} />,
     name: 'Data Science',
     description: 'Statistical analysis, data visualization, and predictive modeling'
   },
   {
-    icon: <Cloud size={40} />,
+    icon: <Cloud size={32} strokeWidth={1.5} />,
     name: 'Cloud Architecture',
     description: 'AWS, Google Cloud, containerization, and scalable infrastructure'
   },
   {
-    icon: <Settings size={40} />,
+    icon: <Terminal size={32} strokeWidth={1.5} />,
     name: 'DevOps & Automation',
     description: 'CI/CD pipelines, testing automation, and deployment optimization'
   },
   {
-    icon: <Palette size={40} />,
+    icon: <Palette size={32} strokeWidth={1.5} />,
     name: 'UI/UX Design',
     description: 'User-centered design, prototyping, and modern design systems'
   }
@@ -168,25 +170,25 @@ const skillsData = [
 
 const certificationsData = [
   {
-    icon: <Cloud size={32} />,
+    icon: <Cloud size={28} strokeWidth={1.5} />,
     name: 'Google Cloud Professional Data Engineer',
     organization: 'Google Cloud',
     date: '2024'
   },
   {
-    icon: <BarChart size={32} />,
+    icon: <BarChart3 size={28} strokeWidth={1.5} />,
     name: 'Google Data Analytics Certificate',
     organization: 'Google Career Certificates',
     date: '2023'
   },
   {
-    icon: <Brain size={32} />,
+    icon: <Brain size={28} strokeWidth={1.5} />,
     name: 'Machine Learning Specialization',
     organization: 'DeepLearning.AI',
     date: '2023'
   },
   {
-    icon: <Zap size={32} />,
+    icon: <Cpu size={28} strokeWidth={1.5} />,
     name: 'TensorFlow Developer Certificate',
     organization: 'TensorFlow',
     date: '2023'
@@ -195,22 +197,22 @@ const certificationsData = [
 
 const interestsData = [
   {
-    icon: <Rocket size={32} />,
+    icon: <Rocket size={28} strokeWidth={1.5} />,
     name: 'Startup & Business Development',
     description: 'Learning how tech ideas grow into impactful businesses'
   },
   {
-    icon: <BookOpen size={32} />,
+    icon: <BookOpen size={28} strokeWidth={1.5} />,
     name: 'Technology Research',
     description: 'Staying updated with emerging AI trends and experimental technologies'
   },
   {
-    icon: <Activity size={32} />,
+    icon: <Heart size={28} strokeWidth={1.5} />,
     name: 'Fitness & Running',
     description: 'Maintaining physical and mental health through regular exercise'
   },
   {
-    icon: <Lightbulb size={32} />,
+    icon: <Globe size={28} strokeWidth={1.5} />,
     name: 'Innovation & Strategy',
     description: 'Connecting software engineering with problem-solving at scale'
   }
@@ -219,6 +221,11 @@ const interestsData = [
 export default function AboutPage() {
   const { theme } = useTheme();
   const { ref: heroRef, style: heroStyle } = useParallax(0.1);
+  const { startTransition } = useViewTransition();
+  const { ref: statsRef, hasEntered: statsVisible } = useScrollTrigger({ threshold: 0.2 });
+  const { ref: factsRef, hasEntered: factsVisible } = useScrollTrigger({ threshold: 0.2 });
+  const { ref: achievementsRef, hasEntered: achievementsVisible } = useScrollTrigger({ threshold: 0.2 });
+  const { ref: interestsRef, hasEntered: interestsVisible } = useScrollTrigger({ threshold: 0.2 });
 
   // Populate person data from local scraped JSON when available
   let scraped = {};
@@ -326,11 +333,11 @@ export default function AboutPage() {
 
                 <div className={common.chips}>
                   <span className={`${common.chip} ${theme === 'dark' ? dark.chip : light.chip}`}>
-                    <MapPin size={16} style={{ display: 'inline', marginRight: 4, verticalAlign: 'text-bottom' }} />
+                    <MapPin size={16} strokeWidth={2} />
                     {scraped.location || 'Lahore, Pakistan'}
                   </span>
                   <span className={`${common.chip} ${theme === 'dark' ? dark.chip : light.chip}`}>
-                    <GraduationCap size={16} style={{ display: 'inline', marginRight: 4, verticalAlign: 'text-bottom' }} />
+                    <GraduationCap size={16} strokeWidth={2} />
                     {scraped.university || 'Comsats University, Lahore'}
                   </span>
                   <Tooltip 
@@ -338,7 +345,7 @@ export default function AboutPage() {
                     placement="top"
                     trigger={
                       <span className={`${common.chip} ${theme === 'dark' ? dark.chip : light.chip}`}>
-                        <Briefcase size={16} style={{ display: 'inline', marginRight: 4, verticalAlign: 'text-bottom' }} />
+                        <CircleCheck size={16} strokeWidth={2} />
                         Available for Work
                       </span>
                     }
@@ -347,16 +354,19 @@ export default function AboutPage() {
                 
                 <div className={common.socials}>
                   <a className={`${common.socialLink} ${theme === 'dark' ? dark.socialLink : light.socialLink}`} 
-                     href="mailto:ghulammujtaba1005@gmail.com">
-                    <Mail size={18} style={{ display: 'inline', marginRight: 6, verticalAlign: 'text-bottom' }} /> Email
+                     href="mailto:ghulammujtaba1005@gmail.com"
+                     aria-label="Send email">
+                    <Mail size={18} strokeWidth={2} /> Email
                   </a>
                   <a className={`${common.socialLink} ${theme === 'dark' ? dark.socialLink : light.socialLink}`} 
-                     href="https://github.com/ghulam-mujtaba5" target="_blank" rel="noopener noreferrer">
-                    <Github size={18} style={{ display: 'inline', marginRight: 6, verticalAlign: 'text-bottom' }} /> GitHub
+                     href="https://github.com/ghulam-mujtaba5" target="_blank" rel="noopener noreferrer"
+                     aria-label="GitHub Profile">
+                    <Github size={18} strokeWidth={2} /> GitHub
                   </a>
                   <a className={`${common.socialLink} ${theme === 'dark' ? dark.socialLink : light.socialLink}`} 
-                     href="https://www.linkedin.com/in/ghulamujtabaofficial" target="_blank" rel="noopener noreferrer">
-                    <Linkedin size={18} style={{ display: 'inline', marginRight: 6, verticalAlign: 'text-bottom' }} /> LinkedIn
+                     href="https://www.linkedin.com/in/ghulamujtabaofficial" target="_blank" rel="noopener noreferrer"
+                     aria-label="LinkedIn Profile">
+                    <Linkedin size={18} strokeWidth={2} /> LinkedIn
                   </a>
                 </div>
               </div>
@@ -414,26 +424,29 @@ export default function AboutPage() {
         <ScrollReveal animation="fadeInLeft" width="100%">
           <section className={`${common.section}`} aria-labelledby="stats-heading">
             <div className={common.sectionHeader}>
-              <BarChart className={common.sectionIcon} />
+              <BarChart3 className={common.sectionIcon} strokeWidth={1.5} />
               <h2 id="stats-heading" className={common.sectionTitle}>Quick Stats</h2>
             </div>
-            <div className={common.statsGrid}>
-              <div className={`${common.card} ${common.statCard} ${common.cardHover}`}>
-                <div className={`${common.kpiValue} ${theme === 'dark' ? dark.kpiValue : light.kpiValue}`}>3+</div>
-                <div className={`${common.kpiLabel} ${theme === 'dark' ? dark.kpiLabel : light.kpiLabel}`}>Years with AI/ML</div>
-              </div>
-              <div className={`${common.card} ${common.statCard} ${common.cardHover}`}>
-                <div className={`${common.kpiValue} ${theme === 'dark' ? dark.kpiValue : light.kpiValue}`}>15+</div>
-                <div className={`${common.kpiLabel} ${theme === 'dark' ? dark.kpiLabel : light.kpiLabel}`}>Projects Delivered</div>
-              </div>
-              <div className={`${common.card} ${common.statCard} ${common.cardHover}`}>
-                <div className={`${common.kpiValue} ${theme === 'dark' ? dark.kpiValue : light.kpiValue}`}>5</div>
-                <div className={`${common.kpiLabel} ${theme === 'dark' ? dark.kpiLabel : light.kpiLabel}`}>Google Certifications</div>
-              </div>
-              <div className={`${common.card} ${common.statCard} ${common.cardHover}`}>
-                <div className={`${common.kpiValue} ${theme === 'dark' ? dark.kpiValue : light.kpiValue}`}>∞</div>
-                <div className={`${common.kpiLabel} ${theme === 'dark' ? dark.kpiLabel : light.kpiLabel}`}>Curiosity & Growth</div>
-              </div>
+            <div ref={statsRef} className={common.statsGrid}>
+              {[
+                { value: '3+', label: 'Years with AI/ML' },
+                { value: '15+', label: 'Projects Delivered' },
+                { value: '5', label: 'Google Certifications' },
+                { value: '∞', label: 'Curiosity & Growth' }
+              ].map((stat, index) => (
+                <div 
+                  key={index}
+                  className={`${common.card} ${common.statCard} ${common.cardHover}`}
+                  style={{
+                    opacity: statsVisible ? 1 : 0,
+                    transform: statsVisible ? 'translateY(0)' : 'translateY(20px)',
+                    transition: `all 0.6s cubic-bezier(0.4, 0, 0.2, 1) ${index * 100}ms`
+                  }}
+                >
+                  <div className={`${common.kpiValue} ${theme === 'dark' ? dark.kpiValue : light.kpiValue}`}>{stat.value}</div>
+                  <div className={`${common.kpiLabel} ${theme === 'dark' ? dark.kpiLabel : light.kpiLabel}`}>{stat.label}</div>
+                </div>
+              ))}
             </div>
           </section>
         </ScrollReveal>
@@ -442,12 +455,20 @@ export default function AboutPage() {
         <ScrollReveal animation="fadeInRight" width="100%">
           <section className={`${common.section}`} aria-labelledby="facts-heading">
             <div className={common.sectionHeader}>
-              <Zap className={common.sectionIcon} />
+              <Zap className={common.sectionIcon} strokeWidth={1.5} />
               <h2 id="facts-heading" className={common.sectionTitle}>What Drives Me</h2>
             </div>
-            <div className={common.funFactsGrid}>
+            <div ref={factsRef} className={common.funFactsGrid}>
               {funFacts.map((fact, index) => (
-                <div key={index} className={`${common.card} ${common.funFactCard} ${common.cardHover}`}>
+                <div 
+                  key={index} 
+                  className={`${common.card} ${common.funFactCard} ${common.cardHover}`}
+                  style={{
+                    opacity: factsVisible ? 1 : 0,
+                    transform: factsVisible ? 'translateY(0)' : 'translateY(20px)',
+                    transition: `all 0.6s cubic-bezier(0.4, 0, 0.2, 1) ${index * 100}ms`
+                  }}
+                >
                   <span className={`${common.funFactIcon} ${theme === 'dark' ? dark.funFactIcon : light.funFactIcon}`}>
                     {fact.icon}
                   </span>
@@ -466,12 +487,20 @@ export default function AboutPage() {
         <ScrollReveal animation="fadeInLeft" width="100%">
           <section className={`${common.section}`} aria-labelledby="impact-heading">
             <div className={common.sectionHeader}>
-              <TrendingUp className={common.sectionIcon} />
+              <Star className={common.sectionIcon} strokeWidth={1.5} />
               <h2 id="impact-heading" className={common.sectionTitle}>Impact Stories</h2>
             </div>
-            <div className={common.achievementsGrid}>
+            <div ref={achievementsRef} className={common.achievementsGrid}>
               {achievements.map((achievement, index) => (
-                <div key={index} className={`${common.card} ${common.achievementCard} ${common.cardHover}`}>
+                <div 
+                  key={index} 
+                  className={`${common.card} ${common.achievementCard} ${common.cardHover}`}
+                  style={{
+                    opacity: achievementsVisible ? 1 : 0,
+                    transform: achievementsVisible ? 'translateY(0)' : 'translateY(20px)',
+                    transition: `all 0.6s cubic-bezier(0.4, 0, 0.2, 1) ${index * 100}ms`
+                  }}
+                >
                   <span className={`${common.achievementIcon} ${theme === 'dark' ? dark.achievementIcon : light.achievementIcon}`}>
                     {achievement.icon}
                   </span>
@@ -488,7 +517,7 @@ export default function AboutPage() {
         <ScrollReveal animation="fadeInUp" width="100%">
           <section className={`${common.section}`} aria-labelledby="aboutme-heading">
             <div className={common.sectionHeader}>
-              <Code className={common.sectionIcon} />
+              <Users className={common.sectionIcon} strokeWidth={1.5} />
               <h2 id="aboutme-heading" className={common.sectionTitle}>About Me</h2>
             </div>
             <div className={`${common.card} ${theme === 'dark' ? dark.card : light.card}`}>
@@ -507,13 +536,23 @@ export default function AboutPage() {
         <ScrollReveal animation="fadeInRight" width="100%">
           <section className={`${common.section}`} aria-labelledby="interests-heading">
             <div className={common.sectionHeader}>
-              <Activity className={common.sectionIcon} />
+              <Heart className={common.sectionIcon} strokeWidth={1.5} />
               <h2 id="interests-heading" className={common.sectionTitle}>When I'm Not Coding</h2>
             </div>
-            <div className={common.interestsGrid}>
+            <div ref={interestsRef} className={common.interestsGrid}>
               {interestsData.map((interest, idx) => (
-                <div key={idx} className={`${common.interestCard} ${theme === 'dark' ? dark.interestCard : light.interestCard}`}>
-                  <span className={common.interestIcon}>{interest.icon}</span>
+                <div 
+                  key={idx} 
+                  className={`${common.interestCard} ${theme === 'dark' ? dark.interestCard : light.interestCard}`}
+                  style={{
+                    opacity: interestsVisible ? 1 : 0,
+                    transform: interestsVisible ? 'translateY(0)' : 'translateY(20px)',
+                    transition: `all 0.6s cubic-bezier(0.4, 0, 0.2, 1) ${idx * 100}ms`
+                  }}
+                >
+                  <span className={`${common.interestIcon} ${theme === 'dark' ? dark.interestIcon : light.interestIcon}`}>
+                    {interest.icon}
+                  </span>
                   <h3 className={common.interestTitle}>{interest.name}</h3>
                   <p className={`${common.interestDesc} ${theme === 'dark' ? dark.subtitle : light.subtitle}`}>
                     {interest.description}
@@ -528,16 +567,40 @@ export default function AboutPage() {
         <ScrollReveal animation="fadeInUp" width="100%">
           <section className={`${common.section} ${common.ctaSection}`} aria-labelledby="cta-heading">
             <div className={`${common.ctaCard} ${theme === 'dark' ? dark.ctaCard : light.ctaCard}`}>
-              <h2 id="cta-heading" className={common.ctaTitle}>Start a project</h2>
+              <h2 id="cta-heading" className={common.ctaTitle}>Let's Build Something Amazing</h2>
               <p className={`${common.ctaDescription} ${theme === 'dark' ? dark.subtitle : light.subtitle}`}>
-                Have a project or want to collaborate? Let's talk.
+                Have a project in mind or want to collaborate? I'm always excited to work on innovative solutions.
               </p>
               <div className={common.ctaButtons}>
-                <Link href="/contact" className={`${common.ctaButton} ${common.ctaPrimary} ${theme === 'dark' ? dark.ctaPrimary : light.ctaPrimary}`}>
-                  Contact
+                <Link 
+                  href="/contact" 
+                  className={`${common.ctaButton} ${common.ctaPrimary} ${theme === 'dark' ? dark.ctaPrimary : light.ctaPrimary}`}
+                  onClick={(e) => {
+                    if (document.startViewTransition) {
+                      e.preventDefault();
+                      startTransition(() => {
+                        window.location.href = '/contact';
+                      });
+                    }
+                  }}
+                >
+                  <Mail size={18} strokeWidth={2} />
+                  Get In Touch
                 </Link>
-                <Link href="/projects" className={`${common.ctaButton} ${common.ctaSecondary} ${theme === 'dark' ? dark.ctaSecondary : light.ctaSecondary}`}>
-                  Portfolio
+                <Link 
+                  href="/projects" 
+                  className={`${common.ctaButton} ${common.ctaSecondary} ${theme === 'dark' ? dark.ctaSecondary : light.ctaSecondary}`}
+                  onClick={(e) => {
+                    if (document.startViewTransition) {
+                      e.preventDefault();
+                      startTransition(() => {
+                        window.location.href = '/projects';
+                      });
+                    }
+                  }}
+                >
+                  View Portfolio
+                  <ArrowRight size={18} strokeWidth={2} />
                 </Link>
               </div>
             </div>

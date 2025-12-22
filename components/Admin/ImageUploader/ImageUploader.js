@@ -1,12 +1,9 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import Image from "next/image";
-import { useTheme } from "../../../context/ThemeContext";
 import axios from "axios";
 import toast from "react-hot-toast";
 
-import commonStyles from "./ImageUploader.module.css";
-import lightStyles from "./ImageUploader.light.module.css";
-import darkStyles from "./ImageUploader.dark.module.css";
+import styles from "./ImageUploader.premium.module.css";
 import Modal from "../Modal/Modal";
 import MediaLibrary from "../MediaLibrary/MediaLibrary";
 
@@ -17,9 +14,6 @@ export default function ImageUploader({
   useImage: initialUseImage = true,
   onAltTextChange,
 }) {
-  const { theme } = useTheme();
-  const themeStyles = theme === "dark" ? darkStyles : lightStyles;
-
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState(null);
   const [preview, setPreview] = useState(initialImageUrl);
@@ -129,21 +123,17 @@ export default function ImageUploader({
 
   // Removed AI alt text generation handler
 
-  const uploaderBoxClasses = `
-    ${commonStyles.uploaderBox} 
-    ${themeStyles.uploaderBox} 
-    ${isDragOver ? themeStyles.dragOver : ""}
-  `;
+  const uploaderBoxClasses = `${styles.uploaderBox} ${isDragOver ? styles.dragOver : ""}`;
 
   return (
-    <div className={`${commonStyles.container} ${themeStyles.container}`}>
-      <div className={commonStyles.toggleContainer}>
-        <label className={commonStyles.toggleLabel}>
+    <div className={styles.container}>
+      <div className={styles.toggleContainer}>
+        <label className={styles.toggleLabel}>
           <input
             type="checkbox"
             checked={useImage}
             onChange={handleToggleImageUsage}
-            className={commonStyles.toggleCheckbox}
+            className={styles.toggleCheckbox}
           />
           Use Image
         </label>
@@ -159,22 +149,22 @@ export default function ImageUploader({
             <MediaLibrary onSelect={handleSelectFromLibrary} isModal={true} />
           </Modal>
 
-          <div className={commonStyles.methodSelector}>
+          <div className={styles.methodSelector}>
             <button
               onClick={() => setUploadMethod("file")}
-              className={`${commonStyles.methodButton} ${uploadMethod === "file" ? commonStyles.activeMethod : ""}`}
+              className={`${styles.methodButton} ${uploadMethod === "file" ? styles.activeMethod : ""}`}
             >
               Upload File
             </button>
             <button
               onClick={() => setUploadMethod("url")}
-              className={`${commonStyles.methodButton} ${uploadMethod === "url" ? commonStyles.activeMethod : ""}`}
+              className={`${styles.methodButton} ${uploadMethod === "url" ? styles.activeMethod : ""}`}
             >
               From URL
             </button>
             <button
               onClick={() => setIsLibraryOpen(true)}
-              className={`${commonStyles.methodButton}`}
+              className={styles.methodButton}
             >
               From Media Library
             </button>
@@ -197,7 +187,7 @@ export default function ImageUploader({
                 onChange={handleFileChange}
                 disabled={uploading}
                 ref={fileInputRef}
-                className={commonStyles.input}
+                className={styles.input}
               />
               {uploading ? (
                 <p>Uploading...</p>
@@ -206,17 +196,17 @@ export default function ImageUploader({
               )}
             </div>
           ) : (
-            <div className={commonStyles.urlInputContainer}>
+            <div className={styles.urlInputContainer}>
               <input
                 type="text"
                 placeholder="https://example.com/image.png"
                 value={imageUrl}
                 onChange={(e) => setImageUrl(e.target.value)}
-                className={`${commonStyles.urlInput} ${themeStyles.urlInput}`}
+                className={styles.urlInput}
               />
               <button
                 onClick={handleUrlSubmit}
-                className={`${commonStyles.urlSubmitButton} ${themeStyles.urlSubmitButton}`}
+                className={styles.urlSubmitButton}
               >
                 Set Image
               </button>
@@ -226,8 +216,8 @@ export default function ImageUploader({
           {/* Inline error text removed in favor of toast notifications for a consistent premium UI */}
 
           {preview && (
-            <div className={commonStyles.previewContainer}>
-              <div className={commonStyles.previewBox}>
+            <div className={styles.previewContainer}>
+              <div className={styles.previewBox}>
                 <Image
                   src={preview}
                   alt="Preview"
@@ -235,7 +225,7 @@ export default function ImageUploader({
                   objectFit="cover"
                 />
               </div>
-              <div className={commonStyles.altTextContainer}>
+              <div className={styles.altTextContainer}>
                 <input
                   type="text"
                   value={altText}
@@ -244,12 +234,12 @@ export default function ImageUploader({
                     if (onAltTextChange) onAltTextChange(e.target.value);
                   }}
                   placeholder="Enter alt text..."
-                  className={`${commonStyles.altTextInput} ${themeStyles.urlInput}`}
+                  className={styles.altTextInput}
                 />
               </div>
               <button
                 onClick={handleRemoveImage}
-                className={`${commonStyles.removeButton} ${themeStyles.removeButton}`}
+                className={styles.removeButton}
               >
                 Remove
               </button>

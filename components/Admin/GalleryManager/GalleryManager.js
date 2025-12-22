@@ -1,14 +1,12 @@
 import React, { useState, useRef } from "react";
 import Image from "next/image";
-import { useTheme } from "../../../context/ThemeContext";
-import styles from "./GalleryManager.module.css";
+import styles from "./GalleryManager.premium.module.css";
 
 const GalleryManager = ({ 
   gallery = [], 
   onChange,
   maxImages = 20 
 }) => {
-  const { theme } = useTheme();
   const [isUploading, setIsUploading] = useState(false);
   const [editingIndex, setEditingIndex] = useState(null);
   const [draggedIndex, setDraggedIndex] = useState(null);
@@ -154,10 +152,8 @@ const GalleryManager = ({
     onChange(reorderedGallery);
   };
 
-  const themeClass = theme === "dark" ? styles.dark : styles.light;
-
   return (
-    <div className={`${styles.galleryManager} ${themeClass}`}>
+    <div className={styles.galleryManager}>
       {/* Header */}
       <div className={styles.header}>
         <div className={styles.headerInfo}>

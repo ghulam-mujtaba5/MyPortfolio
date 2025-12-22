@@ -1,8 +1,5 @@
 import React, { useState } from "react";
-import { useTheme } from "../../../context/ThemeContext";
-import commonStyles from "./ArticleForm.module.css";
-import lightStyles from "./ArticleForm.light.module.css";
-import darkStyles from "./ArticleForm.dark.module.css";
+import styles from "./ChipInput.premium.module.css";
 import utilities from "../../../styles/utilities.module.css";
 
 // Generic chip-style CSV editor used for tags, categories, and highlights.
@@ -16,8 +13,6 @@ export default function ChipInput({
   reorderable = false,
 }) {
   const [input, setInput] = useState("");
-  const { theme } = useTheme();
-  const themeStyles = theme === "dark" ? darkStyles : lightStyles;
   const toArray = (csv) =>
     String(csv || "")
       .split(",")
@@ -79,8 +74,8 @@ export default function ChipInput({
   };
 
   return (
-    <div className={commonStyles.chipContainer}>
-      <div className={commonStyles.chipList}>
+    <div className={styles.chipContainer}>
+      <div className={styles.chipList}>
         {items.map((item, idx) => (
           <span
             key={item}
@@ -108,19 +103,19 @@ export default function ChipInput({
                 ? `${quoted ? "Highlight" : "Item"} ${idx + 1} of ${items.length}. Alt+Arrow keys to reorder.`
                 : undefined
             }
-            className={`${commonStyles.chip} ${themeStyles.chip}`}
+            className={styles.chip}
           >
-            <span className={commonStyles.chipTextSm}>
+            <span className={styles.chipTextSm}>
               {quoted ? `“${item}”` : item}
             </span>
             {reorderable && (
-              <span className={commonStyles.chipMoveGroup}>
+              <span className={styles.chipMoveGroup}>
                 <button
                   type="button"
                   title="Move left"
                   aria-label={`Move ${quoted ? "highlight" : "item"} left`}
                   onClick={() => moveItem(idx, idx - 1)}
-                  className={`${commonStyles.chipMoveBtn} ${themeStyles.chipMoveBtn}`}
+                  className={styles.chipMoveBtn}
                 >
                   ←
                 </button>
@@ -129,7 +124,7 @@ export default function ChipInput({
                   title="Move right"
                   aria-label={`Move ${quoted ? "highlight" : "item"} right`}
                   onClick={() => moveItem(idx, idx + 1)}
-                  className={`${commonStyles.chipMoveBtn} ${themeStyles.chipMoveBtn}`}
+                  className={styles.chipMoveBtn}
                 >
                   →
                 </button>
@@ -139,14 +134,14 @@ export default function ChipInput({
               type="button"
               aria-label={`Remove ${quoted ? "highlight" : "item"}: ${item}`}
               onClick={() => removeItem(item)}
-              className={`${commonStyles.chipRemoveBtn} ${themeStyles.chipRemoveBtn}`}
+              className={styles.chipRemoveBtn}
             >
               ×
             </button>
           </span>
         ))}
       </div>
-      <div className={commonStyles.chipInputRow}>
+      <div className={styles.chipInputRow}>
         <input
           type="text"
           value={input}
@@ -154,7 +149,7 @@ export default function ChipInput({
           onKeyDown={onKeyDown}
           placeholder={placeholder}
           aria-label={ariaLabel}
-          className={`${commonStyles.chipInput} ${themeStyles.chipInput}`}
+          className={styles.chipInput}
         />
         <button
           type="button"

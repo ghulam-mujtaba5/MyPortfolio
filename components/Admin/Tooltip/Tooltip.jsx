@@ -1,8 +1,5 @@
 import React, { Children, cloneElement, isValidElement, useId, useState, useRef, useEffect } from "react";
-import commonStyles from "./Tooltip.module.css";
-import lightStyles from "./Tooltip.light.module.css";
-import darkStyles from "./Tooltip.dark.module.css";
-import { useTheme } from "../../../context/ThemeContext";
+import styles from "./Tooltip.premium.module.css";
 
 const Tooltip = ({ 
   content, 
@@ -57,9 +54,6 @@ const Tooltip = ({
       })
     : onlyChild;
 
-  const { theme } = useTheme();
-  const themeStyles = theme === "dark" ? darkStyles : lightStyles;
-
   // Clean up timeout on unmount
   useEffect(() => {
     return () => {
@@ -75,17 +69,18 @@ const Tooltip = ({
 
   return (
     <span 
-      className={`${commonStyles.wrapper} ${commonStyles[placement]}`}
+      className={styles.wrapper}
       role="tooltip"
     >
       {trigger}
       <span 
         id={id} 
-        className={`${commonStyles.bubble} ${themeStyles.bubble} ${isVisible ? commonStyles.visible : ''}`}
+        className={`${styles.tooltip} ${styles[placement]} ${isVisible ? styles.visible : ''}`}
         role="tooltip"
         aria-hidden={!isVisible}
       >
         {content}
+        <span className={styles.arrow} />
       </span>
     </span>
   );

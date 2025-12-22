@@ -1,6 +1,5 @@
 import React from "react";
 import Link from "next/link";
-import { useTheme } from "../../../context/ThemeContext";
 import Tooltip from "../Tooltip/Tooltip";
 import Icon from "../Icon/Icon";
 import Spinner from "../../Spinner/Spinner";
@@ -21,7 +20,6 @@ const AdminPublicProjectCard = ({
   pinning = false,
   featuring = false,
 }) => {
-  const { theme } = useTheme();
   const id = project?._id || project?.id;
 
   const liveUrl = project?.links?.live || null;

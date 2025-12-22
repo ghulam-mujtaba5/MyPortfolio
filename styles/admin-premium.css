@@ -532,6 +532,38 @@
   box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px var(--admin-primary);
 }
 
+/* ========== TOAST NOTIFICATIONS ========== */
+/* Ensure toasts are always visible above modals and other elements */
+[data-sonner-toaster],
+.react-hot-toast,
+div[class*="Toaster"] {
+  z-index: 9999 !important;
+}
+
+/* Toast styling enhancements for admin panel */
+[data-theme] div[class*="go"] {
+  font-family: var(--admin-font-sans, system-ui, -apple-system, sans-serif) !important;
+  border-radius: var(--admin-card-radius, 12px) !important;
+  box-shadow: var(--admin-shadow-md) !important;
+}
+
+/* Success toast */
+[data-theme] div[class*="go"][class*="success"] {
+  background: linear-gradient(135deg, #10B981 0%, #059669 100%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Error toast */
+[data-theme] div[class*="go"][class*="error"] {
+  background: linear-gradient(135deg, #EF4444 0%, #DC2626 100%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Loading toast spinner */
+[data-theme] div[class*="go"] svg[class*="spinner"] {
+  stroke: var(--primary) !important;
+}
+
 /* Reduced Motion */
 @media (prefers-reduced-motion: reduce) {
   *,

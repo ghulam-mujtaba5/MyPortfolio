@@ -1,19 +1,15 @@
 import Link from "next/link";
-import { useTheme } from "../../../context/ThemeContext";
 import { FaPlus, FaPen, FaUserPlus, FaRocket } from "react-icons/fa";
 import toast from "react-hot-toast";
 import { useState } from "react";
+import styles from "./QuickActions.premium.module.css";
 
-import commonStyles from "./QuickActions.module.css";
-import lightStyles from "./QuickActions.light.module.css";
-import darkStyles from "./QuickActions.dark.module.css";
-
-const ActionButton = ({ href, icon, label, themeStyles, onClick }) => {
+const ActionButton = ({ href, icon, label, onClick }) => {
   if (href) {
     return (
       <Link
         href={href}
-        className={`${commonStyles.actionButton} ${themeStyles.actionButton}`}
+        className={styles.actionButton}
       >
         {icon}
         <span>{label}</span>
@@ -23,7 +19,7 @@ const ActionButton = ({ href, icon, label, themeStyles, onClick }) => {
   return (
     <button
       onClick={onClick}
-      className={`${commonStyles.actionButton} ${themeStyles.actionButton}`}
+      className={styles.actionButton}
     >
       {icon}
       <span>{label}</span>
@@ -32,8 +28,6 @@ const ActionButton = ({ href, icon, label, themeStyles, onClick }) => {
 };
 
 export default function QuickActions() {
-  const { theme } = useTheme();
-  const themeStyles = theme === "dark" ? darkStyles : lightStyles;
   const [isPublishing, setIsPublishing] = useState(false);
 
   const handleRunScheduler = async () => {
@@ -74,33 +68,30 @@ export default function QuickActions() {
   };
 
   return (
-    <div className={`${commonStyles.container} ${themeStyles.container}`}>
-      <h2 className={`${commonStyles.title} ${themeStyles.title}`}>
+    <div className={styles.container}>
+      <h2 className={styles.title}>
         Quick Actions
       </h2>
-      <div className={commonStyles.actionsGrid}>
+      <div className={styles.actionsGrid}>
         <ActionButton
           href="/admin/articles/new"
           icon={<FaPlus />}
           label="New Article"
-          themeStyles={themeStyles}
         />
         <ActionButton
           href="/admin/projects/new"
           icon={<FaPen />}
           label="New Project"
-          themeStyles={themeStyles}
         />
         <ActionButton
           href="/admin/users"
           icon={<FaUserPlus />}
           label="New User"
-          themeStyles={themeStyles}
         />
         <button
           onClick={handleRunScheduler}
           disabled={isPublishing}
-          className={`${commonStyles.actionButton} ${themeStyles.actionButton}`}
+          className={styles.actionButton}
         >
           <FaRocket />
           <span>{isPublishing ? "Publishing..." : "Run Scheduler"}</span>
