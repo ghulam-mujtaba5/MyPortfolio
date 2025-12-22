@@ -7,11 +7,11 @@
 /* ========== ADMIN CSS CUSTOM PROPERTIES ========== */
 :root {
   /* Primary Brand Colors */
-  --admin-primary: #3b82f6;
-  --admin-primary-light: rgba(59, 130, 246, 0.15);
-  --admin-primary-dark: #2563eb;
-  --admin-primary-rgb: 59, 130, 246;
-  --admin-primary-gradient: linear-gradient(135deg, #3b82f6 0%, #6366f1 100%);
+  --admin-primary: #4573df;
+  --admin-primary-light: rgba(69, 115, 223, 0.15);
+  --admin-primary-dark: #3461c7;
+  --admin-primary-rgb: 69, 115, 223;
+  --admin-primary-gradient: linear-gradient(135deg, #4573df 0%, #6366f1 100%);
   
   /* Secondary/Accent Colors */
   --admin-secondary: #8b5cf6;

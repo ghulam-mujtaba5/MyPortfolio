@@ -189,8 +189,8 @@
 }
 
 .notification.info .notificationIcon {
-  background: rgba(59, 130, 246, 0.1);
-  color: #3b82f6;
+  background: rgba(69, 115, 223, 0.1);
+  color: #4573df;
 }
 
 .notification.success .notificationIcon {
@@ -243,7 +243,7 @@
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: var(--admin-primary, #3b82f6);
+  background: var(--admin-primary, #4573df);
 }
 
 /* Delete Button */
@@ -322,8 +322,8 @@
 }
 
 .toast.info .toastIcon {
-  background: rgba(59, 130, 246, 0.1);
-  color: #3b82f6;
+  background: rgba(69, 115, 223, 0.1);
+  color: #4573df;
 }
 
 .toast.success .toastIcon {

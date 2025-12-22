@@ -53,7 +53,7 @@
   width: 16px;
   height: 16px;
   border: 2px solid var(--admin-border);
-  border-top-color: var(--admin-primary);
+  border-top-color: var(--admin-primary, #4573df);
   border-radius: 50%;
 }
 
