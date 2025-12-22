@@ -4,6 +4,7 @@ Last updated: 2025-08-12
 
 ## 1) Overview
 
+
 - Purpose: Personal portfolio for Ghulam Mujtaba to showcase profile, projects, skills, and contact.
 - Framework: Next.js ^15, React ^19.
 - Styling: CSS Modules per component, some global CSS in `pages/global.css`.
