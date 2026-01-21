@@ -9,7 +9,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import styles from './AdminLayout.premium.module.css';
 import CommandPalette from '../CommandPalette/CommandPalette';
 import Modal from '../../Admin/Modal/Modal';
-import NotificationCenter, { NotificationToast } from '../Notifications/NotificationCenter';
 
 // SVG Icons for Navigation
 const Icons = {
@@ -321,7 +320,16 @@ export default function AdminLayoutPremium({ children, title }) {
             >
               <Icons.search />
             </button>
-            <NotificationCenter />
+            <button
+              type="button"
+              className={styles.topBarBtn}
+              aria-label="Notifications (placeholder)"
+              title="Notifications"
+              onClick={() => {}}
+            >
+              <Icons.bell />
+              <span className={styles.topBarBtnBadge} aria-hidden="true">1</span>
+            </button>
           </div>
         </header>
 
@@ -336,9 +344,6 @@ export default function AdminLayoutPremium({ children, title }) {
 
       {/* Command Palette */}
       <CommandPalette />
-
-      {/* Toast Notifications */}
-      <NotificationToast />
 
       {/* Quick Create FAB */}
       <motion.button

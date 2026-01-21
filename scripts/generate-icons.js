@@ -28,11 +28,15 @@ const ICON_SIZES = [16, 32, 48, 64, 128, 180, 192, 256, 384, 512];
 function generateSVG(size) {
   // Adjust stroke width and node sizes based on target size
   // Smaller icons need thicker strokes relative to size for visibility
-  const strokeWidth = size <= 32 ? 4 : size <= 64 ? 3.5 : 3.2;
-  const nodeOuter = size <= 32 ? 3.5 : size <= 64 ? 3 : 2.5;
-  const nodeInner = size <= 32 ? 2.5 : size <= 64 ? 2.2 : 1.8;
-  const nodeHighlight = size <= 32 ? 1.2 : size <= 64 ? 1 : 0.8;
-  const cornerRadius = Math.round(size * 0.25); // 25% corner radius
+  const strokeWidth = size <= 32 ? 4.2 : size <= 64 ? 3.8 : 3.5;
+  const nodeOuter = size <= 32 ? 3.8 : size <= 64 ? 3.2 : 2.8;
+  const nodeInner = size <= 32 ? 2.8 : size <= 64 ? 2.4 : 2.0;
+  const nodeHighlight = size <= 32 ? 1.4 : size <= 64 ? 1.1 : 0.9;
+  
+  // Adjusted scale factor to be prominent but safely within the circular background
+  const scaleFactor = 0.88; 
+  const translation = 32 * (1 - scaleFactor); // Centering factor for 64x64 viewBox
+  const cornerRadius = 32; // Always a circle for consistency and PWA best practices
 
   return `<svg width="${size}" height="${size}" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
 <defs>
@@ -51,7 +55,7 @@ function generateSVG(size) {
   </linearGradient>
 </defs>
 <rect width="64" height="64" rx="${cornerRadius}" fill="url(#bgGrad)"/>
-<g transform="translate(6, 6) scale(0.8125)">
+<g transform="translate(${translation}, ${translation}) scale(${scaleFactor})">
   <path d="M22 32 L32 32 L32 52 L10 52 L10 12 L32 12 L43 32 L54 12 L54 52" stroke="url(#gmStroke)" stroke-width="${strokeWidth}" stroke-linecap="round" stroke-linejoin="round"/>
   ${size >= 32 ? `
   <circle opacity="0.6" cx="22" cy="32" r="${nodeOuter}" fill="url(#gmAccent)"/>
@@ -110,6 +114,7 @@ async function generateIcons() {
   console.log('✅ Generated: favicon.png (32x32)');
 
   // Generate maskable icon (with safe zone padding)
+  // Increased scale from 4 to 6.5 for better visibility while staying in safe zone
   const maskableSvg = `<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
 <defs>
   <linearGradient id="gmStroke" x1="0" y1="0" x2="512" y2="512" gradientUnits="userSpaceOnUse">
@@ -127,23 +132,23 @@ async function generateIcons() {
   </linearGradient>
 </defs>
 <rect width="512" height="512" fill="url(#bgGrad)"/>
-<g transform="translate(128, 128) scale(4)">
-  <path d="M22 32 L32 32 L32 52 L10 52 L10 12 L32 12 L43 32 L54 12 L54 52" stroke="url(#gmStroke)" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
-  <circle opacity="0.6" cx="22" cy="32" r="2.5" fill="url(#gmAccent)"/>
-  <circle cx="22" cy="32" r="1.8" fill="url(#gmAccent)"/>
-  <circle opacity="0.9" cx="22" cy="32" r="0.8" fill="url(#gmStroke)"/>
-  <circle opacity="0.6" cx="32" cy="12" r="2.5" fill="url(#gmAccent)"/>
-  <circle cx="32" cy="12" r="1.8" fill="url(#gmAccent)"/>
-  <circle opacity="0.9" cx="32" cy="12" r="0.8" fill="url(#gmStroke)"/>
-  <circle opacity="0.6" cx="43" cy="32" r="2.5" fill="url(#gmAccent)"/>
-  <circle cx="43" cy="32" r="1.8" fill="url(#gmAccent)"/>
-  <circle opacity="0.9" cx="43" cy="32" r="0.8" fill="url(#gmStroke)"/>
-  <circle opacity="0.6" cx="54" cy="12" r="2.5" fill="url(#gmAccent)"/>
-  <circle cx="54" cy="12" r="1.8" fill="url(#gmAccent)"/>
-  <circle opacity="0.9" cx="54" cy="12" r="0.8" fill="url(#gmStroke)"/>
-  <circle opacity="0.6" cx="54" cy="52" r="2.5" fill="url(#gmAccent)"/>
-  <circle cx="54" cy="52" r="1.8" fill="url(#gmAccent)"/>
-  <circle opacity="0.9" cx="54" cy="52" r="0.8" fill="url(#gmStroke)"/>
+<g transform="translate(48, 48) scale(6.5)">
+  <path d="M22 32 L32 32 L32 52 L10 52 L10 12 L32 12 L43 32 L54 12 L54 52" stroke="url(#gmStroke)" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle opacity="0.6" cx="22" cy="32" r="2.8" fill="url(#gmAccent)"/>
+  <circle cx="22" cy="32" r="2.0" fill="url(#gmAccent)"/>
+  <circle opacity="0.9" cx="22" cy="32" r="0.9" fill="url(#gmStroke)"/>
+  <circle opacity="0.6" cx="32" cy="12" r="2.8" fill="url(#gmAccent)"/>
+  <circle cx="32" cy="12" r="2.0" fill="url(#gmAccent)"/>
+  <circle opacity="0.9" cx="32" cy="12" r="0.9" fill="url(#gmStroke)"/>
+  <circle opacity="0.6" cx="43" cy="32" r="2.8" fill="url(#gmAccent)"/>
+  <circle cx="43" cy="32" r="2.0" fill="url(#gmAccent)"/>
+  <circle opacity="0.9" cx="43" cy="32" r="0.9" fill="url(#gmStroke)"/>
+  <circle opacity="0.6" cx="54" cy="12" r="2.8" fill="url(#gmAccent)"/>
+  <circle cx="54" cy="12" r="2.0" fill="url(#gmAccent)"/>
+  <circle opacity="0.9" cx="54" cy="12" r="0.9" fill="url(#gmStroke)"/>
+  <circle opacity="0.6" cx="54" cy="52" r="2.8" fill="url(#gmAccent)"/>
+  <circle cx="54" cy="52" r="2.0" fill="url(#gmAccent)"/>
+  <circle opacity="0.9" cx="54" cy="52" r="0.9" fill="url(#gmStroke)"/>
 </g>
 </svg>`;
 
