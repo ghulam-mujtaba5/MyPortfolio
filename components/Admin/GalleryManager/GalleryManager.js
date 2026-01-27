@@ -2,7 +2,7 @@ import React, { useState, useRef } from "react";
 import Image from "next/image";
 import styles from "./GalleryManager.premium.module.css";
 
-const GalleryManager = ({ gallery = [], onChange, maxImages = 20 }) => {
+const GalleryManager = ({ gallery = [], onChange, maxImages = 20, contextTitle = "" }) => {
   const [isUploading, setIsUploading] = useState(false);
   const [editingIndex, setEditingIndex] = useState(null);
   const [draggedIndex, setDraggedIndex] = useState(null);
@@ -25,12 +25,18 @@ const GalleryManager = ({ gallery = [], onChange, maxImages = 20 }) => {
     setIsUploading(true);
 
     try {
-      const uploadPromises = filesToUpload.map(async (file) => {
+      const uploadPromises = filesToUpload.map(async (file, index) => {
         const formData = new FormData();
         formData.append("file", file);
-        formData.append("folder", "projects/gallery");
+        formData.append("altText", file.name.replace(/\.[^/.]+$/, "").replace(/[-_]/g, " "));
+        
+        // SEO: Pass context for auto-renaming
+        if (contextTitle) {
+          formData.append("contextTitle", contextTitle);
+          formData.append("imageType", `gallery-${index + 1}`);
+        }
 
-        const response = await fetch("/api/upload", {
+        const response = await fetch("/api/media", {
           method: "POST",
           body: formData,
         });
@@ -44,9 +50,9 @@ const GalleryManager = ({ gallery = [], onChange, maxImages = 20 }) => {
         }
 
         return {
-          url: data.url || data.secure_url,
+          url: data.asset.url,
           caption: "",
-          alt: file.name.replace(/\.[^/.]+$/, "").replace(/[-_]/g, " "),
+          alt: data.asset.altText || file.name.replace(/\.[^/.]+$/, "").replace(/[-_]/g, " "),
           order: gallery.length + filesToUpload.indexOf(file),
         };
       });
@@ -176,14 +182,14 @@ const GalleryManager = ({ gallery = [], onChange, maxImages = 20 }) => {
               <circle cx="8.5" cy="8.5" r="1.5" />
               <polyline points="21 15 16 10 5 21" />
             </svg>
-            Project Gallery
+            Project Images
           </h4>
           <span className={styles.count}>
             {gallery.length} / {maxImages} images
           </span>
         </div>
         <p className={styles.hint}>
-          Drag to reorder • Click image to edit details
+          First image is your cover • Drag to reorder all • Click to edit
         </p>
       </div>
 
@@ -274,8 +280,14 @@ const GalleryManager = ({ gallery = [], onChange, maxImages = 20 }) => {
               onDragOver={(e) => handleDragOver(e, index)}
               onDragEnd={handleDragEnd}
             >
-              {/* Order Badge */}
-              <div className={styles.orderBadge}>{index + 1}</div>
+              {/* Order Badge / Cover Badge */}
+              <div className={styles.orderBadge}>
+                {index === 0 ? (
+                  <span title="This is your cover image">📌 COVER</span>
+                ) : (
+                  index + 1
+                )}
+              </div>
 
               {/* Image Preview */}
               <div
@@ -409,8 +421,8 @@ const GalleryManager = ({ gallery = [], onChange, maxImages = 20 }) => {
             <circle cx="8.5" cy="8.5" r="1.5" />
             <polyline points="21 15 16 10 5 21" />
           </svg>
-          <p>No gallery images yet</p>
-          <span>Upload images or add URLs to create a project showcase</span>
+          <p>No images yet</p>
+          <span>Upload your first image to get started. First image will be your cover.</span>
         </div>
       )}
 

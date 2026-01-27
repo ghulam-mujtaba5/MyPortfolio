@@ -756,6 +756,9 @@ export default function ArticleForm({
           onImageUsageChange={handleImageUsageChange}
           useImage={watch("showCoverImage")}
           onAltTextChange={handleCoverImageAltChange}
+          contextTitle={watch("title")}
+          imageType="cover"
+          autoRename={true}
         />
         <div className={styles.row} style={{ gap: 12, marginTop: 8 }}>
           <label className={`${styles.label} ${styles.label}`} htmlFor="coverImageFit" style={{ margin: 0 }}>
@@ -797,7 +800,7 @@ export default function ArticleForm({
               name="content"
               control={control}
               render={({ field }) => (
-                <RichTextEditor value={field.value} onChange={field.onChange} />
+                <RichTextEditor value={field.value} onChange={field.onChange} contextTitle={watch("title")} />
               )}
             />
             <div className={styles.previewOuter}>
@@ -824,7 +827,7 @@ export default function ArticleForm({
             name="content"
             control={control}
             render={({ field }) => (
-              <RichTextEditor value={field.value} onChange={field.onChange} />
+              <RichTextEditor value={field.value} onChange={field.onChange} contextTitle={watch("title")} />
             )}
           />
         )}
@@ -905,6 +908,9 @@ export default function ArticleForm({
             <ImageUploader
               onUpload={handleOgImageUpdate}
               initialImageUrl={watch("ogImage")}
+              contextTitle={watch("title")}
+              imageType="og"
+              autoRename={true}
             />
             <div className={`${styles.rowBetween}`}>
               <p className={styles.helpText}>

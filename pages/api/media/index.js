@@ -5,6 +5,7 @@ import MediaAsset from "../../../models/MediaAsset";
 import formidable from "formidable";
 import fs from "fs";
 import mongoose from "mongoose";
+import { generateSEOFilename } from "../../../lib/generateSEOFilename";
 
 // Disable Next.js body parser for this route to use formidable
 export const config = {
@@ -122,11 +123,23 @@ export default async function handler(req, res) {
               fs.unlinkSync(file.filepath);
             }
 
+            // Generate SEO-friendly filename if context provided
+            let seoFilename = file.originalFilename;
+            const contextTitle = fields.contextTitle?.[0];
+            const imageType = fields.imageType?.[0];
+            
+            if (contextTitle) {
+              seoFilename = generateSEOFilename(file.originalFilename, {
+                contextTitle,
+                imageType: imageType || "image",
+              });
+            }
+
             // Create new MediaAsset in DB with API URL to serve the file
             const newAsset = new MediaAsset({
-              filename: file.originalFilename,
+              filename: seoFilename,
               url: `/api/media/file/${fileId.toString()}`,
-              altText: fields.altText?.[0] || file.originalFilename,
+              altText: fields.altText?.[0] || seoFilename,
               fileType: file.mimetype,
               size: file.size,
               uploadedBy: session.user.id,

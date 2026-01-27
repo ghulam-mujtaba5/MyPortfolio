@@ -14,7 +14,7 @@ const MediaLibrary = dynamic(() => import("../MediaLibrary/MediaLibrary"), {
   ssr: false,
 });
 
-const RichTextEditor = ({ value, onChange }) => {
+const RichTextEditor = ({ value, onChange, contextTitle = "" }) => {
   const [isMediaOpen, setIsMediaOpen] = useState(false);
   const [isCodeOpen, setIsCodeOpen] = useState(false);
   const [isMarkdownOpen, setIsMarkdownOpen] = useState(false);
@@ -254,6 +254,8 @@ const RichTextEditor = ({ value, onChange }) => {
             setIsMediaOpen(false);
           }}
           isModal
+          contextTitle={contextTitle}
+          imageType="content"
         />
       </Modal>
 

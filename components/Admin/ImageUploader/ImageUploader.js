@@ -13,6 +13,9 @@ export default function ImageUploader({
   onImageUsageChange,
   useImage: initialUseImage = true,
   onAltTextChange,
+  contextTitle = "", // SEO: article/project title for auto-naming
+  imageType = "image", // SEO: 'cover', 'gallery', 'og', etc.
+  autoRename = true, // Enable auto-renaming
 }) {
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState(null);
@@ -37,6 +40,12 @@ export default function ImageUploader({
       const formData = new FormData();
       formData.append("file", file);
       formData.append("altText", file.name);
+      
+      // SEO: Pass context for auto-renaming
+      if (autoRename && contextTitle) {
+        formData.append("contextTitle", contextTitle);
+        formData.append("imageType", imageType);
+      }
 
       setUploading(true);
       setError(null);
@@ -62,7 +71,7 @@ export default function ImageUploader({
         setUploading(false);
       }
     },
-    [onUpload, onAltTextChange],
+    [onUpload, onAltTextChange, autoRename, contextTitle, imageType],
   );
 
   const handleFileChange = (e) => {

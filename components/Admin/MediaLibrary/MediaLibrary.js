@@ -10,7 +10,7 @@ import { motion } from "framer-motion";
 import styles from "./MediaLibrary.premium.module.css";
 import utilities from "../../../styles/utilities.module.css";
 
-const MediaLibrary = ({ onSelect, isModal = false }) => {
+const MediaLibrary = ({ onSelect, isModal = false, contextTitle = "", imageType = "image" }) => {
   // Removed legacy theme styles
 
 
@@ -83,6 +83,13 @@ const MediaLibrary = ({ onSelect, isModal = false }) => {
       const formData = new FormData();
       formData.append("file", file);
       formData.append("altText", file.name);
+      
+      // SEO: Pass context for auto-renaming
+      if (contextTitle) {
+        formData.append("contextTitle", contextTitle);
+        formData.append("imageType", imageType);
+      }
+      
       try {
         await axios.post("/api/media", formData, {
           headers: { "Content-Type": "multipart/form-data" },

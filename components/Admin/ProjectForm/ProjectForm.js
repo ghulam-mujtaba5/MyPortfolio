@@ -191,6 +191,11 @@ function ProjectForm({
 
   const handleGalleryChange = (newGallery) => {
     setValue("gallery", newGallery, { shouldValidate: true, shouldDirty: true });
+    // Auto-sync main image with first gallery item
+    if (newGallery && newGallery.length > 0) {
+      setValue("image", ensureProtocol(newGallery[0].url), { shouldValidate: true });
+      setValue("showImage", true); // Show image if gallery exists
+    }
   };
 
   // Meta length helpers (traffic-light thresholds + remaining + ARIA announcements)
@@ -389,39 +394,62 @@ function ProjectForm({
 
       <div className={`${styles.formGroup} ${styles.fullWidth}`}>
         <label className={`${styles.label} ${styles.label}`}>
-          Project Image
+          Project Images
         </label>
-        <ImageUploader
-          onUpload={handleImageUpdate}
-          initialImageUrl={watch("image")}
-          onImageUsageChange={handleImageUsageChange}
-          useImage={watch("showImage")}
+        <p className={styles.helpText} style={{ marginBottom: 12 }}>
+          📌 <strong>First image is your cover image.</strong> Drag to reorder all images. Additional images become your project gallery.
+        </p>
+        <GalleryManager
+          gallery={watch("gallery") || []}
+          onChange={handleGalleryChange}
+          maxImages={20}
+          contextTitle={watch("title")}
         />
-        <div className={styles.row} style={{ gap: 12, marginTop: 8 }}>
-          <label className={`${styles.label} ${styles.label}`} htmlFor="imageFit" style={{ margin: 0 }}>
-            Image fit
-          </label>
-          <select
-            id="imageFit"
-            {...register("imageFit")}
-            className={`${styles.input} ${styles.input}`}
-            style={{ maxWidth: 220 }}
-          >
-            <option value="cover">cover</option>
-            <option value="contain">contain</option>
-            <option value="fill">fill</option>
-            <option value="none">none</option>
-            <option value="scale-down">scale-down</option>
-          </select>
-        </div>
-        {errors.image && (
-          <p className={styles.error}>{errors.image.message}</p>
+        
+        {/* Image Fit for Cover */}
+        {watch("gallery")?.length > 0 && (
+          <div className={styles.row} style={{ gap: 12, marginTop: 12 }}>
+            <label className={`${styles.label} ${styles.label}`} htmlFor="imageFit" style={{ margin: 0 }}>
+              Cover Image Fit
+            </label>
+            <select
+              id="imageFit"
+              {...register("imageFit")}
+              className={`${styles.input} ${styles.input}`}
+              style={{ maxWidth: 220 }}
+            >
+              <option value="cover">cover</option>
+              <option value="contain">contain</option>
+              <option value="fill">fill</option>
+              <option value="none">none</option>
+              <option value="scale-down">scale-down</option>
+            </select>
+          </div>
         )}
-      </div>
+        
+        {/* Show Image Toggle */}
+        <div className={styles.row} style={{ gap: 12, marginTop: 12 }}>
+          <label className={`${styles.label} ${styles.label}`} style={{ margin: 0 }}>
+            <Controller
+              name="showImage"
+              control={control}
+              render={({ field: { value, onChange, onBlur, ref } }) => (
+                <input
+                  type="checkbox"
+                  checked={!!value}
+                  onChange={(e) => onChange(e.target.checked)}
+                  onBlur={onBlur}
+                  ref={ref}
+                  className={styles.checkbox}
+                />
+              )}
+            />
+            Show cover image on project page
+          </label>
+        </div>
 
-      {/* Gallery Section */}
-      <div className={`${styles.formGroup} ${styles.fullWidth}`}>
-        <div className={styles.row} style={{ gap: 12, marginBottom: 8 }}>
+        {/* Show Gallery Toggle */}
+        <div className={styles.row} style={{ gap: 12, marginTop: 8 }}>
           <label className={`${styles.label} ${styles.label}`} style={{ margin: 0 }}>
             <Controller
               name="showGallery"
@@ -437,14 +465,16 @@ function ProjectForm({
                 />
               )}
             />
-            Show Gallery on Project Page
+            Show gallery (additional images) on project page
           </label>
         </div>
-        <GalleryManager
-          gallery={watch("gallery") || []}
-          onChange={handleGalleryChange}
-          maxImages={20}
-        />
+
+        {errors.image && (
+          <p className={styles.error}>{errors.image.message}</p>
+        )}
+        {errors.gallery && (
+          <p className={styles.error}>{errors.gallery.message}</p>
+        )}
       </div>
 
       <div className={styles.srOnly} aria-live="polite" role="status">{ariaMessage}</div>
@@ -513,6 +543,9 @@ function ProjectForm({
             <ImageUploader
               onUpload={handleOgImageUpdate}
               initialImageUrl={watch("ogImage")}
+              contextTitle={watch("title")}
+              imageType="og"
+              autoRename={true}
             />
             <div className={styles.rowBetween}>
               <p className={styles.helpText}>
@@ -527,9 +560,9 @@ function ProjectForm({
                   })
                 }
                 disabled={!watch("image")}
-                title="Copy project image to social image"
+                title="Copy cover image to social image"
               >
-                Use Project Image
+                Use Cover Image
               </button>
             </div>
             {errors.ogImage && (
