@@ -1,7 +1,7 @@
 // useScrollAnimation.js
 // Custom hooks for scroll-driven animations and scroll triggers
 
-import { useEffect, useRef, useState, useCallback } from 'react';
+import { useEffect, useRef, useState, useCallback, useMemo } from "react";
 
 /**
  * Hook to trigger animations when element enters viewport
@@ -14,30 +14,35 @@ export const useScrollTrigger = (options = {}) => {
   const [isVisible, setIsVisible] = useState(false);
   const [hasEntered, setHasEntered] = useState(false);
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting) {
-        setIsVisible(true);
-        setHasEntered(true);
-      } else {
-        setIsVisible(false);
-      }
-    }, {
-      threshold: 0.1,
-      rootMargin: '0px 0px -50px 0px',
-      ...options,
-    });
+  // Memoize options to prevent infinite re-renders
+  const threshold = options.threshold ?? 0.1;
+  const rootMargin = options.rootMargin ?? "0px 0px -50px 0px";
 
-    if (ref.current) {
-      observer.observe(ref.current);
-    }
+  useEffect(() => {
+    const element = ref.current;
+    if (!element) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          setHasEntered(true);
+        } else {
+          setIsVisible(false);
+        }
+      },
+      {
+        threshold,
+        rootMargin,
+      },
+    );
+
+    observer.observe(element);
 
     return () => {
-      if (ref.current) {
-        observer.unobserve(ref.current);
-      }
+      observer.disconnect();
     };
-  }, [options]);
+  }, [threshold, rootMargin]);
 
   return { ref, isVisible, hasEntered };
 };
@@ -53,70 +58,81 @@ export const useScrollAnimation = (config = {}) => {
   const [scrollProgress, setScrollProgress] = useState(0);
   const [animationState, setAnimationState] = useState({
     opacity: 1,
-    transform: 'translateY(0)',
+    transform: "translateY(0)",
     scale: 1,
   });
 
   const {
-    type = 'fade', // 'fade', 'slide', 'scale', 'rotate'
-    direction = 'up', // 'up', 'down', 'left', 'right'
-    startOffset = 0,
-    endOffset = 100,
-    easing = 'ease-out',
+    type = "fade", // 'fade', 'slide', 'scale', 'rotate'
+    direction = "up", // 'up', 'down', 'left', 'right'
   } = config;
 
   useEffect(() => {
     const element = ref.current;
     if (!element) return;
 
+    let rafId = null;
+    let ticking = false;
+
     const handleScroll = () => {
-      const rect = element.getBoundingClientRect();
-      const windowHeight = window.innerHeight;
-      const elementTop = rect.top;
-      const elementBottom = rect.bottom;
+      if (ticking) return;
 
-      // Calculate scroll progress (0 to 1)
-      let progress = 0;
-      if (elementTop < windowHeight) {
-        progress = Math.min(1, (windowHeight - elementTop) / (windowHeight + rect.height));
-      }
+      ticking = true;
+      rafId = requestAnimationFrame(() => {
+        const rect = element.getBoundingClientRect();
+        const windowHeight = window.innerHeight;
+        const elementTop = rect.top;
 
-      setScrollProgress(progress);
-
-      // Calculate animation based on type
-      let newState = { opacity: 1, transform: 'translateY(0)', scale: 1 };
-
-      if (type === 'fade') {
-        newState.opacity = progress;
-      } else if (type === 'slide') {
-        const offset = (1 - progress) * 30;
-        if (direction === 'up') {
-          newState.transform = `translateY(${offset}px)`;
-        } else if (direction === 'down') {
-          newState.transform = `translateY(-${offset}px)`;
-        } else if (direction === 'left') {
-          newState.transform = `translateX(${offset}px)`;
-        } else if (direction === 'right') {
-          newState.transform = `translateX(-${offset}px)`;
+        // Calculate scroll progress (0 to 1)
+        let progress = 0;
+        if (elementTop < windowHeight) {
+          progress = Math.min(
+            1,
+            (windowHeight - elementTop) / (windowHeight + rect.height),
+          );
         }
-        newState.opacity = progress;
-      } else if (type === 'scale') {
-        newState.scale = 0.95 + progress * 0.05;
-        newState.opacity = progress;
-      } else if (type === 'rotate') {
-        const rotation = (1 - progress) * -12;
-        newState.transform = `rotate(${rotation}deg) scale(${0.95 + progress * 0.05})`;
-        newState.opacity = progress;
-      }
 
-      setAnimationState(newState);
+        setScrollProgress(progress);
+
+        // Calculate animation based on type
+        let newState = { opacity: 1, transform: "translateY(0)", scale: 1 };
+
+        if (type === "fade") {
+          newState.opacity = progress;
+        } else if (type === "slide") {
+          const offset = (1 - progress) * 30;
+          if (direction === "up") {
+            newState.transform = `translateY(${offset}px)`;
+          } else if (direction === "down") {
+            newState.transform = `translateY(-${offset}px)`;
+          } else if (direction === "left") {
+            newState.transform = `translateX(${offset}px)`;
+          } else if (direction === "right") {
+            newState.transform = `translateX(-${offset}px)`;
+          }
+          newState.opacity = progress;
+        } else if (type === "scale") {
+          newState.scale = 0.95 + progress * 0.05;
+          newState.opacity = progress;
+        } else if (type === "rotate") {
+          const rotation = (1 - progress) * -12;
+          newState.transform = `rotate(${rotation}deg) scale(${0.95 + progress * 0.05})`;
+          newState.opacity = progress;
+        }
+
+        setAnimationState(newState);
+        ticking = false;
+      });
     };
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener("scroll", handleScroll, { passive: true });
     handleScroll(); // Initial call
 
     return () => {
-      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener("scroll", handleScroll);
+      if (rafId) {
+        cancelAnimationFrame(rafId);
+      }
     };
   }, [type, direction]);
 
@@ -127,7 +143,7 @@ export const useScrollAnimation = (config = {}) => {
     style: {
       opacity: animationState.opacity,
       transform: animationState.transform,
-      transition: 'all 0.05s ease-out', // Smooth transitions between scroll events
+      transition: "all 0.05s ease-out", // Smooth transitions between scroll events
     },
   };
 };
@@ -145,21 +161,32 @@ export const useParallax = (speed = 0.5) => {
     const element = ref.current;
     if (!element) return;
 
-    const handleScroll = () => {
-      const rect = element.getBoundingClientRect();
-      const scrollTop = window.scrollY;
-      const elementTop = element.offsetTop;
+    let rafId = null;
+    let ticking = false;
 
-      // Calculate parallax offset
-      const distance = scrollTop - (elementTop - window.innerHeight / 2);
-      setOffset(distance * speed * 0.1);
+    const handleScroll = () => {
+      if (ticking) return;
+
+      ticking = true;
+      rafId = requestAnimationFrame(() => {
+        const scrollTop = window.scrollY;
+        const elementTop = element.offsetTop;
+
+        // Calculate parallax offset
+        const distance = scrollTop - (elementTop - window.innerHeight / 2);
+        setOffset(distance * speed * 0.1);
+        ticking = false;
+      });
     };
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener("scroll", handleScroll, { passive: true });
     handleScroll(); // Initial call
 
     return () => {
-      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener("scroll", handleScroll);
+      if (rafId) {
+        cancelAnimationFrame(rafId);
+      }
     };
   }, [speed]);
 
@@ -182,20 +209,32 @@ export const useNearBottom = (threshold = 500) => {
   const [isNearBottom, setIsNearBottom] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => {
-      const scrollTop = window.scrollY;
-      const windowHeight = window.innerHeight;
-      const documentHeight = document.documentElement.scrollHeight;
+    let rafId = null;
+    let ticking = false;
 
-      const distanceToBottom = documentHeight - (scrollTop + windowHeight);
-      setIsNearBottom(distanceToBottom < threshold);
+    const handleScroll = () => {
+      if (ticking) return;
+
+      ticking = true;
+      rafId = requestAnimationFrame(() => {
+        const scrollTop = window.scrollY;
+        const windowHeight = window.innerHeight;
+        const documentHeight = document.documentElement.scrollHeight;
+
+        const distanceToBottom = documentHeight - (scrollTop + windowHeight);
+        setIsNearBottom(distanceToBottom < threshold);
+        ticking = false;
+      });
     };
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener("scroll", handleScroll, { passive: true });
     handleScroll(); // Initial call
 
     return () => {
-      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener("scroll", handleScroll);
+      if (rafId) {
+        cancelAnimationFrame(rafId);
+      }
     };
   }, [threshold]);
 
@@ -208,14 +247,17 @@ export const useNearBottom = (threshold = 500) => {
  * @returns {Function} Function to get delay class for nth child
  */
 export const useStaggerAnimation = (delayMs = 100) => {
-  const getDelayClass = useCallback((index) => {
-    return {
-      animation: 'fadeInUp',
-      animationDelay: `${index * delayMs}ms`,
-      animationFillMode: 'both',
-      animationDuration: '0.6s',
-    };
-  }, [delayMs]);
+  const getDelayClass = useCallback(
+    (index) => {
+      return {
+        animation: "fadeInUp",
+        animationDelay: `${index * delayMs}ms`,
+        animationFillMode: "both",
+        animationDuration: "0.6s",
+      };
+    },
+    [delayMs],
+  );
 
   return getDelayClass;
 };
@@ -229,9 +271,9 @@ export const useSmoothScroll = () => {
     const element = document.getElementById(elementId);
     if (!element) return;
 
-    const behavior = options.behavior || 'smooth';
-    const block = options.block || 'start';
-    const inline = options.inline || 'nearest';
+    const behavior = options.behavior || "smooth";
+    const block = options.block || "start";
+    const inline = options.inline || "nearest";
 
     element.scrollIntoView({
       behavior,
@@ -248,28 +290,44 @@ export const useSmoothScroll = () => {
  * @returns {Object} { scrollDirection }
  */
 export const useScrollDirection = () => {
-  const [scrollDirection, setScrollDirection] = useState('up');
-  const [lastScrollY, setLastScrollY] = useState(0);
+  const [scrollDirection, setScrollDirection] = useState("up");
+  const lastScrollYRef = useRef(0);
 
   useEffect(() => {
+    // Initialize with current scroll position
+    lastScrollYRef.current = window.scrollY;
+
+    let rafId = null;
+    let ticking = false;
+
     const handleScroll = () => {
-      const currentScrollY = window.scrollY;
+      if (ticking) return;
 
-      if (currentScrollY > lastScrollY + 5) {
-        setScrollDirection('down');
-      } else if (currentScrollY < lastScrollY - 5) {
-        setScrollDirection('up');
-      }
+      ticking = true;
+      rafId = requestAnimationFrame(() => {
+        const currentScrollY = window.scrollY;
+        const lastScrollY = lastScrollYRef.current;
 
-      setLastScrollY(currentScrollY);
+        if (currentScrollY > lastScrollY + 5) {
+          setScrollDirection("down");
+        } else if (currentScrollY < lastScrollY - 5) {
+          setScrollDirection("up");
+        }
+
+        lastScrollYRef.current = currentScrollY;
+        ticking = false;
+      });
     };
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener("scroll", handleScroll, { passive: true });
 
     return () => {
-      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener("scroll", handleScroll);
+      if (rafId) {
+        cancelAnimationFrame(rafId);
+      }
     };
-  }, [lastScrollY]);
+  }, []);
 
   return { scrollDirection };
 };

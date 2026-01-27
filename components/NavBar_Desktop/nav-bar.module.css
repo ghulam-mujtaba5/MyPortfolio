@@ -1,343 +1,704 @@
 /* Navbar visibility animations */
 .header {
-  transition: transform var(--duration-normal) var(--ease-out),
-              box-shadow var(--duration-normal) var(--ease-out),
-              opacity var(--duration-normal) var(--ease-out);
+    transition:
+        transform var(--duration-normal, 0.3s) var(--ease-out, ease-out),
+        box-shadow var(--duration-normal, 0.3s) var(--ease-out, ease-out),
+        opacity var(--duration-normal, 0.3s) var(--ease-out, ease-out),
+        background-color var(--duration-normal, 0.3s) var(--ease-out, ease-out);
 }
 
 .visible {
-  transform: translateY(0);
-  opacity: 1;
+    transform: translateY(0);
+    opacity: 1;
 }
 
 .hidden {
-  transform: translateY(-100%);
-  opacity: 0;
+    transform: translateY(-100%);
+    opacity: 0;
+}
+
+/* Light theme header */
+.headerLight {
+    background-color: #f8fafc;
+    border-color: #e2e8f0;
+    color: #1f2937;
+}
+
+.headerLight .homeText,
+.headerLight .aboutText,
+.headerLight .skillsText,
+.headerLight .resumeText,
+.headerLight .projectText,
+.headerLight .contactText {
+    color: #1f2937;
+}
+
+.headerLight .home:hover,
+.headerLight .about:hover,
+.headerLight .skills:hover,
+.headerLight .resume:hover,
+.headerLight .project:hover,
+.headerLight .contact:hover {
+    background-color: #4573df;
+    color: #fff;
+}
+
+.headerLight .home:hover .homeText,
+.headerLight .about:hover .aboutText,
+.headerLight .resume:hover .resumeText,
+.headerLight .project:hover .projectText,
+.headerLight .contact:hover .contactText {
+    color: #fff;
+}
+
+/* Light theme logo styling */
+.headerLight .logo {
+    background: linear-gradient(135deg, #f5f7fa 60%, #c3cfe2 100%);
+    border-color: rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 12px rgba(180, 200, 255, 0.13);
+}
+
+.headerLight .logoHover {
+    background: linear-gradient(135deg, #e8ecf2 60%, #b8c6db 100%);
+    border-color: rgba(69, 115, 223, 0.4);
+    box-shadow:
+        0 0 8px rgba(69, 115, 223, 0.3),
+        0 0 12px rgba(69, 115, 223, 0.2),
+        0 6px 24px rgba(0, 0, 0, 0.15);
 }
 
 /* Navigation item animations */
 .navItem {
-  position: relative;
-  overflow: hidden;
-  cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
 }
 
 .navItem::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-  transition: left var(--duration-normal) var(--ease-out);
-  pointer-events: none;
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.1),
+        transparent
+    );
+    transition: left var(--duration-normal, 0.3s) var(--ease-out, ease-out);
+    pointer-events: none;
 }
 
 .navItem:hover::before {
-  left: 100%;
+    left: 100%;
 }
 
 /* Active/selected state for nav buttons */
 .active {
-  background-color: #4573df !important;
-  color: #fff !important;
-  box-shadow: 0 4px 16px 0 rgba(34, 34, 59, 0.18);
-  transform: scale(1.05);
-  animation: popIn var(--duration-normal) cubic-bezier(0.34, 1.56, 0.64, 1);
+    background-color: #4573df !important;
+    color: #fff !important;
+    box-shadow: 0 4px 16px 0 rgba(34, 34, 59, 0.18);
+    transform: scale(1.05);
+    animation: popIn var(--duration-normal, 0.3s)
+        cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.active .homeText,
+.active .aboutText,
+.active .resumeText,
+.active .projectText,
+.active .contactText {
+    color: #fff !important;
 }
 
 /* Styles for the Home button text */
 
 .header * {
-  transition:
-    background-color var(--duration-normal) var(--ease-out),
-    transform var(--duration-normal) var(--ease-out),
-    box-shadow var(--duration-normal) var(--ease-out);
+    transition:
+        background-color var(--duration-normal, 0.3s) var(--ease-out, ease-out),
+        transform var(--duration-normal, 0.3s) var(--ease-out, ease-out),
+        box-shadow var(--duration-normal, 0.3s) var(--ease-out, ease-out),
+        color var(--duration-normal, 0.3s) var(--ease-out, ease-out);
 }
 
 .homeText {
-  position: relative;
-  font-size: 20px;
-  letter-spacing: -0.01em;
-  display: inline-block;
-  font-family: "Open Sans";
-  color: #fff;
-  text-align: left;
-  min-width: 59px;
+    position: relative;
+    font-size: 20px;
+    letter-spacing: -0.01em;
+    display: inline-block;
+    font-family: "Open Sans";
+    color: #fff;
+    text-align: left;
+    min-width: 59px;
 }
 
 /* Styles for the Home button */
 .home {
-  cursor: pointer;
-  border: 0;
-  padding: 20px 40px;
-  background-color: transparent;
-  border-radius: 60px;
-  overflow: hidden;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  animation: fadeInDown var(--duration-normal) var(--ease-out);
+    cursor: pointer;
+    border: 0;
+    padding: 20px 40px;
+    background-color: transparent;
+    border-radius: 60px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    animation: fadeInDown var(--duration-normal, 0.3s) var(--ease-out, ease-out);
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+}
+
+/* Base button reset for all nav buttons */
+.about,
+.resume,
+.project,
+.contact {
+    cursor: pointer;
+    border: 0;
+    background-color: transparent;
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    -webkit-appearance: none;
+    appearance: none;
 }
 
 /* Hover effect for all elements */
+.home:hover,
 .about:hover,
 .skills:hover,
 .resume:hover,
 .project:hover,
 .contact:hover {
-  background-color: #4573df;
-  transform: scale(1.05); /* Slight scale effect on hover */
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    background-color: #4573df;
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Focus visible states for keyboard navigation */
+.home:focus-visible,
+.about:focus-visible,
+.resume:focus-visible,
+.project:focus-visible,
+.contact:focus-visible {
+    outline: 2px solid #4573df;
+    outline-offset: 2px;
 }
 
 /* Styles for the About section text */
 .aboutText {
-  position: relative;
-  letter-spacing: -0.01em;
-  display: inline-block;
-  min-width: 56px;
+    position: relative;
+    letter-spacing: -0.01em;
+    display: inline-block;
+    min-width: 56px;
 }
 
 /* Styles for the About section */
 .about {
-  border-radius: 60px;
-  overflow: hidden;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  padding: 20px 40px;
-  animation: fadeInDown var(--duration-normal) var(--ease-out) 50ms both;
+    border-radius: 60px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 40px;
+    animation: fadeInDown var(--duration-normal, 0.3s) var(--ease-out, ease-out)
+        50ms both;
 }
 
 /* Styles for the Skills section text */
 .skillsText {
-  position: relative;
-  letter-spacing: -0.01em;
-  display: inline-block;
-  min-width: 45px;
+    position: relative;
+    letter-spacing: -0.01em;
+    display: inline-block;
+    min-width: 45px;
 }
 
 /* Styles for the Skills section */
 .skills {
-  border-radius: 60px;
-  overflow: hidden;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  padding: 20px 40px;
-  animation: fadeInDown var(--duration-normal) var(--ease-out) 100ms both;
+    border-radius: 60px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 40px;
+    animation: fadeInDown var(--duration-normal, 0.3s) var(--ease-out, ease-out)
+        100ms both;
 }
+
+/* =====================================================
+   CENTRAL LOGO & NAME ANIMATION STYLES
+   ===================================================== */
 
 /* Styles for the Logo icon */
 .logoIcon {
-  width: 40px;
-  height: 40px;
-  position: relative;
+    width: 40px;
+    height: 40px;
+    position: relative;
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 /* Styles for the Logo button container */
 .logo {
-  cursor: pointer;
-  border: 0;
-  padding: 14.4px 5.5px 14.3px;
-  background-color: #4573df;
-  height: 46px;
-  width: 46px;
-  border-radius: 50px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  box-sizing: border-box;
-  transition: transform var(--duration-normal) var(--ease-out),
-              box-shadow var(--duration-normal) var(--ease-out),
-              background-color var(--duration-normal) var(--ease-out);
-  animation: popIn var(--duration-normal) cubic-bezier(0.34, 1.56, 0.64, 1);
+    cursor: pointer;
+    border: 1.5px solid rgba(255, 255, 255, 0.15);
+    padding: 3px;
+    background: linear-gradient(135deg, #23272f 60%, #3a3f47 100%);
+    height: 46px;
+    width: 46px;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    transition:
+        transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+        box-shadow 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+        background 0.3s ease,
+        border-color 0.3s ease;
+    animation: logoEntrance 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s both;
+    flex-shrink: 0;
+    box-shadow: 0 4px 16px rgba(30, 40, 60, 0.18);
 }
 
 .logoHover {
-  background-color: #272c34;
-  transform: scale(1.08) rotateZ(2deg);
-  box-shadow: 0 0 5px #4573df,
-              0 0 10px #4573df,
-              0 0 15px #4573df,
-              0 8px 24px rgba(0, 0, 0, 0.3);
+    background: linear-gradient(135deg, #2d3340 60%, #454c5a 100%);
+    border-color: rgba(69, 115, 223, 0.5);
+    transform: scale(1.12) rotate(5deg);
+    box-shadow:
+        0 0 8px rgba(69, 115, 223, 0.4),
+        0 0 16px rgba(69, 115, 223, 0.25),
+        0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.logoHover .logoIcon {
+    transform: scale(1.05);
+}
+
+/* Logo and Name Animation container */
+.logoAnimation {
+    border-radius: 60px;
+    padding: 12px 24px;
+    gap: 12px;
+    cursor: pointer;
+    overflow: visible;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    text-decoration: none;
+    transition:
+        transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
+        background-color 0.3s ease;
+    animation: containerEntrance 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+.logoAnimationHover {
+    transform: translateY(-2px);
+}
+
+/* Typography container for the name */
+.typo {
+    overflow: visible;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    position: relative;
+    height: 24px;
+}
+
+.typoHover {
+    /* Keep visible on hover - remove the hiding behavior */
+}
+
+/* Name wrapper for animation control */
+.nameWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Name entrance animation */
+.nameEntering {
+    animation: nameSlideIn 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+/* Name hover animation */
+.nameHovering .nameIcon {
+    animation: nameWave 0.6s ease-in-out;
 }
 
 /* Styles for the Name animation icon */
 .nameIcon {
-  height: 20.3px;
-  width: 190px;
-  position: relative;
-  transition: opacity var(--duration-normal) var(--ease-out),
-              transform var(--duration-normal) var(--ease-out);
+    height: 20px;
+    width: 190px;
+    position: relative;
+    display: block;
+    transition:
+        opacity 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+        transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+        filter 0.3s ease;
+    transform-origin: left center;
 }
 
-/* Styles for the Logo and Name animation container */
-.logoAnimation,
-.typo {
-  overflow: hidden;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  transition: transform var(--duration-normal) var(--ease-out);
-  animation: scaleIn var(--duration-normal) cubic-bezier(0.34, 1.56, 0.64, 1);
+.nameIconHover {
+    transform: translateX(4px);
+    filter: drop-shadow(0 2px 4px rgba(69, 115, 223, 0.3));
 }
 
-/* Additional styles for the Logo and Name animation container */
-.logoAnimation {
-  border-radius: 60px;
-  padding: 20px 28px;
-  gap: 10px;
-  cursor: pointer;
+/* Animated underline for the name */
+.nameUnderline {
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #4573df, #6b8cef, #4573df);
+    background-size: 200% 100%;
+    border-radius: 2px;
+    transition: width 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-/* Animation for hovering on the Name animation container */
-.typo:hover .nameIcon {
-  opacity: 0; /* Hide the Name animation icon on hover */
-  transform: translateX(-10px);
-  transition: all var(--duration-normal) var(--ease-out);
+.nameUnderlineActive {
+    width: 100%;
+    animation: underlineShimmer 1.5s linear infinite;
 }
 
 /* Styles for the Resume section text */
 .resumeText {
-  position: relative;
-  letter-spacing: -0.01em;
-  display: inline-block;
-  min-width: 74px;
+    position: relative;
+    letter-spacing: -0.01em;
+    display: inline-block;
+    min-width: 74px;
 }
 
 /* Styles for the Resume section */
 .resume {
-  border-radius: 60px;
-  overflow: hidden;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  padding: 20px 40px;
-  animation: fadeInDown var(--duration-normal) var(--ease-out) 150ms both;
+    border-radius: 60px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 40px;
+    animation: fadeInDown var(--duration-normal, 0.3s) var(--ease-out, ease-out)
+        150ms both;
 }
 
 /* Styles for the Project section text */
 .projectText {
-  position: relative;
-  letter-spacing: -0.01em;
-  display: inline-block;
-  min-width: 64px;
+    position: relative;
+    letter-spacing: -0.01em;
+    display: inline-block;
+    min-width: 64px;
 }
 
 /* Styles for the Project section */
 .project {
-  border-radius: 60px;
-  overflow: hidden;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  padding: 20px 40px;
-  animation: fadeInDown var(--duration-normal) var(--ease-out) 200ms both;
+    border-radius: 60px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 40px;
+    animation: fadeInDown var(--duration-normal, 0.3s) var(--ease-out, ease-out)
+        200ms both;
 }
 
 /* Styles for the Contact section text */
 .contactText {
-  position: relative;
-  letter-spacing: -0.01em;
-  display: inline-block;
-  min-width: 71px;
+    position: relative;
+    letter-spacing: -0.01em;
+    display: inline-block;
+    min-width: 71px;
 }
 
 /* Styles for the Contact section */
 .contact,
 .header {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
 }
 
 /* Additional styles for the Contact section */
 .contact {
-  border-radius: 60px;
-  overflow: hidden;
-  justify-content: center;
-  padding: 20px 40px;
-  animation: fadeInDown var(--duration-normal) var(--ease-out) 250ms both;
+    border-radius: 60px;
+    overflow: hidden;
+    justify-content: center;
+    padding: 20px 40px;
+    animation: fadeInDown var(--duration-normal, 0.3s) var(--ease-out, ease-out)
+        250ms both;
 }
 
 /* Styles for the header container */
 .header {
-  flex: 1;
-  border-radius: 50px;
-  background-color: #1d2127;
-  border: 1px solid #fff;
-  box-sizing: border-box;
-  justify-content: space-between;
-  padding: 0 10px;
-  top: 0;
-  z-index: 99;
-  max-width: 100%;
-  gap: 10px; /* Adjusted gap */
-  text-align: left;
-  font-size: 20px;
-  color: #fff;
-  font-family: "Open Sans";
-  margin: 0 20px; /* Add margin */
+    flex: 1;
+    border-radius: 50px;
+    background-color: #1d2127;
+    border: 1px solid #fff;
+    box-sizing: border-box;
+    justify-content: space-between;
+    padding: 0 10px;
+    top: 0;
+    z-index: 99;
+    max-width: 100%;
+    gap: 10px;
+    text-align: left;
+    font-size: 20px;
+    color: #fff;
+    font-family: "Open Sans";
+    margin: 0 20px;
 }
 
 .leftNavigation,
 .rightNavigation {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  gap: 5px; /* Adjust gap between items */
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
 }
 
 .alternativeNameIcon {
-  width: 120px;
-  position: relative;
+    width: 120px;
+    position: relative;
 }
 
-/* Keyframes for navbar animations */
+/* =====================================================
+   KEYFRAME ANIMATIONS
+   ===================================================== */
+
 @keyframes popIn {
-  0% {
-    opacity: 0;
-    transform: scale(0.8);
-  }
-  50% {
-    opacity: 1;
-    transform: scale(1.02);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1);
-  }
+    0% {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.02);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
 }
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Logo entrance animation */
+@keyframes logoEntrance {
+    0% {
+        opacity: 0;
+        transform: scale(0) rotate(-180deg);
+    }
+    60% {
+        opacity: 1;
+        transform: scale(1.1) rotate(10deg);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) rotate(0deg);
+    }
+}
+
+/* Container entrance animation */
+@keyframes containerEntrance {
+    0% {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Name slide in animation */
+@keyframes nameSlideIn {
+    0% {
+        opacity: 0;
+        transform: translateX(-30px);
+        clip-path: inset(0 100% 0 0);
+    }
+    50% {
+        opacity: 1;
+        clip-path: inset(0 50% 0 0);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+        clip-path: inset(0 0 0 0);
+    }
+}
+
+/* Name wave animation on hover */
+@keyframes nameWave {
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+    25% {
+        transform: translateX(3px) skewX(-2deg);
+    }
+    50% {
+        transform: translateX(0) skewX(0deg);
+    }
+    75% {
+        transform: translateX(2px) skewX(1deg);
+    }
+}
+
+/* Underline shimmer animation */
+@keyframes underlineShimmer {
+    0% {
+        background-position: 200% 0;
+    }
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+/* Letter-by-letter animation (if using text instead of SVG) */
+@keyframes letterReveal {
+    0% {
+        opacity: 0;
+        transform: translateY(10px) rotateX(-90deg);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) rotateX(0deg);
+    }
+}
+
+/* Glow pulse animation for logo */
+@keyframes glowPulse {
+    0%,
+    100% {
+        box-shadow:
+            0 0 5px rgba(69, 115, 223, 0.4),
+            0 0 10px rgba(69, 115, 223, 0.2);
+    }
+    50% {
+        box-shadow:
+            0 0 10px rgba(69, 115, 223, 0.6),
+            0 0 20px rgba(69, 115, 223, 0.4),
+            0 0 30px rgba(69, 115, 223, 0.2);
+    }
+}
+
+/* =====================================================
+   MEDIA QUERIES
+   ===================================================== */
 
 /* Media query for smaller screens */
 @media screen and (max-width: 768px) {
-  /* Hide the header on smaller screens */
-  .header {
-    display: none;
-  }
+    /* Hide the header on smaller screens */
+    .header {
+        display: none;
+    }
+}
+
+/* Tablet adjustments */
+@media screen and (max-width: 1024px) and (min-width: 769px) {
+    .home,
+    .about,
+    .resume,
+    .project,
+    .contact {
+        padding: 16px 24px;
+    }
+
+    .homeText,
+    .aboutText,
+    .resumeText,
+    .projectText,
+    .contactText {
+        font-size: 16px;
+        min-width: auto;
+    }
+
+    .logoAnimation {
+        padding: 10px 16px;
+        gap: 8px;
+    }
+
+    .nameIcon {
+        width: 150px;
+        height: 16px;
+    }
+
+    .logo {
+        width: 40px;
+        height: 40px;
+    }
+
+    .logoIcon {
+        width: 34px;
+        height: 34px;
+    }
 }
 
 /* Accessibility: Reduce motion */
 @media (prefers-reduced-motion: reduce) {
-  .header,
-  .navItem,
-  .logo,
-  .logoAnimation,
-  .nameIcon {
-    animation: none !important;
-    transition-duration: 0.01ms !important;
-  }
+    .header,
+    .navItem,
+    .logo,
+    .logoAnimation,
+    .nameIcon,
+    .nameWrapper,
+    .nameUnderline {
+        animation: none !important;
+        transition-duration: 0.01ms !important;
+    }
+
+    .logoHover {
+        transform: scale(1.05);
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+    }
+
+    .nameIconHover {
+        transform: none;
+    }
+
+    .nameUnderlineActive {
+        animation: none;
+    }
 }
 
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .header {
+        border-width: 2px;
+    }
+
+    .active {
+        outline: 2px solid #fff;
+        outline-offset: 2px;
+    }
+
+    .nameUnderline {
+        background: #4573df;
+        height: 3px;
+    }
+}

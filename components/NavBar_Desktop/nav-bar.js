@@ -1,53 +1,102 @@
 import styles from "./nav-bar.module.css";
-import { useState, useEffect } from "react";
-import { useRouter } from "next/router"; // Import useRouter from Next.js
-import Link from "next/link"; // Import Link from Next.js
-import { useScrollDirection } from "../../hooks/useScrollAnimation";
+import { useState, useEffect, useCallback } from "react";
+import { useRouter } from "next/router";
+import Link from "next/link";
+import { useTheme } from "../../context/ThemeContext";
 
 const NavBar = () => {
   const [hover, setHover] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
-  const router = useRouter(); // Initialize the router
-  const { scrollDirection } = useScrollDirection();
+  const [currentHash, setCurrentHash] = useState("");
+  const [currentPath, setCurrentPath] = useState("");
+  const [mounted, setMounted] = useState(false);
+  const [nameAnimationState, setNameAnimationState] = useState("idle");
+  const router = useRouter();
+  const { theme } = useTheme();
+
+  // Set mounted state and initialize client-side values
+  useEffect(() => {
+    setMounted(true);
+    setCurrentHash(window.location.hash);
+    setCurrentPath(router.asPath.split("#")[0]);
+
+    // Trigger entrance animation after mount
+    const animationTimer = setTimeout(() => {
+      setNameAnimationState("entering");
+    }, 300);
+
+    // Listen for hash changes
+    const handleHashChange = () => {
+      setCurrentHash(window.location.hash);
+    };
+
+    window.addEventListener("hashchange", handleHashChange);
+    return () => {
+      window.removeEventListener("hashchange", handleHashChange);
+      clearTimeout(animationTimer);
+    };
+  }, [router.asPath]);
+
+  // Update path when route changes
+  useEffect(() => {
+    const handleRouteChange = (url) => {
+      setCurrentPath(url.split("#")[0]);
+      setCurrentHash(window.location.hash);
+    };
+
+    router.events.on("routeChangeComplete", handleRouteChange);
+    return () => {
+      router.events.off("routeChangeComplete", handleRouteChange);
+    };
+  }, [router.events]);
 
   // Auto-hide navbar on scroll down, show on scroll up
   useEffect(() => {
+    let rafId = null;
+    let ticking = false;
+
     const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-      
-      if (currentScrollY > lastScrollY + 50 && currentScrollY > 100) {
-        setIsVisible(false);
-      } else if (currentScrollY < lastScrollY - 50 || currentScrollY < 100) {
-        setIsVisible(true);
-      }
-      
-      setLastScrollY(currentScrollY);
+      if (ticking) return;
+
+      ticking = true;
+      rafId = requestAnimationFrame(() => {
+        const currentScrollY = window.scrollY;
+
+        if (currentScrollY > lastScrollY + 50 && currentScrollY > 100) {
+          setIsVisible(false);
+        } else if (currentScrollY < lastScrollY - 50 || currentScrollY < 100) {
+          setIsVisible(true);
+        }
+
+        setLastScrollY(currentScrollY);
+        ticking = false;
+      });
     };
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => {
-      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener("scroll", handleScroll);
+      if (rafId) {
+        cancelAnimationFrame(rafId);
+      }
     };
   }, [lastScrollY]);
 
-  const handleMouseHover = (state) => {
+  const handleMouseHover = useCallback((state) => {
     setHover(state);
-  };
+    setNameAnimationState(state ? "hovering" : "idle");
+  }, []);
 
-  const handleScrollToSection = (sectionId) => {
-    // If not on the home page, navigate to the home page with the hash
-    const basePath =
-      typeof window !== "undefined"
-        ? router.asPath.split("#")[0]
-        : router.pathname;
-    const targetHash = `#${sectionId}`;
+  const handleScrollToSection = useCallback(
+    (sectionId) => {
+      const basePath = currentPath || "/";
+      const targetHash = `#${sectionId}`;
 
-    // If not on the home page, navigate to the home page first, then set the hash and scroll
-    if (basePath !== "/") {
-      router.push("/").then(() => {
-        if (typeof window !== "undefined") {
-          // Update the URL hash and attempt smooth scroll once the page is loaded
+      // If not on the home page, navigate to the home page first
+      if (basePath !== "/") {
+        router.push("/").then(() => {
+          // Update the URL hash and scroll after navigation
           try {
             window.location.hash = targetHash;
           } catch (e) {
@@ -57,38 +106,36 @@ const NavBar = () => {
             const section = document.getElementById(sectionId);
             if (section) section.scrollIntoView({ behavior: "smooth" });
           });
-        }
-      });
-      return;
-    }
+        });
+        return;
+      }
 
-    // Already on home: ensure URL hash reflects target, then smooth scroll
-    if (typeof window !== "undefined" && window.location.hash !== targetHash) {
-      // Update hash without a full navigation
-      router.replace("/" + targetHash, undefined, { shallow: true });
-    }
-    // Defer to next frame to ensure DOM focus/URL update before scrolling
-    if (typeof window !== "undefined") {
+      // Already on home: update hash and scroll
+      if (window.location.hash !== targetHash) {
+        router.replace("/" + targetHash, undefined, { shallow: true });
+      }
+
       window.requestAnimationFrame(() => {
         const section = document.getElementById(sectionId);
         if (section) {
           section.scrollIntoView({ behavior: "smooth" });
         }
       });
-    }
-  };
+    },
+    [router, currentPath],
+  );
 
-  const handleNavigation = (path) => {
-    router.push(path); // Use router to navigate to the specified path
-  };
+  const handleNavigation = useCallback(
+    (path) => {
+      router.push(path);
+    },
+    [router],
+  );
 
-  // Determine active/selected state
-  const hash = typeof window !== "undefined" ? window.location.hash : "";
-  // Use asPath (without hash) to correctly detect current route, including dynamic routes
-  const path =
-    typeof window !== "undefined"
-      ? router.asPath.split("#")[0]
-      : router.pathname;
+  // Determine active/selected state - only on client side after mount
+  const hash = mounted ? currentHash : "";
+  const path = mounted ? currentPath : "";
+
   const isProjects = path === "/projects";
   const isHome = path === "/" && (hash === "" || hash === "#home-section");
   const isAbout = path === "/" && hash === "#about-section";
@@ -96,90 +143,131 @@ const NavBar = () => {
   const isArticles = path === "/articles" || path.startsWith("/articles/");
   const isContact = path === "/" && hash === "#contact-section";
 
+  // Determine which SVG to use based on theme
+  const nameIconSrc =
+    mounted && theme === "light"
+      ? "/ghulam-mujtaba-dark.svg"
+      : "/ghulam-mujtaba.svg";
+
+  const logoIconSrc =
+    mounted && theme === "light" ? "/gmVector.svg" : "/gmVectorDark.svg";
+
+  // Get animation class for name
+  const getNameAnimationClass = () => {
+    switch (nameAnimationState) {
+      case "entering":
+        return styles.nameEntering;
+      case "hovering":
+        return styles.nameHovering;
+      default:
+        return "";
+    }
+  };
+
   return (
-    <header className={`${styles.header} ${isVisible ? styles.visible : styles.hidden}`}>
+    <header
+      className={`${styles.header} ${isVisible ? styles.visible : styles.hidden} ${mounted && theme === "light" ? styles.headerLight : ""}`}
+    >
       {/* Left side navigation */}
       <div className={styles.leftNavigation}>
         {/* Home button */}
         <button
           className={`${styles.home} ${isHome ? styles.active : ""} ${styles.navItem}`}
           onClick={() => handleScrollToSection("home-section")}
+          type="button"
         >
           <b className={styles.homeText}>Home</b>
         </button>
 
         {/* About section */}
-        <div
+        <button
           className={`${styles.about} ${isAbout ? styles.active : ""} ${styles.navItem}`}
           onClick={() => handleScrollToSection("about-section")}
+          type="button"
         >
-          <div className={styles.aboutText}>About</div>
-        </div>
+          <span className={styles.aboutText}>About</span>
+        </button>
       </div>
 
       {/* Articles section */}
-      <div
+      <button
         className={`${styles.project} ${isArticles ? styles.active : ""} ${styles.navItem}`}
         onClick={() => handleNavigation("/articles")}
+        type="button"
       >
-        <div className={styles.projectText}>Articles</div>
-      </div>
+        <span className={styles.projectText}>Articles</span>
+      </button>
 
-      {/* Logo and Name Animation */}
-      <Link href="/" passHref>
-        <div
-          className={styles.logoAnimation}
+      {/* Logo and Name Animation - Central Element */}
+      <Link href="/" passHref legacyBehavior>
+        <a
+          className={`${styles.logoAnimation} ${hover ? styles.logoAnimationHover : ""}`}
           onMouseEnter={() => handleMouseHover(true)}
           onMouseLeave={() => handleMouseHover(false)}
+          aria-label="Go to homepage - Ghulam Mujtaba"
         >
-          <button className={`${styles.logo} ${hover ? styles.logoHover : ""}`}>
+          {/* Logo Circle */}
+          <span className={`${styles.logo} ${hover ? styles.logoHover : ""}`}>
             <img
               className={styles.logoIcon}
               alt="GM Logo"
-              src="/gmVectorDark.svg"
-              style={{
-                width: "40px",
-                height: "40px",
-              }}
+              src={logoIconSrc}
+              width="40"
+              height="40"
             />
-          </button>
-          <div className={styles.typo}>
-            <img
-              className={styles.nameIcon}
-              loading="lazy"
-              alt="Ghulam Mujtaba"
-              src="/ghulam-mujtaba.svg"
-              style={{ maxWidth: "100%", height: "auto" }}
+          </span>
+
+          {/* Name Typography with Animation */}
+          <span className={`${styles.typo} ${hover ? styles.typoHover : ""}`}>
+            <span
+              className={`${styles.nameWrapper} ${getNameAnimationClass()}`}
+            >
+              <img
+                className={`${styles.nameIcon} ${hover ? styles.nameIconHover : ""}`}
+                loading="eager"
+                alt="Ghulam Mujtaba"
+                src={nameIconSrc}
+                width="190"
+                height="20"
+              />
+            </span>
+
+            {/* Animated underline */}
+            <span
+              className={`${styles.nameUnderline} ${hover ? styles.nameUnderlineActive : ""}`}
             />
-          </div>
-        </div>
+          </span>
+        </a>
       </Link>
 
       {/* Right side navigation */}
       <div className={styles.rightNavigation}>
         {/* Resume section */}
-        <div
+        <button
           className={`${styles.resume} ${isResume ? styles.active : ""} ${styles.navItem}`}
           onClick={() => handleNavigation("/resume")}
+          type="button"
         >
-          <div className={styles.resumeText}>Resume</div>
-        </div>
+          <span className={styles.resumeText}>Resume</span>
+        </button>
 
         {/* Project section */}
-        <div
+        <button
           className={`${styles.project} ${isProjects ? styles.active : ""} ${styles.navItem}`}
           onClick={() => handleNavigation("/projects")}
+          type="button"
         >
-          <div className={styles.projectText}>Projects</div>
-        </div>
+          <span className={styles.projectText}>Projects</span>
+        </button>
 
         {/* Contact section */}
-        <div
+        <button
           className={`${styles.contact} ${isContact ? styles.active : ""} ${styles.navItem}`}
           onClick={() => handleScrollToSection("contact-section")}
+          type="button"
         >
-          <div className={styles.contactText}>Contact</div>
-        </div>
+          <span className={styles.contactText}>Contact</span>
+        </button>
       </div>
     </header>
   );

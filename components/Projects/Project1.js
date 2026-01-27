@@ -8,27 +8,31 @@ import commonStyles from "./ProjectCommon.module.css";
 
 const ProjectCard = React.memo(({ project, frameStyles, theme }) => {
   const cardRef = useRef(null);
-  const [isVisible, setIsVisible] = useState(false);
+  const [isVisible, setIsVisible] = useState(true); // Start visible to prevent flash
   const router = useRouter();
 
   useEffect(() => {
-    const handleScroll = () => {
-      const card = cardRef.current;
-      if (card) {
-        const rect = card.getBoundingClientRect();
-        if (rect.top < window.innerHeight && rect.bottom >= 0) {
-          setIsVisible(true);
-        } else {
-          setIsVisible(false);
-        }
-      }
+    const card = cardRef.current;
+    if (!card) return;
+
+    // Use Intersection Observer for better performance
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsVisible(entry.isIntersecting);
+      },
+      {
+        threshold: 0.1,
+        rootMargin: "50px 0px",
+      },
+    );
+
+    observer.observe(card);
+
+    return () => {
+      observer.disconnect();
     };
-
-    window.addEventListener("scroll", handleScroll);
-    handleScroll(); // Check visibility on component mount
-
-    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
   const handleCardClick = (e) => {
     // Don't trigger card click if clicking on links
     if (e.target.closest("a")) return;
@@ -51,11 +55,19 @@ const ProjectCard = React.memo(({ project, frameStyles, theme }) => {
         }
       }}
       tabIndex="0"
+      style={{
+        // Ensure card is visible even before observer fires
+        opacity: 1,
+        visibility: "visible",
+      }}
     >
       <div
         className={`${commonStyles.projectCard1Child} ${frameStyles.projectCard1Child}`}
       />
-      <div className={`${commonStyles.actions}`} onClick={(e) => e.stopPropagation()}>
+      <div
+        className={`${commonStyles.actions}`}
+        onClick={(e) => e.stopPropagation()}
+      >
         <div className={commonStyles.leftAction}>
           {(() => {
             const live = String(project?.links?.live || "").trim();
@@ -90,27 +102,35 @@ const ProjectCard = React.memo(({ project, frameStyles, theme }) => {
         </div>
       </div>
       {/* Project image (respects showImage and supports absolute URLs) */}
-      {project?.showImage !== false && project?.image ? (
-        (() => {
-          const img = String(project.image || "").trim();
-          const isExternal = /^https?:\/\//i.test(img) || /^\/\//.test(img) || /^data:image\//i.test(img) || /^blob:/.test(img);
-          const src = isExternal ? img : (img.startsWith("/") ? img : `/${img}`);
-          const fit = project?.imageFit || "cover";
-          return (
-            <Image
-              className={`${commonStyles.projectImg1} ${frameStyles.projectImg1}`}
-              alt={`${project.title} screenshot`}
-              src={src}
-              width={400}
-              height={250}
-              loading="lazy"
-              // Avoid domain restrictions for live preview assets
-              unoptimized={isExternal}
-              style={{ objectFit: fit }}
-            />
-          );
-        })()
-      ) : null}
+      {project?.showImage !== false && project?.image
+        ? (() => {
+            const img = String(project.image || "").trim();
+            const isExternal =
+              /^https?:\/\//i.test(img) ||
+              /^\/\//.test(img) ||
+              /^data:image\//i.test(img) ||
+              /^blob:/.test(img);
+            const src = isExternal
+              ? img
+              : img.startsWith("/")
+                ? img
+                : `/${img}`;
+            const fit = project?.imageFit || "cover";
+            return (
+              <Image
+                className={`${commonStyles.projectImg1} ${frameStyles.projectImg1}`}
+                alt={`${project.title} screenshot`}
+                src={src}
+                width={400}
+                height={250}
+                loading="lazy"
+                // Avoid domain restrictions for live preview assets
+                unoptimized={isExternal}
+                style={{ objectFit: fit }}
+              />
+            );
+          })()
+        : null}
       <h3
         className={`${commonStyles.projectTileGoes} ${frameStyles.projectTileGoes}`}
         id={`project-title-${project.title}`}
