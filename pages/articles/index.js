@@ -19,20 +19,56 @@ import ScrollReveal from "../../components/AnimatedUI/ScrollReveal";
 export default function ArticlesPage({
   initialArticles = [],
   initialPagination = { page: 1, totalPages: 1, total: 0, limit: 9 },
-  initialQuery = { search: "", tag: "", sort: "relevance", limit: 9, page: 1, category: "All" },
+  initialQuery = {
+    search: "",
+    tag: "",
+    sort: "relevance",
+    limit: 9,
+    page: 1,
+    category: "All",
+  },
 }) {
   const { theme } = useTheme();
   const [articles, setArticles] = useState(initialArticles);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [pagination, setPagination] = useState(initialPagination);
+  const [mounted, setMounted] = useState(false);
+
+  // Sync state with SSR props on mount and when props change
+  // This fixes hydration issues where initialArticles aren't captured on first render
+  useEffect(() => {
+    setMounted(true);
+    // Always sync with SSR data when it changes
+    if (initialArticles && initialArticles.length > 0) {
+      setArticles(initialArticles);
+    }
+    if (initialPagination) {
+      setPagination(initialPagination);
+    }
+  }, [initialArticles, initialPagination]);
 
   const router = useRouter();
-  const page = useMemo(() => Number(router.query.page || initialQuery.page || 1), [router.query.page, initialQuery.page]);
-  const limit = useMemo(() => Number(router.query.limit || initialQuery.limit || 9), [router.query.limit, initialQuery.limit]);
-  const search = useMemo(() => String(router.query.search ?? initialQuery.search ?? ""), [router.query.search, initialQuery.search]);
-  const tag = useMemo(() => String(router.query.tag ?? initialQuery.tag ?? ""), [router.query.tag, initialQuery.tag]);
-  const sort = useMemo(() => String(router.query.sort || initialQuery.sort || "relevance"), [router.query.sort, initialQuery.sort]);
+  const page = useMemo(
+    () => Number(router.query.page || initialQuery.page || 1),
+    [router.query.page, initialQuery.page],
+  );
+  const limit = useMemo(
+    () => Number(router.query.limit || initialQuery.limit || 9),
+    [router.query.limit, initialQuery.limit],
+  );
+  const search = useMemo(
+    () => String(router.query.search ?? initialQuery.search ?? ""),
+    [router.query.search, initialQuery.search],
+  );
+  const tag = useMemo(
+    () => String(router.query.tag ?? initialQuery.tag ?? ""),
+    [router.query.tag, initialQuery.tag],
+  );
+  const sort = useMemo(
+    () => String(router.query.sort || initialQuery.sort || "relevance"),
+    [router.query.sort, initialQuery.sort],
+  );
 
   // Local UI state for search input with debounce
   const [q, setQ] = useState(search);
@@ -42,7 +78,8 @@ export default function ArticlesPage({
       // push only if value actually changed to avoid loops
       if (q !== search) {
         const newQuery = { ...router.query };
-        if (q) newQuery.search = q; else delete newQuery.search;
+        if (q) newQuery.search = q;
+        else delete newQuery.search;
         newQuery.page = 1;
         router.push({ pathname: "/articles", query: newQuery });
       }
@@ -53,10 +90,14 @@ export default function ArticlesPage({
   // Normalize and map raw category strings to one of our 5 display buckets
   const mapToBucket = useCallback((label) => {
     const normalized = String(label || "").toLowerCase();
-    if (normalized.includes("academic") || normalized.includes("learning")) return "Academics & Learning";
-    if (normalized.includes("project") || normalized.includes("career")) return "Projects & Career";
-    if (normalized.includes("engineer") || normalized.includes("development")) return "Engineering & Development";
-    if (normalized.includes("tech") || normalized.includes("trend")) return "Tech Insights & Trends";
+    if (normalized.includes("academic") || normalized.includes("learning"))
+      return "Academics & Learning";
+    if (normalized.includes("project") || normalized.includes("career"))
+      return "Projects & Career";
+    if (normalized.includes("engineer") || normalized.includes("development"))
+      return "Engineering & Development";
+    if (normalized.includes("tech") || normalized.includes("trend"))
+      return "Tech Insights & Trends";
     return "Others";
   }, []);
 
@@ -75,13 +116,17 @@ export default function ArticlesPage({
 
   // Compute initial category using router query (if present) or SSR-provided initialQuery
   const computeInitialCategory = () => {
-    const raw = String(router.query?.category || initialQuery.category || "All").trim();
+    const raw = String(
+      router.query?.category || initialQuery.category || "All",
+    ).trim();
     if (raw === "All" || CATEGORY_FILTERS.includes(raw)) return raw;
     if (raw) return mapToBucket(raw);
     return "All";
   };
 
-  const [selectedCategory, setSelectedCategory] = useState(() => computeInitialCategory());
+  const [selectedCategory, setSelectedCategory] = useState(() =>
+    computeInitialCategory(),
+  );
 
   const filteredArticles = useMemo(() => {
     if (selectedCategory === "All") return articles;
@@ -97,13 +142,28 @@ export default function ArticlesPage({
     // Wait for router to be ready (prevents a hydration race)
     if (!router.isReady) return;
 
-    const raw = String(router.query?.category || initialQuery.category || 'All').trim();
-    const target = (raw === 'All' || CATEGORY_FILTERS.includes(raw)) ? raw : (raw ? mapToBucket(raw) : 'All');
+    const raw = String(
+      router.query?.category || initialQuery.category || "All",
+    ).trim();
+    const target =
+      raw === "All" || CATEGORY_FILTERS.includes(raw)
+        ? raw
+        : raw
+          ? mapToBucket(raw)
+          : "All";
 
     if (selectedCategory !== target) {
       setSelectedCategory(target);
     }
-  }, [router.isReady, router.query?.category, initialQuery.category, CATEGORY_FILTERS, selectedCategory, mapToBucket, router]);
+  }, [
+    router.isReady,
+    router.query?.category,
+    initialQuery.category,
+    CATEGORY_FILTERS,
+    selectedCategory,
+    mapToBucket,
+    router,
+  ]);
 
   const handleSelectCategory = (cat) => {
     setSelectedCategory(cat);
@@ -197,7 +257,14 @@ export default function ArticlesPage({
               Articles
             </h1>
             {loading && (
-              <div style={{ display: "flex", alignItems: "center", gap: 8, marginTop: 6 }}>
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 8,
+                  marginTop: 6,
+                }}
+              >
                 <Spinner size="sm" label="Loading articles" />
                 <span className="sr-only">Loading articles…</span>
               </div>
@@ -211,7 +278,11 @@ export default function ArticlesPage({
             </p>
 
             {/* Controls: Search + Sort */}
-            <div className={listCss.controls} role="region" aria-label="Articles controls">
+            <div
+              className={listCss.controls}
+              role="region"
+              aria-label="Articles controls"
+            >
               <input
                 type="search"
                 value={q}
@@ -268,7 +339,26 @@ export default function ArticlesPage({
             </div>
           )}
 
-          {!loading && !error && articles.length === 0 && (
+          {/* Show loading skeleton on initial mount before hydration completes */}
+          {!mounted && initialArticles.length === 0 && (
+            <div className={listCss.grid}>
+              {Array.from({ length: 6 }).map((_, i) => (
+                <div
+                  className={listCss.skeletonCard}
+                  key={`init-skeleton-${i}`}
+                >
+                  <div className={listCss.skelImage} />
+                  <div className={listCss.skelContent}>
+                    <div className={`${listCss.skelLine} ${listCss.medium}`} />
+                    <div className={`${listCss.skelLine} ${listCss.medium}`} />
+                    <div className={`${listCss.skelLine} ${listCss.short}`} />
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {!loading && !error && mounted && articles.length === 0 && (
             <div className={listCss.empty}>
               {(() => {
                 if (search && tag) {
@@ -288,9 +378,9 @@ export default function ArticlesPage({
           {!loading && !error && filteredArticles.length > 0 && (
             <div className={listCss.grid}>
               {filteredArticles.map((a, index) => (
-                <ScrollReveal 
-                  key={a._id} 
-                  animation="fadeInUp" 
+                <ScrollReveal
+                  key={a._id}
+                  animation="fadeInUp"
                   delay={index * 50}
                   width="100%"
                 >
@@ -372,9 +462,14 @@ export default function ArticlesPage({
           transform: translateY(20px);
           animation: fadeInUp 0.5s cubic-bezier(0.39, 0.575, 0.565, 1) forwards;
         }
-        .fade-in-up .article-tag-btn { animation-delay: inherit; }
+        .fade-in-up .article-tag-btn {
+          animation-delay: inherit;
+        }
         @keyframes fadeInUp {
-          to { opacity: 1; transform: none; }
+          to {
+            opacity: 1;
+            transform: none;
+          }
         }
         .article-tags {
           display: flex;
@@ -384,7 +479,10 @@ export default function ArticlesPage({
           margin: 1.2rem 0 0.6rem 0;
         }
         @media (max-width: 600px) {
-          .article-tags { gap: 0.4rem; margin: 0.9rem 0 0.4rem 0; }
+          .article-tags {
+            gap: 0.4rem;
+            margin: 0.9rem 0 0.4rem 0;
+          }
         }
         .article-tag-btn {
           background: #fff;
@@ -394,11 +492,17 @@ export default function ArticlesPage({
           font-size: 1rem;
           font-weight: 500;
           cursor: pointer;
-          transition: all 0.2s, box-shadow 0.3s;
+          transition:
+            all 0.2s,
+            box-shadow 0.3s;
           box-shadow: 0 2px 8px 0 rgba(60, 60, 100, 0.06);
         }
         @media (max-width: 600px) {
-          .article-tag-btn { font-size: 0.93rem; padding: 0.38rem 0.7rem; margin-bottom: 0.2rem; }
+          .article-tag-btn {
+            font-size: 0.93rem;
+            padding: 0.38rem 0.7rem;
+            margin-bottom: 0.2rem;
+          }
         }
         .article-tag-btn.active,
         .article-tag-btn:hover {
@@ -450,12 +554,17 @@ export async function getServerSideProps({ query }) {
           regexes = makeRegexes(["academic", "learning"]);
         } else if (bucket.includes("project") || bucket.includes("career")) {
           regexes = makeRegexes(["project", "career"]);
-        } else if (bucket.includes("engineer") || bucket.includes("development")) {
+        } else if (
+          bucket.includes("engineer") ||
+          bucket.includes("development")
+        ) {
           regexes = makeRegexes(["engineer", "development"]);
         } else if (bucket.includes("tech") || bucket.includes("trend")) {
           regexes = makeRegexes(["tech", "trend"]);
         } else {
-          regexes = [new RegExp(cat.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "i")];
+          regexes = [
+            new RegExp(cat.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "i"),
+          ];
         }
         if (regexes.length > 0) {
           baseFilter.categories = { $in: regexes };
@@ -464,7 +573,9 @@ export async function getServerSideProps({ query }) {
     }
 
     const useText = !!effectiveSearch;
-    const filter = useText ? { ...baseFilter, $text: { $search: effectiveSearch } } : baseFilter;
+    const filter = useText
+      ? { ...baseFilter, $text: { $search: effectiveSearch } }
+      : baseFilter;
 
     const projection = {
       title: 1,
@@ -493,12 +604,19 @@ export async function getServerSideProps({ query }) {
         break;
       case "relevance":
       default:
-        sortOrder = useText ? { score: { $meta: "textScore" }, createdAt: -1 } : { createdAt: -1 };
+        sortOrder = useText
+          ? { score: { $meta: "textScore" }, createdAt: -1 }
+          : { createdAt: -1 };
         break;
     }
 
     const [items, total] = await Promise.all([
-      Article.find(filter).select(projection).sort(sortOrder).skip(skip).limit(pageSize).lean(),
+      Article.find(filter)
+        .select(projection)
+        .sort(sortOrder)
+        .skip(skip)
+        .limit(pageSize)
+        .lean(),
       Article.countDocuments(filter),
     ]);
 
@@ -512,7 +630,12 @@ export async function getServerSideProps({ query }) {
     return {
       props: {
         initialArticles: serialized,
-        initialPagination: { page: pageNum, totalPages, total, limit: pageSize },
+        initialPagination: {
+          page: pageNum,
+          totalPages,
+          total,
+          limit: pageSize,
+        },
         initialQuery: {
           search: effectiveSearch,
           tag: String(tag || ""),
@@ -528,7 +651,14 @@ export async function getServerSideProps({ query }) {
       props: {
         initialArticles: [],
         initialPagination: { page: 1, totalPages: 1, total: 0, limit: 9 },
-        initialQuery: { search: "", tag: "", sort: "relevance", limit: 9, page: 1, category: "All" },
+        initialQuery: {
+          search: "",
+          tag: "",
+          sort: "relevance",
+          limit: 9,
+          page: 1,
+          category: "All",
+        },
       },
     };
   }
