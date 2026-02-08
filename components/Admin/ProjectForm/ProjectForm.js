@@ -347,6 +347,7 @@ function ProjectForm({
           <option value="AI">AI</option>
           <option value="Data Science">Data Science</option>
           <option value="UI/UX">UI/UX</option>
+          <option value="Client Projects">Client Projects</option>
           <option value="Others">Others</option>
         </select>
         {errors.category && (

@@ -69,6 +69,7 @@ const ProjectSchema = new mongoose.Schema(
         "AI",
         "Data Science",
         "UI/UX",
+        "Client Projects",
         "Others",
       ],
       default: "Others",

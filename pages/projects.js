@@ -23,6 +23,7 @@ const TAGS = [
   "AI",
   "Data Science",
   "UI/UX",
+  "Client Projects",
   "Others",
 ];
 
