@@ -695,83 +695,103 @@ const ProjectsPage = ({ projects = [], projectsError = null }) => {
 };
 
 export async function getServerSideProps() {
-  await dbConnect();
+  try {
+    await dbConnect();
 
-  const raw = await Project.find({ published: true })
-    .sort({ createdAt: -1 })
-    .lean();
+    // Set a timeout so SSR doesn't hang if the DB query is slow
+    const timeoutPromise = new Promise((_, reject) =>
+      setTimeout(() => reject(new Error("DB query timeout")), 8000)
+    );
 
-  const LinkSchema = z
-    .object({
-      live: z.string().url().optional().or(z.literal("")),
-      github: z.string().url().optional().or(z.literal("")),
-    })
-    .partial();
-  const ProjectSchema = z.object({
-    _id: z.any(),
-    slug: z.string().min(1).optional(),
-    title: z.string().min(1).optional(),
-    description: z.string().optional(),
-    image: z.string().optional(),
-    imageFit: z.enum(["contain", "cover", "fill", "none", "scale-down"]).optional(),
-    tags: z.array(z.string()).optional(),
-    category: z
-      .enum([
-        "All",
-        "Software Development",
-        "Web Development",
-        "AI",
-        "Data Science",
-        "UI/UX",
-        "Others",
-      ])
-      .optional(),
-    links: LinkSchema.optional(),
-  });
-  const ProjectsSchema = z.array(ProjectSchema);
+    const raw = await Promise.race([
+      Project.find({ published: true })
+        .sort({ createdAt: -1 })
+        .lean(),
+      timeoutPromise,
+    ]);
 
-  const parsed = ProjectsSchema.safeParse(raw);
-  let normalized;
-  if (!parsed.success) {
+    const LinkSchema = z
+      .object({
+        live: z.string().url().optional().or(z.literal("")),
+        github: z.string().url().optional().or(z.literal("")),
+      })
+      .partial();
+    const ProjectSchema = z.object({
+      _id: z.any(),
+      slug: z.string().min(1).optional(),
+      title: z.string().min(1).optional(),
+      description: z.string().optional(),
+      image: z.string().optional(),
+      imageFit: z.enum(["contain", "cover", "fill", "none", "scale-down"]).optional(),
+      tags: z.array(z.string()).optional(),
+      category: z
+        .enum([
+          "All",
+          "Software Development",
+          "Web Development",
+          "AI",
+          "Data Science",
+          "UI/UX",
+          "Others",
+        ])
+        .optional(),
+      links: LinkSchema.optional(),
+    });
+    const ProjectsSchema = z.array(ProjectSchema);
+
+    const parsed = ProjectsSchema.safeParse(raw);
+    let normalized;
+    if (!parsed.success) {
+      // eslint-disable-next-line no-console
+      console.warn("Projects validation failed; falling back to best-effort normalization.");
+      normalized = Array.isArray(raw)
+        ? raw.map((p) => ({
+            _id: p?._id?.toString?.() || String(p?._id || ""),
+            slug: typeof p?.slug === "string" ? p.slug : "",
+            title: typeof p?.title === "string" && p.title.trim() ? p.title : "Untitled",
+            description: typeof p?.description === "string" ? p.description : "",
+            image: typeof p?.image === "string" ? p.image : "",
+            imageFit: typeof p?.imageFit === "string" ? p.imageFit : undefined,
+            tags: Array.isArray(p?.tags) ? p.tags : [],
+            category: typeof p?.category === "string" && p.category.trim() ? p.category : "Others",
+            links: {
+              live: typeof p?.links?.live === "string" ? p.links.live : "",
+              github: typeof p?.links?.github === "string" ? p.links.github : "",
+            },
+          }))
+        : [];
+    } else {
+      // Normalize minimal shape used by UI to avoid undefined access downstream
+      normalized = parsed.data.map((p) => ({
+        _id: p._id?.toString?.() || String(p._id),
+        slug: p.slug || "",
+        title: p.title || "Untitled",
+        description: p.description || "",
+        image: p.image || "",
+        imageFit: p.imageFit || undefined,
+        tags: Array.isArray(p.tags) ? p.tags : [],
+        category: p.category || "Others",
+        links: { live: p.links?.live || "", github: p.links?.github || "" },
+      }));
+    }
+
+    return {
+      props: {
+        projects: JSON.parse(JSON.stringify(normalized)),
+        projectsError: parsed.success ? null : "invalid_data",
+      },
+    };
+  } catch (err) {
     // eslint-disable-next-line no-console
-    console.warn("Projects validation failed; falling back to best-effort normalization.");
-    normalized = Array.isArray(raw)
-      ? raw.map((p) => ({
-          _id: p?._id?.toString?.() || String(p?._id || ""),
-          slug: typeof p?.slug === "string" ? p.slug : "",
-          title: typeof p?.title === "string" && p.title.trim() ? p.title : "Untitled",
-          description: typeof p?.description === "string" ? p.description : "",
-          image: typeof p?.image === "string" ? p.image : "",
-          imageFit: typeof p?.imageFit === "string" ? p.imageFit : undefined,
-          tags: Array.isArray(p?.tags) ? p.tags : [],
-          category: typeof p?.category === "string" && p.category.trim() ? p.category : "Others",
-          links: {
-            live: typeof p?.links?.live === "string" ? p.links.live : "",
-            github: typeof p?.links?.github === "string" ? p.links.github : "",
-          },
-        }))
-      : [];
-  } else {
-    // Normalize minimal shape used by UI to avoid undefined access downstream
-    normalized = parsed.data.map((p) => ({
-      _id: p._id?.toString?.() || String(p._id),
-      slug: p.slug || "",
-      title: p.title || "Untitled",
-      description: p.description || "",
-      image: p.image || "",
-      imageFit: p.imageFit || undefined,
-      tags: Array.isArray(p.tags) ? p.tags : [],
-      category: p.category || "Others",
-      links: { live: p.links?.live || "", github: p.links?.github || "" },
-    }));
+    console.error("getServerSideProps projects error:", err?.message || err);
+    // Return empty projects so the client-side fallback fetch can take over
+    return {
+      props: {
+        projects: [],
+        projectsError: err?.message || "ssr_failed",
+      },
+    };
   }
-
-  return {
-    props: {
-      projects: JSON.parse(JSON.stringify(normalized)),
-      projectsError: parsed.success ? null : "invalid_data",
-    },
-  };
 }
 
 export default ProjectsPage;

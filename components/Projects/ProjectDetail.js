@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useRef } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { useTheme } from "../../context/ThemeContext";
 import ThemeToggleIcon from "../Icon/gmicon";

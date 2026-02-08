@@ -28,8 +28,10 @@ async function handler(req, res) {
         if (isObjectId) {
           project = await Project.findById(id).lean();
         } else {
+          // Sanitize slug to prevent ReDoS — only allow safe characters
+          const safeSlug = String(id).replace(/[^a-z0-9_-]/gi, "").substring(0, 200);
           project = await Project.findOneAndUpdate(
-            { slug: id, status: "Published" },
+            { slug: safeSlug, published: true },
             { $inc: { views: 1 } },
             { returnDocument: "after" },
           ).lean();
@@ -39,9 +41,11 @@ async function handler(req, res) {
             .status(404)
             .json({ success: false, message: "Project not found" });
         }
+        // Cache public detail pages
+        res.setHeader("Cache-Control", "public, s-maxage=120, stale-while-revalidate=600");
         return res.status(200).json({ success: true, data: project });
       } catch (error) {
-        console.error("Error fetching project:", error);
+        console.error("Error fetching project:", error?.message || error);
         return res
           .status(500)
           .json({ success: false, message: "Failed to fetch project" });

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import Image from "next/image";
 import { useTheme } from "../../context/ThemeContext";
+import OptimizedImage, { resolveImageSrc } from "../OptimizedImage/OptimizedImage";
 import styles from "./ProjectGallery.module.css";
 
 const ProjectGallery = ({ 
@@ -238,19 +239,17 @@ const ProjectGallery = ({
           <div className={`${styles.imageLoader} ${isLoading ? styles.loading : ""}`}>
             <div className={styles.spinner} />
           </div>
-          <Image
-            src={getImageSrc(currentImage)}
+          <OptimizedImage
+            src={currentImage?.url || ""}
             alt={currentImage?.alt || `${title} - Image ${currentIndex + 1}`}
             width={isMobileApp ? 400 : 900}
             height={isMobileApp ? 700 : 500}
             className={`${styles.mainImage} ${isLoading ? styles.hidden : ""}`}
             style={{ objectFit: imageFit }}
             priority={currentIndex === 0}
-            unoptimized={isExternalImage(currentImage)}
+            maxRetries={2}
             onLoad={() => setIsLoading(false)}
             onError={() => setIsLoading(false)}
-            placeholder="blur"
-            blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R7XTvhRakHcMm3+hPM4cBDBj5SJ2H+pD7bFaRKTXuMhNB1O8Dq3wA8QRnKLi5TlwT5WbUZrJeCPmvdVuKldJVEHPMCgw4wnTrA7cY1x5Vt7U2kJQqGDVGnGv4u5h7PF5vhT46wJwNBJLQCuNq8AV/9k="
           />
           
           {/* Zoom indicator on hover */}
@@ -285,14 +284,14 @@ const ProjectGallery = ({
                 aria-label={`Go to image ${index + 1}`}
                 aria-current={index === currentIndex ? "true" : "false"}
               >
-                <Image
-                  src={getImageSrc(img)}
+                <OptimizedImage
+                  src={img?.url || ""}
                   alt={img?.alt || `Thumbnail ${index + 1}`}
                   width={80}
                   height={60}
                   className={styles.thumbImage}
                   style={{ objectFit: "cover" }}
-                  unoptimized={isExternalImage(img)}
+                  maxRetries={1}
                 />
                 <div className={styles.thumbOverlay} />
               </button>
@@ -439,14 +438,14 @@ const ProjectGallery = ({
               className={styles.lightboxImageWrapper}
               style={{ transform: `scale(${zoomLevel})` }}
             >
-              <Image
-                src={getImageSrc(currentImage)}
+              <OptimizedImage
+                src={currentImage?.url || ""}
                 alt={currentImage?.alt || `${title} - Image ${currentIndex + 1}`}
                 width={1200}
                 height={800}
                 className={styles.lightboxImage}
                 style={{ objectFit: "contain" }}
-                unoptimized={isExternalImage(currentImage)}
+                maxRetries={2}
                 priority
               />
             </div>
@@ -469,13 +468,13 @@ const ProjectGallery = ({
                   onClick={() => goToSlide(index)}
                   aria-label={`View image ${index + 1}`}
                 >
-                  <Image
-                    src={getImageSrc(img)}
+                  <OptimizedImage
+                    src={img?.url || ""}
                     alt={img?.alt || `Thumbnail ${index + 1}`}
                     width={60}
                     height={45}
                     style={{ objectFit: "cover" }}
-                    unoptimized={isExternalImage(img)}
+                    maxRetries={1}
                   />
                 </button>
               ))}

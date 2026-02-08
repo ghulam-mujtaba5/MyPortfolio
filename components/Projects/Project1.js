@@ -1,7 +1,8 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useCallback } from "react";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { useTheme } from "../../context/ThemeContext";
+import OptimizedImage from "../OptimizedImage/OptimizedImage";
 import styles from "./projectLight.module.css";
 import darkStyles from "./ProjectDark.module.css";
 import commonStyles from "./ProjectCommon.module.css";
@@ -22,7 +23,7 @@ const ProjectCard = React.memo(({ project, frameStyles, theme }) => {
       },
       {
         threshold: 0.1,
-        rootMargin: "50px 0px",
+        rootMargin: "100px 0px", // preload images before they enter viewport
       },
     );
 
@@ -33,27 +34,38 @@ const ProjectCard = React.memo(({ project, frameStyles, theme }) => {
     };
   }, []);
 
-  const handleCardClick = (e) => {
-    // Don't trigger card click if clicking on links
-    if (e.target.closest("a")) return;
-    // Always navigate to detail page
-    const slug = project?.slug || project?.slug?.toString?.();
-    if (slug) router.push(`/projects/${slug}`);
-  };
+  const handleCardClick = useCallback(
+    (e) => {
+      // Don't trigger card click if clicking on links
+      if (e.target.closest("a")) return;
+      // Always navigate to detail page
+      const slug = project?.slug || project?.slug?.toString?.();
+      if (slug) router.push(`/projects/${slug}`);
+    },
+    [project?.slug, router],
+  );
+
+  const handleKeyDown = useCallback(
+    (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        handleCardClick(e);
+      }
+    },
+    [handleCardClick],
+  );
+
+  // Safely generate a unique title-id (no spaces, lowercase)
+  const titleId = `project-title-${(project?.title || "untitled").replace(/\s+/g, "-").toLowerCase()}`;
 
   return (
     <article
       className={`${commonStyles.projectCard1} ${frameStyles.projectCard1} ${isVisible ? styles.animate : ""}`}
       role="article"
-      aria-labelledby={`project-title-${project.title}`}
+      aria-labelledby={titleId}
       ref={cardRef}
       onClick={handleCardClick}
-      onKeyDown={(e) => {
-        if (e.key === "Enter" || e.key === " ") {
-          e.preventDefault();
-          handleCardClick(e);
-        }
-      }}
+      onKeyDown={handleKeyDown}
       tabIndex="0"
       style={{
         // Ensure card is visible even before observer fires
@@ -101,41 +113,23 @@ const ProjectCard = React.memo(({ project, frameStyles, theme }) => {
           )}
         </div>
       </div>
-      {/* Project image (respects showImage and supports absolute URLs) */}
-      {project?.showImage !== false && project?.image
-        ? (() => {
-            const img = String(project.image || "").trim();
-            const isExternal =
-              /^https?:\/\//i.test(img) ||
-              /^\/\//.test(img) ||
-              /^data:image\//i.test(img) ||
-              /^blob:/.test(img);
-            const src = isExternal
-              ? img
-              : img.startsWith("/")
-                ? img
-                : `/${img}`;
-            const fit = project?.imageFit || "cover";
-            return (
-              <Image
-                className={`${commonStyles.projectImg1} ${frameStyles.projectImg1}`}
-                alt={`${project.title} screenshot`}
-                src={src}
-                width={400}
-                height={250}
-                loading="lazy"
-                // Avoid domain restrictions for live preview assets
-                unoptimized={isExternal}
-                style={{ objectFit: fit }}
-              />
-            );
-          })()
-        : null}
+      {/* Project image with automatic retry & fallback */}
+      {project?.showImage !== false && project?.image ? (
+        <OptimizedImage
+          className={`${commonStyles.projectImg1} ${frameStyles.projectImg1}`}
+          alt={`${project.title || "Project"} screenshot`}
+          src={project.image}
+          width={400}
+          height={250}
+          maxRetries={2}
+          style={{ objectFit: project?.imageFit || "cover" }}
+        />
+      ) : null}
       <h3
         className={`${commonStyles.projectTileGoes} ${frameStyles.projectTileGoes}`}
-        id={`project-title-${project.title}`}
+        id={titleId}
       >
-        {project.title}
+        {project.title || "Untitled"}
       </h3>
       <div
         className={`${commonStyles.thisIsSample} ${frameStyles.thisIsSample}`}

@@ -37,14 +37,25 @@ async function handler(req, res) {
         if (featured === "true") query.featuredOnHome = true;
         if (search) query.title = { $regex: search, $options: "i" };
 
-        const sort = { [sortBy]: sortOrder === "asc" ? 1 : -1 };
+        // Whitelist allowed sort fields to prevent injection
+        const allowedSortFields = ["createdAt", "updatedAt", "title", "views"];
+        const safeSortBy = allowedSortFields.includes(sortBy) ? sortBy : "createdAt";
+        const sort = { [safeSortBy]: sortOrder === "asc" ? 1 : -1 };
+
+        // Clamp limit to prevent abuse
+        const safeLimit = Math.min(Math.max(parseInt(limit, 10) || 20, 1), 100);
 
         const projects = await Project.find(query)
           .sort(sort)
-          .limit(parseInt(limit, 10));
+          .limit(safeLimit)
+          .lean();
+
+        // Set cache headers for public GET requests (no auth required)
+        res.setHeader("Cache-Control", "public, s-maxage=60, stale-while-revalidate=300");
         res.status(200).json({ success: true, data: projects });
       } catch (error) {
-        res.status(400).json({ success: false, message: error.message });
+        console.error("Projects GET error:", error?.message || error);
+        res.status(500).json({ success: false, message: "Failed to fetch projects" });
       }
       break;
 
@@ -71,7 +82,13 @@ async function handler(req, res) {
 
         res.status(201).json({ success: true, data: project });
       } catch (error) {
-        res.status(400).json({ success: false, message: error.message });
+        console.error("Projects POST error:", error?.message || error);
+        // Distinguish duplicate slug / validation errors from server errors
+        const status = error?.code === 11000 ? 409 : 400;
+        const message = error?.code === 11000
+          ? "A project with this title/slug already exists"
+          : error?.message || "Failed to create project";
+        res.status(status).json({ success: false, message });
       }
       break;
 

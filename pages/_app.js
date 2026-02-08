@@ -11,6 +11,7 @@ import { useRouter } from "next/router";
 import * as gtag from "../lib/gtag";
 import LoadingAnimation from "../components/LoadingAnimation/LoadingAnimation";
 import TopProgress from "../components/TopProgress/TopProgress";
+import ErrorBoundary from "../components/ErrorBoundary/ErrorBoundary";
 import "./global.css";
 import "../styles/tokens.css";
 import "../styles/animations.css";
@@ -300,8 +301,10 @@ function MyApp({ Component, pageProps, session }) {
             backdropOpacity={loaderSettings.backdropOpacity}
           />
 
-          {/* Page content */}
-          <Component {...pageProps} key={router.asPath} />
+          {/* Page content wrapped in ErrorBoundary */}
+          <ErrorBoundary key={router.asPath}>
+            <Component {...pageProps} key={router.asPath} />
+          </ErrorBoundary>
 
           {/* Global UI elements */}
           <ThemeToggle />

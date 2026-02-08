@@ -29,6 +29,60 @@ const nextConfig = {
   // provide an explicit Turbopack config to avoid build errors about mixed configurations.
   turbopack: {},
 
+  // Next.js Image Optimization — allow external image sources
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "res.cloudinary.com",
+      },
+      {
+        protocol: "https",
+        hostname: "**.cloudinary.com",
+      },
+      {
+        protocol: "https",
+        hostname: "ghulammujtaba.com",
+      },
+      {
+        protocol: "https",
+        hostname: "www.ghulammujtaba.com",
+      },
+      {
+        protocol: "https",
+        hostname: "img.freepik.com",
+      },
+      {
+        protocol: "https",
+        hostname: "www.freepik.com",
+      },
+      {
+        protocol: "https",
+        hostname: "images.unsplash.com",
+      },
+      {
+        protocol: "https",
+        hostname: "cdn.jsdelivr.net",
+      },
+      {
+        protocol: "https",
+        hostname: "raw.githubusercontent.com",
+      },
+      {
+        protocol: "https",
+        hostname: "github.com",
+      },
+    ],
+    // Serve modern formats, fallback to original
+    formats: ["image/avif", "image/webp"],
+    // Cache optimized images for 30 days
+    minimumCacheTTL: 2592000,
+    // Allow SVG with content disposition
+    dangerouslyAllowSVG: true,
+    contentDispositionType: "attachment",
+    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
+  },
+
   async rewrites() {
     return [
       {
@@ -86,13 +140,13 @@ const nextConfig = {
           {
             key: "Content-Security-Policy",
             value:
-              "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; style-src-elem 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: https://ghulammujtaba.com https://www.freepik.com https://img.freepik.com; connect-src 'self' https://www.google-analytics.com; frame-ancestors 'none'; object-src 'none'; base-uri 'self';",
+              "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; style-src-elem 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https: http:; connect-src 'self' https://www.google-analytics.com https://res.cloudinary.com https://*.cloudinary.com; frame-ancestors 'none'; object-src 'none'; base-uri 'self';",
           },
           // Report-Only CSP to capture violations without breaking pages
           {
             key: "Content-Security-Policy-Report-Only",
             value:
-              "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; style-src-elem 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: https://ghulammujtaba.com https://www.freepik.com https://img.freepik.com; connect-src 'self' https://www.google-analytics.com; frame-ancestors 'none'; object-src 'none'; base-uri 'self'; report-uri /api/csp-report; report-to csp-endpoint;",
+              "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; style-src-elem 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https: http:; connect-src 'self' https://www.google-analytics.com https://res.cloudinary.com https://*.cloudinary.com; frame-ancestors 'none'; object-src 'none'; base-uri 'self'; report-uri /api/csp-report; report-to csp-endpoint;",
           },
           // Reporting API endpoint mapping
           {

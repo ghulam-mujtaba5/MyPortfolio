@@ -23,53 +23,75 @@ const ProjectsPreview = ({ projects = [] }) => {
   // Determine if we have initial data from SSR
   const hasInitialData = projects && projects.length > 0;
 
-  const fetchProjects = useCallback(async () => {
+  const fetchProjects = useCallback(async (signal) => {
     if (hasAttemptedFetch) return;
 
     setIsLoading(true);
     setHasAttemptedFetch(true);
 
-    try {
-      const res = await fetch(
-        "/api/projects?published=true&featured=true&limit=3",
-      );
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const MAX_RETRIES = 2;
+    let lastError = null;
 
-      const json = await res.json();
+    for (let attempt = 0; attempt <= MAX_RETRIES; attempt++) {
+      try {
+        if (signal?.aborted) return;
 
-      if (
-        json &&
-        json.success &&
-        Array.isArray(json.data) &&
-        json.data.length > 0
-      ) {
-        setClientProjects(json.data);
-      } else {
-        // Fallback to latest published if no featured projects
-        const fallbackRes = await fetch("/api/projects?published=true&limit=3");
-        if (fallbackRes.ok) {
-          const fallbackJson = await fallbackRes.json();
-          if (
-            fallbackJson &&
-            fallbackJson.success &&
-            Array.isArray(fallbackJson.data)
-          ) {
-            setClientProjects(fallbackJson.data);
+        // Exponential backoff on retry
+        if (attempt > 0) {
+          await new Promise((r) => setTimeout(r, 1000 * attempt));
+        }
+
+        const res = await fetch(
+          "/api/projects?published=true&featured=true&limit=3",
+          { signal },
+        );
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
+        const json = await res.json();
+
+        if (
+          json &&
+          json.success &&
+          Array.isArray(json.data) &&
+          json.data.length > 0
+        ) {
+          setClientProjects(json.data);
+          return; // Success — exit retry loop
+        } else {
+          // Fallback to latest published if no featured projects
+          const fallbackRes = await fetch("/api/projects?published=true&limit=3", { signal });
+          if (fallbackRes.ok) {
+            const fallbackJson = await fallbackRes.json();
+            if (
+              fallbackJson &&
+              fallbackJson.success &&
+              Array.isArray(fallbackJson.data)
+            ) {
+              setClientProjects(fallbackJson.data);
+              return; // Success
+            }
           }
         }
+      } catch (error) {
+        if (error.name === "AbortError") return;
+        lastError = error;
+        console.warn(`Projects fetch attempt ${attempt + 1} failed:`, error.message);
       }
-    } catch (error) {
-      console.error("Failed to fetch projects:", error);
-      // Keep existing projects or empty array on error
-    } finally {
-      setIsLoading(false);
     }
+
+    // All retries exhausted
+    if (lastError) {
+      console.error("Failed to fetch projects after retries:", lastError);
+    }
+    setIsLoading(false);
   }, [hasAttemptedFetch]);
 
   useEffect(() => {
     // Only fetch client-side if no SSR data was provided
     if (!hasInitialData && !hasAttemptedFetch) {
-      fetchProjects();
+      const controller = new AbortController();
+      fetchProjects(controller.signal).finally(() => setIsLoading(false));
+      return () => controller.abort();
     }
   }, [hasInitialData, hasAttemptedFetch, fetchProjects]);
 

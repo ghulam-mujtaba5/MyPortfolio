@@ -198,38 +198,68 @@ const ProjectPage = ({ project, relatedProjects = [] }) => {
 };
 
 export async function getServerSideProps(context) {
-  const { params } = context;
-  await dbConnect();
+  try {
+    const { params } = context;
 
-  // For public view, fetch by slug and ensure it's published
-  const project = await Project.findOne({
-    slug: params.slug,
-    published: true,
-  }).lean();
+    // Sanitize slug to prevent injection
+    const safeSlug = String(params?.slug || "").replace(/[^a-z0-9_-]/gi, "").substring(0, 200);
+    if (!safeSlug) {
+      return { notFound: true };
+    }
 
-  if (!project) {
+    await dbConnect();
+
+    // Set a timeout so SSR doesn't hang
+    const timeoutPromise = new Promise((_, reject) =>
+      setTimeout(() => reject(new Error("DB query timeout")), 8000)
+    );
+
+    // For public view, fetch by slug and ensure it's published
+    const project = await Promise.race([
+      Project.findOne({
+        slug: safeSlug,
+        published: true,
+      }).lean(),
+      timeoutPromise,
+    ]);
+
+    if (!project) {
+      return { notFound: true };
+    }
+
+    // Fetch related projects (same category or similar tags, excluding current project)
+    let relatedProjects = [];
+    try {
+      relatedProjects = await Promise.race([
+        Project.find({
+          _id: { $ne: project._id },
+          published: true,
+          $or: [
+            { category: project.category },
+            { tags: { $in: project.tags || [] } }
+          ]
+        })
+        .limit(3)
+        .select('title slug image shortDescription description category tags')
+        .lean(),
+        new Promise((_, reject) => setTimeout(() => reject(new Error("Related query timeout")), 5000)),
+      ]);
+    } catch {
+      // Related projects are non-critical — continue without them
+      relatedProjects = [];
+    }
+
+    return {
+      props: {
+        project: JSON.parse(JSON.stringify(project)),
+        relatedProjects: JSON.parse(JSON.stringify(relatedProjects)),
+      },
+    };
+  } catch (err) {
+    // eslint-disable-next-line no-console
+    console.error("getServerSideProps project detail error:", err?.message || err);
     return { notFound: true };
   }
-
-  // Fetch related projects (same category or similar tags, excluding current project)
-  const relatedProjects = await Project.find({
-    _id: { $ne: project._id },
-    published: true,
-    $or: [
-      { category: project.category },
-      { tags: { $in: project.tags || [] } }
-    ]
-  })
-  .limit(3)
-  .select('title slug image shortDescription description category tags')
-  .lean();
-
-  return {
-    props: {
-      project: JSON.parse(JSON.stringify(project)),
-      relatedProjects: JSON.parse(JSON.stringify(relatedProjects)),
-    },
-  };
 }
 
 export default ProjectPage;
