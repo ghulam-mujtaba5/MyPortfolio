@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState, useCallback } from "react";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { useTheme } from "../../context/ThemeContext";
-import OptimizedImage from "../OptimizedImage/OptimizedImage";
+import { resolveImageSrc } from "../OptimizedImage/OptimizedImage";
 import styles from "./projectLight.module.css";
 import darkStyles from "./ProjectDark.module.css";
 import commonStyles from "./ProjectCommon.module.css";
@@ -114,17 +114,22 @@ const ProjectCard = React.memo(({ project, frameStyles, theme }) => {
         </div>
       </div>
       {/* Project image with automatic retry & fallback */}
-      {project?.showImage !== false && project?.image ? (
-        <OptimizedImage
-          className={`${commonStyles.projectImg1} ${frameStyles.projectImg1}`}
-          alt={`${project.title || "Project"} screenshot`}
-          src={project.image}
-          width={400}
-          height={250}
-          maxRetries={2}
-          style={{ objectFit: project?.imageFit || "cover" }}
-        />
-      ) : null}
+      {project?.showImage !== false && project?.image ? (() => {
+        const { src, isExternal } = resolveImageSrc(project.image);
+        const fit = project?.imageFit || "cover";
+        return (
+          <Image
+            className={`${commonStyles.projectImg1} ${frameStyles.projectImg1}`}
+            alt={`${project.title || "Project"} screenshot`}
+            src={src}
+            width={400}
+            height={250}
+            loading="lazy"
+            unoptimized={isExternal}
+            style={{ objectFit: fit }}
+          />
+        );
+      })() : null}
       <h3
         className={`${commonStyles.projectTileGoes} ${frameStyles.projectTileGoes}`}
         id={titleId}
