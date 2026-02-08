@@ -62,7 +62,7 @@
 
 /* Project card */
 .projectCard1 {
-  width: 356px;
+  width: 100%;
   position: relative;
   height: 570px;
   border-radius: 20px;
