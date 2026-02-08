@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState, useCallback } from "react";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { useTheme } from "../../context/ThemeContext";
-import { resolveImageSrc } from "../OptimizedImage/OptimizedImage";
 import styles from "./projectLight.module.css";
 import darkStyles from "./ProjectDark.module.css";
 import commonStyles from "./ProjectCommon.module.css";
@@ -113,23 +112,38 @@ const ProjectCard = React.memo(({ project, frameStyles, theme }) => {
           )}
         </div>
       </div>
-      {/* Project image with automatic retry & fallback */}
-      {project?.showImage !== false && project?.image ? (() => {
-        const { src, isExternal } = resolveImageSrc(project.image);
-        const fit = project?.imageFit || "cover";
-        return (
-          <Image
-            className={`${commonStyles.projectImg1} ${frameStyles.projectImg1}`}
-            alt={`${project.title || "Project"} screenshot`}
-            src={src}
-            width={400}
-            height={250}
-            loading="lazy"
-            unoptimized={isExternal}
-            style={{ objectFit: fit }}
-          />
-        );
-      })() : null}
+      {/* Project image (respects showImage and supports absolute URLs) */}
+      {project?.showImage !== false && project?.image
+        ? (() => {
+            const img = String(project.image || "").trim();
+            const isExternal =
+              /^https?:\/\//i.test(img) ||
+              /^\/\//.test(img) ||
+              /^data:image\//i.test(img) ||
+              /^blob:/.test(img);
+            // Also treat local API media routes as unoptimized to avoid
+            // Next.js image-optimizer failures on dynamic file endpoints
+            const isLocalMedia = /^\/api\/media\//i.test(img);
+            const src = isExternal
+              ? img
+              : img.startsWith("/")
+                ? img
+                : `/${img}`;
+            const fit = project?.imageFit || "cover";
+            return (
+              <Image
+                className={`${commonStyles.projectImg1} ${frameStyles.projectImg1}`}
+                alt={`${project.title || "Project"} screenshot`}
+                src={src}
+                width={400}
+                height={250}
+                loading="lazy"
+                unoptimized={isExternal || isLocalMedia}
+                style={{ objectFit: fit }}
+              />
+            );
+          })()
+        : null}
       <h3
         className={`${commonStyles.projectTileGoes} ${frameStyles.projectTileGoes}`}
         id={titleId}
