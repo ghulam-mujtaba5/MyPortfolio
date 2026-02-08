@@ -129,6 +129,12 @@
   height: 18px;
 }
 
+.logoImg {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}
+
 .collapseBtn {
   display: flex;
   align-items: center;

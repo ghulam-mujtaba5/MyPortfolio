@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import styles from "./login.premium.module.css";
 import { authOptions } from "../api/auth/[...nextauth]";
 import { getServerSession } from "next-auth/next";
+import { useTheme } from "../../context/ThemeContext";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -14,6 +15,7 @@ export default function LoginPage() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+  const { theme } = useTheme();
 
   useEffect(() => {
     if (router.query.error) {
@@ -80,7 +82,13 @@ export default function LoginPage() {
           transition={{ duration: 0.4, delay: 0.15, ease: [0.4, 0, 0.2, 1] }}
         >
           <div className={styles.logoWrapper}>
-            <span className={styles.logoMonogram}>GM</span>
+            <img
+              src={theme === 'dark' ? '/gmVectorDark.svg' : '/gmVector.svg'}
+              alt="GM Logo"
+              width={36}
+              height={36}
+              className={styles.logoImg}
+            />
           </div>
           <motion.h1 
             className={`${styles.title}`}

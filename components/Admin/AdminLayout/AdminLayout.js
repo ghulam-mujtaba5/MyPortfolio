@@ -240,7 +240,13 @@ export default function AdminLayoutPremium({ children, title }) {
         <div className={styles.sidebarHeader}>
           <Link href="/admin/dashboard" className={styles.logo}>
             <div className={styles.logoIcon}>
-              <Icons.grid />
+              <img
+                src={theme === 'dark' ? '/gmVectorDark.svg' : '/gmVector.svg'}
+                alt="GM Logo"
+                width={24}
+                height={24}
+                className={styles.logoImg}
+              />
             </div>
             <span>Admin</span>
           </Link>
