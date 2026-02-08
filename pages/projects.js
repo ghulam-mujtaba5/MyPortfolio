@@ -620,11 +620,11 @@ const ProjectsPage = ({ projects = [], projectsError = null }) => {
         }
         .project-grid {
           display: grid;
-          grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+          grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
           gap: 2.5rem;
-          padding: 2rem 1.5rem;
+          padding: 2rem 0;
           width: 100%;
-          max-width: 1280px;
+          max-width: 1200px;
           margin: 0 auto;
         }
         @media (max-width: 900px) {
@@ -649,8 +649,7 @@ const ProjectsPage = ({ projects = [], projectsError = null }) => {
           box-shadow: none !important;
           min-width: 0;
           width: 100%;
-          max-width: 100%;
-          justify-self: center;
+          max-width: 420px;
         }
         .loading-wrap {
           grid-column: 1 / -1;

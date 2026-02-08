@@ -119,8 +119,8 @@ const ProjectCard = React.memo(({ project, frameStyles, theme }) => {
           className={`${commonStyles.projectImg1} ${frameStyles.projectImg1}`}
           alt={`${project.title || "Project"} screenshot`}
           src={project.image}
-          width={600}
-          height={340}
+          width={400}
+          height={250}
           maxRetries={2}
           style={{ objectFit: project?.imageFit || "cover" }}
         />
