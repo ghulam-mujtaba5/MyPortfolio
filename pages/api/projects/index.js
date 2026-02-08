@@ -38,7 +38,7 @@ async function handler(req, res) {
         if (search) query.title = { $regex: search, $options: "i" };
 
         // Whitelist allowed sort fields to prevent injection
-        const allowedSortFields = ["createdAt", "updatedAt", "title", "views"];
+        const allowedSortFields = ["createdAt", "updatedAt", "title", "views", "displayOrder"];
         const safeSortBy = allowedSortFields.includes(sortBy) ? sortBy : "createdAt";
         const sort = { [safeSortBy]: sortOrder === "asc" ? 1 : -1 };
 

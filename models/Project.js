@@ -102,6 +102,10 @@ const ProjectSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    displayOrder: {
+      type: Number,
+      default: 0,
+    },
   },
   { timestamps: true },
 );
@@ -111,6 +115,7 @@ try {
   ProjectSchema.index({ published: 1, createdAt: -1 }, { name: "ProjectPublishedCreated_idx" });
   ProjectSchema.index({ status: 1, createdAt: -1 }, { name: "ProjectStatusCreated_idx" });
   ProjectSchema.index({ pinned: 1, createdAt: -1 }, { name: "ProjectPinnedCreated_idx" });
+  ProjectSchema.index({ displayOrder: 1, createdAt: -1 }, { name: "ProjectDisplayOrder_idx" });
   ProjectSchema.index({ tags: 1 }, { name: "ProjectTags_idx" });
   // Full-text index to support public search
   ProjectSchema.index(

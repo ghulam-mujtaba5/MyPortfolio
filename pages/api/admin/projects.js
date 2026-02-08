@@ -46,6 +46,7 @@ export default async function handler(req, res) {
           description: 1,
           tags: 1,
           links: 1,
+          displayOrder: 1,
         })
         .sort(sort)
         .skip(skip)

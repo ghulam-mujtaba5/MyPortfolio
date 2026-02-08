@@ -31,6 +31,10 @@ const ProjectsPage = () => {
   const [pinningId, setPinningId] = useState(null);
   const [featuringId, setFeaturingId] = useState(null);
   const [applyingBulk, setApplyingBulk] = useState(false);
+  const [reorderMode, setReorderMode] = useState(false);
+  const [savingOrder, setSavingOrder] = useState(false);
+  const [draggedIndex, setDraggedIndex] = useState(null);
+  const [dragOverIndex, setDragOverIndex] = useState(null);
   const [confirmState, setConfirmState] = useState({ open: false, type: null, payload: null });
   const [expandedSections, setExpandedSections] = useState({
     filters: true,
@@ -204,6 +208,66 @@ const ProjectsPage = () => {
     }
   };
 
+  // --- Drag & Drop Handlers ---
+  const handleDragStart = (e, index) => {
+    setDraggedIndex(index);
+    e.dataTransfer.effectAllowed = "move";
+    // Store index for Firefox compatibility
+    e.dataTransfer.setData("text/plain", index.toString());
+  };
+
+  const handleDragOver = (e, index) => {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = "move";
+    if (dragOverIndex !== index) {
+      setDragOverIndex(index);
+    }
+  };
+
+  const handleDragLeave = () => {
+    setDragOverIndex(null);
+  };
+
+  const handleDrop = (e, dropIndex) => {
+    e.preventDefault();
+    if (draggedIndex === null || draggedIndex === dropIndex) {
+      setDraggedIndex(null);
+      setDragOverIndex(null);
+      return;
+    }
+    const updated = [...projects];
+    const [movedItem] = updated.splice(draggedIndex, 1);
+    updated.splice(dropIndex, 0, movedItem);
+    setProjects(updated);
+    setDraggedIndex(null);
+    setDragOverIndex(null);
+  };
+
+  const handleDragEnd = () => {
+    setDraggedIndex(null);
+    setDragOverIndex(null);
+  };
+
+  const saveOrder = async () => {
+    setSavingOrder(true);
+    try {
+      const orderedIds = projects.map((p) => p._id || p.id);
+      const res = await fetch("/api/admin/reorder-projects", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ orderedIds }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message || "Failed to save order");
+      toast.success("Project order saved! This order will be reflected on the public page.");
+      setReorderMode(false);
+    } catch (err) {
+      toast.error(err.message || "Failed to save order");
+    } finally {
+      setSavingOrder(false);
+    }
+  };
+
   return (
     <AdminLayout title="Manage Projects">
       <div className={styles.pageWrapper}>
@@ -217,11 +281,64 @@ const ProjectsPage = () => {
             </span>
           )}
           </h1>
-          <Link href="/admin/projects/new" className={`${utilities.btn} ${utilities.btnPrimary}`}>
-            <Icon name="plus" size={16} />
-            New Project
-          </Link>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+            <Link href="/admin/projects/new" className={`${utilities.btn} ${utilities.btnPrimary}`}>
+              <Icon name="plus" size={16} />
+              New Project
+            </Link>
+            <button
+              className={`${utilities.btn} ${reorderMode ? utilities.btnDanger : utilities.btnSecondary}`}
+              onClick={() => {
+                if (reorderMode) {
+                  // Cancel reorder mode
+                  setReorderMode(false);
+                  fetchData(); // Reset to original order
+                } else {
+                  setReorderMode(true);
+                }
+              }}
+            >
+              <Icon name={reorderMode ? "x" : "move"} size={16} />
+              {reorderMode ? "Cancel" : "Reorder"}
+            </button>
+            {reorderMode && (
+              <button
+                className={`${utilities.btn} ${utilities.btnPrimary}`}
+                onClick={saveOrder}
+                disabled={savingOrder}
+              >
+                {savingOrder ? (
+                  <><InlineSpinner sizePx={14} /> Saving…</>
+                ) : (
+                  <><Icon name="check" size={16} /> Save Order</>
+                )}
+              </button>
+            )}
+          </div>
         </div>
+
+        {/* Reorder Mode Banner */}
+        {reorderMode && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            style={{
+              padding: '12px 16px',
+              marginBottom: '16px',
+              background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.12), rgba(99, 102, 241, 0.12))',
+              border: '1px solid rgba(59, 130, 246, 0.3)',
+              borderRadius: '12px',
+              color: 'var(--text, #e0e0e0)',
+              fontSize: '14px',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+            }}
+          >
+            <Icon name="move" size={18} />
+            <strong>Reorder Mode:</strong> Drag and drop project cards to rearrange their order on the public page. Click &quot;Save Order&quot; when done.
+          </motion.div>
+        )}
 
         {/* Filters Section */}
         <div className={styles.sectionHeader}>
@@ -291,11 +408,46 @@ const ProjectsPage = () => {
                   initial="hidden"
                   animate="visible"
                 >
-                  {projects.map((project) => (
+                  {projects.map((project, index) => (
                     <motion.div
                       key={project._id || project.id}
                       variants={{ hidden: { opacity: 0, y: 16 }, visible: { opacity: 1, y: 0 } }}
+                      draggable={reorderMode}
+                      onDragStart={reorderMode ? (e) => handleDragStart(e, index) : undefined}
+                      onDragOver={reorderMode ? (e) => handleDragOver(e, index) : undefined}
+                      onDragLeave={reorderMode ? handleDragLeave : undefined}
+                      onDrop={reorderMode ? (e) => handleDrop(e, index) : undefined}
+                      onDragEnd={reorderMode ? handleDragEnd : undefined}
+                      style={{
+                        cursor: reorderMode ? 'grab' : 'default',
+                        opacity: draggedIndex === index ? 0.4 : 1,
+                        transition: 'all 0.2s ease',
+                        border: dragOverIndex === index ? '2px dashed var(--primary, #3b82f6)' : '2px dashed transparent',
+                        borderRadius: 'var(--admin-card-radius, 12px)',
+                        padding: reorderMode ? '4px' : '0',
+                        position: 'relative',
+                      }}
                     >
+                      {reorderMode && (
+                        <div style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          gap: '6px',
+                          padding: '6px 12px',
+                          marginBottom: '4px',
+                          background: 'var(--bg-elev-2, #23272f)',
+                          borderRadius: '8px 8px 0 0',
+                          color: 'var(--text-muted, #888)',
+                          fontSize: '13px',
+                          fontWeight: '500',
+                          userSelect: 'none',
+                          cursor: 'grab',
+                        }}>
+                          <Icon name="move" size={14} />
+                          <span>#{index + 1} — Drag to reorder</span>
+                        </div>
+                      )}
                       <AdminPublicProjectCard
                         project={project}
                         onEdit={() => handleEdit(project._id || project.id)}

@@ -706,7 +706,7 @@ export async function getServerSideProps() {
 
     const raw = await Promise.race([
       Project.find({ published: true })
-        .sort({ createdAt: -1 })
+        .sort({ displayOrder: 1, createdAt: -1 })
         .lean(),
       timeoutPromise,
     ]);

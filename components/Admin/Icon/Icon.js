@@ -31,6 +31,10 @@ import {
   Grid as LucideGrid,
   List as LucideList,
   Save as LucideSave,
+  Move as LucideMove,
+  Check as LucideCheck,
+  GripVertical as LucideGripVertical,
+  ArrowUpDown as LucideArrowUpDown,
 } from "lucide-react";
 
 // Map of supported icon names to components.
@@ -67,6 +71,10 @@ const ICONS = {
   grid: LucideGrid,
   list: LucideList,
   save: LucideSave,
+  move: LucideArrowUpDown,
+  check: LucideCheck,
+  grip: LucideGripVertical,
+  x: LucideX,
   // aliases
   open: LucideExternalLink,
   barChart: LucideBarChart2,
