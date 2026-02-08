@@ -7,17 +7,16 @@
   background: var(--bg-elev-1);
   border: var(--admin-card-border);
   border-radius: var(--admin-card-radius);
-  padding: 1.75rem;
+  padding: 1.5rem;
   box-shadow: var(--admin-card-shadow);
-  backdrop-filter: blur(10px);
 }
 
 .title {
-  font-size: 1.35rem;
-  font-weight: 700;
+  font-size: 1.1rem;
+  font-weight: 600;
   color: var(--text);
-  margin: 0 0 1.25rem;
-  padding-bottom: 1rem;
+  margin: 0 0 1rem;
+  padding-bottom: 0.75rem;
   border-bottom: 1px solid var(--border);
 }
 
@@ -43,8 +42,8 @@
 }
 
 .activityItem:hover {
-  padding-left: 0.5rem;
-  background: linear-gradient(90deg, var(--bg-elev-2) 0%, transparent 100%);
+  padding-left: 0.25rem;
+  background: linear-gradient(90deg, rgba(var(--admin-primary-rgb, 69, 115, 223), 0.04) 0%, transparent 100%);
 }
 
 .icon {

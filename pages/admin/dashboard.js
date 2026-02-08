@@ -3,6 +3,7 @@
 import AdminLayout from "../../components/Admin/AdminLayout/AdminLayout";
 import toast from "react-hot-toast";
 import { useEffect, useState, useMemo } from "react";
+import { useSession } from "next-auth/react";
 import { motion, AnimatePresence } from "framer-motion";
 import Table from "../../components/Admin/Table/Table";
 import { formatDistanceToNow, format } from "date-fns";
@@ -87,6 +88,69 @@ const Icons = {
       <line x1="12" y1="17" x2="12.01" y2="17"/>
     </svg>
   ),
+  Pen: () => (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M12 20h9"/>
+      <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/>
+    </svg>
+  ),
+  Image: () => (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+      <circle cx="8.5" cy="8.5" r="1.5"/>
+      <polyline points="21 15 16 10 5 21"/>
+    </svg>
+  ),
+  Search: () => (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="11" cy="11" r="8"/>
+      <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+    </svg>
+  ),
+  Shield: () => (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+    </svg>
+  ),
+  Zap: () => (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+    </svg>
+  ),
+  Sun: () => (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+      <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+    </svg>
+  ),
+  Moon: () => (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+    </svg>
+  ),
+  Sunset: () => (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M17 18a5 5 0 0 0-10 0"/><line x1="12" y1="9" x2="12" y2="2"/>
+      <line x1="4.22" y1="10.22" x2="5.64" y2="11.64"/><line x1="1" y1="18" x2="3" y2="18"/>
+      <line x1="21" y1="18" x2="23" y2="18"/><line x1="18.36" y1="11.64" x2="19.78" y2="10.22"/>
+      <line x1="23" y1="22" x2="1" y2="22"/><polyline points="16 5 12 9 8 5"/>
+    </svg>
+  ),
+  ArrowRight: () => (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+    </svg>
+  ),
+};
+
+// Time-of-day greeting helper
+const getGreeting = () => {
+  const hour = new Date().getHours();
+  if (hour < 12) return { text: "Good morning", Icon: Icons.Sun };
+  if (hour < 17) return { text: "Good afternoon", Icon: Icons.Sunset };
+  return { text: "Good evening", Icon: Icons.Moon };
 };
 
 // Animation variants
@@ -108,6 +172,7 @@ const itemVariants = {
 };
 
 const AdminDashboard = () => {
+  const { data: session } = useSession();
   const [recentActivity, setRecentActivity] = useState([]);
   const [showAllActivity, setShowAllActivity] = useState(false);
   const [stats, setStats] = useState({
@@ -119,6 +184,10 @@ const AdminDashboard = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [statsError, setStatsError] = useState(null);
   const [refreshing, setRefreshing] = useState(false);
+  const [lastRefreshed, setLastRefreshed] = useState(null);
+
+  const greeting = useMemo(() => getGreeting(), []);
+  const userName = session?.user?.name || "Admin";
 
   const fetchDashboard = async () => {
     try {
@@ -134,6 +203,7 @@ const AdminDashboard = () => {
       );
       setRecentActivity(payload.recentActivity || []);
       setStatsError(null);
+      setLastRefreshed(new Date());
     } catch (error) {
       console.error("Failed to fetch dashboard data:", error);
       setStatsError(error.message);
@@ -180,6 +250,7 @@ const AdminDashboard = () => {
       trend: { value: 12, direction: "up" },
       sparklineData: generateTrendData(stats.users),
       progress: Math.min((stats.users / 100) * 100, 100),
+      href: "/admin/users",
     },
     {
       id: "articles",
@@ -190,6 +261,7 @@ const AdminDashboard = () => {
       trend: { value: 8, direction: "up" },
       sparklineData: generateTrendData(stats.articles),
       progress: Math.min((stats.articles / 50) * 100, 100),
+      href: "/admin/articles",
     },
     {
       id: "projects",
@@ -200,6 +272,7 @@ const AdminDashboard = () => {
       trend: { value: 5, direction: "up" },
       sparklineData: generateTrendData(stats.projects),
       progress: Math.min((stats.projects / 30) * 100, 100),
+      href: "/admin/projects",
     },
     {
       id: "views",
@@ -210,8 +283,55 @@ const AdminDashboard = () => {
       trend: { value: 24, direction: "up" },
       sparklineData: generateTrendData(stats.views),
       progress: Math.min((stats.views / 10000) * 100, 100),
+      href: "/admin/analytics",
     },
   ], [stats]);
+
+  // Quick actions configuration
+  const quickActions = [
+    {
+      label: "New Article",
+      description: "Write and publish content",
+      icon: Icons.Pen,
+      href: "/admin/articles/new",
+      variant: "primary",
+    },
+    {
+      label: "New Project",
+      description: "Showcase your work",
+      icon: Icons.Projects,
+      href: "/admin/projects/new",
+      variant: "success",
+    },
+    {
+      label: "Media Library",
+      description: "Manage images & files",
+      icon: Icons.Image,
+      href: "/admin/media",
+      variant: "warning",
+    },
+    {
+      label: "Analytics",
+      description: "View performance data",
+      icon: Icons.Chart,
+      href: "/admin/analytics",
+      variant: "info",
+    },
+    {
+      label: "Search",
+      description: "Find anything fast",
+      icon: Icons.Search,
+      href: "/admin/search",
+      variant: "secondary",
+    },
+    {
+      label: "Audit Logs",
+      description: "Review system activity",
+      icon: Icons.Shield,
+      href: "/admin/audit-logs",
+      variant: "error",
+    },
+  ];
 
   const activityColumns = [
     {
@@ -282,7 +402,7 @@ const AdminDashboard = () => {
       </Head>
       
       <div className={styles.dashboard}>
-        {/* Header */}
+        {/* Header with Greeting */}
         <motion.header 
           className={styles.header}
           initial={{ opacity: 0, y: -20 }}
@@ -291,10 +411,21 @@ const AdminDashboard = () => {
         >
           <div className={styles.headerContent}>
             <div className={styles.headerText}>
-              <h1 className={styles.headerTitle}>Dashboard</h1>
+              <div className={styles.greetingRow}>
+                <span className={styles.greetingIcon}><greeting.Icon /></span>
+                <h1 className={styles.headerTitle}>
+                  {greeting.text}, {userName}
+                </h1>
+              </div>
               <p className={styles.headerSubtitle}>
-                Welcome back! Here's what's happening with your portfolio.
+                Here&apos;s an overview of your portfolio&apos;s performance today.
               </p>
+              {lastRefreshed && (
+                <span className={styles.lastUpdated}>
+                  <Icons.Clock />
+                  Updated {formatDistanceToNow(lastRefreshed, { addSuffix: true })}
+                </span>
+              )}
             </div>
             <button 
               className={`${styles.refreshButton} ${refreshing ? styles.spinning : ''}`}
@@ -352,44 +483,51 @@ const AdminDashboard = () => {
                   {kpiCards.map((card) => (
                     <motion.div
                       key={card.id}
-                      className={`${styles.kpiCard} ${styles[`kpiCard${card.variant.charAt(0).toUpperCase() + card.variant.slice(1)}`]}`}
                       variants={itemVariants}
                       whileHover={{ y: -4, transition: { duration: 0.2 } }}
                     >
-                      <div className={styles.kpiHeader}>
-                        <div className={styles.kpiIconWrapper}>
-                          <card.icon />
-                        </div>
-                        <div className={styles.kpiProgress}>
-                          <ProgressRing 
-                            value={card.progress} 
-                            size={42} 
-                            strokeWidth={3}
-                            color={getVariantColor(card.variant)}
-                          />
-                        </div>
-                      </div>
-                      
-                      <div className={styles.kpiBody}>
-                        <span className={styles.kpiTitle}>{card.title}</span>
-                        <span className={styles.kpiValue}>
-                          {Number(card.value).toLocaleString()}
-                        </span>
-                        
-                        <div className={styles.kpiFooter}>
-                          <div className={`${styles.kpiTrend} ${card.trend.direction === 'up' ? styles.trendUp : styles.trendDown}`}>
-                            {card.trend.direction === 'up' ? <Icons.TrendUp /> : <Icons.TrendDown />}
-                            <span>{card.trend.value}%</span>
+                      <Link
+                        href={card.href}
+                        className={`${styles.kpiCard} ${styles[`kpiCard${card.variant.charAt(0).toUpperCase() + card.variant.slice(1)}`]}`}
+                      >
+                        <div className={styles.kpiHeader}>
+                          <div className={styles.kpiIconWrapper}>
+                            <card.icon />
                           </div>
-                          <div className={styles.kpiSparkline}>
-                            <Sparkline 
-                              data={card.sparklineData} 
+                          <div className={styles.kpiProgress}>
+                            <ProgressRing 
+                              value={card.progress} 
+                              size={42} 
+                              strokeWidth={3}
                               color={getVariantColor(card.variant)}
-                              height={28}
                             />
                           </div>
                         </div>
-                      </div>
+                        
+                        <div className={styles.kpiBody}>
+                          <span className={styles.kpiTitle}>{card.title}</span>
+                          <span className={styles.kpiValue}>
+                            {Number(card.value).toLocaleString()}
+                          </span>
+                          
+                          <div className={styles.kpiFooter}>
+                            <div className={`${styles.kpiTrend} ${card.trend.direction === 'up' ? styles.trendUp : styles.trendDown}`}>
+                              {card.trend.direction === 'up' ? <Icons.TrendUp /> : <Icons.TrendDown />}
+                              <span>{card.trend.value}%</span>
+                            </div>
+                            <div className={styles.kpiSparkline}>
+                              <Sparkline 
+                                data={card.sparklineData} 
+                                color={getVariantColor(card.variant)}
+                                height={28}
+                              />
+                            </div>
+                          </div>
+                        </div>
+                        <span className={styles.kpiViewLink}>
+                          View details <Icons.ArrowRight />
+                        </span>
+                      </Link>
                     </motion.div>
                   ))}
                 </div>
@@ -399,40 +537,24 @@ const AdminDashboard = () => {
               <motion.section className={styles.section} variants={itemVariants}>
                 <div className={styles.sectionHeader}>
                   <div className={styles.sectionTitle}>
-                    <Icons.Activity />
+                    <Icons.Zap />
                     <h2>Quick Actions</h2>
                   </div>
                 </div>
 
-                <div className={styles.card}>
-                  <div className={styles.cardBody}>
-                    <div className={styles.quickActionsGrid}>
-                      <Link className={styles.quickActionItem} href="/admin/articles/new">
-                        <div className={styles.quickActionIcon}>
-                          <Icons.Articles />
-                        </div>
-                        <span className={styles.quickActionLabel}>New Article</span>
-                      </Link>
-                      <Link className={styles.quickActionItem} href="/admin/projects/new">
-                        <div className={styles.quickActionIcon}>
-                          <Icons.Projects />
-                        </div>
-                        <span className={styles.quickActionLabel}>New Project</span>
-                      </Link>
-                      <Link className={styles.quickActionItem} href="/admin/media">
-                        <div className={styles.quickActionIcon}>
-                          <Icons.Views />
-                        </div>
-                        <span className={styles.quickActionLabel}>Media Library</span>
-                      </Link>
-                      <Link className={styles.quickActionItem} href="/admin/search">
-                        <div className={styles.quickActionIcon}>
-                          <Icons.Chart />
-                        </div>
-                        <span className={styles.quickActionLabel}>Search</span>
-                      </Link>
-                    </div>
-                  </div>
+                <div className={styles.quickActionsGrid}>
+                  {quickActions.map((action) => (
+                    <Link key={action.label} className={`${styles.quickActionItem} ${styles[`qa${action.variant.charAt(0).toUpperCase() + action.variant.slice(1)}`] || ''}`} href={action.href}>
+                      <div className={styles.quickActionIcon}>
+                        <action.icon />
+                      </div>
+                      <div className={styles.quickActionText}>
+                        <span className={styles.quickActionLabel}>{action.label}</span>
+                        <span className={styles.quickActionDesc}>{action.description}</span>
+                      </div>
+                      <span className={styles.quickActionArrow}><Icons.ArrowRight /></span>
+                    </Link>
+                  ))}
                 </div>
               </motion.section>
 

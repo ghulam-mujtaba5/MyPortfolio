@@ -207,7 +207,6 @@
 
 .addUrlBtn:hover:not(:disabled) {
   filter: brightness(1.1);
-  transform: scale(1.05);
 }
 
 .addUrlBtn:disabled {
@@ -240,7 +239,7 @@
 
 .imageCard:hover {
   box-shadow: var(--gm-shadow-hover);
-  transform: translateY(-2px);
+  transform: translateY(-1px);
 }
 
 .imageCard.dragging {
@@ -286,7 +285,7 @@
 }
 
 .imageCard:hover .previewImg {
-  transform: scale(1.05);
+  transform: scale(1.03);
 }
 
 .imageOverlay {
@@ -435,11 +434,11 @@
 }
 
 .emptyState svg {
-  width: 56px;
-  height: 56px;
+  width: 48px;
+  height: 48px;
   color: var(--gm-text-muted);
-  margin-bottom: 16px;
-  opacity: 0.5;
+  margin-bottom: 12px;
+  opacity: 0.4;
 }
 
 .emptyState p {

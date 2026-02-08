@@ -184,6 +184,7 @@ const ResumePage = () => {
             animate={{ x: 0, opacity: 1 }}
             transition={{ duration: 0.4, delay: 0.2 }}
           >
+            <Icon name="file-text" size={28} />
             Manage Resume
           </motion.h1>
           <motion.p 

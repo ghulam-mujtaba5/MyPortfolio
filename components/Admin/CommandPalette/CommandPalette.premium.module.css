@@ -5,9 +5,9 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
   z-index: 9999;
   display: flex;
   align-items: flex-start;
@@ -17,13 +17,12 @@
 
 .modal {
   width: 100%;
-  max-width: 680px;
-  background: var(--admin-card-bg);
+  max-width: 640px;
+  background: var(--surface, var(--admin-card-bg));
   border-radius: var(--admin-radius-xl, 16px);
   box-shadow: 
     0 0 0 1px var(--admin-border),
-    0 24px 48px -12px rgba(0, 0, 0, 0.35),
-    0 0 0 1px rgba(255, 255, 255, 0.05) inset;
+    0 16px 40px -8px rgba(0, 0, 0, 0.25);
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -230,13 +229,14 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
+  width: 30px;
+  height: 30px;
   border-radius: var(--admin-radius-md);
   background: var(--bg-elev-2, var(--admin-bg-secondary));
   color: var(--admin-text-secondary);
   flex-shrink: 0;
   transition: all 0.1s ease;
+  font-size: 0.875rem;
 }
 
 .resultItem:hover .resultIcon,
@@ -347,10 +347,10 @@
 }
 
 .emptyState svg {
-  width: 48px;
-  height: 48px;
-  margin-bottom: 1rem;
-  opacity: 0.5;
+  width: 40px;
+  height: 40px;
+  margin-bottom: 0.75rem;
+  opacity: 0.4;
 }
 
 .emptyState p {

@@ -8,15 +8,11 @@
 }
 
 .title {
-  font-size: 2rem;
-  font-weight: 800;
+  font-size: 1.5rem;
+  font-weight: 700;
   color: var(--text);
-  margin-bottom: 2rem;
-  letter-spacing: -0.025em;
-  background: var(--heading-gradient);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  margin-bottom: 1.5rem;
+  letter-spacing: -0.02em;
 }
 
 .statsGrid {
@@ -30,36 +26,32 @@
   background: var(--bg-elev-1);
   border: var(--admin-card-border);
   border-radius: var(--admin-card-radius);
-  padding: 1.75rem;
+  padding: 1.5rem;
   box-shadow: var(--admin-card-shadow);
-  backdrop-filter: blur(10px);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .statCard:hover {
-  transform: translateY(-4px);
+  transform: translateY(-2px);
   box-shadow: var(--admin-card-shadow-hover);
   border-color: var(--primary);
 }
 
 .statCard h3 {
-  font-size: 0.95rem;
+  font-size: 0.8rem;
   color: var(--text-muted);
   font-weight: 500;
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.5rem;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.04em;
 }
 
 .statCard p {
-  font-size: 2.5rem;
+  font-size: 2rem;
   font-weight: 700;
   color: var(--text);
   margin: 0;
-  background: var(--heading-gradient);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  letter-spacing: -0.02em;
 }
 
 .bottomGrid {
@@ -79,18 +71,17 @@
   background: var(--bg-elev-1);
   border: var(--admin-card-border);
   border-radius: var(--admin-card-radius);
-  padding: 1.75rem;
+  padding: 1.5rem;
   box-shadow: var(--admin-card-shadow);
-  backdrop-filter: blur(10px);
 }
 
 .recentActivity h2,
 .quickActions h2 {
-  font-size: 1.35rem;
-  font-weight: 700;
+  font-size: 1.1rem;
+  font-weight: 600;
   color: var(--text);
-  margin-bottom: 1.25rem;
-  padding-bottom: 1rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
   border-bottom: 1px solid var(--border);
 }
 
@@ -114,8 +105,8 @@
 }
 
 .recentActivity li:hover {
-  padding-left: 0.5rem;
-  background: linear-gradient(90deg, var(--bg-elev-2) 0%, transparent 100%);
+  padding-left: 0.25rem;
+  background: linear-gradient(90deg, rgba(var(--admin-primary-rgb, 69, 115, 223), 0.04) 0%, transparent 100%);
 }
 
 .recentActivity li span {
@@ -152,6 +143,6 @@
   background: var(--primary);
   color: #fff;
   border-color: var(--primary);
-  transform: translateX(6px);
+  transform: translateX(3px);
   box-shadow: var(--btn-shadow-hover);
 }

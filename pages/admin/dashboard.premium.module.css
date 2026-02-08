@@ -22,6 +22,25 @@
   position: relative;
 }
 
+.greetingRow {
+  display: flex;
+  align-items: center;
+  gap: var(--admin-space-sm);
+}
+
+.greetingIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--admin-warning);
+  flex-shrink: 0;
+}
+
+.greetingIcon svg {
+  width: 28px;
+  height: 28px;
+}
+
 .header h1,
 .headerTitle {
   font-family: var(--font-sans);
@@ -79,9 +98,8 @@
 
 .refreshButton:hover {
   background: var(--bg-elev-2);
-  border-color: var(--admin-primary);
-  box-shadow: var(--admin-shadow-sm);
-  transform: translateY(-1px);
+  border-color: var(--text-muted);
+  color: var(--admin-primary);
 }
 
 .refreshButton:disabled {
@@ -183,8 +201,8 @@
   position: absolute;
   bottom: 0;
   left: 0;
-  width: 48px;
-  height: 3px;
+  width: 32px;
+  height: 2px;
   background: var(--admin-primary-gradient);
   border-radius: 2px;
 }
@@ -355,16 +373,17 @@
 }
 
 .kpiCard:hover {
-  transform: translateY(-6px) scale(1.02);
-  box-shadow: var(--admin-shadow-xl), var(--admin-shadow-glow);
+  transform: translateY(-3px);
+  box-shadow: var(--admin-shadow-lg);
+  border-color: rgba(var(--admin-primary-rgb), 0.15);
 }
 
 .kpiCard:hover::before {
-  width: 6px;
+  width: 5px;
 }
 
 .kpiCard:hover::after {
-  opacity: 1;
+  opacity: 0.6;
 }
 
 /* KPI Color Variants */
@@ -375,11 +394,11 @@
 .kpiCard.info::before { background: var(--admin-info-gradient); }
 .kpiCard.secondary::before { background: var(--admin-secondary-gradient); }
 
-.kpiCard.success:hover { --admin-shadow-glow: 0 0 32px rgba(16, 185, 129, 0.2); }
-.kpiCard.warning:hover { --admin-shadow-glow: 0 0 32px rgba(245, 158, 11, 0.2); }
-.kpiCard.error:hover { --admin-shadow-glow: 0 0 32px rgba(239, 68, 68, 0.2); }
-.kpiCard.info:hover { --admin-shadow-glow: 0 0 32px rgba(6, 182, 212, 0.2); }
-.kpiCard.secondary:hover { --admin-shadow-glow: 0 0 32px rgba(139, 92, 246, 0.2); }
+.kpiCard.success:hover { border-color: rgba(16, 185, 129, 0.2); }
+.kpiCard.warning:hover { border-color: rgba(245, 158, 11, 0.2); }
+.kpiCard.error:hover { border-color: rgba(239, 68, 68, 0.2); }
+.kpiCard.info:hover { border-color: rgba(6, 182, 212, 0.2); }
+.kpiCard.secondary:hover { border-color: rgba(139, 92, 246, 0.2); }
 
 .kpiCard.success::after { background: radial-gradient(circle, var(--admin-success-light) 0%, transparent 60%); }
 .kpiCard.warning::after { background: radial-gradient(circle, var(--admin-warning-light) 0%, transparent 60%); }
@@ -409,8 +428,8 @@
 }
 
 .kpiCard:hover .kpiIcon {
-  transform: scale(1.1) rotate(-5deg);
-  box-shadow: 0 8px 24px rgba(var(--admin-primary-rgb), 0.3);
+  transform: scale(1.06);
+  box-shadow: 0 4px 12px rgba(var(--admin-primary-rgb), 0.2);
 }
 
 .kpiIcon svg {
@@ -516,6 +535,35 @@
   border-top: 1px dashed var(--border);
   position: relative;
   z-index: 2;
+}
+
+.kpiViewLink {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: var(--admin-text-xs);
+  font-weight: var(--admin-font-medium);
+  color: var(--admin-primary);
+  opacity: 0;
+  transform: translateY(4px);
+  transition: all var(--admin-transition);
+  position: relative;
+  z-index: 2;
+}
+
+.kpiViewLink svg {
+  width: 14px;
+  height: 14px;
+  transition: transform var(--admin-transition);
+}
+
+.kpiCard:hover .kpiViewLink {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.kpiCard:hover .kpiViewLink svg {
+  transform: translateX(2px);
 }
 
 .kpiMeta {
@@ -1051,20 +1099,33 @@
 
 /* ========== RESPONSIVE ========== */
 @media (max-width: 768px) {
-  .dashboardContainer {
+  .dashboardContainer,
+  .dashboard {
     padding: var(--admin-space-lg);
   }
   
-  .header h1 {
-    font-size: var(--admin-text-3xl);
+  .header h1,
+  .headerTitle {
+    font-size: var(--admin-text-2xl);
+  }
+
+  .greetingIcon svg {
+    width: 22px;
+    height: 22px;
   }
   
-  .header p {
+  .header p,
+  .headerSubtitle {
     font-size: var(--admin-text-base);
+  }
+
+  .headerContent {
+    flex-direction: column;
+    gap: var(--admin-space-md);
   }
   
   .kpiGrid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 1fr);
     gap: var(--admin-space-md);
   }
   
@@ -1073,7 +1134,11 @@
   }
   
   .kpiValue {
-    font-size: var(--admin-text-3xl);
+    font-size: var(--admin-text-2xl);
+  }
+
+  .kpiViewLink {
+    display: none;
   }
   
   .chartContainer {
@@ -1093,10 +1158,15 @@
   .dashboardTab {
     white-space: nowrap;
   }
+
+  .quickActionsGrid {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (max-width: 480px) {
-  .dashboardContainer {
+  .dashboardContainer,
+  .dashboard {
     padding: var(--admin-space-md);
   }
   
@@ -1104,7 +1174,9 @@
     margin-bottom: var(--admin-space-lg);
   }
   
-  .section {
+  .section,
+  .kpiSection,
+  .activitySection {
     margin-bottom: var(--admin-space-lg);
   }
   
@@ -1112,18 +1184,23 @@
     flex-direction: column;
     align-items: flex-start;
   }
+
+  .kpiGrid {
+    grid-template-columns: 1fr;
+  }
   
   .kpiCard {
     padding: var(--admin-space-sm);
   }
   
-  .kpiIcon {
+  .kpiIcon,
+  .kpiIconWrapper {
     width: 40px;
     height: 40px;
   }
   
   .kpiValue {
-    font-size: var(--admin-text-2xl);
+    font-size: var(--admin-text-xl);
   }
   
   .chartContainer {
@@ -1134,24 +1211,27 @@
   .cardBody {
     padding: var(--admin-space-md);
   }
+
+  .quickActionArrow {
+    display: none;
+  }
 }
 
 /* ========== QUICK ACTIONS WIDGET ========== */
 .quickActionsGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: var(--admin-space-md);
 }
 
 .quickActionItem {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: var(--admin-space-sm);
-  padding: var(--admin-space-lg);
-  border-radius: var(--admin-radius-lg);
-  background: var(--bg-elev-2);
-  border: 1px solid transparent;
+  gap: var(--admin-space-md);
+  padding: var(--admin-space-md) var(--admin-space-lg);
+  border-radius: var(--admin-radius-xl);
+  background: var(--surface);
+  border: 1px solid var(--border);
   cursor: pointer;
   transition: all var(--admin-transition);
   text-decoration: none;
@@ -1159,27 +1239,28 @@
 }
 
 .quickActionItem:hover {
-  background: var(--admin-primary-light);
-  border-color: var(--admin-primary);
-  transform: translateY(-4px);
+  border-color: rgba(var(--admin-primary-rgb), 0.3);
+  transform: translateY(-2px);
+  box-shadow: var(--admin-shadow-md);
 }
 
 .quickActionIcon {
   width: 44px;
   height: 44px;
-  border-radius: var(--admin-radius-md);
-  background: var(--surface);
+  border-radius: var(--admin-radius-lg);
+  background: var(--admin-primary-light);
   display: flex;
   align-items: center;
   justify-content: center;
   color: var(--admin-primary);
   transition: all var(--admin-transition);
+  flex-shrink: 0;
 }
 
 .quickActionItem:hover .quickActionIcon {
   background: var(--admin-primary);
   color: white;
-  transform: scale(1.1);
+  transform: scale(1.05);
 }
 
 .quickActionIcon svg {
@@ -1187,16 +1268,69 @@
   height: 22px;
 }
 
+.quickActionText {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  min-width: 0;
+}
+
 .quickActionLabel {
+  font-size: var(--admin-text-sm);
+  font-weight: var(--admin-font-semibold);
+  color: var(--text);
+}
+
+.quickActionDesc {
   font-size: var(--admin-text-xs);
-  font-weight: var(--admin-font-medium);
   color: var(--text-muted);
-  text-align: center;
 }
 
 .quickActionItem:hover .quickActionLabel {
-  color: var(--text);
+  color: var(--admin-primary);
 }
+
+.quickActionArrow {
+  display: flex;
+  align-items: center;
+  color: var(--text-muted);
+  opacity: 0;
+  transform: translateX(-4px);
+  transition: all var(--admin-transition);
+}
+
+.quickActionItem:hover .quickActionArrow {
+  opacity: 1;
+  transform: translateX(0);
+  color: var(--admin-primary);
+}
+
+/* Quick action color variants */
+.qaSuccess .quickActionIcon { background: var(--admin-success-light); color: var(--admin-success); }
+.qaSuccess:hover .quickActionIcon { background: var(--admin-success); color: white; }
+.qaSuccess:hover .quickActionLabel { color: var(--admin-success); }
+.qaSuccess:hover { border-color: rgba(16, 185, 129, 0.3); }
+
+.qaWarning .quickActionIcon { background: var(--admin-warning-light); color: var(--admin-warning); }
+.qaWarning:hover .quickActionIcon { background: var(--admin-warning); color: white; }
+.qaWarning:hover .quickActionLabel { color: var(--admin-warning); }
+.qaWarning:hover { border-color: rgba(245, 158, 11, 0.3); }
+
+.qaInfo .quickActionIcon { background: var(--admin-info-light); color: var(--admin-info); }
+.qaInfo:hover .quickActionIcon { background: var(--admin-info); color: white; }
+.qaInfo:hover .quickActionLabel { color: var(--admin-info); }
+.qaInfo:hover { border-color: rgba(6, 182, 212, 0.3); }
+
+.qaSecondary .quickActionIcon { background: var(--admin-secondary-light); color: var(--admin-secondary); }
+.qaSecondary:hover .quickActionIcon { background: var(--admin-secondary); color: white; }
+.qaSecondary:hover .quickActionLabel { color: var(--admin-secondary); }
+.qaSecondary:hover { border-color: rgba(139, 92, 246, 0.3); }
+
+.qaError .quickActionIcon { background: var(--admin-error-light); color: var(--admin-error); }
+.qaError:hover .quickActionIcon { background: var(--admin-error); color: white; }
+.qaError:hover .quickActionLabel { color: var(--admin-error); }
+.qaError:hover { border-color: rgba(239, 68, 68, 0.3); }
 
 /* ========== STATS WIDGET STYLES ========== */
 .statsGrid {
@@ -1218,8 +1352,9 @@
 }
 
 .statCard:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--admin-shadow-lg);
+  transform: translateY(-2px);
+  box-shadow: var(--admin-shadow-md);
+  border-color: rgba(var(--admin-primary-rgb), 0.12);
 }
 
 .statIconWrapper {
@@ -1237,7 +1372,7 @@
 }
 
 .statCard:hover .statIcon {
-  transform: scale(1.1);
+  transform: scale(1.05);
 }
 
 .usersIcon {

@@ -163,11 +163,12 @@ export default function AdminSearchPage() {
       >
         <div className={styles.header}>
           <motion.h1 
-            style={{ display: "flex", alignItems: "center", gap: 8 }}
+            className={styles.pageTitle}
             initial={{ x: -20, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
             transition={{ duration: 0.4 }}
           >
+            <Icon name="search" size={28} />
             Global Search
             {loading && (
               <span style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
@@ -176,6 +177,14 @@ export default function AdminSearchPage() {
               </span>
             )}
           </motion.h1>
+          <motion.p
+            className={styles.pageSubtitle}
+            initial={{ x: -20, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            transition={{ duration: 0.4, delay: 0.05 }}
+          >
+            Search articles by title, tag, or category.
+          </motion.p>
         </div>
         <motion.form 
           onSubmit={onSubmit} 

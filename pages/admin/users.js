@@ -309,6 +309,7 @@ const UsersPage = () => {
             animate={{ x: 0, opacity: 1 }}
             transition={{ duration: 0.4, delay: 0.1 }}
           >
+            <Icon name="users" size={28} />
             User Management
           </motion.h1>
           <motion.p 

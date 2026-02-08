@@ -15,15 +15,26 @@
   margin-bottom: var(--admin-space-md);
 }
 
-.header h1 {
-  font-size: var(--admin-text-3xl);
+.header h1,
+.pageTitle {
+  display: flex;
+  align-items: center;
+  gap: var(--admin-space-sm);
+  font-size: var(--admin-text-2xl);
   font-weight: var(--admin-font-bold);
   color: var(--text);
   margin: 0;
-  background: var(--admin-primary-gradient);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  letter-spacing: -0.02em;
+}
+
+.pageTitle svg:first-child {
+  color: var(--admin-primary);
+}
+
+.pageSubtitle {
+  font-size: var(--admin-text-sm);
+  color: var(--text-muted);
+  margin: 4px 0 0 0;
 }
 
 .searchForm {
@@ -31,17 +42,15 @@
   gap: var(--admin-space-md);
   align-items: center;
   background: var(--bg-elev-1);
-  padding: var(--admin-space-sm);
+  padding: var(--admin-space-xs) var(--admin-space-sm);
   border-radius: var(--admin-radius-xl);
   border: 1px solid var(--border);
-  box-shadow: var(--admin-shadow-sm);
-  transition: all var(--admin-transition);
-  backdrop-filter: blur(10px);
+  transition: all 0.2s ease;
 }
 
 .searchForm:focus-within {
   border-color: var(--admin-primary);
-  box-shadow: var(--admin-shadow-md), 0 0 0 3px var(--admin-primary-light);
+  box-shadow: 0 0 0 3px rgba(var(--admin-primary-rgb), 0.1);
 }
 
 .searchInput {
@@ -124,10 +133,10 @@
 
 .resultRow:hover,
 .resultActive {
-  border-color: var(--admin-primary);
+  border-color: rgba(var(--admin-primary-rgb), 0.3);
   background: var(--bg-elev-2);
-  transform: translateY(-2px);
-  box-shadow: var(--admin-shadow-md);
+  transform: translateY(-1px);
+  box-shadow: var(--admin-shadow-sm);
 }
 
 .resultRow:hover::before,

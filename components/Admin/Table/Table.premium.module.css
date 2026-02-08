@@ -2,11 +2,15 @@
 .tableContainer {
   width: 100%;
   overflow-x: auto;
-  border-radius: var(--admin-radius-lg);
-  background: var(--admin-card-bg);
-  border: 1px solid var(--admin-border);
-  box-shadow: var(--admin-shadow-sm);
-  transition: all 0.3s ease;
+  border-radius: var(--admin-radius-lg, 12px);
+  background: var(--surface, var(--admin-card-bg));
+  border: 1px solid var(--border, var(--admin-border));
+  box-shadow: var(--admin-shadow-xs, 0 1px 3px rgba(0,0,0,0.06));
+  transition: box-shadow 0.2s ease;
+}
+
+.tableContainer:hover {
+  box-shadow: var(--admin-shadow-sm, 0 2px 8px rgba(0,0,0,0.08));
 }
 
 .table {
@@ -18,25 +22,35 @@
 
 .th {
   text-align: left;
-  padding: 1rem 1.5rem;
+  padding: 0.75rem 1.25rem;
   font-weight: 600;
-  color: var(--admin-text-secondary);
-  background: var(--admin-bg-secondary);
-  border-bottom: 1px solid var(--admin-border);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-muted, var(--admin-text-secondary));
+  background: var(--bg-elev-1, var(--admin-bg-secondary));
+  border-bottom: 1px solid var(--border, var(--admin-border));
   white-space: nowrap;
-  transition: background 0.3s ease;
+  transition: background 0.15s ease;
+  position: sticky;
+  top: 0;
+  z-index: 1;
 }
 
 .td {
-  padding: 1rem 1.5rem;
-  color: var(--admin-text-primary);
-  border-bottom: 1px solid var(--admin-border);
+  padding: 0.75rem 1.25rem;
+  color: var(--text, var(--admin-text-primary));
+  border-bottom: 1px solid var(--border, var(--admin-border));
   vertical-align: middle;
-  transition: color 0.3s ease;
+  transition: color 0.15s ease;
 }
 
 .tr {
-  transition: background-color 0.2s ease;
+  transition: background-color 0.15s ease;
+}
+
+.tr:nth-child(even) {
+  background-color: rgba(var(--admin-primary-rgb, 59, 130, 246), 0.02);
 }
 
 .tr:last-child .td {
@@ -44,22 +58,30 @@
 }
 
 .tr:hover {
-  background-color: var(--admin-hover);
+  background-color: var(--bg-elev-1, var(--admin-hover));
 }
 
 .noData {
   padding: 3rem;
   text-align: center;
-  color: var(--admin-text-secondary);
-  font-style: italic;
-  background: var(--admin-card-bg);
-  border-radius: var(--admin-radius-lg);
-  border: 1px solid var(--admin-border);
+  color: var(--text-muted, var(--admin-text-secondary));
+  font-style: normal;
+  background: var(--surface, var(--admin-card-bg));
+  border-radius: var(--admin-radius-lg, 12px);
+  border: 1px solid var(--border, var(--admin-border));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
 }
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .th, .td {
-    padding: 0.75rem 1rem;
+    padding: 0.625rem 0.875rem;
+  }
+  
+  .th {
+    font-size: 0.7rem;
   }
 }

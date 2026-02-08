@@ -26,8 +26,8 @@ async function handler(req, res) {
           published,
           featured,
           limit = 20,
-          sortBy = "createdAt",
-          sortOrder = "desc",
+          sortBy = "displayOrder",
+          sortOrder = "asc",
           search = "",
         } = req.query;
 
@@ -39,8 +39,11 @@ async function handler(req, res) {
 
         // Whitelist allowed sort fields to prevent injection
         const allowedSortFields = ["createdAt", "updatedAt", "title", "views", "displayOrder"];
-        const safeSortBy = allowedSortFields.includes(sortBy) ? sortBy : "createdAt";
-        const sort = { [safeSortBy]: sortOrder === "asc" ? 1 : -1 };
+        const safeSortBy = allowedSortFields.includes(sortBy) ? sortBy : "displayOrder";
+        // Use secondary sort for ties (displayOrder ties fall back to newest first)
+        const sort = safeSortBy === "displayOrder"
+          ? { displayOrder: sortOrder === "desc" ? -1 : 1, createdAt: -1 }
+          : { [safeSortBy]: sortOrder === "asc" ? 1 : -1 };
 
         // Clamp limit to prevent abuse
         const safeLimit = Math.min(Math.max(parseInt(limit, 10) || 20, 1), 100);

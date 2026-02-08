@@ -47,8 +47,8 @@ const ProjectsPage = () => {
   const {
     page = 1,
     limit = 10,
-    sortBy = "createdAt",
-    sortOrder = "desc",
+    sortBy = "displayOrder",
+    sortOrder = "asc",
     search = "",
     published = "",
     featured = "",
@@ -208,12 +208,56 @@ const ProjectsPage = () => {
     }
   };
 
+  // --- Auto-scroll during drag ---
+  const scrollFrameRef = useRef(null);
+  const scrollThreshold = 80; // px from edge to trigger scroll
+  const scrollSpeed = 12; // px per frame
+
+  const autoScroll = useCallback((clientY) => {
+    // Cancel any pending frame
+    if (scrollFrameRef.current) {
+      cancelAnimationFrame(scrollFrameRef.current);
+      scrollFrameRef.current = null;
+    }
+    const viewportH = window.innerHeight;
+    let direction = 0;
+    if (clientY < scrollThreshold) {
+      direction = -1; // scroll up
+    } else if (clientY > viewportH - scrollThreshold) {
+      direction = 1; // scroll down
+    }
+    if (direction !== 0) {
+      const step = () => {
+        window.scrollBy(0, direction * scrollSpeed);
+        scrollFrameRef.current = requestAnimationFrame(step);
+      };
+      scrollFrameRef.current = requestAnimationFrame(step);
+    }
+  }, []);
+
+  const stopAutoScroll = useCallback(() => {
+    if (scrollFrameRef.current) {
+      cancelAnimationFrame(scrollFrameRef.current);
+      scrollFrameRef.current = null;
+    }
+  }, []);
+
+  // Cleanup auto-scroll on unmount
+  useEffect(() => {
+    return () => stopAutoScroll();
+  }, [stopAutoScroll]);
+
   // --- Drag & Drop Handlers ---
   const handleDragStart = (e, index) => {
     setDraggedIndex(index);
     e.dataTransfer.effectAllowed = "move";
     // Store index for Firefox compatibility
     e.dataTransfer.setData("text/plain", index.toString());
+    // Slightly delay to let the browser create the drag image
+    requestAnimationFrame(() => {
+      // Add a class to body to indicate dragging
+      document.body.style.cursor = 'grabbing';
+    });
   };
 
   const handleDragOver = (e, index) => {
@@ -222,6 +266,8 @@ const ProjectsPage = () => {
     if (dragOverIndex !== index) {
       setDragOverIndex(index);
     }
+    // Auto-scroll when dragging near edges
+    autoScroll(e.clientY);
   };
 
   const handleDragLeave = () => {
@@ -230,6 +276,7 @@ const ProjectsPage = () => {
 
   const handleDrop = (e, dropIndex) => {
     e.preventDefault();
+    stopAutoScroll();
     if (draggedIndex === null || draggedIndex === dropIndex) {
       setDraggedIndex(null);
       setDragOverIndex(null);
@@ -246,6 +293,8 @@ const ProjectsPage = () => {
   const handleDragEnd = () => {
     setDraggedIndex(null);
     setDragOverIndex(null);
+    stopAutoScroll();
+    document.body.style.cursor = '';
   };
 
   const saveOrder = async () => {
@@ -261,6 +310,8 @@ const ProjectsPage = () => {
       if (!res.ok) throw new Error(data.message || "Failed to save order");
       toast.success("Project order saved! This order will be reflected on the public page.");
       setReorderMode(false);
+      // Re-fetch to confirm the saved order from the server
+      await fetchData();
     } catch (err) {
       toast.error(err.message || "Failed to save order");
     } finally {
@@ -273,6 +324,7 @@ const ProjectsPage = () => {
       <div className={styles.pageWrapper}>
         <div className={styles.header}>
           <h1 className={styles.title} style={{ display: "flex", alignItems: "center", gap: 8 }}>
+          <Icon name="briefcase" size={28} style={{ color: "var(--admin-primary)" }} />
           Projects
           {loading && (
             <span style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>

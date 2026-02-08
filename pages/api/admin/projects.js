@@ -17,10 +17,12 @@ export default async function handler(req, res) {
       const {
         page = 1,
         limit = 10,
-        sortBy = "createdAt",
-        sortOrder = "desc",
+        sortBy = "displayOrder",
+        sortOrder = "asc",
         search = "",
         status = "",
+        published: publishedFilter = "",
+        featured = "",
       } = req.query;
 
       const query = {};
@@ -30,8 +32,16 @@ export default async function handler(req, res) {
       if (status) {
         query.published = status === "published";
       }
+      // Support "published" and "featured" query filters from the admin UI
+      if (publishedFilter === "true") query.published = true;
+      else if (publishedFilter === "false") query.published = false;
+      if (featured === "true") query.featuredOnHome = true;
+      else if (featured === "false") query.featuredOnHome = false;
 
-      const sort = { [sortBy]: sortOrder === "asc" ? 1 : -1 };
+      // Use displayOrder as primary sort, with a secondary sort for ties
+      const sort = sortBy === "displayOrder"
+        ? { displayOrder: sortOrder === "desc" ? -1 : 1, createdAt: -1 }
+        : { [sortBy]: sortOrder === "asc" ? 1 : -1 };
       const skip = (page - 1) * limit;
 
       const projects = await Project.find(query)

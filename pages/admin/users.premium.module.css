@@ -17,14 +17,22 @@
 }
 
 .pageTitle {
-  font-size: var(--admin-text-3xl);
+  font-size: var(--admin-text-2xl);
   font-weight: var(--admin-font-bold);
   color: var(--text);
-  margin-bottom: var(--admin-space-xs);
+  margin-bottom: 4px;
+  letter-spacing: -0.02em;
+  display: flex;
+  align-items: center;
+  gap: var(--admin-space-sm);
+}
+
+.pageTitle svg {
+  color: var(--admin-primary);
 }
 
 .pageSubtitle {
-  font-size: var(--admin-text-base);
+  font-size: var(--admin-text-sm);
   color: var(--text-muted);
   margin-bottom: var(--admin-space-xl);
 }
@@ -33,8 +41,8 @@
 .filterBar {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--admin-space-lg);
-  padding: var(--admin-space-lg);
+  gap: var(--admin-space-md);
+  padding: var(--admin-space-md) var(--admin-space-lg);
   background: var(--bg-elev-1);
   border-radius: var(--admin-radius-lg);
   border: 1px solid var(--border);
@@ -59,19 +67,23 @@
 
 .formControl {
   width: 100%;
-  padding: var(--admin-space-sm) var(--admin-space-md);
+  padding: 8px 12px;
   border-radius: var(--admin-radius-md);
   border: 1px solid var(--border);
   background: var(--bg);
   color: var(--text);
   font-size: var(--admin-text-sm);
-  transition: all var(--admin-transition);
+  transition: all 0.2s ease;
 }
 
 .formControl:focus {
   border-color: var(--admin-primary);
-  box-shadow: 0 0 0 2px var(--admin-primary-light);
+  box-shadow: 0 0 0 3px rgba(var(--admin-primary-rgb), 0.1);
   outline: none;
+}
+
+.formControl:hover:not(:focus) {
+  border-color: var(--text-muted);
 }
 
 .filterActions {
@@ -84,8 +96,13 @@
   background: var(--bg-elev-1);
   border-radius: var(--admin-radius-lg);
   border: 1px solid var(--border);
-  padding: var(--admin-space-xl);
+  padding: var(--admin-space-lg);
   margin-bottom: var(--admin-space-xl);
+  box-shadow: var(--admin-shadow-xs);
+  transition: box-shadow 0.2s ease;
+}
+
+.sectionCard:hover {
   box-shadow: var(--admin-shadow-sm);
 }
 
@@ -133,15 +150,18 @@
 
 .table th {
   text-align: left;
-  padding: var(--admin-space-md);
+  padding: 10px var(--admin-space-md);
   background: var(--bg-elev-2);
   color: var(--text-muted);
   font-weight: var(--admin-font-semibold);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
   border-bottom: 1px solid var(--border);
 }
 
 .table td {
-  padding: var(--admin-space-md);
+  padding: 10px var(--admin-space-md);
   border-bottom: 1px solid var(--border);
   color: var(--text);
 }
@@ -150,8 +170,12 @@
   border-bottom: none;
 }
 
+.table tr:nth-child(even) td {
+  background: rgba(var(--admin-primary-rgb), 0.015);
+}
+
 .table tr:hover td {
-  background: var(--bg-elev-2);
+  background: var(--bg-elev-1);
 }
 
 /* User Avatar */
@@ -201,29 +225,27 @@
 }
 
 .actionButton {
-  width: 32px;
-  height: 32px;
+  width: 30px;
+  height: 30px;
   border-radius: var(--admin-radius-md);
-  border: 1px solid var(--border);
-  background: var(--bg);
+  border: 1px solid transparent;
+  background: transparent;
   color: var(--text-muted);
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: all var(--admin-transition);
+  transition: all 0.15s ease;
 }
 
 .actionButton:hover {
   background: var(--bg-elev-2);
   color: var(--text);
-  border-color: var(--admin-primary);
 }
 
 .actionButton.delete:hover {
   background: var(--admin-error-light);
   color: var(--admin-error);
-  border-color: var(--admin-error);
 }
 
 .actionsRow {
@@ -238,4 +260,64 @@
   padding: var(--admin-space-md);
   background: var(--admin-error-light);
   border-radius: var(--admin-radius-md);
+}
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 768px) {
+  .pageContainer {
+    padding: var(--admin-space-lg);
+  }
+
+  .filterBar {
+    flex-direction: column;
+    gap: var(--admin-space-sm);
+  }
+
+  .filterGroup {
+    min-width: 100%;
+  }
+
+  .formGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .sectionCard {
+    padding: var(--admin-space-md);
+  }
+
+  .table th:nth-child(2),
+  .table td:nth-child(2) {
+    display: none;
+  }
+
+  .actionsRow {
+    flex-direction: column;
+  }
+
+  .actionsRow button {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .pageContainer {
+    padding: var(--admin-space-md);
+  }
+
+  .pageTitle {
+    font-size: var(--admin-text-xl);
+  }
+
+  .table th,
+  .table td {
+    padding: 8px;
+    font-size: var(--admin-text-xs);
+  }
+
+  .avatar {
+    width: 28px;
+    height: 28px;
+    font-size: 10px;
+  }
 }

@@ -1,25 +1,30 @@
+.pageTitleRow {
+  margin-bottom: var(--admin-space-lg);
+}
+
 .pageTitle {
+  display: flex;
+  align-items: center;
+  gap: var(--admin-space-sm);
   font-size: 2.5rem;
   font-weight: 800;
-  margin: 0 0 1.5rem 0;
+  margin: 0 0 0.5rem 0;
   background: linear-gradient(90deg, var(--primary-color), var(--info-color));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  position: relative;
-  padding-bottom: 0.75rem;
   letter-spacing: -0.03em;
 }
 
-.pageTitle::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 120px;
-  height: 4px;
-  background: linear-gradient(90deg, var(--primary-color), var(--info-color));
-  border-radius: 4px;
+.pageTitle svg {
+  -webkit-text-fill-color: initial;
+  color: var(--admin-primary);
+}
+
+.pageSubtitle {
+  font-size: var(--admin-text-sm);
+  color: var(--text-muted);
+  margin: 0;
 }
 
 /* Section Headers */

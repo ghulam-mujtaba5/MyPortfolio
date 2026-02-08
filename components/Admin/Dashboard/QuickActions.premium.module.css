@@ -7,17 +7,16 @@
   background: var(--bg-elev-1);
   border: var(--admin-card-border);
   border-radius: var(--admin-card-radius);
-  padding: 1.75rem;
+  padding: 1.5rem;
   box-shadow: var(--admin-card-shadow);
-  backdrop-filter: blur(10px);
 }
 
 .title {
-  font-size: 1.35rem;
-  font-weight: 700;
+  font-size: 1.1rem;
+  font-weight: 600;
   color: var(--text);
-  margin: 0 0 1.25rem;
-  padding-bottom: 1rem;
+  margin: 0 0 1rem;
+  padding-bottom: 0.75rem;
   border-bottom: 1px solid var(--border);
 }
 
@@ -54,7 +53,7 @@
   background: var(--primary);
   color: #fff;
   border-color: var(--primary);
-  transform: translateY(-2px);
+  transform: translateY(-1px);
   box-shadow: var(--btn-shadow-hover);
 }
 

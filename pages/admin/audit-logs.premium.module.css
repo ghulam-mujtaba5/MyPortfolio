@@ -12,15 +12,42 @@
   margin-bottom: var(--admin-space-xl);
 }
 
+.pageTitleRow {
+  display: flex;
+  align-items: center;
+  gap: var(--admin-space-md);
+  flex-wrap: wrap;
+}
+
 .pageTitle {
-  font-size: var(--admin-text-3xl);
+  display: flex;
+  align-items: center;
+  gap: var(--admin-space-sm);
+  font-size: var(--admin-text-2xl);
   font-weight: var(--admin-font-bold);
   color: var(--text);
-  margin-bottom: var(--admin-space-xs);
+  margin-bottom: 4px;
+  letter-spacing: -0.02em;
+}
+
+.pageTitle svg {
+  color: var(--admin-primary);
+}
+
+.totalBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 12px;
+  border-radius: var(--admin-radius-full);
+  font-size: var(--admin-text-xs);
+  font-weight: var(--admin-font-medium);
+  background: var(--admin-primary-light);
+  color: var(--admin-primary);
+  font-variant-numeric: tabular-nums;
 }
 
 .pageSubtitle {
-  font-size: var(--admin-text-base);
+  font-size: var(--admin-text-sm);
   color: var(--text-muted);
 }
 
@@ -29,7 +56,7 @@
   background: var(--bg-elev-1);
   border-radius: var(--admin-radius-lg);
   border: 1px solid var(--border);
-  padding: var(--admin-space-lg);
+  padding: var(--admin-space-md) var(--admin-space-lg);
   margin-bottom: var(--admin-space-xl);
 }
 
@@ -60,19 +87,23 @@
 
 .formControl {
   width: 100%;
-  padding: var(--admin-space-sm) var(--admin-space-md);
+  padding: 8px 12px;
   border-radius: var(--admin-radius-md);
   border: 1px solid var(--border);
   background: var(--bg);
   color: var(--text);
   font-size: var(--admin-text-sm);
-  transition: all var(--admin-transition);
+  transition: all 0.2s ease;
 }
 
 .formControl:focus {
   border-color: var(--admin-primary);
-  box-shadow: 0 0 0 2px var(--admin-primary-light);
+  box-shadow: 0 0 0 3px rgba(var(--admin-primary-rgb), 0.1);
   outline: none;
+}
+
+.formControl:hover:not(:focus) {
+  border-color: var(--text-muted);
 }
 
 .select {
@@ -95,6 +126,11 @@
   border-radius: var(--admin-radius-lg);
   border: 1px solid var(--border);
   overflow: hidden;
+  box-shadow: var(--admin-shadow-xs);
+  transition: box-shadow 0.2s ease;
+}
+
+.card:hover {
   box-shadow: var(--admin-shadow-sm);
 }
 
@@ -172,7 +208,24 @@
 }
 
 @media (max-width: 640px) {
+  .pageWrap {
+    padding: var(--admin-space-lg);
+  }
+
   .filtersGrid {
     grid-template-columns: 1fr;
+  }
+
+  .filterBar {
+    padding: var(--admin-space-md);
+  }
+
+  .pagination {
+    flex-direction: column;
+    gap: var(--admin-space-sm);
+  }
+
+  .pagination button {
+    width: 100%;
   }
 }

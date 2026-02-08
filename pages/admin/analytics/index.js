@@ -216,14 +216,19 @@ const AnalyticsPage = () => {
 
   return (
     <AdminLayout title="Analytics">
-      <motion.h1 
-        className={styles.pageTitle}
+      <motion.div className={styles.pageTitleRow}
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
-        Analytics Dashboard
-      </motion.h1>
+        <h1 className={styles.pageTitle}>
+          <Icon name="bar-chart-2" size={28} />
+          Analytics Dashboard
+        </h1>
+        <p className={styles.pageSubtitle}>
+          Insights and trends across your content.
+        </p>
+      </motion.div>
       
       {/* Range selector */}
       <motion.div 

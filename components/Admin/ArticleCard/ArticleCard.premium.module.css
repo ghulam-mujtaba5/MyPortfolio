@@ -9,24 +9,23 @@
   border-radius: var(--admin-card-radius);
   border: var(--admin-card-border);
   overflow: hidden;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
   flex-direction: column;
   box-shadow: var(--admin-card-shadow);
   backdrop-filter: blur(10px);
   transform: translateZ(0);
-  will-change: transform, box-shadow;
 }
 
 .card:hover {
-  transform: translateY(-8px);
+  transform: translateY(-3px);
   box-shadow: var(--admin-card-shadow-hover);
   border-color: var(--primary);
 }
 
 .selected {
   border-color: var(--primary);
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
 }
 
 .selectionOverlay {
@@ -89,7 +88,7 @@
 }
 
 .card:hover .coverImage img {
-  transform: scale(1.08);
+  transform: scale(1.04);
 }
 
 .coverImageOverlay {
@@ -145,11 +144,11 @@
 }
 
 .title {
-  font-size: 1.35rem;
-  font-weight: 700;
+  font-size: 1.15rem;
+  font-weight: 600;
   margin-bottom: auto;
-  padding-bottom: 1.1rem;
-  line-height: 1.4;
+  padding-bottom: 0.85rem;
+  line-height: 1.45;
   color: var(--text);
   transition: all 0.2s ease;
 }
@@ -202,14 +201,14 @@
   bottom: 1.25rem;
   right: 1.25rem;
   display: flex;
-  gap: 0.6rem;
+  gap: 0.5rem;
   z-index: 5;
   opacity: 0;
-  transform: translateY(12px);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: translateY(6px);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   backdrop-filter: blur(10px);
-  border-radius: 12px;
-  padding: 0.25rem;
+  border-radius: 10px;
+  padding: 0.2rem;
   background: var(--bg-elev-2);
 }
 
@@ -228,7 +227,7 @@
 
 .categoryBadge:hover,
 .tagBadge:hover {
-  transform: translateY(-2px);
+  transform: translateY(-1px);
   box-shadow: var(--btn-shadow-hover);
 }
 

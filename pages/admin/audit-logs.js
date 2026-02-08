@@ -237,14 +237,26 @@ const AuditLogsPage = () => {
           transition={{ duration: 0.3, delay: 0.1 }}
           className={styles.pageHeader}
         >
-          <motion.h1
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.4, delay: 0.2 }}
-            className={styles.pageTitle}
-          >
-            Audit Logs
-          </motion.h1>
+          <div className={styles.pageTitleRow}>
+            <motion.h1
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.4, delay: 0.2 }}
+              className={styles.pageTitle}
+            >
+              <Icon name="shield" size={28} />
+              Audit Logs
+            </motion.h1>
+            {total > 0 && (
+              <motion.span
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className={styles.totalBadge}
+              >
+                {total.toLocaleString()} {total === 1 ? "entry" : "entries"}
+              </motion.span>
+            )}
+          </div>
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}

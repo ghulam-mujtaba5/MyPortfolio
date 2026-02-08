@@ -324,14 +324,14 @@ export async function getServerSideProps() {
   try {
     await dbConnect();
     let docs = await Project.find({ published: true, featuredOnHome: true })
-      .sort({ createdAt: -1 })
+      .sort({ displayOrder: 1, createdAt: -1 })
       .limit(3)
       .lean();
 
     // Fallback: if no featured projects, show latest published
     if (!docs || docs.length === 0) {
       docs = await Project.find({ published: true })
-        .sort({ createdAt: -1 })
+        .sort({ displayOrder: 1, createdAt: -1 })
         .limit(3)
         .lean();
     }

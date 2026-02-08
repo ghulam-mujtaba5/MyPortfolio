@@ -58,7 +58,7 @@
 .input:focus,
 .searchInput:focus {
   border-color: var(--admin-primary);
-  box-shadow: 0 0 0 2px var(--admin-primary-light);
+  box-shadow: 0 0 0 3px rgba(var(--admin-primary-rgb, 69, 115, 223), 0.1);
   outline: none;
 }
 
@@ -79,8 +79,8 @@
 
 .uploadButton:hover {
   background: var(--admin-primary-dark);
-  transform: translateY(-2px);
-  box-shadow: var(--admin-shadow-md);
+  transform: translateY(-1px);
+  box-shadow: var(--admin-shadow-sm);
 }
 
 .hiddenInput {
@@ -154,14 +154,14 @@
 }
 
 .assetCard:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--admin-shadow-md);
+  transform: translateY(-2px);
+  box-shadow: var(--admin-shadow-sm);
   border-color: var(--admin-primary);
 }
 
 .assetCard.selected {
   border-color: var(--admin-primary);
-  box-shadow: 0 0 0 2px var(--admin-primary);
+  box-shadow: 0 0 0 2px rgba(var(--admin-primary-rgb, 69, 115, 223), 0.25);
 }
 
 .assetImage {
@@ -172,7 +172,7 @@
 }
 
 .assetCard:hover .assetImage {
-  transform: scale(1.05);
+  transform: scale(1.03);
 }
 
 .assetOverlay {

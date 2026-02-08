@@ -231,6 +231,7 @@ const ArticlesPage = () => {
       >
         <header className={styles.header}>
           <h1 className={styles.title} style={{ display: "flex", alignItems: "center", gap: 8 }}>
+            <Icon name="file-text" size={28} style={{ color: "var(--admin-primary)" }} />
             Articles
             {loading && (
               <span style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
