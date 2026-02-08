@@ -22,13 +22,23 @@ class MyDocument extends Document {
     return (
       <Html lang="en">
         <Head>
-          {/* Preconnects for performance */}
+          {/* DNS prefetch & preconnects for faster resource loading */}
           <link rel="preconnect" href="https://fonts.googleapis.com" />
           <link
             rel="preconnect"
             href="https://fonts.gstatic.com"
             crossOrigin=""
           />
+          <link rel="dns-prefetch" href="https://res.cloudinary.com" />
+          <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+          <link rel="dns-prefetch" href="https://www.google-analytics.com" />
+          <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+          <link rel="preconnect" href="https://res.cloudinary.com" crossOrigin="" />
+
+          {/* Security headers hint */}
+          <meta httpEquiv="X-Content-Type-Options" content="nosniff" />
+          <meta httpEquiv="X-Frame-Options" content="DENY" />
+          <meta name="referrer" content="strict-origin-when-cross-origin" />
           {/* You can add font stylesheet here if you use Google Fonts */}
 
           {/* Theme colors for different contexts */}

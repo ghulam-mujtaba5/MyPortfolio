@@ -1,6 +1,8 @@
 import React, { useEffect, useState, useMemo, useCallback } from "react";
-import Head from "next/head";
-import SEO from "../../components/SEO";
+import SEO, {
+  collectionPageSchema,
+  breadcrumbSchema,
+} from "../../components/SEO";
 import NavBarDesktop from "../../components/NavBar_Desktop/nav-bar";
 import NavBarMobile from "../../components/NavBar_Mobile/NavBar-mobile";
 import Footer from "../../components/Footer/Footer";
@@ -47,6 +49,49 @@ export default function ArticlesPage({
       setPagination(initialPagination);
     }
   }, [initialArticles, initialPagination]);
+
+  // Client-side fallback: if SSR returned no articles, fetch from API
+  useEffect(() => {
+    if (!mounted) return;
+    // Only fetch if SSR provided nothing (likely SSR error/timeout)
+    if (initialArticles && initialArticles.length > 0) return;
+    if (articles.length > 0) return;
+
+    let cancelled = false;
+    setLoading(true);
+
+    const params = new URLSearchParams();
+    if (search) params.set("search", search);
+    if (tag) params.set("tag", tag);
+    if (sort) params.set("sort", sort);
+    params.set("page", String(page));
+    params.set("limit", String(limit));
+
+    fetch(`/api/articles?${params.toString()}`)
+      .then((res) => (res.ok ? res.json() : Promise.reject(res.statusText)))
+      .then((data) => {
+        if (cancelled) return;
+        if (data.articles && data.articles.length > 0) {
+          setArticles(data.articles);
+        }
+        if (data.pagination) {
+          setPagination(data.pagination);
+        }
+      })
+      .catch((err) => {
+        if (!cancelled) {
+          console.error("Client-side article fetch failed:", err);
+          setError("Failed to load articles. Please try refreshing the page.");
+        }
+      })
+      .finally(() => {
+        if (!cancelled) setLoading(false);
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [mounted]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const router = useRouter();
   const page = useMemo(
@@ -194,38 +239,34 @@ export default function ArticlesPage({
   return (
     <>
       <SEO
-        title="Articles | Ghulam Mujtaba"
-        description="Articles by Ghulam Mujtaba on software, data science, and AI."
+        title="Articles & Blog | Ghulam Mujtaba — Software, Data Science & AI Insights"
+        description="Read articles by Ghulam Mujtaba on software engineering, data science, machine learning, AI, and modern web development. Tips, tutorials, and insights."
         url="https://ghulammujtaba.com/articles"
         canonical="https://ghulammujtaba.com/articles"
-        keywords="Articles, Blog, Ghulam Mujtaba, Software, Data Science, AI"
+        image="https://ghulammujtaba.com/og-image.png"
+        imageWidth={1200}
+        imageHeight={630}
+        imageAlt="Articles by Ghulam Mujtaba"
+        author="Ghulam Mujtaba"
+        keywords="Articles, Blog, Ghulam Mujtaba, Software, Data Science, AI, Machine Learning, Web Development"
+        jsonLd={[
+          collectionPageSchema({
+            name: "Articles by Ghulam Mujtaba",
+            url: "https://ghulammujtaba.com/articles",
+            description: "Articles and blog posts by Ghulam Mujtaba on software engineering, data science, machine learning, and AI.",
+            items: (articles || []).slice(0, 10).map((a) => ({
+              name: a.title,
+              url: `https://ghulammujtaba.com/articles/${a.slug}`,
+              description: a.excerpt || "",
+              image: a.coverImage || "",
+            })),
+          }),
+          breadcrumbSchema([
+            { name: "Home", url: "https://ghulammujtaba.com/" },
+            { name: "Articles", url: "https://ghulammujtaba.com/articles" },
+          ]),
+        ]}
       />
-      <Head>
-        {/* JSON-LD: Breadcrumbs for Articles list */}
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "BreadcrumbList",
-              itemListElement: [
-                {
-                  "@type": "ListItem",
-                  position: 1,
-                  name: "Home",
-                  item: "https://ghulammujtaba.com/",
-                },
-                {
-                  "@type": "ListItem",
-                  position: 2,
-                  name: "Articles",
-                  item: "https://ghulammujtaba.com/articles",
-                },
-              ],
-            }),
-          }}
-        />
-      </Head>
 
       <div
         className={`articles-page-bg ${theme}`}
@@ -647,6 +688,7 @@ export async function getServerSideProps({ query }) {
       },
     };
   } catch (e) {
+    console.error("[Articles SSR] getServerSideProps failed:", e?.message || e);
     return {
       props: {
         initialArticles: [],

@@ -8,6 +8,11 @@ import Article from "../../models/Article";
 import DailyStat from "../../models/DailyStat";
 import PreviewBanner from "../../components/Admin/PreviewBanner/PreviewBanner";
 import ArticleDetail from "../../components/Articles/ArticleDetail";
+import SEO, {
+  articleSchema,
+  breadcrumbSchema,
+  speakableSchema,
+} from "../../components/SEO";
 
 const NavBarDesktop = dynamic(
   () => import("../../components/NavBar_Desktop/nav-bar"),
@@ -68,148 +73,44 @@ export default function ArticleDetailPage({ article, relatedArticles = [], previ
       margin: 0,
       padding: 0
     }}>
-      <Head>
-        <title>
-          {article.metaTitle || `${article.title} | Ghulam Mujtaba`}
-        </title>
-        <meta
-          name="description"
-          content={article.metaDescription || article.excerpt}
-        />
-        {preview && <meta name="robots" content="noindex,follow" />}
-        <link
-          rel="canonical"
-          href={`https://ghulammujtaba.com/articles/${article.slug}`}
-        />
-
-        {/* Open Graph / Facebook */}
-        <meta property="og:type" content="article" />
-        <meta
-          property="og:title"
-          content={article.metaTitle || article.title}
-        />
-        <meta
-          property="og:description"
-          content={article.metaDescription || article.excerpt}
-        />
-        <meta
-          property="og:image"
-          content={makeAbsolute(article.ogImage || article.coverImage)}
-        />
-        <meta
-          property="og:url"
-          content={`https://ghulammujtaba.com/articles/${article.slug}`}
-        />
-        {((article && (article.createdAt || article.publishAt)) || article?.updatedAt) && (
-          <>
-            {article && (article.createdAt || article.publishAt) && (
-              <meta
-                property="article:published_time"
-                content={new Date(article.createdAt || article.publishAt).toISOString()}
-              />
-            )}
-            {article?.updatedAt && (
-              <meta
-                property="article:modified_time"
-                content={new Date(article.updatedAt).toISOString()}
-              />
-            )}
-          </>
-        )}
-
-        {/* Twitter */}
-        <meta property="twitter:card" content="summary_large_image" />
-        <meta
-          property="twitter:title"
-          content={article.metaTitle || article.title}
-        />
-        <meta
-          property="twitter:description"
-          content={article.metaDescription || article.excerpt}
-        />
-        <meta
-          property="twitter:image"
-          content={makeAbsolute(article.ogImage || article.coverImage)}
-        />
-        <meta
-          property="twitter:url"
-          content={`https://ghulammujtaba.com/articles/${article.slug}`}
-        />
-
-        {/* JSON-LD: Article schema for rich results */}
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "Article",
-              headline: article.metaTitle || article.title,
-              description: article.metaDescription || article.excerpt,
-              image: [makeAbsolute(article.ogImage || article.coverImage)].filter(
-                Boolean
-              ),
-              mainEntityOfPage: {
-                "@type": "WebPage",
-                "@id": `https://ghulammujtaba.com/articles/${article.slug}`,
-              },
-              author: {
-                "@type": "Person",
-                name: "Ghulam Mujtaba",
-                url: "https://ghulammujtaba.com",
-              },
-              publisher: {
-                "@type": "Organization",
-                name: "Ghulam Mujtaba",
-                logo: {
-                  "@type": "ImageObject",
-                  url: "https://ghulammujtaba.com/og-image.png",
-                },
-              },
-              datePublished: article.createdAt || article.publishAt,
-              dateModified: article.updatedAt,
-              keywords: Array.isArray(article.tags)
-                ? article.tags.join(", ")
-                : undefined,
-              timeRequired: typeof article.readingTime === "number"
-                ? `PT${article.readingTime}M`
-                : undefined,
-              wordCount: typeof article.readingTime === "number"
-                ? Math.round(article.readingTime * 200)
-                : undefined,
-            }),
-          }}
-        />
-        {/* JSON-LD: Breadcrumbs */}
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "BreadcrumbList",
-              itemListElement: [
-                {
-                  "@type": "ListItem",
-                  position: 1,
-                  name: "Home",
-                  item: "https://ghulammujtaba.com/",
-                },
-                {
-                  "@type": "ListItem",
-                  position: 2,
-                  name: "Articles",
-                  item: "https://ghulammujtaba.com/articles",
-                },
-                {
-                  "@type": "ListItem",
-                  position: 3,
-                  name: article.title,
-                  item: `https://ghulammujtaba.com/articles/${article.slug}`,
-                },
-              ],
-            }),
-          }}
-        />
-      </Head>
+      <SEO
+        title={article.metaTitle || `${article.title} | Ghulam Mujtaba`}
+        description={article.metaDescription || article.excerpt}
+        url={`https://ghulammujtaba.com/articles/${article.slug}`}
+        canonical={`https://ghulammujtaba.com/articles/${article.slug}`}
+        image={makeAbsolute(article.ogImage || article.coverImage)}
+        imageWidth={1200}
+        imageHeight={630}
+        imageAlt={article.metaTitle || article.title}
+        author="Ghulam Mujtaba"
+        robots={preview ? "noindex,follow" : "index,follow"}
+        noindex={!!preview}
+        publishedTime={article.createdAt || article.publishAt}
+        modifiedTime={article.updatedAt}
+        articleSection={article.category}
+        articleTags={article.tags}
+        jsonLd={[
+          articleSchema({
+            headline: article.metaTitle || article.title,
+            description: article.metaDescription || article.excerpt,
+            image: makeAbsolute(article.ogImage || article.coverImage),
+            url: `https://ghulammujtaba.com/articles/${article.slug}`,
+            datePublished: article.createdAt || article.publishAt,
+            dateModified: article.updatedAt,
+            keywords: article.tags,
+            readingTime: article.readingTime,
+          }),
+          breadcrumbSchema([
+            { name: "Home", url: "https://ghulammujtaba.com/" },
+            { name: "Articles", url: "https://ghulammujtaba.com/articles" },
+            { name: article.title, url: `https://ghulammujtaba.com/articles/${article.slug}` },
+          ]),
+          speakableSchema({
+            url: `https://ghulammujtaba.com/articles/${article.slug}`,
+            cssSelectors: [".article-title", ".article-excerpt"],
+          }),
+        ]}
+      />
 
       {isMobile ? <NavBarMobile sections={sections} /> : <NavBarDesktop />}
 

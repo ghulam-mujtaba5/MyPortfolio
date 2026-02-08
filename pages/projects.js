@@ -1,12 +1,15 @@
 import Icon from "../components/Icon/gmicon";
-import SEO from "../components/SEO";
+import SEO, {
+  collectionPageSchema,
+  breadcrumbSchema,
+  softwareProjectSchema,
+} from "../components/SEO";
 
 import React, { useState, useMemo, useEffect } from "react";
 import { z } from "zod";
 import dbConnect from "../lib/mongoose";
 import Project from "../models/Project";
 import dynamic from "next/dynamic";
-import Head from "next/head";
 import { useTheme } from "../context/ThemeContext";
 import NavBar from "../components/NavBar_Desktop/nav-bar";
 import NavBarMobile from "../components/NavBar_Mobile/NavBar-mobile";
@@ -88,30 +91,51 @@ const ProjectsPage = ({ projects = [], projectsError = null }) => {
   }, [projectsError, safeProjects.length]);
 
   const effectiveProjects = clientProjects.length > 0 ? clientProjects : safeProjects;
-  const jsonLd = useMemo(() => {
-    try {
-      const list = (effectiveProjects || []).map((project, idx) => ({
-        "@type": "CreativeWork",
-        position: idx + 1,
-        name: project?.title || "Untitled",
-        description: project?.description || "",
-        // Prefer live URL; fallback to project detail page if available
-        url:
-          (project?.links?.live && String(project.links.live).trim() && String(project.links.live).trim() !== "#"
-            ? project.links.live
-            : (project?.slug ? `https://ghulammujtaba.com/projects/${project.slug}` : "")),
-        image: project?.image || "",
-      }));
-      return JSON.stringify({
-        "@context": "https://schema.org",
-        "@type": "ItemList",
-        name: "Projects",
+  const projectSchemas = useMemo(() => {
+    const items = (effectiveProjects || []).map((project) => ({
+      name: project?.title || "Untitled",
+      description: project?.description || "",
+      url:
+        project?.links?.live && String(project.links.live).trim() && String(project.links.live).trim() !== "#"
+          ? project.links.live
+          : project?.slug
+            ? `https://ghulammujtaba.com/projects/${project.slug}`
+            : "",
+      image: project?.image || "",
+      github: project?.links?.github || "",
+      tags: project?.tags || [],
+    }));
+    return [
+      collectionPageSchema({
+        name: "Projects by Ghulam Mujtaba",
         url: "https://ghulammujtaba.com/projects",
-        itemListElement: list,
-      });
-    } catch (e) {
-      return "{}";
-    }
+        description: "Showcase of advanced, modern projects spanning web development, AI, data science, and mobile applications by Ghulam Mujtaba.",
+        items: items.map((p, idx) => ({
+          name: p.name,
+          description: p.description,
+          url: p.url,
+          image: p.image,
+        })),
+      }),
+      breadcrumbSchema([
+        { name: "Home", url: "https://ghulammujtaba.com/" },
+        { name: "Projects", url: "https://ghulammujtaba.com/projects" },
+      ]),
+      // Individual SoftwareSourceCode schemas for richer results
+      ...items
+        .filter((p) => p.url || p.github)
+        .slice(0, 10)
+        .map((p) =>
+          softwareProjectSchema({
+            name: p.name,
+            description: p.description,
+            url: p.url,
+            codeRepository: p.github,
+            image: p.image,
+            programmingLanguages: p.tags,
+          })
+        ),
+    ];
   }, [effectiveProjects]);
   const filteredProjects =
     selectedTag === "All"
@@ -120,61 +144,18 @@ const ProjectsPage = ({ projects = [], projectsError = null }) => {
 
   return (
     <>
-      <Head>
-        <title>Projects | Ghulam Mujtaba</title>
-        <meta
-          name="description"
-          content="Showcase of advanced, modern, and professional projects by Ghulam Mujtaba. Explore software, web, mobile, AI, data science, and UI/UX work."
-        />
-        {/* Open Graph Meta Tags */}
-        <meta property="og:title" content="Projects | Ghulam Mujtaba" />
-        <meta
-          property="og:description"
-          content="Showcase of advanced, modern, and professional projects by Ghulam Mujtaba. Explore software, web, mobile, AI, data science, and UI/UX work."
-        />
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://ghulammujtaba.com/projects" />
-        <meta property="og:image" content="https://ghulammujtaba.com/og-image.png" />
-        {/* Twitter Card Meta Tags */}
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Projects | Ghulam Mujtaba" />
-        <meta
-          name="twitter:description"
-          content="Showcase of advanced, modern, and professional projects by Ghulam Mujtaba. Explore software, web, mobile, AI, data science, and UI/UX work."
-        />
-        <meta name="twitter:image" content="https://ghulammujtaba.com/og-image.png" />
-        {/* Canonical URL */}
-        <link rel="canonical" href="https://ghulammujtaba.com/projects" />
-        {/* JSON-LD Structured Data for Projects */}
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: jsonLd }}
-        />
-        {/* JSON-LD Breadcrumbs */}
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "BreadcrumbList",
-              itemListElement: [
-                {
-                  "@type": "ListItem",
-                  position: 1,
-                  name: "Home",
-                  item: "https://ghulammujtaba.com/",
-                },
-                {
-                  "@type": "ListItem",
-                  position: 2,
-                  name: "Projects",
-                  item: "https://ghulammujtaba.com/projects",
-                },
-              ],
-            }),
-          }}
-        />
-      </Head>
+      <SEO
+        title="Projects | Ghulam Mujtaba — Full Stack, AI & Data Science Portfolio"
+        description="Showcase of advanced, modern, and professional projects by Ghulam Mujtaba. Explore software, web, mobile, AI, data science, and UI/UX work."
+        url="https://ghulammujtaba.com/projects"
+        canonical="https://ghulammujtaba.com/projects"
+        image="https://ghulammujtaba.com/og-image.png"
+        imageWidth={1200}
+        imageHeight={630}
+        imageAlt="Projects by Ghulam Mujtaba"
+        author="Ghulam Mujtaba"
+        jsonLd={projectSchemas}
+      />
       <div
         style={{
           backgroundColor: theme === "dark" ? "#1d2127" : "#ffffff",

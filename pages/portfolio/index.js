@@ -26,7 +26,15 @@ import ThemeToggleIcon from "../../components/Icon/gmicon";
 import ScrollReveal from "../../components/AnimatedUI/ScrollReveal";
 
 import Head from "next/head";
-import SEO from "../../components/SEO";
+import SEO, {
+  personSchema,
+  profilePageSchema,
+  webSiteSchema,
+  organizationSchema,
+  navigationSchema,
+  speakableSchema,
+  faqSchema,
+} from "../../components/SEO";
 
 import { useEffect, useState } from "react";
 
@@ -42,113 +50,66 @@ const Home = ({ previewProjects = [], previewArticles = [] }) => {
     { id: "contact-section", label: "Contact" },
   ];
 
+  // Build comprehensive JSON-LD schemas for the homepage
+  const homeJsonLd = [
+    // 1️⃣ Full Person schema with hasOccupation, hasCredential, alumniOf, knowsAbout
+    personSchema(),
+    // 2️⃣ ProfilePage — Google's newer schema that triggers rich profile cards
+    profilePageSchema(),
+    // 3️⃣ WebSite with SearchAction — enables sitelinks search box
+    webSiteSchema(),
+    // 4️⃣ Organization — establishes brand identity
+    organizationSchema(),
+    // 5️⃣ SiteNavigationElement — hints to Google which sections are primary
+    navigationSchema(),
+    // 6️⃣ Speakable — marks content for Google Assistant / TTS
+    speakableSchema({
+      url: "https://ghulammujtaba.com",
+      cssSelectors: ["h1", "#about-section", "[data-speakable]"],
+    }),
+    // 7️⃣ FAQ — drives rich FAQ snippets in Google search
+    faqSchema([
+      {
+        question: "Who is Ghulam Mujtaba?",
+        answer:
+          "Ghulam Mujtaba is a Full Stack Developer, Data Scientist, and AI Specialist based in Lahore, Pakistan. He specializes in building end-to-end solutions using React, Next.js, Python, Java, and modern AI/ML technologies.",
+      },
+      {
+        question: "What services does Ghulam Mujtaba offer?",
+        answer:
+          "Ghulam Mujtaba offers Full Stack Web Development (React, Next.js, Node.js), Mobile App Development (React Native), Desktop App Development (Electron.js, JavaFX), Data Science & Analytics, AI/ML Model Development, and UI/UX Design.",
+      },
+      {
+        question: "What certifications does Ghulam Mujtaba hold?",
+        answer:
+          "Ghulam Mujtaba holds 5 Google certifications (UX Design, Data Analytics, Project Management, Cybersecurity) and the Meta Front-End Developer Certificate.",
+      },
+      {
+        question: "How can I contact Ghulam Mujtaba?",
+        answer:
+          "You can contact Ghulam Mujtaba via email at ghulammujtaba1005@gmail.com, through LinkedIn at linkedin.com/in/ghulamujtabaofficial, or through the contact form on ghulammujtaba.com.",
+      },
+      {
+        question: "Where is Ghulam Mujtaba based?",
+        answer:
+          "Ghulam Mujtaba is based in Lahore, Punjab, Pakistan. He is currently pursuing a BSc in Software Engineering at COMSATS University Islamabad, Lahore Campus, with expected graduation in June 2026.",
+      },
+    ]),
+  ];
+
   return (
     <>
       <SEO
-        title="Ghulam Mujtaba | Portfolio"
-        description="Portfolio of Ghulam Mujtaba – Full Stack Developer, Data Scientist, and AI Specialist based in Pakistan. Projects, skills, and contact."
+        title="Ghulam Mujtaba | Full Stack Developer, Data Scientist & AI Specialist"
+        description="Portfolio of Ghulam Mujtaba — Full Stack Developer, Data Scientist, and AI Specialist based in Lahore, Pakistan. Explore innovative projects in web, mobile, desktop, AI and data science. 5 Google certifications & Meta certified."
         url="https://ghulammujtaba.com"
         image="https://ghulammujtaba.com/og-image.png"
+        imageAlt="Ghulam Mujtaba — Full Stack Developer, Data Scientist & AI Specialist Portfolio"
         type="website"
         canonical="https://ghulammujtaba.com/"
-        keywords="Ghulam Mujtaba, Portfolio, Developer, Data Scientist, AI, Pakistan"
-      >
-        {/* Person schema to identify the owner of the site */}
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "http://schema.org",
-              "@type": "Person",
-              name: "Ghulam Mujtaba",
-              url: "https://ghulammujtaba.com",
-              sameAs: [
-                "https://www.linkedin.com/in/ghulamujtabaofficial",
-                "https://www.instagram.com/ghulamujtabaofficial/",
-                "https://github.com/ghulam-mujtaba5",
-              ],
-              jobTitle: "Full Stack Developer, Data Scientist, AI Specialist",
-              address: {
-                "@type": "PostalAddress",
-                addressCountry: "PK",
-              },
-              image: "https://ghulammujtaba.com/og-image.png",
-            }),
-          }}
-        />
-        {/* Organization schema to complement Person */}
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "Organization",
-              name: "Ghulam Mujtaba",
-              url: "https://ghulammujtaba.com",
-              logo: "https://ghulammujtaba.com/og-image.png",
-              sameAs: [
-                "https://www.linkedin.com/in/ghulamujtabaofficial",
-                "https://github.com/ghulam-mujtaba5",
-                "https://www.instagram.com/ghulamujtabaofficial/"
-              ]
-            }),
-          }}
-        />
-        {/* WebSite schema with SearchAction enables sitelinks search box */}
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "WebSite",
-              url: "https://ghulammujtaba.com",
-              name: "Ghulam Mujtaba Portfolio",
-              potentialAction: {
-                "@type": "SearchAction",
-                target: "https://ghulammujtaba.com/search?q={search_term_string}",
-                "query-input": "required name=search_term_string"
-              }
-            }),
-          }}
-        />
-        {/* SiteNavigationElement hints to Google which sections are primary */}
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "ItemList",
-              itemListElement: [
-                {
-                  "@type": "SiteNavigationElement",
-                  name: "About",
-                  url: "https://ghulammujtaba.com/#about-section"
-                },
-                {
-                  "@type": "SiteNavigationElement",
-                  name: "Resume",
-                  url: "https://ghulammujtaba.com/resume"
-                },
-                {
-                  "@type": "SiteNavigationElement",
-                  name: "Projects",
-                  url: "https://ghulammujtaba.com/projects"
-                },
-                {
-                  "@type": "SiteNavigationElement",
-                  name: "Articles",
-                  url: "https://ghulammujtaba.com/articles"
-                },
-                {
-                  "@type": "SiteNavigationElement",
-                  name: "Contact",
-                  url: "https://ghulammujtaba.com/#contact-section"
-                }
-              ]
-            }),
-          }}
-        />
-      </SEO>
+        keywords="Ghulam Mujtaba, Portfolio, Full Stack Developer, Data Scientist, AI Specialist, Software Engineer, React, Next.js, Python, Machine Learning, Lahore Pakistan"
+        jsonLd={homeJsonLd}
+      />
 
       <div
         className="portfolio-main-container"

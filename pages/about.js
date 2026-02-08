@@ -2,7 +2,13 @@ import React from "react";
 import dynamic from "next/dynamic";
 import Head from "next/head";
 import Link from "next/link";
-import SEO from "../components/SEO";
+import SEO, {
+  personSchema,
+  profilePageSchema,
+  breadcrumbSchema,
+  faqSchema,
+  speakableSchema,
+} from "../components/SEO";
 import AboutMeSection from "../components/AboutMe/AboutMeSectionLight";
 import common from "../components/AboutPage/AboutPageCommon.module.css";
 import light from "../components/AboutPage/AboutPageLight.module.css";
@@ -239,51 +245,66 @@ export default function AboutPage() {
     scraped = {};
   }
 
-  const personJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "Person",
-    name: "Ghulam Mujtaba",
+  // --- Structured Data (JSON-LD) using centralized schema helpers ---
+  const aboutPersonSchema = personSchema();
+  const aboutProfilePageSchema = profilePageSchema();
+  const aboutBreadcrumbSchema = breadcrumbSchema([
+    { name: "Home", url: "https://ghulammujtaba.com/" },
+    { name: "About", url: "https://ghulammujtaba.com/about" },
+  ]);
+  const aboutFaqSchema = faqSchema([
+    {
+      question: "Who is Ghulam Mujtaba?",
+      answer:
+        "Ghulam Mujtaba is a Full Stack Developer, Data Scientist, and AI Specialist based in Lahore, Pakistan. He builds end-to-end solutions integrating Data Science, Machine Learning, and AI.",
+    },
+    {
+      question: "What technologies does Ghulam Mujtaba work with?",
+      answer:
+        "Ghulam Mujtaba is proficient in Java, Python, JavaScript, React, Next.js, React Native, Electron.js, Spring, MongoDB, Supabase, Azure, and various Data Science/ML frameworks.",
+    },
+    {
+      question: "What certifications does Ghulam Mujtaba hold?",
+      answer:
+        "He holds several professional certifications including Meta Front-End Developer, Google UX Design, Google Data Analytics, Google Project Management, and Google Cybersecurity certificates.",
+    },
+    {
+      question: "Where did Ghulam Mujtaba study?",
+      answer:
+        "He is pursuing a Bachelor of Science in Software Engineering at COMSATS University Islamabad, Lahore Campus, with an expected graduation in June 2026.",
+    },
+    {
+      question: "Is Ghulam Mujtaba available for hire?",
+      answer:
+        "Yes, Ghulam Mujtaba is currently available for work and open to new opportunities, collaborations, and freelance projects. You can contact him via his portfolio website.",
+    },
+  ]);
+  const aboutSpeakableSchema = speakableSchema({
     url: "https://ghulammujtaba.com/about",
-    image: scraped.image || "https://ghulammujtaba.com/images/portfolio-picture.png",
-    jobTitle: scraped.jobTitle || "Software Engineer",
-    sameAs: [
-      "https://github.com/ghulam-mujtaba5",
-      "https://www.linkedin.com/in/ghulamujtabaofficial",
-      "https://www.instagram.com/ghulammujtabaofficial/",
-    ],
-    description:
-      scraped.summary || "I\u2019m a Software Engineer focused on building end-to-end solutions that integrate Data Science, Machine Learning, and AI.",
-    knowsAbout: skills,
-    alumniOf: { "@type": "CollegeOrUniversity", name: scraped.university || "Comsats University, Lahore (BSc Software Engineering)" },
-    contactPoint: [
-      {
-        "@type": "ContactPoint",
-        contactType: "professional",
-        email: "mailto:" + (scraped.email || 'ghulammujtaba1005@gmail.com'),
-        telephone: scraped.phone || '03177107849',
-      },
-    ],
-  };
-
-  const breadcrumbJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [
-      { "@type": "ListItem", position: 1, name: "Home", item: "https://ghulammujtaba.com/" },
-      { "@type": "ListItem", position: 2, name: "About", item: "https://ghulammujtaba.com/about" },
-    ],
-  };
+    cssSelectors: ["#about-hero-title", "#aboutme-heading"],
+  });
 
   const themeClass = theme === "dark" ? dark.page : light.page;
 
   return (
     <div className={`${common.page} ${themeClass}`}>
       <SEO
-        title="About — Ghulam Mujtaba"
-        description="About Ghulam Mujtaba — Full Stack Developer, Data Scientist, and AI Specialist. Experience, skills, and contact information."
+        title="About Ghulam Mujtaba | Full Stack Developer, Data Scientist & AI Specialist"
+        description="Learn about Ghulam Mujtaba — Full Stack Developer, Data Scientist, and AI Specialist with 3+ years of experience. Skills in React, Next.js, Python, ML, and cloud platforms. Available for hire."
         url="https://ghulammujtaba.com/about"
         canonical="https://ghulammujtaba.com/about"
-        jsonLd={[personJsonLd, breadcrumbJsonLd]}
+        image="https://ghulammujtaba.com/images/portfolio-picture.png"
+        imageWidth={1200}
+        imageHeight={630}
+        imageAlt="Ghulam Mujtaba — Full Stack Developer & AI Specialist"
+        author="Ghulam Mujtaba"
+        jsonLd={[
+          aboutPersonSchema,
+          aboutProfilePageSchema,
+          aboutBreadcrumbSchema,
+          aboutFaqSchema,
+          aboutSpeakableSchema,
+        ]}
       />
 
       <Head>
