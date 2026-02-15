@@ -1,239 +1,193 @@
+/* About Page — Dark Theme
+   Brand-consistent: #1d2127 bg, blue accent, flat dark surfaces */
+
 .page {
-  background: linear-gradient(180deg, #0b1020 0%, #0d1525 50%, #0a0f1a 100%);
+  background: #1d2127;
   color: #e5e7eb;
 }
 
-.title {
-  background: linear-gradient(135deg, #f9fafb 0%, #60a5fa 50%, #34d399 100%);
-  background-size: 200% 200%;
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+/* Hero */
+.avatar {
+  box-shadow: 0 0 0 4px rgba(69, 115, 223, 0.18);
 }
 
-.subtitle { 
-  color: #9ca3af; 
+.avatar:hover {
+  box-shadow: 0 0 0 4px rgba(69, 115, 223, 0.3), 0 8px 24px rgba(0, 0, 0, 0.2);
 }
 
-.chip { 
-  background: linear-gradient(135deg, rgba(31, 41, 55, 0.8) 0%, rgba(17, 24, 39, 0.8) 100%); 
-  color: #e5e7eb; 
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+.heroName {
+  color: #f9fafb;
 }
 
-.chip:hover {
-  background: linear-gradient(135deg, rgba(30, 58, 138, 0.5) 0%, rgba(30, 64, 175, 0.4) 100%);
-  border-color: rgba(59, 130, 246, 0.3);
-  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
+.heroAccent {
+  background: #4573df;
 }
 
-.socialLink { 
-  color: #60a5fa; 
-  background: linear-gradient(135deg, rgba(17, 24, 39, 0.8) 0%, rgba(31, 41, 55, 0.6) 100%);
-  border-color: rgba(255, 255, 255, 0.08);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+.heroRole {
+  color: #9ca3af;
 }
 
-.socialLink:hover {
-  background: linear-gradient(135deg, rgba(30, 58, 138, 0.6) 0%, rgba(30, 64, 175, 0.5) 100%);
-  border-color: #3b82f6;
-  color: #93c5fd;
-  box-shadow: 0 8px 20px rgba(59, 130, 246, 0.2);
-}
-
-.card { 
-  background: linear-gradient(135deg, rgba(15, 23, 42, 0.9) 0%, rgba(30, 41, 59, 0.7) 100%); 
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3), 0 1px 3px rgba(0, 0, 0, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-}
-
-.card:hover {
-  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.4), 0 2px 6px rgba(0, 0, 0, 0.3);
-  border-color: rgba(255, 255, 255, 0.1);
-}
-
-.kpiValue { 
-  background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.kpiLabel { 
-  color: #9ca3af; 
-}
-
-.dot { 
-  background: linear-gradient(135deg, #60a5fa, #3b82f6); 
-}
-
-.itemMeta { 
-  color: #9ca3af; 
-}
-
-.skill { 
-  background: linear-gradient(135deg, rgba(31, 41, 55, 0.8) 0%, rgba(17, 24, 39, 0.8) 100%); 
-  border-color: rgba(255, 255, 255, 0.08);
-  color: #e5e7eb;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-}
-
-.skill:hover {
-  background: linear-gradient(135deg, rgba(30, 58, 138, 0.6) 0%, rgba(30, 64, 175, 0.5) 100%);
-  border-color: #3b82f6;
-  box-shadow: 0 8px 20px rgba(59, 130, 246, 0.2);
-}
-
-.button { 
-  background: linear-gradient(135deg, rgba(17, 24, 39, 0.9) 0%, rgba(31, 41, 55, 0.7) 100%); 
-  color: #e5e7eb; 
-  border-color: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-}
-
-.button:hover { 
-  background: linear-gradient(135deg, rgba(30, 58, 138, 0.6) 0%, rgba(30, 64, 175, 0.5) 100%); 
-  border-color: #3b82f6; 
-  color: #93c5fd;
-  box-shadow: 0 8px 20px rgba(59, 130, 246, 0.2);
-}
-
-.missionStatement {
-  background: linear-gradient(135deg, rgba(59, 130, 246, 0.12) 0%, rgba(16, 185, 129, 0.08) 100%);
-  border: 1px solid rgba(59, 130, 246, 0.2);
+.locationPill {
+  background: #2a2f38;
   color: #d1d5db;
-  box-shadow: 0 4px 20px rgba(59, 130, 246, 0.08);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid #374151;
 }
 
-.funFactIcon {
-  color: #34d399;
-  background: linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(16, 185, 129, 0.05) 100%);
-}
-
-.achievementIcon {
-  color: #fbbf24;
-  background: linear-gradient(135deg, rgba(245, 158, 11, 0.15) 0%, rgba(245, 158, 11, 0.05) 100%);
-}
-
-/* Skills Cards */
-.skillCard {
-  background: linear-gradient(135deg, rgba(30, 41, 59, 0.8) 0%, rgba(51, 65, 85, 0.6) 100%);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-}
-
-.skillCard:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 20px 50px rgba(59, 130, 246, 0.15);
-  border-color: rgba(59, 130, 246, 0.3);
-  background: linear-gradient(135deg, rgba(30, 41, 59, 0.9) 0%, rgba(71, 85, 105, 0.7) 100%);
-}
-
-.skillIcon {
-  color: #60a5fa;
-  background: linear-gradient(135deg, rgba(59, 130, 246, 0.2) 0%, rgba(59, 130, 246, 0.08) 100%);
-}
-
-/* Certifications Cards */
-.certCard {
-  background: linear-gradient(135deg, rgba(69, 26, 3, 0.7) 0%, rgba(120, 53, 15, 0.5) 100%);
-  border: 1px solid rgba(245, 158, 11, 0.2);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-}
-
-.certCard:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 16px 40px rgba(245, 158, 11, 0.2);
-  border-color: rgba(245, 158, 11, 0.4);
-  background: linear-gradient(135deg, rgba(69, 26, 3, 0.8) 0%, rgba(146, 64, 14, 0.6) 100%);
-}
-
-.certIcon {
-  color: #fbbf24;
-  background: linear-gradient(135deg, rgba(245, 158, 11, 0.2) 0%, rgba(245, 158, 11, 0.08) 100%);
-}
-
-/* Interests Cards */
-.interestCard {
-  background: linear-gradient(135deg, rgba(5, 46, 22, 0.7) 0%, rgba(20, 83, 45, 0.5) 100%);
+.statusPill {
+  background: rgba(16, 185, 129, 0.1);
+  color: #6ee7b7;
   border: 1px solid rgba(16, 185, 129, 0.2);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
 }
 
-.interestCard:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 16px 40px rgba(16, 185, 129, 0.2);
-  border-color: rgba(16, 185, 129, 0.4);
-  background: linear-gradient(135deg, rgba(5, 46, 22, 0.8) 0%, rgba(22, 101, 52, 0.6) 100%);
+.heroLink {
+  color: #93c5fd;
+  background: #2a2f38;
+  border: 1px solid #374151;
 }
 
-.interestIcon {
-  color: #4ade80;
-  background: linear-gradient(135deg, rgba(16, 185, 129, 0.2) 0%, rgba(16, 185, 129, 0.08) 100%);
+.heroLink:hover {
+  background: rgba(69, 115, 223, 0.15);
+  border-color: #4573df;
+  box-shadow: 0 4px 12px rgba(69, 115, 223, 0.15);
 }
 
-/* Call to Action */
-.ctaCard {
-  background: linear-gradient(135deg, rgba(69,115,223,0.1) 0%, rgba(16, 185, 129, 0.05) 100%);
-  border: 1px solid rgba(69,115,223,0.15);
-  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.3);
+/* Story */
+.sectionTitle {
+  color: #f9fafb;
+}
+
+.storyBody {
+  border-color: #4573df;
+  color: #d1d5db;
+}
+
+/* Expertise Cards */
+.expertiseCard {
+  background: #23272f;
+  border-color: #374151;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+}
+
+.expertiseCard:hover {
+  border-color: rgba(69, 115, 223, 0.4);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+.expertiseIcon {
+  color: #93c5fd;
+  background: rgba(69, 115, 223, 0.12);
+}
+
+.expertiseDesc {
+  color: #9ca3af;
+}
+
+/* Timeline */
+.timelineEntry + .timelineEntry {
+  border-color: #2a2f38;
+}
+
+.timelineDot {
+  background: rgba(69, 115, 223, 0.12);
+  color: #93c5fd;
+}
+
+.timelineMeta {
+  color: #9ca3af;
+}
+
+.timelineDesc {
+  color: #d1d5db;
+}
+
+/* Stat Strip */
+.statStrip {
+  background: #23272f;
+  border: 1px solid #374151;
+}
+
+.statValue {
+  color: #93c5fd;
+}
+
+.statLabel {
+  color: #9ca3af;
+}
+
+.statDivider {
+  background: #374151;
+}
+
+/* Tech Stack — removed (already on home page) */
+
+/* Certifications — removed (already on home page) */
+
+/* Ventures */
+.ventureCard {
+  background: #23272f;
+  border-color: #374151;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
   color: #e5e7eb;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+}
+
+.ventureCard:hover {
+  border-color: rgba(69, 115, 223, 0.4);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+.ventureIcon {
+  color: #93c5fd;
+  background: rgba(69, 115, 223, 0.12);
+}
+
+.ventureRole {
+  color: #93c5fd;
+}
+
+.ventureDesc {
+  color: #9ca3af;
+}
+
+.ventureLink {
+  color: #93c5fd;
+}
+
+/* Interests — removed (redundant) */
+
+/* CTA */
+.ctaSection {
+  background: #23272f;
+  border: 1px solid #374151;
+}
+
+.ctaTitle {
+  color: #f9fafb;
+}
+
+.ctaDesc {
+  color: #9ca3af;
 }
 
 .ctaPrimary {
-  background: linear-gradient(135deg, #4573df 0%, #3b82f6 100%);
+  background: #4573df;
   color: #ffffff;
-  border: 2px solid transparent;
-  box-shadow: 0 4px 16px rgba(69, 115, 223, 0.3);
+  border-color: transparent;
+  box-shadow: 0 2px 8px rgba(69, 115, 223, 0.25);
 }
 
 .ctaPrimary:hover {
-  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
-  transform: translateY(-3px);
-  box-shadow: 0 12px 32px rgba(69, 115, 223, 0.4);
-}
-
-.ctaPrimary:focus {
-  outline: none;
-  box-shadow: 0 0 0 4px rgba(69,115,223,0.25), 0 4px 16px rgba(69, 115, 223, 0.3);
+  background: #3b5fc7;
+  box-shadow: 0 6px 20px rgba(69, 115, 223, 0.3);
 }
 
 .ctaSecondary {
-  background: rgba(255, 255, 255, 0.05);
-  color: #9fbff5;
-  border: 2px solid rgba(69,115,223,0.2);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  background: transparent;
+  color: #93c5fd;
+  border-color: #374151;
 }
 
 .ctaSecondary:hover {
-  background: rgba(69,115,223,0.15);
   border-color: #4573df;
-  transform: translateY(-3px);
-  color: #bfdbfe;
-  box-shadow: 0 8px 24px rgba(69, 115, 223, 0.2);
-}
-
-.ctaSecondary:focus {
-  outline: none;
-  box-shadow: 0 0 0 4px rgba(69,115,223,0.2);
+  background: rgba(69, 115, 223, 0.08);
+  box-shadow: 0 4px 12px rgba(69, 115, 223, 0.12);
 }

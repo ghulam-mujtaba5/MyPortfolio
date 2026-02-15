@@ -17,55 +17,7 @@
     opacity: 0;
 }
 
-/* Light theme header */
-.headerLight {
-    background-color: #f8fafc;
-    border-color: #e2e8f0;
-    color: #1f2937;
-}
-
-.headerLight .homeText,
-.headerLight .aboutText,
-.headerLight .skillsText,
-.headerLight .resumeText,
-.headerLight .projectText,
-.headerLight .contactText {
-    color: #1f2937;
-}
-
-.headerLight .home:hover,
-.headerLight .about:hover,
-.headerLight .skills:hover,
-.headerLight .resume:hover,
-.headerLight .project:hover,
-.headerLight .contact:hover {
-    background-color: #4573df;
-    color: #fff;
-}
-
-.headerLight .home:hover .homeText,
-.headerLight .about:hover .aboutText,
-.headerLight .resume:hover .resumeText,
-.headerLight .project:hover .projectText,
-.headerLight .contact:hover .contactText {
-    color: #fff;
-}
-
-/* Light theme logo styling */
-.headerLight .logo {
-    background: linear-gradient(135deg, #f5f7fa 60%, #c3cfe2 100%);
-    border-color: rgba(0, 0, 0, 0.1);
-    box-shadow: 0 2px 12px rgba(180, 200, 255, 0.13);
-}
-
-.headerLight .logoHover {
-    background: linear-gradient(135deg, #e8ecf2 60%, #b8c6db 100%);
-    border-color: rgba(69, 115, 223, 0.4);
-    box-shadow:
-        0 0 8px rgba(69, 115, 223, 0.3),
-        0 0 12px rgba(69, 115, 223, 0.2),
-        0 6px 24px rgba(0, 0, 0, 0.15);
-}
+/* Light theme header — moved after .header for correct cascade (see below) */
 
 /* Navigation item animations */
 .navItem {
@@ -447,7 +399,7 @@
     flex: 1;
     border-radius: 50px;
     background-color: #1d2127;
-    border: 1px solid #fff;
+    border: 1px solid rgba(255, 255, 255, 0.12);
     box-sizing: border-box;
     justify-content: space-between;
     padding: 0 10px;
@@ -460,6 +412,60 @@
     color: #fff;
     font-family: "Open Sans", sans-serif;
     margin: 0 20px;
+}
+
+/* =====================================================
+   LIGHT THEME — must come AFTER .header for cascade
+   ===================================================== */
+
+.header.headerLight {
+    background-color: #f8fafc;
+    border: 1px solid #e2e8f0;
+    color: #1f2937;
+}
+
+.header.headerLight .homeText,
+.header.headerLight .aboutText,
+.header.headerLight .skillsText,
+.header.headerLight .resumeText,
+.header.headerLight .projectText,
+.header.headerLight .contactText {
+    color: #1f2937;
+}
+
+.header.headerLight .home:hover,
+.header.headerLight .about:hover,
+.header.headerLight .skills:hover,
+.header.headerLight .resume:hover,
+.header.headerLight .project:hover,
+.header.headerLight .contact:hover {
+    background-color: #4573df;
+    color: #fff;
+}
+
+.header.headerLight .home:hover .homeText,
+.header.headerLight .about:hover .aboutText,
+.header.headerLight .skills:hover .skillsText,
+.header.headerLight .resume:hover .resumeText,
+.header.headerLight .project:hover .projectText,
+.header.headerLight .contact:hover .contactText {
+    color: #fff;
+}
+
+/* Light theme logo styling */
+.header.headerLight .logo {
+    background: linear-gradient(135deg, #f5f7fa 60%, #c3cfe2 100%);
+    border-color: rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 12px rgba(180, 200, 255, 0.13);
+}
+
+.header.headerLight .logoHover {
+    background: linear-gradient(135deg, #e8ecf2 60%, #b8c6db 100%);
+    border-color: rgba(69, 115, 223, 0.4);
+    box-shadow:
+        0 0 8px rgba(69, 115, 223, 0.3),
+        0 0 12px rgba(69, 115, 223, 0.2),
+        0 6px 24px rgba(0, 0, 0, 0.15);
 }
 
 .leftNavigation,
