@@ -39,9 +39,10 @@ export default function SearchPage({ q, page, limit, articleResults, projectResu
         description={q ? `Results for "${q}" across articles and projects.` : "Search projects and articles on Ghulam Mujtaba's portfolio."}
         canonical={canonical}
         jsonLd={jsonLd}
+        noindex={true}
       />
       <Head>
-        <meta name="robots" content="index,follow" />
+        <meta name="robots" content="noindex, follow" />
       </Head>
       <div className={`${styles.searchPage} ${themeClass}`} style={{ backgroundColor: theme === "dark" ? "#1d2127" : "#ffffff" }}>
         <a href="#main-content" className="skip-link">Skip to main content</a>

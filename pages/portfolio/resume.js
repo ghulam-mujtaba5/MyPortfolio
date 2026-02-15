@@ -34,6 +34,12 @@ const ResumePage = ({ resume }) => {
                 'https://www.linkedin.com/in/ghulamujtabaofficial',
                 'https://www.instagram.com/ghulamujtabaofficial/',
                 'https://github.com/ghulam-mujtaba5',
+                'https://stackoverflow.com/users/27756536',
+                'https://dev.to/ghulam-mujtaba',
+                'https://medium.com/@ghulam-mujtaba',
+                'https://kaggle.com/ghulamujtaba',
+                'https://leetcode.com/u/ghulam-mujtaba',
+                'https://linktr.ee/ghulam__mujtaba',
               ],
               jobTitle:
                 'Software Engineer, Full Stack Developer, Data Scientist, AI Specialist',

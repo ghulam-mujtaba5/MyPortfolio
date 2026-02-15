@@ -3,6 +3,8 @@ User-agent: *
 Allow: /
 Disallow: /admin/
 Disallow: /api/
+Disallow: /portfolio/
+Disallow: /search
 
 # Sitemaps
 Sitemap: https://ghulammujtaba.com/sitemap.xml

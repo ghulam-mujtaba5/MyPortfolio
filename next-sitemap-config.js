@@ -12,12 +12,16 @@ module.exports = {
     "/api/*",
     "/sitemap.xml",
     "/sitemap-dynamic.xml",
+    "/search",
+    "/404",
+    "/portfolio",
+    "/portfolio/*",
   ],
   // Optional robots rules if next-sitemap generates robots.txt
   robotsTxtOptions: {
     policies: [
       { userAgent: "*", allow: "/" },
-      { userAgent: "*", disallow: ["/admin/", "/api/"] },
+      { userAgent: "*", disallow: ["/admin/", "/api/", "/portfolio/", "/search"] },
     ],
   },
   // Programmatically include dynamic routes for Articles and Projects

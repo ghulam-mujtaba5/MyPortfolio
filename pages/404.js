@@ -2,6 +2,7 @@ import { useTheme } from "../context/ThemeContext";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
+import Head from "next/head";
 import styles from "./404.module.css";
 
 export default function Custom404() {
@@ -9,6 +10,9 @@ export default function Custom404() {
 
   return (
     <div className={styles.wrapper} data-theme={theme}>
+      <Head>
+        <meta name="robots" content="noindex, nofollow" />
+      </Head>
       <motion.div
         className={styles.logoContainer}
         initial={{ scale: 0.7, opacity: 0 }}

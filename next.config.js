@@ -62,20 +62,17 @@ const nextConfig = {
   async rewrites() {
     return [
       {
-        source: "/:path((?!api/|admin/|articles/|projects/|_next/|static/).*)", // Exclude API, admin, articles, projects, and Next internals
-        destination: "/portfolio/:path*", // Redirect to the portfolio folder for localhost
+        source: "/:path((?!api/|admin/|articles/|projects/|portfolio/|_next/|static/).*)",
+        destination: "/portfolio/:path*",
         has: [
           {
             type: "host",
-            value: "www.ghulammujtaba.com", // Main website on localhost
+            value: "www.ghulammujtaba.com",
           },
         ],
       },
-      // Fallback for preview deployments or any other domain for preview of vercel
       {
-        // IMPORTANT: exclude admin (and Next.js internals) from being rewritten to portfolio
-        // so that /admin/... pages (like edit pages) resolve correctly
-        source: "/:path((?!api/|admin/|articles/|projects/|_next/|static/).*)",
+        source: "/:path((?!api/|admin/|articles/|projects/|portfolio/|_next/|static/).*)",
         destination: "/portfolio/:path*",
       },
     ];
@@ -85,6 +82,17 @@ const nextConfig = {
 
   async redirects() {
     return [
+      // Consolidate /portfolio to / — prevents duplicate content
+      {
+        source: "/portfolio",
+        destination: "/",
+        permanent: true,
+      },
+      {
+        source: "/portfolio/:path*",
+        destination: "/:path*",
+        permanent: true,
+      },
       {
         source: "/blog",
         destination: "/articles",
