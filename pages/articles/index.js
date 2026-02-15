@@ -3,6 +3,7 @@ import SEO, {
   collectionPageSchema,
   breadcrumbSchema,
 } from "../../components/SEO";
+import { MAIN_SECTIONS } from "../../constants/navigation";
 import NavBarDesktop from "../../components/NavBar_Desktop/nav-bar";
 import NavBarMobile from "../../components/NavBar_Mobile/NavBar-mobile";
 import Footer from "../../components/Footer/Footer";
@@ -226,14 +227,7 @@ export default function ArticlesPage({
   };
   // Data comes from SSR. Client transitions trigger full SSR navigations above.
 
-  const sections = [
-    { label: "Home", route: "/#home-section" },
-    { label: "About", route: "/#about-section" },
-    { label: "Resume", route: "/resume" },
-    { label: "Projects", route: "/projects" },
-    { label: "Articles", route: "/articles" },
-    { label: "Contact", route: "/#contact-section" },
-  ];
+  const sections = MAIN_SECTIONS;
 
   return (
     <>

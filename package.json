@@ -6,7 +6,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "postbuild": "next-sitemap --config next-sitemap-config.js",
+    "postbuild": "node scripts/generate-sitemap-paths.js && next-sitemap --config next-sitemap-config.js",
     "test": "jest",
     "test:watch": "jest --watch"
   },

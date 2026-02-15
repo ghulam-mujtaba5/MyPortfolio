@@ -241,8 +241,8 @@ function MyApp({ Component, pageProps, session }) {
         />
       </Head>
 
-      {/* Google Analytics - Production only with cookie consent */}
-      {process.env.NODE_ENV === "production" && cookiesAccepted && (
+      {/* Google Analytics - Production only with Consent Mode */}
+      {process.env.NODE_ENV === "production" && (
         <>
           <Script
             id="google-analytics"
@@ -253,9 +253,14 @@ function MyApp({ Component, pageProps, session }) {
             {`
               window.dataLayer = window.dataLayer || [];
               function gtag(){dataLayer.push(arguments);}
+              gtag('consent', 'default', {
+                analytics_storage: '${cookiesAccepted ? "granted" : "denied"}',
+                ad_storage: 'denied',
+              });
               gtag('js', new Date());
               gtag('config', '${gtag.GA_TRACKING_ID}', {
                 page_path: window.location.pathname,
+                anonymize_ip: true,
                 cookie_domain: 'ghulammujtaba.com',
                 cookie_flags: 'SameSite=None; Secure'
               });

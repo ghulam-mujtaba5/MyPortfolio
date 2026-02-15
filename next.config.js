@@ -1,7 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true, // Enable React Strict Mode
-  productionBrowserSourceMaps: true, // Enable production source maps for better debugging
   // Next.js 16: Turbopack is enabled by default. Since this project also customizes webpack,
   // provide an explicit Turbopack config to avoid build errors about mixed configurations.
   turbopack: {},
@@ -84,12 +83,22 @@ const nextConfig = {
 
   // Removed custom www to non-www redirect. Vercel will handle this automatically.
 
-  webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
-    // Important: Add support for source maps
-    if (!isServer) {
-      config.devtool = "source-map";
-    }
+  async redirects() {
+    return [
+      {
+        source: "/blog",
+        destination: "/articles",
+        permanent: true,
+      },
+      {
+        source: "/blog/:slug",
+        destination: "/articles/:slug",
+        permanent: true,
+      },
+    ];
+  },
 
+  webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
     // Example: Add any additional webpack plugins or loaders
     // config.plugins.push(new webpack.IgnorePlugin(/\/__tests__\//));
 
@@ -97,6 +106,23 @@ const nextConfig = {
   },
   async headers() {
     return [
+      // Cache public pages (exclude admin and API)
+      {
+        source: "/((?!admin|api).*)",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, s-maxage=3600, stale-while-revalidate=86400",
+          },
+        ],
+      },
+      // Prevent search engines from indexing API routes
+      {
+        source: "/api/:path*",
+        headers: [
+          { key: "X-Robots-Tag", value: "noindex, nofollow" },
+        ],
+      },
       {
         source: "/admin/:path*",
         headers: [

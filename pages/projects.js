@@ -15,6 +15,7 @@ import NavBar from "../components/NavBar_Desktop/nav-bar";
 import NavBarMobile from "../components/NavBar_Mobile/NavBar-mobile";
 
 import Footer from "../components/Footer/Footer";
+import { MAIN_SECTIONS } from "../constants/navigation";
 
 // Dynamically import Project1 to avoid SSR issues with next/image
 import Project1 from "../components/Projects/Project1";
@@ -30,15 +31,8 @@ const TAGS = [
   "Others",
 ];
 
-// Sections for NavBarMobile navigation
-const sections = [
-  { route: "/#home-section", label: "Home" },
-  { route: "/#about-section", label: "About" },
-  { route: "/resume", label: "Resume" },
-  { route: "/projects", label: "Projects" },
-  { route: "/articles", label: "Articles" },
-  { route: "/#contact-section", label: "Contact" },
-];
+// Use shared navigation sections
+const sections = MAIN_SECTIONS;
 
 import Link from "next/link";
 import Spinner from "../components/Spinner/Spinner";
@@ -47,7 +41,7 @@ import ScrollReveal from "../components/AnimatedUI/ScrollReveal";
 const ProjectsPage = ({ projects = [], projectsError = null }) => {
   const { theme } = useTheme();
   const [selectedTag, setSelectedTag] = useState("All");
-  // Since this page uses SSR via getServerSideProps, default to not loading and no error.
+  // Since this page uses ISR via getStaticProps, default to not loading and no error.
   const [loading] = useState(false);
   const [error] = useState(null);
 
@@ -676,7 +670,7 @@ const ProjectsPage = ({ projects = [], projectsError = null }) => {
   );
 };
 
-export async function getServerSideProps() {
+export async function getStaticProps() {
   try {
     await dbConnect();
 
@@ -762,16 +756,18 @@ export async function getServerSideProps() {
         projects: JSON.parse(JSON.stringify(normalized)),
         projectsError: parsed.success ? null : "invalid_data",
       },
+      revalidate: 3600, // Regenerate every hour
     };
   } catch (err) {
     // eslint-disable-next-line no-console
-    console.error("getServerSideProps projects error:", err?.message || err);
+    console.error("getStaticProps projects error:", err?.message || err);
     // Return empty projects so the client-side fallback fetch can take over
     return {
       props: {
         projects: [],
         projectsError: err?.message || "ssr_failed",
       },
+      revalidate: 60, // Retry sooner on error
     };
   }
 }

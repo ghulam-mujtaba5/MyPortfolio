@@ -34,20 +34,14 @@ import SEO, {
   speakableSchema,
   faqSchema,
 } from "../../components/SEO";
+import { MAIN_SECTIONS } from "../../constants/navigation";
 
 import { useEffect, useState } from "react";
 
 const Home = ({ previewProjects = [], previewArticles = [] }) => {
   const { theme } = useTheme();
 
-  const sections = [
-    { id: "home-section", label: "Home" },
-    { id: "about-section", label: "About" },
-    { route: "/resume", label: "Resume" },
-    { route: "/projects", label: "Projects" },
-    { route: "/articles", label: "Articles" },
-    { id: "contact-section", label: "Contact" },
-  ];
+  const sections = MAIN_SECTIONS;
 
   // Build comprehensive JSON-LD schemas for the homepage
   const homeJsonLd = [
@@ -105,7 +99,7 @@ const Home = ({ previewProjects = [], previewArticles = [] }) => {
         image="https://ghulammujtaba.com/og-image.png"
         imageAlt="Ghulam Mujtaba — Full Stack Developer, Data Scientist & AI Specialist Portfolio"
         type="website"
-        canonical="https://ghulammujtaba.com/"
+        canonical="https://ghulammujtaba.com"
         keywords="Ghulam Mujtaba, Portfolio, Full Stack Developer, Data Scientist, AI Specialist, Software Engineer, React, Next.js, Python, Machine Learning, Lahore Pakistan"
         jsonLd={homeJsonLd}
       />
@@ -319,7 +313,7 @@ import dbConnect from "../../lib/mongoose";
 import Project from "../../models/Project";
 import Article from "../../models/Article";
 
-export async function getServerSideProps() {
+export async function getStaticProps() {
   try {
     await dbConnect();
     let docs = await Project.find({ published: true, featuredOnHome: true })
@@ -353,8 +347,12 @@ export async function getServerSideProps() {
         previewProjects: JSON.parse(JSON.stringify(docs)),
         previewArticles: JSON.parse(JSON.stringify(art)),
       },
+      revalidate: 3600, // Regenerate every hour
     };
   } catch (e) {
-    return { props: { previewProjects: [], previewArticles: [] } };
+    return {
+      props: { previewProjects: [], previewArticles: [] },
+      revalidate: 60, // Retry sooner on error
+    };
   }
 }

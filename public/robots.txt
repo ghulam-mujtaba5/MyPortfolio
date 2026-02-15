@@ -7,3 +7,6 @@ Disallow: /api/
 # Sitemaps
 Sitemap: https://ghulammujtaba.com/sitemap.xml
 
+# RSS Feed
+# https://ghulammujtaba.com/feed.xml
+

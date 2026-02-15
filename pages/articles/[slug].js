@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import Head from "next/head";
 import dynamic from "next/dynamic";
+import { MAIN_SECTIONS } from "../../constants/navigation";
 
 import { useTheme } from "../../context/ThemeContext";
 import dbConnect from "../../lib/mongoose";
 import Article from "../../models/Article";
-import DailyStat from "../../models/DailyStat";
 import PreviewBanner from "../../components/Admin/PreviewBanner/PreviewBanner";
 import ArticleDetail from "../../components/Articles/ArticleDetail";
 import SEO, {
@@ -50,14 +50,18 @@ export default function ArticleDetailPage({ article, relatedArticles = [], previ
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
-  const sections = [
-    { label: "Home", route: "/#home-section" },
-    { label: "About", route: "/#about-section" },
-    { label: "Resume", route: "/resume" },
-    { label: "Projects", route: "/projects" },
-    { label: "Articles", route: "/articles" },
-    { label: "Contact", route: "/#contact-section" },
-  ];
+  // Client-side view tracking (moved from getServerSideProps for ISR compatibility)
+  useEffect(() => {
+    if (article?.slug && !preview) {
+      fetch("/api/track-view", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ slug: article.slug, type: "article" }),
+      }).catch(() => {}); // fire-and-forget
+    }
+  }, [article?.slug, preview]);
+
+  const sections = MAIN_SECTIONS;
 
   if (!article) {
     return (
@@ -131,7 +135,16 @@ export default function ArticleDetailPage({ article, relatedArticles = [], previ
   );
 }
 
-export async function getServerSideProps(context) {
+export async function getStaticPaths() {
+  await dbConnect();
+  const articles = await Article.find({ published: true }, { slug: 1 }).lean();
+  return {
+    paths: articles.map((a) => ({ params: { slug: a.slug } })),
+    fallback: "blocking", // New slugs render on-demand then cache
+  };
+}
+
+export async function getStaticProps(context) {
   const { params, preview = false, previewData } = context;
   await dbConnect();
 
@@ -163,21 +176,8 @@ export async function getServerSideProps(context) {
   .select('title slug coverImage excerpt description readingTime tags')
   .lean();
 
-  // Track view only for published, non-preview pages
-  if (!preview) {
-    const today = new Date();
-    today.setUTCHours(0, 0, 0, 0); // normalize to UTC date-only for unique-per-day
-    try {
-      await DailyStat.updateOne(
-        { date: today },
-        { $inc: { articleViews: 1 } },
-        { upsert: true },
-      );
-    } catch (e) {
-      // Do not block rendering if analytics write fails
-      console.error("DailyStat update failed", e?.message || e);
-    }
-  }
+  // NOTE: View tracking moved to client-side useEffect (hits /api/track-view)
+  // getStaticProps cannot do per-request operations.
 
   return {
     props: {
@@ -185,5 +185,6 @@ export async function getServerSideProps(context) {
       relatedArticles: JSON.parse(JSON.stringify(relatedArticles)),
       preview,
     },
+    revalidate: 1800, // Re-generate every 30 minutes
   };
 }

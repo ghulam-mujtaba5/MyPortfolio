@@ -29,8 +29,8 @@ export default function SEO({
   keywords = "Ghulam Mujtaba, Portfolio, Full Stack Developer, Data Scientist, AI, Projects, Resume",
   author = "Ghulam Mujtaba",
   locale = "en_US",
-  twitterSite = "@gabormujtaba",
-  twitterCreator = "@gabormujtaba",
+  twitterSite = "@ghulammujtaba",
+  twitterCreator = "@ghulammujtaba",
   robots = "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1",
   noindex = false,
   publishedTime,
@@ -95,6 +95,8 @@ export default function SEO({
 
       {/* ═══════════ Canonical ═══════════ */}
       {canonical && <link rel="canonical" href={canonical} />}
+      <link rel="alternate" type="application/rss+xml" title="Ghulam Mujtaba Articles" href="https://ghulammujtaba.com/feed.xml" />
+      <link rel="alternate" href="https://www.ghulammujtaba.com" />
 
       {/* ═══════════ Alternate — hreflang ═══════════ */}
       <link rel="alternate" hrefLang="en" href={canonical || url} />

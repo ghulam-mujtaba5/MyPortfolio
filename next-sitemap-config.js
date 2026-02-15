@@ -1,5 +1,3 @@
-const isCI = process.env.VERCEL === "1" || String(process.env.CI).toLowerCase() === "true";
-
 module.exports = {
   siteUrl: "https://ghulammujtaba.com", // Main site URL (HTTPS)
   generateRobotsTxt: false, // Use manual public/robots.txt; do not overwrite
@@ -25,10 +23,27 @@ module.exports = {
   // Programmatically include dynamic routes for Articles and Projects
   // so Google sees all canonical URLs in sitemap.xml
   additionalPaths: async (config) => {
-    // On CI/Vercel, skip DB calls to prevent build slowness/timeouts.
-    if (isCI) {
-      return [];
+    // Strategy 1: Try reading pre-generated paths from build script
+    try {
+      const fs = require("fs");
+      const pathsFile = require("path").join(__dirname, "sitemap-paths.json");
+      if (fs.existsSync(pathsFile)) {
+        const paths = JSON.parse(fs.readFileSync(pathsFile, "utf-8"));
+        if (paths.length > 0) {
+          console.log(`Sitemap: loaded ${paths.length} paths from sitemap-paths.json`);
+          return paths.map((p) => ({
+            loc: `${config.siteUrl}${p.loc}`,
+            changefreq: p.changefreq,
+            priority: p.priority,
+            lastmod: p.lastmod ? new Date(p.lastmod).toISOString() : undefined,
+          }));
+        }
+      }
+    } catch (_) {
+      // Fall through to DB strategy
     }
+
+    // Strategy 2: Direct DB call (works locally, may not work on CI)
     try {
       // Use dynamic import to work with ESM modules from a CJS config
       const { default: dbConnect } = await import("./lib/mongoose.js");
