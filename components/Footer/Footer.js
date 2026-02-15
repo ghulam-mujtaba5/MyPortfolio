@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from "react";
+import React, { useMemo } from "react";
 import Image from "next/image";
 import { useTheme } from "../../context/ThemeContext";
 import commonStyles from "./FooterCommon.module.css"; // Import common styles
@@ -18,18 +18,6 @@ const Footer = ({
     [theme],
   );
 
-  const onLinkedinIconClick = useCallback(() => {
-    window.open(linkedinUrl, "_blank", "noopener,noreferrer");
-  }, [linkedinUrl]);
-
-  const onInstagramIconClick = useCallback(() => {
-    window.open(instagramUrl, "_blank", "noopener,noreferrer");
-  }, [instagramUrl]);
-
-  const onGithubIconClick = useCallback(() => {
-    window.open(githubUrl, "_blank", "noopener,noreferrer");
-  }, [githubUrl]);
-
   return (
     <footer className={`${commonStyles.footer} ${themeStyles.footer}`}>
       {/* full-bleed background sits behind the centered frame */}
@@ -46,42 +34,36 @@ const Footer = ({
           loading="lazy"
         />
         <p className={commonStyles.copyrightLabel}>{copyrightText}</p>
-        <Image
-          className={commonStyles.linkedinIcon}
-          alt="LinkedIn"
-          src={theme === "dark" ? "/LinkedinDark.svg" : "/linkedin-icon.svg"}
-          width={24}
-          height={24}
-          loading="lazy"
-          onClick={onLinkedinIconClick}
-          role="button"
-          aria-label="LinkedIn"
-          style={{ cursor: "pointer" }}
-        />
-        <Image
-          className={commonStyles.instagramIcon}
-          alt="Instagram"
-          src={theme === "dark" ? "/InstagramDark.svg" : "/Instagram-icon.svg"}
-          width={24}
-          height={24}
-          loading="lazy"
-          onClick={onInstagramIconClick}
-          role="button"
-          aria-label="Instagram"
-          style={{ cursor: "pointer" }}
-        />
-        <Image
-          className={commonStyles.githubIcon}
-          alt="GitHub"
-          src={theme === "dark" ? "/GithubDark.svg" : "/github_icon.svg"}
-          width={24}
-          height={24}
-          loading="lazy"
-          onClick={onGithubIconClick}
-          role="button"
-          aria-label="GitHub"
-          style={{ cursor: "pointer" }}
-        />
+        <a href={linkedinUrl} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className={`${commonStyles.socialLink} ${commonStyles.linkedinPos}`}>
+          <Image
+            className={commonStyles.linkedinIcon}
+            alt=""
+            src={theme === "dark" ? "/LinkedinDark.svg" : "/linkedin-icon.svg"}
+            width={24}
+            height={24}
+            loading="lazy"
+          />
+        </a>
+        <a href={instagramUrl} target="_blank" rel="noopener noreferrer" aria-label="Instagram" className={`${commonStyles.socialLink} ${commonStyles.instagramPos}`}>
+          <Image
+            className={commonStyles.instagramIcon}
+            alt=""
+            src={theme === "dark" ? "/InstagramDark.svg" : "/Instagram-icon.svg"}
+            width={24}
+            height={24}
+            loading="lazy"
+          />
+        </a>
+        <a href={githubUrl} target="_blank" rel="noopener noreferrer" aria-label="GitHub" className={`${commonStyles.socialLink} ${commonStyles.githubPos}`}>
+          <Image
+            className={commonStyles.githubIcon}
+            alt=""
+            src={theme === "dark" ? "/GithubDark.svg" : "/github_icon.svg"}
+            width={24}
+            height={24}
+            loading="lazy"
+          />
+        </a>
       </div>
     </footer>
   );

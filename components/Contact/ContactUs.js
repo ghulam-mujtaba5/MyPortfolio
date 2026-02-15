@@ -25,15 +25,6 @@ const ContactSection = ({
   plexusIntensity = 1,
   plexusHoverBoost = true,
 }) => {
-  // Handler for email click
-  const handleEmailClick = useCallback(() => {
-    window.location.href = `mailto:${email}`;
-  }, [email]);
-
-  // Handler for phone click
-  const handlePhoneClick = useCallback(() => {
-    window.location.href = `tel:${phoneNumber.replace(/\s+/g, "")}`;
-  }, [phoneNumber]);
   const [name, setName] = useState("");
   const [emailInput, setEmailInput] = useState("");
   const [message, setMessage] = useState("");
@@ -45,7 +36,7 @@ const ContactSection = ({
     email: true,
     message: true,
   });
-  const { theme, toggleTheme } = useTheme();
+  const { theme } = useTheme();
 
   const formRef = useRef(null);
   const parallaxRef = useRef(null);
@@ -104,24 +95,22 @@ const ContactSection = ({
 
     try {
       const result = await emailjs.send(
-        "service_ewji0vl",
-        "template_3kv9gje",
+        process.env.NEXT_PUBLIC_EMAILJS_SERVICE || "service_ewji0vl",
+        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE || "template_3kv9gje",
         {
           user_name: name,
           user_email: emailInput,
           message: message,
         },
-        "LFm2JfW5ThGTsvKYr",
+        process.env.NEXT_PUBLIC_EMAILJS_KEY || "LFm2JfW5ThGTsvKYr",
       );
 
-      console.log("Email sent!", result);
       setResponse("Message sent successfully!");
       setName("");
       setEmailInput("");
       setMessage("");
       setError(null);
     } catch (error) {
-      console.error("Error sending email:", error);
       setError("Failed to send message.");
       setResponse(null);
     } finally {
@@ -161,10 +150,6 @@ const ContactSection = ({
       validateMessage,
     ],
   );
-
-  const handleDarkModeButtonClick = useCallback(() => {
-    toggleTheme();
-  }, [toggleTheme]);
 
   const themeStyles = useMemo(
     () => (theme === "light" ? lightStyles : darkStyles),
@@ -300,34 +285,24 @@ const ContactSection = ({
       <div
         className={`${commonStyles.contactDetails} ${themeStyles.contactDetails}`}
       >
-        <p
+        <a
+          href={`mailto:${email}`}
           className={`${commonStyles.contactEmail} ${themeStyles.contactEmail}`}
-          style={{ cursor: "pointer" }}
-          onClick={handleEmailClick}
           title="Click to email"
-          tabIndex={0}
-          role="button"
           aria-label={`Email ${email}`}
-          onKeyDown={(e) => {
-            if (e.key === "Enter" || e.key === " ") handleEmailClick();
-          }}
+          style={{ textDecoration: 'none', color: 'inherit' }}
         >
           {email}
-        </p>
-        <div
+        </a>
+        <a
+          href={`tel:${phoneNumber.replace(/\s+/g, "")}`}
           className={`${commonStyles.contactPhoneNo} ${themeStyles.contactPhoneNo}`}
-          style={{ cursor: "pointer" }}
-          onClick={handlePhoneClick}
           title="Click to call"
-          tabIndex={0}
-          role="button"
           aria-label={`Call ${phoneNumber}`}
-          onKeyPress={(e) => {
-            if (e.key === "Enter" || e.key === " ") handlePhoneClick();
-          }}
+          style={{ textDecoration: 'none', color: 'inherit' }}
         >
           {phoneNumber}
-        </div>
+        </a>
         <h2
           className={`${commonStyles.contactMeDescription} ${themeStyles.contactMeDescription}`}
         >
@@ -345,36 +320,18 @@ const ContactSection = ({
         </div>
         <img
           className={`${commonStyles.emailIcon} ${themeStyles.emailIcon}`}
-          alt="Email"
+          alt=""
+          aria-hidden="true"
           src={theme === "light" ? "email icon.svg" : "EmailDark.svg"}
           loading="lazy"
         />
         <img
           className={`${commonStyles.phoneIcon} ${themeStyles.phoneIcon}`}
-          alt="Phone"
+          alt=""
+          aria-hidden="true"
           src={theme === "light" ? "phone-icon.svg" : "PhoneDark.svg"}
           loading="lazy"
         />
-        <button
-          className={`${commonStyles.darkModeButton} ${themeStyles.darkModeButton}`}
-          onClick={handleDarkModeButtonClick}
-          aria-label={`Switch to ${theme === "light" ? "dark" : "light"} mode`}
-        >
-          <div
-            className={`${commonStyles.darkModeButtonBorder} ${themeStyles.darkModeButtonBorder}`}
-          />
-          <div
-            className={`${commonStyles.buttonState1} ${themeStyles.buttonState}`}
-          />
-          <div
-            className={`${commonStyles.buttonState} ${themeStyles.buttonState1}`}
-          />
-          <b
-            className={`${commonStyles.darkModeLabel} ${themeStyles.darkModeLabel}`}
-          >
-            {theme === "light" ? "Light Mode" : "Dark Mode"}
-          </b>
-        </button>
       </div>
     </section>
   );

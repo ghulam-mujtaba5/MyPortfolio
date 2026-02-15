@@ -18,6 +18,7 @@ const NavBar = ({ sections }) => {
     (sectionOrRoute) => {
       if (sectionOrRoute.startsWith("/")) {
         // If the sectionOrRoute starts with '/', treat it as a route
+        setIsMenuOpen(false);
         router.push(sectionOrRoute);
       } else {
         // Otherwise, treat it as a section ID
@@ -71,8 +72,8 @@ const NavBar = ({ sections }) => {
                 onClick={() => handleScrollOrRoute(section.id || section.route)}
                 role="menuitem"
                 tabIndex={0}
-                onKeyPress={(e) => {
-                  if (e.key === "Enter")
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ")
                     handleScrollOrRoute(section.id || section.route);
                 }}
               >

@@ -1,16 +1,24 @@
 import Head from "next/head";
 import Link from "next/link";
 import SEO from "../components/SEO";
+import NavBarDesktop from "../components/NavBar_Desktop/nav-bar";
+import NavBarMobile from "../components/NavBar_Mobile/NavBar-mobile";
+import Footer from "../components/Footer/Footer";
+import { useTheme } from "../context/ThemeContext";
+import { MAIN_SECTIONS } from "../constants/navigation";
 import dbConnect from "../lib/mongoose";
 import Article from "../models/Article";
 import Project from "../models/Project";
 import ScrollReveal from "../components/AnimatedUI/ScrollReveal";
+import styles from "../styles/Search.module.css";
 
 const clamp = (n, min, max) => Math.max(min, Math.min(max, n));
 
 export default function SearchPage({ q, page, limit, articleResults, projectResults, totalArticles, totalProjects }) {
+  const { theme } = useTheme();
   const total = (totalArticles || 0) + (totalProjects || 0);
   const canonical = `https://ghulammujtaba.com/search${q ? `?q=${encodeURIComponent(q)}` : ""}`;
+  const themeClass = theme === "dark" ? styles.darkTheme : styles.lightTheme;
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -35,83 +43,90 @@ export default function SearchPage({ q, page, limit, articleResults, projectResu
       <Head>
         <meta name="robots" content="index,follow" />
       </Head>
-      <main style={{ maxWidth: 960, margin: "40px auto", padding: "0 16px" }}>
-        <h1 style={{ marginBottom: 12 }}>Search</h1>
-        <form role="search" method="GET" action="/search" style={{ display: "flex", gap: 8, marginBottom: 24 }}>
-          <input type="search" name="q" defaultValue={q} placeholder="Search articles or projects" aria-label="Search term" style={{ flex: 1, padding: 10 }} />
-          <button type="submit">Search</button>
-        </form>
+      <div className={`${styles.searchPage} ${themeClass}`} style={{ backgroundColor: theme === "dark" ? "#1d2127" : "#ffffff" }}>
+        <a href="#main-content" className="skip-link">Skip to main content</a>
+        <header>
+          <nav><NavBarDesktop /></nav>
+          <nav><NavBarMobile sections={MAIN_SECTIONS} /></nav>
+        </header>
+        <main id="main-content" className={styles.searchMain}>
+          <h1 className={styles.searchTitle}>Search</h1>
+          <form role="search" method="GET" action="/search" className={styles.searchForm}>
+            <input type="search" name="q" defaultValue={q} placeholder="Search articles or projects" aria-label="Search term" className={styles.searchInput} />
+            <button type="submit" className={styles.searchButton}>Search</button>
+          </form>
 
-        {q ? (
-          <p style={{ color: "#555", marginBottom: 16 }}>
-            {total} results for <strong>"{q}"</strong>
-          </p>
-        ) : (
-          <p style={{ color: "#555", marginBottom: 16 }}>Enter a query to search articles and projects.</p>
-        )}
+          {q ? (
+            <p className={styles.resultSummary}>
+              {total} results for <strong>&ldquo;{q}&rdquo;</strong>
+            </p>
+          ) : (
+            <p className={styles.resultSummary}>Enter a query to search articles and projects.</p>
+          )}
 
-        {articleResults?.length > 0 && (
-          <section style={{ marginBottom: 32 }}>
-            <h2>Articles</h2>
-            <ul style={{ listStyle: "none", padding: 0, marginTop: 12 }}>
-              {articleResults.map((a, index) => (
-                <ScrollReveal key={a.slug} animation="fadeInUp" delay={index * 50} width="100%" as="li">
-                  <div style={{ padding: "12px 0", borderBottom: "1px solid #eee" }}>
-                    <Link href={`/articles/${a.slug}`} style={{ fontSize: 18, fontWeight: 600 }}>{a.title}</Link>
-                    {a.excerpt && <p style={{ margin: "6px 0", color: "#444" }}>{a.excerpt}</p>}
-                    {Array.isArray(a.tags) && a.tags.length > 0 && (
-                      <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-                        {a.tags.slice(0, 5).map((t) => (
-                          <span key={t} style={{ fontSize: 12, background: "#f3f4f6", padding: "2px 6px", borderRadius: 4 }}>#{t}</span>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                </ScrollReveal>
-              ))}
-            </ul>
-          </section>
-        )}
+          {articleResults?.length > 0 && (
+            <section className={styles.section}>
+              <h2 className={styles.sectionTitle}>Articles</h2>
+              <ul className={styles.resultList}>
+                {articleResults.map((a, index) => (
+                  <ScrollReveal key={a.slug} animation="fadeInUp" delay={index * 50} width="100%" as="li">
+                    <div className={styles.resultItem}>
+                      <Link href={`/articles/${a.slug}`} className={styles.resultLink}>{a.title}</Link>
+                      {a.excerpt && <p className={styles.resultExcerpt}>{a.excerpt}</p>}
+                      {Array.isArray(a.tags) && a.tags.length > 0 && (
+                        <div className={styles.tagsRow}>
+                          {a.tags.slice(0, 5).map((t) => (
+                            <span key={t} className={styles.tag}>#{t}</span>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  </ScrollReveal>
+                ))}
+              </ul>
+            </section>
+          )}
 
-        {projectResults?.length > 0 && (
-          <section style={{ marginBottom: 32 }}>
-            <h2>Projects</h2>
-            <ul style={{ listStyle: "none", padding: 0, marginTop: 12 }}>
-              {projectResults.map((p, index) => (
-                <ScrollReveal key={p.slug} animation="fadeInUp" delay={index * 50} width="100%" as="li">
-                  <div style={{ padding: "12px 0", borderBottom: "1px solid #eee" }}>
-                    <Link href={`/projects/${p.slug}`} style={{ fontSize: 18, fontWeight: 600 }}>{p.title}</Link>
-                    {p.description && <p style={{ margin: "6px 0", color: "#444" }}>{p.description.substring(0, 160)}</p>}
-                    {Array.isArray(p.tags) && p.tags.length > 0 && (
-                      <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-                        {p.tags.slice(0, 5).map((t) => (
-                          <span key={t} style={{ fontSize: 12, background: "#f3f4f6", padding: "2px 6px", borderRadius: 4 }}>#{t}</span>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                </ScrollReveal>
-              ))}
-            </ul>
-          </section>
-        )}
+          {projectResults?.length > 0 && (
+            <section className={styles.section}>
+              <h2 className={styles.sectionTitle}>Projects</h2>
+              <ul className={styles.resultList}>
+                {projectResults.map((p, index) => (
+                  <ScrollReveal key={p.slug} animation="fadeInUp" delay={index * 50} width="100%" as="li">
+                    <div className={styles.resultItem}>
+                      <Link href={`/projects/${p.slug}`} className={styles.resultLink}>{p.title}</Link>
+                      {p.description && <p className={styles.resultExcerpt}>{p.description.substring(0, 160)}</p>}
+                      {Array.isArray(p.tags) && p.tags.length > 0 && (
+                        <div className={styles.tagsRow}>
+                          {p.tags.slice(0, 5).map((t) => (
+                            <span key={t} className={styles.tag}>#{t}</span>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  </ScrollReveal>
+                ))}
+              </ul>
+            </section>
+          )}
 
-        {q && total === 0 && (
-          <p>No results found.</p>
-        )}
+          {q && total === 0 && (
+            <p className={styles.noResults}>No results found.</p>
+          )}
 
-        {/* Simple pagination for combined results: step both lists together for now */}
-        {q && (totalArticles > limit || totalProjects > limit) && (
-          <nav style={{ display: "flex", gap: 8 }} aria-label="Pagination">
-            {page > 1 && (
-              <Link href={`/search?q=${encodeURIComponent(q)}&page=${page - 1}&limit=${limit}`}>{"< Prev"}</Link>
-            )}
-            {(totalArticles > page * limit || totalProjects > page * limit) && (
-              <Link href={`/search?q=${encodeURIComponent(q)}&page=${page + 1}&limit=${limit}`}>{"Next >"}</Link>
-            )}
-          </nav>
-        )}
-      </main>
+          {q && (totalArticles > limit || totalProjects > limit) && (
+            <nav className={styles.pagination} aria-label="Pagination">
+              {page > 1 && (
+                <Link href={`/search?q=${encodeURIComponent(q)}&page=${page - 1}&limit=${limit}`}>{"< Prev"}</Link>
+              )}
+              {(totalArticles > page * limit || totalProjects > page * limit) && (
+                <Link href={`/search?q=${encodeURIComponent(q)}&page=${page + 1}&limit=${limit}`}>{"Next >"}</Link>
+              )}
+            </nav>
+          )}
+        </main>
+        <Footer />
+      </div>
     </>
   );
 }

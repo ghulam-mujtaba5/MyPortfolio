@@ -51,22 +51,52 @@
     opacity 0.2s ease;
 }
 
-.linkedinIcon:hover,
-.instagramIcon:hover,
-.githubIcon:hover {
+.socialLink {
+  position: absolute;
+  top: 50%;
+  height: 24%;
+  max-height: 100%;
+  width: 22.4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: translateY(-50%);
+  transition:
+    transform 0.2s ease,
+    opacity 0.2s ease;
+  line-height: 0;
+  cursor: pointer;
+}
+
+.socialLink:hover {
   transform: translateY(-50%) scale(1.1);
   opacity: 0.8;
 }
 
-.linkedinIcon {
+/* When icons are inside a social link, remove their absolute positioning */
+.socialLink .linkedinIcon,
+.socialLink .instagramIcon,
+.socialLink .githubIcon {
+  position: static;
+  height: 100%;
+  width: 100%;
+  top: auto;
+  right: auto;
+  transform: none;
+}
+
+/* Hover effect is handled by .socialLink:hover when icons are inside links */
+
+/* Position classes for social link wrappers */
+.linkedinPos {
   right: 60px;
 }
 
-.githubIcon {
+.githubPos {
   right: 100px;
 }
 
-.instagramIcon {
+.instagramPos {
   right: 140px;
 }
 
@@ -91,7 +121,7 @@
   margin: 0 !important;
   text-align: left;
   font-size: 24px;
-  font-family: "Open Sans";
+  font-family: "Open Sans", sans-serif;
 }
 
 /* Media query for small screens */
@@ -131,15 +161,20 @@
     width: 22.4px;
   }
 
-  .linkedinIcon {
+  .socialLink {
+    height: 36.92%;
+    width: 22.4px;
+  }
+
+  .linkedinPos {
     right: 25px;
   }
 
-  .githubIcon {
+  .githubPos {
     right: 55px;
   }
 
-  .instagramIcon {
+  .instagramPos {
     right: 85px;
   }
 }

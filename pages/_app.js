@@ -237,16 +237,8 @@ function MyApp({ Component, pageProps, session }) {
       <Head>
         <meta
           name="viewport"
-          content="minimum-scale=1, initial-scale=1, width=device-width"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1, maximum-scale=5.0, user-scalable=yes"
         />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link
-          rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossOrigin="true"
-        />
-        <link rel="manifest" href="/manifest.json" />
-        <meta name="theme-color" content="#1d2127" />
       </Head>
 
       {/* Google Analytics - Production only with cookie consent */}

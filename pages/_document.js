@@ -66,11 +66,6 @@ class MyDocument extends Document {
           {/* Mobile optimization */}
           <meta name="format-detection" content="telephone=no" />
           <meta name="mobile-web-app-capable" content="yes" />
-
-          <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes"
-          />
         </Head>
         <body>
           {/* Theme script runs before React to prevent flash */}

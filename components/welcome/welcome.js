@@ -71,7 +71,7 @@ const Introduction = () => {
           setDescriptionText(descriptionTextToDisplay);
         }
       } catch (error) {
-        console.error("Error in animation:", error);
+        // Animation error — non-critical, silently handled
       }
     };
     animateText();

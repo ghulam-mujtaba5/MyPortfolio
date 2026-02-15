@@ -1,4 +1,5 @@
 import SEO from "../components/SEO";
+import NavBarDesktop from "../components/NavBar_Desktop/nav-bar";
 import NavBar from "../components/NavBar_Mobile/NavBar-mobile";
 import Footer from "../components/Footer/Footer";
 
@@ -8,6 +9,7 @@ import Link from "next/link";
 import styles from "./PrivacyPolicy.module.css";
 
 import { useTheme } from "../context/ThemeContext";
+import { MAIN_SECTIONS } from "../constants/navigation";
 
 const PrivacyPolicy = () => {
   const { theme } = useTheme();
@@ -16,13 +18,7 @@ const PrivacyPolicy = () => {
     [theme],
   );
   // Example sections for the mobile navbar; adjust as needed
-  const sections = [
-    { label: "Home", route: "/" },
-    { label: "Projects", route: "/projects" },
-    { label: "Articles", route: "/articles" },
-    { label: "Contact", route: "/#contact-section" },
-    { label: "Privacy Policy", route: "/privacy-policy" },
-  ];
+  const sections = MAIN_SECTIONS;
   return (
     <>
       <SEO
@@ -47,7 +43,10 @@ const PrivacyPolicy = () => {
           backgroundImage: "none",
         }}
       >
-        <NavBar sections={sections} />
+        <header>
+          <nav><NavBarDesktop /></nav>
+          <nav><NavBar sections={sections} /></nav>
+        </header>
         <main className={`${styles.privacyMain} ${themeClass}`}>
           <section
             className={styles.section}

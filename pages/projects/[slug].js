@@ -49,7 +49,13 @@ const ProjectPage = ({ project, relatedProjects = [] }) => {
   // ...existing code...
 
   if (!project) {
-    return <div>Project not found.</div>;
+    return (
+      <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', background: theme === 'dark' ? '#1d2127' : '#ffffff', color: theme === 'dark' ? '#f3f4f6' : '#1d2127' }}>
+        <h1 style={{ fontSize: '2rem', marginBottom: '1rem' }}>Project not found</h1>
+        <p style={{ marginBottom: '1.5rem' }}>The project you&apos;re looking for doesn&apos;t exist or has been removed.</p>
+        <a href="/projects" style={{ color: '#4573df', textDecoration: 'underline' }}>Browse all projects</a>
+      </div>
+    );
   }
 
   return (

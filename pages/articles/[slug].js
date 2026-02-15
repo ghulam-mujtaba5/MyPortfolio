@@ -60,7 +60,13 @@ export default function ArticleDetailPage({ article, relatedArticles = [], previ
   ];
 
   if (!article) {
-    return <div>Article not found.</div>;
+    return (
+      <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', background: theme === 'dark' ? '#1d2127' : '#ffffff', color: theme === 'dark' ? '#f3f4f6' : '#1d2127' }}>
+        <h1 style={{ fontSize: '2rem', marginBottom: '1rem' }}>Article not found</h1>
+        <p style={{ marginBottom: '1.5rem' }}>The article you&apos;re looking for doesn&apos;t exist or has been removed.</p>
+        <a href="/articles" style={{ color: '#4573df', textDecoration: 'underline' }}>Browse all articles</a>
+      </div>
+    );
   }
 
   return (
@@ -76,6 +82,7 @@ export default function ArticleDetailPage({ article, relatedArticles = [], previ
       <SEO
         title={article.metaTitle || `${article.title} | Ghulam Mujtaba`}
         description={article.metaDescription || article.excerpt}
+        type="article"
         url={`https://ghulammujtaba.com/articles/${article.slug}`}
         canonical={`https://ghulammujtaba.com/articles/${article.slug}`}
         image={makeAbsolute(article.ogImage || article.coverImage)}

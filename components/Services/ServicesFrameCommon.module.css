@@ -74,10 +74,8 @@
   align-items: center; /* Center align the icon and text */
   justify-content: flex-start; /* Align items to the start */
   font-size: 20px;
-  font-family: "Open Sans";
+  font-family: "Open Sans", sans-serif;
 }
-
-/* Title styling */
 .title {
   margin: 0;
   text-align: centre;

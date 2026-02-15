@@ -80,7 +80,6 @@ export default function ArticlesPage({
       })
       .catch((err) => {
         if (!cancelled) {
-          console.error("Client-side article fetch failed:", err);
           setError("Failed to load articles. Please try refreshing the page.");
         }
       })
@@ -425,7 +424,7 @@ export default function ArticlesPage({
                   delay={index * 50}
                   width="100%"
                 >
-                  <ArticleCard article={a} />
+                  <ArticleCard article={a} index={index} />
                 </ScrollReveal>
               ))}
             </div>
@@ -688,7 +687,8 @@ export async function getServerSideProps({ query }) {
       },
     };
   } catch (e) {
-    console.error("[Articles SSR] getServerSideProps failed:", e?.message || e);
+    // eslint-disable-next-line no-console
+    if (process.env.NODE_ENV !== 'production') console.error("[Articles SSR] getServerSideProps failed:", e?.message || e);
     return {
       props: {
         initialArticles: [],

@@ -13,7 +13,6 @@ const BadgeScroll = dynamic(
   () => import("../../components/Badges/BadgeScroll"),
   { ssr: false },
 );
-// const Project = dynamic(() => import('../../components/Projects/Project1'), { ssr: false });
 const Footer = dynamic(() => import("../../components/Footer/Footer"), {
   ssr: false,
 });
@@ -175,7 +174,7 @@ const Home = ({ previewProjects = [], previewArticles = [] }) => {
             <WelcomeFrame
               style={{
                 width: "100%",
-                height: "400px",
+                minHeight: "400px",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",

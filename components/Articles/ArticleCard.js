@@ -7,7 +7,7 @@ import base from "./ArticleCard.module.css";
 import light from "./ArticleCard.light.module.css";
 import dark from "./ArticleCard.dark.module.css";
 
-const ArticleCard = ({ article, highlight }) => {
+const ArticleCard = ({ article, highlight, index = 0 }) => {
   const { theme } = useTheme();
   const router = useRouter();
   const t = theme === "dark" ? dark : light;
@@ -45,7 +45,7 @@ const ArticleCard = ({ article, highlight }) => {
             src={img}
             alt={article.title}
             fill
-            priority
+            priority={index < 2}
             sizes="(max-width: 768px) 100vw, 420px"
             className={base.image}
             style={{ objectFit: imgFit }}

@@ -2,6 +2,7 @@ import React from "react";
 import dynamic from "next/dynamic";
 import Head from "next/head";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import SEO, {
   personSchema,
   profilePageSchema,
@@ -226,6 +227,7 @@ const interestsData = [
 
 export default function AboutPage() {
   const { theme } = useTheme();
+  const router = useRouter();
   const { ref: heroRef, style: heroStyle } = useParallax(0.1);
   const { startTransition } = useViewTransition();
   const { ref: statsRef, hasEntered: statsVisible } = useScrollTrigger({ threshold: 0.2 });
@@ -600,7 +602,7 @@ export default function AboutPage() {
                     if (document.startViewTransition) {
                       e.preventDefault();
                       startTransition(() => {
-                        window.location.href = '/contact';
+                        router.push('/contact');
                       });
                     }
                   }}
@@ -615,7 +617,7 @@ export default function AboutPage() {
                     if (document.startViewTransition) {
                       e.preventDefault();
                       startTransition(() => {
-                        window.location.href = '/projects';
+                        router.push('/projects');
                       });
                     }
                   }}

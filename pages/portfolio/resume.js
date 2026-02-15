@@ -2,8 +2,11 @@ import React from 'react';
 import SEO from '../../components/SEO';
 import { useTheme } from '../../context/ThemeContext';
 import Resume from '../../components/Resume/Resume';
+import NavBarDesktop from '../../components/NavBar_Desktop/nav-bar';
+import NavBarMobile from '../../components/NavBar_Mobile/NavBar-mobile';
 import Footer from '../../components/Footer/Footer';
 import ScrollReveal from '../../components/AnimatedUI/ScrollReveal';
+import { MAIN_SECTIONS } from '../../constants/navigation';
 
 const ResumePage = ({ resume }) => {
   const { theme } = useTheme();
@@ -57,7 +60,12 @@ const ResumePage = ({ resume }) => {
           }}
         />
       </SEO>
-      <main className={theme === 'dark' ? 'darkTheme' : 'lightTheme'}>
+      <div style={{ backgroundColor: theme === 'dark' ? '#1d2127' : '#ffffff', minHeight: '100vh', overflowX: 'hidden' }}>
+        <header>
+          <nav><NavBarDesktop /></nav>
+          <nav><NavBarMobile sections={MAIN_SECTIONS} /></nav>
+        </header>
+        <main id="main-content" className={theme === 'dark' ? 'darkTheme' : 'lightTheme'}>
         <ScrollReveal animation="fadeInUp" width="100%">
           <Resume />
         </ScrollReveal>
@@ -74,6 +82,7 @@ const ResumePage = ({ resume }) => {
         )}
       </main>
       <Footer />
+      </div>
       <style jsx>{`
         .downloadButton {
           display: inline-block;
@@ -123,15 +132,12 @@ const ResumePage = ({ resume }) => {
 
 export async function getServerSideProps() {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/resume`);
-    if (!res.ok) {
-      console.error('Failed to fetch resume, status:', res.status);
-      return { props: { resume: null } };
-    }
-    const data = await res.json();
-    return { props: { resume: data.resume } };
+    const dbConnect = (await import('../../lib/mongoose')).default;
+    const Resume = (await import('../../models/Resume')).default;
+    await dbConnect();
+    const resume = await Resume.findOne({ isActive: true }).sort({ createdAt: -1 }).lean();
+    return { props: { resume: resume ? JSON.parse(JSON.stringify(resume)) : null } };
   } catch (error) {
-    console.error('Error fetching resume:', error);
     return { props: { resume: null } };
   }
 }
