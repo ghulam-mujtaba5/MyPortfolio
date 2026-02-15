@@ -20,8 +20,8 @@ import { useScrollTrigger } from "../hooks/useScrollAnimation";
 import { useViewTransition } from "../hooks/useViewTransition";
 import {
   Code2, Brain, Palette,
-  Briefcase, GraduationCap, MapPin, Mail, Github, Linkedin,
-  ArrowRight, Rocket, Building2, Layers,
+  MapPin, Mail, Github, Linkedin,
+  ArrowRight,
 } from "lucide-react";
 
 const NavBarDesktop = dynamic(() => import("../components/NavBar_Desktop/nav-bar"), { ssr: false });
@@ -55,47 +55,53 @@ const expertise = [
 
 const ventures = [
   {
-    icon: <Building2 size={20} strokeWidth={1.8} />,
-    name: "MegiCode",
-    role: "Founder",
+    name: "MegiLance",
+    role: "FYP Project",
     description:
-      "A software company focused on building high-quality digital products and providing development services for clients and businesses.",
-    link: "/projects/megicode-software-company",
+      "An AI-powered freelancing platform built with Next.js and FastAPI, featuring smart job matching, blockchain escrow payments, and fraud detection.",
+    link: "https://megilance.site",
+    logo: "/megilance-logo.svg",
+    external: true,
   },
   {
-    icon: <Layers size={20} strokeWidth={1.8} />,
     name: "CampusAxis",
     role: "Founder",
     description:
       "A university portal platform designed to streamline academic operations, student management, and institutional workflows.",
     link: "/projects/campusaxis-university-portal",
+    logo: "/campusaxis-logo.svg",
   },
 ];
 
 const timeline = [
   {
-    type: "venture",
-    title: "Founded MegiCode & CampusAxis",
-    org: "Entrepreneurship",
-    period: "2024 \u2014 Present",
-    description:
-      "Launched two ventures — MegiCode as a software company, and CampusAxis as a university portal platform — handling everything from product vision and architecture to team coordination and delivery.",
-  },
-  {
+    title: "Founder",
+    org: "MegiCode",
     type: "work",
-    title: "AI Data Annotator & Model Evaluator",
-    org: "Appen",
-    period: "2022 \u2014 2025",
+    period: "2023 \u2014 Present",
+    logoDark: "/megicode-logo-square-darkscreen.svg",
+    logoLight: "/megicode-logo-square-lightscreen.svg",
     description:
-      "Evaluated and improved AI-generated content across Uolo V2 & P, Fireweed, Plumeria V2, and Emerald projects \u2014 enhancing LLM accuracy and search relevance at scale.",
+      "Founded a software company focused on building high-quality digital products and providing development services for clients and businesses.",
+    link: "/projects/megicode-software-company",
   },
   {
-    type: "education",
-    title: "BSc Software Engineering",
-    org: "COMSATS University Islamabad, Lahore",
-    period: "2022 \u2014 2026 (Expected)",
+    title: "AI Data Annotator / LLM Evaluator",
+    org: "Appen",
+    type: "work",
+    period: "Oct 2022 \u2014 Jul 2025 \u00b7 2 yrs 10 mos",
+    logo: "/appen-logo.png",
     description:
-      "Comprehensive study in software architecture, algorithms, database systems, artificial intelligence, and human-computer interaction.",
+      "Contributed to multiple CrowdGen/Appen projects (Uolo V2 & P, Fireweed, Plumeria V2, Emerald) involving LLM response evaluation, localization ranking, question generation, and content quality review.",
+  },
+  {
+    title: "BSc Software Engineering",
+    org: "COMSATS University Islamabad",
+    type: "education",
+    period: "Sep 2022 \u2014 Jun 2026",
+    logo: "/comsats-logo.jpg",
+    description:
+      "Bachelor in Software Engineering with focus on computer science, software architecture, algorithms, database systems, artificial intelligence, and human-computer interaction.",
   },
 ];
 
@@ -253,13 +259,14 @@ export default function AboutPage() {
               <p>
                 I am a software engineer from Lahore, Pakistan, currently in my final year of Software
                 Engineering at COMSATS University. What started as curiosity about how apps are built
-                has grown into founding two companies and shipping products used by real people.
+                has grown into founding a software company and shipping products used by real people.
               </p>
               <p>
-                I started MegiCode as a software company to build digital products for clients, and
-                CampusAxis to solve real problems I saw in how universities manage their operations.
-                Running these alongside my degree taught me more about product thinking, deadlines,
-                and user needs than any classroom could.
+                I founded MegiCode to build digital products for clients, created CampusAxis to solve
+                real problems in how universities manage their operations, and built MegiLance &mdash;
+                an AI-powered freelancing platform &mdash; as my final year project. Running these
+                alongside my degree taught me more about product thinking, deadlines, and user needs
+                than any classroom could.
               </p>
               <p>
                 In parallel, I spent three years at Appen evaluating and improving large language
@@ -278,31 +285,45 @@ export default function AboutPage() {
               What I&rsquo;m Building
             </h2>
             <div className={common.venturesGrid}>
-              {ventures.map((v, i) => (
-                <Link
-                  key={i}
-                  href={v.link}
-                  className={`${common.ventureCard} ${t.ventureCard}`}
-                  onClick={(e) => {
-                    if (document.startViewTransition) {
-                      e.preventDefault();
-                      startTransition(() => router.push(v.link));
-                    }
-                  }}
-                >
-                  <div className={common.ventureHeader}>
-                    <span className={`${common.ventureIcon} ${t.ventureIcon}`}>{v.icon}</span>
-                    <div>
-                      <h3 className={common.ventureName}>{v.name}</h3>
-                      <span className={`${common.ventureRole} ${t.ventureRole}`}>{v.role}</span>
+              {ventures.map((v, i) => {
+                const CardTag = v.external ? "a" : Link;
+                const cardProps = v.external
+                  ? { href: v.link, target: "_blank", rel: "noopener noreferrer" }
+                  : {
+                      href: v.link,
+                      onClick: (e) => {
+                        if (document.startViewTransition) {
+                          e.preventDefault();
+                          startTransition(() => router.push(v.link));
+                        }
+                      },
+                    };
+                return (
+                  <CardTag
+                    key={i}
+                    className={`${common.ventureCard} ${t.ventureCard}`}
+                    {...cardProps}
+                  >
+                    <div className={common.ventureHeader}>
+                      <img
+                        src={v.logoDark ? (theme === "dark" ? v.logoDark : v.logoLight) : v.logo}
+                        alt={`${v.name} logo`}
+                        className={common.ventureLogo}
+                        width={44}
+                        height={44}
+                      />
+                      <div>
+                        <h3 className={common.ventureName}>{v.name}</h3>
+                        <span className={`${common.ventureRole} ${t.ventureRole}`}>{v.role}</span>
+                      </div>
                     </div>
-                  </div>
-                  <p className={`${common.ventureDesc} ${t.ventureDesc}`}>{v.description}</p>
-                  <span className={`${common.ventureLink} ${t.ventureLink}`}>
-                    View Project <ArrowRight size={14} />
-                  </span>
-                </Link>
-              ))}
+                    <p className={`${common.ventureDesc} ${t.ventureDesc}`}>{v.description}</p>
+                    <span className={`${common.ventureLink} ${t.ventureLink}`}>
+                      {v.external ? "Visit Site" : "View Project"} <ArrowRight size={14} />
+                    </span>
+                  </CardTag>
+                );
+              })}
             </div>
           </section>
         </ScrollReveal>
@@ -329,26 +350,41 @@ export default function AboutPage() {
         <ScrollReveal animation="fadeInUp" width="100%">
           <section className={common.section} aria-labelledby="journey-heading">
             <h2 className={`${common.sectionTitle} ${t.sectionTitle}`} id="journey-heading">
-              My Journey
+              Experience &amp; Education
             </h2>
             <div className={common.timeline}>
               {timeline.map((entry, i) => (
                 <div key={i} className={`${common.timelineEntry} ${t.timelineEntry}`}>
-                  <div className={`${common.timelineDot} ${t.timelineDot}`}>
-                    {entry.type === "work" ? (
-                      <Briefcase size={14} />
-                    ) : entry.type === "venture" ? (
-                      <Rocket size={14} />
-                    ) : (
-                      <GraduationCap size={14} />
-                    )}
-                  </div>
+                  <img
+                    src={entry.logoDark ? (theme === "dark" ? entry.logoDark : entry.logoLight) : entry.logo}
+                    alt={`${entry.org} logo`}
+                    className={common.timelineLogo}
+                    width={48}
+                    height={48}
+                  />
                   <div className={common.timelineBody}>
                     <h3 className={common.timelineTitle}>{entry.title}</h3>
+                    <p className={`${common.timelineOrg} ${t.timelineOrg}`}>
+                      {entry.org} &middot; {entry.type === "education" ? "Full-time" : entry.title === "Founder" ? "Self-employed" : "Contract"}
+                    </p>
                     <p className={`${common.timelineMeta} ${t.timelineMeta}`}>
-                      {entry.org} &middot; {entry.period}
+                      {entry.period}
                     </p>
                     <p className={`${common.timelineDesc} ${t.timelineDesc}`}>{entry.description}</p>
+                    {entry.link && (
+                      <Link
+                        href={entry.link}
+                        className={`${common.timelineLink} ${t.timelineLink}`}
+                        onClick={(e) => {
+                          if (document.startViewTransition) {
+                            e.preventDefault();
+                            startTransition(() => router.push(entry.link));
+                          }
+                        }}
+                      >
+                        View Project <ArrowRight size={13} />
+                      </Link>
+                    )}
                   </div>
                 </div>
               ))}

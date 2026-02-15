@@ -87,9 +87,8 @@
   border-color: #2a2f38;
 }
 
-.timelineDot {
-  background: rgba(69, 115, 223, 0.12);
-  color: #93c5fd;
+.timelineOrg {
+  color: #e5e7eb;
 }
 
 .timelineMeta {
@@ -98,6 +97,10 @@
 
 .timelineDesc {
   color: #d1d5db;
+}
+
+.timelineLink {
+  color: #93c5fd;
 }
 
 /* Stat Strip */

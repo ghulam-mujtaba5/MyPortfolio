@@ -87,9 +87,8 @@
   border-color: #f3f4f6;
 }
 
-.timelineDot {
-  background: rgba(69, 115, 223, 0.08);
-  color: #4573df;
+.timelineOrg {
+  color: #1f2937;
 }
 
 .timelineMeta {
@@ -98,6 +97,10 @@
 
 .timelineDesc {
   color: #4b5563;
+}
+
+.timelineLink {
+  color: #4573df;
 }
 
 /* Stat Strip */
@@ -139,7 +142,6 @@
   color: #4573df;
   background: rgba(69, 115, 223, 0.08);
 }
-
 .ventureRole {
   color: #4573df;
 }

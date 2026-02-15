@@ -197,7 +197,7 @@
 }
 
 /* =============================================
-   TIMELINE — Compact, icon dots
+   TIMELINE — Logo-based, LinkedIn-style
    ============================================= */
 .timeline {
   display: flex;
@@ -207,7 +207,7 @@
 
 .timelineEntry {
   display: flex;
-  gap: 20px;
+  gap: 16px;
   padding: 24px 0;
 }
 
@@ -215,13 +215,11 @@
   border-top: 1px solid transparent;
 }
 
-.timelineDot {
-  width: 36px;
-  height: 36px;
+.timelineLogo {
+  width: 48px;
+  height: 48px;
   border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  object-fit: contain;
   flex-shrink: 0;
   margin-top: 2px;
 }
@@ -232,21 +230,43 @@
 }
 
 .timelineTitle {
-  font-size: 1.15rem;
+  font-size: 1.1rem;
   font-weight: 700;
-  margin: 0 0 4px;
+  margin: 0 0 2px;
+  line-height: 1.35;
+}
+
+.timelineOrg {
+  font-size: 0.95rem;
+  font-weight: 500;
+  margin: 0 0 2px;
 }
 
 .timelineMeta {
   font-size: 13px;
   margin: 0 0 10px;
-  font-weight: 500;
+  font-weight: 400;
 }
 
 .timelineDesc {
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   line-height: 1.65;
   margin: 0;
+}
+
+.timelineLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 13px;
+  font-weight: 600;
+  margin-top: 10px;
+  text-decoration: none;
+  transition: gap 0.2s ease;
+}
+
+.timelineLink:hover {
+  gap: 8px;
 }
 
 /* =============================================
@@ -280,19 +300,13 @@
   gap: 14px;
 }
 
-.ventureIcon {
-  width: 44px;
-  height: 44px;
+.ventureLogo {
+  width: 48px;
+  height: 48px;
   border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  object-fit: contain;
   flex-shrink: 0;
-  transition: transform 0.2s ease;
-}
-
-.ventureCard:hover .ventureIcon {
-  transform: scale(1.06);
+  padding: 4px;
 }
 
 .ventureName {
@@ -473,13 +487,13 @@
   }
 
   .timelineEntry {
-    gap: 14px;
+    gap: 12px;
     padding: 18px 0;
   }
 
-  .timelineDot {
-    width: 32px;
-    height: 32px;
+  .timelineLogo {
+    width: 40px;
+    height: 40px;
   }
 
   .statStrip {
