@@ -138,7 +138,7 @@ const NavBar = () => {
 
   const isProjects = path === "/projects";
   const isHome = path === "/" && (hash === "" || hash === "#home-section");
-  const isAbout = path === "/" && hash === "#about-section";
+  const isAbout = path === "/about";
   const isResume = path === "/resume";
   const isArticles = path === "/articles" || path.startsWith("/articles/");
   const isContact = path === "/" && hash === "#contact-section";
@@ -179,10 +179,10 @@ const NavBar = () => {
           <b className={styles.homeText}>Home</b>
         </button>
 
-        {/* About section */}
+        {/* About page */}
         <button
           className={`${styles.about} ${isAbout ? styles.active : ""} ${styles.navItem}`}
-          onClick={() => handleScrollToSection("about-section")}
+          onClick={() => handleNavigation("/about")}
           type="button"
         >
           <span className={styles.aboutText}>About</span>
