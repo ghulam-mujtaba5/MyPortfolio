@@ -3,12 +3,15 @@ User-agent: *
 Allow: /
 Disallow: /admin/
 Disallow: /api/
-Disallow: /portfolio/
 Disallow: /search
+Disallow: /_next/
+
+# Allow Googlebot to verify redirects from /portfolio/ paths
+# (they 301 to canonical URLs — no content duplication risk)
 
 # Sitemaps
 Sitemap: https://ghulammujtaba.com/sitemap.xml
+Sitemap: https://ghulammujtaba.com/sitemap-dynamic.xml
 
 # RSS Feed
 # https://ghulammujtaba.com/feed.xml
-

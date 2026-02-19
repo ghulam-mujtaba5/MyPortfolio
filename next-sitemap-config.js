@@ -21,7 +21,7 @@ module.exports = {
   robotsTxtOptions: {
     policies: [
       { userAgent: "*", allow: "/" },
-      { userAgent: "*", disallow: ["/admin/", "/api/", "/portfolio/", "/search"] },
+      { userAgent: "*", disallow: ["/admin/", "/api/", "/search", "/_next/"] },
     ],
   },
   // Programmatically include dynamic routes for Articles and Projects

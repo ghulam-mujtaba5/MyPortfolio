@@ -60,21 +60,13 @@ const nextConfig = {
   },
 
   async rewrites() {
+    // Only rewrite paths that actually have corresponding pages in /portfolio/
+    // This prevents ghost routes (unknown paths → /portfolio/unknown → 404)
     return [
-      {
-        source: "/:path((?!api/|admin/|articles/|projects/|portfolio/|_next/|static/).*)",
-        destination: "/portfolio/:path*",
-        has: [
-          {
-            type: "host",
-            value: "www.ghulammujtaba.com",
-          },
-        ],
-      },
-      {
-        source: "/:path((?!api/|admin/|articles/|projects/|portfolio/|_next/|static/).*)",
-        destination: "/portfolio/:path*",
-      },
+      // Homepage: / → /portfolio/index
+      { source: "/", destination: "/portfolio" },
+      // Resume: /resume → /portfolio/resume
+      { source: "/resume", destination: "/portfolio/resume" },
     ];
   },
 
@@ -127,6 +119,13 @@ const nextConfig = {
       // Prevent search engines from indexing API routes
       {
         source: "/api/:path*",
+        headers: [
+          { key: "X-Robots-Tag", value: "noindex, nofollow" },
+        ],
+      },
+      // Prevent indexing of RSS feed as an HTML page
+      {
+        source: "/feed.xml",
         headers: [
           { key: "X-Robots-Tag", value: "noindex, nofollow" },
         ],

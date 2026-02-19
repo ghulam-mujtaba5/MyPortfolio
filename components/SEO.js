@@ -96,7 +96,6 @@ export default function SEO({
       {/* ═══════════ Canonical ═══════════ */}
       {canonical && <link rel="canonical" href={canonical} />}
       <link rel="alternate" type="application/rss+xml" title="Ghulam Mujtaba Articles" href="https://ghulammujtaba.com/feed.xml" />
-      <link rel="alternate" href="https://www.ghulammujtaba.com" />
 
       {/* ═══════════ Alternate — hreflang ═══════════ */}
       <link rel="alternate" hrefLang="en" href={canonical || url} />
