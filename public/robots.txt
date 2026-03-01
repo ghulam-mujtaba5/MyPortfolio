@@ -4,14 +4,12 @@ Allow: /
 Disallow: /admin/
 Disallow: /api/
 Disallow: /search
-Disallow: /_next/
+Disallow: /portfolio
+Disallow: /portfolio/
 
-# Allow Googlebot to verify redirects from /portfolio/ paths
-# (they 301 to canonical URLs — no content duplication risk)
+# IMPORTANT: Do NOT block /_next/ — Google needs access to JS/CSS
+# bundles under /_next/static/ to render pages properly.
+# Blocking /_next/ causes "Crawled - currently not indexed" issues.
 
-# Sitemaps
+# Sitemaps — single dynamic sitemap (no stale static file)
 Sitemap: https://ghulammujtaba.com/sitemap.xml
-Sitemap: https://ghulammujtaba.com/sitemap-dynamic.xml
-
-# RSS Feed
-# https://ghulammujtaba.com/feed.xml

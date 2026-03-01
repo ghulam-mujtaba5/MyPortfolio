@@ -1,6 +1,5 @@
 import React from "react";
 import dynamic from "next/dynamic";
-import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import SEO, {
@@ -190,10 +189,6 @@ export default function AboutPage() {
           aboutSpeakableSchema,
         ]}
       />
-
-      <Head>
-        <meta name="robots" content="index,follow" />
-      </Head>
 
       <div className="nav-desktop-wrapper">
         <NavBarDesktop />

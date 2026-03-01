@@ -3,7 +3,6 @@ import SEO, {
   collectionPageSchema,
   breadcrumbSchema,
 } from "../../components/SEO";
-import { MAIN_SECTIONS } from "../../constants/navigation";
 import NavBarDesktop from "../../components/NavBar_Desktop/nav-bar";
 import NavBarMobile from "../../components/NavBar_Mobile/NavBar-mobile";
 import Footer from "../../components/Footer/Footer";
@@ -81,6 +80,7 @@ export default function ArticlesPage({
       })
       .catch((err) => {
         if (!cancelled) {
+          console.error("Client-side article fetch failed:", err);
           setError("Failed to load articles. Please try refreshing the page.");
         }
       })
@@ -227,7 +227,14 @@ export default function ArticlesPage({
   };
   // Data comes from SSR. Client transitions trigger full SSR navigations above.
 
-  const sections = MAIN_SECTIONS;
+  const sections = [
+    { label: "Home", route: "/#home-section" },
+    { label: "About", route: "/#about-section" },
+    { label: "Resume", route: "/resume" },
+    { label: "Projects", route: "/projects" },
+    { label: "Articles", route: "/articles" },
+    { label: "Contact", route: "/#contact-section" },
+  ];
 
   return (
     <>
@@ -418,7 +425,7 @@ export default function ArticlesPage({
                   delay={index * 50}
                   width="100%"
                 >
-                  <ArticleCard article={a} index={index} />
+                  <ArticleCard article={a} />
                 </ScrollReveal>
               ))}
             </div>
@@ -681,8 +688,7 @@ export async function getServerSideProps({ query }) {
       },
     };
   } catch (e) {
-    // eslint-disable-next-line no-console
-    if (process.env.NODE_ENV !== 'production') console.error("[Articles SSR] getServerSideProps failed:", e?.message || e);
+    console.error("[Articles SSR] getServerSideProps failed:", e?.message || e);
     return {
       props: {
         initialArticles: [],

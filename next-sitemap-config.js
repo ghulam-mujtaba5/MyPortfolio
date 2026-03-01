@@ -18,10 +18,12 @@ module.exports = {
     "/portfolio/*",
   ],
   // Optional robots rules if next-sitemap generates robots.txt
+  // NOTE: We use manual public/robots.txt, so this is just for reference.
+  // NEVER block /_next/ — Google needs JS/CSS bundles to render pages.
   robotsTxtOptions: {
     policies: [
       { userAgent: "*", allow: "/" },
-      { userAgent: "*", disallow: ["/admin/", "/api/", "/search", "/_next/"] },
+      { userAgent: "*", disallow: ["/admin/", "/api/", "/search", "/portfolio", "/portfolio/"] },
     ],
   },
   // Programmatically include dynamic routes for Articles and Projects

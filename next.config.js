@@ -60,8 +60,8 @@ const nextConfig = {
   },
 
   async rewrites() {
-    // Only rewrite paths that actually have corresponding pages in /portfolio/
-    // This prevents ghost routes (unknown paths → /portfolio/unknown → 404)
+    // Internal rewrites — these do NOT cause HTTP redirects.
+    // They map public-facing URLs to actual page files under /portfolio/.
     return [
       // Homepage: / → /portfolio/index
       { source: "/", destination: "/portfolio" },
@@ -75,14 +75,20 @@ const nextConfig = {
   async redirects() {
     return [
       // Consolidate /portfolio to / — prevents duplicate content
+      // These are external 301 redirects that Google will follow.
       {
         source: "/portfolio",
         destination: "/",
         permanent: true,
       },
       {
-        source: "/portfolio/:path*",
-        destination: "/:path*",
+        source: "/portfolio/resume",
+        destination: "/resume",
+        permanent: true,
+      },
+      {
+        source: "/portfolio/search",
+        destination: "/search",
         permanent: true,
       },
       {
@@ -93,6 +99,12 @@ const nextConfig = {
       {
         source: "/blog/:slug",
         destination: "/articles/:slug",
+        permanent: true,
+      },
+      // Redirect old static sitemap URL to the canonical sitemap
+      {
+        source: "/sitemap-0.xml",
+        destination: "/sitemap.xml",
         permanent: true,
       },
     ];

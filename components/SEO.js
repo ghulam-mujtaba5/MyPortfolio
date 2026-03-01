@@ -29,8 +29,8 @@ export default function SEO({
   keywords = "Ghulam Mujtaba, Portfolio, Full Stack Developer, Data Scientist, AI, Projects, Resume",
   author = "Ghulam Mujtaba",
   locale = "en_US",
-  twitterSite = "@ghulammujtaba",
-  twitterCreator = "@ghulammujtaba",
+  twitterSite = "@gabormujtaba",
+  twitterCreator = "@gabormujtaba",
   robots = "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1",
   noindex = false,
   publishedTime,
@@ -95,7 +95,6 @@ export default function SEO({
 
       {/* ═══════════ Canonical ═══════════ */}
       {canonical && <link rel="canonical" href={canonical} />}
-      <link rel="alternate" type="application/rss+xml" title="Ghulam Mujtaba Articles" href="https://ghulammujtaba.com/feed.xml" />
 
       {/* ═══════════ Alternate — hreflang ═══════════ */}
       <link rel="alternate" hrefLang="en" href={canonical || url} />
@@ -197,21 +196,6 @@ export function personSchema(overrides = {}) {
       "https://www.linkedin.com/in/ghulamujtabaofficial",
       "https://github.com/ghulam-mujtaba5",
       "https://www.instagram.com/ghulamujtabaofficial/",
-      "https://stackoverflow.com/users/27756536",
-      "https://dev.to/ghulam-mujtaba",
-      "https://medium.com/@ghulam-mujtaba",
-      "https://kaggle.com/ghulamujtaba",
-      "https://www.behance.net/ghulam_mujtaba",
-      "https://dribbble.com/ghulam-mujtaba",
-      "https://codepen.io/GhulamMujtaba",
-      "https://leetcode.com/u/ghulam-mujtaba",
-      "https://www.figma.com/@ghulam_mujtaba",
-      "https://www.coursera.org/learner/ghulammujtaba",
-      "https://developers.google.com/profile/u/ghulam-mujtaba",
-      "https://devpost.com/ghulam-mujtaba5",
-      "https://www.crunchbase.com/person/ghulam-mujtaba-d39b",
-      "https://topmate.io/ghulam_mujtaba",
-      "https://linktr.ee/ghulam__mujtaba",
     ],
     alumniOf: {
       "@type": "CollegeOrUniversity",
@@ -374,11 +358,6 @@ export function organizationSchema() {
       "https://www.linkedin.com/in/ghulamujtabaofficial",
       "https://github.com/ghulam-mujtaba5",
       "https://www.instagram.com/ghulamujtabaofficial/",
-      "https://stackoverflow.com/users/27756536",
-      "https://dev.to/ghulam-mujtaba",
-      "https://medium.com/@ghulam-mujtaba",
-      "https://kaggle.com/ghulamujtaba",
-      "https://linktr.ee/ghulam__mujtaba",
     ],
   };
 }
