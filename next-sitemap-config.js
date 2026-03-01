@@ -14,8 +14,8 @@ module.exports = {
     "/sitemap-dynamic.xml",
     "/search",
     "/404",
-    "/portfolio",
-    "/portfolio/*",
+    "/feed.xml",
+    "/portfolio/search",
   ],
   // Optional robots rules if next-sitemap generates robots.txt
   // NOTE: We use manual public/robots.txt, so this is just for reference.
