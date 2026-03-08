@@ -103,13 +103,37 @@ function MyApp({ Component, pageProps, session }) {
     }, TOP_BAR_COMPLETE_DELAY_MS);
   }, [clearAllTimers]);
 
-  // Cookie consent initialization
+  // Cookie consent + loader settings initialization (single localStorage read batch)
   useEffect(() => {
     setCookiesAccepted(hasAcceptedCookies());
 
-    const onStorage = () => setCookiesAccepted(hasAcceptedCookies());
-    window.addEventListener("storage", onStorage);
+    // Load loader visual settings
+    try {
+      const blur = localStorage.getItem("loader:blur");
+      const opacity = localStorage.getItem("loader:opacity");
+      setLoaderSettings({
+        backdropBlur: blur !== null ? Number(blur) : undefined,
+        backdropOpacity: opacity !== null ? Number(opacity) : undefined,
+      });
+    } catch {
+      // Ignore localStorage errors
+    }
 
+    const onStorage = (e) => {
+      setCookiesAccepted(hasAcceptedCookies());
+      if (e?.key?.startsWith("loader:")) {
+        try {
+          const blur = localStorage.getItem("loader:blur");
+          const opacity = localStorage.getItem("loader:opacity");
+          setLoaderSettings({
+            backdropBlur: blur !== null ? Number(blur) : undefined,
+            backdropOpacity: opacity !== null ? Number(opacity) : undefined,
+          });
+        } catch {}
+      }
+    };
+
+    window.addEventListener("storage", onStorage);
     return () => window.removeEventListener("storage", onStorage);
   }, []);
 
@@ -153,18 +177,12 @@ function MyApp({ Component, pageProps, session }) {
     clearAllTimers,
   ]);
 
-  // Custom event listener for manual overlay control (for testing)
+  // Custom event listeners for manual overlay and top progress bar
   useEffect(() => {
     const onManualOverlay = (e) => {
       setManualOverlay(!!e?.detail?.visible);
     };
 
-    window.addEventListener("app:loader", onManualOverlay);
-    return () => window.removeEventListener("app:loader", onManualOverlay);
-  }, []);
-
-  // Custom event listener for top progress bar control
-  useEffect(() => {
     const onTopProgress = (e) => {
       const detail = e?.detail || {};
 
@@ -186,36 +204,13 @@ function MyApp({ Component, pageProps, session }) {
       }
     };
 
+    window.addEventListener("app:loader", onManualOverlay);
     window.addEventListener("app:top", onTopProgress);
-    return () => window.removeEventListener("app:top", onTopProgress);
+    return () => {
+      window.removeEventListener("app:loader", onManualOverlay);
+      window.removeEventListener("app:top", onTopProgress);
+    };
   }, [clearAllTimers]);
-
-  // Load loader visual settings from localStorage
-  useEffect(() => {
-    const loadSettings = () => {
-      try {
-        const blur = localStorage.getItem("loader:blur");
-        const opacity = localStorage.getItem("loader:opacity");
-        setLoaderSettings({
-          backdropBlur: blur !== null ? Number(blur) : undefined,
-          backdropOpacity: opacity !== null ? Number(opacity) : undefined,
-        });
-      } catch {
-        // Ignore localStorage errors
-      }
-    };
-
-    loadSettings();
-
-    const onStorage = (e) => {
-      if (e?.key?.startsWith("loader:")) {
-        loadSettings();
-      }
-    };
-
-    window.addEventListener("storage", onStorage);
-    return () => window.removeEventListener("storage", onStorage);
-  }, []);
 
   // Google Analytics (production only)
   useEffect(() => {

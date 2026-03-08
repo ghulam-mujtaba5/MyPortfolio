@@ -11,14 +11,15 @@ import Languages from "../../components/Languages/Languages";
 import SkillFrame from "../../components/Skills/SkillFrame";
 const BadgeScroll = dynamic(
   () => import("../../components/Badges/BadgeScroll"),
-  { ssr: false },
+  { ssr: false, loading: () => <div style={{ minHeight: "120px" }} /> },
 );
 const Footer = dynamic(() => import("../../components/Footer/Footer"), {
   ssr: false,
+  loading: () => <div style={{ minHeight: "200px" }} />,
 });
 const ContactSection = dynamic(
   () => import("../../components/Contact/ContactUs"),
-  { ssr: false },
+  { ssr: false, loading: () => <div style={{ minHeight: "400px" }} /> },
 );
 import { useTheme } from "../../context/ThemeContext";
 import ThemeToggleIcon from "../../components/Icon/gmicon";
@@ -107,7 +108,6 @@ const Home = ({ previewProjects = [], previewArticles = [] }) => {
       <div
         className="portfolio-main-container"
         style={{
-          backgroundColor: theme === "dark" ? "#1d2127" : "#ffffff",
           overflowX: "hidden",
         }}
       >
@@ -286,6 +286,12 @@ const Home = ({ previewProjects = [], previewArticles = [] }) => {
           font-size: var(--font-size-base);
           line-height: var(--line-height-base);
           color: #222;
+          background-color: #ffffff;
+          transition: background-color 0.2s ease;
+        }
+        [data-theme="dark"] .portfolio-main-container {
+          background-color: #1d2127;
+          color: #e0e0e0;
         }
         .skip-link:focus {
           top: 0;

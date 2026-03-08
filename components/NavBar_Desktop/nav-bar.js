@@ -21,10 +21,10 @@ const NavBar = () => {
     setCurrentHash(window.location.hash);
     setCurrentPath(router.asPath.split("#")[0]);
 
-    // Trigger entrance animation after mount
+    // Trigger entrance animation shortly after mount
     const animationTimer = setTimeout(() => {
       setNameAnimationState("entering");
-    }, 300);
+    }, 50);
 
     // Listen for hash changes
     const handleHashChange = () => {

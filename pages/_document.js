@@ -13,6 +13,8 @@ const themeScript = `
     }
     document.documentElement.setAttribute('data-theme', theme);
     document.documentElement.style.colorScheme = theme;
+    // Set initial background immediately to prevent white flash
+    document.documentElement.style.backgroundColor = theme === 'dark' ? '#1d2127' : '#ffffff';
   } catch (e) {}
 })();
 `;
@@ -39,6 +41,12 @@ class MyDocument extends Document {
           <link rel="dns-prefetch" href="https://www.google-analytics.com" />
           <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
           <link rel="preconnect" href="https://res.cloudinary.com" crossOrigin="" />
+
+          {/* Google Fonts — loaded as non-blocking stylesheets */}
+          <link
+            rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&family=Poppins:wght@300;400;500;600;700&family=Manrope:wght@600&family=Inter:wght@400;500;600&display=swap"
+          />
 
           {/* Security headers hint */}
           <meta httpEquiv="X-Content-Type-Options" content="nosniff" />

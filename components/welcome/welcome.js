@@ -7,9 +7,7 @@ import darkStyles from "./welcomeDark.module.css"; // Dark mode CSS
 
 const Introduction = () => {
   const { theme } = useTheme(); // Destructure theme from context
-  const [helloText, setHelloText] = useState("");
-  const [nameText, setNameText] = useState("");
-  const [descriptionText, setDescriptionText] = useState("");
+
   const [inView, setInView] = useState(false);
   const ref = useRef(null);
   const controls = useAnimation();
@@ -39,46 +37,11 @@ const Introduction = () => {
     if (inView) {
       controls.start({
         opacity: 1,
-        scale: 1,
-        transition: { duration: 1, ease: "easeOut" },
+        y: 0,
+        transition: { duration: 0.8, ease: "easeOut", delay: 0.3 },
       });
     }
   }, [inView, controls]);
-
-  useEffect(() => {
-    let isMounted = true;
-    const animateText = async () => {
-      try {
-        // Animate hello text
-        for (let i = 0; i <= helloTextToDisplay.length; i++) {
-          if (!isMounted) return;
-          setHelloText(helloTextToDisplay.slice(0, i));
-          await new Promise((resolve) => setTimeout(resolve, 40));
-        }
-        await new Promise((resolve) => setTimeout(resolve, 400));
-        for (let i = 0; i <= nameTextToDisplay.length; i++) {
-          if (!isMounted) return;
-          setNameText(nameTextToDisplay.slice(0, i));
-          await new Promise((resolve) => setTimeout(resolve, 40));
-        }
-        await new Promise((resolve) => setTimeout(resolve, 300));
-        if (isMounted) {
-          controls.start({
-            opacity: 1,
-            y: 0,
-            transition: { duration: 2, ease: "easeOut" },
-          });
-          setDescriptionText(descriptionTextToDisplay);
-        }
-      } catch (error) {
-        // Animation error — non-critical, silently handled
-      }
-    };
-    animateText();
-    return () => {
-      isMounted = false;
-    };
-  }, [controls]);
 
   return (
     <section
@@ -91,47 +54,46 @@ const Introduction = () => {
       >
         <motion.h1
           className={`${commonStyles.text} ${theme === "dark" ? darkStyles.text : lightStyles.text}`}
-          initial={{ opacity: 0, y: 40 }}
+          initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, ease: "easeOut" }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
           whileHover={{
             scale: 1.05,
             color: "#4573df",
             transition: { duration: 0.3 },
-          }} // Adjust hover effect
+          }}
         >
-          {helloText}
+          {helloTextToDisplay}
           <br />
           <motion.span
             className={`${commonStyles.ghulamMujtaba} ${theme === "dark" ? darkStyles.ghulamMujtaba : lightStyles.ghulamMujtaba}`}
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{
-              duration: 2,
+              duration: 0.8,
               ease: "easeOut",
-              delay: (helloText.length * 40) / 1000 + 0.5,
+              delay: 0.3,
             }}
             whileHover={{
               scale: 1.1,
               color: "#4573df",
               transition: { duration: 0.3 },
-            }} // Adjust hover effect
+            }}
           >
-            {nameText}
+            {nameTextToDisplay}
           </motion.span>
         </motion.h1>
         <motion.p
           className={`${commonStyles.paragraph} ${theme === "dark" ? darkStyles.paragraph : lightStyles.paragraph}`}
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={controls}
           transition={{
-            duration: 2,
+            duration: 0.8,
             ease: "easeOut",
-            delay:
-              (helloText.length * 40 + 500 + nameText.length * 40) / 1000 + 1,
+            delay: 0.5,
           }}
         >
-          {descriptionText}
+          {descriptionTextToDisplay}
         </motion.p>
       </div>
     </section>

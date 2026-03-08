@@ -3,8 +3,24 @@ import React, { useState, useEffect, createContext, useContext } from "react";
 const ThemeContext = createContext();
 
 export const ThemeProvider = ({ children }) => {
-  const [mode, setMode] = useState("auto"); // 'auto' | 'light' | 'dark'
-  const [theme, setTheme] = useState("light"); // effective theme
+  // Initialize from DOM attribute set by _document.js inline script to avoid hydration flash
+  const [mode, setMode] = useState(() => {
+    if (typeof window !== "undefined") {
+      try {
+        const saved = localStorage.getItem("themeMode");
+        if (saved === "light" || saved === "dark" || saved === "auto") return saved;
+      } catch {}
+    }
+    return "auto";
+  });
+  const [theme, setTheme] = useState(() => {
+    if (typeof window !== "undefined") {
+      // Read what the _document.js script already applied
+      const domTheme = document.documentElement.getAttribute("data-theme");
+      if (domTheme === "dark" || domTheme === "light") return domTheme;
+    }
+    return "light";
+  });
 
   const prefersDark = () => {
     if (typeof window !== "undefined" && window.matchMedia) {
@@ -12,20 +28,6 @@ export const ThemeProvider = ({ children }) => {
     }
     return false;
   };
-
-  // init from localStorage
-  useEffect(() => {
-    try {
-      const savedMode = localStorage.getItem("themeMode");
-      if (
-        savedMode === "light" ||
-        savedMode === "dark" ||
-        savedMode === "auto"
-      ) {
-        setMode(savedMode);
-      }
-    } catch {}
-  }, []);
 
   // apply effective theme based on mode
   useEffect(() => {
