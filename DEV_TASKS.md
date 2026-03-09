@@ -632,14 +632,11 @@ Also add to `public/robots.txt`:
 
 ---
 
-### TASK 21: Add `<link rel="alternate">` for www vs non-www
+### ~~TASK 21: Add `<link rel="alternate">` for www vs non-www~~ (REMOVED)
 
-**File:** `components/SEO.js`  
-**What:** Add alternate link to tell Google that www and non-www are the same  
-
-```html
-<link rel="alternate" href="https://www.ghulammujtaba.com" />
-```
+**Status:** DO NOT IMPLEMENT — adding a www alternate link tells Google to crawl the www version,
+which creates "Page with redirect" issues in Search Console. Vercel already 308-redirects
+www → non-www; canonical URLs and sitemaps already use `https://ghulammujtaba.com`.
 
 ---
 

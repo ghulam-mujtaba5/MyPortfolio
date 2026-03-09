@@ -4,7 +4,7 @@ A modern, responsive developer portfolio built with Next.js. This project showca
 
 ## 🚀 Live Demo
 
-[View Portfolio Live](https://www.ghulammujtaba.com)
+[View Portfolio Live](https://ghulammujtaba.com)
 
 ## ✨ Features
 
