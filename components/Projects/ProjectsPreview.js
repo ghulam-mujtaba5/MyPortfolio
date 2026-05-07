@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useCallback } from "react";
-import { useRouter } from "next/router";
 import { useTheme } from "../../context/ThemeContext";
 import { useScrollTrigger } from "../../hooks/useScrollAnimation";
 
@@ -13,15 +12,15 @@ import Project1 from "./Project1";
 const ProjectsPreview = ({ projects = [] }) => {
   const { theme } = useTheme();
   const [clientProjects, setClientProjects] = useState(projects);
-  const [isLoading, setIsLoading] = useState(false);
+  // Determine if we have initial data from SSR
+  const hasInitialData = projects && projects.length > 0;
+  // Start in loading state when SSR gave us nothing — prevents the empty-state
+  // flash before the client-side fetch has a chance to run.
+  const [isLoading, setIsLoading] = useState(!hasInitialData);
   const [hasAttemptedFetch, setHasAttemptedFetch] = useState(false);
   const { ref: containerRef, hasEntered } = useScrollTrigger({
     threshold: 0.15,
   });
-  const router = useRouter();
-
-  // Determine if we have initial data from SSR
-  const hasInitialData = projects && projects.length > 0;
 
   const fetchProjects = useCallback(async (signal) => {
     if (hasAttemptedFetch) return;
@@ -108,10 +107,16 @@ const ProjectsPreview = ({ projects = [] }) => {
     theme === "dark" ? darkStyles.darkTheme : lightStyles.lightTheme;
 
   const displayProjects = clientProjects;
-  const showEmptyState =
-    !isLoading && (!displayProjects || displayProjects.length === 0);
-  const showLoading =
-    isLoading && (!displayProjects || displayProjects.length === 0);
+  const isEmpty = !displayProjects || displayProjects.length === 0;
+  // Only declare "empty" once we've actually finished trying to load —
+  // either SSR gave us something, or the client fetch completed.
+  const hasResolvedData = hasInitialData || hasAttemptedFetch;
+  
+  // Show empty state if we resolved data and there are no projects.
+  const showEmptyState = !isLoading && hasResolvedData && isEmpty;
+  
+  // Show loading skeleton if we are loading AND there are no projects.
+  const showLoading = isLoading && isEmpty;
 
   return (
     <section
@@ -128,8 +133,7 @@ const ProjectsPreview = ({ projects = [] }) => {
         </h2>
       </div>
       <div className={commonStyles.grid}>
-        {/* Loading State - Skeleton Cards */}
-        {showLoading && (
+        {showLoading && !projects?.length && (
           <>
             {[1, 2, 3].map((i) => (
               <div
@@ -212,68 +216,32 @@ const ProjectsPreview = ({ projects = [] }) => {
           </div>
         )}
 
-        {/* Projects Grid */}
+        {/* Projects Grid — Project1 owns the keyboard/click target so we don't
+            duplicate focus stops or trigger navigation twice. */}
         {!showLoading &&
           displayProjects &&
           displayProjects.length > 0 &&
           displayProjects.map((project, index) => {
             const key = project._id || project.slug || `project-${index}`;
-            const href = `/projects/${project.slug}`;
             return (
               <div
                 key={key}
-                role="link"
-                tabIndex={0}
-                onClick={() => router.push(href)}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" || e.key === " ") {
-                    e.preventDefault();
-                    router.push(href);
-                  }
-                }}
+                className={commonStyles.projectCard}
                 style={{
-                  textDecoration: "none",
-                  color: "inherit",
-                  display: "block",
                   borderRadius: "20px",
                   overflow: "hidden",
                   background: "none",
                   boxShadow: "none",
-                  transition:
-                    "all var(--duration-normal, 0.3s) var(--ease-out, ease-out)",
                   minHeight: 340,
                   maxWidth: 420,
                   width: "100%",
-                  cursor: "pointer",
                   animation: hasEntered
                     ? `fadeInUp 0.6s ease-out ${index * 50}ms both`
                     : "none",
                   willChange: "transform, opacity",
                 }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = "translateY(-4px)";
-                  e.currentTarget.style.boxShadow =
-                    "var(--shadow-lg, 0 10px 15px -3px rgba(0, 0, 0, 0.1))";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = "translateY(0)";
-                  e.currentTarget.style.boxShadow = "none";
-                }}
               >
-                <div
-                  className={commonStyles.projectCard}
-                  style={{
-                    borderRadius: "20px",
-                    overflow: "hidden",
-                    background: "none",
-                    boxShadow: "none",
-                    minHeight: 340,
-                    maxWidth: 420,
-                    width: "100%",
-                  }}
-                >
-                  <Project1 project={project} />
-                </div>
+                <Project1 project={project} />
               </div>
             );
           })}

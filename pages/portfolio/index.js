@@ -66,27 +66,42 @@ const Home = ({ previewProjects = [], previewArticles = [] }) => {
       {
         question: "Who is Ghulam Mujtaba?",
         answer:
-          "Ghulam Mujtaba is a Full Stack Developer, Data Scientist, and AI Specialist based in Lahore, Pakistan. He specializes in building end-to-end solutions using React, Next.js, Python, Java, and modern AI/ML technologies.",
+          "Ghulam Mujtaba is a Full Stack Developer, Data Scientist, and AI Specialist based in Lahore, Pakistan. He is the founder of Megicode, a software company, and the founder of CampusAxis, a student platform serving 260+ Pakistani universities. He has 3+ years of AI/ML experience working on various projects.",
+      },
+      {
+        question: "What is Megicode?",
+        answer:
+          "Megicode (megicode.com) is a software company founded by Ghulam Mujtaba in 2025. It is a hybrid service-and-product company with 10+ shipped projects, providing UI/UX design, mobile/web/desktop app development, and AI solutions including data scraping, visualization, and analytics.",
+      },
+      {
+        question: "What is CampusAxis?",
+        answer:
+          "CampusAxis (campusaxis.com) is a student-focused platform built by Ghulam Mujtaba that serves students across 260+ Pakistani universities. It provides past papers, GPA calculation, faculty reviews, and study resources, with a decision-first product philosophy designed to reduce student friction during midterms and registration.",
       },
       {
         question: "What services does Ghulam Mujtaba offer?",
         answer:
-          "Ghulam Mujtaba offers Full Stack Web Development (React, Next.js, Node.js), Mobile App Development (React Native), Desktop App Development (Electron.js, JavaFX), Data Science & Analytics, AI/ML Model Development, and UI/UX Design.",
+          "Ghulam Mujtaba offers full-stack web development (React, Next.js, Node.js), mobile development (React Native, Flutter), AI/ML model development (TensorFlow, PyTorch, Scikit-learn), data science and analytics, and UI/UX design. He also mentors via Topmate and Mentoga.",
       },
       {
-        question: "What certifications does Ghulam Mujtaba hold?",
+        question: "What certifications and training does Ghulam Mujtaba hold?",
         answer:
-          "Ghulam Mujtaba holds 5 Google certifications (UX Design, Data Analytics, Project Management, Cybersecurity) and the Meta Front-End Developer Certificate.",
+          "Ghulam Mujtaba holds five Google professional certifications (Cybersecurity, Data Analytics, Advanced Data Analytics, Project Management, UX Design), the Meta Front-End Developer Certificate, and is participating in the Aspire AI-Integrated Leadership Program led by Harvard Faculty.",
       },
       {
         question: "How can I contact Ghulam Mujtaba?",
         answer:
-          "You can contact Ghulam Mujtaba via email at ghulammujtaba1005@gmail.com, through LinkedIn at linkedin.com/in/ghulamujtabaofficial, or through the contact form on ghulammujtaba.com.",
+          "You can contact Ghulam Mujtaba via email at ghulammujtaba1005@gmail.com, through LinkedIn at linkedin.com/in/ghulamujtabaofficial, book a 1:1 mentoring session at topmate.io/ghulam_mujtaba, or use the contact form on ghulammujtaba.com.",
       },
       {
         question: "Where is Ghulam Mujtaba based?",
         answer:
-          "Ghulam Mujtaba is based in Lahore, Punjab, Pakistan. He is currently pursuing a BSc in Software Engineering at COMSATS University Islamabad, Lahore Campus, with expected graduation in June 2026.",
+          "Ghulam Mujtaba is based in Lahore, Punjab, Pakistan (Asia/Karachi, UTC+5). He is currently in his 8th semester of a BSc in Software Engineering at COMSATS University Islamabad, Lahore Campus, with expected graduation in June 2026.",
+      },
+      {
+        question: "What type of software engineering roles is Ghulam Mujtaba seeking?",
+        answer:
+          "Ghulam Mujtaba is targeting full-time roles as a Software Engineer, Full Stack Engineer, or AI/ML Engineer. He is particularly suited for roles requiring end-to-end product ownership — from model development to production deployment. He is open to remote positions globally and on-site or hybrid roles in Lahore, Pakistan.",
       },
     ]),
   ];
@@ -94,14 +109,14 @@ const Home = ({ previewProjects = [], previewArticles = [] }) => {
   return (
     <>
       <SEO
-        title="Ghulam Mujtaba | Full Stack Developer, Data Scientist & AI Specialist"
-        description="Portfolio of Ghulam Mujtaba — Full Stack Developer, Data Scientist, and AI Specialist based in Lahore, Pakistan. Explore innovative projects in web, mobile, desktop, AI and data science. 5 Google certifications & Meta certified."
+        title="Ghulam Mujtaba | Founder, Megicode & CampusAxis · Full Stack + AI"
+        description="Founder of Megicode (software company, 10+ shipped products) and CampusAxis (student platform for 260+ Pakistani universities)."
         url="https://ghulammujtaba.com"
         image="https://ghulammujtaba.com/og-image.png"
-        imageAlt="Ghulam Mujtaba — Full Stack Developer, Data Scientist & AI Specialist Portfolio"
+        imageAlt="Ghulam Mujtaba — Founder of Megicode and CampusAxis, Full Stack Developer and AI Specialist"
         type="website"
         canonical="https://ghulammujtaba.com"
-        keywords="Ghulam Mujtaba, Portfolio, Full Stack Developer, Data Scientist, AI Specialist, Software Engineer, React, Next.js, Python, Machine Learning, Lahore Pakistan"
+        keywords="Ghulam Mujtaba, Megicode founder, CampusAxis founder, Full Stack Developer, AI Specialist, Data Scientist, React, Next.js, TensorFlow, PyTorch, Lahore Pakistan, COMSATS"
         jsonLd={homeJsonLd}
       />
 

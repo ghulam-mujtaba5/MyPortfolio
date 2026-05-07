@@ -47,9 +47,12 @@ const ProjectsPage = ({ projects = [], projectsError = null }) => {
 
   const safeProjects = Array.isArray(projects) ? projects : [];
 
-  // Client-side fallback fetch when SSR failed or returned empty
+  // Client-side fallback fetch when SSR failed or returned empty.
+  // Pre-initialize loading=true if SSR gave us nothing so the empty-state
+  // message doesn't flash for one frame before the fetch begins.
+  const willClientFetch = Boolean(projectsError) || safeProjects.length === 0;
   const [clientProjects, setClientProjects] = useState([]);
-  const [clientLoading, setClientLoading] = useState(false);
+  const [clientLoading, setClientLoading] = useState(willClientFetch);
   const [clientError, setClientError] = useState(null);
 
   useEffect(() => {

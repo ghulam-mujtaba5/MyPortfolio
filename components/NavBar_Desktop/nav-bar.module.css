@@ -67,7 +67,12 @@
 
 /* Styles for the Home button text */
 
-.header * {
+/* Scope transitions to interactive nav items only — applying them to every
+   descendant (including <img>) caused ghost color/transform animations on
+   theme switch. */
+.header .navItem,
+.header .navItem span,
+.header .navItem b {
     transition:
         background-color var(--duration-normal, 0.3s) var(--ease-out, ease-out),
         transform var(--duration-normal, 0.3s) var(--ease-out, ease-out),
@@ -398,12 +403,20 @@
 .header {
     flex: 1;
     border-radius: 50px;
-    background-color: #1d2127;
+    background-color: rgba(29, 33, 39, 0.78);
+    backdrop-filter: saturate(160%) blur(16px);
+    -webkit-backdrop-filter: saturate(160%) blur(16px);
     border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow:
+        0 1px 0 rgba(255, 255, 255, 0.04) inset,
+        0 8px 24px -10px rgba(0, 0, 0, 0.45);
     box-sizing: border-box;
     justify-content: space-between;
     padding: 0 10px;
-    top: 0;
+    /* Sticky so the navbar actually stays visible while scrolling — required
+       for the show/hide-on-scroll JS to do anything observable. */
+    position: sticky;
+    top: 12px;
     z-index: 99;
     max-width: 100%;
     gap: 10px;
@@ -411,7 +424,7 @@
     font-size: 20px;
     color: #fff;
     font-family: "Open Sans", sans-serif;
-    margin: 0 20px;
+    margin: 12px 20px 0;
 }
 
 /* =====================================================
@@ -419,9 +432,12 @@
    ===================================================== */
 
 .header.headerLight {
-    background-color: #f8fafc;
-    border: 1px solid #e2e8f0;
+    background-color: rgba(248, 250, 252, 0.78);
+    border: 1px solid rgba(226, 232, 240, 0.9);
     color: #1f2937;
+    box-shadow:
+        0 1px 0 rgba(255, 255, 255, 0.6) inset,
+        0 8px 24px -12px rgba(15, 23, 42, 0.18);
 }
 
 .header.headerLight .homeText,

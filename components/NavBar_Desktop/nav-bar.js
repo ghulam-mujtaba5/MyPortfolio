@@ -1,5 +1,5 @@
 import styles from "./nav-bar.module.css";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { useTheme } from "../../context/ThemeContext";
@@ -7,7 +7,7 @@ import { useTheme } from "../../context/ThemeContext";
 const NavBar = () => {
   const [hover, setHover] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
-  const [lastScrollY, setLastScrollY] = useState(0);
+  const lastScrollY = useRef(0);
   const [currentHash, setCurrentHash] = useState("");
   const [currentPath, setCurrentPath] = useState("");
   const [mounted, setMounted] = useState(false);
@@ -62,14 +62,15 @@ const NavBar = () => {
       ticking = true;
       rafId = requestAnimationFrame(() => {
         const currentScrollY = window.scrollY;
+        const previous = lastScrollY.current;
 
-        if (currentScrollY > lastScrollY + 50 && currentScrollY > 100) {
+        if (currentScrollY > previous + 50 && currentScrollY > 100) {
           setIsVisible(false);
-        } else if (currentScrollY < lastScrollY - 50 || currentScrollY < 100) {
+        } else if (currentScrollY < previous - 50 || currentScrollY < 100) {
           setIsVisible(true);
         }
 
-        setLastScrollY(currentScrollY);
+        lastScrollY.current = currentScrollY;
         ticking = false;
       });
     };
@@ -81,7 +82,7 @@ const NavBar = () => {
         cancelAnimationFrame(rafId);
       }
     };
-  }, [lastScrollY]);
+  }, []);
 
   const handleMouseHover = useCallback((state) => {
     setHover(state);
@@ -93,34 +94,25 @@ const NavBar = () => {
       const basePath = currentPath || "/";
       const targetHash = `#${sectionId}`;
 
-      // If not on the home page, navigate to the home page first
-      if (basePath !== "/") {
-        router.push("/").then(() => {
-          // Update the URL hash and scroll after navigation
-          try {
-            window.location.hash = targetHash;
-          } catch (e) {
-            /* ignore */
-          }
-          window.requestAnimationFrame(() => {
-            const section = document.getElementById(sectionId);
-            if (section) section.scrollIntoView({ behavior: "smooth" });
-          });
+      const smoothScrollTo = () => {
+        window.requestAnimationFrame(() => {
+          const section = document.getElementById(sectionId);
+          if (section) section.scrollIntoView({ behavior: "smooth" });
         });
+      };
+
+      // If not on the home page, navigate first, then scroll. Use the router
+      // to set the hash (shallow) so the browser doesn't perform an instant
+      // jump that fights our smooth scroll.
+      if (basePath !== "/") {
+        router.push("/" + targetHash).then(smoothScrollTo);
         return;
       }
 
-      // Already on home: update hash and scroll
       if (window.location.hash !== targetHash) {
         router.replace("/" + targetHash, undefined, { shallow: true });
       }
-
-      window.requestAnimationFrame(() => {
-        const section = document.getElementById(sectionId);
-        if (section) {
-          section.scrollIntoView({ behavior: "smooth" });
-        }
-      });
+      smoothScrollTo();
     },
     [router, currentPath],
   );

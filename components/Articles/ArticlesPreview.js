@@ -9,14 +9,15 @@ import darkStyles from "./ArticlesPreviewDark.module.css";
 const ArticlesPreview = ({ articles = [] }) => {
   const { theme } = useTheme();
   const [clientArticles, setClientArticles] = useState(articles);
-  const [isLoading, setIsLoading] = useState(false);
+  // Determine if we have initial data from SSR
+  const hasInitialData = articles && articles.length > 0;
+  // Start in loading state when SSR gave us nothing — prevents the empty-state
+  // flash before the client-side fetch has a chance to run.
+  const [isLoading, setIsLoading] = useState(!hasInitialData);
   const [hasAttemptedFetch, setHasAttemptedFetch] = useState(false);
   const { ref: containerRef, hasEntered } = useScrollTrigger({
     threshold: 0.15,
   });
-
-  // Determine if we have initial data from SSR
-  const hasInitialData = articles && articles.length > 0;
 
   const fetchArticles = useCallback(async () => {
     if (hasAttemptedFetch) return;
@@ -69,10 +70,11 @@ const ArticlesPreview = ({ articles = [] }) => {
     theme === "dark" ? darkStyles.darkTheme : lightStyles.lightTheme;
 
   const displayArticles = clientArticles;
-  const showEmptyState =
-    !isLoading && (!displayArticles || displayArticles.length === 0);
-  const showLoading =
-    isLoading && (!displayArticles || displayArticles.length === 0);
+  const isEmpty = !displayArticles || displayArticles.length === 0;
+  // Only declare "empty" once we've actually finished trying to load.
+  const hasResolvedData = hasInitialData || hasAttemptedFetch;
+  const showEmptyState = !isLoading && hasResolvedData && isEmpty;
+  const showLoading = (isLoading || !hasResolvedData) && isEmpty;
 
   return (
     <section

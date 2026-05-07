@@ -16,3 +16,9 @@
 .paragraph {
   color: var(--text-secondary, #4b5563); /* Light mode text color */
 }
+
+.availPill {
+  background: rgba(34, 197, 94, 0.12);
+  color: #166534;
+  border: 1px solid rgba(34, 197, 94, 0.35);
+}

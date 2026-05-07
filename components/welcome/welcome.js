@@ -15,7 +15,7 @@ const Introduction = () => {
   const helloTextToDisplay = "Hello, I’m ";
   const nameTextToDisplay = "GHULAM MUJTABA";
   const descriptionTextToDisplay =
-    "Software Engineer with a keen interest in developing innovative solutions through the integration of emerging technologies.";
+    "Founder of Megicode. I build AI-powered products end-to-end — from the model to the app shipping it.";
 
   useEffect(() => {
     const handleScroll = () => {
@@ -95,6 +95,42 @@ const Introduction = () => {
         >
           {descriptionTextToDisplay}
         </motion.p>
+
+        <motion.div
+          className={commonStyles.heroCTARow}
+          initial={{ opacity: 0, y: 12 }}
+          animate={controls}
+          transition={{ duration: 0.6, ease: "easeOut", delay: 0.7 }}
+        >
+          <span
+            className={`${commonStyles.availPill} ${theme === "dark" ? darkStyles.availPill : lightStyles.availPill}`}
+            role="status"
+            aria-label="Open to work status"
+          >
+            <span className={commonStyles.availDot} aria-hidden="true" />
+            Open to full-time SWE roles · remote or Lahore
+          </span>
+          <div className={commonStyles.heroCTAButtons}>
+            <a
+              className={`${commonStyles.heroCTA} ${commonStyles.heroCTAPrimary}`}
+              href="/resume"
+              aria-label="View résumé"
+            >
+              View résumé
+            </a>
+            <a
+              className={`${commonStyles.heroCTA} ${commonStyles.heroCTASecondary}`}
+              href="#contact-section"
+              aria-label="Get in touch"
+              onClick={(e) => {
+                e.preventDefault();
+                document.getElementById("contact-section")?.scrollIntoView({ behavior: "smooth" });
+              }}
+            >
+              Get in touch
+            </a>
+          </div>
+        </motion.div>
       </div>
     </section>
   );

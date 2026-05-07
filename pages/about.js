@@ -156,11 +156,6 @@ export default function AboutPage() {
       answer:
         "He is pursuing a Bachelor of Science in Software Engineering at COMSATS University Islamabad, Lahore Campus, with an expected graduation in June 2026.",
     },
-    {
-      question: "Is Ghulam Mujtaba available for hire?",
-      answer:
-        "Yes, Ghulam Mujtaba is currently available for work and open to new opportunities, collaborations, and freelance projects. You can contact him via his portfolio website.",
-    },
   ]);
   const aboutSpeakableSchema = speakableSchema({
     url: "https://ghulammujtaba.com/about",
@@ -173,7 +168,7 @@ export default function AboutPage() {
     <div className={`${common.page} ${t.page}`}>
       <SEO
         title="About Ghulam Mujtaba | Full Stack Developer, Data Scientist & AI Specialist"
-        description="Learn about Ghulam Mujtaba — Full Stack Developer, Data Scientist, and AI Specialist with 3+ years of experience. Skills in React, Next.js, Python, ML, and cloud platforms. Available for hire."
+        description="Learn about Ghulam Mujtaba — Full Stack Developer, Data Scientist, and AI Specialist with 3+ years of experience. Skills in React, Next.js, Python, ML, and cloud platforms."
         url="https://ghulammujtaba.com/about"
         canonical="https://ghulammujtaba.com/about"
         image="https://ghulammujtaba.com/images/portfolio-picture.png"
