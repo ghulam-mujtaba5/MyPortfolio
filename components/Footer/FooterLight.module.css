@@ -1,7 +1,9 @@
+/* FooterLight.module.css */
 .footerBackground {
-  background-color: #1d2127;
+  background-color: #f0f2f5;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
 }
 
 .footer {
-  color: #e6edf3;
+  color: #374151;
 }
