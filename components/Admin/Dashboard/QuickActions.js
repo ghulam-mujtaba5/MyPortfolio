@@ -1,5 +1,8 @@
 import Link from "next/link";
-import { FaPlus, FaPen, FaUserPlus, FaRocket } from "react-icons/fa";
+import { FaPlus } from "react-icons/fa/FaPlus";
+import { FaPen } from "react-icons/fa/FaPen";
+import { FaUserPlus } from "react-icons/fa/FaUserPlus";
+import { FaRocket } from "react-icons/fa/FaRocket";
 import toast from "react-hot-toast";
 import { useState } from "react";
 import styles from "./QuickActions.premium.module.css";

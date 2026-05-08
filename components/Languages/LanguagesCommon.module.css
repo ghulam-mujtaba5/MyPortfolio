@@ -1,91 +1,166 @@
 /* LanguagesCommon.module.css */
 
-/* Keyframe animation for fading in, moving up, and scaling up */
-@keyframes fadeInUpScale {
+@keyframes blockIn {
   from {
     opacity: 0;
-    transform: translateY(20px) scale(0.5); /* Start with smaller size */
+    transform: translateY(22px);
   }
   to {
     opacity: 1;
-    transform: translateY(0) scale(1); /* Scale to original size */
+    transform: translateY(0);
   }
 }
 
-/* Animation for the icon container */
-.animate {
-  animation: fadeInUpScale 1s ease-out forwards;
+@keyframes cardIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-.frameContainer {
+/* ── Section ── */
+.section {
   width: 100%;
-  text-align: center;
-}
-
-.title {
-  font-family: "Open Sans", sans-serif;
-  font-size: 24px;
-  font-weight: bold;
-  margin-bottom: 20px;
-  text-align: left;
-  margin-left: 6%;
-}
-
-.iconContainer {
-  width: 100%;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-around;
-  padding: 20px;
+  padding: 52px 6% 44px;
   box-sizing: border-box;
 }
 
-.icon {
-  width: 100px;
-  height: 100px;
-  object-fit: contain;
-  margin: 10px;
-  transition: transform 0.3s ease;
+/* ── Title ── */
+.sectionTitle {
+  font-family: "Open Sans", sans-serif;
+  font-size: clamp(1.25rem, 2.4vw, 1.55rem);
+  font-weight: 700;
+  text-align: left;
+  margin: 0 0 32px 0;
+  position: relative;
+  display: inline-block;
+  padding-bottom: 10px;
 }
 
-/* Hover effect */
-.icon:hover {
-  transform: scale(1.1) translateY(-5px); /* Scale up and move up slightly on hover */
+.sectionTitle::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 40px;
+  height: 3px;
+  background: linear-gradient(90deg, #4573df, #7eb3ff);
+  border-radius: 3px;
 }
 
-/* Responsive styles for tablets and small screens */
-@media (max-width: 768px) {
-  .title {
-    font-size: 22px;
-    margin-left: 8%;
-  }
+/* ── Categories grid ── */
+.categoriesGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+  align-items: start;
+}
 
-  .icon {
-    width: 80px;
-    height: 80px;
-  }
+/* ── Category block ── */
+.categoryBlock {
+  border-radius: 14px;
+  padding: 20px 16px;
+  opacity: 0;
+}
 
-  .iconContainer {
-    justify-content: space-evenly;
+.categoryBlock.blockVisible {
+  animation: blockIn 0.5s ease-out both;
+}
+
+.categoryLabel {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+  opacity: 0.6;
+}
+
+.categoryDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  opacity: 1;
+}
+
+/* ── Language list ── */
+.langList {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.langCard {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 11px;
+  border-radius: 9px;
+  opacity: 0;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: default;
+}
+
+.langCard.cardVisible {
+  animation: cardIn 0.4s ease-out both;
+}
+
+.langCard:hover {
+  transform: translateX(4px);
+}
+
+.iconWrap {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.langName {
+  font-size: 0.875rem;
+  font-weight: 600;
+  flex: 1;
+  letter-spacing: 0.01em;
+}
+
+/* ── Level badge (colors applied via inline styles) ── */
+.levelBadge {
+  font-size: 0.64rem;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 20px;
+  white-space: nowrap;
+  letter-spacing: 0.03em;
+  border: 1px solid transparent;
+}
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+  .categoriesGrid {
+    grid-template-columns: 1fr 1fr;
   }
 }
 
-/* Responsive styles for mobile devices */
-@media (max-width: 576px) {
-  .title {
-    font-size: 18px;
-    margin-left: 8%;
-    margin-bottom: 10px;
+@media (max-width: 600px) {
+  .section {
+    padding: 40px 5% 32px;
   }
 
-  .icon {
-    width: 60px;
-    height: 55px;
+  .categoriesGrid {
+    grid-template-columns: 1fr;
   }
 
-  .iconContainer {
-    justify-content: space-between;
-    padding: 20px;
+  .categoryBlock {
+    padding: 16px 14px;
   }
 }

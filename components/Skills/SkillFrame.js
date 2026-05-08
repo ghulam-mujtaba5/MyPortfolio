@@ -1,184 +1,133 @@
-import React, { useEffect, useRef, useState } from "react";
-import Image from "next/image";
+import React, { useRef, useState, useEffect } from "react";
 import { useTheme } from "../../context/ThemeContext";
 import commonStyles from "./SkillFrameCommon.module.css";
 import lightStyles from "./SkillFrame.module.css";
 import darkStyles from "./SkillFrameDark.module.css";
 
+// Skills curated for Ghulam's profile: Full Stack + AI + Mobile founder
+// Only primary, differentiating tools are shown — not every dependency
+const SKILL_CATEGORIES = [
+  {
+    id: "fullstack",
+    label: "Full Stack",
+    accent: "#4573df",
+    skills: [
+      { name: "React",       light: "/skills/react.svg",       dark: "/skills/react.svg"       },
+      { name: "Next.js",     light: "/skills/nextjs.svg",      dark: "/skills/nextjs-dark.svg" },
+      { name: "Node.js",     light: "/skills/nodejs.svg",      dark: "/skills/nodejs.svg"      },
+      { name: "TypeScript",  light: "/skills/typescript.svg",  dark: "/skills/typescript.svg"  },
+      { name: "Spring Boot", light: "/skills/springboot.svg",  dark: "/skills/springboot.svg"  },
+    ],
+  },
+  {
+    id: "mobile",
+    label: "Mobile & Design",
+    accent: "#10b981",
+    skills: [
+      { name: "Flutter",      light: "/skills/flutter.svg",      dark: "/skills/flutter-dark.svg" },
+      { name: "React Native", light: "/skills/react.svg",        dark: "/skills/react.svg"        },
+      { name: "Figma",        light: "/skills/figma.svg",        dark: "/skills/figma.svg"        },
+      { name: "Framer Motion",light: "/skills/framer.svg",       dark: "/skills/framer.svg"       },
+    ],
+  },
+  {
+    id: "ai",
+    label: "AI & Machine Learning",
+    accent: "#f59e0b",
+    skills: [
+      { name: "TensorFlow",   light: "/skills/tensorflow.svg",   dark: "/skills/tensorflow.svg"   },
+      { name: "PyTorch",      light: "/skills/pytorch.svg",      dark: "/skills/pytorch.svg"      },
+      { name: "Scikit-learn", light: "/skills/scikitlearn.svg",  dark: "/skills/scikitlearn.svg"  },
+      { name: "OpenCV",       light: "/skills/opencv.svg",       dark: "/skills/opencv.svg"       },
+    ],
+  },
+  {
+    id: "tools",
+    label: "Tools & Cloud",
+    accent: "#a78bfa",
+    skills: [
+      { name: "Docker",   light: "/skills/docker.svg",   dark: "/skills/docker.svg"   },
+      { name: "AWS",      light: "/skills/aws.svg",      dark: "/skills/aws.svg"      },
+      { name: "GraphQL",  light: "/skills/graphql.svg",  dark: "/skills/graphql.svg"  },
+      { name: "Git",      light: "/skills/git.svg",      dark: "/skills/git.svg"      },
+    ],
+  },
+];
+
 const SkillFrame = () => {
   const { theme } = useTheme();
-  const frameStyles = theme === "dark" ? darkStyles : lightStyles;
-
-  const [isVisible, setIsVisible] = useState(false);
+  const [hasAnimated, setHasAnimated] = useState(false);
   const frameRef = useRef(null);
+  const themeStyles = theme === "dark" ? darkStyles : lightStyles;
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          setIsVisible(true);
-        } else {
-          setIsVisible(false);
+          setHasAnimated(true);
+          observer.disconnect();
         }
       },
-      {
-        threshold: 0.1,
-      },
+      { threshold: 0.08 },
     );
-
     const node = frameRef.current;
-    if (node) {
-      observer.observe(node);
-    }
-
-    return () => {
-      if (node) {
-        observer.unobserve(node);
-      }
-      observer.disconnect();
-    };
+    if (node) observer.observe(node);
+    return () => observer.disconnect();
   }, []);
-
-  useEffect(() => {
-    if (isVisible) {
-      const timer = setTimeout(() => {
-        setIsVisible(false); // Reset visibility after animation
-      }, 1000); // Duration of the animation in milliseconds
-
-      return () => clearTimeout(timer);
-    }
-  }, [isVisible]);
-
-  const skillsData = [
-    {
-      title: "Software Development",
-      skills: [
-        {
-          name: "Java Fx",
-          icon: "JavaFx.png",
-          progressClass: commonStyles.progress70,
-        },
-        {
-          name: "Spring",
-          icon: "spring.svg",
-          progressClass: commonStyles.progress80,
-        },
-        {
-          name: "Figma",
-          icon: "figma.svg",
-          progressClass: commonStyles.progress60,
-        },
-        {
-          name: "IntelliJ",
-          icon: "intellij.svg",
-          progressClass: commonStyles.progress90,
-        },
-      ],
-    },
-    {
-      title: "Website Development",
-      skills: [
-        {
-          name: "React",
-          icon: "react.svg",
-          progressClass: commonStyles.progress80,
-        },
-        {
-          name: "Next.js",
-          icon: "Nextjs.png",
-          progressClass: commonStyles.progress70,
-        },
-        {
-          name: "MERN Stack",
-          icon: "Mern.png",
-          progressClass: commonStyles.progress85,
-        },
-        {
-          name: "Bootstrap",
-          icon: "bootstrap.svg",
-          progressClass: commonStyles.progress75,
-        },
-        {
-          name: "Visual Studio",
-          icon: "VisualStudio.svg",
-          progressClass: commonStyles.progress65,
-        },
-      ],
-    },
-    {
-      title: "Data Science & AI",
-      skills: [
-        {
-          name: "OpenCV",
-          icon: "opencv.svg",
-          progressClass: commonStyles.progress80,
-        },
-        {
-          name: "TensorFlow",
-          icon: "tensorflow.svg",
-          progressClass: commonStyles.progress85,
-        },
-        {
-          name: "DeepMind",
-          icon: "DeepMind.png",
-          progressClass: commonStyles.progress70,
-        },
-        {
-          name: "Power BI",
-          icon: "microsoft-power-bi.svg",
-          progressClass: commonStyles.progress75,
-        },
-      ],
-    },
-  ];
 
   return (
     <div
       ref={frameRef}
-      className={`${commonStyles.skillFrame} ${frameStyles.skillFrame} ${isVisible ? commonStyles.animate : ""}`}
+      className={`${commonStyles.skillFrame} ${themeStyles.skillFrame}`}
     >
-      <h2 className={`${commonStyles.skillsTitle} ${frameStyles.skillsTitle}`}>
+      <h2 className={`${commonStyles.skillsTitle} ${themeStyles.skillsTitle}`}>
         Skills
       </h2>
-      {skillsData.map((category, index) => (
-        <div
-          className={`${commonStyles.skillCard} ${frameStyles.skillCard} ${isVisible ? commonStyles.animate : ""}`}
-          key={index}
-        >
-          <div className={`${commonStyles.header} ${frameStyles.header}`}>
-            <b className={`${commonStyles.title} ${frameStyles.title}`}>
-              {category.title}
-            </b>
-          </div>
-          {category.skills.map((skill, index) => (
-            <div
-              key={index}
-              className={`${commonStyles.skillRow} ${frameStyles.skillRow} ${isVisible ? commonStyles.animate : ""}`}
-            >
-              <Image
-                className={`${commonStyles.icon} ${frameStyles.icon}`}
-                alt={skill.name}
-                src={`/${skill.icon}`}
-                width={40}
-                height={40}
-                loading="lazy"
-              />
-              <div
-                className={`${commonStyles.skillNameContainer} ${frameStyles.skillNameContainer}`}
-              >
-                <div
-                  className={`${commonStyles.skillName} ${frameStyles.skillName}`}
-                >
-                  {skill.name}
-                </div>
-                <div
-                  className={`${commonStyles.progress} ${skill.progressClass}`}
-                />
-              </div>
+
+      <div className={commonStyles.categoriesList}>
+        {SKILL_CATEGORIES.map((cat, catIdx) => (
+          <div
+            key={cat.id}
+            className={`${commonStyles.categoryRow} ${hasAnimated ? commonStyles.rowVisible : ""}`}
+            style={{ animationDelay: `${catIdx * 0.12}s` }}
+          >
+            {/* Left label */}
+            <div className={`${commonStyles.rowLabel} ${themeStyles.rowLabel}`}>
+              <span className={commonStyles.labelText}>{cat.label}</span>
             </div>
-          ))}
-        </div>
-      ))}
+
+            {/* Divider */}
+            <div
+              className={`${commonStyles.rowDivider} ${themeStyles.rowDivider}`}
+              style={{ background: `linear-gradient(90deg, ${cat.accent}44, transparent)` }}
+            />
+
+            {/* Skill cards */}
+            <div className={commonStyles.skillCards}>
+              {cat.skills.map((skill, skillIdx) => (
+                <div
+                  key={skill.name}
+                  className={`${commonStyles.skillCard} ${themeStyles.skillCard} ${hasAnimated ? commonStyles.cardVisible : ""}`}
+                  style={{
+                    animationDelay: `${catIdx * 0.12 + 0.15 + skillIdx * 0.07}s`,
+                  }}
+                >
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={theme === "dark" ? skill.dark : skill.light}
+                    alt={`${skill.name} icon`}
+                    className={commonStyles.skillIcon}
+                    loading="lazy"
+                  />
+                  <span className={`${commonStyles.skillName} ${themeStyles.skillName}`}>
+                    {skill.name}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

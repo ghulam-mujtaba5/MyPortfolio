@@ -3,24 +3,19 @@ import React, { useState, useEffect, createContext, useContext } from "react";
 const ThemeContext = createContext();
 
 export const ThemeProvider = ({ children }) => {
-  // Initialize from DOM attribute set by _document.js inline script to avoid hydration flash
-  const [mode, setMode] = useState(() => {
-    if (typeof window !== "undefined") {
-      try {
-        const saved = localStorage.getItem("themeMode");
-        if (saved === "light" || saved === "dark" || saved === "auto") return saved;
-      } catch {}
-    }
-    return "auto";
-  });
-  const [theme, setTheme] = useState(() => {
-    if (typeof window !== "undefined") {
-      // Read what the _document.js script already applied
-      const domTheme = document.documentElement.getAttribute("data-theme");
-      if (domTheme === "dark" || domTheme === "light") return domTheme;
-    }
-    return "light";
-  });
+  // Initialize to static defaults for SSR/Hydration matching
+  const [mode, setMode] = useState("auto");
+  const [theme, setTheme] = useState("light");
+
+  // Sync state with DOM on mount to avoid hydration flash 418 errors
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem("themeMode");
+      if (saved === "light" || saved === "dark" || saved === "auto") setMode(saved);
+    } catch {}
+    const domTheme = document.documentElement.getAttribute("data-theme");
+    if (domTheme === "dark" || domTheme === "light") setTheme(domTheme);
+  }, []);
 
   const prefersDark = () => {
     if (typeof window !== "undefined" && window.matchMedia) {

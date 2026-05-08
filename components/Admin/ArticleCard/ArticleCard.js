@@ -7,7 +7,7 @@ import Tooltip from '../Tooltip/Tooltip';
 import { formatDateConsistent } from '../../../utils/dateUtils';
 import styles from './ArticleCard.premium.module.css';
 import Chip from '../Chip/Chip';
-import { FiHelpCircle } from "react-icons/fi";
+import { FiHelpCircle } from "react-icons/fi/FiHelpCircle";
 import toast from "react-hot-toast";
 import utilities from '../../../styles/utilities.module.css';
 import Spinner from '../../Spinner/Spinner';

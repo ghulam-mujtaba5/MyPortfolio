@@ -5,7 +5,7 @@ import adminStyles from "./AdminProjectCard.module.css"; // Admin-specific style
 import Icon from "../Icon/Icon";
 import Tooltip from "../Tooltip/Tooltip";
 import toast from "react-hot-toast";
-import { FiHelpCircle } from "react-icons/fi";
+import { FiHelpCircle } from "react-icons/fi/FiHelpCircle";
 import utilities from "../../../styles/utilities.module.css";
 import Spinner from "../../Spinner/Spinner";
 
