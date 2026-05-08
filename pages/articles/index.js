@@ -271,6 +271,8 @@ export default function ArticlesPage({
       <div
         className={`articles-page-bg ${theme}`}
         style={{
+          display: "flex",
+          flexDirection: "column",
           backgroundColor: theme === "dark" ? "#1d2127" : "#ffffff",
           minHeight: "100vh",
           overflowX: "hidden",
@@ -286,7 +288,7 @@ export default function ArticlesPage({
         </header>
 
         <main
-          style={{ maxWidth: 1160, margin: "0 auto", padding: "0 1rem 2rem" }}
+          style={{ flexGrow: 1, maxWidth: 1160, margin: "0 auto", padding: "0 1rem 2rem", width: "100%" }}
         >
           {/* Hero */}
           <section className={listCss.hero}>
@@ -399,7 +401,7 @@ export default function ArticlesPage({
             </div>
           )}
 
-          {!loading && !error && mounted && articles.length === 0 && (
+          {!loading && !error && mounted && filteredArticles.length === 0 && (
             <div className={listCss.empty}>
               {(() => {
                 if (search && tag) {
@@ -410,6 +412,9 @@ export default function ArticlesPage({
                 }
                 if (tag) {
                   return `No articles found with the tag "${tag}".`;
+                }
+                if (selectedCategory && selectedCategory !== "All") {
+                  return `No articles found in the category "${selectedCategory}".`;
                 }
                 return "No articles yet. Check back soon.";
               })()}

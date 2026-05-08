@@ -28,11 +28,7 @@ const ArticleCard = ({ article, highlight, index = 0 }) => {
   return (
     <article
       className={`${base.card} ${t.card}`}
-      role="link"
-      tabIndex={0}
       onClick={goToDetail}
-      onKeyDown={onKeyToDetail}
-      aria-label={`Open article ${article.title}`}
     >
       <Link
         href={href}

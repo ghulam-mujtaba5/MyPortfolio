@@ -22,7 +22,7 @@ const themeScript = `
 class MyDocument extends Document {
   render() {
     return (
-      <Html lang="en">
+      <Html lang="en" suppressHydrationWarning>
         <Head>
           {/* Google Search Console & Bing Webmaster verification */}
           {/* TODO: Replace with your real verification codes from Search Console and Bing Webmaster Tools */}

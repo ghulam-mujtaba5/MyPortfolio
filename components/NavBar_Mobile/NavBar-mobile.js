@@ -61,7 +61,6 @@ const NavBar = ({ sections }) => {
       <div
         id="menu-list"
         className={`${commonStyles.menuContainer} ${themeStyles.menuContainer} ${isMenuOpen ? commonStyles.open : ""}`}
-        role="menu"
       >
         <ul className={`${commonStyles.menuList} ${themeStyles.menuList}`}>
           {sections?.length > 0 ? (
@@ -69,21 +68,35 @@ const NavBar = ({ sections }) => {
               <li
                 key={section.id || section.route}
                 className={`${commonStyles.menuItem} ${themeStyles.menuItem}`}
-                onClick={() => handleScrollOrRoute(section.id || section.route)}
-                role="menuitem"
-                tabIndex={0}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" || e.key === " ")
-                    handleScrollOrRoute(section.id || section.route);
-                }}
               >
-                {section.label}
+                <button
+                  style={{
+                    background: "none",
+                    border: "none",
+                    color: "inherit",
+                    font: "inherit",
+                    padding: 0,
+                    margin: 0,
+                    width: "100%",
+                    textAlign: "left",
+                    cursor: "pointer",
+                  }}
+                  onClick={() => handleScrollOrRoute(section.id || section.route)}
+                  tabIndex={0}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      e.preventDefault();
+                      handleScrollOrRoute(section.id || section.route);
+                    }
+                  }}
+                >
+                  {section.label}
+                </button>
               </li>
             ))
           ) : (
             <li
               className={`${commonStyles.menuItem} ${themeStyles.menuItem}`}
-              role="menuitem"
             >
               No sections found
             </li>
