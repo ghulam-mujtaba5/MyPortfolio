@@ -156,9 +156,15 @@ const NavBar = () => {
     }
   };
 
+  const headerInlineStyle = mounted && theme === "dark" ? {
+    backgroundColor: 'rgba(29, 33, 39, 0.95)',
+    border: '1px solid rgba(0,0,0,0.6)'
+  } : undefined;
+
   return (
     <header
-      className={`${styles.header} ${isVisible ? styles.visible : styles.hidden} ${mounted && theme === "light" ? styles.headerLight : ""}`}
+      className={`${styles.header} ${isVisible ? styles.visible : styles.hidden} ${mounted ? (theme === "light" ? styles.headerLight : "") : ""}`}
+      style={headerInlineStyle}
     >
       {/* Left side navigation */}
       <div className={styles.leftNavigation}>
@@ -191,13 +197,13 @@ const NavBar = () => {
       </button>
 
       {/* Logo and Name Animation - Central Element */}
-      <Link href="/" passHref legacyBehavior>
-        <a
-          className={`${styles.logoAnimation} ${hover ? styles.logoAnimationHover : ""}`}
-          onMouseEnter={() => handleMouseHover(true)}
-          onMouseLeave={() => handleMouseHover(false)}
-          aria-label="Go to homepage - Ghulam Mujtaba"
-        >
+      <Link
+        href="/"
+        className={`${styles.logoAnimation} ${hover ? styles.logoAnimationHover : ""}`}
+        onMouseEnter={() => handleMouseHover(true)}
+        onMouseLeave={() => handleMouseHover(false)}
+        aria-label="Go to homepage - Ghulam Mujtaba"
+      >
           {/* Logo Circle */}
           <span className={`${styles.logo} ${hover ? styles.logoHover : ""}`}>
             <img
@@ -229,7 +235,7 @@ const NavBar = () => {
               className={`${styles.nameUnderline} ${hover ? styles.nameUnderlineActive : ""}`}
             />
           </span>
-        </a>
+
       </Link>
 
       {/* Right side navigation */}

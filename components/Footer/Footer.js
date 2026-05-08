@@ -37,6 +37,7 @@ const Footer = ({
         <a href={linkedinUrl} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className={`${commonStyles.socialLink} ${commonStyles.linkedinPos}`}>
           <Image
             className={commonStyles.linkedinIcon}
+            style={{ width: 'auto', height: 'auto' }}
             alt=""
             src={theme === "dark" ? "/LinkedinDark.svg" : "/linkedin-icon.svg"}
             width={24}
@@ -47,6 +48,7 @@ const Footer = ({
         <a href={instagramUrl} target="_blank" rel="noopener noreferrer" aria-label="Instagram" className={`${commonStyles.socialLink} ${commonStyles.instagramPos}`}>
           <Image
             className={commonStyles.instagramIcon}
+            style={{ width: 'auto', height: 'auto' }}
             alt=""
             src={theme === "dark" ? "/InstagramDark.svg" : "/Instagram-icon.svg"}
             width={24}
@@ -57,6 +59,7 @@ const Footer = ({
         <a href={githubUrl} target="_blank" rel="noopener noreferrer" aria-label="GitHub" className={`${commonStyles.socialLink} ${commonStyles.githubPos}`}>
           <Image
             className={commonStyles.githubIcon}
+            style={{ width: 'auto', height: 'auto' }}
             alt=""
             src={theme === "dark" ? "/GithubDark.svg" : "/github_icon.svg"}
             width={24}

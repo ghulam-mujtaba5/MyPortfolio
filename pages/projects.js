@@ -451,8 +451,8 @@ const ProjectsPage = ({ projects = [], projectsError = null }) => {
         }
         @media (max-width: 600px) {
           .project-hero {
-            margin-top: 4.2rem;
-            padding: 3.5rem 0 1.1rem 0;
+            margin-top: 1rem;
+            padding: 2rem 1rem 1rem;
             border-radius: 0 0 12px 12px;
           }
         }
@@ -495,14 +495,14 @@ const ProjectsPage = ({ projects = [], projectsError = null }) => {
           text-shadow: 0 2px 12px rgba(60, 100, 200, 0.08);
         }
         .refined-intro-desc {
-          font-size: 1.13rem;
+          font-size: clamp(0.95rem, 2vw, 1.1rem);
           color: #4b5563;
           font-weight: 400;
           max-width: 540px;
           margin: 0 auto;
-          line-height: 1.6;
+          line-height: 1.65;
           letter-spacing: 0.01em;
-          text-shadow: 0 1px 6px rgba(60, 100, 200, 0.06);
+          padding: 0 16px;
         }
         .refined-intro-centered {
           align-items: center;
@@ -580,22 +580,23 @@ const ProjectsPage = ({ projects = [], projectsError = null }) => {
         }
         .project-tag-btn.active,
         .project-tag-btn:hover {
-          background: #22223b;
+          background: #4573df;
           color: #fff;
-          border-color: #22223b;
-          box-shadow: 0 4px 16px 0 rgba(34, 34, 59, 0.18);
-          transform: translateY(-2px) scale(1.05);
+          border-color: #4573df;
+          box-shadow: 0 4px 14px 0 rgba(69, 115, 223, 0.28);
+          transform: translateY(-2px) scale(1.04);
         }
         .projects-page-bg.dark .project-tag-btn {
-          background: #23272f;
-          color: #eee;
-          border-color: #23272f;
+          background: rgba(255,255,255,0.06);
+          color: #c9d6e3;
+          border-color: rgba(255,255,255,0.12);
         }
         .projects-page-bg.dark .project-tag-btn.active,
         .projects-page-bg.dark .project-tag-btn:hover {
-          background: #fff;
-          color: #22223b;
-          border-color: #fff;
+          background: #4f8cff;
+          color: #fff;
+          border-color: #4f8cff;
+          box-shadow: 0 4px 14px 0 rgba(79, 140, 255, 0.3);
         }
         .project-grid {
           display: grid;

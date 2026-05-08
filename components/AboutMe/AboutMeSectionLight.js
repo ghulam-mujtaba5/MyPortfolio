@@ -70,16 +70,16 @@ const AboutMeSection = ({ showTitle = true }) => {
           animate={controls}
           transition={{ duration: 0.5, delay: 0.4, ease: "easeOut" }}
         >
-          I founded <strong>Megicode</strong>, a software company that has
-          shipped 10+ products for startups and businesses, and built{" "}
+          I founded <strong>Megicode</strong>, a software company that ships
+          products for startups and businesses, and built{" "}
           <strong>CampusAxis</strong>, a study platform now used across 260+
           Pakistani universities. I've worked on various AI/ML projects for
           different companies over the years, while finishing my BSc in
-          Software Engineering at COMSATS Lahore (graduating June 2026). If
-          you need someone who can take an idea from notebook to production —
-          model, backend, UI, and ship — I'm probably the person you want on
-          the call. Currently open to full-time software engineering and
-          AI/ML roles, remote or Lahore-based.
+          Software Engineering at COMSATS Lahore. I'm open to senior
+          engineering roles where I can contribute as a technical leader and
+          provide architect-level solutions. If you need someone who can take
+          an idea from notebook to production — model, backend, UI, and ship
+          — I'm probably the person you want on the call.
         </motion.p>
       </div>
     </motion.section>

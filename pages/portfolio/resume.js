@@ -1,7 +1,12 @@
 import React from 'react';
 import SEO from '../../components/SEO';
 import { useTheme } from '../../context/ThemeContext';
-import Resume from '../../components/Resume/Resume';
+import dynamic from 'next/dynamic';
+const Resume = dynamic(() => import('../../components/Resume/Resume'), {
+  ssr: false,
+  // small client-side placeholder while Resume loads
+  loading: () => <div />,
+});
 import NavBarDesktop from '../../components/NavBar_Desktop/nav-bar';
 import NavBarMobile from '../../components/NavBar_Mobile/NavBar-mobile';
 import Footer from '../../components/Footer/Footer';
@@ -66,10 +71,10 @@ const ResumePage = ({ resume }) => {
           }}
         />
       </SEO>
-      <div style={{ backgroundColor: theme === 'dark' ? '#1d2127' : '#ffffff', minHeight: '100vh', overflowX: 'hidden' }}>
+      <div style={{ backgroundColor: theme === 'dark' ? '#272c34' : '#e8ebee', minHeight: '100vh', overflowX: 'hidden' }}>
         <header>
-          <nav><NavBarDesktop /></nav>
-          <nav><NavBarMobile sections={MAIN_SECTIONS} /></nav>
+          <NavBarDesktop />
+          <NavBarMobile sections={MAIN_SECTIONS} />
         </header>
         <main id="main-content" className={theme === 'dark' ? 'darkTheme' : 'lightTheme'}>
         <ScrollReveal animation="fadeInUp" width="100%">

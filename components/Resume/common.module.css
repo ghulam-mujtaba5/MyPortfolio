@@ -1,36 +1,49 @@
 .resumeContainer {
-  margin: 20px;
+  max-width: 860px;
+  margin: 32px auto;
   font-family: "Open Sans", Arial, sans-serif;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Enhanced shadow */
+  padding: 36px 40px;
+  border-radius: 14px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.12);
 }
 
+/* ── Header ── */
 .resumeHeader {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-  border-bottom: 2px solid #4573df;
-  padding-bottom: 10px;
+  align-items: flex-start;
+  margin-bottom: 24px;
+  border-bottom: 2.5px solid #4573df;
+  padding-bottom: 16px;
+  gap: 16px;
 }
 
 .headerContent {
   text-align: left;
+  flex: 1;
 }
 
 .name {
-  font-size: 24px;
-  font-weight: bold;
+  font-size: clamp(1.4rem, 3vw, 1.8rem);
+  font-weight: 700;
   color: #4573df;
+  letter-spacing: -0.01em;
 }
 
 .jobTitle {
-  font-size: 18px;
+  font-size: clamp(0.85rem, 2vw, 1rem);
+  font-weight: 500;
+  margin-top: 4px;
+  opacity: 0.85;
 }
 
 .contactDetails {
   margin-top: 10px;
+  font-size: 0.82rem;
+  line-height: 1.8;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px 0;
 }
 
 .contactDetails a {
@@ -38,92 +51,199 @@
   text-decoration: none;
 }
 
-.location,
-.phone,
-.email,
-.linkedin {
-  display: inline-block;
-  margin-right: 10px;
+.contactDetails a:hover {
+  text-decoration: underline;
+  color: #4573df;
 }
 
-.headerImage img {
-  border: 2px solid #4573df;
+.sep {
+  margin: 0 4px;
+  opacity: 0.45;
+}
+
+.location, .phone, .email, .linkedin {
+  display: inline;
+}
+
+.headerImage {
+  flex-shrink: 0;
+}
+
+.profilePic {
+  border: 2.5px solid #4573df;
   border-radius: 50%;
-  width: 150px;
-  height: 150px;
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  display: block;
 }
 
+/* ── Main content ── */
 .resumeMain {
-  margin-top: 20px;
+  margin-top: 8px;
 }
 
 .section {
-  margin-bottom: 20px;
+  margin-bottom: 24px;
 }
 
 .sectionHeading {
-  font-size: 20px;
-  font-weight: bold;
-  margin-bottom: 10px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
   color: #4573df;
+  margin-bottom: 6px;
 }
 
 .sectionDivider {
   border: none;
-  border-top: 2px solid #4573df;
-  margin-bottom: 10px;
+  border-top: 1.5px solid #4573df;
+  margin-bottom: 12px;
+  opacity: 0.5;
+}
+
+.summary {
+  font-size: 0.92rem;
+  line-height: 1.7;
+  margin: 0;
 }
 
 .item {
-  margin-bottom: 10px;
+  margin-bottom: 16px;
 }
 
 .header {
   display: flex;
   justify-content: space-between;
-  font-weight: bold;
+  align-items: baseline;
+  font-weight: 600;
+  font-size: 0.92rem;
+  flex-wrap: wrap;
+  gap: 4px;
 }
 
 .date {
   font-style: italic;
+  font-weight: 400;
+  font-size: 0.82rem;
+  opacity: 0.75;
+  white-space: nowrap;
 }
 
 .role {
-  margin-top: 5px;
+  margin-top: 3px;
+  font-size: 0.84rem;
+  opacity: 0.75;
 }
 
-/* Media Queries for Responsive Design */
+.techStack {
+  font-size: 0.78rem;
+  font-weight: 400;
+  opacity: 0.65;
+}
 
-@media (max-width: 560px) {
+.bullets {
+  margin: 6px 0 0 0;
+  padding-left: 18px;
+  font-size: 0.88rem;
+  line-height: 1.65;
+}
+
+.bullets li {
+  margin-bottom: 3px;
+}
+
+.skillsGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px 24px;
+}
+
+.skillGroup {
+  font-size: 0.87rem;
+  line-height: 1.5;
+}
+
+.skillGroup strong {
+  display: inline;
+  margin-right: 4px;
+}
+
+.skillGroup span {
+  opacity: 0.85;
+}
+
+.certGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px 24px;
+}
+
+.certItem {
+  font-size: 0.86rem;
+  line-height: 1.45;
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.certDot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #4573df;
+  flex-shrink: 0;
+  margin-top: 6px;
+}
+
+/* ── Responsive ── */
+@media (max-width: 700px) {
   .resumeContainer {
-    margin: 0px;
+    margin: 0;
+    border-radius: 0;
+    padding: 24px 20px;
   }
+
   .resumeHeader {
-    flex-direction: column;
-    align-items: flex-start;
+    flex-direction: column-reverse;
+    gap: 12px;
   }
 
-  .headerImage {
+  .profilePic {
+    width: 72px;
+    height: 72px;
+    align-self: flex-end;
     position: absolute;
-    top: 30px; /* Adjust top positioning */
-    right: 30px; /* Adjust right positioning */
+    top: 24px;
+    right: 20px;
   }
 
-  .headerImage img {
-    width: 80px;
-    height: 80px;
+  .headerContent {
+    max-width: calc(100% - 88px);
+  }
+
+  .skillsGrid,
+  .certGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .sep {
+    display: none;
   }
 
   .contactDetails {
-    text-align: left;
-    max-width: 80%;
+    flex-direction: column;
+    gap: 2px;
+  }
+}
+
+@media (max-width: 480px) {
+  .name {
+    font-size: 1.3rem;
   }
 
   .sectionHeading {
-    font-size: 18px;
-  }
-  .date {
-    font-style: italic;
-    font-size: 14px;
+    font-size: 0.72rem;
   }
 }

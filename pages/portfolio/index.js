@@ -305,7 +305,10 @@ const Home = ({ previewProjects = [], previewArticles = [] }) => {
           transition: background-color 0.2s ease;
         }
         [data-theme="dark"] .portfolio-main-container {
-          background-color: #1d2127;
+          /* Match the document root dark background precisely and force it
+             to avoid cascade/order issues causing the hero area to remain
+             light. */
+          background-color: rgb(29, 33, 39) !important;
           color: #e0e0e0;
         }
         .skip-link:focus {

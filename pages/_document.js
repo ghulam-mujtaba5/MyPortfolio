@@ -50,7 +50,6 @@ class MyDocument extends Document {
 
           {/* Security headers hint */}
           <meta httpEquiv="X-Content-Type-Options" content="nosniff" />
-          <meta httpEquiv="X-Frame-Options" content="DENY" />
           <meta name="referrer" content="strict-origin-when-cross-origin" />
           {/* You can add font stylesheet here if you use Google Fonts */}
 
