@@ -1,0 +1,234 @@
+- generic [ref=e2]:
+  - generic [ref=e3]:
+    - link "Skip to main content" [ref=e4] [cursor=pointer]:
+      - /url: "#main-content"
+    - banner [ref=e5]:
+      - navigation [ref=e6]:
+        - generic [ref=e7]:
+          - generic [ref=e8]:
+            - button "Home" [ref=e9] [cursor=pointer]:
+              - generic [ref=e10]: Home
+            - button "About" [ref=e11] [cursor=pointer]:
+              - generic [ref=e12]: About
+          - button "Articles" [ref=e13] [cursor=pointer]:
+            - generic [ref=e14]: Articles
+          - link "Go to homepage - Ghulam Mujtaba" [ref=e15] [cursor=pointer]:
+            - /url: /
+            - generic:
+              - img "GM Logo"
+            - img "Ghulam Mujtaba" [ref=e18]
+          - generic [ref=e19]:
+            - button "Resume" [ref=e20] [cursor=pointer]:
+              - generic [ref=e21]: Resume
+            - button "Projects" [ref=e22] [cursor=pointer]:
+              - generic [ref=e23]: Projects
+            - button "Contact" [ref=e24] [cursor=pointer]:
+              - generic [ref=e25]: Contact
+      - navigation
+    - main [ref=e26]:
+      - region "Ghulam Mujtaba | Full Stack Developer, Data Scientist, AI Specialist" [ref=e27]:
+        - heading "Ghulam Mujtaba | Full Stack Developer, Data Scientist, AI Specialist" [level=1] [ref=e28]
+        - img "Professional portrait of Ghulam Mujtaba" [ref=e29]
+        - region "Introduction" [ref=e30]:
+          - generic [ref=e31]:
+            - heading "Hello, I’m GHULAM MUJTABA" [level=1] [ref=e32]:
+              - text: Hello, I’m
+              - text: GHULAM MUJTABA
+            - paragraph [ref=e33]: Founder of Megicode. I build AI-powered products end-to-end — from the model to the app shipping it.
+            - generic [ref=e34]:
+              - generic [ref=e35]: Available for projects & roles
+              - generic [ref=e37]:
+                - button "Let's Build Together" [ref=e38] [cursor=pointer]
+                - link "View My Work" [ref=e39] [cursor=pointer]:
+                  - /url: /projects
+      - region "About Me" [ref=e40]:
+        - heading "About Me" [level=2] [ref=e41]
+        - generic [ref=e44]:
+          - heading "About me" [level=2] [ref=e45]
+          - paragraph [ref=e46]:
+            - text: I founded
+            - strong [ref=e47]: Megicode
+            - text: ", a software company that ships products for startups and businesses, and built"
+            - strong [ref=e48]: CampusAxis
+            - text: ", a study platform now used across 260+ Pakistani universities. I've worked on various AI/ML projects for different companies over the years, while finishing my BSc in Software Engineering at COMSATS Lahore. I'm open to senior engineering roles where I can contribute as a technical leader and provide architect-level solutions. If you need someone who can take an idea from notebook to production — model, backend, UI, and ship — I'm probably the person you want on the call."
+      - region "Languages" [ref=e49]:
+        - heading "Languages" [level=2] [ref=e50]
+        - region "Languages" [ref=e52]:
+          - heading "Languages" [level=2] [ref=e53]
+          - generic [ref=e54]:
+            - generic [ref=e55]:
+              - generic [ref=e56]: Web & Markup
+              - generic [ref=e58]:
+                - generic [ref=e59]:
+                  - img "JavaScript icon" [ref=e61]
+                  - generic [ref=e62]: JavaScript
+                  - generic [ref=e63]: Primary
+                - generic [ref=e64]:
+                  - img "HTML icon" [ref=e66]
+                  - generic [ref=e67]: HTML
+                  - generic [ref=e68]: Primary
+                - generic [ref=e69]:
+                  - img "CSS icon" [ref=e71]
+                  - generic [ref=e72]: CSS
+                  - generic [ref=e73]: Proficient
+            - generic [ref=e74]:
+              - generic [ref=e75]: AI & Data Science
+              - generic [ref=e77]:
+                - generic [ref=e78]:
+                  - img "Python icon" [ref=e80]
+                  - generic [ref=e81]: Python
+                  - generic [ref=e82]: Primary
+                - generic [ref=e83]:
+                  - img "R icon" [ref=e85]
+                  - generic [ref=e86]: R
+                  - generic [ref=e87]: Familiar
+            - generic [ref=e88]:
+              - generic [ref=e89]: Systems & OOP
+              - generic [ref=e91]:
+                - generic [ref=e92]:
+                  - img "Java icon" [ref=e94]
+                  - generic [ref=e95]: Java
+                  - generic [ref=e96]: Proficient
+                - generic [ref=e97]:
+                  - img "C++ icon" [ref=e99]
+                  - generic [ref=e100]: C++
+                  - generic [ref=e101]: Proficient
+                - generic [ref=e102]:
+                  - img "C icon" [ref=e104]
+                  - generic [ref=e105]: C
+                  - generic [ref=e106]: Familiar
+      - region "Skills" [ref=e107]:
+        - heading "Skills" [level=2] [ref=e108]
+        - generic [ref=e110]:
+          - heading "Skills" [level=2] [ref=e111]
+          - generic [ref=e112]:
+            - generic [ref=e113]:
+              - generic [ref=e114]: Full Stack
+              - generic [ref=e116]:
+                - generic [ref=e117]:
+                  - img "React icon" [ref=e118]
+                  - generic [ref=e119]: React
+                - generic [ref=e120]:
+                  - img "Next.js icon" [ref=e121]
+                  - generic [ref=e122]: Next.js
+                - generic [ref=e123]:
+                  - img "Node.js icon" [ref=e124]
+                  - generic [ref=e125]: Node.js
+                - generic [ref=e126]:
+                  - img "TypeScript icon" [ref=e127]
+                  - generic [ref=e128]: TypeScript
+                - generic [ref=e129]:
+                  - img "Spring Boot icon" [ref=e130]
+                  - generic [ref=e131]: Spring Boot
+            - generic [ref=e132]:
+              - generic [ref=e133]: Mobile & Design
+              - generic [ref=e135]:
+                - generic [ref=e136]:
+                  - img "Flutter icon" [ref=e137]
+                  - generic [ref=e138]: Flutter
+                - generic [ref=e139]:
+                  - img "React Native icon" [ref=e140]
+                  - generic [ref=e141]: React Native
+                - generic [ref=e142]:
+                  - img "Figma icon" [ref=e143]
+                  - generic [ref=e144]: Figma
+                - generic [ref=e145]:
+                  - img "Framer Motion icon" [ref=e146]
+                  - generic [ref=e147]: Framer Motion
+            - generic [ref=e148]:
+              - generic [ref=e149]: AI & Machine Learning
+              - generic [ref=e151]:
+                - generic [ref=e152]:
+                  - img "TensorFlow icon" [ref=e153]
+                  - generic [ref=e154]: TensorFlow
+                - generic [ref=e155]:
+                  - img "PyTorch icon" [ref=e156]
+                  - generic [ref=e157]: PyTorch
+                - generic [ref=e158]:
+                  - img "Scikit-learn icon" [ref=e159]
+                  - generic [ref=e160]: Scikit-learn
+                - generic [ref=e161]:
+                  - img "OpenCV icon" [ref=e162]
+                  - generic [ref=e163]: OpenCV
+            - generic [ref=e164]:
+              - generic [ref=e165]: Tools & Cloud
+              - generic [ref=e167]:
+                - generic [ref=e168]:
+                  - img "Docker icon" [ref=e169]
+                  - generic [ref=e170]: Docker
+                - generic [ref=e171]:
+                  - img "AWS icon" [ref=e172]
+                  - generic [ref=e173]: AWS
+                - generic [ref=e174]:
+                  - img "GraphQL icon" [ref=e175]
+                  - generic [ref=e176]: GraphQL
+                - generic [ref=e177]:
+                  - img "Git icon" [ref=e178]
+                  - generic [ref=e179]: Git
+      - region "Certifications" [ref=e180]:
+        - heading "Certifications" [level=2] [ref=e181]
+      - region "Projects" [ref=e184]:
+        - heading "Projects" [level=2] [ref=e185]
+        - generic [ref=e187]:
+          - heading "Projects" [level=2] [ref=e189]
+          - generic [ref=e190]:
+            - article "MegiLance – AI & Blockchain Freelancing Platform (FYP)" [ref=e192] [cursor=pointer]:
+              - link "Live Preview of MegiLance – AI & Blockchain Freelancing Platform (FYP)" [ref=e196]:
+                - /url: https://www.megilance.site/
+                - text: Live Preview
+              - img "MegiLance – AI & Blockchain Freelancing Platform (FYP) screenshot" [ref=e197]
+              - heading "MegiLance – AI & Blockchain Freelancing Platform (FYP)" [level=3] [ref=e198]
+              - paragraph [ref=e200]: "MegiLance solves freelancing's biggest problems: cuts extra fees to minimum, bypasses restrictions with crypto, enables instant crypto payouts for Pakistan and uses transparent AI-based ranking."
+              - generic [ref=e202]:
+                - text: "Tech stack :"
+                - generic [ref=e203]: Full Stack, Next.js, FastAPI, AI Platform
+            - article "CampusAxis – University Portal" [ref=e205] [cursor=pointer]:
+              - link "Live Preview of CampusAxis – University Portal" [ref=e209]:
+                - /url: https://campusaxis.site/
+                - text: Live Preview
+              - img "CampusAxis – University Portal screenshot" [ref=e210]
+              - heading "CampusAxis – University Portal" [level=3] [ref=e211]
+              - paragraph [ref=e213]: Campus Axis is a university portal for COMSATS students. It centralizes academic resources, including dashboards, community discussions, timetables, news and support.
+              - generic [ref=e215]:
+                - text: "Tech stack :"
+                - generic [ref=e216]: Next.js, React, MongoDB, Supabase
+            - article "Aesthetics Clinic Website & Management System" [ref=e218] [cursor=pointer]:
+              - link "Live Preview of Aesthetics Clinic Website & Management System" [ref=e222]:
+                - /url: https://www.aestheticsplace.pk/
+                - text: Live Preview
+              - img "Aesthetics Clinic Website & Management System screenshot" [ref=e223]
+              - heading "Aesthetics Clinic Website & Management System" [level=3] [ref=e224]
+              - paragraph [ref=e226]: A full‑stack clinic platform for a doctor‑led aesthetic center. Includes a website, internal portal, appointment scheduling, patient records, billing, staff roles and service management to streamline daily clinic operations.
+              - generic [ref=e228]:
+                - text: "Tech stack :"
+                - generic [ref=e229]: Next.js, Node.js, MongoDB, LibSQL
+          - button "View All" [ref=e231] [cursor=pointer]
+      - region "Articles" [ref=e232]:
+        - heading "Articles" [level=2] [ref=e233]
+        - generic [ref=e235]:
+          - heading "Articles" [level=2] [ref=e237]
+          - article [ref=e240] [cursor=pointer]:
+            - 'link "Tiptap + Next.js: Rich Text Editing Done Right" [ref=e241]':
+              - /url: /articles/tiptap-nextjs-rich-text-editing-done-right
+              - 'img "Tiptap + Next.js: Rich Text Editing Done Right" [ref=e243]'
+            - generic [ref=e244]:
+              - generic [ref=e245]:
+                - time [ref=e246]: 2025-08-12
+                - generic [ref=e247]:
+                  - generic [ref=e248]: "#Tiptap"
+                  - generic [ref=e249]: "#Editor"
+                  - generic [ref=e250]: "#Next.js"
+              - 'heading "Tiptap + Next.js: Rich Text Editing Done Right" [level=3] [ref=e251]':
+                - 'link "Tiptap + Next.js: Rich Text Editing Done Right" [ref=e252]':
+                  - /url: /articles/tiptap-nextjs-rich-text-editing-done-right
+              - paragraph [ref=e253]: Integrate a modern, theme-aware rich text editor (Tiptap) into your Next.js admin panel with SSR-safe configuration.
+              - link "Read Article" [ref=e255]:
+                - /url: /articles/tiptap-nextjs-rich-text-editing-done-right
+          - button "View All" [ref=e257] [cursor=pointer]
+      - region "Contact" [ref=e258]:
+        - heading "Contact" [level=2] [ref=e259]
+    - contentinfo [ref=e262]
+  - button "Switch to dark mode" [ref=e264] [cursor=pointer]:
+    - generic [ref=e266]:
+      - img
+      - img

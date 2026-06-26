@@ -1,14 +1,17 @@
 import React, { useEffect, useState, useRef } from "react";
+import Link from "next/link";
 import { useTheme } from "../../context/ThemeContext";
 import { motion, useAnimation } from "framer-motion";
 import commonStyles from "./welcomeCommon.module.css"; // Common CSS
 import lightStyles from "./welcomeLight.module.css"; // Light mode CSS
 import darkStyles from "./welcomeDark.module.css"; // Dark mode CSS
+import WorkWithMeModal from "./WorkWithMeModal";
 
 const Introduction = () => {
   const { theme } = useTheme(); // Destructure theme from context
 
   const [inView, setInView] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const ref = useRef(null);
   const controls = useAnimation();
 
@@ -95,7 +98,46 @@ const Introduction = () => {
         >
           {descriptionTextToDisplay}
         </motion.p>
+
+        <motion.div
+          className={commonStyles.heroCTARow}
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, ease: "easeOut", delay: 0.7 }}
+        >
+          <button
+            type="button"
+            className={`${commonStyles.heroCTA} ${commonStyles.heroCTAPrimary}`}
+            onClick={() => setIsModalOpen(true)}
+          >
+            Let&apos;s Build Together
+            <svg
+              className={commonStyles.heroCTAArrow}
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
+            >
+              <line x1="5" y1="12" x2="19" y2="12" />
+              <polyline points="12 5 19 12 12 19" />
+            </svg>
+          </button>
+          <Link
+            href="/projects"
+            className={`${commonStyles.heroCTA} ${commonStyles.heroCTASecondary}`}
+          >
+            View My Work
+          </Link>
+        </motion.div>
       </div>
+
+      <WorkWithMeModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
     </section>
   );
 };

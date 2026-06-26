@@ -1,0 +1,224 @@
+/* WorkWithMeModalCommon.module.css */
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  opacity: 0;
+  transition: opacity 0.22s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.overlay.open {
+  opacity: 1;
+}
+
+.modal {
+  position: relative;
+  width: 100%;
+  max-width: 720px;
+  max-height: calc(100dvh - 40px);
+  overflow-y: auto;
+  border-radius: 16px;
+  padding: 32px;
+  transform: translateY(14px) scale(0.98);
+  opacity: 0;
+  transition: transform 0.24s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.22s ease;
+  font-family: "Open Sans", var(--font-primary), sans-serif;
+}
+
+.modal.open {
+  transform: none;
+  opacity: 1;
+}
+
+.header {
+  margin-bottom: 24px;
+  padding-right: 42px;
+}
+
+.title {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.22;
+  letter-spacing: -0.015em;
+}
+
+.subtitle {
+  margin: 9px 0 0;
+  font-size: 0.92rem;
+  line-height: 1.5;
+}
+
+.closeButton {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 10px;
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+  background: transparent;
+  transition: background 0.18s ease, color 0.18s ease;
+}
+
+.options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  border-radius: 14px;
+  padding: 22px 20px 20px;
+  border: 1.5px solid transparent;
+  transition: border-color 0.18s ease, box-shadow 0.18s ease,
+    transform 0.18s ease, background 0.18s ease;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+}
+
+.cardHead {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.cardIcon {
+  width: 46px;
+  height: 46px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+}
+
+.cardIcon svg {
+  width: 23px;
+  height: 23px;
+}
+
+.cardAudience {
+  margin: 0 0 2px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.cardTitle {
+  margin: 0;
+  font-size: 1.12rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.cardText {
+  flex: 1;
+  margin: 0 0 18px;
+  font-size: 0.88rem;
+  line-height: 1.55;
+}
+
+.cardActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: auto;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 10px 18px;
+  border-radius: 9px;
+  font-family: "Open Sans", var(--font-primary), sans-serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  border: 1.5px solid transparent;
+  transition: transform 0.16s ease, background 0.18s ease, box-shadow 0.18s ease,
+    border-color 0.18s ease;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+}
+
+.btn svg {
+  width: 16px;
+  height: 16px;
+  transition: transform 0.18s ease;
+}
+
+.btnPrimary {
+  background: linear-gradient(
+    135deg,
+    var(--brand-primary, #4573df),
+    var(--brand-primary-light, #5a86e6)
+  );
+  color: #fff;
+  box-shadow: 0 4px 14px var(--brand-primary-shadow, rgba(69, 115, 223, 0.3));
+}
+
+.btnPrimary:hover {
+  box-shadow: 0 8px 20px rgba(69, 115, 223, 0.42);
+}
+
+.btnPrimary:hover svg {
+  transform: translateX(3px);
+}
+
+@media (max-width: 640px) {
+  .modal {
+    padding: 24px 20px;
+    border-radius: 14px;
+  }
+
+  .title {
+    font-size: 1.28rem;
+  }
+
+  .options {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .cardActions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .overlay,
+  .modal,
+  .card,
+  .btn,
+  .btn svg {
+    transition: none;
+  }
+  .modal {
+    transform: none;
+  }
+}

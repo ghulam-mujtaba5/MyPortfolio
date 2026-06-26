@@ -1,0 +1,330 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e3]:
+      - link "Skip to main content" [ref=e4] [cursor=pointer]:
+        - /url: "#main-content"
+      - banner [ref=e5]:
+        - navigation [ref=e6]:
+          - generic [ref=e7]:
+            - generic [ref=e8]:
+              - button "Home" [ref=e9] [cursor=pointer]:
+                - generic [ref=e10]: Home
+              - button "About" [ref=e11] [cursor=pointer]:
+                - generic [ref=e12]: About
+            - button "Articles" [ref=e13] [cursor=pointer]:
+              - generic [ref=e14]: Articles
+            - link "Go to homepage - Ghulam Mujtaba" [ref=e15] [cursor=pointer]:
+              - /url: /
+              - img "GM Logo" [ref=e17]
+              - img "Ghulam Mujtaba" [ref=e20]
+            - generic [ref=e21]:
+              - button "Resume" [ref=e22] [cursor=pointer]:
+                - generic [ref=e23]: Resume
+              - button "Projects" [ref=e24] [cursor=pointer]:
+                - generic [ref=e25]: Projects
+              - button "Contact" [ref=e26] [cursor=pointer]:
+                - generic [ref=e27]: Contact
+        - navigation
+      - main [ref=e28]:
+        - region "Ghulam Mujtaba | Full Stack Developer, Data Scientist, AI Specialist" [ref=e29]:
+          - heading "Ghulam Mujtaba | Full Stack Developer, Data Scientist, AI Specialist" [level=1] [ref=e30]
+          - img "Professional portrait of Ghulam Mujtaba" [ref=e31]
+          - region "Introduction" [ref=e32]:
+            - generic [ref=e33]:
+              - heading "Hello, I’m GHULAM MUJTABA" [level=1] [ref=e34]:
+                - text: Hello, I’m
+                - text: GHULAM MUJTABA
+              - paragraph [ref=e35]: Founder of Megicode. I build AI-powered products end-to-end — from the model to the app shipping it.
+              - generic [ref=e36]:
+                - button "Let's Build Together" [ref=e37] [cursor=pointer]:
+                  - text: Let's Build Together
+                  - img [ref=e38]
+                - link "View My Work" [ref=e40] [cursor=pointer]:
+                  - /url: /projects
+        - region "About Me" [ref=e41]:
+          - heading "About Me" [level=2] [ref=e42]
+          - generic [ref=e45]:
+            - heading "About me" [level=2] [ref=e46]
+            - paragraph [ref=e47]:
+              - text: I founded
+              - strong [ref=e48]: Megicode
+              - text: ", a software company that ships products for startups and businesses, and built"
+              - strong [ref=e49]: CampusAxis
+              - text: ", a study platform now used across 260+ Pakistani universities. I've worked on various AI/ML projects for different companies over the years, while finishing my BSc in Software Engineering at COMSATS Lahore. I'm open to senior engineering roles where I can contribute as a technical leader and provide architect-level solutions. If you need someone who can take an idea from notebook to production — model, backend, UI, and ship — I'm probably the person you want on the call."
+        - region "Languages" [ref=e50]:
+          - heading "Languages" [level=2] [ref=e51]
+          - region "Languages" [ref=e53]:
+            - heading "Languages" [level=2] [ref=e54]
+            - generic [ref=e55]:
+              - generic [ref=e56]:
+                - generic [ref=e57]: Web & Markup
+                - generic [ref=e59]:
+                  - generic [ref=e60]:
+                    - img "JavaScript icon" [ref=e62]
+                    - generic [ref=e63]: JavaScript
+                    - generic [ref=e64]: Primary
+                  - generic [ref=e65]:
+                    - img "HTML icon" [ref=e67]
+                    - generic [ref=e68]: HTML
+                    - generic [ref=e69]: Primary
+                  - generic [ref=e70]:
+                    - img "CSS icon" [ref=e72]
+                    - generic [ref=e73]: CSS
+                    - generic [ref=e74]: Proficient
+              - generic [ref=e75]:
+                - generic [ref=e76]: AI & Data Science
+                - generic [ref=e78]:
+                  - generic [ref=e79]:
+                    - img "Python icon" [ref=e81]
+                    - generic [ref=e82]: Python
+                    - generic [ref=e83]: Primary
+                  - generic [ref=e84]:
+                    - img "R icon" [ref=e86]
+                    - generic [ref=e87]: R
+                    - generic [ref=e88]: Familiar
+              - generic [ref=e89]:
+                - generic [ref=e90]: Systems & OOP
+                - generic [ref=e92]:
+                  - generic [ref=e93]:
+                    - img "Java icon" [ref=e95]
+                    - generic [ref=e96]: Java
+                    - generic [ref=e97]: Proficient
+                  - generic [ref=e98]:
+                    - img "C++ icon" [ref=e100]
+                    - generic [ref=e101]: C++
+                    - generic [ref=e102]: Proficient
+                  - generic [ref=e103]:
+                    - img "C icon" [ref=e105]
+                    - generic [ref=e106]: C
+                    - generic [ref=e107]: Familiar
+        - region "Skills" [ref=e108]:
+          - heading "Skills" [level=2] [ref=e109]
+          - generic [ref=e111]:
+            - heading "Skills" [level=2] [ref=e112]
+            - generic [ref=e113]:
+              - generic [ref=e114]:
+                - generic [ref=e115]: Full Stack
+                - generic [ref=e117]:
+                  - generic [ref=e118]:
+                    - img "React icon" [ref=e119]
+                    - generic [ref=e120]: React
+                  - generic [ref=e121]:
+                    - img "Next.js icon" [ref=e122]
+                    - generic [ref=e123]: Next.js
+                  - generic [ref=e124]:
+                    - img "Node.js icon" [ref=e125]
+                    - generic [ref=e126]: Node.js
+                  - generic [ref=e127]:
+                    - img "TypeScript icon" [ref=e128]
+                    - generic [ref=e129]: TypeScript
+                  - generic [ref=e130]:
+                    - img "Spring Boot icon" [ref=e131]
+                    - generic [ref=e132]: Spring Boot
+              - generic [ref=e133]:
+                - generic [ref=e134]: Mobile & Design
+                - generic [ref=e136]:
+                  - generic [ref=e137]:
+                    - img "Flutter icon" [ref=e138]
+                    - generic [ref=e139]: Flutter
+                  - generic [ref=e140]:
+                    - img "React Native icon" [ref=e141]
+                    - generic [ref=e142]: React Native
+                  - generic [ref=e143]:
+                    - img "Figma icon" [ref=e144]
+                    - generic [ref=e145]: Figma
+                  - generic [ref=e146]:
+                    - img "Framer Motion icon" [ref=e147]
+                    - generic [ref=e148]: Framer Motion
+              - generic [ref=e149]:
+                - generic [ref=e150]: AI & Machine Learning
+                - generic [ref=e152]:
+                  - generic [ref=e153]:
+                    - img "TensorFlow icon" [ref=e154]
+                    - generic [ref=e155]: TensorFlow
+                  - generic [ref=e156]:
+                    - img "PyTorch icon" [ref=e157]
+                    - generic [ref=e158]: PyTorch
+                  - generic [ref=e159]:
+                    - img "Scikit-learn icon" [ref=e160]
+                    - generic [ref=e161]: Scikit-learn
+                  - generic [ref=e162]:
+                    - img "OpenCV icon" [ref=e163]
+                    - generic [ref=e164]: OpenCV
+              - generic [ref=e165]:
+                - generic [ref=e166]: Tools & Cloud
+                - generic [ref=e168]:
+                  - generic [ref=e169]:
+                    - img "Docker icon" [ref=e170]
+                    - generic [ref=e171]: Docker
+                  - generic [ref=e172]:
+                    - img "AWS icon" [ref=e173]
+                    - generic [ref=e174]: AWS
+                  - generic [ref=e175]:
+                    - img "GraphQL icon" [ref=e176]
+                    - generic [ref=e177]: GraphQL
+                  - generic [ref=e178]:
+                    - img "Git icon" [ref=e179]
+                    - generic [ref=e180]: Git
+        - region "Certifications" [ref=e181]:
+          - heading "Certifications" [level=2] [ref=e182]
+          - region "Certifications" [ref=e184]:
+            - heading "Certifications" [level=2] [ref=e185]
+            - generic [ref=e187]:
+              - link "View Meta Front-End Developer Certificate Badge" [ref=e189] [cursor=pointer]:
+                - /url: https://www.credly.com/badges/93faaef5-98e6-4bac-b859-86078fa46048/public_url
+                - img "Meta Front-End Developer Certificate Badge" [ref=e190]
+              - link "View Google Advanced Data Analytics Certificate Badge" [ref=e192] [cursor=pointer]:
+                - /url: https://www.credly.com/badges/84029f3d-2865-44f4-87fb-9a9117d5f665/public_url
+                - img "Google Advanced Data Analytics Certificate Badge" [ref=e193]
+              - link "View Google AI Essentials Badge" [ref=e195] [cursor=pointer]:
+                - /url: https://www.credly.com/badges/4fd67c5c-8d16-47b2-a4a4-c503b82ae42c/public_url
+                - img "Google AI Essentials Badge" [ref=e196]
+              - link "View Google Cybersecurity Professional Certificate Badge" [ref=e198] [cursor=pointer]:
+                - /url: https://www.credly.com/badges/2814337b-8dd5-4215-8717-102a438cef5c/public_url
+                - img "Google Cybersecurity Professional Certificate Badge" [ref=e199]
+              - link "View Google Data Analytics Professional Certificate Badge" [ref=e201] [cursor=pointer]:
+                - /url: https://www.credly.com/badges/541285d6-1075-47ba-94df-c497ecd15253/public_url
+                - img "Google Data Analytics Professional Certificate Badge" [ref=e202]
+              - link "View Google Project Management Professional Certificate Badge" [ref=e204] [cursor=pointer]:
+                - /url: https://www.credly.com/badges/80aa4757-d448-4408-9aea-8fce8c271bac/public_url
+                - img "Google Project Management Professional Certificate Badge" [ref=e205]
+              - link "View Google UX Design Professional Certificate Badge" [ref=e207] [cursor=pointer]:
+                - /url: https://www.credly.com/earner/earned/share/9bd08c36-473a-43a4-bd93-77352b3205c5
+                - img "Google UX Design Professional Certificate Badge" [ref=e208]
+              - link "View Microsoft Office Specialist Word Associate Office 2019 Badge" [ref=e210] [cursor=pointer]:
+                - /url: https://www.credly.com/badges/72f19101-a7c0-4371-bb8b-431d105ed3bb/public_url
+                - img "Microsoft Office Specialist Word Associate Office 2019 Badge" [ref=e211]
+              - link "View Meta Android Developer Certificate Badge" [ref=e213] [cursor=pointer]:
+                - /url: https://www.credly.com/badges/5eb82da6-f411-4aea-8c6f-30c96710026f/public_url
+                - img "Meta Android Developer Certificate Badge" [ref=e214]
+              - link "View Meta Front-End Developer Certificate Badge" [ref=e216] [cursor=pointer]:
+                - /url: https://www.credly.com/badges/93faaef5-98e6-4bac-b859-86078fa46048/public_url
+                - img "Meta Front-End Developer Certificate Badge" [ref=e217]
+              - link "View Google Advanced Data Analytics Certificate Badge" [ref=e219] [cursor=pointer]:
+                - /url: https://www.credly.com/badges/84029f3d-2865-44f4-87fb-9a9117d5f665/public_url
+                - img "Google Advanced Data Analytics Certificate Badge" [ref=e220]
+              - link "View Google AI Essentials Badge" [ref=e222] [cursor=pointer]:
+                - /url: https://www.credly.com/badges/4fd67c5c-8d16-47b2-a4a4-c503b82ae42c/public_url
+                - img "Google AI Essentials Badge" [ref=e223]
+              - link "View Google Cybersecurity Professional Certificate Badge" [ref=e225] [cursor=pointer]:
+                - /url: https://www.credly.com/badges/2814337b-8dd5-4215-8717-102a438cef5c/public_url
+                - img "Google Cybersecurity Professional Certificate Badge" [ref=e226]
+              - link "View Google Data Analytics Professional Certificate Badge" [ref=e228] [cursor=pointer]:
+                - /url: https://www.credly.com/badges/541285d6-1075-47ba-94df-c497ecd15253/public_url
+                - img "Google Data Analytics Professional Certificate Badge" [ref=e229]
+              - link "View Google Project Management Professional Certificate Badge" [ref=e231] [cursor=pointer]:
+                - /url: https://www.credly.com/badges/80aa4757-d448-4408-9aea-8fce8c271bac/public_url
+                - img "Google Project Management Professional Certificate Badge" [ref=e232]
+              - link "View Google UX Design Professional Certificate Badge" [ref=e234] [cursor=pointer]:
+                - /url: https://www.credly.com/earner/earned/share/9bd08c36-473a-43a4-bd93-77352b3205c5
+                - img "Google UX Design Professional Certificate Badge" [ref=e235]
+              - link "View Microsoft Office Specialist Word Associate Office 2019 Badge" [ref=e237] [cursor=pointer]:
+                - /url: https://www.credly.com/badges/72f19101-a7c0-4371-bb8b-431d105ed3bb/public_url
+                - img "Microsoft Office Specialist Word Associate Office 2019 Badge" [ref=e238]
+              - link "View Meta Android Developer Certificate Badge" [ref=e240] [cursor=pointer]:
+                - /url: https://www.credly.com/badges/5eb82da6-f411-4aea-8c6f-30c96710026f/public_url
+                - img "Meta Android Developer Certificate Badge" [ref=e241]
+        - region "Projects" [ref=e242]:
+          - heading "Projects" [level=2] [ref=e243]
+          - generic [ref=e245]:
+            - heading "Projects" [level=2] [ref=e247]
+            - generic [ref=e248]:
+              - article "MegiLance – AI & Blockchain Freelancing Platform (FYP)" [ref=e250] [cursor=pointer]:
+                - link "Live Preview of MegiLance – AI & Blockchain Freelancing Platform (FYP)" [ref=e254]:
+                  - /url: https://www.megilance.site/
+                  - text: Live Preview
+                - img "MegiLance – AI & Blockchain Freelancing Platform (FYP) screenshot" [ref=e255]
+                - heading "MegiLance – AI & Blockchain Freelancing Platform (FYP)" [level=3] [ref=e256]
+                - paragraph [ref=e258]: "MegiLance solves freelancing's biggest problems: cuts extra fees to minimum, bypasses restrictions with crypto, enables instant crypto payouts for Pakistan and uses transparent AI-based ranking."
+                - generic [ref=e260]:
+                  - text: "Tech stack :"
+                  - generic [ref=e261]: Full Stack, Next.js, FastAPI, AI Platform
+              - article "CampusAxis – University Portal" [ref=e263] [cursor=pointer]:
+                - link "Live Preview of CampusAxis – University Portal" [ref=e267]:
+                  - /url: https://campusaxis.site/
+                  - text: Live Preview
+                - img "CampusAxis – University Portal screenshot" [ref=e268]
+                - heading "CampusAxis – University Portal" [level=3] [ref=e269]
+                - paragraph [ref=e271]: Campus Axis is a university portal for COMSATS students. It centralizes academic resources, including dashboards, community discussions, timetables, news and support.
+                - generic [ref=e273]:
+                  - text: "Tech stack :"
+                  - generic [ref=e274]: Next.js, React, MongoDB, Supabase
+              - article "Aesthetics Clinic Website & Management System" [ref=e276] [cursor=pointer]:
+                - link "Live Preview of Aesthetics Clinic Website & Management System" [ref=e280]:
+                  - /url: https://www.aestheticsplace.pk/
+                  - text: Live Preview
+                - img "Aesthetics Clinic Website & Management System screenshot" [ref=e281]
+                - heading "Aesthetics Clinic Website & Management System" [level=3] [ref=e282]
+                - paragraph [ref=e284]: A full‑stack clinic platform for a doctor‑led aesthetic center. Includes a website, internal portal, appointment scheduling, patient records, billing, staff roles and service management to streamline daily clinic operations.
+                - generic [ref=e286]:
+                  - text: "Tech stack :"
+                  - generic [ref=e287]: Next.js, Node.js, MongoDB, LibSQL
+            - button "View All" [ref=e289] [cursor=pointer]
+        - region "Articles" [ref=e290]:
+          - heading "Articles" [level=2] [ref=e291]
+          - generic [ref=e293]:
+            - heading "Articles" [level=2] [ref=e295]
+            - article [ref=e298] [cursor=pointer]:
+              - 'link "Tiptap + Next.js: Rich Text Editing Done Right" [ref=e299]':
+                - /url: /articles/tiptap-nextjs-rich-text-editing-done-right
+                - 'img "Tiptap + Next.js: Rich Text Editing Done Right" [ref=e301]'
+              - generic [ref=e302]:
+                - generic [ref=e303]:
+                  - time [ref=e304]: 2025-08-12
+                  - generic [ref=e305]:
+                    - generic [ref=e306]: "#Tiptap"
+                    - generic [ref=e307]: "#Editor"
+                    - generic [ref=e308]: "#Next.js"
+                - 'heading "Tiptap + Next.js: Rich Text Editing Done Right" [level=3] [ref=e309]':
+                  - 'link "Tiptap + Next.js: Rich Text Editing Done Right" [ref=e310]':
+                    - /url: /articles/tiptap-nextjs-rich-text-editing-done-right
+                - paragraph [ref=e311]: Integrate a modern, theme-aware rich text editor (Tiptap) into your Next.js admin panel with SSR-safe configuration.
+                - link "Read Article" [ref=e313]:
+                  - /url: /articles/tiptap-nextjs-rich-text-editing-done-right
+            - button "View All" [ref=e315] [cursor=pointer]
+        - region "Contact" [ref=e316]:
+          - heading "Contact" [level=2] [ref=e317]
+          - generic [ref=e319]:
+            - form "Contact form" [ref=e321]:
+              - generic [ref=e322]: Name
+              - textbox "Name" [ref=e323]:
+                - /placeholder: Enter your name
+              - generic [ref=e324]: Email
+              - textbox "Email" [ref=e325]:
+                - /placeholder: Enter your email
+              - generic [ref=e326]: Message
+              - textbox "Message" [ref=e327]:
+                - /placeholder: Type your message here...
+              - button "SEND" [ref=e328] [cursor=pointer]:
+                - generic [ref=e330]: SEND
+            - generic:
+              - link "Email hello@ghulammujtaba.com" [ref=e331] [cursor=pointer]:
+                - /url: mailto:hello@ghulammujtaba.com
+                - text: hello@ghulammujtaba.com
+              - link "Call +92 317 7107849" [ref=e332] [cursor=pointer]:
+                - /url: tel:+923177107849
+                - text: +92 317 7107849
+              - heading "Contact Me" [level=2] [ref=e333]
+              - generic [ref=e334]:
+                - paragraph [ref=e335]: Do you have any project idea?
+                - paragraph [ref=e336]: Let's discuss and turn them into reality!
+              - img [ref=e337]
+              - img [ref=e338]
+      - contentinfo [ref=e339]:
+        - contentinfo [ref=e340]:
+          - generic [ref=e342]:
+            - img "Copyright Icon" [ref=e343]
+            - paragraph [ref=e344]: Copyright 2026 Ghulam Mujtaba Official
+            - link "LinkedIn" [ref=e345] [cursor=pointer]:
+              - /url: https://www.linkedin.com/in/ghulamujtabaofficial
+            - link "Instagram" [ref=e346] [cursor=pointer]:
+              - /url: https://www.instagram.com/ghulamujtabaofficial/
+            - link "GitHub" [ref=e347] [cursor=pointer]:
+              - /url: https://github.com/ghulam-mujtaba5
+    - button "Switch to light mode" [ref=e348] [cursor=pointer]:
+      - generic [ref=e350]:
+        - img
+        - img
+  - button "Open Next.js Dev Tools" [ref=e356] [cursor=pointer]:
+    - img [ref=e357]
+  - alert [ref=e360]

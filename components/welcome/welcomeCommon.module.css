@@ -71,79 +71,80 @@
 /* ── Hero CTA row ── */
 .heroCTARow {
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 14px;
-  margin-top: 20px;
-}
-
-.availPill {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 6px 14px;
-  border-radius: 999px;
-  font-size: 0.82rem;
-  font-weight: 500;
-  letter-spacing: 0.01em;
-  user-select: none;
-}
-
-.availDot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: #22c55e;
-  animation: availPulse 2s ease-in-out infinite;
-  flex-shrink: 0;
-}
-
-@keyframes availPulse {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.5; transform: scale(0.85); }
-}
-
-.heroCTAButtons {
-  display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 14px;
+  margin-top: 28px;
 }
 
 .heroCTA {
   display: inline-flex;
   align-items: center;
-  padding: 9px 22px;
-  border-radius: 8px;
-  font-size: 0.88rem;
-  font-weight: 600;
+  gap: 9px;
+  padding: 13px 26px;
+  border-radius: 10px;
+  font-family: "Open Sans", sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
   text-decoration: none;
-  transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
   cursor: pointer;
+  border: 2px solid transparent;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease,
+    border-color 0.2s ease;
 }
 
-.heroCTA:hover {
-  transform: translateY(-2px);
+.heroCTAArrow {
+  width: 18px;
+  height: 18px;
+  transition: transform 0.2s ease;
 }
 
 .heroCTAPrimary {
-  background: #4573df;
+  background: linear-gradient(
+    135deg,
+    var(--brand-primary, #4573df),
+    var(--brand-primary-light, #5a86e6)
+  );
   color: #fff;
-  box-shadow: 0 2px 12px rgba(69, 115, 223, 0.35);
+  box-shadow: 0 6px 20px var(--brand-primary-shadow, rgba(69, 115, 223, 0.3));
 }
 
 .heroCTAPrimary:hover {
-  background: #3560d0;
-  box-shadow: 0 4px 18px rgba(69, 115, 223, 0.5);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(69, 115, 223, 0.45);
+}
+
+.heroCTAPrimary:hover .heroCTAArrow {
+  transform: translateX(4px);
 }
 
 .heroCTASecondary {
   background: transparent;
-  color: #4573df;
-  border: 1.5px solid #4573df;
+  color: var(--brand-primary, #4573df);
+  border-color: var(--brand-primary, #4573df);
 }
 
 .heroCTASecondary:hover {
-  background: rgba(69, 115, 223, 0.08);
+  transform: translateY(-2px);
+  background: var(--brand-primary-muted, rgba(69, 115, 223, 0.1));
+}
+
+@media (max-width: 576px) {
+  .heroCTARow {
+    width: 100%;
+    justify-content: center;
+  }
+  .heroCTA {
+    flex: 1 1 auto;
+    justify-content: center;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .heroCTA,
+  .heroCTAArrow {
+    transition: none;
+  }
 }
 
 @media screen and (max-width: 980px) {

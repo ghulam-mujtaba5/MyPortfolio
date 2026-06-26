@@ -1,0 +1,69 @@
+/* WorkWithMeModalDark.module.css */
+
+.overlay {
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+}
+
+.modal {
+  background: var(--surface, #1d2633);
+  color: var(--text, #e6edf3);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55), 0 2px 8px rgba(0, 0, 0, 0.4);
+  border: 1px solid var(--border, #2a3442);
+}
+
+.title {
+  color: var(--text, #e6edf3);
+}
+
+.subtitle {
+  color: var(--text-muted, #9fb1c3);
+}
+
+.closeButton {
+  color: var(--text-muted, #9fb1c3);
+}
+
+.closeButton:hover {
+  background: rgba(90, 134, 230, 0.16);
+  color: var(--brand-primary-light, #5a86e6);
+}
+
+.card {
+  background: rgba(255, 255, 255, 0.035);
+  border-color: var(--border, #2a3442);
+}
+
+.card:hover {
+  border-color: var(--brand-primary-light, #5a86e6);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.4);
+}
+
+.cardIcon {
+  background: rgba(90, 134, 230, 0.16);
+  color: var(--brand-primary-light, #5a86e6);
+}
+
+.cardTitle {
+  color: var(--text, #e6edf3);
+}
+
+.cardAudience {
+  color: var(--brand-primary-light, #5a86e6);
+}
+
+.cardText {
+  color: var(--text-muted, #9fb1c3);
+}
+
+.btnGhost {
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text, #e6edf3);
+  border-color: var(--border, #2a3442);
+}
+
+.btnGhost:hover {
+  border-color: var(--brand-primary-light, #5a86e6);
+  color: var(--brand-primary-light, #5a86e6);
+}
