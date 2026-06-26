@@ -100,6 +100,10 @@ export default function SEO({
       <link rel="alternate" hrefLang="en" href={canonical || url} />
       <link rel="alternate" hrefLang="x-default" href={canonical || url} />
 
+      {/* ═══════════ LLM / AI Discovery (llms.txt standard) ═══════════ */}
+      <link rel="llms" href="https://ghulammujtaba.com/llms.txt" />
+      <link rel="llms-full" href="https://ghulammujtaba.com/llms-full.txt" />
+
       {/* ═══════════ DNS Prefetch & Preconnect ═══════════ */}
       <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
       <link rel="dns-prefetch" href="https://fonts.gstatic.com" />

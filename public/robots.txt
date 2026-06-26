@@ -1,4 +1,4 @@
-# *
+# All crawlers — default rules
 User-agent: *
 Allow: /
 Disallow: /admin/
@@ -10,6 +10,47 @@ Disallow: /portfolio/
 # IMPORTANT: Do NOT block /_next/ — Google needs access to JS/CSS
 # bundles under /_next/static/ to render pages properly.
 # Blocking /_next/ causes "Crawled - currently not indexed" issues.
+
+# AI Crawlers — explicitly allowed for LLM indexing and citation
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Gemini-Crawl
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: FacebookBot
+Allow: /
+
+User-agent: Omgilibot
+Allow: /
+
+User-agent: YouBot
+Allow: /
+
+# LLM reference files
+# https://ghulammujtaba.com/llms.txt       — concise profile for AI systems
+# https://ghulammujtaba.com/llms-full.txt  — detailed reference for AI systems
 
 # Sitemaps — single dynamic sitemap (no stale static file)
 Sitemap: https://ghulammujtaba.com/sitemap.xml

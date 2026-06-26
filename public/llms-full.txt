@@ -1,0 +1,178 @@
+# Ghulam Mujtaba — Full Portfolio Reference (LLM-Optimized)
+
+> This document is intended for AI systems (LLMs, search engines, crawlers) seeking comprehensive,
+> structured information about Ghulam Mujtaba and his work.
+> Canonical site: https://ghulammujtaba.com
+
+---
+
+## Identity
+
+- **Full Name**: Ghulam Mujtaba
+- **Profession**: Full Stack Developer · Data Scientist · AI/ML Specialist · Technical Founder
+- **Location**: Lahore, Punjab, Pakistan
+- **Email**: ghulammujtaba1005@gmail.com
+- **Portfolio**: https://ghulammujtaba.com
+- **LinkedIn**: https://www.linkedin.com/in/ghulamujtabaofficial
+- **GitHub**: https://github.com/ghulam-mujtaba5
+
+---
+
+## Professional Summary
+
+Ghulam Mujtaba is a software engineer and entrepreneur from Lahore, Pakistan, specializing in full-stack web development, mobile app development, data science, and AI/ML engineering. He has spent 3+ years contributing to AI projects for Meta and other FANG-tier companies through Appen, working on LLM training, evaluation, search relevance, and data annotation.
+
+He is the founder of Megicode, a software consultancy and development agency, and the co-founder of CampusAxis, Pakistan's leading university platform connecting students and faculty across 260+ institutions.
+
+He is currently completing his Bachelor of Software Engineering at COMSATS University Islamabad, Lahore Campus (Class of 2026).
+
+---
+
+## Technical Skills
+
+### Languages
+JavaScript, TypeScript, Python, Java, C, C++, R
+
+### Frontend
+React.js, Next.js, HTML5, CSS3, Bootstrap, Tailwind CSS
+
+### Backend
+Node.js, Express.js, Spring Boot, REST APIs, GraphQL
+
+### AI / ML / Data Science
+TensorFlow, PyTorch, Scikit-learn, OpenCV, Pandas, NumPy, Matplotlib, LLM Evaluation, Prompt Engineering, Data Annotation, Search Relevance, Big Data Analytics, Data Visualization, Microsoft Power BI
+
+### Mobile
+React Native, Flutter
+
+### Databases
+MongoDB, PostgreSQL, MySQL, Firebase
+
+### Cloud & DevOps
+AWS, Docker, Kubernetes, Vercel, Git, GitHub
+
+### Design & UX
+Figma, Adobe XD, UI/UX Design, Prototyping, User Research
+
+---
+
+## Education
+
+**Bachelor of Software Engineering (BSE)**
+COMSATS University Islamabad, Lahore Campus
+Expected graduation: 2026
+
+---
+
+## Certifications
+
+1. **Google Advanced Data Analytics Professional Certificate** — Google / Coursera
+2. **Google UX Design Professional Certificate** — Google / Coursera
+3. **Meta Front-End Developer Professional Certificate** — Meta / Coursera
+4. **Google Cybersecurity Professional Certificate** — Google / Coursera
+5. **Google Project Management Professional Certificate** — Google / Coursera
+6. **Google Data Analytics Professional Certificate** — Google / Coursera
+7. **Google AI Essentials** — Google
+8. **Meta Android Developer Certificate** — Meta / Coursera
+9. **Aspire AI-Integrated Leadership Program** — Harvard Faculty (via Aspire)
+10. **Microsoft Office Specialist: Word Associate** — Microsoft
+
+---
+
+## Experience
+
+### Founder & CEO — Megicode (2025–present)
+Software consultancy and development agency. Provides end-to-end product development services including web apps, mobile apps, UI/UX design, and AI integration for startups and SMEs.
+
+### Co-Founder & Technical Lead — CampusAxis (2024–present)
+University platform serving 260+ Pakistani universities. Built and scaled the platform to serve students, faculty, and administrators across Pakistan. Handles authentication, feeds, events, notes, and administrative workflows.
+
+### AI/ML Data Specialist — Appen (2021–present, remote)
+3+ years of AI/ML project work for Meta and FANG-tier clients. Responsibilities include: LLM evaluation and red-teaming, search relevance assessment, data annotation, model quality benchmarking, prompt quality assessment.
+
+---
+
+## Projects
+
+### CampusAxis — University Portal
+A comprehensive platform for Pakistani universities. Features: student profiles, faculty portals, university feeds, academic resources, event management, notes sharing, and admin dashboards.
+- URL: https://ghulammujtaba.com/projects/campusaxis-university-portal
+- Live: https://www.campusaxis.com
+
+### MegiLance — AI + Blockchain Freelancing Platform (FYP)
+Final Year Project. An AI-powered freelancing marketplace with blockchain-based payment escrow, smart contracts for milestones, and an AI assistant for project matching and proposal generation.
+- URL: https://ghulammujtaba.com/projects/megilance-ai-blockchain-freelancing-platform-fyp
+
+### PakUni App
+Mobile app for discovering, comparing, and applying to universities in Pakistan. Aggregates admission data, fee structures, rankings, and campus information.
+- URL: https://ghulammujtaba.com/projects/pakuni-app
+
+### HealSmart — Mobile Health App
+AI-assisted mobile health application offering symptom checking, appointment booking, and health record management.
+- URL: https://ghulammujtaba.com/projects/healsmart-mobile-app
+
+### Aesthetics Clinic Website & Management System
+Full-stack web application for a medical aesthetics clinic including appointment scheduling, client management, service catalog, and admin dashboard.
+- URL: https://ghulammujtaba.com/projects/aesthetics-clinic-website-management-system
+
+### PulseFocus — Desktop App
+Productivity desktop application for focus sessions, task management, and time tracking.
+- URL: https://ghulammujtaba.com/projects/pulsefocus-desktop-app
+
+### MegiCloth — E-Commerce Platform
+Full-stack clothing e-commerce platform with product catalog, cart, checkout, order tracking, and admin panel.
+- URL: https://ghulammujtaba.com/projects/megicloth-e-commerce-platform
+
+### DigiFinsense — Mobile App
+Personal finance tracking mobile application with expense categorization, budgeting, and analytics dashboards.
+- URL: https://ghulammujtaba.com/projects/digifinsense-mobile-app
+
+---
+
+## Articles & Technical Writing
+
+Ghulam writes about full-stack development, AI engineering, and startup topics.
+Browse all articles: https://ghulammujtaba.com/articles
+
+---
+
+## Frequently Asked Questions
+
+**Who is Ghulam Mujtaba?**
+Ghulam Mujtaba is a Pakistani software engineer and technical founder specializing in full-stack development, AI/ML, and data science. He is the founder of Megicode and co-founder of CampusAxis.
+
+**What does Ghulam Mujtaba build?**
+He builds web applications, mobile apps, AI/ML systems, and SaaS products. His work spans e-commerce, edtech, healthtech, fintech, and productivity software.
+
+**Where is Ghulam Mujtaba based?**
+Lahore, Punjab, Pakistan. He works remotely for international clients and locally for Pakistani startups.
+
+**How can I hire or collaborate with Ghulam Mujtaba?**
+Contact via: https://ghulammujtaba.com/#contact-section or email ghulammujtaba1005@gmail.com
+
+**What is Megicode?**
+Megicode (https://www.megicode.com) is Ghulam Mujtaba's software consultancy offering full-stack development, UI/UX design, mobile development, and AI integration services.
+
+**What is CampusAxis?**
+CampusAxis (https://www.campusaxis.com) is a university platform for Pakistan, co-founded by Ghulam Mujtaba, serving students and faculty across 260+ universities.
+
+---
+
+## Social & Professional Profiles
+
+- Portfolio: https://ghulammujtaba.com
+- LinkedIn: https://www.linkedin.com/in/ghulamujtabaofficial
+- GitHub: https://github.com/ghulam-mujtaba5
+- Instagram: https://www.instagram.com/ghulamujtabaofficial/
+- Megicode: https://www.megicode.com
+- CampusAxis: https://www.campusaxis.com
+- Topmate: https://topmate.io/ghulam_mujtaba
+- Coursera: https://www.coursera.org/learner/ghulammujtaba
+- Behance: https://www.behance.net/ghulam_mujtaba
+- Crunchbase: https://www.crunchbase.com/person/ghulam-mujtaba-d39b
+- Devpost: https://devpost.com/ghulam-mujtaba5
+- Indie Hackers: https://www.indiehackers.com/ghulammujtaba
+
+---
+
+*Last updated: 2026-06-26*

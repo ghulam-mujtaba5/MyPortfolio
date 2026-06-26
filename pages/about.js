@@ -22,6 +22,7 @@ import {
   MapPin, Mail, Github, Linkedin,
   ArrowRight,
 } from "lucide-react";
+import { MAIN_SECTIONS } from "../constants/navigation";
 
 const NavBarDesktop = dynamic(() => import("../components/NavBar_Desktop/nav-bar"), { ssr: false });
 const NavBarMobile = dynamic(() => import("../components/NavBar_Mobile/NavBar-mobile"), { ssr: false });
@@ -189,7 +190,7 @@ export default function AboutPage() {
         <NavBarDesktop />
       </div>
       <div className="show-on-mobile">
-        <NavBarMobile />
+        <NavBarMobile sections={MAIN_SECTIONS} />
       </div>
 
       <main className={common.main}>

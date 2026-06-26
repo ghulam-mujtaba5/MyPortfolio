@@ -1,0 +1,55 @@
+# Ghulam Mujtaba — Portfolio
+
+> Full Stack Developer, Data Scientist, and AI Specialist based in Lahore, Pakistan
+
+## About
+
+Ghulam Mujtaba is a technical founder, software engineer, and AI specialist. He has 3+ years of experience training and evaluating large language models for Meta and FANG-tier companies via Appen. He is the founder of Megicode (software consultancy) and co-founder of CampusAxis (university platform serving 260+ Pakistani universities).
+
+- **Education**: Bachelor of Software Engineering, COMSATS University Islamabad, Lahore Campus (expected 2026)
+- **Location**: Lahore, Punjab, Pakistan
+- **Email**: ghulammujtaba1005@gmail.com
+- **Site**: https://ghulammujtaba.com
+
+## Site Structure
+
+- [Home](https://ghulammujtaba.com) — overview, hero, skills, contact
+- [About](https://ghulammujtaba.com/about) — biography, languages, tools, and background
+- [Resume](https://ghulammujtaba.com/resume) — experience, education, and certifications
+- [Projects](https://ghulammujtaba.com/projects) — real-world products built for clients and startups
+- [Articles](https://ghulammujtaba.com/articles) — technical writing on full stack development, AI, and startups
+
+## Skills
+
+**Full Stack Development**: JavaScript, TypeScript, React, Next.js, Node.js, Python, Java, Spring Boot, MERN Stack
+**AI / ML**: TensorFlow, PyTorch, Scikit-learn, OpenCV, LLM Evaluation, Data Annotation, Search Relevance
+**Mobile**: React Native, Flutter
+**Infrastructure & Cloud**: AWS, Docker, Kubernetes, MongoDB, PostgreSQL
+**Design**: Figma, UI/UX Design (Google certified)
+
+## Certifications
+
+- Google Advanced Data Analytics Professional Certificate
+- Google UX Design Professional Certificate
+- Meta Front-End Developer Professional Certificate
+- Google Cybersecurity Professional Certificate
+- Google Project Management Professional Certificate
+- Google Data Analytics Professional Certificate
+- Aspire AI-Integrated Leadership Program (Harvard faculty)
+
+## Notable Projects
+
+- **CampusAxis** — comprehensive university portal connecting students, faculty, and administration across 260+ Pakistani universities
+- **MegiLance** — AI + blockchain powered freelancing platform (Final Year Project)
+- **PakUni App** — university discovery and comparison mobile app for Pakistan
+- **HealSmart** — AI-assisted mobile health application
+- **Aesthetics Clinic** — full website and management system for a medical aesthetics clinic
+
+## Professional Links
+
+- LinkedIn: https://www.linkedin.com/in/ghulamujtabaofficial
+- GitHub: https://github.com/ghulam-mujtaba5
+- Megicode: https://www.megicode.com
+- CampusAxis: https://www.campusaxis.com
+- Coursera: https://www.coursera.org/learner/ghulammujtaba
+- Topmate: https://topmate.io/ghulam_mujtaba
