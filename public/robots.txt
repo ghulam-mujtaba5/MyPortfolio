@@ -54,3 +54,6 @@ Allow: /
 
 # Sitemaps — single dynamic sitemap (no stale static file)
 Sitemap: https://ghulammujtaba.com/sitemap.xml
+
+# IndexNow — real-time URL indexing for Bing, Yandex, Seznam
+# Key file: https://ghulammujtaba.com/8606918adee84595b42261573aea1aa8.txt

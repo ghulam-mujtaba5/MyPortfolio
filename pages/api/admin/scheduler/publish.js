@@ -2,6 +2,7 @@ import { getSession } from "next-auth/react";
 import dbConnect from "../../../../lib/mongoose";
 import Project from "../../../../models/Project";
 import Article from "../../../../models/Article";
+import { submitToIndexNow } from "../../../../lib/indexnow";
 
 export default async function handler(req, res) {
   // Note: In a real-world scenario, this endpoint should be protected,
@@ -67,6 +68,13 @@ export default async function handler(req, res) {
       ...projectsToPublish.map((p) => ({ ...p, type: "Project" })),
       ...articlesToPublish.map((a) => ({ ...a, type: "Article" })),
     ];
+
+    // Notify Bing/Yandex via IndexNow for all newly published URLs
+    const newUrls = [
+      ...projectsToPublish.map((p) => `https://ghulammujtaba.com/projects/${p.slug}`),
+      ...articlesToPublish.map((a) => `https://ghulammujtaba.com/articles/${a.slug}`),
+    ];
+    if (newUrls.length) submitToIndexNow(newUrls).catch(() => {});
 
     return res
       .status(200)

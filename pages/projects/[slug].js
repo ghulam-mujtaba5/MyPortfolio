@@ -86,7 +86,9 @@ const ProjectPage = ({ project, relatedProjects = [] }) => {
         />
 
         {/* Open Graph / Facebook */}
-        <meta property="og:type" content="website" />
+        <meta property="og:type" content="article" />
+        <meta property="og:site_name" content="Ghulam Mujtaba Portfolio" />
+        <meta property="og:locale" content="en_US" />
         <meta
           property="og:title"
           content={project.metaTitle || project.title}
@@ -98,31 +100,34 @@ const ProjectPage = ({ project, relatedProjects = [] }) => {
           }
         />
         <meta property="og:image" content={makeAbsolute(project.ogImage || project.image)} />
+        <meta property="og:image:alt" content={project.metaTitle || project.title} />
         <meta
           property="og:url"
           content={`https://ghulammujtaba.com/projects/${project.slug}`}
         />
 
-        {/* Twitter */}
-        <meta property="twitter:card" content="summary_large_image" />
+        {/* Twitter — must use name= not property= */}
+        <meta name="twitter:card" content="summary_large_image" />
         <meta
-          property="twitter:title"
+          name="twitter:title"
           content={project.metaTitle || project.title}
         />
         <meta
-          property="twitter:description"
+          name="twitter:description"
           content={
             project.metaDescription || project.description.substring(0, 160)
           }
         />
         <meta
-          property="twitter:image"
+          name="twitter:image"
           content={makeAbsolute(project.ogImage || project.image)}
         />
         <meta
-          property="twitter:url"
+          name="twitter:url"
           content={`https://ghulammujtaba.com/projects/${project.slug}`}
         />
+        <meta name="twitter:site" content="@gabormujtaba" />
+        <meta name="twitter:creator" content="@gabormujtaba" />
 
         {/* JSON-LD: Project as CreativeWork */}
         <script

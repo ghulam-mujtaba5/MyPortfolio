@@ -48,6 +48,14 @@ class MyDocument extends Document {
             href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&family=Poppins:wght@300;400;500;600;700&family=Manrope:wght@600&family=Inter:wght@400;500;600&display=swap"
           />
 
+          {/* RSS feed auto-discovery — lets feed readers and AI crawlers find articles */}
+          <link
+            rel="alternate"
+            type="application/rss+xml"
+            title="Ghulam Mujtaba — Articles"
+            href="https://ghulammujtaba.com/feed.xml"
+          />
+
           {/* Security headers hint */}
           <meta httpEquiv="X-Content-Type-Options" content="nosniff" />
           <meta name="referrer" content="strict-origin-when-cross-origin" />

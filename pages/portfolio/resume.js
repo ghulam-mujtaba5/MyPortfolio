@@ -1,5 +1,5 @@
 import React from 'react';
-import SEO from '../../components/SEO';
+import SEO, { personSchema, breadcrumbSchema } from '../../components/SEO';
 import { useTheme } from '../../context/ThemeContext';
 import dynamic from 'next/dynamic';
 const Resume = dynamic(() => import('../../components/Resume/Resume'), {
@@ -19,58 +19,35 @@ const ResumePage = ({ resume }) => {
   return (
     <>
       <SEO
-        title="Ghulam Mujtaba's Resume | Software Engineer"
-        description="Explore my professional journey and skills in detail as a Software Engineer specializing in emerging technologies on my resume page."
+        title="Ghulam Mujtaba's Resume | Full Stack Developer & AI Specialist"
+        description="Resume of Ghulam Mujtaba — Full Stack Developer, Data Scientist, and AI Specialist. Founder of Megicode and CampusAxis. 3+ years of AI/ML work for Meta via Appen."
         url="https://ghulammujtaba.com/resume"
         image="https://ghulammujtaba.com/og-image.png"
         type="profile"
         canonical="https://ghulammujtaba.com/resume"
-        keywords="Ghulam Mujtaba, Resume, Software Engineer, Portfolio, Skills, Experience"
-      >
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              '@context': 'http://schema.org',
-              '@type': 'Person',
-              name: 'Ghulam Mujtaba',
-              url: 'https://ghulammujtaba.com/resume',
-              sameAs: [
-                'https://www.linkedin.com/in/ghulamujtabaofficial',
-                'https://www.instagram.com/ghulamujtabaofficial/',
-                'https://github.com/ghulam-mujtaba5',
-                'https://stackoverflow.com/users/27756536',
-                'https://dev.to/ghulam-mujtaba',
-                'https://medium.com/@ghulam-mujtaba',
-                'https://kaggle.com/ghulamujtaba',
-                'https://leetcode.com/u/ghulam-mujtaba',
-                'https://linktr.ee/ghulam__mujtaba',
-              ],
-              jobTitle:
-                'Software Engineer, Full Stack Developer, Data Scientist, AI Specialist',
-              address: {
-                '@type': 'PostalAddress',
-                addressCountry: 'PK',
-              },
-              image: 'https://ghulammujtaba.com/og-image.png',
-            }),
-          }}
-        />
-        {/* JSON-LD: Breadcrumbs */}
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              '@context': 'https://schema.org',
-              '@type': 'BreadcrumbList',
-              itemListElement: [
-                { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://ghulammujtaba.com/' },
-                { '@type': 'ListItem', position: 2, name: 'Resume', item: 'https://ghulammujtaba.com/resume' }
-              ]
-            })
-          }}
-        />
-      </SEO>
+        keywords="Ghulam Mujtaba Resume, Full Stack Developer, Data Scientist, AI Specialist, Pakistan, MERN, React, Next.js, TensorFlow"
+        jsonLd={[
+          personSchema({
+            url: 'https://ghulammujtaba.com/resume',
+            sameAs: [
+              'https://www.linkedin.com/in/ghulamujtabaofficial',
+              'https://www.instagram.com/ghulamujtabaofficial/',
+              'https://github.com/ghulam-mujtaba5',
+              'https://stackoverflow.com/users/27756536',
+              'https://dev.to/ghulam-mujtaba',
+              'https://medium.com/@ghulam-mujtaba',
+              'https://kaggle.com/ghulamujtaba',
+              'https://leetcode.com/u/ghulam-mujtaba',
+              'https://linktr.ee/ghulam__mujtaba',
+              'https://www.megicode.com',
+              'https://www.campusaxis.com',
+            ],
+          }),
+          breadcrumbSchema([
+            { name: 'Resume', url: 'https://ghulammujtaba.com/resume' },
+          ]),
+        ]}
+      />
       <div style={{ backgroundColor: theme === 'dark' ? '#272c34' : '#e8ebee', minHeight: '100vh', overflowX: 'hidden' }}>
         <header>
           <NavBarDesktop />
