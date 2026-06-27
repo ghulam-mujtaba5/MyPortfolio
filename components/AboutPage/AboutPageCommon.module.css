@@ -45,11 +45,12 @@
 
 .heroName {
   margin: 0 0 1.5rem;
-  font-family: var(--font-heading, "Poppins", "Open Sans", sans-serif);
-  font-size: 5.5rem;
+  font-family: "Open Sans", sans-serif;
+  font-size: 4.25rem;
   font-weight: 800;
-  line-height: 0.92;
-  letter-spacing: -0.04em;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  white-space: nowrap;
 }
 
 .heroRoles {
@@ -108,21 +109,33 @@
   position: relative;
   width: 200px;
   height: 200px;
-  border-radius: 50%;
+  border-radius: 24px;
   padding: 4px;
+  flex-shrink: 0;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.avatarFrame::before {
+  content: '';
+  position: absolute;
+  inset: -8px;
+  border-radius: 30px;
+  border: 1.5px solid rgba(69, 115, 223, 0.45);
+  animation: journeyRingPulse 3.5s ease-in-out infinite;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.avatarFrame:hover {
+  transform: translateY(-4px);
 }
 
 .avatar {
   width: 100%;
   height: 100%;
-  border-radius: 50%;
+  border-radius: 20px;
   object-fit: cover;
   display: block;
-  transition: transform 0.35s ease;
-}
-
-.avatarFrame:hover .avatar {
-  transform: scale(1.025);
 }
 
 .avatarBadge {
@@ -266,7 +279,7 @@
   flex-direction: column;
   align-items: center;
   flex-shrink: 0;
-  width: 64px;
+  width: 76px;
 }
 
 .journeyBadgeWrap {
@@ -301,9 +314,9 @@
 
 /* 3D Badge node */
 .journeyBadge {
-  width: 56px;
-  height: 56px;
-  border-radius: 15px;
+  width: 60px;
+  height: 60px;
+  border-radius: 16px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -318,10 +331,23 @@
 }
 
 .journeyBadgeLogo {
-  width: 44px;
-  height: 44px;
+  width: 46px;
+  height: 46px;
   object-fit: contain;
   border-radius: 4px;
+}
+
+/* Large badge variant for Education (more prominent) */
+.journeyBadgeLg {
+  width: 76px;
+  height: 76px;
+  border-radius: 20px;
+}
+
+.journeyBadgeLogoLg {
+  width: 62px;
+  height: 62px;
+  border-radius: 6px;
 }
 
 /* Dashed connector line — "connected dots" feel */
@@ -649,7 +675,8 @@
   }
 
   .heroName {
-    font-size: 3.25rem;
+    font-size: 2.5rem;
+    white-space: normal;
   }
 
   .heroRoles {
@@ -701,23 +728,34 @@
   }
 
   .journeyNodeCol {
-    width: 50px;
+    width: 60px;
   }
 
   .journeyBadge {
-    width: 46px;
-    height: 46px;
-    border-radius: 12px;
+    width: 48px;
+    height: 48px;
+    border-radius: 13px;
+  }
+
+  .journeyBadgeLg {
+    width: 60px;
+    height: 60px;
+    border-radius: 16px;
   }
 
   .journeyBadgeRing {
     inset: -6px;
-    border-radius: 17px;
+    border-radius: 18px;
   }
 
   .journeyBadgeLogo {
     width: 36px;
     height: 36px;
+  }
+
+  .journeyBadgeLogoLg {
+    width: 46px;
+    height: 46px;
   }
 
   .journeyCard {
@@ -771,7 +809,7 @@
 /* Tablet */
 @media (min-width: 769px) and (max-width: 1024px) {
   .heroName {
-    font-size: 4.25rem;
+    font-size: 3.5rem;
   }
 
   .expertiseGrid {
@@ -792,8 +830,13 @@
     transition: none !important;
   }
 
-  .statusDot {
+  .statusDot,
+  .avatarFrame::before {
     animation: none !important;
+  }
+
+  .avatarFrame {
+    transition: none !important;
   }
 }
 

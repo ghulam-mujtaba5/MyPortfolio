@@ -100,7 +100,7 @@ const timeline = [
     org: "COMSATS University Islamabad",
     type: "education",
     period: "Sep 2022 \u2014 Jun 2026",
-    logo: "/comsats-logo.jpg",
+    logo: "/COMSATS unoversity vector logo.svg",
     description:
       "Bachelor in Software Engineering with focus on computer science, software architecture, algorithms, database systems, artificial intelligence, and human-computer interaction.",
   },
@@ -206,7 +206,7 @@ export default function AboutPage() {
                 <MapPin size={12} /> {scraped.location || "Lahore, Pakistan"}
               </p>
               <h1 id="about-hero-title" className={`${common.heroName} ${t.heroName}`}>
-                Ghulam<br />Mujtaba
+                Ghulam Mujtaba
               </h1>
               <ul className={common.heroRoles} aria-label="Areas of expertise">
                 <li className={`${common.heroRoleItem} ${t.heroRoleItem}`}>Full-Stack Engineering</li>
@@ -346,47 +346,36 @@ export default function AboutPage() {
           </section>
         </ScrollReveal>
 
-        {/* ==================== JOURNEY ==================== */}
+        {/* ==================== EXPERIENCE ==================== */}
         <ScrollReveal animation="fadeInUp" width="100%">
-          <section className={common.journeySection} aria-labelledby="journey-heading">
-            <h2 className={`${common.sectionTitle} ${t.sectionTitle}`} id="journey-heading">
-              Experience &amp; Education
+          <section className={common.section} aria-labelledby="experience-heading">
+            <h2 className={`${common.sectionTitle} ${t.sectionTitle}`} id="experience-heading">
+              Experience
             </h2>
-
             <div className={common.journeyTimeline}>
-              {timeline.map((entry, i) => (
-                <div key={i} className={common.journeyEntry}>
-                  {/* Left: 3D badge + dashed connector */}
+              {timeline.filter(e => e.type === "work").map((entry, i, arr) => (
+                <div key={entry.org} className={common.journeyEntry}>
                   <div className={common.journeyNodeCol}>
                     <div className={common.journeyBadgeWrap}>
-                      <div
-                        className={`${common.journeyBadgeRing} ${common.journeyRingWork}`}
-                        aria-hidden="true"
-                      />
+                      <div className={`${common.journeyBadgeRing} ${common.journeyRingWork}`} aria-hidden="true" />
                       <div className={`${common.journeyBadge} ${t.journeyBadge}`}>
                         <img
                           src={entry.logoDark ? (theme === "dark" ? entry.logoDark : entry.logoLight) : entry.logo}
                           alt={`${entry.org} logo`}
                           className={common.journeyBadgeLogo}
-                          width={34}
-                          height={34}
+                          width={50}
+                          height={50}
                         />
                       </div>
                     </div>
-                    {i < timeline.length - 1 && (
+                    {i < arr.length - 1 && (
                       <div className={common.journeyConnector} aria-hidden="true" />
                     )}
                   </div>
-
-                  {/* Right: entry card */}
                   <div className={`${common.journeyCard} ${t.journeyCard} ${common.journeyCardWork}`}>
                     <div className={common.journeyCardTop}>
-                      <span className={`${common.journeyTypeBadge} ${entry.type === "work" ? common.journeyTypeWork : common.journeyTypeEdu}`}>
-                        {entry.type === "work" ? "Work" : "Education"}
-                      </span>
-                      <span className={`${common.journeyPeriod} ${t.journeyPeriod}`}>
-                        {entry.period}
-                      </span>
+                      <span className={`${common.journeyTypeBadge} ${common.journeyTypeWork}`}>Work</span>
+                      <span className={`${common.journeyPeriod} ${t.journeyPeriod}`}>{entry.period}</span>
                     </div>
                     <h3 className={common.journeyCardTitle}>{entry.title}</h3>
                     <p className={`${common.journeyCardOrg} ${t.journeyCardOrg}`}>{entry.org}</p>
@@ -405,6 +394,47 @@ export default function AboutPage() {
                         View Project <ArrowRight size={13} />
                       </Link>
                     )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+        </ScrollReveal>
+
+        {/* ==================== EDUCATION ==================== */}
+        <ScrollReveal animation="fadeInUp" width="100%">
+          <section className={common.section} aria-labelledby="education-heading">
+            <h2 className={`${common.sectionTitle} ${t.sectionTitle}`} id="education-heading">
+              Education
+            </h2>
+            <div className={common.journeyTimeline}>
+              {timeline.filter(e => e.type === "education").map((entry, i, arr) => (
+                <div key={entry.org} className={common.journeyEntry}>
+                  <div className={common.journeyNodeCol}>
+                    <div className={common.journeyBadgeWrap}>
+                      <div className={`${common.journeyBadgeRing} ${common.journeyRingWork}`} aria-hidden="true" />
+                      <div className={`${common.journeyBadge} ${t.journeyBadge} ${common.journeyBadgeLg}`}>
+                        <img
+                          src={entry.logo}
+                          alt={`${entry.org} logo`}
+                          className={`${common.journeyBadgeLogo} ${common.journeyBadgeLogoLg}`}
+                          width={60}
+                          height={60}
+                        />
+                      </div>
+                    </div>
+                    {i < arr.length - 1 && (
+                      <div className={common.journeyConnector} aria-hidden="true" />
+                    )}
+                  </div>
+                  <div className={`${common.journeyCard} ${t.journeyCard} ${common.journeyCardWork}`}>
+                    <div className={common.journeyCardTop}>
+                      <span className={`${common.journeyTypeBadge} ${common.journeyTypeEdu}`}>Education</span>
+                      <span className={`${common.journeyPeriod} ${t.journeyPeriod}`}>{entry.period}</span>
+                    </div>
+                    <h3 className={common.journeyCardTitle}>{entry.title}</h3>
+                    <p className={`${common.journeyCardOrg} ${t.journeyCardOrg}`}>{entry.org}</p>
+                    <p className={`${common.journeyCardDesc} ${t.journeyCardDesc}`}>{entry.description}</p>
                   </div>
                 </div>
               ))}
