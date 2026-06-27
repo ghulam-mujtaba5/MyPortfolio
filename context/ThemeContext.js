@@ -1,58 +1,77 @@
-import React, { useState, useEffect, createContext, useContext } from "react";
+import React, { useState, useEffect, useRef, createContext, useContext } from "react";
 
 const ThemeContext = createContext();
 
+function getEffectiveTheme(resolvedMode) {
+  return resolvedMode === "auto"
+    ? window.matchMedia("(prefers-color-scheme: dark)").matches
+      ? "dark"
+      : "light"
+    : resolvedMode;
+}
+
+function applyTheme(effective) {
+  document.documentElement.setAttribute("data-theme", effective);
+  document.documentElement.style.colorScheme = effective;
+}
+
 export const ThemeProvider = ({ children }) => {
-  // Initialize to static defaults for SSR/Hydration matching
   const [mode, setMode] = useState("auto");
   const [theme, setTheme] = useState("light");
+  // Tracks whether the initial mount effect has already run so the
+  // mode-change effect doesn't fire a second time on the same mount.
+  const isMounted = useRef(false);
 
-  // Sync state with DOM on mount to avoid hydration flash 418 errors
+  // Mount-only: read storage once, sync DOM + React state in one pass.
+  // This must be the single source of truth for the initial theme value
+  // so that the mode-change effect below (which sees stale mode="auto")
+  // cannot override it on the same render cycle.
   useEffect(() => {
+    let savedMode = "auto";
     try {
-      const saved = localStorage.getItem("themeMode");
-      if (saved === "light" || saved === "dark" || saved === "auto") setMode(saved);
+      const stored = localStorage.getItem("themeMode");
+      if (stored === "light" || stored === "dark" || stored === "auto") {
+        savedMode = stored;
+      }
     } catch {}
-    const domTheme = document.documentElement.getAttribute("data-theme");
-    if (domTheme === "dark" || domTheme === "light") setTheme(domTheme);
+
+    const effective = getEffectiveTheme(savedMode);
+    applyTheme(effective);
+    setMode(savedMode);
+    setTheme(effective);
+
+    try {
+      localStorage.setItem("themeMode", savedMode);
+    } catch {}
   }, []);
 
-  const prefersDark = () => {
-    if (typeof window !== "undefined" && window.matchMedia) {
-      return window.matchMedia("(prefers-color-scheme: dark)").matches;
-    }
-    return false;
-  };
-
-  // apply effective theme based on mode
+  // Mode-change effect: skip the initial mount (handled above) to avoid
+  // the race where it sees mode="auto" and overwrites the correct init.
   useEffect(() => {
-    const effective =
-      mode === "auto" ? (prefersDark() ? "dark" : "light") : mode;
+    if (!isMounted.current) {
+      isMounted.current = true;
+      return;
+    }
+    const effective = getEffectiveTheme(mode);
+    applyTheme(effective);
     setTheme(effective);
     try {
       localStorage.setItem("themeMode", mode);
-      document.documentElement.setAttribute("data-theme", effective);
     } catch {}
   }, [mode]);
 
-  // listen to system changes only in auto mode
+  // System preference listener — only active in auto mode.
   useEffect(() => {
     const mq = window.matchMedia("(prefers-color-scheme: dark)");
     const handler = () => {
       if (mode === "auto") {
         const effective = mq.matches ? "dark" : "light";
+        applyTheme(effective);
         setTheme(effective);
-        document.documentElement.setAttribute("data-theme", effective);
       }
     };
-    mq.addEventListener
-      ? mq.addEventListener("change", handler)
-      : mq.addListener(handler);
-    return () => {
-      mq.removeEventListener
-        ? mq.removeEventListener("change", handler)
-        : mq.removeListener(handler);
-    };
+    mq.addEventListener("change", handler);
+    return () => mq.removeEventListener("change", handler);
   }, [mode]);
 
   const toggleTheme = () => {
@@ -74,8 +93,6 @@ export const ThemeProvider = ({ children }) => {
 
 export const useTheme = () => {
   const ctx = useContext(ThemeContext);
-  // Allow components to render in isolation (tests/storybook) without crashing.
-  // In the real app, `ThemeProvider` is mounted in `pages/_app.js`.
   if (ctx) return ctx;
   return {
     theme: "light",

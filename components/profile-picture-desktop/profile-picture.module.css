@@ -1,18 +1,18 @@
 /*profile picture image css*/
 .image-container {
-  position: relative;
-  top: 0;
+  position: relative; /* Ensuring .image-container is positioned */
+  top: 90px;
   right: 0;
   height: 500px;
 }
 
 /* Style for the image */
 .image {
-  position: absolute;
+  position: absolute; /* Positioning .image relative to .image-container */
   max-width: 500px;
   height: auto;
   left: 78%;
-  top: 56%;
+  margin-top: 25%;
   transform: translate(-50%, -50%);
   padding-bottom: 0;
   z-index: 2;
@@ -26,31 +26,29 @@
 /* Style for the ellipses */
 .ellipseDiv {
   border-radius: 50%;
-  position: absolute;
-  top: 44%;
-  left: 78%;
-  transform: translate(-50%, -50%);
+  position: absolute; /* Positioning .ellipseDiv relative to .image-container */
+  top: 55%;
+  right: 23%;
+  transform: translate(50%, -50%);
   z-index: 1;
-  animation: popUp 0.5s forwards;
+  animation: popUp 0.5s forwards; /* Apply the animation */
 }
-
-/* translate(-50%, -50%) so the animation final state keeps the rings centered on the image */
+/* Keyframes for the pop-up animation */
 @keyframes popUp {
   0% {
     opacity: 0;
-    transform: translate(-50%, -50%) scale(0);
+    transform: translate(50%, -50%) scale(0); /* Keep centered and scaled down */
   }
   100% {
     opacity: 1;
-    transform: translate(-50%, -50%) scale(1);
+    transform: translate(50%, -50%) scale(1); /* Keep centered and scaled up */
   }
 }
-
 @media (max-width: 980px) {
   .image-container {
     top: 0;
-    height: 400px;
-    max-width: 100%;
+    height: 400px; /* Adjust height for tablet screen */
+    max-width: 100%; /* Ensure container does not exceed viewport */
   }
 
   .image {
@@ -61,40 +59,42 @@
 
   .ellipseDiv {
     top: 25%;
-    left: 50%;
-    right: auto;
-    transform: translate(-50%, -50%);
+    right: 50%;
+    transform: translate(50%, -50%);
   }
 
   .imageContainer:hover .image {
+    transform: translate(
+      -50%,
+      -48%
+    ); /* Move the image down slightly on hover */
     transition: transform 0.1s ease-in-out 0.1s;
   }
 }
-
 /* Responsive adjustments for screens with a max width of 768px */
 @media (max-width: 768px) {
   .image-container {
     top: 0;
-    max-width: 100%;
+    max-width: 100%; /* Ensure container does not exceed viewport */
   }
 
   .image {
-    margin-top: 0;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    margin-top: 60px;
+
+    left: 20%;
+    transform: none;
   }
 
   .ellipseDiv {
-    top: 50%;
-    left: 50%;
-    right: auto;
-    margin-top: 0;
-    margin-right: 0;
-    transform: translate(-50%, -50%);
+    margin-top: 30%;
+    margin-right: 50%;
+
+    top: 4%;
+    right: 0%;
   }
 
   .imageContainer:hover .image {
-    transform: none;
+    transform: none; /* Move the image down slightly on hover */
     transition: none;
   }
 }
@@ -102,29 +102,24 @@
 @media (max-width: 576px) {
   .image-container {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 400px;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    height: 400px; /* Adjust height for mobile screen */
     position: relative;
-    max-width: 100%;
+    max-width: 100%; /* Ensure container does not exceed viewport */
   }
 
   .image {
-    margin-top: 0;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 280px;
+    margin-top: 85px;
+    width: 400px;
     height: auto;
-    max-width: 70%;
+    left: 0%;
+    max-width: 100%; /* Ensure container does not exceed viewport */
   }
 
+  /* Style for the ellipses */
   .ellipseDiv {
-    top: 50%;
-    left: 50%;
-    right: auto;
-    margin-top: 0;
-    margin-right: 0;
-    transform: translate(-50%, -50%);
-    animation: popUp 2s ease-in-out;
+    margin-top: 180px;
+    animation: popUp 2s ease-in-out; /* Apply the animation */
   }
 }
