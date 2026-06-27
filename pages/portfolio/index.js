@@ -170,21 +170,14 @@ const Home = ({ previewProjects = [], previewArticles = [] }) => {
               Ghulam Mujtaba | Full Stack Developer, Data Scientist, AI
               Specialist
             </h1>
-            <div
-              id="portfolio-picture"
-              style={{ width: "100%", textAlign: "center" }}
-            >
-              <PortfolioPictureImage
-                style={{
-                  width: "200px",
-                  height: "200px",
-                  margin: "20px auto",
-                  display: "block",
-                }}
-                alt="Ghulam Mujtaba Portfolio Picture"
-                priority
-              />
-            </div>
+            <PortfolioPictureImage
+              style={{
+                width: "100%",
+                display: "block",
+              }}
+              alt="Ghulam Mujtaba Portfolio Picture"
+              priority
+            />
             <WelcomeFrame
               style={{
                 width: "100%",

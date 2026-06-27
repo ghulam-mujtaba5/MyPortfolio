@@ -1,7 +1,7 @@
 /*profile picture image css*/
 .image-container {
   position: relative; /* Ensuring .image-container is positioned */
-  top: 90px;
+  top: 0;
   right: 0;
   height: 500px;
 }
@@ -12,14 +12,13 @@
   max-width: 500px;
   height: auto;
   left: 78%;
-  margin-top: 25%;
+  top: 50%;
   transform: translate(-50%, -50%);
   padding-bottom: 0;
   z-index: 2;
 }
 
 .imageContainer:hover .image {
-  transform: translate(-50%, -48%); /* Move the image down slightly on hover */
   transition: transform 0.1s ease-in-out 0.1s;
 }
 
@@ -27,9 +26,9 @@
 .ellipseDiv {
   border-radius: 50%;
   position: absolute; /* Positioning .ellipseDiv relative to .image-container */
-  top: 55%;
-  right: 23%;
-  transform: translate(50%, -50%);
+  top: 50%;
+  left: 78%;
+  transform: translate(-50%, -50%);
   z-index: 1;
   animation: popUp 0.5s forwards; /* Apply the animation */
 }
