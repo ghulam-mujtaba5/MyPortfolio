@@ -450,8 +450,8 @@ export default function AboutPage() {
           </section>
         </ScrollReveal>
 
-        <Footer />
       </main>
+      <Footer />
     </div>
   );
 }
