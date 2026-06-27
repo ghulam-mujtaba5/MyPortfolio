@@ -66,9 +66,13 @@
   display: flex;
   align-items: center;
   gap: 0;
-  padding: 20px 0;
+  padding: 20px 16px 20px 0;
   opacity: 0;
   position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border-radius: 18px;
+  transition: background 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
 }
 
 .categoryRow:not(:last-child) {
@@ -77,6 +81,43 @@
 
 .categoryRow.rowVisible {
   animation: rowIn 0.5s ease-out both;
+}
+
+.categoryGlow {
+  position: absolute;
+  inset: 4px;
+  z-index: -2;
+  border-radius: 16px;
+  background:
+    radial-gradient(circle at 84% 50%, color-mix(in srgb, var(--skill-accent, #4573df) 20%, transparent), transparent 26%),
+    linear-gradient(90deg, color-mix(in srgb, var(--skill-accent, #4573df) 7%, transparent), transparent 58%);
+  opacity: 0;
+  transition: opacity 0.24s ease;
+}
+
+.categoryRow:hover .categoryGlow,
+.categoryRow:focus-within .categoryGlow {
+  opacity: 1;
+}
+
+.categoryLottie {
+  position: absolute;
+  top: 50%;
+  right: 18px;
+  z-index: -1;
+  width: 154px;
+  height: 154px;
+  opacity: 0;
+  transform: translateY(-50%) translateX(16px) scale(0.92);
+  filter: saturate(1.08);
+  pointer-events: none;
+  transition: opacity 0.24s ease, transform 0.24s ease;
+}
+
+.categoryRow:hover .categoryLottie,
+.categoryRow:focus-within .categoryLottie {
+  opacity: 0.26;
+  transform: translateY(-50%) translateX(0) scale(1);
 }
 
 /* ── Left label ── */
@@ -161,26 +202,6 @@
   transform: scale(1);
 }
 
-.skillLottie {
-  position: absolute;
-  top: 2px;
-  left: 50%;
-  z-index: -1;
-  width: 76px;
-  height: 76px;
-  opacity: 0;
-  transform: translateX(-50%) translateY(8px) scale(0.86);
-  filter: saturate(1.05);
-  pointer-events: none;
-  transition: opacity 0.24s ease, transform 0.24s ease;
-}
-
-.skillCard:hover .skillLottie,
-.skillCard:focus-visible .skillLottie {
-  opacity: 0.58;
-  transform: translateX(-50%) translateY(-5px) scale(1);
-}
-
 /* ── Tech icon ── */
 .skillIcon {
   width: 40px;
@@ -218,7 +239,7 @@
   .categoryRow {
     flex-direction: column;
     gap: 14px;
-    padding: 18px 0;
+    padding: 18px 14px;
   }
 
   .rowLabel {
@@ -245,9 +266,18 @@
     height: 34px;
   }
 
-  .skillLottie {
-    width: 66px;
-    height: 66px;
+  .categoryLottie {
+    right: 10px;
+    top: 20px;
+    width: 118px;
+    height: 118px;
+    transform: translateY(0) translateX(12px) scale(0.92);
+  }
+
+  .categoryRow:hover .categoryLottie,
+  .categoryRow:focus-within .categoryLottie {
+    opacity: 0.18;
+    transform: translateY(0) translateX(0) scale(1);
   }
 }
 

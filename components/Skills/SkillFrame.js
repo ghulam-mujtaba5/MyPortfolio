@@ -62,7 +62,7 @@ const SKILL_CATEGORIES = [
 const SkillFrame = () => {
   const { theme } = useTheme();
   const [hasAnimated, setHasAnimated] = useState(false);
-  const [activeCard, setActiveCard] = useState("");
+  const [activeCategory, setActiveCategory] = useState("");
   const frameRef = useRef(null);
   const themeStyles = theme === "dark" ? darkStyles : lightStyles;
 
@@ -95,8 +95,22 @@ const SkillFrame = () => {
           <div
             key={cat.id}
             className={`${commonStyles.categoryRow} ${hasAnimated ? commonStyles.rowVisible : ""}`}
-            style={{ animationDelay: `${catIdx * 0.12}s` }}
+            style={{
+              "--skill-accent": cat.accent,
+              animationDelay: `${catIdx * 0.12}s`,
+            }}
+            onMouseEnter={() => setActiveCategory(cat.id)}
+            onMouseLeave={() => setActiveCategory("")}
+            onPointerEnter={() => setActiveCategory(cat.id)}
+            onPointerLeave={() => setActiveCategory("")}
           >
+            <HoverLottie
+              src={cat.lottie}
+              active={activeCategory === cat.id}
+              className={commonStyles.categoryLottie}
+            />
+            <span className={commonStyles.categoryGlow} aria-hidden="true" />
+
             {/* Left label */}
             <div className={`${commonStyles.rowLabel} ${themeStyles.rowLabel}`}>
               <span className={commonStyles.labelText}>{cat.label}</span>
@@ -119,19 +133,7 @@ const SkillFrame = () => {
                     animationDelay: `${catIdx * 0.12 + 0.15 + skillIdx * 0.07}s`,
                   }}
                   tabIndex={0}
-                  onMouseEnter={() => setActiveCard(`${cat.id}-${skill.name}`)}
-                  onMouseLeave={() => setActiveCard("")}
-                  onPointerEnter={() => setActiveCard(`${cat.id}-${skill.name}`)}
-                  onPointerLeave={() => setActiveCard("")}
-                  onFocus={() => setActiveCard(`${cat.id}-${skill.name}`)}
-                  onBlur={() => setActiveCard("")}
-                  onClick={() => setActiveCard(`${cat.id}-${skill.name}`)}
                 >
-                  <HoverLottie
-                    src={cat.lottie}
-                    active={activeCard === `${cat.id}-${skill.name}`}
-                    className={commonStyles.skillLottie}
-                  />
                   <span className={commonStyles.skillGlow} aria-hidden="true" />
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
