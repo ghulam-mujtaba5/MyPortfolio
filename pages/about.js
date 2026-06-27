@@ -201,45 +201,50 @@ export default function AboutPage() {
         {/* ==================== HERO ==================== */}
         <ScrollReveal animation="fadeInUp" width="100%">
           <section className={common.hero} aria-labelledby="about-hero-title">
-            <img
-              src={scraped.image ? scraped.image.replace(/^\//, "") : "/images/portfolio-picture.png"}
-              alt="Ghulam Mujtaba"
-              className={`${common.avatar} ${t.avatar}`}
-              width={150}
-              height={150}
-            />
-            <h1 id="about-hero-title" className={`${common.heroName} ${t.heroName}`}>
-              Ghulam Mujtaba
-            </h1>
-            <span className={`${common.heroAccent} ${t.heroAccent}`} aria-hidden="true" />
-            <p className={`${common.heroRole} ${t.heroRole}`}>
-              Software Engineer &middot; AI Specialist &middot; Data Scientist
-            </p>
-            <div className={common.heroPills}>
-              <span className={`${common.locationPill} ${t.locationPill}`}>
-                <MapPin size={14} /> {scraped.location || "Lahore, Pakistan"}
-              </span>
-              <Tooltip
-                content="Open to new opportunities and collaborations"
-                placement="top"
-                trigger={
-                  <span className={`${common.statusPill} ${t.statusPill}`}>
-                    <span className={common.statusDot} />
-                    Available for Work
-                  </span>
-                }
-              />
+            <div className={common.heroContent}>
+              <p className={`${common.heroEyebrow} ${t.heroEyebrow}`}>
+                <MapPin size={12} /> {scraped.location || "Lahore, Pakistan"}
+              </p>
+              <h1 id="about-hero-title" className={`${common.heroName} ${t.heroName}`}>
+                Ghulam<br />Mujtaba
+              </h1>
+              <ul className={common.heroRoles} aria-label="Areas of expertise">
+                <li className={`${common.heroRoleItem} ${t.heroRoleItem}`}>Full-Stack Engineering</li>
+                <li className={`${common.heroRoleItem} ${t.heroRoleItem}`}>AI &amp; Machine Learning</li>
+                <li className={`${common.heroRoleItem} ${t.heroRoleItem}`}>Data Science</li>
+              </ul>
+              <nav className={common.heroSocial} aria-label="Contact and social links">
+                <a className={`${common.heroSocialLink} ${t.heroSocialLink}`} href="mailto:ghulammujtaba1005@gmail.com">
+                  <Mail size={14} /> Email
+                </a>
+                <a className={`${common.heroSocialLink} ${t.heroSocialLink}`} href="https://github.com/ghulam-mujtaba5" target="_blank" rel="noopener noreferrer">
+                  <Github size={14} /> GitHub
+                </a>
+                <a className={`${common.heroSocialLink} ${t.heroSocialLink}`} href="https://www.linkedin.com/in/ghulamujtabaofficial" target="_blank" rel="noopener noreferrer">
+                  <Linkedin size={14} /> LinkedIn
+                </a>
+              </nav>
             </div>
-            <div className={common.heroLinks}>
-              <a className={`${common.heroLink} ${t.heroLink}`} href="mailto:ghulammujtaba1005@gmail.com" aria-label="Send email">
-                <Mail size={18} />
-              </a>
-              <a className={`${common.heroLink} ${t.heroLink}`} href="https://github.com/ghulam-mujtaba5" target="_blank" rel="noopener noreferrer" aria-label="GitHub profile">
-                <Github size={18} />
-              </a>
-              <a className={`${common.heroLink} ${t.heroLink}`} href="https://www.linkedin.com/in/ghulamujtabaofficial" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn profile">
-                <Linkedin size={18} />
-              </a>
+            <div className={common.heroVisual}>
+              <div className={`${common.avatarFrame} ${t.avatarFrame}`}>
+                <img
+                  src={scraped.image ? scraped.image.replace(/^\//, "") : "/images/portfolio-picture.png"}
+                  alt="Ghulam Mujtaba"
+                  className={common.avatar}
+                  width={200}
+                  height={200}
+                />
+                <Tooltip
+                  content="Open to new opportunities and collaborations"
+                  placement="top"
+                  trigger={
+                    <span className={`${common.avatarBadge} ${t.avatarBadge}`}>
+                      <span className={common.statusDot} />
+                      Available
+                    </span>
+                  }
+                />
+              </div>
             </div>
           </section>
         </ScrollReveal>
@@ -344,10 +349,6 @@ export default function AboutPage() {
         {/* ==================== JOURNEY ==================== */}
         <ScrollReveal animation="fadeInUp" width="100%">
           <section className={common.journeySection} aria-labelledby="journey-heading">
-            {/* Decorative floating blobs */}
-            <div className={common.journeyBlob1} aria-hidden="true" />
-            <div className={common.journeyBlob2} aria-hidden="true" />
-
             <h2 className={`${common.sectionTitle} ${t.sectionTitle}`} id="journey-heading">
               Experience &amp; Education
             </h2>
@@ -359,7 +360,7 @@ export default function AboutPage() {
                   <div className={common.journeyNodeCol}>
                     <div className={common.journeyBadgeWrap}>
                       <div
-                        className={`${common.journeyBadgeRing} ${entry.type === "work" ? common.journeyRingWork : common.journeyRingEdu}`}
+                        className={`${common.journeyBadgeRing} ${common.journeyRingWork}`}
                         aria-hidden="true"
                       />
                       <div className={`${common.journeyBadge} ${t.journeyBadge}`}>
@@ -378,7 +379,7 @@ export default function AboutPage() {
                   </div>
 
                   {/* Right: entry card */}
-                  <div className={`${common.journeyCard} ${t.journeyCard} ${entry.type === "work" ? common.journeyCardWork : common.journeyCardEdu}`}>
+                  <div className={`${common.journeyCard} ${t.journeyCard} ${common.journeyCardWork}`}>
                     <div className={common.journeyCardTop}>
                       <span className={`${common.journeyTypeBadge} ${entry.type === "work" ? common.journeyTypeWork : common.journeyTypeEdu}`}>
                         {entry.type === "work" ? "Work" : "Education"}

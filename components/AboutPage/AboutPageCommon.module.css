@@ -17,98 +17,142 @@
 }
 
 /* =============================================
-   HERO — Centered, confident, personal
+   HERO — Editorial split: text left, avatar right
    ============================================= */
 .hero {
-  text-align: center;
-  padding: 3.5rem 0 2.5rem;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 3rem;
+  align-items: center;
+  padding: 5rem 0 3.5rem;
 }
 
-.avatar {
-  width: 150px;
-  height: 150px;
-  border-radius: 50%;
-  object-fit: cover;
-  margin: 0 auto 1.75rem;
-  display: block;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+.heroContent {
+  display: flex;
+  flex-direction: column;
 }
 
-.avatar:hover {
-  transform: scale(1.03);
+.heroEyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  margin-bottom: 1.25rem;
 }
 
 .heroName {
-  margin: 0 0 0.75rem;
+  margin: 0 0 1.5rem;
   font-family: var(--font-heading, "Poppins", "Open Sans", sans-serif);
-  font-size: 3.25rem;
+  font-size: 5.5rem;
   font-weight: 800;
-  line-height: 1.1;
-  letter-spacing: -0.03em;
+  line-height: 0.92;
+  letter-spacing: -0.04em;
 }
 
-.heroAccent {
-  display: block;
-  width: 56px;
-  height: 3px;
-  border-radius: 2px;
-  margin: 0 auto 1rem;
-}
-
-.heroRole {
-  margin: 0 0 1.75rem;
-  font-size: 1.15rem;
-  font-weight: 400;
-  line-height: 1.5;
-}
-
-.heroPills {
+.heroRoles {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 2rem;
   display: flex;
-  justify-content: center;
-  gap: 12px;
-  flex-wrap: wrap;
-  margin-bottom: 1.5rem;
+  flex-direction: column;
+  gap: 0.2rem;
 }
 
-.locationPill,
-.statusPill {
-  display: inline-flex;
+.heroRoleItem {
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.8;
+  display: flex;
   align-items: center;
-  gap: 6px;
-  padding: 7px 16px;
-  border-radius: 20px;
-  font-size: 13px;
-  font-weight: 500;
-  white-space: nowrap;
+  gap: 12px;
 }
 
-.statusDot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: #10b981;
+.heroRoleItem::before {
+  content: '';
+  width: 18px;
+  height: 2px;
+  border-radius: 2px;
   flex-shrink: 0;
 }
 
-.heroLinks {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-}
-
-.heroLink {
-  width: 42px;
-  height: 42px;
-  border-radius: 10px;
+.heroSocial {
   display: flex;
   align-items: center;
-  justify-content: center;
-  text-decoration: none;
-  transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+  gap: 1.75rem;
 }
 
-.heroLink:hover {
-  transform: translateY(-2px);
+.heroSocialLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  text-decoration: none;
+  letter-spacing: 0.01em;
+  transition: opacity 0.2s ease, color 0.2s ease;
+}
+
+.heroSocialLink:hover {
+  opacity: 0.75;
+}
+
+/* Avatar visual */
+.heroVisual {
+  flex-shrink: 0;
+}
+
+.avatarFrame {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  padding: 4px;
+}
+
+.avatar {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.35s ease;
+}
+
+.avatarFrame:hover .avatar {
+  transform: scale(1.025);
+}
+
+.avatarBadge {
+  position: absolute;
+  bottom: 12px;
+  right: -28px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px 6px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: default;
+  letter-spacing: 0.03em;
+}
+
+.statusDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #10b981;
+  flex-shrink: 0;
+  animation: statusPulse 2.5s ease infinite;
+}
+
+@keyframes statusPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.45; }
 }
 
 /* =============================================
@@ -203,32 +247,6 @@
 .journeySection {
   margin-bottom: 4rem;
   position: relative;
-  overflow: hidden;
-}
-
-/* Floating decorative blobs */
-.journeyBlob1 {
-  position: absolute;
-  width: 320px;
-  height: 320px;
-  border-radius: 50%;
-  background: radial-gradient(circle at 30% 30%, rgba(69, 115, 223, 0.1) 0%, transparent 65%);
-  top: -80px;
-  right: -100px;
-  pointer-events: none;
-  filter: blur(50px);
-}
-
-.journeyBlob2 {
-  position: absolute;
-  width: 250px;
-  height: 250px;
-  border-radius: 50%;
-  background: radial-gradient(circle at 60% 60%, rgba(255, 152, 0, 0.09) 0%, transparent 65%);
-  bottom: 20px;
-  left: -80px;
-  pointer-events: none;
-  filter: blur(50px);
 }
 
 .journeyTimeline {
@@ -277,8 +295,8 @@
 }
 
 .journeyRingEdu {
-  border-color: rgba(255, 152, 0, 0.55);
-  box-shadow: 0 0 14px rgba(255, 152, 0, 0.15);
+  border-color: rgba(69, 115, 223, 0.55);
+  box-shadow: 0 0 14px rgba(69, 115, 223, 0.15);
 }
 
 /* 3D Badge node */
@@ -295,31 +313,15 @@
   transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
-/* Highlight shimmer on top half for 3D depth */
-.journeyBadge::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 50%;
-  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.18), transparent);
-  border-radius: 15px 15px 0 0;
-  pointer-events: none;
-  z-index: 1;
-}
-
 .journeyEntry:hover .journeyBadge {
   transform: scale(1.06) translateY(-2px);
 }
 
 .journeyBadgeLogo {
-  width: 34px;
-  height: 34px;
+  width: 44px;
+  height: 44px;
   object-fit: contain;
-  border-radius: 6px;
-  position: relative;
-  z-index: 2;
+  border-radius: 4px;
 }
 
 /* Dashed connector line — "connected dots" feel */
@@ -367,7 +369,7 @@
 }
 
 .journeyCardEdu::before {
-  background: linear-gradient(to right, #ff9800, transparent);
+  background: linear-gradient(to right, #4573df, transparent);
 }
 
 .journeyCard:hover {
@@ -400,9 +402,9 @@
 }
 
 .journeyTypeEdu {
-  background: rgba(255, 152, 0, 0.1);
-  color: #e05c00;
-  border: 1px solid rgba(255, 152, 0, 0.25);
+  background: rgba(69, 115, 223, 0.1);
+  color: #4573df;
+  border: 1px solid rgba(69, 115, 223, 0.2);
 }
 
 /* Period pill */
@@ -626,21 +628,51 @@
   }
 
   .hero {
-    padding: 2.5rem 0 2rem;
+    grid-template-columns: 1fr;
+    text-align: center;
+    gap: 2rem;
+    padding: 3rem 0 2rem;
   }
 
-  .avatar {
-    width: 120px;
-    height: 120px;
-    margin-bottom: 1.25rem;
+  .heroContent {
+    align-items: center;
+    order: 1;
+  }
+
+  .heroVisual {
+    order: 0;
+    margin: 0 auto;
+  }
+
+  .heroEyebrow {
+    justify-content: center;
   }
 
   .heroName {
-    font-size: 2.25rem;
+    font-size: 3.25rem;
   }
 
-  .heroRole {
-    font-size: 1.05rem;
+  .heroRoles {
+    align-items: center;
+  }
+
+  .heroRoleItem::before {
+    display: none;
+  }
+
+  .heroSocial {
+    justify-content: center;
+    gap: 1.25rem;
+  }
+
+  .avatarFrame {
+    width: 160px;
+    height: 160px;
+  }
+
+  .avatarBadge {
+    right: -20px;
+    bottom: 8px;
   }
 
   .storyBody {
@@ -678,18 +710,14 @@
     border-radius: 12px;
   }
 
-  .journeyBadge::before {
-    border-radius: 12px 12px 0 0;
-  }
-
   .journeyBadgeRing {
     inset: -6px;
     border-radius: 17px;
   }
 
   .journeyBadgeLogo {
-    width: 28px;
-    height: 28px;
+    width: 36px;
+    height: 36px;
   }
 
   .journeyCard {
@@ -743,7 +771,7 @@
 /* Tablet */
 @media (min-width: 769px) and (max-width: 1024px) {
   .heroName {
-    font-size: 2.75rem;
+    font-size: 4.25rem;
   }
 
   .expertiseGrid {
@@ -755,13 +783,17 @@
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
   .avatar,
-  .heroLink,
+  .heroSocialLink,
   .expertiseCard,
   .expertiseIcon,
   .ventureCard,
   .ventureIcon,
   .ctaBtn {
     transition: none !important;
+  }
+
+  .statusDot {
+    animation: none !important;
   }
 }
 
@@ -776,7 +808,7 @@
 /* Print */
 @media print {
   .ctaSection,
-  .heroLinks {
+  .heroSocial {
     display: none;
   }
 }

@@ -7,48 +7,40 @@
 }
 
 /* Hero */
-.avatar {
-  box-shadow: 0 0 0 4px rgba(69, 115, 223, 0.18);
-}
-
-.avatar:hover {
-  box-shadow: 0 0 0 4px rgba(69, 115, 223, 0.3), 0 8px 24px rgba(0, 0, 0, 0.2);
+.heroEyebrow {
+  color: #4573df;
 }
 
 .heroName {
   color: #f9fafb;
 }
 
-.heroAccent {
-  background: #4573df;
-}
-
-.heroRole {
+.heroRoleItem {
   color: #9ca3af;
 }
 
-.locationPill {
-  background: #2a2f38;
-  color: #d1d5db;
-  border: 1px solid #374151;
+.heroRoleItem::before {
+  background: #4573df;
 }
 
-.statusPill {
-  background: rgba(16, 185, 129, 0.1);
-  color: #6ee7b7;
-  border: 1px solid rgba(16, 185, 129, 0.2);
+.heroSocialLink {
+  color: #6b7280;
 }
 
-.heroLink {
+.heroSocialLink:hover {
   color: #93c5fd;
-  background: #2a2f38;
-  border: 1px solid #374151;
+  opacity: 1;
 }
 
-.heroLink:hover {
-  background: rgba(69, 115, 223, 0.15);
-  border-color: #4573df;
-  box-shadow: 0 4px 12px rgba(69, 115, 223, 0.15);
+.avatarFrame {
+  background: linear-gradient(135deg, #4573df 0%, #93c5fd 60%, rgba(69, 115, 223, 0.4) 100%);
+}
+
+.avatarBadge {
+  background: #1d2127;
+  color: #6ee7b7;
+  border: 1px solid rgba(16, 185, 129, 0.25);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
 }
 
 /* Story */

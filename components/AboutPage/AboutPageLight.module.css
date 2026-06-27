@@ -7,48 +7,40 @@
 }
 
 /* Hero */
-.avatar {
-  box-shadow: 0 0 0 4px rgba(69, 115, 223, 0.12);
-}
-
-.avatar:hover {
-  box-shadow: 0 0 0 4px rgba(69, 115, 223, 0.2), 0 8px 24px rgba(0, 0, 0, 0.08);
+.heroEyebrow {
+  color: #4573df;
 }
 
 .heroName {
   color: #111827;
 }
 
-.heroAccent {
-  background: #4573df;
-}
-
-.heroRole {
+.heroRoleItem {
   color: #4b5563;
 }
 
-.locationPill {
-  background: #f3f4f6;
-  color: #374151;
-  border: 1px solid #e5e7eb;
+.heroRoleItem::before {
+  background: #4573df;
 }
 
-.statusPill {
-  background: #ecfdf5;
-  color: #065f46;
-  border: 1px solid #d1fae5;
+.heroSocialLink {
+  color: #6b7280;
 }
 
-.heroLink {
+.heroSocialLink:hover {
   color: #4573df;
-  background: #f9fafb;
-  border: 1px solid #e5e7eb;
+  opacity: 1;
 }
 
-.heroLink:hover {
-  background: rgba(69, 115, 223, 0.08);
-  border-color: #4573df;
-  box-shadow: 0 4px 12px rgba(69, 115, 223, 0.1);
+.avatarFrame {
+  background: linear-gradient(135deg, #4573df 0%, #93c5fd 60%, rgba(69, 115, 223, 0.3) 100%);
+}
+
+.avatarBadge {
+  background: #ffffff;
+  color: #065f46;
+  border: 1px solid rgba(16, 185, 129, 0.25);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
 /* Story */

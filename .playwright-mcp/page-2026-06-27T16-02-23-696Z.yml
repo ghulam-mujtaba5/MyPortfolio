@@ -1,0 +1,124 @@
+- generic [ref=e2]:
+  - generic [ref=e3]:
+    - banner
+    - main [ref=e4]:
+      - region "Ghulam Mujtaba" [ref=e6]:
+        - img "Ghulam Mujtaba" [ref=e7]
+        - heading "Ghulam Mujtaba" [level=1] [ref=e8]
+        - paragraph [ref=e10]: Software Engineer · AI Specialist · Data Scientist
+        - generic [ref=e11]:
+          - generic [ref=e12]:
+            - img [ref=e13]
+            - text: Lahore, Pakistan
+          - button "Available for Work" [ref=e16] [cursor=pointer]:
+            - generic [ref=e17]: Available for Work
+        - generic [ref=e19]:
+          - link "Send email" [ref=e20] [cursor=pointer]:
+            - /url: mailto:ghulammujtaba1005@gmail.com
+            - img [ref=e21]
+          - link "GitHub profile" [ref=e24] [cursor=pointer]:
+            - /url: https://github.com/ghulam-mujtaba5
+            - img [ref=e25]
+          - link "LinkedIn profile" [ref=e28] [cursor=pointer]:
+            - /url: https://www.linkedin.com/in/ghulamujtabaofficial
+            - img [ref=e29]
+      - region "My Story" [ref=e34]:
+        - heading "My Story" [level=2] [ref=e35]
+        - generic [ref=e36]:
+          - paragraph [ref=e37]: I am a software engineer from Lahore, Pakistan, and a graduate of Software Engineering at COMSATS University. What started as curiosity about how apps are built has grown into founding a software company and shipping products used by real people.
+          - paragraph [ref=e38]: I founded MegiCode to build digital products for clients, created CampusAxis to solve real problems in how universities manage their operations, and built MegiLance — an AI-powered freelancing platform — as my final year project. Running these alongside my studies taught me more about product thinking, deadlines, and user needs than any classroom could.
+          - paragraph [ref=e39]: "In parallel, I spent three years at Appen evaluating and improving large language models — work that gave me a hands-on understanding of how AI actually works under the hood, not just how to use it. That experience shapes how I approach every project: I care about what happens after the code ships."
+      - region "What I’m Building" [ref=e41]:
+        - heading "What I’m Building" [level=2] [ref=e42]
+        - generic [ref=e43]:
+          - link "MegiLance logo MegiLance FYP Project An AI-powered freelancing platform built with Next.js and FastAPI, featuring smart job matching, blockchain escrow payments, and fraud detection. Visit Site" [ref=e44] [cursor=pointer]:
+            - /url: https://megilance.site
+            - generic [ref=e45]:
+              - img "MegiLance logo" [ref=e46]
+              - generic [ref=e47]:
+                - heading "MegiLance" [level=3] [ref=e48]
+                - text: FYP Project
+            - paragraph [ref=e49]: An AI-powered freelancing platform built with Next.js and FastAPI, featuring smart job matching, blockchain escrow payments, and fraud detection.
+            - generic [ref=e50]:
+              - text: Visit Site
+              - img [ref=e51]
+          - link "CampusAxis logo CampusAxis Founder A university portal platform designed to streamline academic operations, student management, and institutional workflows. View Project" [ref=e53] [cursor=pointer]:
+            - /url: /projects/campusaxis-university-portal
+            - generic [ref=e54]:
+              - img "CampusAxis logo" [ref=e55]
+              - generic [ref=e56]:
+                - heading "CampusAxis" [level=3] [ref=e57]
+                - text: Founder
+            - paragraph [ref=e58]: A university portal platform designed to streamline academic operations, student management, and institutional workflows.
+            - generic [ref=e59]:
+              - text: View Project
+              - img [ref=e60]
+      - region "What I Do" [ref=e63]:
+        - heading "What I Do" [level=2] [ref=e64]
+        - generic [ref=e65]:
+          - generic [ref=e66]:
+            - img [ref=e68]
+            - heading "Full-Stack Engineering" [level=3] [ref=e72]
+            - paragraph [ref=e73]: End-to-end applications with React, Next.js, Java, Spring, and cross-platform apps with React Native & Electron.js.
+          - generic [ref=e74]:
+            - img [ref=e76]
+            - heading "AI & Data Science" [level=3] [ref=e84]
+            - paragraph [ref=e85]: ML model evaluation, data annotation, NLP, and turning raw data into actionable insights that drive decisions.
+          - generic [ref=e86]:
+            - img [ref=e88]
+            - heading "Design & User Experience" [level=3] [ref=e94]
+            - paragraph [ref=e95]: User-centered interfaces, design systems, and experiences that feel intuitive, polished, and genuinely enjoyable.
+      - region "Experience & Education" [ref=e97]:
+        - heading "Experience & Education" [level=2] [ref=e98]
+        - generic [ref=e99]:
+          - generic [ref=e100]:
+            - img "MegiCode logo" [ref=e101]
+            - generic [ref=e102]:
+              - heading "Founder" [level=3] [ref=e103]
+              - paragraph [ref=e104]: MegiCode · Self-employed
+              - paragraph [ref=e105]: 2023 — Present
+              - paragraph [ref=e106]: Founded a software company focused on building high-quality digital products and providing development services for clients and businesses.
+              - link "View Project" [ref=e107] [cursor=pointer]:
+                - /url: /projects/megicode-software-company
+                - text: View Project
+                - img [ref=e108]
+          - generic [ref=e110]:
+            - img "Appen logo" [ref=e111]
+            - generic [ref=e112]:
+              - heading "AI Data Annotator / LLM Evaluator" [level=3] [ref=e113]
+              - paragraph [ref=e114]: Appen · Contract
+              - paragraph [ref=e115]: Oct 2022 — Jul 2025 · 2 yrs 10 mos
+              - paragraph [ref=e116]: Contributed to multiple CrowdGen/Appen projects (Uolo V2 & P, Fireweed, Plumeria V2, Emerald) involving LLM response evaluation, localization ranking, question generation, and content quality review.
+          - generic [ref=e117]:
+            - img "COMSATS University Islamabad logo" [ref=e118]
+            - generic [ref=e119]:
+              - heading "BSc Software Engineering" [level=3] [ref=e120]
+              - paragraph [ref=e121]: COMSATS University Islamabad · Full-time
+              - paragraph [ref=e122]: Sep 2022 — Jun 2026
+              - paragraph [ref=e123]: Bachelor in Software Engineering with focus on computer science, software architecture, algorithms, database systems, artificial intelligence, and human-computer interaction.
+      - list "Key statistics" [ref=e125]:
+        - listitem [ref=e126]:
+          - generic [ref=e127]: "2"
+          - generic [ref=e128]: Companies Founded
+        - listitem [ref=e130]:
+          - generic [ref=e131]: 3+
+          - generic [ref=e132]: Years Experience
+        - listitem [ref=e134]:
+          - generic [ref=e135]: 15+
+          - generic [ref=e136]: Projects Shipped
+      - region "Let’s build something together." [ref=e138]:
+        - heading "Let’s build something together." [level=2] [ref=e139]
+        - paragraph [ref=e140]: Got a project, an idea, or just want to say hello? I’d love to hear from you.
+        - generic [ref=e141]:
+          - link "Get In Touch" [ref=e142] [cursor=pointer]:
+            - /url: /contact
+            - img [ref=e143]
+            - text: Get In Touch
+          - link "View My Work" [ref=e146] [cursor=pointer]:
+            - /url: /projects
+            - text: View My Work
+            - img [ref=e147]
+  - button "Switch to dark mode" [ref=e149] [cursor=pointer]:
+    - generic [ref=e151]:
+      - img
+      - img
