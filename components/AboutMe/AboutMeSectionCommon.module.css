@@ -15,7 +15,7 @@
      up to 36 px on wide screens using clamp().
      Syntax: clamp(MIN, PREFERRED, MAX)
      Change 36px to push the card further from the hero.       */
-  margin-top: clamp(20px, 2.4vw, 36px);
+  margin-top: clamp(60px, 5vw, 90px);
 
   position: relative;   /* needed so child elements can use position: absolute */
   height: 100%;         /* fills its parent's height */
