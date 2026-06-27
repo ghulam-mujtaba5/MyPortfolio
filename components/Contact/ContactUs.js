@@ -16,7 +16,6 @@ import PlexusCanvas from "../Backgrounds/PlexusCanvas";
 
 const ContactSection = ({
   email = "hello@ghulammujtaba.com",
-  phoneNumber = "+92 317 7107849",
   // Optional Plexus tuning per page
   plexusMaxNodes = 120,
   plexusMaxDistance = 110,
@@ -294,15 +293,6 @@ const ContactSection = ({
         >
           {email}
         </a>
-        <a
-          href={`tel:${phoneNumber.replace(/\s+/g, "")}`}
-          className={`${commonStyles.contactPhoneNo} ${themeStyles.contactPhoneNo}`}
-          title="Click to call"
-          aria-label={`Call ${phoneNumber}`}
-          style={{ textDecoration: 'none', color: 'inherit' }}
-        >
-          {phoneNumber}
-        </a>
         <h2
           className={`${commonStyles.contactMeDescription} ${themeStyles.contactMeDescription}`}
         >
@@ -323,13 +313,6 @@ const ContactSection = ({
           alt=""
           aria-hidden="true"
           src={theme === "light" ? "email icon.svg" : "EmailDark.svg"}
-          loading="lazy"
-        />
-        <img
-          className={`${commonStyles.phoneIcon} ${themeStyles.phoneIcon}`}
-          alt=""
-          aria-hidden="true"
-          src={theme === "light" ? "phone-icon.svg" : "PhoneDark.svg"}
           loading="lazy"
         />
       </div>
