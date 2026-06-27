@@ -19,6 +19,7 @@
 }
 
 .imageContainer:hover .image {
+  transform: translate(-50%, -48%); /* Move the image down slightly on hover */
   transition: transform 0.1s ease-in-out 0.1s;
 }
 
@@ -27,8 +28,8 @@
   border-radius: 50%;
   position: absolute; /* Positioning .ellipseDiv relative to .image-container */
   top: 50%;
-  left: 78%;
-  transform: translate(-50%, -50%);
+  right: 23%;
+  transform: translate(50%, -50%);
   z-index: 1;
   animation: popUp 0.5s forwards; /* Apply the animation */
 }
