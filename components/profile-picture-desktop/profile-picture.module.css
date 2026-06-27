@@ -79,18 +79,18 @@
   }
 
   .image {
-    margin-top: 60px;
-
-    left: 20%;
-    transform: none;
+    margin-top: 0;
+    left: 50%;
+    transform: translate(-50%, -50%);
   }
 
   .ellipseDiv {
-    margin-top: 30%;
-    margin-right: 50%;
-
-    top: 4%;
-    right: 0%;
+    top: 50%;
+    left: 50%;
+    right: auto;
+    margin-top: 0;
+    margin-right: 0;
+    transform: translate(-50%, -50%);
   }
 
   .imageContainer:hover .image {
@@ -110,16 +110,22 @@
   }
 
   .image {
-    margin-top: 85px;
-    width: 400px;
+    margin-top: 0;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 280px;
     height: auto;
-    left: 0%;
-    max-width: 100%; /* Ensure container does not exceed viewport */
+    max-width: 70%;
   }
 
   /* Style for the ellipses */
   .ellipseDiv {
-    margin-top: 180px;
+    top: 50%;
+    left: 50%;
+    right: auto;
+    margin-top: 0;
+    margin-right: 0;
+    transform: translate(-50%, -50%);
     animation: popUp 2s ease-in-out; /* Apply the animation */
   }
 }

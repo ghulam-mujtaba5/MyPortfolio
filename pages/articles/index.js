@@ -17,6 +17,7 @@ import Spinner from "../../components/Spinner/Spinner";
 import dbConnect from "../../lib/dbConnect";
 import Article from "../../models/Article";
 import ScrollReveal from "../../components/AnimatedUI/ScrollReveal";
+import ThemeToggleIcon from "../../components/Icon/gmicon";
 
 export default function ArticlesPage({
   initialArticles = [],
@@ -279,6 +280,7 @@ export default function ArticlesPage({
         }}
       >
         <header>
+          <ThemeToggleIcon />
           <div className="hide-on-mobile">
             <NavBarDesktop />
           </div>

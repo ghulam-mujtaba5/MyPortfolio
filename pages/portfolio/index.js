@@ -317,7 +317,7 @@ const Home = ({ previewProjects = [], previewArticles = [] }) => {
           color: #e0e0e0;
         }
         #home-section {
-          min-height: clamp(690px, 78vh, 820px);
+          min-height: clamp(590px, 72vh, 740px);
           position: relative;
           overflow: visible;
         }
@@ -333,7 +333,7 @@ const Home = ({ previewProjects = [], previewArticles = [] }) => {
         #skills-section,
         #project-section,
         #articles-section {
-          padding-inline: clamp(0px, 1.8vw, 24px);
+          padding-inline: clamp(16px, 1.8vw, 24px);
         }
         .skip-link:focus {
           top: 0;

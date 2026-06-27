@@ -202,12 +202,15 @@
   .resumeContainer {
     margin: 0;
     border-radius: 0;
-    padding: 24px 20px;
+    padding: 24px 16px;
+    max-width: 100%;
+    box-sizing: border-box;
   }
 
   .resumeHeader {
-    flex-direction: column-reverse;
+    flex-direction: column;
     gap: 12px;
+    position: relative;
   }
 
   .profilePic {
@@ -215,12 +218,13 @@
     height: 72px;
     align-self: flex-end;
     position: absolute;
-    top: 24px;
-    right: 20px;
+    top: 0;
+    right: 0;
   }
 
   .headerContent {
     max-width: calc(100% - 88px);
+    padding-right: 8px;
   }
 
   .skillsGrid,

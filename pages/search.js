@@ -10,6 +10,7 @@ import dbConnect from "../lib/mongoose";
 import Article from "../models/Article";
 import Project from "../models/Project";
 import ScrollReveal from "../components/AnimatedUI/ScrollReveal";
+import ThemeToggleIcon from "../components/Icon/gmicon";
 import styles from "../styles/Search.module.css";
 
 const clamp = (n, min, max) => Math.max(min, Math.min(max, n));
@@ -47,6 +48,7 @@ export default function SearchPage({ q, page, limit, articleResults, projectResu
       <div className={`${styles.searchPage} ${themeClass}`} style={{ backgroundColor: theme === "dark" ? "#1d2127" : "#ffffff" }}>
         <a href="#main-content" className="skip-link">Skip to main content</a>
         <header>
+          <ThemeToggleIcon />
           <nav><NavBarDesktop /></nav>
           <nav><NavBarMobile sections={MAIN_SECTIONS} /></nav>
         </header>

@@ -23,6 +23,7 @@ import {
   ArrowRight,
 } from "lucide-react";
 import { MAIN_SECTIONS } from "../constants/navigation";
+import ThemeToggleIcon from "../components/Icon/gmicon";
 
 const NavBarDesktop = dynamic(() => import("../components/NavBar_Desktop/nav-bar"), { ssr: false });
 const NavBarMobile = dynamic(() => import("../components/NavBar_Mobile/NavBar-mobile"), { ssr: false });
@@ -186,12 +187,15 @@ export default function AboutPage() {
         ]}
       />
 
-      <div className="nav-desktop-wrapper">
-        <NavBarDesktop />
-      </div>
-      <div className="show-on-mobile">
-        <NavBarMobile sections={MAIN_SECTIONS} />
-      </div>
+      <header>
+        <ThemeToggleIcon />
+        <div className="nav-desktop-wrapper">
+          <NavBarDesktop />
+        </div>
+        <div className="show-on-mobile">
+          <NavBarMobile sections={MAIN_SECTIONS} />
+        </div>
+      </header>
 
       <main className={common.main}>
         {/* ==================== HERO ==================== */}

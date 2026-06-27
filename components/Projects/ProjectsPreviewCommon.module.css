@@ -70,8 +70,9 @@
 
 @media (max-width: 600px) {
   .section {
-    max-width: 100vw;
-    padding: 2rem 0.2rem 1.5rem 0.2rem;
+    max-width: 100%;
+    padding: 2rem 16px 1.5rem 16px;
+    box-sizing: border-box;
   }
   .headerRow {
     flex-direction: column;
@@ -81,21 +82,21 @@
   }
   .title {
     font-size: 18px;
-    margin-left: 8%;
+    margin-left: 0;
     margin-bottom: 0;
     text-align: left;
   }
   .grid {
     grid-template-columns: 1fr;
     gap: 1.2rem;
-    width: 100vw;
+    width: 100%;
     margin: 0 auto;
     padding: 0;
     justify-items: center;
     align-items: center;
   }
   .viewAll {
-    width: 80vw;
+    width: 100%;
     font-size: 0.95rem;
     padding: 0.55rem 0;
     margin: 1.2rem auto 0 auto;
@@ -106,7 +107,7 @@
     max-width: 340px;
   }
   .projectCard {
-    max-width: 340px;
+    max-width: 100%;
     width: 100%;
     margin: 0 auto;
     display: flex;

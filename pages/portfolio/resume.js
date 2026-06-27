@@ -11,6 +11,7 @@ import NavBarDesktop from '../../components/NavBar_Desktop/nav-bar';
 import NavBarMobile from '../../components/NavBar_Mobile/NavBar-mobile';
 import Footer from '../../components/Footer/Footer';
 import ScrollReveal from '../../components/AnimatedUI/ScrollReveal';
+import ThemeToggleIcon from '../../components/Icon/gmicon';
 import { MAIN_SECTIONS } from '../../constants/navigation';
 
 const ResumePage = ({ resume }) => {
@@ -50,6 +51,7 @@ const ResumePage = ({ resume }) => {
       />
       <div style={{ backgroundColor: theme === 'dark' ? '#272c34' : '#e8ebee', minHeight: '100vh', overflowX: 'hidden' }}>
         <header>
+          <ThemeToggleIcon />
           <NavBarDesktop />
           <NavBarMobile sections={MAIN_SECTIONS} />
         </header>
@@ -59,13 +61,15 @@ const ResumePage = ({ resume }) => {
         </ScrollReveal>
         {resume && (
           <ScrollReveal animation="fadeInUp" delay={200}>
-            <a
-              href={`/api/download-resume?url=${encodeURIComponent(resume.url)}&filename=${encodeURIComponent(resume.filename)}`}
-              className="downloadButton"
-              download
-            >
-              Download Resume PDF
-            </a>
+            <div style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
+              <a
+                href={`/api/download-resume?url=${encodeURIComponent(resume.url)}&filename=${encodeURIComponent(resume.filename)}`}
+                className="downloadButton"
+                download
+              >
+                Download Resume PDF
+              </a>
+            </div>
           </ScrollReveal>
         )}
       </main>
@@ -75,8 +79,7 @@ const ResumePage = ({ resume }) => {
         .downloadButton {
           display: inline-block;
           padding: 12px 24px;
-          margin: 20px 0;
-          margin-left: 30px;
+          margin: 20px auto;
           font-size: 16px;
           font-weight: bold;
           color: #ffffff;
@@ -95,13 +98,13 @@ const ResumePage = ({ resume }) => {
         }
 
         .darkTheme {
-          padding: 20px;
+          padding: 0;
           color: #ffffff;
           background-color: #272c34;
         }
 
         .lightTheme {
-          padding: 20px;
+          padding: 0;
           color: #000000;
           background-color: #e8ebee;
         }
