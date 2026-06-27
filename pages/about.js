@@ -156,7 +156,7 @@ export default function AboutPage() {
     {
       question: "Where did Ghulam Mujtaba study?",
       answer:
-        "He is pursuing a Bachelor of Science in Software Engineering at COMSATS University Islamabad, Lahore Campus, with an expected graduation in June 2026.",
+        "He graduated with a Bachelor of Science in Software Engineering from COMSATS University Islamabad, Lahore Campus in June 2026.",
     },
   ]);
   const aboutSpeakableSchema = speakableSchema({
@@ -252,15 +252,15 @@ export default function AboutPage() {
             </h2>
             <div className={`${common.storyBody} ${t.storyBody}`}>
               <p>
-                I am a software engineer from Lahore, Pakistan, currently in my final year of Software
-                Engineering at COMSATS University. What started as curiosity about how apps are built
+                I am a software engineer from Lahore, Pakistan, and a graduate of Software Engineering
+                at COMSATS University. What started as curiosity about how apps are built
                 has grown into founding a software company and shipping products used by real people.
               </p>
               <p>
                 I founded MegiCode to build digital products for clients, created CampusAxis to solve
                 real problems in how universities manage their operations, and built MegiLance &mdash;
                 an AI-powered freelancing platform &mdash; as my final year project. Running these
-                alongside my degree taught me more about product thinking, deadlines, and user needs
+                alongside my studies taught me more about product thinking, deadlines, and user needs
                 than any classroom could.
               </p>
               <p>
@@ -343,33 +343,57 @@ export default function AboutPage() {
 
         {/* ==================== JOURNEY ==================== */}
         <ScrollReveal animation="fadeInUp" width="100%">
-          <section className={common.section} aria-labelledby="journey-heading">
+          <section className={common.journeySection} aria-labelledby="journey-heading">
+            {/* Decorative floating blobs */}
+            <div className={common.journeyBlob1} aria-hidden="true" />
+            <div className={common.journeyBlob2} aria-hidden="true" />
+
             <h2 className={`${common.sectionTitle} ${t.sectionTitle}`} id="journey-heading">
               Experience &amp; Education
             </h2>
-            <div className={common.timeline}>
+
+            <div className={common.journeyTimeline}>
               {timeline.map((entry, i) => (
-                <div key={i} className={`${common.timelineEntry} ${t.timelineEntry}`}>
-                  <img
-                    src={entry.logoDark ? (theme === "dark" ? entry.logoDark : entry.logoLight) : entry.logo}
-                    alt={`${entry.org} logo`}
-                    className={common.timelineLogo}
-                    width={48}
-                    height={48}
-                  />
-                  <div className={common.timelineBody}>
-                    <h3 className={common.timelineTitle}>{entry.title}</h3>
-                    <p className={`${common.timelineOrg} ${t.timelineOrg}`}>
-                      {entry.org} &middot; {entry.type === "education" ? "Full-time" : entry.title === "Founder" ? "Self-employed" : "Contract"}
-                    </p>
-                    <p className={`${common.timelineMeta} ${t.timelineMeta}`}>
-                      {entry.period}
-                    </p>
-                    <p className={`${common.timelineDesc} ${t.timelineDesc}`}>{entry.description}</p>
+                <div key={i} className={common.journeyEntry}>
+                  {/* Left: 3D badge + dashed connector */}
+                  <div className={common.journeyNodeCol}>
+                    <div className={common.journeyBadgeWrap}>
+                      <div
+                        className={`${common.journeyBadgeRing} ${entry.type === "work" ? common.journeyRingWork : common.journeyRingEdu}`}
+                        aria-hidden="true"
+                      />
+                      <div className={`${common.journeyBadge} ${t.journeyBadge}`}>
+                        <img
+                          src={entry.logoDark ? (theme === "dark" ? entry.logoDark : entry.logoLight) : entry.logo}
+                          alt={`${entry.org} logo`}
+                          className={common.journeyBadgeLogo}
+                          width={34}
+                          height={34}
+                        />
+                      </div>
+                    </div>
+                    {i < timeline.length - 1 && (
+                      <div className={common.journeyConnector} aria-hidden="true" />
+                    )}
+                  </div>
+
+                  {/* Right: entry card */}
+                  <div className={`${common.journeyCard} ${t.journeyCard} ${entry.type === "work" ? common.journeyCardWork : common.journeyCardEdu}`}>
+                    <div className={common.journeyCardTop}>
+                      <span className={`${common.journeyTypeBadge} ${entry.type === "work" ? common.journeyTypeWork : common.journeyTypeEdu}`}>
+                        {entry.type === "work" ? "Work" : "Education"}
+                      </span>
+                      <span className={`${common.journeyPeriod} ${t.journeyPeriod}`}>
+                        {entry.period}
+                      </span>
+                    </div>
+                    <h3 className={common.journeyCardTitle}>{entry.title}</h3>
+                    <p className={`${common.journeyCardOrg} ${t.journeyCardOrg}`}>{entry.org}</p>
+                    <p className={`${common.journeyCardDesc} ${t.journeyCardDesc}`}>{entry.description}</p>
                     {entry.link && (
                       <Link
                         href={entry.link}
-                        className={`${common.timelineLink} ${t.timelineLink}`}
+                        className={`${common.journeyCardLink} ${t.journeyCardLink}`}
                         onClick={(e) => {
                           if (document.startViewTransition) {
                             e.preventDefault();

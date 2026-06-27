@@ -82,24 +82,41 @@
   color: #9ca3af;
 }
 
-/* Timeline */
-.timelineEntry + .timelineEntry {
-  border-color: #2a2f38;
+/* Journey Timeline */
+.journeyBadge {
+  background: #2a2f38;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  box-shadow:
+    0 2px 0 rgba(255, 255, 255, 0.07) inset,
+    0 4px 14px rgba(0, 0, 0, 0.3),
+    0 1px 3px rgba(0, 0, 0, 0.2);
 }
 
-.timelineOrg {
-  color: #e5e7eb;
+.journeyCard {
+  background: #23272f;
+  border-color: #374151;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
 }
 
-.timelineMeta {
+.journeyCard:hover {
+  border-color: rgba(69, 115, 223, 0.3);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.28);
+}
+
+.journeyPeriod {
+  background: #2a2f38;
   color: #9ca3af;
 }
 
-.timelineDesc {
+.journeyCardOrg {
+  color: #e5e7eb;
+}
+
+.journeyCardDesc {
   color: #d1d5db;
 }
 
-.timelineLink {
+.journeyCardLink {
   color: #93c5fd;
 }
 

@@ -197,75 +197,253 @@
 }
 
 /* =============================================
-   TIMELINE — Logo-based, LinkedIn-style
+   JOURNEY — 3D visual timeline with connected dots
    ============================================= */
-.timeline {
+
+.journeySection {
+  margin-bottom: 4rem;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Floating decorative blobs */
+.journeyBlob1 {
+  position: absolute;
+  width: 320px;
+  height: 320px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, rgba(69, 115, 223, 0.1) 0%, transparent 65%);
+  top: -80px;
+  right: -100px;
+  pointer-events: none;
+  filter: blur(50px);
+}
+
+.journeyBlob2 {
+  position: absolute;
+  width: 250px;
+  height: 250px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 60% 60%, rgba(255, 152, 0, 0.09) 0%, transparent 65%);
+  bottom: 20px;
+  left: -80px;
+  pointer-events: none;
+  filter: blur(50px);
+}
+
+.journeyTimeline {
+  position: relative;
+  z-index: 1;
+}
+
+.journeyEntry {
+  display: flex;
+  gap: 22px;
+  align-items: flex-start;
+}
+
+/* Left column: badge + connector */
+.journeyNodeCol {
   display: flex;
   flex-direction: column;
-  gap: 0;
-}
-
-.timelineEntry {
-  display: flex;
-  gap: 16px;
-  padding: 24px 0;
-}
-
-.timelineEntry + .timelineEntry {
-  border-top: 1px solid transparent;
-}
-
-.timelineLogo {
-  width: 48px;
-  height: 48px;
-  border-radius: 10px;
-  object-fit: contain;
+  align-items: center;
   flex-shrink: 0;
-  margin-top: 2px;
+  width: 64px;
 }
 
-.timelineBody {
+.journeyBadgeWrap {
+  position: relative;
+  flex-shrink: 0;
+}
+
+/* Animated glow ring (like "GLOW RINGS" in design spec) */
+.journeyBadgeRing {
+  position: absolute;
+  inset: -7px;
+  border-radius: 20px;
+  border: 1.5px solid transparent;
+  animation: journeyRingPulse 3.5s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes journeyRingPulse {
+  0%, 100% { opacity: 0.35; transform: scale(1); }
+  50% { opacity: 0.8; transform: scale(1.05); }
+}
+
+.journeyRingWork {
+  border-color: rgba(69, 115, 223, 0.55);
+  box-shadow: 0 0 14px rgba(69, 115, 223, 0.15);
+}
+
+.journeyRingEdu {
+  border-color: rgba(255, 152, 0, 0.55);
+  box-shadow: 0 0 14px rgba(255, 152, 0, 0.15);
+}
+
+/* 3D Badge node */
+.journeyBadge {
+  width: 56px;
+  height: 56px;
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+  flex-shrink: 0;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+/* Highlight shimmer on top half for 3D depth */
+.journeyBadge::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 50%;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.18), transparent);
+  border-radius: 15px 15px 0 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.journeyEntry:hover .journeyBadge {
+  transform: scale(1.06) translateY(-2px);
+}
+
+.journeyBadgeLogo {
+  width: 34px;
+  height: 34px;
+  object-fit: contain;
+  border-radius: 6px;
+  position: relative;
+  z-index: 2;
+}
+
+/* Dashed connector line — "connected dots" feel */
+.journeyConnector {
   flex: 1;
-  min-width: 0;
+  width: 2px;
+  min-height: 18px;
+  margin: 5px 0;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(69, 115, 223, 0.5) 0px,
+    rgba(69, 115, 223, 0.5) 5px,
+    transparent 5px,
+    transparent 12px
+  );
+  border-radius: 1px;
 }
 
-.timelineTitle {
-  font-size: 1.1rem;
+/* Entry card */
+.journeyCard {
+  flex: 1;
+  border-radius: 16px;
+  padding: 20px 22px;
+  border: 1px solid transparent;
+  margin-bottom: 20px;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+}
+
+/* Thin colored top-left accent bar per type */
+.journeyCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 110px;
+  height: 2px;
+  border-radius: 0 0 4px 0;
+  pointer-events: none;
+}
+
+.journeyCardWork::before {
+  background: linear-gradient(to right, #4573df, transparent);
+}
+
+.journeyCardEdu::before {
+  background: linear-gradient(to right, #ff9800, transparent);
+}
+
+.journeyCard:hover {
+  transform: translateY(-2px);
+}
+
+/* Card header row */
+.journeyCardTop {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+
+/* Type chip (WORK / EDUCATION) */
+.journeyTypeBadge {
+  font-size: 10px;
   font-weight: 700;
-  margin: 0 0 2px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 3px 9px;
+  border-radius: 20px;
+}
+
+.journeyTypeWork {
+  background: rgba(69, 115, 223, 0.1);
+  color: #4573df;
+  border: 1px solid rgba(69, 115, 223, 0.2);
+}
+
+.journeyTypeEdu {
+  background: rgba(255, 152, 0, 0.1);
+  color: #e05c00;
+  border: 1px solid rgba(255, 152, 0, 0.25);
+}
+
+/* Period pill */
+.journeyPeriod {
+  font-size: 11.5px;
+  font-weight: 500;
+  padding: 3px 10px;
+  border-radius: 20px;
+}
+
+.journeyCardTitle {
+  font-size: 1rem;
+  font-weight: 700;
+  margin: 0 0 3px;
   line-height: 1.35;
 }
 
-.timelineOrg {
-  font-size: 0.95rem;
-  font-weight: 500;
-  margin: 0 0 2px;
-}
-
-.timelineMeta {
-  font-size: 13px;
+.journeyCardOrg {
+  font-size: 0.875rem;
+  font-weight: 600;
   margin: 0 0 10px;
-  font-weight: 400;
 }
 
-.timelineDesc {
-  font-size: 0.9rem;
+.journeyCardDesc {
+  font-size: 0.85rem;
   line-height: 1.65;
   margin: 0;
 }
 
-.timelineLink {
+.journeyCardLink {
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  font-size: 13px;
+  font-size: 12.5px;
   font-weight: 600;
-  margin-top: 10px;
+  margin-top: 12px;
   text-decoration: none;
   transition: gap 0.2s ease;
 }
 
-.timelineLink:hover {
+.journeyCardLink:hover {
   gap: 8px;
 }
 
@@ -486,14 +664,41 @@
     padding: 22px 20px;
   }
 
-  .timelineEntry {
-    gap: 12px;
-    padding: 18px 0;
+  .journeyEntry {
+    gap: 14px;
   }
 
-  .timelineLogo {
-    width: 40px;
-    height: 40px;
+  .journeyNodeCol {
+    width: 50px;
+  }
+
+  .journeyBadge {
+    width: 46px;
+    height: 46px;
+    border-radius: 12px;
+  }
+
+  .journeyBadge::before {
+    border-radius: 12px 12px 0 0;
+  }
+
+  .journeyBadgeRing {
+    inset: -6px;
+    border-radius: 17px;
+  }
+
+  .journeyBadgeLogo {
+    width: 28px;
+    height: 28px;
+  }
+
+  .journeyCard {
+    padding: 16px 18px;
+    margin-bottom: 16px;
+  }
+
+  .journeyCardTitle {
+    font-size: 0.95rem;
   }
 
   .statStrip {
