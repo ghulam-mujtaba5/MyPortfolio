@@ -26,6 +26,7 @@
     "formidable": "^3.5.4",
     "framer-motion": "^12.23.26",
     "joi": "^18.0.2",
+    "lottie-react": "^2.4.1",
     "lucide-react": "^0.562.0",
     "mongodb": "^7.0.0",
     "mongoose": "^9.0.2",

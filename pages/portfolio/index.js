@@ -41,6 +41,10 @@ import { useEffect, useState } from "react";
 
 const Home = ({ previewProjects = [], previewArticles = [] }) => {
   const { theme } = useTheme();
+  const pageBackground =
+    theme === "dark"
+      ? "radial-gradient(circle at 18% 6%, rgba(69, 115, 223, 0.18), transparent 30rem), linear-gradient(180deg, #171b21 0%, #1d2127 46%, #171b21 100%)"
+      : "radial-gradient(circle at 18% 6%, rgba(69, 115, 223, 0.13), transparent 30rem), linear-gradient(180deg, #ffffff 0%, #f7f9fd 42%, #ffffff 100%)";
 
   const sections = MAIN_SECTIONS;
 
@@ -124,6 +128,7 @@ const Home = ({ previewProjects = [], previewArticles = [] }) => {
         className="portfolio-main-container"
         style={{
           overflowX: "hidden",
+          background: pageBackground,
         }}
       >
         <a
@@ -310,6 +315,20 @@ const Home = ({ previewProjects = [], previewArticles = [] }) => {
              light. */
           background-color: rgb(29, 33, 39) !important;
           color: #e0e0e0;
+        }
+        #about-section,
+        #languages-section,
+        #skills-section,
+        #project-section,
+        #articles-section,
+        #contact-section {
+          position: relative;
+        }
+        #languages-section,
+        #skills-section,
+        #project-section,
+        #articles-section {
+          padding-inline: clamp(0px, 1.8vw, 24px);
         }
         .skip-link:focus {
           top: 0;

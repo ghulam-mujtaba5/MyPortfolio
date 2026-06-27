@@ -1,6 +1,7 @@
 .card {
-  background: #272c34;
-  border: 1px solid #2f3440;
+  background: rgba(39, 44, 52, 0.82);
+  border: 1px solid rgba(126, 179, 255, 0.12);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.34);
   /* Button theme variables (dark mode, brand blue #4573df) */
   --btn-live-text: #eaf1ff;
   --btn-live-bg-start: rgba(69, 115, 223, 0.22);
@@ -11,18 +12,18 @@
   --btn-live-shadow-active: rgba(69, 115, 223, 0.4);
 }
 .content {
-  background: #272c34;
+  background: transparent;
   color: #e5e5e5;
 }
 .title {
   color: #ffffff;
 }
 .title a {
-  color: #4573df;
+  color: #9dbaff;
   text-decoration: none;
 }
 .title a:hover {
-  color: #005bb5;
+  color: #c4d6ff;
   text-decoration: none;
 }
 .excerpt {

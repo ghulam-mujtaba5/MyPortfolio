@@ -27,7 +27,7 @@
   border-color: #4573df;
   outline: none;
   transform: translateY(-2px);
-  box-shadow: none;
+  box-shadow: 0 16px 34px rgba(69, 115, 223, 0.28);
 }
 
 .viewAll:active {

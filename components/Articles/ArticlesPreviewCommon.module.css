@@ -3,7 +3,7 @@
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 3.5rem 0 2.5rem 0;
+  padding: 4rem 0 2.8rem 0;
 }
 
 .headerRow {
@@ -16,10 +16,24 @@
 
 .title {
   font-family: "Open Sans", sans-serif;
-  font-size: 24px;
-  font-weight: bold;
+  font-size: clamp(1.25rem, 2.4vw, 1.55rem);
+  font-weight: 760;
   margin-bottom: 0;
   text-align: left;
+  letter-spacing: 0;
+  position: relative;
+  padding-bottom: 10px;
+}
+
+.title::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 40px;
+  height: 3px;
+  background: linear-gradient(90deg, #4573df, #7eb3ff);
+  border-radius: 3px;
 }
 
 .grid {
@@ -40,8 +54,8 @@
   font-size: 1.1rem;
   font-weight: 600;
   font-family: "Open Sans", sans-serif;
-  border: 2px solid var(--button-border);
-  border-radius: 8px;
+  border: 1px solid var(--button-border);
+  border-radius: 12px;
   background: var(--button-bg);
   color: var(--button-text);
   cursor: pointer;
@@ -51,7 +65,7 @@
   letter-spacing: 0.3px;
   position: relative;
   overflow: hidden;
-  box-shadow: none;
+  box-shadow: 0 10px 24px rgba(69, 115, 223, 0.08);
 }
 
 /* Provide a sized wrapper around each card like ProjectsPreview */
@@ -60,7 +74,7 @@
   overflow: hidden;
   background: none;
   box-shadow: none;
-  transition: box-shadow 0.3s;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
   min-height: 340px;
   max-width: 420px;
   width: 100%;

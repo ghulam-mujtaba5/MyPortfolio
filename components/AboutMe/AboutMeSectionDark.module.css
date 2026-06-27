@@ -1,8 +1,12 @@
 /* Dark Mode Styles */
 
 .container {
-  background-color: #272c34;
+  background: rgba(39, 44, 52, 0.78);
   color: #ffffff; /* Ensure text is visible on dark background */
+  border: 1px solid rgba(126, 179, 255, 0.14);
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.32);
+  -webkit-backdrop-filter: blur(18px);
+  backdrop-filter: blur(18px);
 }
 
 .aboutMeSection {

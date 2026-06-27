@@ -14,17 +14,20 @@
   padding-left: 80px;
   padding-top: 200px;
   opacity: 0;
-  animation: fadeIn 5s forwards;
+  animation: fadeIn 0.8s ease-out forwards;
   position: absolute; /* Keep text container in place during animation */
   top: 0;
   left: 0;
+  max-width: min(760px, calc(100vw - 48px));
 }
 
 .text {
   font-family: "Open Sans", sans-serif; /* Ensure the font-family is applied */
-  margin-bottom: 10px;
-  font-size: 28px;
-  font-weight: bold;
+  margin: 0 0 14px;
+  font-size: clamp(1.25rem, 2vw, 1.75rem);
+  font-weight: 750;
+  line-height: 1.05;
+  letter-spacing: 0;
 }
 
 .visible {
@@ -33,21 +36,24 @@
 
 .ghulamMujtaba {
   font-family: "Open Sans", sans-serif; /* Ensure the font-family is applied */
-  font-size: 52px;
-  font-weight: 600;
+  font-size: clamp(2.5rem, 6vw, 4.7rem);
+  font-weight: 800;
+  line-height: 0.96;
   animation: letterAnimation 2s forwards;
   margin-top: 0;
   margin-bottom: 0;
 }
 
 .paragraph {
-  font-size: 28px;
-  font-weight: lighter;
+  font-size: clamp(1.05rem, 2vw, 1.45rem);
+  font-weight: 400;
   padding-top: 0;
   margin-bottom: 0;
   margin-top: 0;
   font-family: "Open Sans", sans-serif; /* Ensure the font-family is applied */
-  text-align: justify;
+  text-align: left;
+  line-height: 1.55;
+  max-width: 680px;
 }
 
 @keyframes fadeIn {
@@ -81,14 +87,14 @@
   align-items: center;
   gap: 9px;
   padding: 13px 26px;
-  border-radius: 10px;
+  border-radius: 12px;
   font-family: "Open Sans", sans-serif;
   font-size: 0.95rem;
   font-weight: 700;
   letter-spacing: 0.01em;
   text-decoration: none;
   cursor: pointer;
-  border: 2px solid transparent;
+  border: 1px solid transparent;
   transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease,
     border-color 0.2s ease;
 }
@@ -106,7 +112,7 @@
     var(--brand-primary-light, #5a86e6)
   );
   color: #fff;
-  box-shadow: 0 6px 20px var(--brand-primary-shadow, rgba(69, 115, 223, 0.3));
+  box-shadow: 0 14px 30px var(--brand-primary-shadow, rgba(69, 115, 223, 0.28));
 }
 
 .heroCTAPrimary:hover {
@@ -119,9 +125,11 @@
 }
 
 .heroCTASecondary {
-  background: transparent;
+  background: rgba(255, 255, 255, 0.58);
   color: var(--brand-primary, #4573df);
-  border-color: var(--brand-primary, #4573df);
+  border-color: rgba(69, 115, 223, 0.24);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
 }
 
 .heroCTASecondary:hover {
@@ -199,5 +207,6 @@
   .paragraph {
     font-size: 18px;
     font-weight: normal;
+    text-align: center;
   }
 }

@@ -1,12 +1,13 @@
 /* LanguagesDark.module.css */
 .section {
-  background-color: #1d2127;
+  background-color: transparent;
   color: #e0e0e0;
 }
 
 .categoryBlock {
-  background: #272c34;
-  border: 1px solid rgba(255, 255, 255, 0.07);
+  background: rgba(39, 44, 52, 0.76);
+  border: 1px solid rgba(126, 179, 255, 0.12);
+  box-shadow: 0 16px 44px rgba(0, 0, 0, 0.22);
 }
 
 .langCard {

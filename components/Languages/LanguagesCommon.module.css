@@ -25,15 +25,17 @@
 /* ── Section ── */
 .section {
   width: 100%;
-  padding: 52px 6% 44px;
+  padding: 56px 6% 48px;
   box-sizing: border-box;
+  max-width: 1220px;
+  margin: 0 auto;
 }
 
 /* ── Title ── */
 .sectionTitle {
   font-family: "Open Sans", sans-serif;
   font-size: clamp(1.25rem, 2.4vw, 1.55rem);
-  font-weight: 700;
+  font-weight: 760;
   text-align: left;
   margin: 0 0 32px 0;
   position: relative;
@@ -62,9 +64,14 @@
 
 /* ── Category block ── */
 .categoryBlock {
-  border-radius: 14px;
+  border-radius: 16px;
   padding: 20px 16px;
   opacity: 0;
+  transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+}
+
+.categoryBlock:hover {
+  transform: translateY(-3px);
 }
 
 .categoryBlock.blockVisible {
@@ -103,9 +110,9 @@
   align-items: center;
   gap: 10px;
   padding: 9px 11px;
-  border-radius: 9px;
+  border-radius: 11px;
   opacity: 0;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
   cursor: default;
 }
 

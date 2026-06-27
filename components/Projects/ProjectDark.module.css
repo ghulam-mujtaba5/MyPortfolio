@@ -43,9 +43,11 @@
 }
 
 .projectCard1Child {
-  box-shadow: 2px 2px 100px #1d2127; /* Darker shadow */
-
-  background-color: #272c34; /* Darker background */
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.34); /* Darker shadow */
+  background: rgba(39, 44, 52, 0.82); /* Darker background */
+  border: 1px solid rgba(126, 179, 255, 0.12);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
 }
 
 /* Removed empty rulesets; styling is driven by theme variables in common CSS */

@@ -4,12 +4,17 @@
   color: var(--text-primary, #e6edf3); /* Dark mode text color */
 }
 
+.container {
+  background-color: transparent;
+}
+
 .text {
   color: var(--text-primary, #e6edf3); /* Dark mode text color */
 }
 
 .ghulamMujtaba {
   color: var(--text-primary, #e6edf3); /* Dark mode text color */
+  text-shadow: 0 18px 38px rgba(69, 115, 223, 0.22);
 }
 
 .paragraph {

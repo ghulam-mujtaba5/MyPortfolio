@@ -1,5 +1,6 @@
 import React, { useRef, useState, useEffect } from "react";
 import { useTheme } from "../../context/ThemeContext";
+import HoverLottie from "./HoverLottie";
 import commonStyles from "./SkillFrameCommon.module.css";
 import lightStyles from "./SkillFrame.module.css";
 import darkStyles from "./SkillFrameDark.module.css";
@@ -11,6 +12,7 @@ const SKILL_CATEGORIES = [
     id: "fullstack",
     label: "Full Stack",
     accent: "#4573df",
+    lottie: "/lottie/web-coding.json",
     skills: [
       { name: "React",       light: "/skills/react.svg",       dark: "/skills/react.svg"       },
       { name: "Next.js",     light: "/skills/nextjs.svg",      dark: "/skills/nextjs-dark.svg" },
@@ -23,6 +25,7 @@ const SKILL_CATEGORIES = [
     id: "mobile",
     label: "Mobile & Design",
     accent: "#10b981",
+    lottie: "/lottie/mobile-app.json",
     skills: [
       { name: "Flutter",      light: "/skills/flutter.svg",      dark: "/skills/flutter-dark.svg" },
       { name: "React Native", light: "/skills/react.svg",        dark: "/skills/react.svg"        },
@@ -34,6 +37,7 @@ const SKILL_CATEGORIES = [
     id: "ai",
     label: "AI & Machine Learning",
     accent: "#f59e0b",
+    lottie: "/lottie/ai-brain.json",
     skills: [
       { name: "TensorFlow",   light: "/skills/tensorflow.svg",   dark: "/skills/tensorflow.svg"   },
       { name: "PyTorch",      light: "/skills/pytorch.svg",      dark: "/skills/pytorch.svg"      },
@@ -45,6 +49,7 @@ const SKILL_CATEGORIES = [
     id: "tools",
     label: "Tools & Cloud",
     accent: "#a78bfa",
+    lottie: "/lottie/cloud-devops.json",
     skills: [
       { name: "Docker",   light: "/skills/docker.svg",   dark: "/skills/docker.svg"   },
       { name: "AWS",      light: "/skills/aws.svg",      dark: "/skills/aws.svg"      },
@@ -57,6 +62,7 @@ const SKILL_CATEGORIES = [
 const SkillFrame = () => {
   const { theme } = useTheme();
   const [hasAnimated, setHasAnimated] = useState(false);
+  const [activeCard, setActiveCard] = useState("");
   const frameRef = useRef(null);
   const themeStyles = theme === "dark" ? darkStyles : lightStyles;
 
@@ -109,9 +115,24 @@ const SkillFrame = () => {
                   key={skill.name}
                   className={`${commonStyles.skillCard} ${themeStyles.skillCard} ${hasAnimated ? commonStyles.cardVisible : ""}`}
                   style={{
+                    "--skill-accent": cat.accent,
                     animationDelay: `${catIdx * 0.12 + 0.15 + skillIdx * 0.07}s`,
                   }}
+                  tabIndex={0}
+                  onMouseEnter={() => setActiveCard(`${cat.id}-${skill.name}`)}
+                  onMouseLeave={() => setActiveCard("")}
+                  onPointerEnter={() => setActiveCard(`${cat.id}-${skill.name}`)}
+                  onPointerLeave={() => setActiveCard("")}
+                  onFocus={() => setActiveCard(`${cat.id}-${skill.name}`)}
+                  onBlur={() => setActiveCard("")}
+                  onClick={() => setActiveCard(`${cat.id}-${skill.name}`)}
                 >
+                  <HoverLottie
+                    src={cat.lottie}
+                    active={activeCard === `${cat.id}-${skill.name}`}
+                    className={commonStyles.skillLottie}
+                  />
+                  <span className={commonStyles.skillGlow} aria-hidden="true" />
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={theme === "dark" ? skill.dark : skill.light}

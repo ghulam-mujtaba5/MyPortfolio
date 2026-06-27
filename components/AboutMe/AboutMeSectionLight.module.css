@@ -1,10 +1,14 @@
 /* Light Mode Styles */
 
 .container {
-  background-color: #e8ebee;
+  background: rgba(255, 255, 255, 0.74);
   color: #000000; /* Ensure text is visible on light background */
+  border: 1px solid rgba(69, 115, 223, 0.12);
+  box-shadow: 0 24px 70px rgba(29, 33, 39, 0.08);
+  -webkit-backdrop-filter: blur(18px);
+  backdrop-filter: blur(18px);
 }
 
 .aboutMeSection {
-  color: #000000; /* Ensure text is visible on light background */
+  color: #1d2127; /* Ensure text is visible on light background */
 }

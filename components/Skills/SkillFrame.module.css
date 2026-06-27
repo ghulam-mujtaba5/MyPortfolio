@@ -1,7 +1,7 @@
 /* SkillFrame.module.css — light theme */
 
 .skillFrame {
-  background-color: #ffffff;
+  background-color: transparent;
 }
 
 .skillsTitle {
@@ -17,17 +17,23 @@
 }
 
 .skillCard {
-  background: #f5f7fb;
-  border: 1px solid rgba(0, 0, 0, 0.07);
+  background: rgba(255, 255, 255, 0.78);
+  border: 1px solid rgba(69, 115, 223, 0.1);
+  box-shadow: 0 10px 26px rgba(29, 33, 39, 0.05);
 }
 
 .skillCard:hover {
   background: #ffffff;
-  border-color: rgba(69, 115, 223, 0.25);
-  box-shadow: 0 8px 24px rgba(69, 115, 223, 0.12);
+  border-color: rgba(69, 115, 223, 0.26);
+  box-shadow: 0 16px 34px rgba(69, 115, 223, 0.14);
+}
+
+.skillCard:focus-visible {
+  background: #ffffff;
+  border-color: rgba(69, 115, 223, 0.42);
+  box-shadow: 0 0 0 3px rgba(69, 115, 223, 0.14), 0 8px 24px rgba(69, 115, 223, 0.12);
 }
 
 .skillName {
   color: #374151;
 }
-
