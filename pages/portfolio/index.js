@@ -316,6 +316,11 @@ const Home = ({ previewProjects = [], previewArticles = [] }) => {
           background-color: rgb(29, 33, 39) !important;
           color: #e0e0e0;
         }
+        #home-section {
+          min-height: clamp(690px, 78vh, 820px);
+          position: relative;
+          overflow: visible;
+        }
         #about-section,
         #languages-section,
         #skills-section,
@@ -332,6 +337,11 @@ const Home = ({ previewProjects = [], previewArticles = [] }) => {
         }
         .skip-link:focus {
           top: 0;
+        }
+        @media (max-width: 980px) {
+          #home-section {
+            min-height: auto;
+          }
         }
         .visually-hidden {
           position: absolute;
