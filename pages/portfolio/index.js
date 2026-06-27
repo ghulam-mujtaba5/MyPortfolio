@@ -310,9 +310,10 @@ const Home = ({ previewProjects = [], previewArticles = [] }) => {
           color: #e0e0e0;
         }
         #home-section {
-          min-height: clamp(590px, 72vh, 740px);
+          min-height: clamp(500px, 50vh, 540px);
           position: relative;
           overflow: visible;
+          z-index: 1;
         }
         #about-section,
         #languages-section,
@@ -321,6 +322,9 @@ const Home = ({ previewProjects = [], previewArticles = [] }) => {
         #articles-section,
         #contact-section {
           position: relative;
+        }
+        #about-section {
+          z-index: 2;
         }
         #languages-section,
         #skills-section,

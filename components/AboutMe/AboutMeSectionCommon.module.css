@@ -1,59 +1,113 @@
+/* ============================================================
+   AboutMeSectionCommon.module.css
+   Shared styles for the About Me card (light + dark mode use this).
+   Light-mode colours live in AboutMeSectionLight.module.css
+   Dark-mode  colours live in AboutMeSectionDark.module.css
+   ============================================================ */
+
+
+/* ── OUTER CARD WRAPPER ─────────────────────────────────────
+   .container is the rounded card box that holds everything.
+   It is centered on the page and never stretches wider than
+   1120 px (or 92% of the viewport on narrow screens).         */
 .container {
+  /* Space above the card — scales from 20 px on tiny screens
+     up to 36 px on wide screens using clamp().
+     Syntax: clamp(MIN, PREFERRED, MAX)
+     Change 36px to push the card further from the hero.       */
   margin-top: clamp(20px, 2.4vw, 36px);
-  position: relative;
-  height: 100%;
+
+  position: relative;   /* needed so child elements can use position: absolute */
+  height: 100%;         /* fills its parent's height */
   width: 100%;
-  z-index: 3;
-  border-radius: 18px; /* Adjust the value as needed */
-  overflow: hidden; /* Ensure content stays within rounded corners */
+
+  z-index: 4;           /* stacks above the hero section background */
+
+  border-radius: 18px;  /* ← rounded corners — increase for more rounding,
+                              decrease (e.g. 8px) for sharper corners */
+  overflow: hidden;     /* clips content so it doesn't bleed past the corners */
+
+  /* Card never exceeds 1120 px wide; on phones it stays within 92 % of screen */
   max-width: min(1120px, 92vw);
+
+  /* center the card horizontally */
   margin-left: auto;
   margin-right: auto;
 }
 
+
+/* ── INNER CONTENT AREA ─────────────────────────────────────
+   .aboutMeSection is the white/dark box inside the card.
+   Padding creates space between the card edge and the text.   */
 .aboutMeSection {
   text-align: left;
-  font-family: "Open Sans", sans-serif;
+  font-family: "Open Sans", sans-serif; /* ← brand font — keep this consistent */
   max-width: 100%;
   margin: 0 auto;
+
+  /* Padding scales with viewport width (clamp MIN, vw, MAX):
+       - top/bottom: 32 px small → 58 px large
+       - left/right: 28 px small → 80 px large
+     Increase the MAX values for more breathing room.          */
   padding: clamp(32px, 5vw, 58px) clamp(28px, 7vw, 80px);
 }
 
+
+/* ── SECTION TITLE ──────────────────────────────────────────
+   The "About Me" heading text.                                */
 .title {
-  font-weight: 760;
+  font-weight: 760;     /* ← boldness — 700 = bold, 800 = extra-bold */
+  /* Font size scales: 1.25 rem small → 1.55 rem large         */
   font-size: clamp(1.25rem, 2.4vw, 1.55rem);
-  margin: 0 0 18px;
-  letter-spacing: 0;
+  margin: 0 0 18px;    /* 18 px gap below the title — increase to push text down */
+  letter-spacing: 0;   /* 0 = no extra spacing between letters */
 }
 
+
+/* ── BODY PARAGRAPH ─────────────────────────────────────────
+   The main description text in the About Me card.            */
 .description {
+  /* Font size scales: 1 rem small → 1.32 rem large            */
   font-size: clamp(1rem, 2vw, 1.32rem);
-  font-weight: 400;
-  line-height: 1.72;
+  font-weight: 400;    /* normal weight — 600 would make it semi-bold */
+  line-height: 1.72;   /* ← line spacing — 1.5 is tighter, 2 is more airy */
   text-align: left;
-  max-width: 980px;
+  max-width: 980px;    /* ← caps the line length so long lines stay readable */
 }
 
+
+/* ── TABLET (≤ 980 px wide) ─────────────────────────────────
+   Triggered when the screen is narrower than 980 px (tablets,
+   small laptops).
+   Only the top margin is adjusted here; font sizes are
+   inherited from the rules above.                             */
 @media (max-width: 980px) {
   .container {
-    margin-top: 4%;
+    margin-top: 4%;    /* ← percentage so it scales with screen size */
   }
 }
 
+
+/* ── SMALL TABLET / LARGE PHONE (≤ 768 px wide) ────────────
+   Overrides font sizes with fixed px values for medium screens. */
 @media (max-width: 768px) {
   .container {
     margin-top: 4%;
   }
+
   .title {
-    font-size: 22px;
+    font-size: 22px;   /* ← change this to make the heading bigger/smaller */
   }
 
   .description {
-    font-size: 18px;
+    font-size: 18px;   /* ← change this for body text size on tablets */
     text-align: left;
   }
 }
 
+
+/* ── MOBILE (≤ 576 px wide) ─────────────────────────────────
+   Final overrides for phone-sized screens.                    */
 @media (max-width: 576px) {
   .container {
     margin-top: 4%;
@@ -61,7 +115,7 @@
 
   .title {
     font-size: 22px;
-    margin-bottom: 10px;
+    margin-bottom: 10px; /* tighter gap below title on phones */
   }
 
   .description {
@@ -69,6 +123,7 @@
   }
 
   .aboutMeSection {
-    padding: 25px 35px;
+    /* Less padding on phones so text has more horizontal room */
+    padding: 25px 35px;  /* ← top/bottom 25px, left/right 35px */
   }
 }

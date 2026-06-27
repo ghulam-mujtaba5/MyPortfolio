@@ -348,30 +348,7 @@ const ProjectsPage = ({ projects = [], projectsError = null }) => {
         }
         .animated-gradient-headline span {
           display: inline-block;
-          background: linear-gradient(
-            270deg,
-            #2563eb,
-            #60a5fa,
-            #a5b4fc,
-            #2563eb
-          );
-          background-size: 200% 200%;
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          background-clip: text;
-          text-fill-color: transparent;
-          animation: gradientMove 3.5s ease-in-out infinite;
-        }
-        @keyframes gradientMove {
-          0% {
-            background-position: 0% 50%;
-          }
-          50% {
-            background-position: 100% 50%;
-          }
-          100% {
-            background-position: 0% 50%;
-          }
+          font-family: "Open Sans", sans-serif;
         }
         .animated-fadein {
           opacity: 0;
@@ -479,20 +456,20 @@ const ProjectsPage = ({ projects = [], projectsError = null }) => {
           margin-top: 1.2rem;
         }
         .refined-intro-main {
+          font-family: "Open Sans", sans-serif;
           font-size: 2.8rem;
           font-weight: 800;
           letter-spacing: -1px;
           margin-bottom: 0.5rem;
           line-height: 1.1;
-          text-shadow: 0 4px 24px rgba(60, 100, 200, 0.1);
         }
         .refined-intro-sub {
+          font-family: "Open Sans", sans-serif;
           font-size: 1.35rem;
           color: #3b82f6;
           font-weight: 600;
           margin-bottom: 0.7rem;
           letter-spacing: 0.02em;
-          text-shadow: 0 2px 12px rgba(60, 100, 200, 0.08);
         }
         .refined-intro-desc {
           font-size: clamp(0.95rem, 2vw, 1.1rem);

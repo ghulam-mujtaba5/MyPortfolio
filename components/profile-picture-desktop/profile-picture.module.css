@@ -1,6 +1,6 @@
 /*profile picture image css*/
 .image-container {
-  position: relative; /* Ensuring .image-container is positioned */
+  position: relative;
   top: 0;
   right: 0;
   height: 500px;
@@ -8,11 +8,11 @@
 
 /* Style for the image */
 .image {
-  position: absolute; /* Positioning .image relative to .image-container */
+  position: absolute;
   max-width: 500px;
   height: auto;
   left: 78%;
-  top: 50%;
+  top: 56%;
   transform: translate(-50%, -50%);
   padding-bottom: 0;
   z-index: 2;
@@ -26,29 +26,31 @@
 /* Style for the ellipses */
 .ellipseDiv {
   border-radius: 50%;
-  position: absolute; /* Positioning .ellipseDiv relative to .image-container */
-  top: 50%;
-  right: 23%;
-  transform: translate(50%, -50%);
+  position: absolute;
+  top: 44%;
+  left: 78%;
+  transform: translate(-50%, -50%);
   z-index: 1;
-  animation: popUp 0.5s forwards; /* Apply the animation */
+  animation: popUp 0.5s forwards;
 }
-/* Keyframes for the pop-up animation */
+
+/* translate(-50%, -50%) so the animation final state keeps the rings centered on the image */
 @keyframes popUp {
   0% {
     opacity: 0;
-    transform: translate(50%, -50%) scale(0); /* Keep centered and scaled down */
+    transform: translate(-50%, -50%) scale(0);
   }
   100% {
     opacity: 1;
-    transform: translate(50%, -50%) scale(1); /* Keep centered and scaled up */
+    transform: translate(-50%, -50%) scale(1);
   }
 }
+
 @media (max-width: 980px) {
   .image-container {
     top: 0;
-    height: 400px; /* Adjust height for tablet screen */
-    max-width: 100%; /* Ensure container does not exceed viewport */
+    height: 400px;
+    max-width: 100%;
   }
 
   .image {
@@ -59,23 +61,21 @@
 
   .ellipseDiv {
     top: 25%;
-    right: 50%;
-    transform: translate(50%, -50%);
+    left: 50%;
+    right: auto;
+    transform: translate(-50%, -50%);
   }
 
   .imageContainer:hover .image {
-    transform: translate(
-      -50%,
-      -48%
-    ); /* Move the image down slightly on hover */
     transition: transform 0.1s ease-in-out 0.1s;
   }
 }
+
 /* Responsive adjustments for screens with a max width of 768px */
 @media (max-width: 768px) {
   .image-container {
     top: 0;
-    max-width: 100%; /* Ensure container does not exceed viewport */
+    max-width: 100%;
   }
 
   .image {
@@ -94,7 +94,7 @@
   }
 
   .imageContainer:hover .image {
-    transform: none; /* Move the image down slightly on hover */
+    transform: none;
     transition: none;
   }
 }
@@ -102,11 +102,11 @@
 @media (max-width: 576px) {
   .image-container {
     display: flex;
-    justify-content: center; /* Center horizontally */
-    align-items: center; /* Center vertically */
-    height: 400px; /* Adjust height for mobile screen */
+    justify-content: center;
+    align-items: center;
+    height: 400px;
     position: relative;
-    max-width: 100%; /* Ensure container does not exceed viewport */
+    max-width: 100%;
   }
 
   .image {
@@ -118,7 +118,6 @@
     max-width: 70%;
   }
 
-  /* Style for the ellipses */
   .ellipseDiv {
     top: 50%;
     left: 50%;
@@ -126,6 +125,6 @@
     margin-top: 0;
     margin-right: 0;
     transform: translate(-50%, -50%);
-    animation: popUp 2s ease-in-out; /* Apply the animation */
+    animation: popUp 2s ease-in-out;
   }
 }
