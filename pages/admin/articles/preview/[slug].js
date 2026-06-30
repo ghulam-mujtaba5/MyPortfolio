@@ -74,7 +74,7 @@ export default function AdminArticlePreviewPage() {
             (!article.publishAt ||
               new Date(article.publishAt) <= new Date()) && (
               <Link
-                href={`/articles/${encodeURIComponent(article.slug)}`}
+                href={`/insights/${encodeURIComponent(article.slug)}`}
                 className={`${utilities.btn} ${utilities.btnIcon} ${utilities.btnPrimary}`}
                 title="View public"
                 aria-label="View public"

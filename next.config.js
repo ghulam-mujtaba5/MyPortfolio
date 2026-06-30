@@ -97,12 +97,22 @@ const nextConfig = {
       },
       {
         source: "/blog",
-        destination: "/articles",
+        destination: "/insights",
         permanent: true,
       },
       {
-        source: "/blog/:slug",
-        destination: "/articles/:slug",
+        source: "/blog/:slug*",
+        destination: "/insights/:slug*",
+        permanent: true,
+      },
+      {
+        source: "/articles",
+        destination: "/insights",
+        permanent: true,
+      },
+      {
+        source: "/articles/:slug*",
+        destination: "/insights/:slug*",
         permanent: true,
       },
       // Redirect old static sitemap URL to the canonical sitemap

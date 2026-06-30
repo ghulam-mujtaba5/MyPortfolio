@@ -18,7 +18,7 @@ export async function getServerSideProps({ res }) {
 
   const items = articles
     .map((a) => {
-      const url = `${base}/articles/${a.slug}`;
+      const url = `${base}/insights/${a.slug}`;
       const tags = Array.isArray(a.tags)
         ? a.tags.map((t) => `      <category>${esc(t)}</category>`).join("\n")
         : "";
@@ -50,8 +50,8 @@ ${updated}
   xmlns:content="http://purl.org/rss/1.0/modules/content/"
   xmlns:dc="http://purl.org/dc/elements/1.1/">
   <channel>
-    <title>Ghulam Mujtaba — Articles</title>
-    <link>${base}/articles</link>
+    <title>Ghulam Mujtaba — Insights</title>
+    <link>${base}/insights</link>
     <description>Technical articles on Full Stack Development, AI, Data Science and startups by Ghulam Mujtaba — Founder of Megicode &amp; CampusAxis.</description>
     <language>en-us</language>
     <managingEditor>ghulammujtaba1005@gmail.com (Ghulam Mujtaba)</managingEditor>
@@ -59,7 +59,7 @@ ${updated}
     <image>
       <url>${base}/og-image.png</url>
       <title>Ghulam Mujtaba</title>
-      <link>${base}/articles</link>
+      <link>${base}/insights</link>
     </image>
     <atom:link href="${base}/feed.xml" rel="self" type="application/rss+xml"/>
 ${items}

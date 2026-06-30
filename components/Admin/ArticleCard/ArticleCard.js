@@ -160,7 +160,7 @@ const ArticleCard = ({ article, isSelected, onSelect, onDelete, onPin, pinning =
           </Tooltip>
           <Tooltip content="View Live">
             <a
-              href={`/articles/${article.slug}`}
+              href={`/insights/${article.slug}`}
               target="_blank"
               rel="noopener noreferrer"
               className={`${utilities.btnIcon}`}

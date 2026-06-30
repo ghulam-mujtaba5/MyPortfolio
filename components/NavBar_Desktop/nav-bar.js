@@ -132,7 +132,7 @@ const NavBar = () => {
   const isHome = path === "/" && (hash === "" || hash === "#home-section");
   const isAbout = path === "/about";
   const isResume = path === "/resume";
-  const isArticles = path === "/articles" || path.startsWith("/articles/");
+  const isArticles = path === "/insights" || path.startsWith("/insights/");
   const isContact = path === "/" && hash === "#contact-section";
 
   // Determine which SVG to use based on theme
@@ -190,10 +190,10 @@ const NavBar = () => {
       {/* Articles section */}
       <button
         className={`${styles.project} ${isArticles ? styles.active : ""} ${styles.navItem}`}
-        onClick={() => handleNavigation("/articles")}
+        onClick={() => handleNavigation("/insights")}
         type="button"
       >
-        <span className={styles.projectText}>Articles</span>
+        <span className={styles.projectText}>Insights</span>
       </button>
 
       {/* Logo and Name Animation - Central Element */}

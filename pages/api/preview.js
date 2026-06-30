@@ -28,7 +28,7 @@ export default async function handler(req, res) {
     path = `/projects/${content.slug}`;
   } else if (type === "article") {
     content = await Article.findById(id).lean();
-    path = `/articles/${content.slug}`;
+    path = `/insights/${content.slug}`;
   } else {
     return res.status(400).json({ message: "Invalid content type" });
   }

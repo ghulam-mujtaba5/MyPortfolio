@@ -11,7 +11,7 @@ const STATIC_PAGES = [
   { path: "/about", changefreq: "monthly", priority: 0.9 },
   { path: "/resume", changefreq: "monthly", priority: 0.8 },
   { path: "/projects", changefreq: "weekly", priority: 0.9 },
-  { path: "/articles", changefreq: "weekly", priority: 0.9 },
+  { path: "/insights", changefreq: "weekly", priority: 0.9 },
   { path: "/privacy-policy", changefreq: "yearly", priority: 0.3 },
 ];
 
@@ -38,7 +38,7 @@ export async function getServerSideProps({ res }) {
 
       for (const a of articles || []) {
         urls.push({
-          loc: `${base}/articles/${a.slug}`,
+          loc: `${base}/insights/${a.slug}`,
           lastmod: a.updatedAt
             ? new Date(a.updatedAt).toISOString()
             : now,

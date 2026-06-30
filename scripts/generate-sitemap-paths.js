@@ -19,7 +19,7 @@ async function main() {
 
     const paths = [
       ...articles.map((a) => ({
-        loc: `/articles/${a.slug}`,
+        loc: `/insights/${a.slug}`,
         lastmod: a.updatedAt,
         changefreq: "weekly",
         priority: 0.8,

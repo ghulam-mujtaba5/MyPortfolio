@@ -67,7 +67,7 @@ module.exports = {
 
       for (const a of articles || []) {
         items.push({
-          loc: `${config.siteUrl}/articles/${a.slug}`,
+          loc: `${config.siteUrl}/insights/${a.slug}`,
           changefreq: "weekly",
           priority: 0.8,
           lastmod: a.updatedAt ? new Date(a.updatedAt).toISOString() : undefined,

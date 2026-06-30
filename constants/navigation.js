@@ -7,6 +7,6 @@ export const MAIN_SECTIONS = [
   { label: "About", route: "/about" },
   { label: "Resume", route: "/resume" },
   { label: "Projects", route: "/projects" },
-  { label: "Articles", route: "/articles" },
+  { label: "Insights", route: "/insights" },
   { label: "Contact", route: "/#contact-section" },
 ];

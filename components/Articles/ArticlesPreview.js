@@ -87,7 +87,7 @@ const ArticlesPreview = ({ articles = [] }) => {
     >
       <div className={commonStyles.headerRow}>
         <h2 className={`${commonStyles.title} ${themeStyles.title}`}>
-          Articles
+          Insights
         </h2>
       </div>
       <div className={commonStyles.grid}>
@@ -205,7 +205,7 @@ const ArticlesPreview = ({ articles = [] }) => {
           className={`${commonStyles.viewAll} ${themeStyles.viewAll}`}
           type="button"
           onClick={() =>
-            window.open("/articles", "_blank", "noopener,noreferrer")
+            window.open("/insights", "_blank", "noopener,noreferrer")
           }
         >
           View All

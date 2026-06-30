@@ -38,7 +38,9 @@
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  /* Two columns only when the container can fit both (340px min) plus a gap.
+     Switch to 1fr on narrow viewports via the media query below. */
+  grid-template-columns: repeat(auto-fit, minmax(min(340px, 100%), 1fr));
   gap: 2.5rem;
   width: 100%;
   margin: 0 auto;
@@ -80,7 +82,7 @@
   width: 100%;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 720px) {
   .section {
     max-width: 100%;
     padding: 2rem 16px 1.5rem 16px;

@@ -1,5 +1,5 @@
 const CACHE_NAME = "gm-portfolio-v1";
-const PRECACHE_URLS = ["/", "/about", "/projects", "/articles"];
+const PRECACHE_URLS = ["/", "/about", "/projects", "/insights"];
 
 self.addEventListener("install", (event) => {
   event.waitUntil(

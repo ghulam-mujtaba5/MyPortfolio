@@ -219,7 +219,7 @@ const ArticleDetail = ({ article, relatedArticles = [] }) => {
   }
 
   const { title, content, coverImage, tags, excerpt, readingTime, updatedAt, createdAt, publishAt } = article;
-  const articleUrl = `https://ghulammujtaba.com/articles/${article.slug}`;
+  const articleUrl = `https://ghulammujtaba.com/insights/${article.slug}`;
 
   // Combine styles based on theme
   const themeStyles = theme === "dark" ? darkStyles : lightStyles;
@@ -264,8 +264,8 @@ const ArticleDetail = ({ article, relatedArticles = [] }) => {
           Home
         </Link>
         <span className={baseStyles.breadcrumbSeparator} aria-hidden="true">›</span>
-        <Link href="/articles" className={baseStyles.breadcrumbLink}>
-          Articles
+        <Link href="/insights" className={baseStyles.breadcrumbLink}>
+          Insights
         </Link>
         <span className={baseStyles.breadcrumbSeparator} aria-hidden="true">›</span>
         <span className={baseStyles.breadcrumbCurrent} aria-current="page">
@@ -496,7 +496,7 @@ const ArticleDetail = ({ article, relatedArticles = [] }) => {
             {relatedArticles.map((relatedArticle) => (
               <Link
                 key={relatedArticle.slug}
-                href={`/articles/${relatedArticle.slug}`}
+                href={`/insights/${relatedArticle.slug}`}
                 className={`${baseStyles.relatedCard} ${themeStyles.relatedCard || ""}`}
               >
                 {relatedArticle.coverImage && (
@@ -529,11 +529,11 @@ const ArticleDetail = ({ article, relatedArticles = [] }) => {
 
       {/* Back to Articles */}
       <div className={`${baseStyles.backToArticles} ${themeStyles.backToArticles || ""}`}>
-        <Link 
-          href="/articles" 
+        <Link
+          href="/insights"
           className={`${baseStyles.backLink} ${themeStyles.backLink || ""}`}
         >
-          ← Back to All Articles
+          ← Back to All Insights
         </Link>
       </div>
     </div>

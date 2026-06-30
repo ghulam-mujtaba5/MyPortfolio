@@ -75,6 +75,20 @@
   flex-grow: 1;
 }
 
+@media (max-width: 480px) {
+  .content {
+    padding: 1.1rem 1.1rem 1.25rem;
+  }
+  .title {
+    font-size: 1.15rem;
+    margin-bottom: 0.5rem;
+  }
+  .excerpt {
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+  }
+}
+
 .meta {
   display: flex;
   justify-content: space-between;
