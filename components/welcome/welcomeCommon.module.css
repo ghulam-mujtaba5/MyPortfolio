@@ -168,7 +168,8 @@
 
   .textContainer {
     padding-left: 10%;
-    margin-right: 10%;
+    padding-right: 10%;
+    margin-right: 0;
     margin-top: 400px; /* Adjust as needed */
     opacity: 1;
     position: static; /* Reset position for responsive design */
@@ -187,7 +188,8 @@
 
   .textContainer {
     padding-left: 35px;
-    margin-right: 35px;
+    padding-right: 35px;
+    margin-right: 0;
     min-height: 230px;
     margin-top: 270px; /* Adjust as needed */
     opacity: 1;

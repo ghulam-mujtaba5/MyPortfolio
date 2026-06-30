@@ -588,14 +588,14 @@ const ProjectsPage = ({ projects = [], projectsError = null }) => {
           .project-grid {
             grid-template-columns: 1fr;
             gap: 1.2rem;
-            padding: 1.2rem 0.5rem;
+            padding: 1.2rem 1rem;
           }
         }
         @media (max-width: 600px) {
           .project-grid {
             grid-template-columns: 1fr;
             gap: 1.2rem;
-            padding: 1.8rem 0.1rem 1.2rem 0.1rem;
+            padding: 1.8rem 1rem 1.2rem 1rem;
             justify-items: center;
           }
         }
@@ -633,7 +633,7 @@ const ProjectsPage = ({ projects = [], projectsError = null }) => {
         }
         @media (max-width: 600px) {
           .project-grid-card {
-            max-width: 98vw;
+            max-width: 100%;
             width: 100%;
             margin: 0 auto;
             border-radius: 16px;

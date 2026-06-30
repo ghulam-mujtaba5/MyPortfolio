@@ -42,8 +42,7 @@
   .hero {
     /* Push content below the absolute-positioned mobile icons:
        theme icon bottom ≈ 62px, hamburger bottom ≈ 55px → 80px clears both */
-    padding-top: 5rem;
-    padding-bottom: 0.5rem;
+    padding: 5rem 0 0.5rem;
   }
   .heroTitle {
     font-size: 1.75rem;
