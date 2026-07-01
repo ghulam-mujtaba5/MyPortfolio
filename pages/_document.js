@@ -42,11 +42,32 @@ class MyDocument extends Document {
           <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
           <link rel="preconnect" href="https://res.cloudinary.com" crossOrigin="" />
 
-          {/* Google Fonts — loaded as non-blocking stylesheets */}
+          {/* Google Fonts — preloaded then swapped to a stylesheet so it doesn't block first render */}
           <link
-            rel="stylesheet"
+            rel="preload"
+            as="style"
             href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&family=Poppins:wght@300;400;500;600;700&family=Manrope:wght@600&family=Inter:wght@400;500;600&display=swap"
           />
+          <link
+            id="google-fonts-stylesheet"
+            rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&family=Poppins:wght@300;400;500;600;700&family=Manrope:wght@600&family=Inter:wght@400;500;600&display=swap"
+            media="print"
+          />
+          {/* This Document is never hydrated, so a JSX onLoad prop is silently stripped (React requires a
+              function, not a string). Flip the media synchronously via inline script instead — same effect
+              as the classic loadCSS pattern: the link fetches in parallel without blocking first paint. */}
+          <script
+            dangerouslySetInnerHTML={{
+              __html: "document.getElementById('google-fonts-stylesheet').media='all';",
+            }}
+          />
+          <noscript>
+            <link
+              rel="stylesheet"
+              href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&family=Poppins:wght@300;400;500;600;700&family=Manrope:wght@600&family=Inter:wght@400;500;600&display=swap"
+            />
+          </noscript>
 
           {/* RSS feed auto-discovery — lets feed readers and AI crawlers find articles */}
           <link

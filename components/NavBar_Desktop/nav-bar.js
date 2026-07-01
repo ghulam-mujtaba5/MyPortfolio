@@ -2,6 +2,7 @@ import styles from "./nav-bar.module.css";
 import { useState, useEffect, useCallback, useRef } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import Image from "next/image";
 import { useTheme } from "../../context/ThemeContext";
 
 const NavBar = () => {
@@ -208,12 +209,13 @@ const NavBar = () => {
       >
           {/* Logo Circle */}
           <span className={`${styles.logo} ${hover ? styles.logoHover : ""}`}>
-            <img
+            <Image
               className={styles.logoIcon}
               alt="GM Logo"
               src={logoIconSrc}
-              width="40"
-              height="40"
+              width={40}
+              height={40}
+              priority
             />
           </span>
 

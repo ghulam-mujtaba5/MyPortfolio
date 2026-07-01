@@ -156,6 +156,16 @@ const nextConfig = {
           { key: "X-Robots-Tag", value: "noindex, nofollow" },
         ],
       },
+      // Long-lived cache for static image/font/icon assets served from /public
+      {
+        source: "/:path*\\.(png|jpg|jpeg|webp|avif|svg|ico|woff|woff2|ttf)",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=2592000, stale-while-revalidate=86400",
+          },
+        ],
+      },
       {
         source: "/admin/:path*",
         headers: [

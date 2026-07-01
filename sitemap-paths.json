@@ -1,6 +1,16 @@
 [
   {
-    "loc": "/articles/tiptap-nextjs-rich-text-editing-done-right",
+    "loc": "/insights/clinic-website-complete-digital-workflows",
+    "changefreq": "weekly",
+    "priority": 0.8
+  },
+  {
+    "loc": "/insights/megilance-ai-blockchain-freelance-marketplace-payments",
+    "changefreq": "weekly",
+    "priority": 0.8
+  },
+  {
+    "loc": "/insights/building-campusaxis-comsats-pakistani-university-platform",
     "changefreq": "weekly",
     "priority": 0.8
   },
