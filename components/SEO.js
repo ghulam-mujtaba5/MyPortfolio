@@ -530,6 +530,83 @@ export function softwareProjectSchema({
 }
 
 /**
+ * Service schema — a single offered service. Standalone (has its own
+ * @context) so it can also be dropped in on its own if ever needed.
+ */
+export function serviceSchema({ name, description, serviceType, areaServed, url } = {}) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name,
+    description,
+    serviceType: serviceType || name,
+    provider: { "@id": `${SITE_URL}/#person` },
+    areaServed: areaServed || { "@type": "Place", name: "Worldwide (remote)" },
+    ...(url ? { url } : {}),
+  };
+}
+
+/**
+ * The three service categories actually presented on the homepage
+ * (see components/Services/ServicesFrame.js) — kept as a single source of
+ * truth so the schema never drifts from what's on the page.
+ */
+const CORE_SERVICES = [
+  {
+    name: "UI & UX Design",
+    description:
+      "UI/UX design for desktop, web, and mobile applications — from wireframes to polished interfaces.",
+  },
+  {
+    name: "Full-Stack Web & Mobile Development",
+    description:
+      "End-to-end development of desktop, web, and mobile applications using React, Next.js, Node.js, React Native, and Flutter.",
+  },
+  {
+    name: "Data Science & AI Solutions",
+    description:
+      "Data scraping, data visualization, big data analytics, and AI solution development using TensorFlow, PyTorch, and Scikit-learn.",
+  },
+];
+
+/**
+ * ProfessionalService schema — the freelance/consulting service entity.
+ * Nests the CORE_SERVICES as an OfferCatalog so each is also typed as a
+ * schema.org Service.
+ */
+export function professionalServiceSchema(overrides = {}) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "ProfessionalService",
+    "@id": `${SITE_URL}/#service`,
+    name: `${PERSON_NAME} — Full Stack, AI & Product Development`,
+    url: SITE_URL,
+    image: OG_IMAGE,
+    description:
+      "Independent full-stack development, AI/ML engineering, and UI/UX design services, delivered by the founder of Megicode and CampusAxis.",
+    provider: { "@id": `${SITE_URL}/#person` },
+    founder: { "@id": `${SITE_URL}/#person` },
+    areaServed: { "@type": "Place", name: "Worldwide (remote)" },
+    address: {
+      "@type": "PostalAddress",
+      addressLocality: "Lahore",
+      addressRegion: "Punjab",
+      addressCountry: "PK",
+    },
+    email: "mailto:hello@ghulammujtaba.com",
+    hasOfferCatalog: {
+      "@type": "OfferCatalog",
+      name: "Services",
+      itemListElement: CORE_SERVICES.map((service) => {
+        const { "@context": _drop, ...itemOffered } = serviceSchema(service);
+        return { "@type": "Offer", itemOffered };
+      }),
+    },
+    ...overrides,
+  };
+}
+
+/**
  * FAQPage schema — drives rich FAQ snippets in Google search results.
  */
 export function faqSchema(faqs = []) {

@@ -31,6 +31,7 @@ import SEO, {
   profilePageSchema,
   webSiteSchema,
   organizationSchema,
+  professionalServiceSchema,
   navigationSchema,
   speakableSchema,
   faqSchema,
@@ -58,6 +59,9 @@ const Home = ({ previewProjects = [], previewArticles = [] }) => {
     webSiteSchema(),
     // 4️⃣ Organization — establishes brand identity
     organizationSchema(),
+    // 4.5️⃣ ProfessionalService — the freelance/consulting service entity,
+    // with the three homepage service categories as nested Service offers
+    professionalServiceSchema(),
     // 5️⃣ SiteNavigationElement — hints to Google which sections are primary
     navigationSchema(),
     // 6️⃣ Speakable — marks content for Google Assistant / TTS

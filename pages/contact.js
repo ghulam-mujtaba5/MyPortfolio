@@ -1,6 +1,6 @@
 import React from "react";
 import dynamic from "next/dynamic";
-import SEO, { breadcrumbSchema, personSchema } from "../components/SEO";
+import SEO, { breadcrumbSchema, personSchema, professionalServiceSchema } from "../components/SEO";
 import common from "../components/AboutPage/AboutPageCommon.module.css";
 import light from "../components/AboutPage/AboutPageLight.module.css";
 import dark from "../components/AboutPage/AboutPageDark.module.css";
@@ -23,6 +23,7 @@ export default function ContactPage() {
     { name: "Contact", url: "https://ghulammujtaba.com/contact" },
   ]);
   const contactPersonSchema = personSchema();
+  const contactServiceSchema = professionalServiceSchema();
 
   return (
     <div className={`${common.page} ${t.page}`}>
@@ -36,7 +37,7 @@ export default function ContactPage() {
         imageHeight={630}
         imageAlt="Contact Ghulam Mujtaba"
         author="Ghulam Mujtaba"
-        jsonLd={[contactPersonSchema, contactBreadcrumbSchema]}
+        jsonLd={[contactPersonSchema, contactServiceSchema, contactBreadcrumbSchema]}
       />
 
       <header>
