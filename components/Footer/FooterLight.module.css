@@ -1,7 +1,14 @@
 /* FooterLight.module.css */
 .footerBackground {
-  background-color: #f7f9fc;
-  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  /* Subtle brand-tinted surface with a soft blue glow under the top accent
+     bar so the footer feels part of the brand system. */
+  background-color: #eef3fd;
+  background-image: radial-gradient(
+    1200px 200px at 50% 0%,
+    rgba(69, 115, 223, 0.1),
+    transparent 70%
+  );
+  border-top: 1px solid rgba(69, 115, 223, 0.14);
 }
 
 .footer {

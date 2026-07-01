@@ -187,8 +187,8 @@
   }
 
   .textContainer {
-    padding-left: 35px;
-    padding-right: 35px;
+    padding-left: 20px;
+    padding-right: 20px;
     margin-right: 0;
     min-height: 230px;
     margin-top: 270px; /* Adjust as needed */
@@ -202,9 +202,11 @@
   }
 
   .ghulamMujtaba {
-    font-size: 30px;
+    /* Keep the name on a single line and scale it to the viewport so it
+       never wraps to two rows on small phones. */
+    font-size: clamp(20px, 7vw, 30px);
     font-weight: 600;
-    white-space: normal;
+    white-space: nowrap;
     margin-bottom: 0;
     margin-top: 0;
     animation: letterAnimation 2s forwards;

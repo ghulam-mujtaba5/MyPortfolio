@@ -1,6 +1,13 @@
 .footerBackground {
+  /* Base tone matches the contact section above for a seamless join, with a
+     soft brand-blue glow near the top accent bar. */
   background-color: var(--bg-elevated, #1d2127);
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  background-image: radial-gradient(
+    1200px 220px at 50% 0%,
+    rgba(69, 115, 223, 0.16),
+    transparent 70%
+  );
+  border-top: 1px solid rgba(69, 115, 223, 0.18);
 }
 
 .footer {

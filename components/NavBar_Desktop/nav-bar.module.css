@@ -195,8 +195,12 @@
 
 /* Styles for the Logo icon */
 .logoIcon {
-    width: 40px;
-    height: 40px;
+    /* Fit inside the 46px circle (content area ≈ 37px after border+padding)
+       and preserve the landscape monogram's aspect ratio so it neither
+       overflows the circular border nor gets stretched. */
+    width: 36px;
+    height: 36px;
+    object-fit: contain;
     position: relative;
     transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
@@ -215,6 +219,7 @@
     align-items: center;
     justify-content: center;
     box-sizing: border-box;
+    overflow: hidden;
     transition:
         transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
         box-shadow 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
@@ -703,8 +708,8 @@ html[data-theme="dark"] .header,
     }
 
     .logoIcon {
-        width: 34px;
-        height: 34px;
+        width: 30px;
+        height: 30px;
     }
 }
 

@@ -7,6 +7,21 @@
   font-family: "Open Sans", sans-serif;
 }
 
+/* Brand accent bar across the very top of the footer. Uses the same
+   blue gradient as the section-title underlines site-wide, so the footer
+   reads as an intentional, brand-owned close to the page and forms a clean
+   seam with the contact section directly above it. */
+.footer::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #4573df, #7eb3ff);
+  z-index: 21;
+}
+
 .footerBackground {
   /* Make the background part of the footer element so it scrolls away with the page */
   position: absolute;
@@ -80,10 +95,10 @@
 .colHeading {
   display: block;
   font-size: 13px;
-  font-weight: 600;
-  letter-spacing: 0.04em;
+  font-weight: 700;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--text-tertiary, #9ca3af);
+  color: var(--brand-primary, #4573df);
   margin-bottom: 14px;
 }
 
@@ -182,15 +197,30 @@
 
 @media (max-width: 480px) {
   .footerFrame {
-    padding: 32px 18px 20px;
+    padding: 32px 16px 20px;
   }
 
+  /* Keep the two short link lists side-by-side (brand spans the full width
+     above them) instead of collapsing into one tall single column. This
+     reads as an intentional, compact footer on phones. */
   .footerTop {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 20px;
+    row-gap: 24px;
+    padding-bottom: 24px;
+  }
+
+  .brandCol {
+    gap: 10px;
+  }
+
+  .colHeading {
+    margin-bottom: 12px;
   }
 
   .footerBottom {
     flex-direction: column;
     align-items: flex-start;
+    gap: 8px;
   }
 }
