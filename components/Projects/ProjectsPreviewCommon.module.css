@@ -1,9 +1,12 @@
 /* Common styles for ProjectsPreview */
 .section {
+  --section-gutter: clamp(16px, 2vw, 24px);
+
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 4rem 0 2.8rem 0;
+  padding: 4rem var(--section-gutter) 2.8rem;
+  box-sizing: border-box;
 }
 
 .headerRow {
@@ -38,7 +41,7 @@
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(340px, 100%), 1fr));
   gap: 2.5rem;
   width: 100%;
   margin: 0 auto;
@@ -70,8 +73,10 @@
 
 @media (max-width: 600px) {
   .section {
+    --section-gutter: clamp(14px, 4.5vw, 18px);
+
     max-width: 100%;
-    padding: 2rem 16px 1.5rem 16px;
+    padding: 2rem var(--section-gutter) 1.5rem;
     box-sizing: border-box;
   }
   .headerRow {

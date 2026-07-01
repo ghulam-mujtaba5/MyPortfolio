@@ -73,8 +73,8 @@ export default function InsightDetailPage({ article, relatedArticles = [], previ
       minHeight: "100vh",
       width: "100%",
       background: theme === "dark"
-        ? "linear-gradient(135deg, #0f1419 0%, #1f2937 50%, #111827 100%)"
-        : "linear-gradient(135deg, #ffffff 0%, #f8f9fa 50%, #f1f3f4 100%)",
+        ? "linear-gradient(180deg, #1d2127 0%, #272c34 48%, #1d2127 100%)"
+        : "linear-gradient(180deg, #ffffff 0%, #f8f9fd 48%, #ffffff 100%)",
       margin: 0,
       padding: 0,
     }}>

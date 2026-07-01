@@ -110,6 +110,11 @@ const ResumePage = ({ resume }) => {
         }
 
         @media (max-width: 560px) {
+          .darkTheme,
+          .lightTheme {
+            padding-top: calc(clamp(82px, 18vw, 96px) + env(safe-area-inset-top, 0px));
+          }
+
           .downloadButton {
             padding: 10px 20px;
             font-size: 14px;

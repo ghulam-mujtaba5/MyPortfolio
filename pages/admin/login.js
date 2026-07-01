@@ -83,7 +83,7 @@ export default function LoginPage() {
         >
           <div className={styles.logoWrapper}>
             <img
-              src={theme === 'dark' ? '/gmVectorDark.svg' : '/gmVector.svg'}
+              src={theme === 'dark' ? '/personal-gm-monogram-on-dark.svg' : '/personal-gm-monogram-on-light.svg'}
               alt="GM Logo"
               width={36}
               height={36}

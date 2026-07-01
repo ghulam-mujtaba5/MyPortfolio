@@ -2,7 +2,6 @@ import React, { useEffect, useState, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useTheme } from "../../context/ThemeContext";
-import ThemeToggleIcon from "../Icon/gmicon";
 import { formatDateConsistent, formatDateISO } from "../../utils/dateUtils";
 import { generateTableOfContents, addCodeBlockCopyButtons, addHeadingAnchors, scrollToElement } from "../../utils/articleUtils";
 import baseStyles from "./ArticleDetailBaseCommon.module.css";
@@ -93,13 +92,13 @@ const ArticleDetail = ({ article, relatedArticles = [] }) => {
     const html = document.documentElement;
     
     if (theme === "dark") {
-      body.style.background = 'linear-gradient(135deg, #0f1419 0%, #1f2937 50%, #111827 100%)';
-      html.style.background = 'linear-gradient(135deg, #0f1419 0%, #1f2937 50%, #111827 100%)';
+      body.style.background = 'linear-gradient(180deg, #1d2127 0%, #272c34 48%, #1d2127 100%)';
+      html.style.background = 'linear-gradient(180deg, #1d2127 0%, #272c34 48%, #1d2127 100%)';
       body.style.minHeight = '100vh';
       html.style.minHeight = '100vh';
     } else {
-      body.style.background = 'linear-gradient(135deg, #ffffff 0%, #f8f9fa 50%, #f1f3f4 100%)';
-      html.style.background = 'linear-gradient(135deg, #ffffff 0%, #f8f9fa 50%, #f1f3f4 100%)';
+      body.style.background = 'linear-gradient(180deg, #ffffff 0%, #f8f9fd 48%, #ffffff 100%)';
+      html.style.background = 'linear-gradient(180deg, #ffffff 0%, #f8f9fd 48%, #ffffff 100%)';
       body.style.minHeight = '100vh';
       html.style.minHeight = '100vh';
     }
@@ -227,11 +226,6 @@ const ArticleDetail = ({ article, relatedArticles = [] }) => {
 
   return (
     <div className={`${baseStyles.container} ${themeStyles.container || ""} ${theme === "dark" ? baseStyles.dark : baseStyles.light}`}>
-      {/* GM Icon */}
-      <div className={`${baseStyles.gmIcon} ${themeStyles.gmIcon || ""} ${theme === "light" ? "light" : "dark"}`}>
-        <ThemeToggleIcon />
-      </div>
-
       {/* Scroll Progress Indicator */}
       <div 
         className={`${baseStyles.scrollProgress} ${themeStyles.scrollProgress || ""}`}
@@ -274,7 +268,7 @@ const ArticleDetail = ({ article, relatedArticles = [] }) => {
       </nav>
 
       {/* Article Title */}
-      <h1 className={`${baseStyles.title} ${themeStyles.title || ""}`}>
+      <h1 className={`${baseStyles.title} ${themeStyles.title || ""} article-title`}>
         {title}
         <div className={`${baseStyles.titleUnderline} ${themeStyles.titleUnderline || ""}`} />
       </h1>
@@ -438,7 +432,7 @@ const ArticleDetail = ({ article, relatedArticles = [] }) => {
 
       {/* Article Excerpt/Summary */}
       {excerpt && (
-        <div className={`${baseStyles.excerpt} ${themeStyles.excerpt || ""}`}>
+        <div className={`${baseStyles.excerpt} ${themeStyles.excerpt || ""} article-excerpt`}>
           <p>{excerpt}</p>
         </div>
       )}

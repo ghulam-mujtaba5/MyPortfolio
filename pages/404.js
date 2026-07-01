@@ -20,7 +20,11 @@ export default function Custom404() {
         transition={{ duration: 0.8, ease: "easeOut" }}
       >
         <Image
-          src={theme === "dark" ? "/gmVectorDark.svg" : "/gmVector.svg"}
+          src={
+            theme === "dark"
+              ? "/personal-gm-monogram-on-dark.svg"
+              : "/personal-gm-monogram-on-light.svg"
+          }
           alt="GM Logo"
           width={80}
           height={80}

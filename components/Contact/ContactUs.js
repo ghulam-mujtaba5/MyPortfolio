@@ -312,7 +312,11 @@ const ContactSection = ({
           className={`${commonStyles.emailIcon} ${themeStyles.emailIcon}`}
           alt=""
           aria-hidden="true"
-          src={theme === "light" ? "email icon.svg" : "EmailDark.svg"}
+          src={
+            theme === "light"
+              ? "/email-icon-on-light.svg"
+              : "/email-icon-on-dark.svg"
+          }
           loading="lazy"
         />
       </div>

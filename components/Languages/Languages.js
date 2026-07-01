@@ -11,9 +11,9 @@ const CATEGORIES = [
     label: "Web & Markup",
     accent: "#4573df",
     languages: [
-      { name: "JavaScript", src: "/javscript icon.svg", level: "Primary" },
-      { name: "HTML", src: "/html icon.svg", level: "Primary" },
-      { name: "CSS", src: "/css icon.svg", level: "Proficient" },
+      { name: "JavaScript", src: "/javascript-language-icon.svg", level: "Primary" },
+      { name: "HTML", src: "/html-language-icon.svg", level: "Primary" },
+      { name: "CSS", src: "/css-language-icon.svg", level: "Proficient" },
     ],
   },
   {
@@ -21,8 +21,8 @@ const CATEGORIES = [
     label: "AI & Data Science",
     accent: "#38bdf8",
     languages: [
-      { name: "Python", src: "/python icon.svg", level: "Primary" },
-      { name: "R", src: "/r icon.svg", level: "Familiar" },
+      { name: "Python", src: "/python-language-icon.svg", level: "Primary" },
+      { name: "R", src: "/r-language-icon.svg", level: "Familiar" },
     ],
   },
   {
@@ -31,8 +31,8 @@ const CATEGORIES = [
     accent: "#a78bfa",
     languages: [
       { name: "Java", src: "/java.png", level: "Proficient" },
-      { name: "C++", src: "/cpluslanguage icon.png", level: "Proficient" },
-      { name: "C", src: "/c language icon.svg", level: "Familiar" },
+      { name: "C++", src: "/cpp-language-icon.png", level: "Proficient" },
+      { name: "C", src: "/c-language-icon.svg", level: "Familiar" },
     ],
   },
 ];

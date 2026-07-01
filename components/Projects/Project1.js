@@ -175,7 +175,11 @@ const ProjectCard = React.memo(({ project, frameStyles, theme }) => {
       <Image
         className={`${commonStyles.githubIcon} ${frameStyles.githubIcon}`}
         alt="GitHub icon"
-        src={theme === "dark" ? "/GithubDark.svg" : "/github_icon.svg"}
+        src={
+          theme === "dark"
+            ? "/github-icon-on-dark.svg"
+            : "/github-icon-on-light.svg"
+        }
         width={24}
         height={24}
         loading="lazy"
@@ -183,7 +187,11 @@ const ProjectCard = React.memo(({ project, frameStyles, theme }) => {
       <Image
         className={`${commonStyles.previewIcon1} ${frameStyles.previewIcon1}`}
         alt="Preview icon"
-        src={theme === "dark" ? "/PreviewDark.svg" : "/preview_icon1.svg"}
+        src={
+          theme === "dark"
+            ? "/preview-icon-on-dark.svg"
+            : "/preview-icon-on-light.svg"
+        }
         width={24}
         height={24}
         loading="lazy"

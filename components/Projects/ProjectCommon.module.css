@@ -294,13 +294,13 @@
     justify-content: center;
     height: auto; /* Adjust height for small screens */
     align-items: center; /* Center align items */
-    padding: 0 15px; /* Add some padding on mobile */
+    padding: 0;
   }
 
   .projectCard1 {
     width: 100%;
-    max-width: 90%; /* Allow cards to take up more space on small screens */
-    margin: 20px 0; /* Margin between cards for small screens */
+    max-width: 100%;
+    margin: 0;
     height: auto; /* Make height responsive */
     min-height: 570px; /* Maintain minimum height */
   }

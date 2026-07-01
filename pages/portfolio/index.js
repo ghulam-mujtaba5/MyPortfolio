@@ -327,9 +327,7 @@ const Home = ({ previewProjects = [], previewArticles = [] }) => {
           z-index: 2;
         }
         #languages-section,
-        #skills-section,
-        #project-section,
-        #articles-section {
+        #skills-section {
           padding-inline: clamp(16px, 1.8vw, 24px);
         }
         .skip-link:focus {

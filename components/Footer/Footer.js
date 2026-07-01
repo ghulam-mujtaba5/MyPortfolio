@@ -39,7 +39,11 @@ const Footer = ({
             className={commonStyles.linkedinIcon}
             style={{ width: 'auto', height: 'auto' }}
             alt=""
-            src={theme === "dark" ? "/LinkedinDark.svg" : "/linkedin-icon.svg"}
+            src={
+              theme === "dark"
+                ? "/linkedin-icon-on-dark.svg"
+                : "/linkedin-icon-on-light.svg"
+            }
             width={24}
             height={24}
             loading="lazy"
@@ -50,7 +54,11 @@ const Footer = ({
             className={commonStyles.instagramIcon}
             style={{ width: 'auto', height: 'auto' }}
             alt=""
-            src={theme === "dark" ? "/InstagramDark.svg" : "/Instagram-icon.svg"}
+            src={
+              theme === "dark"
+                ? "/instagram-icon-on-dark.svg"
+                : "/instagram-icon-on-light.svg"
+            }
             width={24}
             height={24}
             loading="lazy"
@@ -61,7 +69,11 @@ const Footer = ({
             className={commonStyles.githubIcon}
             style={{ width: 'auto', height: 'auto' }}
             alt=""
-            src={theme === "dark" ? "/GithubDark.svg" : "/github_icon.svg"}
+            src={
+              theme === "dark"
+                ? "/github-icon-on-dark.svg"
+                : "/github-icon-on-light.svg"
+            }
             width={24}
             height={24}
             loading="lazy"

@@ -277,7 +277,7 @@ export default function InsightsPage({
         </header>
 
         <main
-          style={{ flexGrow: 1, maxWidth: 1160, margin: "0 auto", padding: "0 1rem 2rem", width: "100%" }}
+          className={listCss.pageMain}
         >
           <section className={listCss.hero}>
             <h1

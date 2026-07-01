@@ -138,11 +138,13 @@ const NavBar = () => {
   // Determine which SVG to use based on theme
   const nameIconSrc =
     mounted && theme === "light"
-      ? "/ghulam-mujtaba-dark.svg"
-      : "/ghulam-mujtaba.svg";
+      ? "/ghulam-mujtaba-wordmark-on-light.svg"
+      : "/ghulam-mujtaba-wordmark-on-dark.svg";
 
   const logoIconSrc =
-    mounted && theme === "light" ? "/gmVector.svg" : "/gmVectorDark.svg";
+    mounted && theme === "light"
+      ? "/personal-gm-monogram-on-light.svg"
+      : "/personal-gm-monogram-on-dark.svg";
 
   // Get animation class for name
   const getNameAnimationClass = () => {

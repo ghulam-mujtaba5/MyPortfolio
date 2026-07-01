@@ -1,7 +1,18 @@
+.pageMain {
+  --page-gutter: clamp(16px, 2.5vw, 24px);
+
+  flex-grow: 1;
+  max-width: 1160px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 var(--page-gutter) 2rem;
+  box-sizing: border-box;
+}
+
 .hero {
   max-width: 1160px;
   margin: 0 auto;
-  padding: 2.5rem 1rem 1rem;
+  padding: 2.5rem 0 1rem;
 }
 
 .heroTitle {
@@ -39,6 +50,10 @@
 
 /* ── Mobile ── */
 @media (max-width: 768px) {
+  .pageMain {
+    --page-gutter: clamp(14px, 4.5vw, 18px);
+  }
+
   .hero {
     /* Push content below the absolute-positioned mobile icons:
        theme icon bottom ≈ 62px, hamburger bottom ≈ 55px → 80px clears both */
@@ -63,6 +78,7 @@
   display: grid;
   grid-template-columns: repeat(1, minmax(0, 1fr));
   gap: 20px;
+  width: 100%;
 }
 @media (min-width: 640px) {
   .grid {

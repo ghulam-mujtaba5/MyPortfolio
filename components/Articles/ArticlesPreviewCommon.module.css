@@ -1,9 +1,12 @@
 /* Common styles for ArticlesPreview (mirrors ProjectsPreview) */
 .section {
+  --section-gutter: clamp(16px, 2vw, 24px);
+
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 4rem 0 2.8rem 0;
+  padding: 4rem var(--section-gutter) 2.8rem;
+  box-sizing: border-box;
 }
 
 .headerRow {
@@ -84,8 +87,10 @@
 
 @media (max-width: 720px) {
   .section {
+    --section-gutter: clamp(14px, 4.5vw, 18px);
+
     max-width: 100%;
-    padding: 2rem 16px 1.5rem 16px;
+    padding: 2rem var(--section-gutter) 1.5rem;
     box-sizing: border-box;
   }
   .headerRow {

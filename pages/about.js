@@ -100,7 +100,7 @@ const timeline = [
     org: "COMSATS University Islamabad",
     type: "education",
     period: "Sep 2022 \u2014 Jun 2026",
-    logo: "/COMSATS unoversity vector logo.svg",
+    logo: "/comsats-university-vector-logo.svg",
     description:
       "Bachelor in Software Engineering with focus on computer science, software architecture, algorithms, database systems, artificial intelligence, and human-computer interaction.",
   },
