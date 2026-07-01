@@ -86,7 +86,7 @@ const SkillFrame = () => {
       ref={frameRef}
       className={`${commonStyles.skillFrame} ${themeStyles.skillFrame}`}
     >
-      <h2 className={`${commonStyles.skillsTitle} ${themeStyles.skillsTitle}`}>
+      <h2 id="skills-title" className={`${commonStyles.skillsTitle} ${themeStyles.skillsTitle}`}>
         Skills
       </h2>
 

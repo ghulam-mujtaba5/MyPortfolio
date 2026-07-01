@@ -56,6 +56,7 @@ const AboutMeSection = ({ showTitle = true }) => {
       <div className={sectionClass}>
         {showTitle && (
           <motion.h2
+            id="about-title"
             className={titleClass}
             initial={{ opacity: 0, y: -30 }}
             animate={controls}

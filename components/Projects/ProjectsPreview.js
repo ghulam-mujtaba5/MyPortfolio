@@ -97,7 +97,7 @@ const ProjectsPreview = ({ projects = [] }) => {
       }}
     >
       <div className={commonStyles.headerRow}>
-        <h2 className={`${commonStyles.title} ${themeStyles.title}`}>
+        <h2 id="projects-title" className={`${commonStyles.title} ${themeStyles.title}`}>
           Projects
         </h2>
       </div>

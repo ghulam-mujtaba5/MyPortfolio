@@ -689,6 +689,7 @@ export async function getStaticProps() {
           "AI",
           "Data Science",
           "UI/UX",
+          "Client Projects",
           "Others",
         ])
         .optional(),

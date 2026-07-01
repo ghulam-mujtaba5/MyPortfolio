@@ -86,7 +86,7 @@ const ArticlesPreview = ({ articles = [] }) => {
       }}
     >
       <div className={commonStyles.headerRow}>
-        <h2 className={`${commonStyles.title} ${themeStyles.title}`}>
+        <h2 id="insights-title" className={`${commonStyles.title} ${themeStyles.title}`}>
           Insights
         </h2>
       </div>

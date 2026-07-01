@@ -191,12 +191,9 @@ const Home = ({ previewProjects = [], previewArticles = [] }) => {
 
           <section
             id="about-section"
-            aria-labelledby="about-section-heading"
+            aria-labelledby="about-title"
             style={{ width: "100%", textAlign: "center" }}
           >
-            <h2 id="about-section-heading" className="visually-hidden">
-              About Me
-            </h2>
             <ScrollReveal animation="fadeInUp" width="100%">
               <AboutMeSection />
             </ScrollReveal>
@@ -204,12 +201,9 @@ const Home = ({ previewProjects = [], previewArticles = [] }) => {
 
           <section
             id="languages-section"
-            aria-labelledby="languages-section-heading"
+            aria-labelledby="languages-title"
             style={{ width: "100%", display: "flex", justifyContent: "center" }}
           >
-            <h2 id="languages-section-heading" className="visually-hidden">
-              Languages
-            </h2>
             <ScrollReveal animation="fadeInUp" width="100%">
               <Languages />
             </ScrollReveal>
@@ -217,12 +211,9 @@ const Home = ({ previewProjects = [], previewArticles = [] }) => {
 
           <section
             id="skills-section"
-            aria-labelledby="skills-section-heading"
+            aria-labelledby="skills-title"
             style={{ width: "100%" }}
           >
-            <h2 id="skills-section-heading" className="visually-hidden">
-              Skills
-            </h2>
             <ScrollReveal animation="fadeInUp" width="100%">
               <SkillFrame />
             </ScrollReveal>
@@ -243,12 +234,9 @@ const Home = ({ previewProjects = [], previewArticles = [] }) => {
 
           <section
             id="project-section"
-            aria-labelledby="project-section-heading"
+            aria-labelledby="projects-title"
             style={{ width: "100%" }}
           >
-            <h2 id="project-section-heading" className="visually-hidden">
-              Projects
-            </h2>
             <ScrollReveal animation="fadeInUp" width="100%">
               <ProjectsPreview projects={previewProjects} />
             </ScrollReveal>
@@ -256,12 +244,9 @@ const Home = ({ previewProjects = [], previewArticles = [] }) => {
 
           <section
             id="articles-section"
-            aria-labelledby="articles-section-heading"
+            aria-labelledby="insights-title"
             style={{ width: "100%" }}
           >
-            <h2 id="articles-section-heading" className="visually-hidden">
-              Articles
-            </h2>
             <ScrollReveal animation="fadeInUp" width="100%">
               <ArticlesPreview articles={previewArticles} />
             </ScrollReveal>

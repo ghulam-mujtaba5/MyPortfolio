@@ -1,12 +1,7 @@
 import React from 'react';
 import SEO, { personSchema, breadcrumbSchema } from '../../components/SEO';
 import { useTheme } from '../../context/ThemeContext';
-import dynamic from 'next/dynamic';
-const Resume = dynamic(() => import('../../components/Resume/Resume'), {
-  ssr: false,
-  // small client-side placeholder while Resume loads
-  loading: () => <div />,
-});
+import Resume from '../../components/Resume/Resume';
 import NavBarDesktop from '../../components/NavBar_Desktop/nav-bar';
 import NavBarMobile from '../../components/NavBar_Mobile/NavBar-mobile';
 import Footer from '../../components/Footer/Footer';

@@ -55,7 +55,7 @@ const Introduction = () => {
         ref={ref}
         className={`${commonStyles.textContainer} ${theme === "dark" ? darkStyles.textContainer : lightStyles.textContainer}`}
       >
-        <motion.h1
+        <motion.h2
           className={`${commonStyles.text} ${theme === "dark" ? darkStyles.text : lightStyles.text}`}
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -85,7 +85,7 @@ const Introduction = () => {
           >
             {nameTextToDisplay}
           </motion.span>
-        </motion.h1>
+        </motion.h2>
         <motion.p
           className={`${commonStyles.paragraph} ${theme === "dark" ? darkStyles.paragraph : lightStyles.paragraph}`}
           initial={{ opacity: 0, y: 20 }}
