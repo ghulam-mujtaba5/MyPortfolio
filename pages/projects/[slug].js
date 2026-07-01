@@ -6,6 +6,7 @@ import dbConnect from "../../lib/mongoose";
 import Project from "../../models/Project";
 import ProjectDetail from "../../components/Projects/ProjectDetail";
 import { enhanceProjectData } from "../../utils/projectEnhancements";
+import { MAIN_SECTIONS } from "../../constants/navigation";
 
 const NavBarDesktop = dynamic(
   () => import("../../components/NavBar_Desktop/nav-bar"),
@@ -24,6 +25,7 @@ const Footer = dynamic(() => import("../../components/Footer/Footer"), {
 const ProjectPage = ({ project, relatedProjects = [] }) => {
   const { theme } = useTheme();
   const [isMobile, setIsMobile] = useState(false);
+  const sections = MAIN_SECTIONS;
   const projectUrl = `https://ghulammujtaba.com/projects/${project?.slug}`;
 
   // Ensure absolute URLs for OG/Twitter/JSON-LD
@@ -197,7 +199,7 @@ const ProjectPage = ({ project, relatedProjects = [] }) => {
         )}
       </Head>
 
-      {isMobile ? <NavBarMobile /> : <NavBarDesktop />}
+      {isMobile ? <NavBarMobile sections={sections} /> : <NavBarDesktop />}
 
       <main>
         {/* ...existing code... */}
