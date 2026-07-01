@@ -4,7 +4,15 @@
 
 /* Absolute Positioned Components */
 .contactFormBackground {
+  /* Same brand-blue glow treatment as the footer directly below it, so the
+     two sections read as one continuous branded surface instead of two
+     different flat darks. */
   background-color: var(--bg-subtle, #151b24);
+  background-image: radial-gradient(
+    1200px 500px at 50% 0%,
+    var(--brand-primary-muted, rgba(79, 140, 255, 0.15)),
+    transparent 70%
+  );
 }
 
 .nameInput,
