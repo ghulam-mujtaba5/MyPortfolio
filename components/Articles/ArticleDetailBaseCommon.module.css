@@ -2751,3 +2751,84 @@
         display: none;
     }
 }
+
+/* Categories — solid brand pills, distinct from outline tags, linked to /insights?category= */
+.categories {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+    margin-right: 8px;
+}
+
+.category {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 14px;
+    background: linear-gradient(135deg, #4573df, #5a86e6);
+    color: #fff;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+    box-shadow: 0 2px 8px rgba(69, 115, 223, 0.3);
+}
+
+.category:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(69, 115, 223, 0.4);
+    opacity: 0.95;
+}
+
+.category:focus-visible {
+    outline: 2px solid #4573df;
+    outline-offset: 3px;
+}
+
+/* Article CTA — internal-linking call to action rendered after the content */
+.ctaSection {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    text-align: center;
+    margin: 40px 0;
+    padding: 32px 24px;
+    border-radius: 16px;
+    background: var(--cta-bg, rgba(69, 115, 223, 0.06));
+    border: 1px solid var(--cta-border, rgba(69, 115, 223, 0.15));
+}
+
+.ctaEyebrow {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-muted, #6b7280);
+}
+
+.ctaButton {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 26px;
+    border-radius: 9999px;
+    background: linear-gradient(135deg, #4573df, #5a86e6);
+    color: #fff;
+    font-size: 15px;
+    font-weight: 600;
+    text-decoration: none;
+    box-shadow: 0 6px 18px rgba(69, 115, 223, 0.35);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.ctaButton:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 24px rgba(69, 115, 223, 0.45);
+}
+
+.ctaButton:focus-visible {
+    outline: 2px solid #4573df;
+    outline-offset: 3px;
+}

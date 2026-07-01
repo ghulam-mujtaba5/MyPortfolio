@@ -69,7 +69,12 @@
 }
 
 .techStackContainer {
-  color: #1e90ff; /* Light blue text */
+  --tech-chip-text: #eaf1ff;
+  --tech-chip-bg: rgba(69, 115, 223, 0.22);
+  --tech-chip-border: rgba(69, 115, 223, 0.4);
+  --tech-chip-more-text: #c3c9d4;
+  --tech-chip-more-bg: rgba(255, 255, 255, 0.06);
+  --tech-chip-more-border: rgba(255, 255, 255, 0.12);
 }
 
 /* Media query for small screens */

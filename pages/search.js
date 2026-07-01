@@ -74,7 +74,7 @@ export default function SearchPage({ q, page, limit, articleResults, projectResu
                 {articleResults.map((a, index) => (
                   <ScrollReveal key={a.slug} animation="fadeInUp" delay={index * 50} width="100%" as="li">
                     <div className={styles.resultItem}>
-                      <Link href={`/articles/${a.slug}`} className={styles.resultLink}>{a.title}</Link>
+                      <Link href={`/insights/${a.slug}`} className={styles.resultLink}>{a.title}</Link>
                       {a.excerpt && <p className={styles.resultExcerpt}>{a.excerpt}</p>}
                       {Array.isArray(a.tags) && a.tags.length > 0 && (
                         <div className={styles.tagsRow}>

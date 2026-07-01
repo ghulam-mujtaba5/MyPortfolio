@@ -84,6 +84,8 @@ export default function ArticleForm({
       metaTitle: article.metaTitle || "",
       metaDescription: article.metaDescription || "",
       ogImage: article.ogImage || "",
+      ctaLabel: article.ctaLabel || "",
+      ctaUrl: article.ctaUrl || "",
       coverImageAlt: article.coverImageAlt || "",
       publishAt: article.publishAt
         ? new Date(article.publishAt).toISOString().slice(0, 16)
@@ -724,6 +726,49 @@ export default function ArticleForm({
             </button>
           ))}
         </div>
+      </div>
+
+      <div className={styles.formGroup}>
+        <label
+          htmlFor="ctaLabel"
+          className={`${styles.label} ${styles.label}`}
+        >
+          CTA button text (optional)
+        </label>
+        <input
+          id="ctaLabel"
+          placeholder="e.g. See the CampusAxis case study"
+          {...register("ctaLabel")}
+          className={`${styles.input} ${styles.input}`}
+        />
+        {errors.ctaLabel && (
+          <p className={`${styles.error} ${styles.error}`}>
+            {errors.ctaLabel.message}
+          </p>
+        )}
+      </div>
+
+      <div className={styles.formGroup}>
+        <label
+          htmlFor="ctaUrl"
+          className={`${styles.label} ${styles.label}`}
+        >
+          CTA link (internal path or full URL)
+        </label>
+        <input
+          id="ctaUrl"
+          placeholder="/projects/campusaxis-university-portal"
+          {...register("ctaUrl")}
+          className={`${styles.input} ${styles.input}`}
+        />
+        {errors.ctaUrl && (
+          <p className={`${styles.error} ${styles.error}`}>
+            {errors.ctaUrl.message}
+          </p>
+        )}
+        <p className={styles.hint || ""} style={{ fontSize: 12, opacity: 0.7, marginTop: 4 }}>
+          Shown as a button at the end of the article — great for linking to a related project, service, or another insight.
+        </p>
       </div>
 
       <div className={`${styles.formGroup} ${styles.fullWidth}`}>

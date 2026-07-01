@@ -93,7 +93,7 @@ export default function InsightDetailPage({ article, relatedArticles = [], previ
         noindex={!!preview}
         publishedTime={article.createdAt || article.publishAt}
         modifiedTime={article.updatedAt}
-        articleSection={article.category}
+        articleSection={Array.isArray(article.categories) ? article.categories[0] : undefined}
         articleTags={article.tags}
         jsonLd={[
           articleSchema({
@@ -156,7 +156,7 @@ export async function getServerSideProps(context) {
       published: true,
       $or: [
         { tags: { $in: article.tags || [] } },
-        { category: article.category },
+        { categories: { $in: article.categories || [] } },
       ],
     })
       .limit(3)

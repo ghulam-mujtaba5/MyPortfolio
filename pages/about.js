@@ -61,7 +61,8 @@ const ventures = [
     description:
       "An AI-powered freelancing platform built with Next.js and FastAPI, featuring smart job matching, blockchain escrow payments, and fraud detection.",
     link: "https://megilance.site",
-    logo: "/megilance-logo.svg",
+    logoDark: "/megilance-logo-on-dark.png",
+    logoLight: "/megilance-logo-on-light.png",
     external: true,
   },
   {
@@ -70,7 +71,7 @@ const ventures = [
     description:
       "A university portal platform designed to streamline academic operations, student management, and institutional workflows.",
     link: "/projects/campusaxis-university-portal",
-    logo: "/campusaxis-logo.svg",
+    logo: "/campusaxis-logo.png",
   },
 ];
 
@@ -80,8 +81,8 @@ const timeline = [
     org: "MegiCode",
     type: "work",
     period: "2023 \u2014 Present",
-    logoDark: "/megicode-logo-square-darkscreen.svg",
-    logoLight: "/megicode-logo-square-lightscreen.svg",
+    logoDark: "/megicode-logo-square-darkscreen.png",
+    logoLight: "/megicode-logo-square-lightscreen.png",
     description:
       "Founded a software company focused on building high-quality digital products and providing development services for clients and businesses.",
     link: "/projects/megicode-software-company",

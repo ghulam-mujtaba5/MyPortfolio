@@ -1,15 +1,25 @@
 import React, { useMemo } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { useTheme } from "../../context/ThemeContext";
 import commonStyles from "./FooterCommon.module.css"; // Import common styles
 import lightStyles from "./FooterLight.module.css"; // Import light mode styles
 import darkStyles from "./FooterDark.module.css"; // Import dark mode styles
 
+const EXPLORE_LINKS = [
+  { label: "Home", href: "/" },
+  { label: "About", href: "/about" },
+  { label: "Projects", href: "/projects" },
+  { label: "Insights", href: "/insights" },
+  { label: "Resume", href: "/resume" },
+];
+
 const Footer = ({
-  copyrightText = `Copyright ${new Date().getFullYear()} Ghulam Mujtaba Official`,
+  copyrightText = `© ${new Date().getFullYear()} Ghulam Mujtaba. All rights reserved.`,
   linkedinUrl = "https://www.linkedin.com/in/ghulamujtabaofficial",
   instagramUrl = "https://www.instagram.com/ghulamujtabaofficial/",
   githubUrl = "https://github.com/ghulam-mujtaba5",
+  email = "hello@ghulammujtaba.com",
 }) => {
   const { theme } = useTheme();
 
@@ -18,6 +28,14 @@ const Footer = ({
     [theme],
   );
 
+  const monogramSrc =
+    theme === "dark"
+      ? "/personal-gm-monogram-on-dark.png"
+      : "/personal-gm-monogram-on-light.png";
+
+  const socialIcon = (name) =>
+    theme === "dark" ? `/${name}-icon-on-dark.svg` : `/${name}-icon-on-light.svg`;
+
   return (
     <footer className={`${commonStyles.footer} ${themeStyles.footer}`}>
       {/* full-bleed background sits behind the centered frame */}
@@ -25,60 +43,135 @@ const Footer = ({
         className={`${commonStyles.footerBackground} ${themeStyles.footerBackground}`}
       />
       <div className={commonStyles.footerFrame}>
-        <Image
-          className={commonStyles.copyrightIcon}
-          alt="Copyright Icon"
-          src={theme === "dark" ? "/CopyrightDark.svg" : "/copyright-icon.svg"}
-          width={24}
-          height={24}
-          loading="lazy"
-        />
-        <p className={commonStyles.copyrightLabel}>{copyrightText}</p>
-        <a href={linkedinUrl} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className={`${commonStyles.socialLink} ${commonStyles.linkedinPos}`}>
-          <Image
-            className={commonStyles.linkedinIcon}
-            style={{ width: 'auto', height: 'auto' }}
-            alt=""
-            src={
-              theme === "dark"
-                ? "/linkedin-icon-on-dark.svg"
-                : "/linkedin-icon-on-light.svg"
-            }
-            width={24}
-            height={24}
-            loading="lazy"
-          />
-        </a>
-        <a href={instagramUrl} target="_blank" rel="noopener noreferrer" aria-label="Instagram" className={`${commonStyles.socialLink} ${commonStyles.instagramPos}`}>
-          <Image
-            className={commonStyles.instagramIcon}
-            style={{ width: 'auto', height: 'auto' }}
-            alt=""
-            src={
-              theme === "dark"
-                ? "/instagram-icon-on-dark.svg"
-                : "/instagram-icon-on-light.svg"
-            }
-            width={24}
-            height={24}
-            loading="lazy"
-          />
-        </a>
-        <a href={githubUrl} target="_blank" rel="noopener noreferrer" aria-label="GitHub" className={`${commonStyles.socialLink} ${commonStyles.githubPos}`}>
-          <Image
-            className={commonStyles.githubIcon}
-            style={{ width: 'auto', height: 'auto' }}
-            alt=""
-            src={
-              theme === "dark"
-                ? "/github-icon-on-dark.svg"
-                : "/github-icon-on-light.svg"
-            }
-            width={24}
-            height={24}
-            loading="lazy"
-          />
-        </a>
+        <div className={commonStyles.footerTop}>
+          <div className={commonStyles.brandCol}>
+            <Link
+              href="/"
+              className={commonStyles.brandMark}
+              aria-label="Ghulam Mujtaba — go to homepage"
+            >
+              <Image
+                src={monogramSrc}
+                alt=""
+                width={32}
+                height={32}
+                className={commonStyles.brandIcon}
+              />
+              <span className={commonStyles.brandName}>Ghulam Mujtaba</span>
+            </Link>
+            <p className={commonStyles.brandTagline}>
+              Full Stack Developer, Data Scientist &amp; AI Specialist — building{" "}
+              <a
+                href="https://www.megicode.com"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Megicode
+              </a>{" "}
+              and{" "}
+              <a
+                href="https://www.campusaxis.com"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                CampusAxis
+              </a>
+              .
+            </p>
+          </div>
+
+          <nav className={commonStyles.linkCol} aria-label="Explore">
+            <span className={commonStyles.colHeading}>Explore</span>
+            <ul className={commonStyles.linkList}>
+              {EXPLORE_LINKS.map((l) => (
+                <li key={l.href}>
+                  <Link href={l.href}>{l.label}</Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
+
+          <div className={commonStyles.linkCol}>
+            <span className={commonStyles.colHeading}>Connect</span>
+            <ul className={commonStyles.linkList}>
+              <li>
+                <a
+                  href={`mailto:${email}`}
+                  className={commonStyles.iconLink}
+                >
+                  <Image
+                    src={socialIcon("email")}
+                    alt=""
+                    width={16}
+                    height={16}
+                  />
+                  Email
+                </a>
+              </li>
+              <li>
+                <a
+                  href={linkedinUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={commonStyles.iconLink}
+                >
+                  <Image
+                    src={socialIcon("linkedin")}
+                    alt=""
+                    width={16}
+                    height={16}
+                  />
+                  LinkedIn
+                </a>
+              </li>
+              <li>
+                <a
+                  href={githubUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={commonStyles.iconLink}
+                >
+                  <Image
+                    src={socialIcon("github")}
+                    alt=""
+                    width={16}
+                    height={16}
+                  />
+                  GitHub
+                </a>
+              </li>
+              <li>
+                <a
+                  href={instagramUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={commonStyles.iconLink}
+                >
+                  <Image
+                    src={socialIcon("instagram")}
+                    alt=""
+                    width={16}
+                    height={16}
+                  />
+                  Instagram
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div className={commonStyles.footerBottom}>
+          <p className={commonStyles.copyrightLabel}>{copyrightText}</p>
+          <div className={commonStyles.bottomRight}>
+            <Link href="/privacy-policy" className={commonStyles.bottomLink}>
+              Privacy Policy
+            </Link>
+            <span className={commonStyles.dot} aria-hidden="true">
+              •
+            </span>
+            <span className={commonStyles.madeIn}>Lahore, Pakistan</span>
+          </div>
+        </div>
       </div>
     </footer>
   );

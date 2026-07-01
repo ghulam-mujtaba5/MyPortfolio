@@ -217,7 +217,7 @@ const ArticleDetail = ({ article, relatedArticles = [] }) => {
     );
   }
 
-  const { title, content, coverImage, tags, excerpt, readingTime, updatedAt, createdAt, publishAt } = article;
+  const { title, content, coverImage, tags, categories, excerpt, readingTime, updatedAt, createdAt, publishAt, ctaLabel, ctaUrl } = article;
   const articleUrl = `https://ghulammujtaba.com/insights/${article.slug}`;
 
   // Combine styles based on theme
@@ -322,6 +322,26 @@ const ArticleDetail = ({ article, relatedArticles = [] }) => {
 
       {/* Meta Information */}
       <div className={`${baseStyles.meta} ${themeStyles.meta || ""}`}>
+        {Array.isArray(categories) && categories.length > 0 && (
+          <div
+            className={`${baseStyles.categories} ${themeStyles.categories || ""}`}
+            role="list"
+            aria-label="Article categories"
+          >
+            {categories.map((category, index) => (
+              <Link
+                key={`${category}-${index}`}
+                href={`/insights?category=${encodeURIComponent(category)}`}
+                className={`${baseStyles.category} ${themeStyles.category || ""}`}
+                role="listitem"
+                aria-label={`Browse category: ${category}`}
+              >
+                {category}
+              </Link>
+            ))}
+          </div>
+        )}
+
         {Array.isArray(tags) && tags.length > 0 && (
           <div 
             className={`${baseStyles.tags} ${themeStyles.tags || ""}`}
@@ -478,6 +498,27 @@ const ArticleDetail = ({ article, relatedArticles = [] }) => {
           itemScope
           itemType="https://schema.org/ArticleBody"
         />
+      )}
+
+      {/* Call to Action — optional internal/external link set from the admin editor */}
+      {ctaLabel && ctaUrl && (
+        <section className={`${baseStyles.ctaSection} ${themeStyles.ctaSection || ""}`}>
+          <span className={`${baseStyles.ctaEyebrow} ${themeStyles.ctaEyebrow || ""}`}>
+            Keep exploring
+          </span>
+          <a
+            href={ctaUrl}
+            className={`${baseStyles.ctaButton} ${themeStyles.ctaButton || ""}`}
+            {...(/^https?:\/\//i.test(ctaUrl)
+              ? { target: "_blank", rel: "noopener noreferrer" }
+              : {})}
+          >
+            {ctaLabel}
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </a>
+        </section>
       )}
 
       {/* Related Articles */}

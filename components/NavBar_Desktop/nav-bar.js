@@ -143,8 +143,8 @@ const NavBar = () => {
 
   const logoIconSrc =
     mounted && theme === "light"
-      ? "/personal-gm-monogram-on-light.svg"
-      : "/personal-gm-monogram-on-dark.svg";
+      ? "/personal-gm-monogram-on-light.png"
+      : "/personal-gm-monogram-on-dark.png";
 
   // Get animation class for name
   const getNameAnimationClass = () => {

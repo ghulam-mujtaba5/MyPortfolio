@@ -78,6 +78,16 @@ const ArticleSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    // Optional call-to-action rendered at the end of the article
+    // (e.g. link to a related project, service, or another article)
+    ctaLabel: {
+      type: String,
+      trim: true,
+    },
+    ctaUrl: {
+      type: String,
+      trim: true,
+    },
   },
   { timestamps: true },
 );

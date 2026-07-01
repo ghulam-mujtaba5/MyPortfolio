@@ -25,8 +25,8 @@ const ThemeToggleIcon = () => {
   // Use the GM logo - light theme shows dark icon, dark theme shows light icon
   const iconSrc = useMemo(() => {
     return theme === "light"
-      ? "/personal-gm-monogram-on-light.svg"
-      : "/personal-gm-monogram-on-dark.svg";
+      ? "/personal-gm-monogram-on-light.png"
+      : "/personal-gm-monogram-on-dark.png";
   }, [theme]);
 
   const checkInView = () => {

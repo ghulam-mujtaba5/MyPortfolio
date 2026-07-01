@@ -922,7 +922,7 @@ const AnalyticsPage = () => {
                   <motion.span
                     key={t._id}
                     onClick={() =>
-                      router.push(`/articles?tag=${encodeURIComponent(t._id)}`)
+                      router.push(`/insights?tag=${encodeURIComponent(t._id)}`)
                     }
                     title="View articles with this tag"
                     className={`${styles.chip} ${styles.chipActive}`}

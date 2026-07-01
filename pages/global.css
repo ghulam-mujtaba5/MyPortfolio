@@ -1,6 +1,23 @@
 /* Fonts loaded via <link> in _document.js to prevent render-blocking */
 
 /* ============================================================================
+   GLOBAL BOX MODEL RESET
+   ----------------------------------------------------------------------------
+   Every element includes its border and padding inside its declared width.
+   Without this, any card/element using `width: 100%` together with a border
+   or padding renders a few pixels wider than its container and overflows to
+   the right — which visually breaks left/right balance of grid cards on both
+   desktop and mobile. Many components already set `box-sizing: border-box`
+   locally; this makes that the site-wide default.
+   ============================================================================ */
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+/* ============================================================================
    LOADING SKELETON ANIMATIONS
    ============================================================================ */
 

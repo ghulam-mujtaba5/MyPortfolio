@@ -6,7 +6,7 @@ import styles from "./projectLight.module.css";
 import darkStyles from "./ProjectDark.module.css";
 import commonStyles from "./ProjectCommon.module.css";
 
-const ProjectCard = React.memo(({ project, frameStyles, theme }) => {
+const ProjectCard = React.memo(({ project, frameStyles }) => {
   const cardRef = useRef(null);
   const [isVisible, setIsVisible] = useState(true); // Start visible to prevent flash
   const router = useRouter();
@@ -155,47 +155,24 @@ const ProjectCard = React.memo(({ project, frameStyles, theme }) => {
         // Render rich text HTML from editor for accurate live preview
         dangerouslySetInnerHTML={{ __html: project?.description || "" }}
       />
-      <div
-        className={`${commonStyles.techStackContainer} ${frameStyles.techStackContainer}`}
-      >
-        <span
-          className={`${commonStyles.techStackContainer1} ${frameStyles.techStackContainer1}`}
+      {Array.isArray(project?.tags) && project.tags.length > 0 && (
+        <div
+          className={`${commonStyles.techStackContainer} ${frameStyles.techStackContainer}`}
         >
-          <span>Tech stack :</span>
-          <span
-            className={`${commonStyles.javaJavaFxMavenSpring} ${frameStyles.javaJavaFxMavenSpring}`}
-          >
-            <span className={commonStyles.span}>{` `}</span>
-            <span>
-              {Array.isArray(project?.tags) ? project.tags.join(", ") : ""}
-            </span>
-          </span>
-        </span>
-      </div>
-      <Image
-        className={`${commonStyles.githubIcon} ${frameStyles.githubIcon}`}
-        alt="GitHub icon"
-        src={
-          theme === "dark"
-            ? "/github-icon-on-dark.svg"
-            : "/github-icon-on-light.svg"
-        }
-        width={24}
-        height={24}
-        loading="lazy"
-      />
-      <Image
-        className={`${commonStyles.previewIcon1} ${frameStyles.previewIcon1}`}
-        alt="Preview icon"
-        src={
-          theme === "dark"
-            ? "/preview-icon-on-dark.svg"
-            : "/preview-icon-on-light.svg"
-        }
-        width={24}
-        height={24}
-        loading="lazy"
-      />
+          <div className={commonStyles.techChips}>
+            {project.tags.slice(0, 4).map((tag) => (
+              <span key={tag} className={commonStyles.techChip}>
+                {tag}
+              </span>
+            ))}
+            {project.tags.length > 4 && (
+              <span className={`${commonStyles.techChip} ${commonStyles.techChipMore}`}>
+                +{project.tags.length - 4}
+              </span>
+            )}
+          </div>
+        </div>
+      )}
     </article>
   );
 });
@@ -210,11 +187,7 @@ const Project1 = ({ projectOverride, project }) => {
   const cardProject = projectOverride || project;
   if (!cardProject) return null;
   return (
-    <ProjectCard
-      project={cardProject}
-      frameStyles={frameStyles}
-      theme={theme}
-    />
+    <ProjectCard project={cardProject} frameStyles={frameStyles} />
   );
 };
 

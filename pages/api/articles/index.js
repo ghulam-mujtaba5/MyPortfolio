@@ -158,6 +158,8 @@ async function handler(req, res) {
         metaTitle,
         metaDescription,
         ogImage,
+        ctaLabel,
+        ctaUrl,
         publishAt,
         slug,
       } = req.body;
@@ -203,6 +205,8 @@ async function handler(req, res) {
         metaTitle,
         metaDescription,
         ogImage,
+        ctaLabel,
+        ctaUrl,
         author: session.id,
       });
 

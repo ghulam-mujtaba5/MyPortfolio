@@ -22,8 +22,8 @@ export default function Custom404() {
         <Image
           src={
             theme === "dark"
-              ? "/personal-gm-monogram-on-dark.svg"
-              : "/personal-gm-monogram-on-light.svg"
+              ? "/personal-gm-monogram-on-dark.png"
+              : "/personal-gm-monogram-on-light.png"
           }
           alt="GM Logo"
           width={80}

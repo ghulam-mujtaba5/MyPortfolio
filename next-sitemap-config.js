@@ -16,6 +16,8 @@ module.exports = {
     "/404",
     "/feed.xml",
     "/portfolio/search",
+    "/articles",
+    "/articles/*",
   ],
   // Optional robots rules if next-sitemap generates robots.txt
   // NOTE: We use manual public/robots.txt, so this is just for reference.

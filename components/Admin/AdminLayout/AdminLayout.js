@@ -241,7 +241,7 @@ export default function AdminLayoutPremium({ children, title }) {
           <Link href="/admin/dashboard" className={styles.logo}>
             <div className={styles.logoIcon}>
               <img
-                src={theme === 'dark' ? '/personal-gm-monogram-on-dark.svg' : '/personal-gm-monogram-on-light.svg'}
+                src={theme === 'dark' ? '/personal-gm-monogram-on-dark.png' : '/personal-gm-monogram-on-light.png'}
                 alt="GM Logo"
                 width={24}
                 height={24}

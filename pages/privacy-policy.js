@@ -1,4 +1,4 @@
-import SEO from "../components/SEO";
+import SEO, { breadcrumbSchema } from "../components/SEO";
 import NavBarDesktop from "../components/NavBar_Desktop/nav-bar";
 import NavBar from "../components/NavBar_Mobile/NavBar-mobile";
 import Footer from "../components/Footer/Footer";
@@ -27,6 +27,9 @@ const PrivacyPolicy = () => {
         url="https://ghulammujtaba.com/privacy-policy"
         canonical="https://ghulammujtaba.com/privacy-policy"
         keywords="Privacy Policy, Ghulam Mujtaba, Portfolio, Data Protection, User Data"
+        jsonLd={breadcrumbSchema([
+          { name: "Privacy Policy", url: "https://ghulammujtaba.com/privacy-policy" },
+        ])}
       />
       <div
         style={{

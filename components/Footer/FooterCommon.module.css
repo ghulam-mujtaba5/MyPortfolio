@@ -1,191 +1,196 @@
-.footerBackground {
-  /* Make the background part of the footer element so it scrolls away with the page */
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 80px;
-  transition: background-color 0.3s ease;
-  z-index: 10;
-}
-
-.copyrightIcon {
-  position: absolute;
-  height: 32%;
-  top: 50%;
-  left: 57px;
-  max-height: 100%;
-  width: 32px;
-  overflow: hidden;
-  transform: translateY(-50%);
-  transition: opacity 0.2s ease;
-}
-
-.copyrightLabel {
-  margin: 0;
-  position: absolute;
-  height: 44%;
-  top: 50%;
-  left: 96px;
-  font-size: inherit;
-  line-height: 182.02%;
-  font-weight: 400;
-  font-family: inherit;
-  display: flex;
-  align-items: center;
-  transform: translateY(-50%);
-}
-
-.linkedinIcon,
-.instagramIcon,
-.githubIcon {
-  position: absolute;
-  height: 24%;
-  top: 50%;
-  max-height: 100%;
-  width: 22.4px;
-  cursor: pointer;
-  transform: translateY(-50%);
-  transition:
-    transform 0.2s ease,
-    opacity 0.2s ease;
-}
-
-.socialLink {
-  position: absolute;
-  top: 50%;
-  height: 24%;
-  max-height: 100%;
-  width: 22.4px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transform: translateY(-50%);
-  transition:
-    transform 0.2s ease,
-    opacity 0.2s ease;
-  line-height: 0;
-  cursor: pointer;
-}
-
-.socialLink:hover {
-  transform: translateY(-50%) scale(1.1);
-  opacity: 0.8;
-}
-
-/* When icons are inside a social link, remove their absolute positioning */
-.socialLink .linkedinIcon,
-.socialLink .instagramIcon,
-.socialLink .githubIcon {
-  position: static;
-  height: 100%;
-  width: 100%;
-  top: auto;
-  right: auto;
-  transform: none;
-}
-
-/* Hover effect is handled by .socialLink:hover when icons are inside links */
-
-/* Position classes for social link wrappers */
-.linkedinPos {
-  right: 60px;
-}
-
-.githubPos {
-  right: 100px;
-}
-
-.instagramPos {
-  right: 140px;
-}
-
-.footerFrame {
-  position: relative;
-  width: 100%;
-  height: 80px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  box-sizing: border-box;
-  max-width: 1440px;
-  margin: 0 auto;
-  padding: 0 20px;
-  z-index: 20; /* make sure content sits above the full-bleed background */
-  background: transparent;
-}
-
 .footer {
   width: 100%;
   position: relative;
   margin: 0 !important;
   text-align: left;
-  font-size: 24px;
+  font-size: 15px;
   font-family: "Open Sans", sans-serif;
 }
 
-/* Media query for small screens */
-@media (max-width: 576px) {
+.footerBackground {
+  /* Make the background part of the footer element so it scrolls away with the page */
+  position: absolute;
+  inset: 0;
+  transition: background-color 0.3s ease;
+  z-index: 10;
+}
+
+.footerFrame {
+  position: relative;
+  width: 100%;
+  box-sizing: border-box;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 48px 40px 28px;
+  z-index: 20; /* make sure content sits above the full-bleed background */
+}
+
+.footerTop {
+  display: grid;
+  grid-template-columns: minmax(220px, 1.4fr) repeat(2, minmax(140px, 1fr));
+  gap: 32px;
+  padding-bottom: 32px;
+}
+
+.brandCol {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 380px;
+}
+
+.brandMark {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  width: fit-content;
+}
+
+.brandIcon {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+}
+
+.brandName {
+  font-family: "Poppins", sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-primary, inherit);
+}
+
+.brandTagline {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--text-secondary, #6b7280);
+}
+
+.brandTagline a {
+  color: var(--brand-primary, #4573df);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.brandTagline a:hover {
+  text-decoration: underline;
+}
+
+.colHeading {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-tertiary, #9ca3af);
+  margin-bottom: 14px;
+}
+
+.linkList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.linkList a {
+  color: var(--text-secondary, #4b5563);
+  text-decoration: none;
+  font-size: 14px;
+  transition: color 0.15s ease;
+}
+
+.linkList a:hover {
+  color: var(--brand-primary, #4573df);
+}
+
+.iconLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.iconLink img {
+  opacity: 0.85;
+}
+
+.footerBottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border-subtle, rgba(0, 0, 0, 0.08));
+}
+
+.copyrightLabel {
+  margin: 0;
+  font-size: 13px;
+  color: var(--text-tertiary, #9ca3af);
+}
+
+.bottomRight {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  color: var(--text-tertiary, #9ca3af);
+}
+
+.bottomLink {
+  color: var(--text-tertiary, #9ca3af);
+  text-decoration: none;
+}
+
+.bottomLink:hover {
+  color: var(--brand-primary, #4573df);
+  text-decoration: underline;
+}
+
+.dot {
+  opacity: 0.6;
+}
+
+/* Respect reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .linkList a,
   .footerBackground {
-    height: 65px;
-  }
-
-  .footerFrame {
-    height: 65px;
-    padding: 0 15px;
-  }
-
-  .copyrightIcon {
-    height: 38.46%;
-    top: 50%;
-    left: 21px;
-    width: 25px;
-  }
-
-  .copyrightLabel {
-    height: 38.46%;
-    top: 50%;
-    left: 51px;
-    font-size: 12px;
-    width: calc(100% - 180px);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  .linkedinIcon,
-  .instagramIcon,
-  .githubIcon {
-    height: 36.92%;
-    top: 50%;
-    width: 22.4px;
-  }
-
-  .socialLink {
-    height: 36.92%;
-    width: 22.4px;
-  }
-
-  .linkedinPos {
-    right: 25px;
-  }
-
-  .githubPos {
-    right: 55px;
-  }
-
-  .instagramPos {
-    right: 85px;
+    transition: none !important;
   }
 }
 
-/* Media query for medium screens */
-@media (min-width: 577px) and (max-width: 768px) {
+/* Media query for small screens */
+@media (max-width: 768px) {
   .footerFrame {
-    padding: 0 30px;
+    padding: 40px 24px 24px;
   }
 
-  .copyrightLabel {
-    width: calc(100% - 250px);
+  .footerTop {
+    grid-template-columns: 1fr 1fr;
+    row-gap: 28px;
+  }
+
+  .brandCol {
+    grid-column: 1 / -1;
+    max-width: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .footerFrame {
+    padding: 32px 18px 20px;
+  }
+
+  .footerTop {
+    grid-template-columns: 1fr;
+  }
+
+  .footerBottom {
+    flex-direction: column;
+    align-items: flex-start;
   }
 }

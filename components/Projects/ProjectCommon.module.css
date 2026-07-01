@@ -252,7 +252,7 @@
   font-size: 15px;
   line-height: 1.5;
   font-weight: 300;
-  text-align: justify;
+  text-align: left;
   align-items: center;
   display: -webkit-box;
   -webkit-line-clamp: 4;
@@ -272,11 +272,37 @@
   width: 85%;
   left: 8%;
   top: 82%;
-  font-size: 16px;
-  line-height: 20px;
+  max-height: 16%;
+  overflow: hidden;
   display: flex;
+  align-items: flex-start;
+}
+
+.techChips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.techChip {
+  display: inline-flex;
   align-items: center;
-  gap: 8px; /* Add spacing between tech stack items */
+  padding: 3px 10px;
+  border-radius: 9999px;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  line-height: 1.4;
+  color: var(--tech-chip-text, #2d4fa2);
+  background: var(--tech-chip-bg, rgba(69, 115, 223, 0.1));
+  border: 1px solid var(--tech-chip-border, rgba(69, 115, 223, 0.18));
+  white-space: nowrap;
+}
+
+.techChipMore {
+  color: var(--tech-chip-more-text, #6b7280);
+  background: var(--tech-chip-more-bg, rgba(107, 114, 128, 0.1));
+  border-color: var(--tech-chip-more-border, rgba(107, 114, 128, 0.18));
 }
 
 /* Hide legacy decorative icons to prevent overlap with new buttons */
