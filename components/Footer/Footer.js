@@ -102,8 +102,8 @@ const Footer = ({
                   <Image
                     src={socialIcon("email")}
                     alt=""
-                    width={16}
-                    height={16}
+                    width={19}
+                    height={19}
                   />
                   Email
                 </a>
@@ -118,8 +118,8 @@ const Footer = ({
                   <Image
                     src={socialIcon("linkedin")}
                     alt=""
-                    width={16}
-                    height={16}
+                    width={19}
+                    height={19}
                   />
                   LinkedIn
                 </a>
@@ -134,8 +134,8 @@ const Footer = ({
                   <Image
                     src={socialIcon("github")}
                     alt=""
-                    width={16}
-                    height={16}
+                    width={19}
+                    height={19}
                   />
                   GitHub
                 </a>
@@ -150,8 +150,8 @@ const Footer = ({
                   <Image
                     src={socialIcon("instagram")}
                     alt=""
-                    width={16}
-                    height={16}
+                    width={19}
+                    height={19}
                   />
                   Instagram
                 </a>
