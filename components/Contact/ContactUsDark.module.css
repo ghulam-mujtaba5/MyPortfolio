@@ -1,22 +1,22 @@
 .contactSection {
-  color: #fff;
+  color: var(--text-primary, #e6edf3);
 }
 
 /* Absolute Positioned Components */
 .contactFormBackground {
-  background-color: #272b32;
+  background-color: var(--bg-subtle, #151b24);
 }
 
 .nameInput,
 .emailInput,
 .messageInput {
-  border: 1px solid #fff;
-
-  background-color: #fff;
+  border: 1px solid var(--border-default, #263241);
+  background-color: var(--bg-elevated, #19212c);
+  color: var(--text-primary, #e6edf3);
 }
 
 .sendButtonBorder {
-  background-color: #1d2127;
+  background-color: var(--brand-primary, #4f8cff);
 }
 
 .sendLabel {
@@ -25,24 +25,22 @@
 
 .sendButton {
   color: #fff;
-  background-color: #1d2127;
-
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: var(--brand-primary, #4f8cff);
+  box-shadow: 0 2px 4px var(--brand-primary-shadow, rgba(79, 140, 255, 0.3));
 }
 
-.sendButton:hover {
-  background-color: #1d2127;
-  border: 1.5px solid #4573df;
+.sendButton:hover .sendButtonBorder {
+  background-color: var(--brand-primary-hover, #5a96ff);
 }
 
 .darkModeButton {
-  color: #fff;
+  color: var(--text-primary, #e6edf3);
 }
 
 .darkModeButtonBorder {
   box-shadow: 0px 0px 14px rgba(0, 0, 0, 0.13);
 
-  background-color: #1d2127;
+  background-color: var(--bg-subtle, #151b24);
 }
 
 .buttonState {
@@ -84,33 +82,33 @@
 /* Media query for screens of width 430px and height 932px */
 @media (max-width: 768px) {
   .contactSection {
-    background-color: #272c34;
+    background-color: var(--bg-subtle, #151b24);
   }
 
   /* Adjust contact form for mobile */
   .contactForm {
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.4); /* Shadow effect for dark screens */
-    background-color: #272c34;
+    background-color: var(--bg-subtle, #151b24);
   }
 
   /* Adjust input fields for mobile */
   .nameInput,
   .emailInput,
   .messageInput {
-    border: 1px solid #ccc;
+    border: 1px solid var(--border-default, #263241);
   }
 
   /* Adjust send button for mobile */
   .sendButton {
-    background-color: #1d2127;
+    background-color: var(--brand-primary, #4f8cff);
 
     color: #fff;
 
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 4px var(--brand-primary-shadow, rgba(79, 140, 255, 0.3));
   }
 
   /* Adjust send button hover effect for mobile */
   .sendButton:hover {
-    background-color: #1d2127;
+    background-color: var(--brand-primary-hover, #5a96ff);
   }
 }

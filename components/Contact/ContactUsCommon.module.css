@@ -26,7 +26,7 @@
   margin-bottom: 15px;
   padding: 10px;
   font-size: 16px;
-  border-radius: 5px;
+  border-radius: var(--radius-md, 12px);
   box-sizing: border-box;
   border: 1px solid transparent;
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
@@ -70,11 +70,8 @@
   position: absolute;
   height: 100%;
   width: 100%;
-  border-radius: 5px;
+  border-radius: var(--radius-md, 12px);
   mix-blend-mode: normal;
-}
-.sendButton:hover {
-  background-color: #f1f1f1;
 }
 
 .sendLabel {
@@ -96,7 +93,7 @@
   bottom: 6.15%;
   font-size: 32px;
   border: none;
-  border-radius: 5px;
+  border-radius: var(--radius-md, 12px);
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -106,12 +103,11 @@
 
 .sendButton:focus {
   outline: none;
-  box-shadow: 0 0 0 2px #4573df55;
+  box-shadow: 0 0 0 3px var(--brand-primary-shadow, rgba(69, 115, 223, 0.25));
 }
 
 .sendButton:active {
   transform: scale(0.97);
-  background: #e6e6e6;
   transition:
     background 0.2s,
     transform 0.1s;

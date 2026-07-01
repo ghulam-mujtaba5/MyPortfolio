@@ -1,8 +1,8 @@
 .footerBackground {
-  /* Base tone matches the page/contact backdrop above for a seamless join,
+  /* Same --bg-subtle tone as the contact section above for a seamless join,
      with a soft glow in the dark-theme brand blue (--brand-primary #4f8cff)
      near the top accent bar. */
-  background-color: #171b21;
+  background-color: var(--bg-subtle, #151b24);
   background-image: radial-gradient(
     1200px 220px at 50% 0%,
     rgba(79, 140, 255, 0.18),
