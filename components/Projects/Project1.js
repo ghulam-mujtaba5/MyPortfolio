@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState, useCallback } from "react";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import Link from "next/link";
 import { useTheme } from "../../context/ThemeContext";
 import styles from "./projectLight.module.css";
 import darkStyles from "./ProjectDark.module.css";
@@ -148,7 +149,13 @@ const ProjectCard = React.memo(({ project, frameStyles }) => {
         className={`${commonStyles.projectTileGoes} ${frameStyles.projectTileGoes}`}
         id={titleId}
       >
-        {project.title || "Untitled"}
+        <Link
+          href={`/projects/${project.slug}`}
+          onClick={(e) => e.stopPropagation()}
+          className={commonStyles.titleLink}
+        >
+          {project.title || "Untitled"}
+        </Link>
       </h3>
       <div
         className={`${commonStyles.thisIsSample} ${frameStyles.thisIsSample}`}

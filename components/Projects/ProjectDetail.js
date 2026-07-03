@@ -81,7 +81,7 @@ const ProjectDetail = ({ project, relatedProjects = [] }) => {
 
       {/* Breadcrumb Navigation */}
       <nav className={`${baseStyles.breadcrumb} ${themeStyles.breadcrumb || ""}`} aria-label="Breadcrumb">
-        <Link href="/portfolio" className={baseStyles.breadcrumbLink}>
+        <Link href="/" className={baseStyles.breadcrumbLink}>
           Portfolio
         </Link>
         <span className={baseStyles.breadcrumbSeparator} aria-hidden="true">›</span>

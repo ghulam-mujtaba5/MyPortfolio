@@ -28,6 +28,7 @@
   font-weight: 700;
   color: #4573df;
   letter-spacing: -0.01em;
+  margin: 0;
 }
 
 .jobTitle {
@@ -93,6 +94,7 @@
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: #4573df;
+  margin: 0;
   margin-bottom: 6px;
 }
 

@@ -14,7 +14,7 @@ const Resume = () => {
       {/* ── Header ── */}
       <div className={commonStyles.resumeHeader}>
         <div className={commonStyles.headerContent}>
-          <div className={commonStyles.name}>Ghulam Mujtaba</div>
+          <h1 className={commonStyles.name}>Ghulam Mujtaba</h1>
           <div className={commonStyles.jobTitle}>
             Software Engineer · Full Stack + AI
           </div>
@@ -63,7 +63,7 @@ const Resume = () => {
 
         {/* ── Summary ── */}
         <div className={commonStyles.section}>
-          <div className={commonStyles.sectionHeading}>PROFESSIONAL SUMMARY</div>
+          <h2 className={commonStyles.sectionHeading}>PROFESSIONAL SUMMARY</h2>
           <hr className={commonStyles.sectionDivider} />
           <p className={commonStyles.summary}>
             Founder of <strong>Megicode</strong> (software company) and{" "}
@@ -78,7 +78,7 @@ const Resume = () => {
 
         {/* ── Education ── */}
         <div className={commonStyles.section}>
-          <div className={commonStyles.sectionHeading}>EDUCATION</div>
+          <h2 className={commonStyles.sectionHeading}>EDUCATION</h2>
           <hr className={commonStyles.sectionDivider} />
           <div className={commonStyles.item}>
             <div className={commonStyles.header}>
@@ -93,7 +93,7 @@ const Resume = () => {
 
         {/* ── Experience ── */}
         <div className={commonStyles.section}>
-          <div className={commonStyles.sectionHeading}>EXPERIENCE</div>
+          <h2 className={commonStyles.sectionHeading}>EXPERIENCE</h2>
           <hr className={commonStyles.sectionDivider} />
 
           <div className={commonStyles.item}>
@@ -146,7 +146,7 @@ const Resume = () => {
 
         {/* ── Projects ── */}
         <div className={commonStyles.section}>
-          <div className={commonStyles.sectionHeading}>SELECTED PROJECTS</div>
+          <h2 className={commonStyles.sectionHeading}>SELECTED PROJECTS</h2>
           <hr className={commonStyles.sectionDivider} />
 
           <div className={commonStyles.item}>
@@ -195,7 +195,7 @@ const Resume = () => {
 
         {/* ── Skills ── */}
         <div className={commonStyles.section}>
-          <div className={commonStyles.sectionHeading}>TECHNICAL SKILLS</div>
+          <h2 className={commonStyles.sectionHeading}>TECHNICAL SKILLS</h2>
           <hr className={commonStyles.sectionDivider} />
           <div className={commonStyles.skillsGrid}>
             <div className={commonStyles.skillGroup}>
@@ -240,7 +240,7 @@ const Resume = () => {
 
         {/* ── Certifications ── */}
         <div className={commonStyles.section}>
-          <div className={commonStyles.sectionHeading}>CERTIFICATIONS</div>
+          <h2 className={commonStyles.sectionHeading}>CERTIFICATIONS</h2>
           <hr className={commonStyles.sectionDivider} />
           <div className={commonStyles.certGrid}>
             {[

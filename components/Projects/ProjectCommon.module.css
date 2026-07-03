@@ -351,3 +351,14 @@
     padding: 0 12px;
   }
 }
+
+.titleLink {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.2s ease, opacity 0.2s ease;
+}
+
+.titleLink:hover {
+  text-decoration: underline;
+  opacity: 0.95;
+}
