@@ -170,8 +170,8 @@ export default function AboutPage() {
   return (
     <div className={`${common.page} ${t.page}`}>
       <SEO
-        title="About Ghulam Mujtaba | Full Stack Developer, Data Scientist & AI Specialist"
-        description="Learn about Ghulam Mujtaba — Full Stack Developer, Data Scientist, and AI Specialist with 3+ years of experience. Skills in React, Next.js, Python, ML, and cloud platforms."
+        title="About Ghulam Mujtaba | Full Stack & AI Specialist"
+        description="Learn about Ghulam Mujtaba — Full Stack Developer & AI Specialist. 3+ years of experience building scalable applications, AI models, and student platforms."
         url="https://ghulammujtaba.com/about"
         canonical="https://ghulammujtaba.com/about"
         image="https://ghulammujtaba.com/images/portfolio-picture.png"

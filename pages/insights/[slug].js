@@ -80,7 +80,7 @@ export default function InsightDetailPage({ article, relatedArticles = [], previ
     }}>
       <SEO
         title={article.metaTitle || `${article.title} | Ghulam Mujtaba`}
-        description={article.metaDescription || article.excerpt}
+        description={(article.metaDescription || article.excerpt || "").substring(0, 160)}
         type="article"
         url={`https://ghulammujtaba.com/insights/${article.slug}`}
         canonical={`https://ghulammujtaba.com/insights/${article.slug}`}
@@ -98,7 +98,7 @@ export default function InsightDetailPage({ article, relatedArticles = [], previ
         jsonLd={[
           articleSchema({
             headline: article.metaTitle || article.title,
-            description: article.metaDescription || article.excerpt,
+            description: (article.metaDescription || article.excerpt || "").substring(0, 160),
             image: makeAbsolute(article.ogImage || article.coverImage),
             url: `https://ghulammujtaba.com/insights/${article.slug}`,
             datePublished: article.createdAt || article.publishAt,

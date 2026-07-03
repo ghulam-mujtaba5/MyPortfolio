@@ -142,7 +142,7 @@ const ProjectsPage = ({ projects = [], projectsError = null }) => {
   return (
     <>
       <SEO
-        title="Projects | Ghulam Mujtaba — Full Stack, AI & Data Science Portfolio"
+        title="Projects | Ghulam Mujtaba — Full Stack & AI"
         description="Showcase of advanced, modern, and professional projects by Ghulam Mujtaba. Explore software, web, mobile, AI, data science, and UI/UX work."
         url="https://ghulammujtaba.com/projects"
         canonical="https://ghulammujtaba.com/projects"

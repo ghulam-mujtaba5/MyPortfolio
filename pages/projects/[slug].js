@@ -77,7 +77,7 @@ const ProjectPage = ({ project, relatedProjects = [] }) => {
         <meta
           name="description"
           content={
-            project.metaDescription || project.description.substring(0, 160)
+            (project.metaDescription || project.description || "").substring(0, 160)
           }
         />
         <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
@@ -98,7 +98,7 @@ const ProjectPage = ({ project, relatedProjects = [] }) => {
         <meta
           property="og:description"
           content={
-            project.metaDescription || project.description.substring(0, 160)
+            (project.metaDescription || project.description || "").substring(0, 160)
           }
         />
         <meta property="og:image" content={makeAbsolute(project.ogImage || project.image)} />
@@ -117,7 +117,7 @@ const ProjectPage = ({ project, relatedProjects = [] }) => {
         <meta
           name="twitter:description"
           content={
-            project.metaDescription || project.description.substring(0, 160)
+            (project.metaDescription || project.description || "").substring(0, 160)
           }
         />
         <meta

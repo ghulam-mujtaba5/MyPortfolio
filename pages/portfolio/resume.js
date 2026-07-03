@@ -16,7 +16,7 @@ const ResumePage = ({ resume }) => {
     <>
       <SEO
         title="Ghulam Mujtaba's Resume | Full Stack Developer & AI Specialist"
-        description="Resume of Ghulam Mujtaba — Full Stack Developer, Data Scientist, and AI Specialist. Founder of Megicode and CampusAxis. 3+ years of AI/ML work for Meta via Appen."
+        description="Resume of Ghulam Mujtaba — Full Stack Developer & AI Specialist. Founder of Megicode & CampusAxis. 3+ years of AI/ML work for Meta."
         url="https://ghulammujtaba.com/resume"
         image="https://ghulammujtaba.com/og-image.png"
         type="profile"

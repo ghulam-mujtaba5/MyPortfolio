@@ -29,7 +29,7 @@ export default function ContactPage() {
     <div className={`${common.page} ${t.page}`}>
       <SEO
         title="Contact Ghulam Mujtaba | Full Stack Developer & AI Specialist"
-        description="Get in touch with Ghulam Mujtaba for project inquiries, collaborations, or opportunities. Based in Lahore, Pakistan — available for freelance and full-time work."
+        description="Contact Ghulam Mujtaba for project inquiries, collaborations, or opportunities. Based in Lahore, Pakistan — available for freelance and full-time work."
         url="https://ghulammujtaba.com/contact"
         canonical="https://ghulammujtaba.com/contact"
         image="https://ghulammujtaba.com/images/portfolio-picture.png"
