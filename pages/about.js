@@ -85,7 +85,7 @@ const timeline = [
     logoLight: "/megicode-logo-square-lightscreen.png",
     description:
       "Founded a software company focused on building high-quality digital products and providing development services for clients and businesses.",
-    link: "/projects/megicode-software-company",
+    link: "https://www.megicode.com",
   },
   {
     title: "AI Data Annotator / LLM Evaluator",
@@ -382,18 +382,29 @@ export default function AboutPage() {
                     <p className={`${common.journeyCardOrg} ${t.journeyCardOrg}`}>{entry.org}</p>
                     <p className={`${common.journeyCardDesc} ${t.journeyCardDesc}`}>{entry.description}</p>
                     {entry.link && (
-                      <Link
-                        href={entry.link}
-                        className={`${common.journeyCardLink} ${t.journeyCardLink}`}
-                        onClick={(e) => {
-                          if (document.startViewTransition) {
-                            e.preventDefault();
-                            startTransition(() => router.push(entry.link));
-                          }
-                        }}
-                      >
-                        View Project <ArrowRight size={13} />
-                      </Link>
+                      entry.link.startsWith("http") ? (
+                        <a
+                          href={entry.link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className={`${common.journeyCardLink} ${t.journeyCardLink}`}
+                        >
+                          Visit Site <ArrowRight size={13} />
+                        </a>
+                      ) : (
+                        <Link
+                          href={entry.link}
+                          className={`${common.journeyCardLink} ${t.journeyCardLink}`}
+                          onClick={(e) => {
+                            if (document.startViewTransition) {
+                              e.preventDefault();
+                              startTransition(() => router.push(entry.link));
+                            }
+                          }}
+                        >
+                          View Project <ArrowRight size={13} />
+                        </Link>
+                      )
                     )}
                   </div>
                 </div>

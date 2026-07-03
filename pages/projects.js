@@ -315,7 +315,7 @@ const ProjectsPage = ({ projects = [], projectsError = null }) => {
             padding: 0.7rem 0.7rem 0.7rem 0.7rem;
           }
         }
-        @media (max-width: 800px) {
+        @media (max-width: 768px) {
           .mobile-navbar-container {
             width: 100vw;
             z-index: 100;
@@ -331,7 +331,7 @@ const ProjectsPage = ({ projects = [], projectsError = null }) => {
         .show-on-mobile {
           display: none;
         }
-        @media (max-width: 800px) {
+        @media (max-width: 768px) {
           .hide-on-mobile {
             display: none !important;
           }

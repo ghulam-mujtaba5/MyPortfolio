@@ -18,7 +18,7 @@ const Introduction = () => {
   const helloTextToDisplay = "Hello, I’m ";
   const nameTextToDisplay = "GHULAM MUJTABA";
   const descriptionTextToDisplay =
-    "Founder of Megicode. I build AI-powered products end-to-end — from the model to the app shipping it.";
+    "Software Engineer and Founder of Megicode building AI-powered web products, automation systems, and scalable full-stack platforms.";
 
   useEffect(() => {
     const handleScroll = () => {

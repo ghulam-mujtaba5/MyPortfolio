@@ -25,31 +25,7 @@ const ProjectDetail = ({ project, relatedProjects = [] }) => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Apply body background for dark mode
-  useEffect(() => {
-    const body = document.body;
-    const html = document.documentElement;
-    
-    if (theme === "dark") {
-      body.style.background = 'linear-gradient(135deg, #0f1419 0%, #1f2937 50%, #111827 100%)';
-      html.style.background = 'linear-gradient(135deg, #0f1419 0%, #1f2937 50%, #111827 100%)';
-      body.style.minHeight = '100vh';
-      html.style.minHeight = '100vh';
-    } else {
-      body.style.background = 'linear-gradient(135deg, #ffffff 0%, #f8f9fa 50%, #f1f3f4 100%)';
-      html.style.background = 'linear-gradient(135deg, #ffffff 0%, #f8f9fa 50%, #f1f3f4 100%)';
-      body.style.minHeight = '100vh';
-      html.style.minHeight = '100vh';
-    }
-
-    // Cleanup function
-    return () => {
-      body.style.background = '';
-      html.style.background = '';
-      body.style.minHeight = '';
-      html.style.minHeight = '';
-    };
-  }, [theme]);
+  // Body background styles are managed by the parent page template to prevent style leaks during page transitions
 
   if (!project) {
     return (
@@ -226,7 +202,11 @@ const ProjectDetail = ({ project, relatedProjects = [] }) => {
               className={`${baseStyles.link} ${baseStyles.primaryLink} ${themeStyles.link || ""}`}
               aria-label={`View live demo of ${title} (opens in new tab)`}
             >
-              <span className={baseStyles.linkIcon}>🚀</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className={baseStyles.linkIcon} aria-hidden="true" style={{ marginRight: '6px', display: 'inline-block', verticalAlign: 'text-bottom' }}>
+                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                <polyline points="15 3 21 3 21 9"></polyline>
+                <line x1="10" y1="14" x2="21" y2="3"></line>
+              </svg>
               <span>Live Preview</span>
               <span className={baseStyles.linkArrow}>→</span>
             </a>
@@ -239,7 +219,9 @@ const ProjectDetail = ({ project, relatedProjects = [] }) => {
               className={`${baseStyles.link} ${baseStyles.secondaryLink} ${themeStyles.link || ""}`}
               aria-label={`View source code of ${title} on GitHub (opens in new tab)`}
             >
-              <span className={baseStyles.linkIcon}>📂</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className={baseStyles.linkIcon} aria-hidden="true" style={{ marginRight: '6px', display: 'inline-block', verticalAlign: 'text-bottom' }}>
+                <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+              </svg>
               <span>Source Code</span>
               <span className={baseStyles.linkArrow}>→</span>
             </a>

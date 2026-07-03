@@ -206,6 +206,8 @@ export function personSchema(overrides = {}) {
       "https://www.linkedin.com/in/ghulamujtabaofficial",
       "https://github.com/ghulam-mujtaba5",
       "https://www.instagram.com/ghulamujtabaofficial/",
+      "https://dev.to/ghulam-mujtaba",
+      "https://medium.com/@ghulam-mujtaba",
       "https://www.megicode.com",
       "https://www.campusaxis.com",
       "https://topmate.io/ghulam_mujtaba",

@@ -86,30 +86,7 @@ const ArticleDetail = ({ article, relatedArticles = [] }) => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [showTOC, tableOfContents]);
 
-  // Apply body background for consistency
-  useEffect(() => {
-    const body = document.body;
-    const html = document.documentElement;
-    
-    if (theme === "dark") {
-      body.style.background = 'linear-gradient(180deg, #1d2127 0%, #272c34 48%, #1d2127 100%)';
-      html.style.background = 'linear-gradient(180deg, #1d2127 0%, #272c34 48%, #1d2127 100%)';
-      body.style.minHeight = '100vh';
-      html.style.minHeight = '100vh';
-    } else {
-      body.style.background = 'linear-gradient(180deg, #ffffff 0%, #f8f9fd 48%, #ffffff 100%)';
-      html.style.background = 'linear-gradient(180deg, #ffffff 0%, #f8f9fd 48%, #ffffff 100%)';
-      body.style.minHeight = '100vh';
-      html.style.minHeight = '100vh';
-    }
-
-    return () => {
-      body.style.background = '';
-      html.style.background = '';
-      body.style.minHeight = '';
-      html.style.minHeight = '';
-    };
-  }, [theme]);
+  // Body background styles are managed by the parent page template to prevent style leaks during page transitions
 
   // Share functionality helpers
   const openShare = () => {
