@@ -4,6 +4,7 @@ import { useTheme } from "../../context/ThemeContext";
 import commonStyles from "./LanguagesCommon.module.css";
 import lightStyles from "./LanguagesLight.module.css";
 import darkStyles from "./LanguagesDark.module.css";
+import SectionHeader from "../AnimatedUI/SectionHeader";
 
 const CATEGORIES = [
   {
@@ -88,9 +89,11 @@ const Frame = () => {
       className={`${commonStyles.section} ${themeStyles.section}`}
       aria-labelledby="languages-title"
     >
-      <h2 id="languages-title" className={commonStyles.sectionTitle}>
-        Languages
-      </h2>
+      <SectionHeader
+        eyebrow="Foundations"
+        title="Languages"
+        id="languages-title"
+      />
 
       <div className={commonStyles.categoriesGrid}>
         {CATEGORIES.map((cat, catIdx) => (

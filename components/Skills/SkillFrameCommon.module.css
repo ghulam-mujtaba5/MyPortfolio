@@ -137,6 +137,19 @@
   opacity: 0.55;
 }
 
+/* Capability framing line under each group label */
+.labelEnables {
+  display: block;
+  margin-top: 6px;
+  font-size: 0.72rem;
+  font-weight: 400;
+  line-height: 1.45;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--text-tertiary, #6b7280);
+  opacity: 0.9;
+}
+
 /* ── Vertical divider ── */
 .rowDivider {
   width: 2px;

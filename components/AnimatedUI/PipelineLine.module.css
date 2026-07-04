@@ -1,0 +1,67 @@
+/* PipelineLine — Idea → Design → Build → Launch signature motif */
+
+.wrapper {
+  width: min(440px, 100%);
+  margin-top: 26px;
+  user-select: none;
+  pointer-events: none;
+}
+
+.svg {
+  width: 100%;
+  height: auto;
+  display: block;
+  overflow: visible;
+}
+
+.track {
+  stroke: var(--border-default, #dbe2ea);
+  stroke-width: 1.5;
+  stroke-dasharray: 3 5;
+  stroke-linecap: round;
+}
+
+.progress {
+  stroke: var(--brand-primary, #4573df);
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+
+.node {
+  fill: var(--bg-elevated, #ffffff);
+  stroke: var(--brand-primary, #4573df);
+  stroke-width: 2;
+}
+
+.nodeLaunch {
+  fill: var(--cta-accent, #d9480f);
+  stroke: var(--cta-accent, #d9480f);
+  stroke-width: 2;
+}
+
+.launchPulse {
+  fill: none;
+  stroke: var(--cta-accent, #d9480f);
+  stroke-width: 1.5;
+}
+
+.label,
+.labelLaunch {
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 10px;
+  letter-spacing: var(--tracking-mono-label, 0.08em);
+  fill: var(--text-tertiary, #6b7280);
+}
+
+.labelLaunch {
+  fill: var(--cta-accent, #d9480f);
+  font-weight: 600;
+}
+
+@media (max-width: 576px) {
+  .wrapper {
+    margin-top: 20px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}

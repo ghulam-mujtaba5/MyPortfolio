@@ -1,0 +1,86 @@
+/* TrustStrip — hairline credibility band under the hero */
+
+.strip {
+  width: 100%;
+  border-top: 1px solid var(--border-subtle, rgba(0, 0, 0, 0.08));
+  border-bottom: 1px solid var(--border-subtle, rgba(0, 0, 0, 0.08));
+  background: transparent;
+}
+
+.inner {
+  max-width: var(--container-max, 1200px);
+  margin: 0 auto;
+  padding: 14px var(--container-pad, 24px);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  column-gap: 12px;
+  row-gap: 8px;
+}
+
+.item {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 0.74rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: var(--text-tertiary, #6b7280);
+  white-space: nowrap;
+}
+
+/* Separator dots between items */
+.item + .item::before {
+  content: "·";
+  color: var(--border-default, #dbe2ea);
+  margin-right: 12px;
+  font-size: 0.9rem;
+}
+
+.available {
+  color: var(--text-secondary, #4b5563);
+  font-weight: 600;
+}
+
+.dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--signal-available, #16a34a);
+  box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.15);
+  flex-shrink: 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .dot {
+    animation: pulse 2.4s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%,
+    100% {
+      box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.15);
+    }
+    50% {
+      box-shadow: 0 0 0 5px rgba(22, 163, 74, 0.08);
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .inner {
+    justify-content: flex-start;
+    column-gap: 10px;
+  }
+
+  /* Drop the least-important chip on small screens */
+  .item:nth-child(4) {
+    display: none;
+  }
+
+  .item + .item::before {
+    margin-right: 10px;
+  }
+}

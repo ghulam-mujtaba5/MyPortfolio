@@ -1,0 +1,66 @@
+/* SectionHeader — eyebrow / headline / lede anatomy for every section */
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 32px;
+  max-width: 640px;
+}
+
+.center {
+  align-items: center;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 0.76rem;
+  font-weight: 600;
+  letter-spacing: var(--tracking-mono-label, 0.08em);
+  text-transform: uppercase;
+  color: var(--brand-primary, #4573df);
+}
+
+.eyebrow::before {
+  content: "";
+  width: 22px;
+  height: 1.5px;
+  background: var(--brand-primary, #4573df);
+}
+
+.center .eyebrow::after {
+  content: "";
+  width: 22px;
+  height: 1.5px;
+  background: var(--brand-primary, #4573df);
+}
+
+.title {
+  margin: 0;
+  font-family: var(--font-heading, "Poppins", sans-serif);
+  font-size: var(--text-headline, clamp(1.75rem, 1.2rem + 2vw, 2.5rem));
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: var(--tracking-display, -0.025em);
+  color: var(--ink-display, #0f1b33);
+}
+
+.lede {
+  margin: 4px 0 0;
+  font-size: var(--text-lede, 1.1rem);
+  line-height: 1.6;
+  color: var(--text-secondary, #4b5563);
+}
+
+@media (max-width: 600px) {
+  .header {
+    margin-bottom: 24px;
+  }
+}

@@ -51,6 +51,27 @@ const ProjectSchema = new mongoose.Schema(
       type: [String],
       required: true,
     },
+    // Case-study proof fields (optional — cards render them when present)
+    role: {
+      type: String,
+      trim: true,
+      default: "",
+    },
+    problem: {
+      type: String,
+      trim: true,
+      default: "",
+    },
+    solution: {
+      type: String,
+      trim: true,
+      default: "",
+    },
+    outcome: {
+      type: String,
+      trim: true,
+      default: "",
+    },
     status: {
       type: String,
       enum: ["In Progress", "Completed", "Archived"],

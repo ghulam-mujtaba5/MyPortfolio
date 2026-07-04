@@ -7,6 +7,7 @@ import lightStyles from "./ProjectsPreviewLight.module.css";
 import darkStyles from "./ProjectsPreviewDark.module.css";
 
 import Project1 from "./Project1";
+import SectionHeader from "../AnimatedUI/SectionHeader";
 
 const ProjectsPreview = ({ projects = [] }) => {
   const { theme } = useTheme();
@@ -96,11 +97,12 @@ const ProjectsPreview = ({ projects = [] }) => {
         opacity: hasEntered ? 1 : 0.7,
       }}
     >
-      <div className={commonStyles.headerRow}>
-        <h2 id="projects-title" className={`${commonStyles.title} ${themeStyles.title}`}>
-          Projects
-        </h2>
-      </div>
+      <SectionHeader
+        eyebrow="Proof of work"
+        title="Products, not just projects"
+        lede="Platforms and systems that shipped — each one a case study in taking an idea to production."
+        id="projects-title"
+      />
       <div className={commonStyles.grid}>
         {showLoading && (
           <>
@@ -175,17 +177,14 @@ const ProjectsPreview = ({ projects = [] }) => {
                 key={key}
                 className={commonStyles.projectCard}
                 style={{
-                  borderRadius: "20px",
-                  overflow: "hidden",
                   background: "none",
-                  boxShadow: "none",
-                  minHeight: 340,
                   maxWidth: 420,
                   width: "100%",
+                  display: "flex",
+                  alignItems: "stretch",
                   animation: hasEntered
                     ? `fadeInUp 0.6s ease-out ${index * 50}ms both`
                     : "none",
-                  willChange: "transform, opacity",
                 }}
               >
                 <Project1 project={project} />
@@ -206,9 +205,9 @@ const ProjectsPreview = ({ projects = [] }) => {
           className={`${commonStyles.viewAll} ${themeStyles.viewAll}`}
           tabIndex={0}
           type="button"
-          onClick={() => window.open("/projects", "_blank", "noopener,noreferrer")}
+          onClick={() => (window.location.href = "/projects")}
         >
-          View All
+          View all projects →
         </button>
       </div>
     </section>

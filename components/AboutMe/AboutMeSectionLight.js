@@ -4,6 +4,7 @@ import { motion, useAnimation, useInView } from "framer-motion";
 import commonStyles from "./AboutMeSectionCommon.module.css";
 import lightStyles from "./AboutMeSectionLight.module.css";
 import darkStyles from "./AboutMeSectionDark.module.css";
+import SectionHeader from "../AnimatedUI/SectionHeader";
 
 const AboutMeSection = ({ showTitle = true }) => {
   const { theme } = useTheme();
@@ -20,11 +21,6 @@ const AboutMeSection = ({ showTitle = true }) => {
     [themeStyles],
   );
 
-  const titleClass = useMemo(
-    () => `${commonStyles.title} ${themeStyles.title}`,
-    [themeStyles],
-  );
-
   const descriptionClass = useMemo(
     () => `${commonStyles.description} ${themeStyles.description}`,
     [themeStyles],
@@ -35,14 +31,13 @@ const AboutMeSection = ({ showTitle = true }) => {
   const isInView = useInView(ref, { threshold: 0.1 });
 
   useEffect(() => {
+    // Fire once — re-triggering reveals read as glitchy on scroll-up
     if (isInView) {
       controls.start({
         opacity: 1,
         y: 0,
         transition: { duration: 0.8, ease: "easeOut" },
       });
-    } else {
-      controls.start({ opacity: 0, y: 50 });
     }
   }, [isInView, controls]);
 
@@ -55,15 +50,12 @@ const AboutMeSection = ({ showTitle = true }) => {
     >
       <div className={sectionClass}>
         {showTitle && (
-          <motion.h2
+          <SectionHeader
+            eyebrow="Founder story"
+            title="About me"
             id="about-title"
-            className={titleClass}
-            initial={{ opacity: 0, y: -30 }}
-            animate={controls}
-            transition={{ duration: 0.5, delay: 0.2, ease: "easeOut" }}
-          >
-            About me
-          </motion.h2>
+            align="center"
+          />
         )}
         <motion.p
           className={descriptionClass}

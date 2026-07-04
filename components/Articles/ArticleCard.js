@@ -16,6 +16,16 @@ const ArticleCard = ({ article, highlight, index = 0 }) => {
   const img = article.coverImage || "/project-2.png";
   const imgFit = article.coverImageFit || "cover";
   const date = article.createdAt ? new Date(article.createdAt) : null;
+  // First tag = category; tags are sometimes stored comma-joined,
+  // so keep only the first segment for a clean label
+  const category =
+    Array.isArray(article.tags) && article.tags.length > 0
+      ? String(article.tags[0]).split(",")[0].trim()
+      : null;
+  // Editorial reading time — ~220 words/min from content, when available
+  const readMins = article.content
+    ? Math.max(1, Math.round(String(article.content).split(/\s+/).length / 220))
+    : null;
 
   const goToDetail = () => router.push(href);
   const onKeyToDetail = (e) => {
@@ -51,10 +61,19 @@ const ArticleCard = ({ article, highlight, index = 0 }) => {
 
       <div className={`${base.content} ${t.content}`}>
         <div className={base.meta}>
-          {date && (
-            <time dateTime={date.toISOString()}>
-              {date.toISOString().slice(0, 10)}
-            </time>
+          <span className={base.metaLeft}>
+            {category && <span className={base.category}>{category}</span>}
+            {date && (
+              <time dateTime={date.toISOString()}>
+                {date.toLocaleDateString("en-US", {
+                  month: "short",
+                  year: "numeric",
+                })}
+              </time>
+            )}
+          </span>
+          {readMins && (
+            <span className={base.readTime}>{readMins} min read</span>
           )}
         </div>
         <h3 className={`${base.title} ${t.title}`}>

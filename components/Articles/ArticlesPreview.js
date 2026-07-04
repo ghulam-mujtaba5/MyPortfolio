@@ -2,6 +2,7 @@ import React, { useEffect, useState, useCallback } from "react";
 import { useTheme } from "../../context/ThemeContext";
 import { useScrollTrigger } from "../../hooks/useScrollAnimation";
 import ArticleCard from "./ArticleCard";
+import SectionHeader from "../AnimatedUI/SectionHeader";
 import commonStyles from "./ArticlesPreviewCommon.module.css";
 import lightStyles from "./ArticlesPreviewLight.module.css";
 import darkStyles from "./ArticlesPreviewDark.module.css";
@@ -85,11 +86,12 @@ const ArticlesPreview = ({ articles = [] }) => {
         opacity: hasEntered ? 1 : 0.7,
       }}
     >
-      <div className={commonStyles.headerRow}>
-        <h2 id="insights-title" className={`${commonStyles.title} ${themeStyles.title}`}>
-          Insights
-        </h2>
-      </div>
+      <SectionHeader
+        eyebrow="Thinking"
+        title="Product & Engineering Insights"
+        lede="Lessons from building and shipping real products — proof of thinking, not just articles."
+        id="insights-title"
+      />
       <div className={commonStyles.grid}>
         {/* Loading State */}
         {showLoading && (

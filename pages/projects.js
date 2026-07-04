@@ -223,17 +223,18 @@ const ProjectsPage = ({ projects = [], projectsError = null }) => {
             </div>
             <div className="project-hero-intro refined-intro refined-intro-centered">
               <h1 className="refined-intro-main animated-gradient-headline">
-                <span>Featured Projects & Digital Solutions</span>
+                <span>Products I&rsquo;ve Shipped</span>
               </h1>
               <div className="project-icons-row">
                 {/* Icons removed as per request */}
               </div>
               <h2 className="refined-intro-sub animated-fadein">
-                Innovating Across Web, Mobile, Desktop, AI, and Data Science
+                Platforms, client systems, and AI products — built end to end
               </h2>
               <p className="refined-intro-desc animated-fadein-delayed">
-                Explore impactful projects where technology, design, and problem
-                solving converge—each a testament to innovation and quality.
+                Each project is a case study: the problem, my role, what I
+                built, and what shipped — from student platforms serving 260+
+                universities to commercial systems for paying clients.
               </p>
             </div>
           </section>
@@ -269,17 +270,25 @@ const ProjectsPage = ({ projects = [], projectsError = null }) => {
                   : `No projects found for tag: ${selectedTag}.`}
               </div>
             ) : (
-              filteredProjects.map((project, index) => (
-                <ScrollReveal 
-                  key={project._id} 
-                  className="project-grid-card"
-                  animation="fadeInUp"
-                  delay={index * 50} // Stagger effect
-                  width="100%"
-                >
-                  <Project1 project={project} />
-                </ScrollReveal>
-              ))
+              filteredProjects.map((project, index) => {
+                const isFeatured = index === 0 && selectedTag === "All";
+                return (
+                  <ScrollReveal
+                    key={project._id}
+                    className={`project-grid-card${isFeatured ? " featured-card" : ""}`}
+                    animation="fadeInUp"
+                    delay={Math.min(index, 5) * 50} // Stagger effect, capped
+                    width="100%"
+                  >
+                    {isFeatured && (
+                      <span className="featured-label" aria-hidden="true">
+                        Featured
+                      </span>
+                    )}
+                    <Project1 project={project} />
+                  </ScrollReveal>
+                );
+              })
             )}
           </div>
           <Footer />
@@ -454,6 +463,9 @@ const ProjectsPage = ({ projects = [], projectsError = null }) => {
           z-index: 2;
           position: relative;
           margin-top: 1.2rem;
+          padding: 0 20px;
+          box-sizing: border-box;
+          text-align: center;
         }
         .refined-intro-main {
           font-family: "Open Sans", sans-serif;
@@ -540,8 +552,10 @@ const ProjectsPage = ({ projects = [], projectsError = null }) => {
           border: 1.5px solid #e0e0e0;
           border-radius: 20px;
           padding: 0.5rem 1.1rem;
-          font-size: 1rem;
-          font-weight: 500;
+          font-family: var(--font-mono, ui-monospace, monospace);
+          font-size: 0.85rem;
+          font-weight: 600;
+          letter-spacing: 0.03em;
           cursor: pointer;
           transition:
             all 0.2s,
@@ -561,7 +575,7 @@ const ProjectsPage = ({ projects = [], projectsError = null }) => {
           color: #fff;
           border-color: #4573df;
           box-shadow: 0 4px 14px 0 rgba(69, 115, 223, 0.28);
-          transform: translateY(-2px) scale(1.04);
+          transform: translateY(-2px);
         }
         .projects-page-bg.dark .project-tag-btn {
           background: rgba(255,255,255,0.06);
@@ -598,6 +612,28 @@ const ProjectsPage = ({ projects = [], projectsError = null }) => {
             padding: 1.8rem 1rem 1.2rem 1rem;
             justify-items: center;
           }
+        }
+        /* Featured spotlight — the top project spans the row, wider card,
+           conversion-accent keyline. */
+        .project-grid :global(.featured-card) {
+          grid-column: 1 / -1;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 10px;
+        }
+        .project-grid :global(.featured-card article) {
+          max-width: 640px;
+          width: 100%;
+          border-top: 3px solid var(--cta-accent, #d9480f);
+        }
+        .project-grid :global(.featured-label) {
+          font-family: var(--font-mono, ui-monospace, monospace);
+          font-size: 0.72rem;
+          font-weight: 600;
+          letter-spacing: 0.08em;
+          text-transform: uppercase;
+          color: var(--cta-accent, #d9480f);
         }
         .project-grid-card {
           display: flex;
@@ -694,6 +730,9 @@ export async function getStaticProps() {
         ])
         .optional(),
       links: LinkSchema.optional(),
+      role: z.string().optional(),
+      outcome: z.string().optional(),
+      status: z.string().optional(),
     });
     const ProjectsSchema = z.array(ProjectSchema);
 
@@ -716,6 +755,9 @@ export async function getStaticProps() {
               live: typeof p?.links?.live === "string" ? p.links.live : "",
               github: typeof p?.links?.github === "string" ? p.links.github : "",
             },
+            role: typeof p?.role === "string" ? p.role : "",
+            outcome: typeof p?.outcome === "string" ? p.outcome : "",
+            status: typeof p?.status === "string" ? p.status : "",
           }))
         : [];
     } else {
@@ -730,6 +772,9 @@ export async function getStaticProps() {
         tags: Array.isArray(p.tags) ? p.tags : [],
         category: p.category || "Others",
         links: { live: p.links?.live || "", github: p.links?.github || "" },
+        role: p.role || "",
+        outcome: p.outcome || "",
+        status: p.status || "",
       }));
     }
 

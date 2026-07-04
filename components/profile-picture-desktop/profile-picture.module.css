@@ -23,6 +23,98 @@
   transition: transform 0.1s ease-in-out 0.1s;
 }
 
+/* Always-on faint ring — same geometry as the hover ellipses */
+.baseRing {
+  border-radius: 50%;
+  position: absolute;
+  top: 55%;
+  right: 23%;
+  transform: translate(50%, -50%);
+  z-index: 1;
+  border: 1.5px solid rgba(69, 115, 223, 0.28);
+  pointer-events: none;
+}
+
+/* ── Orbiting proof chips (desktop only) ── */
+.chipLayer {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.proofChip {
+  position: absolute;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 13px;
+  border-radius: 9999px;
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  color: var(--text-primary, #1f2937);
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid rgba(69, 115, 223, 0.22);
+  box-shadow: var(--shadow-card, 0 8px 24px rgba(15, 27, 51, 0.08));
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+}
+
+.proofChip::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--brand-primary, #4573df);
+  flex-shrink: 0;
+}
+
+:global([data-theme="dark"]) .proofChip {
+  color: var(--text-primary, #e6edf3);
+  background: rgba(20, 29, 51, 0.72);
+  border-color: rgba(79, 140, 255, 0.28);
+}
+
+.chipTopLeft {
+  top: 21%;
+  right: calc(23% + 195px);
+}
+
+.chipRight {
+  top: 63%;
+  right: calc(23% - 265px);
+}
+
+.chipBottomLeft {
+  top: 80%;
+  right: calc(23% + 175px);
+}
+
+@media (max-width: 1180px) {
+  .chipRight {
+    right: 12px;
+  }
+}
+
+@media (max-width: 980px) {
+  .chipLayer {
+    display: none;
+  }
+  .baseRing {
+    top: 25%;
+    right: 50%;
+  }
+}
+
+@media (max-width: 768px) {
+  .baseRing {
+    display: none;
+  }
+}
+
 /* Style for the ellipses */
 .ellipseDiv {
   border-radius: 50%;
@@ -44,82 +136,49 @@
     transform: translate(50%, -50%) scale(1); /* Keep centered and scaled up */
   }
 }
+/* ── Mobile & tablet: flow layout ──
+   Below 980px the portrait leaves absolute positioning entirely: the
+   container becomes a centered flex box, the image sits in normal flow,
+   and rings/chips anchor to the container center. This is what keeps the
+   hero text below (never behind) the portrait. */
 @media (max-width: 980px) {
-  .image-container {
-    top: 0;
-    height: 400px; /* Adjust height for tablet screen */
-    max-width: 100%; /* Ensure container does not exceed viewport */
+  .imageContainer {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 24px 0 4px;
+    box-sizing: border-box;
   }
 
   .image {
-    margin-top: 35%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    position: static;
+    margin: 0;
+    left: auto;
+    transform: none;
+    width: min(400px, 86vw);
+    max-width: 86vw;
+    height: auto;
   }
 
-  .ellipseDiv {
-    top: 25%;
+  .imageContainer:hover .image {
+    transform: none;
+    transition: none;
+  }
+
+  .ellipseDiv,
+  .baseRing {
+    top: 50%;
     right: 50%;
     transform: translate(50%, -50%);
-  }
-
-  .imageContainer:hover .image {
-    transform: translate(
-      -50%,
-      -48%
-    ); /* Move the image down slightly on hover */
-    transition: transform 0.1s ease-in-out 0.1s;
-  }
-}
-/* Responsive adjustments for screens with a max width of 768px */
-@media (max-width: 768px) {
-  .image-container {
-    top: 0;
-    max-width: 100%; /* Ensure container does not exceed viewport */
-  }
-
-  .image {
-    margin-top: 60px;
-
-    left: 20%;
-    transform: none;
-  }
-
-  .ellipseDiv {
-    margin-top: 30%;
-    margin-right: 50%;
-
-    top: 4%;
-    right: 0%;
-  }
-
-  .imageContainer:hover .image {
-    transform: none; /* Move the image down slightly on hover */
-    transition: none;
+    margin: 0;
+    display: block;
   }
 }
 
 @media (max-width: 576px) {
-  .image-container {
-    display: flex;
-    justify-content: center; /* Center horizontally */
-    align-items: center; /* Center vertically */
-    height: 400px; /* Adjust height for mobile screen */
-    position: relative;
-    max-width: 100%; /* Ensure container does not exceed viewport */
-  }
-
-  .image {
-    margin-top: 85px;
-    width: 400px;
-    height: auto;
-    left: 0%;
-    max-width: 100%; /* Ensure container does not exceed viewport */
-  }
-
-  /* Style for the ellipses */
   .ellipseDiv {
-    margin-top: 180px;
-    animation: popUp 2s ease-in-out; /* Apply the animation */
+    animation: popUp 2s ease-in-out; /* Slower, calmer entrance on phones */
   }
 }

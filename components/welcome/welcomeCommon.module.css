@@ -12,7 +12,7 @@
 
 .textContainer {
   padding-left: 80px;
-  padding-top: 200px;
+  padding-top: 150px;
   opacity: 0;
   animation: fadeIn 0.8s ease-out forwards;
   position: absolute; /* Keep text container in place during animation */
@@ -20,6 +20,40 @@
   left: 0;
   width: min(760px, calc(100vw - 48px));
   max-width: min(760px, calc(100vw - 48px));
+}
+
+/* Mono eyebrow — founder positioning above the greeting */
+.eyebrow {
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: var(--tracking-mono-label, 0.08em);
+  text-transform: uppercase;
+  color: var(--brand-primary, #4573df);
+  margin: 0 0 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.eyebrow::before {
+  content: "";
+  width: 22px;
+  height: 1.5px;
+  background: var(--brand-primary, #4573df);
+  display: inline-block;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 .text {
@@ -44,6 +78,22 @@
   margin-top: 0;
   margin-bottom: 0;
   white-space: nowrap;
+  /* Underline sweep on hover — replaces the old scale-on-hover */
+  background-image: linear-gradient(
+    to right,
+    var(--brand-primary, #4573df),
+    var(--brand-primary-light, #5a86e6)
+  );
+  background-repeat: no-repeat;
+  background-size: 0% 4px;
+  background-position: 0 97%;
+  transition: background-size 0.35s var(--ease-standard, ease);
+  padding-bottom: 4px;
+  display: inline-block;
+}
+
+.text:hover .ghulamMujtaba {
+  background-size: 100% 4px;
 }
 
 .paragraph {
@@ -107,19 +157,20 @@
   transition: transform 0.2s ease;
 }
 
+/* Conversion accent — the only orange element above the fold */
 .heroCTAPrimary {
   background: linear-gradient(
     135deg,
-    var(--brand-primary, #4573df),
-    var(--brand-primary-light, #5a86e6)
+    #e8590c,
+    var(--cta-accent, #d9480f)
   );
   color: #fff;
-  box-shadow: 0 14px 30px var(--brand-primary-shadow, rgba(69, 115, 223, 0.28));
+  box-shadow: 0 14px 30px var(--cta-accent-shadow, rgba(217, 72, 15, 0.28));
 }
 
 .heroCTAPrimary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 12px 28px rgba(69, 115, 223, 0.45);
+  box-shadow: 0 12px 28px var(--cta-accent-shadow, rgba(217, 72, 15, 0.4));
 }
 
 .heroCTAPrimary:hover .heroCTAArrow {
@@ -137,6 +188,52 @@
 .heroCTASecondary:hover {
   transform: translateY(-2px);
   background: var(--brand-primary-muted, rgba(69, 115, 223, 0.1));
+}
+
+/* Dark theme: glass goes dark, text goes bright */
+:global([data-theme="dark"]) .heroCTASecondary {
+  background: rgba(20, 29, 51, 0.55);
+  color: var(--brand-primary-light, #7eb3ff);
+  border-color: rgba(79, 140, 255, 0.32);
+}
+
+:global([data-theme="dark"]) .heroCTASecondary:hover {
+  background: rgba(79, 140, 255, 0.15);
+}
+
+/* Quiet tertiary link — Resume */
+.heroCTATertiary {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 13px 10px;
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  color: var(--text-secondary, #4b5563);
+  text-decoration: none;
+  border-radius: 8px;
+  transition: color 0.2s ease;
+}
+
+.heroCTATertiary:hover {
+  color: var(--brand-primary, #4573df);
+}
+
+.tertiaryArrow {
+  display: inline-block;
+  transition: transform 0.2s ease;
+}
+
+.heroCTATertiary:hover .tertiaryArrow {
+  transform: translateX(3px);
+}
+
+.heroCTATertiary:focus-visible,
+.heroCTA:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(69, 115, 223, 0.35);
 }
 
 @media (max-width: 576px) {
@@ -167,12 +264,31 @@
   }
 
   .textContainer {
-    padding-left: 10%;
-    padding-right: 10%;
+    padding-left: 6%;
+    padding-right: 6%;
+    padding-top: 0;
     margin-right: 0;
-    margin-top: 400px; /* Adjust as needed */
+    margin-top: 16px; /* Portrait is in normal flow now — no overlap offset */
     opacity: 1;
     position: static; /* Reset position for responsive design */
+    width: 100%;
+    max-width: 640px;
+    box-sizing: border-box;
+  }
+
+  .eyebrow {
+    justify-content: center;
+  }
+
+  .paragraph {
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* The 14px-offset glow shadow reads as ghost text at mobile sizes/DPR */
+  .textContainer .ghulamMujtaba {
+    text-shadow: none;
   }
 }
 
@@ -189,9 +305,10 @@
   .textContainer {
     padding-left: 20px;
     padding-right: 20px;
+    padding-top: 0;
     margin-right: 0;
-    min-height: 230px;
-    margin-top: 270px; /* Adjust as needed */
+    min-height: 0;
+    margin-top: 8px; /* Portrait is in normal flow now — no overlap offset */
     opacity: 1;
     position: static; /* Reset position for responsive design */
   }

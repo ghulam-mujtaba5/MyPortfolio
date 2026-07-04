@@ -1,46 +1,56 @@
-import React, { useEffect, useRef, useState, useCallback } from "react";
+import React, { useCallback } from "react";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import { useTheme } from "../../context/ThemeContext";
-import styles from "./projectLight.module.css";
-import darkStyles from "./ProjectDark.module.css";
-import commonStyles from "./ProjectCommon.module.css";
+import styles from "./CaseCard.module.css";
 
-const ProjectCard = React.memo(({ project, frameStyles }) => {
-  const cardRef = useRef(null);
-  const [isVisible, setIsVisible] = useState(true); // Start visible to prevent flash
+/**
+ * Case-study project card.
+ * Projects are presented as proof of capability, not a portfolio grid:
+ * browser-chrome framed screenshot, mono eyebrow, role/outcome proof rows,
+ * stack pills, and a "View case study" action.
+ *
+ * Theme-aware via [data-theme] overrides inside CaseCard.module.css —
+ * no separate light/dark module files needed.
+ */
+
+// Derive a display URL for the browser-chrome bar
+const displayUrl = (project) => {
+  const live = String(project?.links?.live || "").trim();
+  if (live && live !== "#") {
+    try {
+      return new URL(live).host.replace(/^www\./, "");
+    } catch {
+      /* fall through */
+    }
+  }
+  return project?.slug ? `ghulammujtaba.com/projects/${project.slug}` : "";
+};
+
+const resolveImage = (project) => {
+  const img = String(project?.image || "").trim();
+  if (!img || project?.showImage === false) return null;
+  const isExternal =
+    /^https?:\/\//i.test(img) ||
+    /^\/\//.test(img) ||
+    /^data:image\//i.test(img) ||
+    /^blob:/.test(img);
+  const isLocalMedia = /^\/api\/media\//i.test(img);
+  return {
+    src: isExternal ? img : img.startsWith("/") ? img : `/${img}`,
+    unoptimized: isExternal || isLocalMedia,
+    fit: project?.imageFit || "cover",
+  };
+};
+
+const ProjectCard = React.memo(({ project }) => {
   const router = useRouter();
-
-  useEffect(() => {
-    const card = cardRef.current;
-    if (!card) return;
-
-    // Use Intersection Observer for better performance
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        setIsVisible(entry.isIntersecting);
-      },
-      {
-        threshold: 0.1,
-        rootMargin: "100px 0px", // preload images before they enter viewport
-      },
-    );
-
-    observer.observe(card);
-
-    return () => {
-      observer.disconnect();
-    };
-  }, []);
 
   const handleCardClick = useCallback(
     (e) => {
-      // Don't trigger card click if clicking on links
+      // Don't hijack clicks on real links inside the card
       if (e.target.closest("a")) return;
-      // Always navigate to detail page
-      const slug = project?.slug || project?.slug?.toString?.();
-      if (slug) router.push(`/projects/${slug}`);
+      if (project?.slug) router.push(`/projects/${project.slug}`);
     },
     [project?.slug, router],
   );
@@ -55,131 +65,148 @@ const ProjectCard = React.memo(({ project, frameStyles }) => {
     [handleCardClick],
   );
 
-  // Safely generate a unique title-id (no spaces, lowercase)
-  const titleId = `project-title-${(project?.title || "untitled").replace(/\s+/g, "-").toLowerCase()}`;
+  const titleId = `project-title-${(project?.title || "untitled")
+    .replace(/\s+/g, "-")
+    .toLowerCase()}`;
+
+  const image = resolveImage(project);
+  const live = String(project?.links?.live || "").trim();
+  const github = String(project?.links?.github || "").trim();
+  const hasLive = live && live !== "#";
+  const hasGithub = github && github !== "#";
+  const category =
+    project?.category && project.category !== "Others"
+      ? project.category
+      : null;
+  const inProgress = project?.status === "In Progress";
 
   return (
     <article
-      className={`${commonStyles.projectCard1} ${frameStyles.projectCard1} ${isVisible ? styles.animate : ""}`}
-      role="article"
+      className={styles.card}
       aria-labelledby={titleId}
-      ref={cardRef}
       onClick={handleCardClick}
       onKeyDown={handleKeyDown}
       tabIndex="0"
-      style={{
-        // Ensure card is visible even before observer fires
-        opacity: 1,
-        visibility: "visible",
-      }}
     >
-      <div
-        className={`${commonStyles.projectCard1Child} ${frameStyles.projectCard1Child}`}
-      />
-      <div
-        className={`${commonStyles.actions}`}
-        onClick={(e) => e.stopPropagation()}
-      >
-        <div className={commonStyles.leftAction}>
-          {(() => {
-            const live = String(project?.links?.live || "").trim();
-            return live && live !== "#";
-          })() && (
-            <a
-              className={`${commonStyles.livePreview} ${frameStyles.livePreview}`}
-              href={project.links.live}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={`Live Preview of ${project.title}`}
-            >
-              Live Preview
-            </a>
-          )}
-        </div>
-        <div className={commonStyles.rightAction}>
-          {(() => {
-            const gh = String(project?.links?.github || "").trim();
-            return gh && gh !== "#";
-          })() && (
-            <a
-              className={`${commonStyles.viewCode} ${frameStyles.viewCode}`}
-              href={project.links.github}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={`View Code of ${project.title}`}
-            >
-              View Code
-            </a>
-          )}
-        </div>
+      {/* Browser chrome — reads as a real, shipped product */}
+      <div className={styles.chrome} aria-hidden="true">
+        <span className={styles.chromeDots}>
+          <span />
+          <span />
+          <span />
+        </span>
+        <span className={styles.chromeUrl}>{displayUrl(project)}</span>
       </div>
-      {/* Project image (respects showImage and supports absolute URLs) */}
-      {project?.showImage !== false && project?.image
-        ? (() => {
-            const img = String(project.image || "").trim();
-            const isExternal =
-              /^https?:\/\//i.test(img) ||
-              /^\/\//.test(img) ||
-              /^data:image\//i.test(img) ||
-              /^blob:/.test(img);
-            // Also treat local API media routes as unoptimized to avoid
-            // Next.js image-optimizer failures on dynamic file endpoints
-            const isLocalMedia = /^\/api\/media\//i.test(img);
-            const src = isExternal
-              ? img
-              : img.startsWith("/")
-                ? img
-                : `/${img}`;
-            const fit = project?.imageFit || "cover";
-            return (
-              <Image
-                className={`${commonStyles.projectImg1} ${frameStyles.projectImg1}`}
-                alt={`${project.title || "Project"} screenshot`}
-                src={src}
-                width={400}
-                height={250}
-                loading="lazy"
-                unoptimized={isExternal || isLocalMedia}
-                style={{ objectFit: fit }}
-              />
-            );
-          })()
-        : null}
-      <h3
-        className={`${commonStyles.projectTileGoes} ${frameStyles.projectTileGoes}`}
-        id={titleId}
-      >
-        <Link
-          href={`/projects/${project.slug}`}
-          onClick={(e) => e.stopPropagation()}
-          className={commonStyles.titleLink}
-        >
-          {project.title || "Untitled"}
-        </Link>
-      </h3>
-      <div
-        className={`${commonStyles.thisIsSample} ${frameStyles.thisIsSample}`}
-        // Render rich text HTML from editor for accurate live preview
-        dangerouslySetInnerHTML={{ __html: project?.description || "" }}
-      />
-      {Array.isArray(project?.tags) && project.tags.length > 0 && (
+
+      {image && (
+        <div className={styles.shot}>
+          <Image
+            className={styles.shotImg}
+            alt={`${project.title || "Project"} screenshot`}
+            src={image.src}
+            width={640}
+            height={400}
+            loading="lazy"
+            unoptimized={image.unoptimized}
+            style={{ objectFit: image.fit }}
+          />
+        </div>
+      )}
+
+      <div className={styles.body}>
+        <div className={styles.eyebrowRow}>
+          <span className={styles.eyebrow}>
+            Case study{category ? ` · ${category}` : ""}
+          </span>
+          {inProgress && <span className={styles.statusChip}>In build</span>}
+        </div>
+
+        <h3 className={styles.title} id={titleId}>
+          <Link
+            href={`/projects/${project.slug}`}
+            onClick={(e) => e.stopPropagation()}
+            className={styles.titleLink}
+          >
+            {project.title || "Untitled"}
+          </Link>
+        </h3>
+
         <div
-          className={`${commonStyles.techStackContainer} ${frameStyles.techStackContainer}`}
-        >
-          <div className={commonStyles.techChips}>
+          className={styles.desc}
+          // Rich text HTML from the admin editor
+          dangerouslySetInnerHTML={{ __html: project?.description || "" }}
+        />
+
+        {(project?.role || project?.outcome) && (
+          <div className={styles.proofRows}>
+            {project?.role && (
+              <div className={styles.proofRow}>
+                <span className={styles.proofKey}>Role</span>
+                <span>{project.role}</span>
+              </div>
+            )}
+            {project?.outcome && (
+              <div className={`${styles.proofRow} ${styles.proofOutcome}`}>
+                <span className={styles.proofKey}>Outcome</span>
+                <span>{project.outcome}</span>
+              </div>
+            )}
+          </div>
+        )}
+
+        {Array.isArray(project?.tags) && project.tags.length > 0 && (
+          <div className={styles.pills}>
             {project.tags.slice(0, 4).map((tag) => (
-              <span key={tag} className={commonStyles.techChip}>
+              <span key={tag} className={styles.pill}>
                 {tag}
               </span>
             ))}
             {project.tags.length > 4 && (
-              <span className={`${commonStyles.techChip} ${commonStyles.techChipMore}`}>
+              <span className={`${styles.pill} ${styles.pillMore}`}>
                 +{project.tags.length - 4}
               </span>
             )}
           </div>
+        )}
+      </div>
+
+      <div className={styles.footer}>
+        <Link
+          href={`/projects/${project.slug}`}
+          className={styles.caseLink}
+          onClick={(e) => e.stopPropagation()}
+          aria-label={`View case study of ${project.title}`}
+        >
+          View case study
+          <span className={styles.caseArrow} aria-hidden="true">
+            →
+          </span>
+        </Link>
+        <div className={styles.extLinks} onClick={(e) => e.stopPropagation()}>
+          {hasLive && (
+            <a
+              className={styles.extLink}
+              href={live}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`Live site of ${project.title}`}
+            >
+              Live ↗
+            </a>
+          )}
+          {hasGithub && (
+            <a
+              className={styles.extLink}
+              href={github}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`Source code of ${project.title}`}
+            >
+              Code ↗
+            </a>
+          )}
         </div>
-      )}
+      </div>
     </article>
   );
 });
@@ -189,13 +216,9 @@ ProjectCard.displayName = "ProjectCard";
 
 // Accepts either props.projectOverride or falls back to props.project (for compatibility)
 const Project1 = ({ projectOverride, project }) => {
-  const { theme } = useTheme();
-  const frameStyles = theme === "dark" ? darkStyles : styles;
   const cardProject = projectOverride || project;
   if (!cardProject) return null;
-  return (
-    <ProjectCard project={cardProject} frameStyles={frameStyles} />
-  );
+  return <ProjectCard project={cardProject} />;
 };
 
 export default Project1;

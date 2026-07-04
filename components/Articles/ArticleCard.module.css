@@ -98,6 +98,35 @@
   color: #6b7280;
   font-size: 0.85rem;
 }
+
+.metaLeft {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+/* Editorial category label — first tag, mono, brand color */
+.category {
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: var(--tracking-mono-label, 0.08em);
+  text-transform: uppercase;
+  color: var(--brand-primary, #4573df);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 160px;
+}
+
+.readTime {
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 0.7rem;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  color: var(--text-tertiary, #6b7280);
+}
 .tags {
   display: flex;
   gap: 6px;

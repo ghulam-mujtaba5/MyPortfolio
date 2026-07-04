@@ -285,7 +285,7 @@ export default function InsightsPage({
                 theme === "dark" ? darkCss.heroTitle : lightCss.heroTitle
               }`}
             >
-              Insights
+              Product &amp; Engineering Insights
             </h1>
             {loading && (
               <div style={{ display: "flex", alignItems: "center", gap: 8, marginTop: 6 }}>
@@ -298,7 +298,8 @@ export default function InsightsPage({
                 theme === "dark" ? darkCss.heroSubtitle : lightCss.heroSubtitle
               }`}
             >
-              Insights on software, data science, and AI.
+              Lessons from building and shipping real products — software,
+              data science, and AI.
             </p>
 
             <div className={listCss.controls} role="region" aria-label="Insights controls">

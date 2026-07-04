@@ -11,6 +11,7 @@ import commonStyles from "./ContactUsCommon.module.css";
 import lightStyles from "./ContactUsLight.module.css";
 import darkStyles from "./ContactUsDark.module.css";
 import animationStyles from "./ContactUsAnimations.module.css";
+import intentStyles from "./ContactIntent.module.css";
 import { motion } from "framer-motion";
 import PlexusCanvas from "../Backgrounds/PlexusCanvas";
 
@@ -27,6 +28,11 @@ const ContactSection = ({
   const [name, setName] = useState("");
   const [emailInput, setEmailInput] = useState("");
   const [message, setMessage] = useState("");
+  // Conversion routing: which path the sender is on
+  const [intent, setIntent] = useState(""); // "hire" | "project" | ""
+  const [budget, setBudget] = useState("");
+  const [roleType, setRoleType] = useState("");
+  const [timeline, setTimeline] = useState("");
   const [response, setResponse] = useState(null);
   const [error, setError] = useState(null);
   const [isSending, setIsSending] = useState(false);
@@ -92,6 +98,20 @@ const ContactSection = ({
   const sendEmail = useCallback(async () => {
     setIsSending(true);
 
+    // Qualifying context travels inside the message body so it is visible
+    // regardless of the email template's variables.
+    const contextLines = [
+      intent === "hire" && `Intent: Hire me for a role`,
+      intent === "project" && `Intent: Start a project with Megicode`,
+      roleType && `Role type: ${roleType}`,
+      budget && `Budget: ${budget}`,
+      timeline && `Timeline: ${timeline}`,
+    ].filter(Boolean);
+    const fullMessage =
+      contextLines.length > 0
+        ? `${contextLines.join("\n")}\n\n${message}`
+        : message;
+
     try {
       const result = await emailjs.send(
         process.env.NEXT_PUBLIC_EMAILJS_SERVICE || "service_ewji0vl",
@@ -99,15 +119,19 @@ const ContactSection = ({
         {
           user_name: name,
           user_email: emailInput,
-          message: message,
+          message: fullMessage,
         },
         process.env.NEXT_PUBLIC_EMAILJS_KEY || "LFm2JfW5ThGTsvKYr",
       );
 
-      setResponse("Message sent successfully!");
+      setResponse("Message sent — I reply within 24–48 hours.");
       setName("");
       setEmailInput("");
       setMessage("");
+      setIntent("");
+      setBudget("");
+      setRoleType("");
+      setTimeline("");
       setError(null);
     } catch (error) {
       setError("Failed to send message.");
@@ -115,7 +139,7 @@ const ContactSection = ({
     } finally {
       setIsSending(false);
     }
-  }, [name, emailInput, message]);
+  }, [name, emailInput, message, intent, budget, roleType, timeline]);
 
   const handleSubmit = useCallback(
     async (event) => {
@@ -198,6 +222,107 @@ const ContactSection = ({
         viewport={{ once: false, amount: 0.1 }}
         transition={{ duration: 0.5 }}
       >
+        <div
+          className={intentStyles.intentGroup}
+          role="radiogroup"
+          aria-label="What is this about?"
+        >
+          <span className={intentStyles.intentLegend}>What is this about?</span>
+          <div className={intentStyles.intentRow}>
+            <button
+              type="button"
+              role="radio"
+              aria-checked={intent === "hire"}
+              className={`${intentStyles.intentCard} ${intentStyles.intentHire} ${
+                intent === "hire" ? intentStyles.intentHireActive : ""
+              }`}
+              onClick={() => setIntent(intent === "hire" ? "" : "hire")}
+            >
+              <span className={intentStyles.intentTitle}>
+                Hire me for a role
+              </span>
+              <span className={intentStyles.intentSub}>
+                Full-stack · AI/ML · software engineering
+              </span>
+            </button>
+            <button
+              type="button"
+              role="radio"
+              aria-checked={intent === "project"}
+              className={`${intentStyles.intentCard} ${intentStyles.intentProject} ${
+                intent === "project" ? intentStyles.intentProjectActive : ""
+              }`}
+              onClick={() => setIntent(intent === "project" ? "" : "project")}
+            >
+              <span className={intentStyles.intentTitle}>
+                Start a project with Megicode
+              </span>
+              <span className={intentStyles.intentSub}>
+                AI SaaS · platforms · automation · dashboards
+              </span>
+            </button>
+          </div>
+        </div>
+
+        {intent && (
+          <div className={intentStyles.qualRow}>
+            {intent === "hire" ? (
+              <div className={intentStyles.qualField}>
+                <label className={intentStyles.qualLabel} htmlFor="roleType">
+                  Role type
+                </label>
+                <select
+                  id="roleType"
+                  className={intentStyles.qualSelect}
+                  value={roleType}
+                  onChange={(e) => setRoleType(e.target.value)}
+                >
+                  <option value="">Select…</option>
+                  <option>Full-time — remote</option>
+                  <option>Full-time — Lahore / hybrid</option>
+                  <option>Contract / part-time</option>
+                  <option>Other</option>
+                </select>
+              </div>
+            ) : (
+              <div className={intentStyles.qualField}>
+                <label className={intentStyles.qualLabel} htmlFor="budget">
+                  Budget range
+                </label>
+                <select
+                  id="budget"
+                  className={intentStyles.qualSelect}
+                  value={budget}
+                  onChange={(e) => setBudget(e.target.value)}
+                >
+                  <option value="">Select…</option>
+                  <option>Under $1k</option>
+                  <option>$1k – $5k</option>
+                  <option>$5k – $15k</option>
+                  <option>$15k+</option>
+                  <option>Not sure yet</option>
+                </select>
+              </div>
+            )}
+            <div className={intentStyles.qualField}>
+              <label className={intentStyles.qualLabel} htmlFor="timeline">
+                Timeline
+              </label>
+              <select
+                id="timeline"
+                className={intentStyles.qualSelect}
+                value={timeline}
+                onChange={(e) => setTimeline(e.target.value)}
+              >
+                <option value="">Select…</option>
+                <option>ASAP</option>
+                <option>1–3 months</option>
+                <option>Just exploring</option>
+              </select>
+            </div>
+          </div>
+        )}
+
         <label
           className={`${commonStyles.nameLabel} ${themeStyles.nameLabel}`}
           htmlFor="name"
@@ -264,6 +389,14 @@ const ContactSection = ({
             {isSending ? "Sending..." : "SEND"}
           </div>
         </button>
+        <div className={intentStyles.trustRow} aria-hidden="false">
+          <span className={intentStyles.trustItem}>
+            <span className={intentStyles.trustDot} aria-hidden="true" />
+            Available now
+          </span>
+          <span className={intentStyles.trustItem}>Lahore → global, remote-ready</span>
+          <span className={intentStyles.trustItem}>Replies within 24–48h</span>
+        </div>
       </motion.form>
       {error && (
         <p
@@ -284,15 +417,6 @@ const ContactSection = ({
       <div
         className={`${commonStyles.contactDetails} ${themeStyles.contactDetails}`}
       >
-        <a
-          href={`mailto:${email}`}
-          className={`${commonStyles.contactEmail} ${themeStyles.contactEmail}`}
-          title="Click to email"
-          aria-label={`Email ${email}`}
-          style={{ textDecoration: 'none', color: 'inherit' }}
-        >
-          {email}
-        </a>
         <h2
           className={`${commonStyles.contactMeDescription} ${themeStyles.contactMeDescription}`}
         >
@@ -302,23 +426,34 @@ const ContactSection = ({
           className={`${commonStyles.contactMeLabel} ${themeStyles.contactMeLabel}`}
         >
           <p className={`${commonStyles.doYouHave} ${themeStyles.doYouHave}`}>
-            Do you have any project idea?
+            Have something serious to build?
           </p>
           <p className={`${commonStyles.doyouHave} ${themeStyles.doyouHave}`}>
-            Let&#39;s discuss and turn them into reality!
+            A role, a product, or a system — let&#39;s talk.
           </p>
         </div>
-        <img
-          className={`${commonStyles.emailIcon} ${themeStyles.emailIcon}`}
-          alt=""
-          aria-hidden="true"
-          src={
-            theme === "light"
-              ? "/email-icon-on-light.svg"
-              : "/email-icon-on-dark.svg"
-          }
-          loading="lazy"
-        />
+        <div className={commonStyles.emailRow}>
+          <img
+            className={`${commonStyles.emailIcon} ${themeStyles.emailIcon}`}
+            alt=""
+            aria-hidden="true"
+            src={
+              theme === "light"
+                ? "/email-icon-on-light.svg"
+                : "/email-icon-on-dark.svg"
+            }
+            loading="lazy"
+          />
+          <a
+            href={`mailto:${email}`}
+            className={`${commonStyles.contactEmail} ${themeStyles.contactEmail}`}
+            title="Click to email"
+            aria-label={`Email ${email}`}
+            style={{ textDecoration: 'none', color: 'inherit' }}
+          >
+            {email}
+          </a>
+        </div>
       </div>
     </section>
   );

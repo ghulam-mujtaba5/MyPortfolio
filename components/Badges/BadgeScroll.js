@@ -4,6 +4,7 @@ import { useTheme } from "../../context/ThemeContext"; // Theme context
 import commonStyles from "./BadgeCommon.module.css"; // Common styles
 import lightStyles from "./BadgeLight.module.css"; // Light theme styles
 import darkStyles from "./BadgeDark.module.css"; // Dark theme styles
+import SectionHeader from "../AnimatedUI/SectionHeader";
 
 const BadgeScroll = ({
   showCertificationBadge = true,
@@ -99,9 +100,11 @@ const BadgeScroll = ({
       className={`${commonStyles.frameContainer} ${themeStyle.frameContainer}`}
       aria-labelledby="badge-title"
     >
-      <h2 id="badge-title" className={commonStyles.title}>
-        Certifications
-      </h2>
+      <SectionHeader
+        eyebrow="Verified"
+        title="Certified, then proven by shipping"
+        id="badge-title"
+      />
       <div
         className={`${commonStyles.badgeContainer} ${isVisible ? commonStyles.animate : ""}`}
       >

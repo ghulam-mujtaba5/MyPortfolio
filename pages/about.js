@@ -56,22 +56,32 @@ const expertise = [
 
 const ventures = [
   {
-    name: "MegiLance",
-    role: "FYP Project",
+    name: "Megicode",
+    role: "Founder · Software company",
     description:
-      "An AI-powered freelancing platform built with Next.js and FastAPI, featuring smart job matching, blockchain escrow payments, and fraud detection.",
-    link: "https://megilance.site",
-    logoDark: "/megilance-logo-on-dark.png",
-    logoLight: "/megilance-logo-on-light.png",
+      "A software company shipping digital products for clients and businesses — web apps, AI solutions, and business platforms, from scope to production.",
+    link: "https://www.megicode.com",
+    logoDark: "/megicode-logo-square-darkscreen.png",
+    logoLight: "/megicode-logo-square-lightscreen.png",
     external: true,
   },
   {
     name: "CampusAxis",
-    role: "Founder",
+    role: "Founder & Product Lead · 260+ universities",
     description:
-      "A university portal platform designed to streamline academic operations, student management, and institutional workflows.",
+      "An academic platform built from my own student pain — past papers, GPA/CGPA tools, merit calculators, and faculty insights for Pakistani universities.",
     link: "/projects/campusaxis-university-portal",
     logo: "/campusaxis-logo.png",
+  },
+  {
+    name: "MegiLance",
+    role: "Founder · AI + blockchain platform",
+    description:
+      "An AI-powered freelancing platform built with Next.js and FastAPI — smart job matching, AI pricing, blockchain escrow payments, and fraud detection.",
+    link: "https://megilance.site",
+    logoDark: "/megilance-logo-on-dark.png",
+    logoLight: "/megilance-logo-on-light.png",
+    external: true,
   },
 ];
 
@@ -108,8 +118,9 @@ const timeline = [
 ];
 
 const stats = [
-  { value: "2", label: "Companies Founded" },
-  { value: "3+", label: "Years Experience" },
+  { value: "2", label: "Platforms Founded" },
+  { value: "260+", label: "Universities Served" },
+  { value: "3+", label: "Years AI/ML Experience" },
   { value: "15+", label: "Projects Shipped" },
 ];
 
@@ -209,10 +220,10 @@ export default function AboutPage() {
               <h1 id="about-hero-title" className={`${common.heroName} ${t.heroName}`}>
                 Ghulam Mujtaba
               </h1>
-              <ul className={common.heroRoles} aria-label="Areas of expertise">
+              <ul className={common.heroRoles} aria-label="Positioning">
+                <li className={`${common.heroRoleItem} ${t.heroRoleItem}`}>Founder — Megicode &amp; CampusAxis</li>
                 <li className={`${common.heroRoleItem} ${t.heroRoleItem}`}>Full-Stack Engineering</li>
-                <li className={`${common.heroRoleItem} ${t.heroRoleItem}`}>AI &amp; Machine Learning</li>
-                <li className={`${common.heroRoleItem} ${t.heroRoleItem}`}>Data Science</li>
+                <li className={`${common.heroRoleItem} ${t.heroRoleItem}`}>AI &amp; Data Science</li>
               </ul>
               <nav className={common.heroSocial} aria-label="Contact and social links">
                 <a className={`${common.heroSocialLink} ${t.heroSocialLink}`} href="mailto:ghulammujtaba1005@gmail.com">
@@ -277,6 +288,31 @@ export default function AboutPage() {
               </p>
             </div>
           </section>
+        </ScrollReveal>
+
+        {/* ==================== BY THE NUMBERS ==================== */}
+        <ScrollReveal animation="fadeInUp" width="100%">
+          <div
+            ref={statsRef}
+            className={`${common.statStrip} ${t.statStrip}`}
+            role="list"
+            aria-label="Key statistics"
+            style={{
+              opacity: statsVisible ? 1 : 0,
+              transform: statsVisible ? "translateY(0)" : "translateY(16px)",
+              transition: "all 0.6s cubic-bezier(0.4,0,0.2,1)",
+            }}
+          >
+            {stats.map((s, i) => (
+              <React.Fragment key={i}>
+                {i > 0 && <span className={`${common.statDivider} ${t.statDivider}`} aria-hidden="true" />}
+                <div className={common.statItem} role="listitem">
+                  <span className={`${common.statValue} ${t.statValue}`}>{s.value}</span>
+                  <span className={`${common.statLabel} ${t.statLabel}`}>{s.label}</span>
+                </div>
+              </React.Fragment>
+            ))}
+          </div>
         </ScrollReveal>
 
         {/* ==================== WHAT I'M BUILDING ==================== */}
@@ -454,39 +490,15 @@ export default function AboutPage() {
           </section>
         </ScrollReveal>
 
-        {/* ==================== BY THE NUMBERS ==================== */}
-        <ScrollReveal animation="fadeInUp" width="100%">
-          <div
-            ref={statsRef}
-            className={`${common.statStrip} ${t.statStrip}`}
-            role="list"
-            aria-label="Key statistics"
-            style={{
-              opacity: statsVisible ? 1 : 0,
-              transform: statsVisible ? "translateY(0)" : "translateY(16px)",
-              transition: "all 0.6s cubic-bezier(0.4,0,0.2,1)",
-            }}
-          >
-            {stats.map((s, i) => (
-              <React.Fragment key={i}>
-                {i > 0 && <span className={`${common.statDivider} ${t.statDivider}`} aria-hidden="true" />}
-                <div className={common.statItem} role="listitem">
-                  <span className={`${common.statValue} ${t.statValue}`}>{s.value}</span>
-                  <span className={`${common.statLabel} ${t.statLabel}`}>{s.label}</span>
-                </div>
-              </React.Fragment>
-            ))}
-          </div>
-        </ScrollReveal>
-
         {/* ==================== CTA ==================== */}
         <ScrollReveal animation="fadeInUp" width="100%">
           <section className={`${common.ctaSection} ${t.ctaSection}`} aria-labelledby="cta-heading">
             <h2 id="cta-heading" className={`${common.ctaTitle} ${t.ctaTitle}`}>
-              Let&rsquo;s build something together.
+              Building something? Hiring someone?
             </h2>
             <p className={`${common.ctaDesc} ${t.ctaDesc}`}>
-              Got a project, an idea, or just want to say hello? I&rsquo;d love to hear from you.
+              I take on serious projects through Megicode and I&rsquo;m open to
+              full-stack and AI engineering roles — remote or in Lahore.
             </p>
             <div className={common.ctaActions}>
               <Link

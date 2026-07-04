@@ -4,6 +4,7 @@ import HoverLottie from "./HoverLottie";
 import commonStyles from "./SkillFrameCommon.module.css";
 import lightStyles from "./SkillFrame.module.css";
 import darkStyles from "./SkillFrameDark.module.css";
+import SectionHeader from "../AnimatedUI/SectionHeader";
 
 // Skills curated for Ghulam's profile: Full Stack + AI + Mobile founder
 // Only primary, differentiating tools are shown — not every dependency
@@ -11,6 +12,7 @@ const SKILL_CATEGORIES = [
   {
     id: "fullstack",
     label: "Full Stack",
+    enables: "Products shipped end-to-end — frontend, backend, data.",
     accent: "#4573df",
     lottie: "/lottie/web-coding.json",
     skills: [
@@ -24,6 +26,7 @@ const SKILL_CATEGORIES = [
   {
     id: "mobile",
     label: "Mobile & Design",
+    enables: "Interfaces people actually enjoy using.",
     accent: "#10b981",
     lottie: "/lottie/mobile-app.json",
     skills: [
@@ -36,6 +39,7 @@ const SKILL_CATEGORIES = [
   {
     id: "ai",
     label: "AI & Machine Learning",
+    enables: "Models that reach production, not notebooks.",
     accent: "#f59e0b",
     lottie: "/lottie/ai-brain.json",
     skills: [
@@ -48,6 +52,7 @@ const SKILL_CATEGORIES = [
   {
     id: "tools",
     label: "Tools & Cloud",
+    enables: "Deployed, monitored, and maintained in production.",
     accent: "#a78bfa",
     lottie: "/lottie/cloud-devops.json",
     skills: [
@@ -86,9 +91,12 @@ const SkillFrame = () => {
       ref={frameRef}
       className={`${commonStyles.skillFrame} ${themeStyles.skillFrame}`}
     >
-      <h2 id="skills-title" className={`${commonStyles.skillsTitle} ${themeStyles.skillsTitle}`}>
-        Skills
-      </h2>
+      <SectionHeader
+        eyebrow="How I build"
+        title="Capabilities"
+        lede="Fewer logos, more leverage — each group is a capability I use to ship products, not a list of tutorials."
+        id="skills-title"
+      />
 
       <div className={commonStyles.categoriesList}>
         {SKILL_CATEGORIES.map((cat, catIdx) => (
@@ -114,6 +122,9 @@ const SkillFrame = () => {
             {/* Left label */}
             <div className={`${commonStyles.rowLabel} ${themeStyles.rowLabel}`}>
               <span className={commonStyles.labelText}>{cat.label}</span>
+              {cat.enables && (
+                <span className={commonStyles.labelEnables}>{cat.enables}</span>
+              )}
             </div>
 
             {/* Divider */}

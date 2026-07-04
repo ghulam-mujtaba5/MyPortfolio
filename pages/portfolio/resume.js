@@ -44,19 +44,33 @@ const ResumePage = ({ resume }) => {
           ]),
         ]}
       />
-      <div style={{ backgroundColor: theme === 'dark' ? '#272c34' : '#e8ebee', minHeight: '100vh', overflowX: 'hidden' }}>
+      <div className="resumePageBg" style={{ backgroundColor: theme === 'dark' ? '#272c34' : '#e8ebee', minHeight: '100vh', overflowX: 'hidden' }}>
         <header>
           <ThemeToggleIcon />
           <NavBarDesktop />
           <NavBarMobile sections={MAIN_SECTIONS} />
         </header>
         <main id="main-content" className={theme === 'dark' ? 'darkTheme' : 'lightTheme'}>
+        {resume && (
+          <div className="resumeActions" data-noprint>
+            <span className="resumeHint">
+              ATS-friendly PDF — the same content as this page
+            </span>
+            <a
+              href={`/api/download-resume?url=${encodeURIComponent(resume.url)}&filename=${encodeURIComponent(resume.filename)}`}
+              className="downloadButton"
+              download
+            >
+              Download Resume PDF
+            </a>
+          </div>
+        )}
         <ScrollReveal animation="fadeInUp" width="100%">
           <Resume />
         </ScrollReveal>
         {resume && (
           <ScrollReveal animation="fadeInUp" delay={200}>
-            <div style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
+            <div style={{ display: 'flex', justifyContent: 'center', width: '100%' }} data-noprint>
               <a
                 href={`/api/download-resume?url=${encodeURIComponent(resume.url)}&filename=${encodeURIComponent(resume.filename)}`}
                 className="downloadButton"
@@ -89,7 +103,49 @@ const ResumePage = ({ resume }) => {
         }
 
         .downloadButton:hover {
-          background-color: #356570;
+          background-color: var(--brand-primary-hover, #3b5fc7);
+        }
+
+        .downloadButton:focus-visible {
+          outline: none;
+          box-shadow: 0 0 0 3px rgba(69, 115, 223, 0.35);
+        }
+
+        .resumeActions {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-wrap: wrap;
+          gap: 4px 18px;
+          padding: 18px 16px 0;
+          text-align: center;
+        }
+
+        .resumeHint {
+          font-family: var(--font-mono, ui-monospace, monospace);
+          font-size: 0.72rem;
+          letter-spacing: 0.04em;
+          color: var(--text-tertiary, #6b7280);
+        }
+
+        /* Print: resume content only — no nav, footer, buttons, or dark bg */
+        @media print {
+          .resumeActions,
+          [data-noprint],
+          :global(header),
+          :global(footer) {
+            display: none !important;
+          }
+
+          .darkTheme,
+          .lightTheme {
+            background-color: #ffffff !important;
+            color: #000000 !important;
+          }
+
+          .resumePageBg {
+            background-color: #ffffff !important;
+          }
         }
 
         .darkTheme {

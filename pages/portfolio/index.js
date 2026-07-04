@@ -7,6 +7,8 @@ import NavBarMobile from "../../components/NavBar_Mobile/NavBar-mobile";
 import WelcomeFrame from "../../components/welcome/welcome";
 import PortfolioPictureImage from "../../components/profile-picture-desktop/PortfolioPictureImage";
 import AboutMeSection from "../../components/AboutMe/AboutMeSectionLight";
+import TrustStrip from "../../components/TrustStrip/TrustStrip";
+import FounderJourney from "../../components/Journey/FounderJourney";
 import Languages from "../../components/Languages/Languages";
 import SkillFrame from "../../components/Skills/SkillFrame";
 const BadgeScroll = dynamic(
@@ -167,13 +169,9 @@ const Home = ({ previewProjects = [], previewArticles = [] }) => {
         <main id="main-content">
           <section
             id="home-section"
-            aria-labelledby="home-section-heading"
+            aria-label="Introduction — Ghulam Mujtaba, Founder of Megicode and CampusAxis"
             style={{ width: "100%" }}
           >
-            <h1 id="home-section-heading" className="visually-hidden">
-              Ghulam Mujtaba | Full Stack Developer, Data Scientist, AI
-              Specialist
-            </h1>
             <PortfolioPictureImage
               style={{
                 width: "100%",
@@ -192,6 +190,8 @@ const Home = ({ previewProjects = [], previewArticles = [] }) => {
               }}
             />
           </section>
+
+          <TrustStrip />
 
           <section
             id="about-section"
@@ -247,6 +247,16 @@ const Home = ({ previewProjects = [], previewArticles = [] }) => {
           </section>
 
           <section
+            id="journey-section"
+            aria-labelledby="journey-title"
+            style={{ width: "100%" }}
+          >
+            <ScrollReveal animation="fadeInUp" width="100%">
+              <FounderJourney />
+            </ScrollReveal>
+          </section>
+
+          <section
             id="articles-section"
             aria-labelledby="insights-title"
             style={{ width: "100%" }}
@@ -266,7 +276,7 @@ const Home = ({ previewProjects = [], previewArticles = [] }) => {
             </h2>
             <ScrollReveal animation="fadeInUp" width="100%">
               <ContactSection
-                plexusMaxNodes={100}
+                plexusMaxNodes={60}
                 plexusMaxDistance={120}
                 plexusSpeed={0.7}
                 plexusInteraction={"attract"}
@@ -299,7 +309,7 @@ const Home = ({ previewProjects = [], previewArticles = [] }) => {
           color: #e0e0e0;
         }
         #home-section {
-          min-height: clamp(500px, 50vh, 540px);
+          min-height: clamp(600px, 64vh, 680px);
           position: relative;
           overflow: visible;
           z-index: 1;

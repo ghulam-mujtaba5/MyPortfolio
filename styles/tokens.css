@@ -168,6 +168,44 @@
   
   --btn-group-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
 
+  /* ==============================================
+     PREMIUM UPGRADE TOKENS (founder-engineer system)
+     ============================================== */
+
+  /* Display ink — deep navy authority for headings */
+  --ink-display: #0f1b33;
+
+  /* Conversion accent — ONLY for the primary conversion CTA
+     ("Start a Project") and the Launch node of the pipeline motif. */
+  --cta-accent: #d9480f;
+  --cta-accent-hover: #c2410c;
+  --cta-accent-muted: rgba(217, 72, 15, 0.1);
+  --cta-accent-shadow: rgba(217, 72, 15, 0.28);
+
+  /* Dark contrast band (contact section, featured spotlight) */
+  --bg-ink: #0e1526;
+  --bg-ink-elevated: #141d33;
+
+  /* Availability signal */
+  --signal-available: #16a34a;
+
+  /* Display type scale */
+  --text-display: clamp(2.35rem, 1.2rem + 4.2vw, 3.9rem);
+  --text-headline: clamp(1.75rem, 1.2rem + 2vw, 2.5rem);
+  --text-lede: clamp(1.05rem, 1rem + 0.4vw, 1.25rem);
+  --tracking-display: -0.025em;
+  --tracking-mono-label: 0.08em;
+
+  /* Layout rhythm */
+  --container-max: 1200px;
+  --container-pad: clamp(16px, 4vw, 32px);
+  --section-gap: clamp(56px, 10vw, 96px);
+
+  /* Premium card shadows */
+  --shadow-card: 0 1px 2px rgba(15, 27, 51, 0.06), 0 8px 24px rgba(15, 27, 51, 0.08);
+  --shadow-card-hover: 0 2px 4px rgba(15, 27, 51, 0.08), 0 16px 40px rgba(15, 27, 51, 0.14);
+  --radius-card: 16px;
+
   /* Admin-specific design tokens for consistent styling */
   --admin-card-radius: var(--radius-lg);
   --admin-card-border: 1px solid var(--border);
@@ -266,8 +304,23 @@
   --btn-group-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
 }
 
+/* Light theme premium tokens */
+:root[data-theme="light"] {
+  --ink-display: #0f1b33;
+}
+
 /* Dark Theme */
 :root[data-theme="dark"] {
+  /* Premium upgrade tokens (dark adjustments) */
+  --ink-display: #eef2f9;
+  --cta-accent: #e8590c;
+  --cta-accent-hover: #f76707;
+  --cta-accent-muted: rgba(232, 89, 12, 0.14);
+  --cta-accent-shadow: rgba(232, 89, 12, 0.32);
+  --signal-available: #34d399;
+  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.4), 0 8px 24px rgba(0, 0, 0, 0.35);
+  --shadow-card-hover: 0 2px 4px rgba(0, 0, 0, 0.45), 0 16px 40px rgba(0, 0, 0, 0.45);
+
   /* Page backgrounds */
   --bg-page: #0b0f14;
   --bg-elevated: #19212c;

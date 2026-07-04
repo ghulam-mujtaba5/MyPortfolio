@@ -6,6 +6,7 @@ import commonStyles from "./welcomeCommon.module.css"; // Common CSS
 import lightStyles from "./welcomeLight.module.css"; // Light mode CSS
 import darkStyles from "./welcomeDark.module.css"; // Dark mode CSS
 import WorkWithMeModal from "./WorkWithMeModal";
+import PipelineLine from "../AnimatedUI/PipelineLine";
 
 const Introduction = () => {
   const { theme } = useTheme(); // Destructure theme from context
@@ -18,7 +19,7 @@ const Introduction = () => {
   const helloTextToDisplay = "Hello, I’m ";
   const nameTextToDisplay = "GHULAM MUJTABA";
   const descriptionTextToDisplay =
-    "Software Engineer and Founder of Megicode building AI-powered web products, automation systems, and scalable full-stack platforms.";
+    "Founder of Megicode & CampusAxis. I design and ship full-stack AI products, SaaS platforms, and business systems — from idea to launch.";
 
   useEffect(() => {
     const handleScroll = () => {
@@ -55,37 +56,41 @@ const Introduction = () => {
         ref={ref}
         className={`${commonStyles.textContainer} ${theme === "dark" ? darkStyles.textContainer : lightStyles.textContainer}`}
       >
-        <motion.h2
+        <motion.p
+          className={commonStyles.eyebrow}
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, ease: "easeOut" }}
+        >
+          Founder · Megicode &amp; CampusAxis
+        </motion.p>
+
+        <motion.h1
           className={`${commonStyles.text} ${theme === "dark" ? darkStyles.text : lightStyles.text}`}
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
-          whileHover={{
-            scale: 1.05,
-            color: "#4573df",
-            transition: { duration: 0.3 },
-          }}
+          transition={{ duration: 0.6, ease: "easeOut", delay: 0.15 }}
         >
           {helloTextToDisplay}
           <br />
           <motion.span
             className={`${commonStyles.ghulamMujtaba} ${theme === "dark" ? darkStyles.ghulamMujtaba : lightStyles.ghulamMujtaba}`}
-            initial={{ opacity: 0, scale: 0.9 }}
+            initial={{ opacity: 0, scale: 0.96 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{
               duration: 0.8,
               ease: "easeOut",
               delay: 0.3,
             }}
-            whileHover={{
-              scale: 1.1,
-              color: "#4573df",
-              transition: { duration: 0.3 },
-            }}
           >
             {nameTextToDisplay}
           </motion.span>
-        </motion.h2>
+          <span className={commonStyles.srOnly}>
+            {" "}
+            — Founder of Megicode and CampusAxis, Full Stack Developer and AI
+            Specialist building products from idea to launch
+          </span>
+        </motion.h1>
         <motion.p
           className={`${commonStyles.paragraph} ${theme === "dark" ? darkStyles.paragraph : lightStyles.paragraph}`}
           initial={{ opacity: 0, y: 20 }}
@@ -110,7 +115,7 @@ const Introduction = () => {
             className={`${commonStyles.heroCTA} ${commonStyles.heroCTAPrimary}`}
             onClick={() => setIsModalOpen(true)}
           >
-            Let&apos;s Build Together
+            Start a Project
             <svg
               className={commonStyles.heroCTAArrow}
               viewBox="0 0 24 24"
@@ -129,9 +134,17 @@ const Introduction = () => {
             href="/projects"
             className={`${commonStyles.heroCTA} ${commonStyles.heroCTASecondary}`}
           >
-            View My Work
+            View Proof of Work
+          </Link>
+          <Link href="/resume" className={commonStyles.heroCTATertiary}>
+            Resume
+            <span aria-hidden="true" className={commonStyles.tertiaryArrow}>
+              →
+            </span>
           </Link>
         </motion.div>
+
+        <PipelineLine />
       </div>
 
       <WorkWithMeModal

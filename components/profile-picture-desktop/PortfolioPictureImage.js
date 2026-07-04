@@ -1,6 +1,14 @@
 import React, { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
+import { motion, useReducedMotion } from "framer-motion";
 import styles from "./profile-picture.module.css"; // Adjust path as per your project structure
+
+// Real proof only — these orbit the portrait on desktop
+const PROOF_CHIPS = [
+  { label: "CampusAxis · 260+ universities", className: "chipTopLeft", drift: 7, duration: 9 },
+  { label: "MegiLance · AI + Blockchain", className: "chipRight", drift: 6, duration: 11 },
+  { label: "15+ products shipped", className: "chipBottomLeft", drift: 5, duration: 8 },
+];
 
 const debounce = (func, delay) => {
   let timer;
@@ -30,8 +38,55 @@ const EllipseWithBackground = ({ borderWidth, imageSize }) => {
   );
 };
 
+// Static, always-on faint ring — the hover burst "activates" something
+// that is already alive instead of appearing from nowhere.
+const BaseRing = ({ imageSize }) => {
+  const ringSize = imageSize - 28;
+  return (
+    <div
+      className={styles.baseRing}
+      style={{ height: `${ringSize}px`, width: `${ringSize}px` }}
+      aria-hidden="true"
+    />
+  );
+};
+
+// Floating glass proof chips orbiting the portrait (desktop only)
+const OrbitChips = ({ reduceMotion }) => (
+  <div className={styles.chipLayer} aria-hidden="true">
+    {PROOF_CHIPS.map((chip, i) => (
+      <motion.span
+        key={chip.label}
+        className={`${styles.proofChip} ${styles[chip.className]}`}
+        initial={{ opacity: 0, y: 10 }}
+        animate={
+          reduceMotion
+            ? { opacity: 1, y: 0 }
+            : { opacity: 1, y: [0, -chip.drift, 0] }
+        }
+        transition={
+          reduceMotion
+            ? { duration: 0.3, delay: 1.2 }
+            : {
+                opacity: { duration: 0.5, delay: 1.4 + i * 0.2 },
+                y: {
+                  duration: chip.duration,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                  delay: 1.4 + i * 0.2,
+                },
+              }
+        }
+      >
+        {chip.label}
+      </motion.span>
+    ))}
+  </div>
+);
+
 const ImageWithEllipsesBackground = () => {
   const [hovered, setHovered] = useState(false);
+  const reduceMotion = useReducedMotion();
   const [imageSize, setImageSize] = useState(500); // Default imageSize for large screens
   const [isMobile, setIsMobile] = useState(false); // Track if the screen is mobile size
   const [scrollPosition, setScrollPosition] = useState(0); // Track scroll position
@@ -97,7 +152,9 @@ const ImageWithEllipsesBackground = () => {
         height={imageSize}
         priority
       />
+      <BaseRing imageSize={imageSize} />
       {(hovered || isMobile) && !shouldHideEllipses && renderEllipses()}
+      {!isMobile && <OrbitChips reduceMotion={reduceMotion} />}
     </div>
   );
 };

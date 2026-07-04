@@ -52,7 +52,10 @@ export default function ContactPage() {
 
       <main className={common.main}>
         <ScrollReveal animation="fadeInUp" width="100%">
-          <section className={common.storySection} aria-labelledby="contact-hero-title">
+          <section
+            className={`${common.storySection} contact-hero-section`}
+            aria-labelledby="contact-hero-title"
+          >
             <p className={`${common.heroEyebrow} ${t.heroEyebrow}`}>
               <MapPin size={12} /> Lahore, Pakistan
             </p>
@@ -84,6 +87,14 @@ export default function ContactPage() {
         </ScrollReveal>
       </main>
       <Footer />
+      <style jsx global>{`
+        /* Clear the fixed logo/hamburger on small screens */
+        @media (max-width: 768px) {
+          .contact-hero-section {
+            padding-top: 5.5rem;
+          }
+        }
+      `}</style>
     </div>
   );
 }

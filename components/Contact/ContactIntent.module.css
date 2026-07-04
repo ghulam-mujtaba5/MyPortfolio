@@ -1,0 +1,198 @@
+/* Contact intent system — 2 conversion paths + qualifying fields
+   Single-module pattern: tokens + [data-theme] overrides. */
+
+.intentGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+
+.intentLegend {
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: var(--tracking-mono-label, 0.08em);
+  text-transform: uppercase;
+  color: var(--text-tertiary, #6b7280);
+}
+
+.intentRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.intentCard {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 3px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1.5px solid var(--border-default, #dbe2ea);
+  background: transparent;
+  cursor: pointer;
+  text-align: left;
+  transition:
+    border-color 0.18s ease,
+    background 0.18s ease,
+    transform 0.18s ease;
+  font-family: inherit;
+}
+
+.intentCard:hover {
+  transform: translateY(-2px);
+}
+
+.intentCard:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(69, 115, 223, 0.35);
+}
+
+.intentTitle {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--text-primary, #1f2937);
+  line-height: 1.3;
+}
+
+.intentSub {
+  font-size: 0.76rem;
+  line-height: 1.4;
+  color: var(--text-tertiary, #6b7280);
+}
+
+/* Hire path — brand blue */
+.intentHire:hover,
+.intentHireActive {
+  border-color: var(--brand-primary, #4573df);
+}
+
+.intentHireActive {
+  background: var(--brand-primary-muted, rgba(69, 115, 223, 0.1));
+}
+
+.intentHireActive .intentTitle {
+  color: var(--brand-primary, #4573df);
+}
+
+/* Project path — conversion orange */
+.intentProject:hover,
+.intentProjectActive {
+  border-color: var(--cta-accent, #d9480f);
+}
+
+.intentProjectActive {
+  background: var(--cta-accent-muted, rgba(217, 72, 15, 0.1));
+}
+
+.intentProjectActive .intentTitle {
+  color: var(--cta-accent, #d9480f);
+}
+
+:global([data-theme="dark"]) .intentCard {
+  border-color: rgba(255, 255, 255, 0.14);
+}
+
+:global([data-theme="dark"]) .intentTitle {
+  color: var(--text-primary, #e6edf3);
+}
+
+:global([data-theme="dark"]) .intentHire:hover,
+:global([data-theme="dark"]) .intentHireActive {
+  border-color: var(--brand-primary, #4f8cff);
+}
+
+:global([data-theme="dark"]) .intentProject:hover,
+:global([data-theme="dark"]) .intentProjectActive {
+  border-color: var(--cta-accent, #e8590c);
+}
+
+/* ── Qualifying selects (budget / role / timeline) ── */
+.qualRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.qualField {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.qualLabel {
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: var(--tracking-mono-label, 0.08em);
+  text-transform: uppercase;
+  color: var(--text-tertiary, #6b7280);
+}
+
+.qualSelect {
+  height: 44px;
+  padding: 0 12px;
+  border-radius: 10px;
+  border: 1.5px solid var(--border-default, #dbe2ea);
+  background: var(--bg-elevated, #ffffff);
+  color: var(--text-primary, #1f2937);
+  font-size: 0.9rem;
+  font-family: inherit;
+  cursor: pointer;
+  transition: border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.qualSelect:focus-visible {
+  outline: none;
+  border-color: var(--border-focus, #4573df);
+  box-shadow: 0 0 0 3px rgba(69, 115, 223, 0.2);
+}
+
+:global([data-theme="dark"]) .qualSelect {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.14);
+  color: var(--text-primary, #e6edf3);
+}
+
+:global([data-theme="dark"]) .qualSelect option {
+  background: #141d33;
+}
+
+/* ── Trust microcopy under submit ── */
+.trustRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 6px 14px;
+  margin-top: 14px;
+}
+
+.trustItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 0.7rem;
+  letter-spacing: 0.04em;
+  color: var(--text-tertiary, #6b7280);
+  white-space: nowrap;
+}
+
+.trustDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--signal-available, #16a34a);
+  flex-shrink: 0;
+}
+
+@media (max-width: 576px) {
+  .intentRow,
+  .qualRow {
+    grid-template-columns: 1fr;
+  }
+}

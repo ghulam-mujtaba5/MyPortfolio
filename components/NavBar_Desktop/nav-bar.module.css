@@ -730,3 +730,33 @@ html[data-theme="dark"] .header,
         height: 3px;
     }
 }
+
+/* ── Contact = conversion CTA ──
+   The one accent-outlined item in the nav; fills orange on hover.
+   Ties the nav to the same conversion color as "Start a Project". */
+.contact {
+    border: 1.5px solid var(--cta-accent, #d9480f);
+}
+
+.contact .contactText {
+    color: var(--cta-accent, #d9480f);
+    font-weight: 600;
+}
+
+.contact:hover {
+    background-color: var(--cta-accent, #d9480f) !important;
+    box-shadow: 0 4px 12px var(--cta-accent-shadow, rgba(217, 72, 15, 0.28));
+}
+
+.contact:hover .contactText {
+    color: #fff;
+}
+
+.contact.active {
+    background-color: var(--cta-accent, #d9480f) !important;
+}
+
+.contact:focus-visible {
+    outline: 2px solid var(--cta-accent, #d9480f);
+    outline-offset: 2px;
+}
