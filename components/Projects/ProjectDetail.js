@@ -1,46 +1,57 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import { useTheme } from "../../context/ThemeContext";
 import ThemeToggleIcon from "../Icon/gmicon";
 import ProjectGallery from "./ProjectGallery";
-import baseStyles from "./ProjectDetailBaseCommon.module.css";
-import lightStyles from "./ProjectDetail.light.module.css";
-import darkStyles from "./ProjectDetail.dark.module.css";
-import caseStyles from "./CaseFacts.module.css";
+import Project1 from "./Project1";
+import styles from "./CaseStudy.module.css";
+
+/**
+ * Project detail — case-study template.
+ * Brand system: mono eyebrows, ink-navy display type, browser-chrome frame,
+ * Role/Problem/Built/Outcome facts, one orange conversion moment at the end.
+ * Single CSS module (CaseStudy.module.css), themed via [data-theme].
+ */
+
+// Host shown in the browser-chrome bar (falls back to the canonical page URL)
+const displayUrl = (project) => {
+  const live = String(project?.links?.live || "").trim();
+  if (live && live !== "#") {
+    try {
+      return new URL(live).host.replace(/^www\./, "");
+    } catch {
+      /* fall through */
+    }
+  }
+  return project?.slug ? `ghulammujtaba.com/projects/${project.slug}` : "";
+};
 
 const ProjectDetail = ({ project, relatedProjects = [] }) => {
-  const { theme } = useTheme();
   const [scrollProgress, setScrollProgress] = useState(0);
-  const contentRef = useRef(null);
 
-  // Scroll progress tracking
   useEffect(() => {
     const handleScroll = () => {
       const scrollTop = window.scrollY;
-      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-      const progress = (scrollTop / docHeight) * 100;
+      const docHeight =
+        document.documentElement.scrollHeight - window.innerHeight;
+      const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
       setScrollProgress(Math.min(100, Math.max(0, progress)));
     };
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-
-  // Body background styles are managed by the parent page template to prevent style leaks during page transitions
 
   if (!project) {
     return (
-      <div className={`${baseStyles.container} ${theme === "dark" ? darkStyles.container : lightStyles.container}`}>
-        <div style={{ 
-          textAlign: "center", 
-          padding: "60px 20px",
-          color: theme === "dark" ? "#e5e7eb" : "#374151"
-        }}>
-          <h1 style={{ fontSize: "2rem", marginBottom: "1rem" }}>Project Not Found</h1>
-          <p style={{ fontSize: "1.1rem", opacity: 0.8 }}>
-            The project you&apos;re looking for doesn&apos;t exist or has been removed.
-          </p>
-        </div>
+      <div className={styles.notFound}>
+        <h1 className={styles.notFoundTitle}>Project not found</h1>
+        <p className={styles.notFoundText}>
+          The project you&apos;re looking for doesn&apos;t exist or has been
+          removed.
+        </p>
+        <Link href="/projects" className={`${styles.btn} ${styles.btnGhost}`}>
+          Browse all projects
+        </Link>
       </div>
     );
   }
@@ -71,224 +82,262 @@ const ProjectDetail = ({ project, relatedProjects = [] }) => {
   ].filter((f) => typeof f.value === "string" && f.value.trim());
   const inProgress = status === "In Progress";
 
-  // Combine styles based on theme
-  const themeStyles = theme === "dark" ? darkStyles : lightStyles;
-  const styles = { ...baseStyles, ...themeStyles };
+  const live = String(links?.live || "").trim();
+  const github = String(links?.github || "").trim();
+  const hasLive = live && live !== "#";
+  const hasGithub = github && github !== "#";
 
-  // Detect if this is a mobile app project
-  const isMobileApp = category?.toLowerCase().includes('mobile') || 
-                     tags?.some(tag => tag.toLowerCase().includes('mobile')) ||
-                     tags?.some(tag => tag.toLowerCase().includes('app')) ||
-                     title?.toLowerCase().includes('mobile') ||
-                     title?.toLowerCase().includes('app');
+  const isMobileApp =
+    category?.toLowerCase().includes("mobile") ||
+    tags?.some((tag) => tag.toLowerCase().includes("mobile")) ||
+    tags?.some((tag) => tag.toLowerCase().includes("app")) ||
+    title?.toLowerCase().includes("mobile") ||
+    title?.toLowerCase().includes("app");
 
-  // Determine if we should show gallery (has gallery images) or single image
   const hasGalleryImages = gallery && gallery.length > 0;
-  const shouldShowGallery = showGallery !== false && (hasGalleryImages || (showImage && image));
+  const shouldShowGallery =
+    showGallery !== false && (hasGalleryImages || (showImage && image));
+
+  const related = (relatedProjects || []).filter((p) => p?.slug).slice(0, 3);
+
+  const handleShare = () => {
+    if (navigator.share) {
+      navigator.share({ title, url: window.location.href });
+    } else {
+      navigator.clipboard.writeText(window.location.href);
+      alert("Link copied to clipboard!");
+    }
+  };
 
   return (
-    <div className={`${baseStyles.container} ${themeStyles.container || ""} ${theme === "dark" ? baseStyles.dark : baseStyles.light}`}>
-      {/* GM Icon */}
-      <div className={`${baseStyles.gmIcon} ${themeStyles.gmIcon || ""} ${theme === "light" ? "light" : "dark"}`}>
+    <div className={styles.page}>
+      {/* Theme toggle GM icon */}
+      <div className={styles.gmIcon}>
         <ThemeToggleIcon />
       </div>
 
-      {/* Scroll Progress Indicator */}
-      <div 
-        className={`${baseStyles.scrollProgress} ${themeStyles.scrollProgress || ""}`}
+      {/* Reading progress */}
+      <div
+        className={styles.scrollProgress}
         style={{ width: `${scrollProgress}%` }}
         role="progressbar"
-        aria-valuenow={scrollProgress}
+        aria-valuenow={Math.round(scrollProgress)}
         aria-valuemin="0"
         aria-valuemax="100"
         aria-label="Reading progress"
       />
 
-      {/* Breadcrumb Navigation */}
-      <nav className={`${baseStyles.breadcrumb} ${themeStyles.breadcrumb || ""}`} aria-label="Breadcrumb">
-        <Link href="/" className={baseStyles.breadcrumbLink}>
+      {/* Breadcrumb */}
+      <nav className={styles.breadcrumb} aria-label="Breadcrumb">
+        <Link href="/" className={styles.breadcrumbLink}>
           Portfolio
         </Link>
-        <span className={baseStyles.breadcrumbSeparator} aria-hidden="true">›</span>
-        <Link href="/projects" className={baseStyles.breadcrumbLink}>
+        <span className={styles.breadcrumbSeparator} aria-hidden="true">
+          ›
+        </span>
+        <Link href="/projects" className={styles.breadcrumbLink}>
           Projects
         </Link>
-        <span className={baseStyles.breadcrumbSeparator} aria-hidden="true">›</span>
-        <span className={baseStyles.breadcrumbCurrent} aria-current="page">
+        <span className={styles.breadcrumbSeparator} aria-hidden="true">
+          ›
+        </span>
+        <span className={styles.breadcrumbCurrent} aria-current="page">
           {title}
         </span>
       </nav>
 
-      {/* ...existing code... */}
-
-      {/* Case-study eyebrow + build status */}
-      <div className={caseStyles.eyebrowRow}>
-        <span className={caseStyles.eyebrow}>
-          Case study{category ? ` · ${category}` : ""}
-        </span>
-        {inProgress && <span className={caseStyles.statusChip}>In build</span>}
-      </div>
-
-      {/* Project Title */}
-      <h1 className={`${baseStyles.title} ${themeStyles.title || ""}`}>
-        {title}
-        <div className={`${baseStyles.titleUnderline} ${themeStyles.titleUnderline || ""}`} />
-      </h1>
-
-      {/* Project Gallery/Image Showcase */}
-      {shouldShowGallery && (
-        <ProjectGallery
-          mainImage={showImage ? image : null}
-          gallery={hasGalleryImages ? gallery : []}
-          title={title}
-          imageFit={project?.imageFit || "contain"}
-          isMobileApp={isMobileApp}
-        />
-      )}
-
-      {/* Meta Information */}
-      <div className={`${baseStyles.meta} ${themeStyles.meta || ""}`}>
-        {category && (
-          <span 
-            className={`${baseStyles.category} ${themeStyles.category || ""}`}
-            role="badge"
-            aria-label={`Category: ${category}`}
-          >
-            {category}
+      {/* ── Case header ── */}
+      <header className={styles.header}>
+        <div className={styles.eyebrowRow}>
+          <span className={styles.eyebrow}>
+            Case study{category ? ` · ${category}` : ""}
           </span>
-        )}
-        
+          {inProgress && <span className={styles.statusChip}>In build</span>}
+        </div>
+
+        <h1 className={styles.title}>{title}</h1>
+
         {Array.isArray(tags) && tags.length > 0 && (
-          <div 
-            className={`${baseStyles.tags} ${themeStyles.tags || ""}`}
-            role="list"
-            aria-label="Project technologies"
-          >
+          <div className={styles.pills} role="list" aria-label="Built with">
             {tags.map((tag, index) => (
-              <span 
-                key={`${tag}-${index}`} 
-                className={`${baseStyles.tag} ${themeStyles.tag || ""}`}
-                role="listitem"
-                tabIndex="0"
-                aria-label={`Technology: ${tag}`}
-              >
-                <span>{tag}</span>
+              <span key={`${tag}-${index}`} className={styles.pill} role="listitem">
+                {tag}
               </span>
             ))}
           </div>
         )}
 
-        {/* Share Button - ONLY inline beside tags */}
-        <div className={baseStyles.shareButtonInline}>
+        <div className={styles.actions}>
+          {hasLive && (
+            <a
+              href={live}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`${styles.btn} ${styles.btnPrimary}`}
+              aria-label={`Open live site of ${title} (opens in new tab)`}
+            >
+              <svg
+                className={styles.btnIcon}
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden="true"
+              >
+                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                <polyline points="15 3 21 3 21 9" />
+                <line x1="10" y1="14" x2="21" y2="3" />
+              </svg>
+              Live Preview
+            </a>
+          )}
+          {hasGithub && (
+            <a
+              href={github}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`${styles.btn} ${styles.btnGhost}`}
+              aria-label={`View source code of ${title} on GitHub (opens in new tab)`}
+            >
+              <svg
+                className={styles.btnIcon}
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden="true"
+              >
+                <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
+              </svg>
+              Source Code
+            </a>
+          )}
           <button
-            className={baseStyles.shareButtonMeta}
-            aria-label="Share this project"
-            title="Share"
-            onClick={() => {
-              if (navigator.share) {
-                navigator.share({
-                  title: title,
-                  url: window.location.href
-                });
-              } else {
-                navigator.clipboard.writeText(window.location.href);
-                alert('Link copied to clipboard!');
-              }
-            }}
+            type="button"
+            className={`${styles.btn} ${styles.btnGhost}`}
+            onClick={handleShare}
+            aria-label="Share this case study"
           >
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-              <circle cx="18" cy="5" r="3" fill="currentColor"/>
-              <circle cx="6" cy="12" r="3" fill="currentColor"/>
-              <circle cx="18" cy="19" r="3" fill="currentColor"/>
-              <line x1="8.59" y1="13.51" x2="15.42" y2="17.49" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-              <line x1="15.41" y1="6.51" x2="8.59" y2="10.49" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+            <svg
+              className={styles.btnIcon}
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              aria-hidden="true"
+            >
+              <circle cx="18" cy="5" r="3" />
+              <circle cx="6" cy="12" r="3" />
+              <circle cx="18" cy="19" r="3" />
+              <line
+                x1="8.59"
+                y1="13.51"
+                x2="15.42"
+                y2="17.49"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+              />
+              <line
+                x1="15.41"
+                y1="6.51"
+                x2="8.59"
+                y2="10.49"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+              />
             </svg>
-            <span>Share</span>
+            Share
           </button>
         </div>
-      </div>
+      </header>
 
-      {/* Case-study facts — Role / Problem / Built / Outcome */}
+      {/* ── Screenshot(s) in browser-chrome frame ── */}
+      {shouldShowGallery && (
+        <figure className={styles.frame}>
+          <div className={styles.chromeBar} aria-hidden="true">
+            <span className={styles.chromeDots}>
+              <span />
+              <span />
+              <span />
+            </span>
+            <span className={styles.chromeUrl}>{displayUrl(project)}</span>
+          </div>
+          <div className={styles.frameBody}>
+            <ProjectGallery
+              mainImage={showImage ? image : null}
+              gallery={hasGalleryImages ? gallery : []}
+              title={title}
+              imageFit={project?.imageFit || "contain"}
+              isMobileApp={isMobileApp}
+            />
+          </div>
+        </figure>
+      )}
+
+      {/* ── Case facts ── */}
       {caseFacts.length > 0 && (
-        <dl className={caseStyles.facts} aria-label="Case study summary">
+        <dl className={styles.facts} aria-label="Case study summary">
           {caseFacts.map((f) => (
             <div
               key={f.key}
-              className={`${caseStyles.factRow} ${f.outcome ? caseStyles.factOutcome : ""}`}
+              className={`${styles.fact} ${f.outcome ? styles.factOutcome : ""}`}
             >
-              <dt className={caseStyles.factKey}>{f.key}</dt>
-              <dd>
-                <span>{f.value}</span>
-              </dd>
+              <dt className={styles.factKey}>{f.key}</dt>
+              <dd className={styles.factValue}>{f.value}</dd>
             </div>
           ))}
         </dl>
       )}
 
-      {/* Project Description */}
+      {/* ── Overview ── */}
       {description && (
-        <div 
-          ref={contentRef}
-          className={`${baseStyles.description} ${themeStyles.description || ""}`}
-          dangerouslySetInnerHTML={{ __html: description }}
-          role="article"
-          aria-label="Project description"
-        />
+        <section className={styles.overview} aria-labelledby="overview-heading">
+          <p className={styles.sectionEyebrow} id="overview-heading">
+            Overview
+          </p>
+          <div
+            className={styles.prose}
+            dangerouslySetInnerHTML={{ __html: description }}
+          />
+        </section>
       )}
 
+      {/* ── Related case studies ── */}
+      {related.length > 0 && (
+        <section className={styles.related} aria-labelledby="related-heading">
+          <p className={styles.sectionEyebrow} id="related-heading">
+            More case studies
+          </p>
+          <div className={styles.relatedGrid}>
+            {related.map((p) => (
+              <Project1 key={p.slug} project={p} />
+            ))}
+          </div>
+        </section>
+      )}
 
-      {/* Action Links */}
-      {(links?.live || links?.github) && (
-        <div 
-          className={`${baseStyles.links} ${themeStyles.links || ""}`}
-          role="group"
-          aria-label="Project links"
-        >
-          {links?.live && (
-            <a
-              href={links.live}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={`${baseStyles.link} ${baseStyles.primaryLink} ${themeStyles.link || ""}`}
-              aria-label={`View live demo of ${title} (opens in new tab)`}
-            >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className={baseStyles.linkIcon} aria-hidden="true" style={{ marginRight: '6px', display: 'inline-block', verticalAlign: 'text-bottom' }}>
-                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-                <polyline points="15 3 21 3 21 9"></polyline>
-                <line x1="10" y1="14" x2="21" y2="3"></line>
-              </svg>
-              <span>Live Preview</span>
-              <span className={baseStyles.linkArrow}>→</span>
-            </a>
-          )}
-          {links?.github && (
-            <a
-              href={links.github}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={`${baseStyles.link} ${baseStyles.secondaryLink} ${themeStyles.link || ""}`}
-              aria-label={`View source code of ${title} on GitHub (opens in new tab)`}
-            >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className={baseStyles.linkIcon} aria-hidden="true" style={{ marginRight: '6px', display: 'inline-block', verticalAlign: 'text-bottom' }}>
-                <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
-              </svg>
-              <span>Source Code</span>
-              <span className={baseStyles.linkArrow}>→</span>
-            </a>
-          )}
+      {/* ── Conversion band ── */}
+      <section className={styles.ctaBand} aria-labelledby="cta-heading">
+        <h2 className={styles.ctaTitle} id="cta-heading">
+          Want something like this built?
+        </h2>
+        <p className={styles.ctaDesc}>
+          I take on serious projects through Megicode — from scope to shipped
+          product. Or browse the rest of the proof first.
+        </p>
+        <div className={styles.ctaActions}>
+          <Link href="/contact" className={`${styles.btn} ${styles.btnCta}`}>
+            Start a Project
+          </Link>
+          <Link href="/projects" className={`${styles.btn} ${styles.btnGhost}`}>
+            View all projects
+          </Link>
         </div>
-      )}
-
-
-      {/* Back to Projects */}
-      <div className={`${baseStyles.backToProjects} ${themeStyles.backToProjects || ""}`}>
-        <Link 
-          href="/projects" 
-          className={`${baseStyles.backLink} ${themeStyles.backLink || ""}`}
-        >
-          ← Back to All Projects
-        </Link>
-      </div>
+      </section>
     </div>
   );
 };

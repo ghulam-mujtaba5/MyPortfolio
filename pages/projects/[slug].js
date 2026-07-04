@@ -61,12 +61,11 @@ const ProjectPage = ({ project, relatedProjects = [] }) => {
   }
 
   return (
-    <div style={{ 
-      minHeight: '100vh', 
+    <div style={{
+      minHeight: '100vh',
       width: '100%',
-      background: theme === 'dark' 
-        ? 'linear-gradient(135deg, #0f1419 0%, #1f2937 50%, #111827 100%)' 
-        : 'linear-gradient(135deg, #ffffff 0%, #f8f9fa 50%, #f1f3f4 100%)',
+      // Brand-flat page background, consistent with the rest of the site
+      background: theme === 'dark' ? '#1d2127' : '#ffffff',
       margin: 0,
       padding: 0
     }}>
@@ -255,7 +254,7 @@ export async function getServerSideProps(context) {
           ]
         })
         .limit(3)
-        .select('title slug image shortDescription description category tags')
+        .select('title slug image imageFit showImage shortDescription description category tags links status role outcome')
         .lean(),
         new Promise((_, reject) => setTimeout(() => reject(new Error("Related query timeout")), 5000)),
       ]);
