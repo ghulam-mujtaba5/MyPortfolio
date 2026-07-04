@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import ThemeToggleIcon from "../Icon/gmicon";
 import ProjectGallery from "./ProjectGallery";
-import Project1 from "./Project1";
 import styles from "./CaseStudy.module.css";
 
 /**
@@ -25,7 +24,7 @@ const displayUrl = (project) => {
   return project?.slug ? `ghulammujtaba.com/projects/${project.slug}` : "";
 };
 
-const ProjectDetail = ({ project, relatedProjects = [] }) => {
+const ProjectDetail = ({ project }) => {
   const [scrollProgress, setScrollProgress] = useState(0);
 
   useEffect(() => {
@@ -66,7 +65,6 @@ const ProjectDetail = ({ project, relatedProjects = [] }) => {
     tags,
     category,
     links,
-    role,
     problem,
     solution,
     outcome,
@@ -75,7 +73,6 @@ const ProjectDetail = ({ project, relatedProjects = [] }) => {
 
   // Case-study facts — render only what actually exists (plan §5.3)
   const caseFacts = [
-    { key: "Role", value: role },
     { key: "Problem", value: problem },
     { key: "Built", value: solution },
     { key: "Outcome", value: outcome, outcome: true },
@@ -97,8 +94,6 @@ const ProjectDetail = ({ project, relatedProjects = [] }) => {
   const hasGalleryImages = gallery && gallery.length > 0;
   const shouldShowGallery =
     showGallery !== false && (hasGalleryImages || (showImage && image));
-
-  const related = (relatedProjects || []).filter((p) => p?.slug).slice(0, 3);
 
   const handleShare = () => {
     if (navigator.share) {
@@ -303,20 +298,6 @@ const ProjectDetail = ({ project, relatedProjects = [] }) => {
             className={styles.prose}
             dangerouslySetInnerHTML={{ __html: description }}
           />
-        </section>
-      )}
-
-      {/* ── Related case studies ── */}
-      {related.length > 0 && (
-        <section className={styles.related} aria-labelledby="related-heading">
-          <p className={styles.sectionEyebrow} id="related-heading">
-            More case studies
-          </p>
-          <div className={styles.relatedGrid}>
-            {related.map((p) => (
-              <Project1 key={p.slug} project={p} />
-            ))}
-          </div>
         </section>
       )}
 

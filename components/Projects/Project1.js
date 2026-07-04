@@ -137,20 +137,12 @@ const ProjectCard = React.memo(({ project, featured = false }) => {
           dangerouslySetInnerHTML={{ __html: project?.description || "" }}
         />
 
-        {(project?.role || project?.outcome) && (
+        {project?.outcome && (
           <div className={styles.proofRows}>
-            {project?.role && (
-              <div className={styles.proofRow}>
-                <span className={styles.proofKey}>Role</span>
-                <span>{project.role}</span>
-              </div>
-            )}
-            {project?.outcome && (
-              <div className={`${styles.proofRow} ${styles.proofOutcome}`}>
-                <span className={styles.proofKey}>Outcome</span>
-                <span>{project.outcome}</span>
-              </div>
-            )}
+            <div className={`${styles.proofRow} ${styles.proofOutcome}`}>
+              <span className={styles.proofKey}>Outcome</span>
+              <span>{project.outcome}</span>
+            </div>
           </div>
         )}
 

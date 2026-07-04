@@ -22,7 +22,7 @@ const Footer = dynamic(() => import("../../components/Footer/Footer"), {
 
 // ...existing code...
 
-const ProjectPage = ({ project, relatedProjects = [] }) => {
+const ProjectPage = ({ project }) => {
   const { theme } = useTheme();
   const [isMobile, setIsMobile] = useState(false);
   const sections = MAIN_SECTIONS;
@@ -203,7 +203,7 @@ const ProjectPage = ({ project, relatedProjects = [] }) => {
       <main>
         {/* ...existing code... */}
 
-        <ProjectDetail project={enhanceProjectData(project)} relatedProjects={relatedProjects} />
+        <ProjectDetail project={enhanceProjectData(project)} />
       </main>
 
       <Footer />
@@ -241,32 +241,9 @@ export async function getServerSideProps(context) {
       return { notFound: true };
     }
 
-    // Fetch related projects (same category or similar tags, excluding current project)
-    let relatedProjects = [];
-    try {
-      relatedProjects = await Promise.race([
-        Project.find({
-          _id: { $ne: project._id },
-          published: true,
-          $or: [
-            { category: project.category },
-            { tags: { $in: project.tags || [] } }
-          ]
-        })
-        .limit(3)
-        .select('title slug image imageFit showImage shortDescription description category tags links status role outcome')
-        .lean(),
-        new Promise((_, reject) => setTimeout(() => reject(new Error("Related query timeout")), 5000)),
-      ]);
-    } catch {
-      // Related projects are non-critical — continue without them
-      relatedProjects = [];
-    }
-
     return {
       props: {
         project: JSON.parse(JSON.stringify(project)),
-        relatedProjects: JSON.parse(JSON.stringify(relatedProjects)),
       },
     };
   } catch (err) {

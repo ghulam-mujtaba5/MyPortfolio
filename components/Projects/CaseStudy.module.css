@@ -292,10 +292,10 @@
   padding: clamp(10px, 2vw, 20px);
 }
 
-/* ── Case facts (Role / Problem / Built / Outcome) ── */
+/* ── Case facts (Problem / Built / Outcome) ── */
 .facts {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1px;
   background: var(--border-subtle, rgba(0, 0, 0, 0.08));
   border: 1px solid var(--border-subtle, rgba(0, 0, 0, 0.08));
@@ -361,7 +361,7 @@
   color: #eef2f9;
 }
 
-@media (max-width: 640px) {
+@media (max-width: 760px) {
   .facts {
     grid-template-columns: 1fr;
   }
