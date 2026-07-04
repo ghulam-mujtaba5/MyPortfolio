@@ -77,7 +77,8 @@
   transform: rotate(-135deg);
 }
 
-/* Styles for the menu container */
+/* Styles for the menu container — glass panel; entrance/exit handled by
+   Framer Motion (AnimatePresence spring) in NavBar-mobile.js */
 .menuContainer {
   position: absolute;
   margin-top: 15px;
@@ -93,13 +94,9 @@
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
   border-radius: 12px;
   overflow: hidden;
-  transition: all 0.3s ease;
-  opacity: 0;
-  transform: translateX(10px);
-  pointer-events: none;
+  transform-origin: top right;
   z-index: 999;
   border: 1px solid rgba(255, 255, 255, 0.1);
-  position: absolute;
 }
 
 /* Styles for individual menu items */
@@ -113,13 +110,6 @@
 /* Menu item hover effect */
 .menuItem:hover {
   background-color: #a9b1b5;
-}
-
-/* Open state styles */
-.menuContainer.open {
-  opacity: 1;
-  transform: translateY(0px);
-  pointer-events: all;
 }
 
 .themeToggleContainer {

@@ -1,14 +1,57 @@
 import React, { useState, useCallback } from "react";
 import { useRouter } from "next/router";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { useTheme } from "../../context/ThemeContext";
 import commonStyles from "./NavBarCommon.module.css";
 import lightStyles from "./NavBarMobileLight.module.css";
 import darkStyles from "./NavBarMobileDark.module.css";
 
+// Spring slide-in panel + staggered link entrance (plan §3)
+const panelVariants = {
+  hidden: { opacity: 0, x: 16, scale: 0.97 },
+  visible: {
+    opacity: 1,
+    x: 0,
+    scale: 1,
+    transition: {
+      type: "spring",
+      stiffness: 380,
+      damping: 30,
+      staggerChildren: 0.06,
+      delayChildren: 0.04,
+    },
+  },
+  exit: { opacity: 0, x: 12, transition: { duration: 0.18 } },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, x: 12 },
+  visible: {
+    opacity: 1,
+    x: 0,
+    transition: { type: "spring", stiffness: 400, damping: 28 },
+  },
+};
+
+// Reduced motion: fade only, no movement, no stagger
+const panelVariantsReduced = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1, transition: { duration: 0.15 } },
+  exit: { opacity: 0, transition: { duration: 0.1 } },
+};
+
+const itemVariantsReduced = {
+  hidden: { opacity: 1 },
+  visible: { opacity: 1 },
+};
+
 const NavBar = ({ sections }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { theme, toggleTheme } = useTheme(); // Ensure toggleTheme is destructured from the context
   const router = useRouter();
+  const prefersReducedMotion = useReducedMotion();
+  const panel = prefersReducedMotion ? panelVariantsReduced : panelVariants;
+  const item = prefersReducedMotion ? itemVariantsReduced : itemVariants;
 
   const toggleMenu = useCallback(() => {
     setIsMenuOpen((prev) => !prev);
@@ -58,16 +101,23 @@ const NavBar = ({ sections }) => {
           ></div>
         </button>
       </div>
-      <div
-        id="menu-list"
-        className={`${commonStyles.menuContainer} ${themeStyles.menuContainer} ${isMenuOpen ? commonStyles.open : ""}`}
-      >
+      <AnimatePresence>
+        {isMenuOpen && (
+          <motion.div
+            id="menu-list"
+            className={`${commonStyles.menuContainer} ${themeStyles.menuContainer}`}
+            variants={panel}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+          >
         <ul className={`${commonStyles.menuList} ${themeStyles.menuList}`}>
           {sections?.length > 0 ? (
             sections.map((section) => (
-              <li
+              <motion.li
                 key={section.id || section.route}
                 className={`${commonStyles.menuItem} ${themeStyles.menuItem}`}
+                variants={item}
               >
                 <button
                   style={{
@@ -92,7 +142,7 @@ const NavBar = ({ sections }) => {
                 >
                   {section.label}
                 </button>
-              </li>
+              </motion.li>
             ))
           ) : (
             <li
@@ -102,7 +152,10 @@ const NavBar = ({ sections }) => {
             </li>
           )}
         </ul>
-        <div className={commonStyles.themeToggleContainer}>
+        <motion.div
+          className={commonStyles.themeToggleContainer}
+          variants={item}
+        >
           <button
             type="button"
             role="switch"
@@ -162,8 +215,10 @@ const NavBar = ({ sections }) => {
               </span>
             </span>
           </button>
-        </div>
-      </div>
+        </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </nav>
   );
 };

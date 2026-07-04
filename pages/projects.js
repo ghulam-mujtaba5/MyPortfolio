@@ -9,8 +9,6 @@ import React, { useState, useMemo, useEffect } from "react";
 import { z } from "zod";
 import dbConnect from "../lib/mongoose";
 import Project from "../models/Project";
-import dynamic from "next/dynamic";
-import { useTheme } from "../context/ThemeContext";
 import NavBar from "../components/NavBar_Desktop/nav-bar";
 import NavBarMobile from "../components/NavBar_Mobile/NavBar-mobile";
 
@@ -19,6 +17,7 @@ import { MAIN_SECTIONS } from "../constants/navigation";
 
 // Dynamically import Project1 to avoid SSR issues with next/image
 import Project1 from "../components/Projects/Project1";
+import styles from "../components/Projects/ProjectsPage.module.css";
 
 const TAGS = [
   "All",
@@ -34,12 +33,10 @@ const TAGS = [
 // Use shared navigation sections
 const sections = MAIN_SECTIONS;
 
-import Link from "next/link";
 import Spinner from "../components/Spinner/Spinner";
 import ScrollReveal from "../components/AnimatedUI/ScrollReveal";
 
 const ProjectsPage = ({ projects = [], projectsError = null }) => {
-  const { theme } = useTheme();
   const [selectedTag, setSelectedTag] = useState("All");
   // Since this page uses ISR via getStaticProps, default to not loading and no error.
   const [loading] = useState(false);
@@ -153,32 +150,26 @@ const ProjectsPage = ({ projects = [], projectsError = null }) => {
         author="Ghulam Mujtaba"
         jsonLd={projectSchemas}
       />
-      <div
-        style={{
-          backgroundColor: theme === "dark" ? "#1d2127" : "#ffffff",
-          overflowX: "hidden",
-          minHeight: "100vh",
-        }}
-      >
+      <div className={styles.pageWrap}>
         {/* Desktop NavBar */}
         <div className="hide-on-mobile">
           <NavBar />
         </div>
         {/* Mobile NavBar with top-left icon and hamburger alignment (logo only here, not in NavBarMobile) */}
-        <div className="show-on-mobile mobile-navbar-container">
-          <div className="mobile-navbar-row">
-            <div className="mobile-logo-align">
+        <div className={`show-on-mobile ${styles.mobileNavbarContainer}`}>
+          <div className={styles.mobileNavbarRow}>
+            <div className={styles.mobileLogoAlign}>
               <Icon name="gmicon" size={32} />
             </div>
-            <div className="mobile-hamburger-align">
+            <div className={styles.mobileHamburgerAlign}>
               {/* Ensure menu is always visible in NavBarMobile */}
               <NavBarMobile sections={sections} />
             </div>
           </div>
         </div>
-        <div className={`projects-page-bg ${theme}`}>
-          <section className={`project-hero fade-in`}>
-            <div className="hero-bg-visual-soft" aria-hidden="true">
+        <div className={styles.pageBg}>
+          <section className={styles.hero}>
+            <div className={styles.heroBgVisual} aria-hidden="true">
               {/* Abstract lines SVG background */}
               <svg
                 width="100%"
@@ -186,13 +177,6 @@ const ProjectsPage = ({ projects = [], projectsError = null }) => {
                 viewBox="0 0 900 220"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
-                style={{
-                  position: "absolute",
-                  top: 0,
-                  left: 0,
-                  width: "100%",
-                  height: "100%",
-                }}
               >
                 <polyline
                   points="60,60 200,40 350,100 500,60 700,120 850,60"
@@ -221,17 +205,14 @@ const ProjectsPage = ({ projects = [], projectsError = null }) => {
                 <circle cx="100" cy="120" r="3" fill="#60a5fa" opacity="0.13" />
               </svg>
             </div>
-            <div className="project-hero-intro refined-intro refined-intro-centered">
-              <h1 className="refined-intro-main animated-gradient-headline">
+            <div className={styles.heroIntro}>
+              <h1 className={styles.heroTitle}>
                 <span>Products I&rsquo;ve Shipped</span>
               </h1>
-              <div className="project-icons-row">
-                {/* Icons removed as per request */}
-              </div>
-              <h2 className="refined-intro-sub animated-fadein">
+              <h2 className={styles.heroSub}>
                 Platforms, client systems, and AI products — built end to end
               </h2>
-              <p className="refined-intro-desc animated-fadein-delayed">
+              <p className={styles.heroDesc}>
                 Each project is a case study: the problem, my role, what I
                 built, and what shipped — from student platforms serving 260+
                 universities to commercial systems for paying clients.
@@ -239,30 +220,27 @@ const ProjectsPage = ({ projects = [], projectsError = null }) => {
             </div>
           </section>
 
-          <div className="project-tags fade-in-up">
+          <div className={styles.tagRow}>
             {TAGS.map((tag, i) => (
               <button
                 key={tag}
-                className={`project-tag-btn${selectedTag === tag ? " active" : ""}`}
+                className={`${styles.tagBtn}${selectedTag === tag ? ` ${styles.tagBtnActive}` : ""}`}
                 onClick={() => setSelectedTag(tag)}
                 aria-pressed={selectedTag === tag}
-                style={{ transitionDelay: `${i * 60}ms` }}
+                style={{ animationDelay: `${i * 60}ms` }}
               >
                 {tag}
               </button>
             ))}
           </div>
-          <div className="project-grid">
+          <div className={styles.grid}>
             {clientLoading ? (
-              <div className="loading-wrap">
+              <div className={styles.loadingWrap}>
                 <Spinner size="lg" label="Loading projects" />
-                <span className="sr-only">Loading projects…</span>
+                <span className={styles.srOnly}>Loading projects…</span>
               </div>
             ) : filteredProjects.length === 0 ? (
-              <div
-                className="empty-projects"
-                style={{ color: theme === "dark" ? "#cccccc" : "#4b5563" }}
-              >
+              <div className={styles.emptyState}>
                 {projectsError || clientError
                   ? "Projects could not be loaded. Please try again later."
                   : selectedTag === "All"
@@ -275,13 +253,13 @@ const ProjectsPage = ({ projects = [], projectsError = null }) => {
                 return (
                   <ScrollReveal
                     key={project._id}
-                    className={`project-grid-card${isFeatured ? " featured-card" : ""}`}
+                    className={isFeatured ? styles.featuredCard : undefined}
                     animation="fadeInUp"
                     delay={Math.min(index, 5) * 50} // Stagger effect, capped
                     width="100%"
                   >
                     {isFeatured && (
-                      <span className="featured-label" aria-hidden="true">
+                      <span className={styles.featuredLabel} aria-hidden="true">
                         Featured
                       </span>
                     )}
@@ -294,395 +272,6 @@ const ProjectsPage = ({ projects = [], projectsError = null }) => {
           <Footer />
         </div>
       </div>
-      <style jsx>{`
-        .mobile-navbar-container {
-          width: 100vw;
-          z-index: 100;
-        }
-        /* position: fixed; */
-        /* top: 0; */
-        /* left: 0; */
-
-        .projects-page-bg.dark .mobile-navbar-row {
-          background: #23272f !important;
-          box-shadow: 0 2px 8px 0 rgba(34, 34, 59, 0.13);
-        }
-        .projects-page-bg.dark .mobile-navbar-row {
-          background: #23272f;
-          box-shadow: 0 2px 8px 0 rgba(34, 34, 59, 0.13);
-        }
-        .mobile-logo-align {
-          display: flex;
-          align-items: center;
-        }
-        .mobile-hamburger-align {
-          display: flex;
-          align-items: center;
-        }
-        @media (max-width: 600px) {
-          .mobile-navbar-row {
-            padding: 0.7rem 0.7rem 0.7rem 0.7rem;
-          }
-        }
-        @media (max-width: 768px) {
-          .mobile-navbar-container {
-            width: 100vw;
-            z-index: 100;
-            background: transparent;
-          }
-          /* position: fixed; */
-          /* top: 0; */
-          /* left: 0; */
-        }
-        .hide-on-mobile {
-          display: block;
-        }
-        .show-on-mobile {
-          display: none;
-        }
-        @media (max-width: 768px) {
-          .hide-on-mobile {
-            display: none !important;
-          }
-          .show-on-mobile {
-            display: block !important;
-          }
-        }
-        .project-icons-row {
-          display: flex;
-          gap: 0.5rem;
-          margin: 0.7rem 0 0.2rem 0;
-          justify-content: center;
-          align-items: center;
-        }
-        .animated-gradient-headline span {
-          display: inline-block;
-          font-family: "Open Sans", sans-serif;
-        }
-        .animated-fadein {
-          opacity: 0;
-          transform: translateY(18px);
-          animation: fadeInUp 1.1s cubic-bezier(0.39, 0.575, 0.565, 1) 0.3s
-            forwards;
-        }
-        .animated-fadein-delayed {
-          opacity: 0;
-          transform: translateY(18px);
-          animation: fadeInUp 1.1s cubic-bezier(0.39, 0.575, 0.565, 1) 0.7s
-            forwards;
-        }
-        .fade-in {
-          opacity: 0;
-          animation: fadeIn 0.8s ease forwards;
-        }
-        .fade-in-up {
-          opacity: 0;
-          transform: translateY(30px);
-          animation: fadeInUp 0.7s cubic-bezier(0.39, 0.575, 0.565, 1) forwards;
-        }
-        .fade-in-up .project-tag-btn {
-          opacity: 0;
-          transform: translateY(20px);
-          animation: fadeInUp 0.5s cubic-bezier(0.39, 0.575, 0.565, 1) forwards;
-        }
-        .fade-in-up .project-tag-btn {
-          animation-delay: inherit;
-        }
-        @keyframes fadeIn {
-          to {
-            opacity: 1;
-          }
-        }
-        @keyframes fadeInUp {
-          to {
-            opacity: 1;
-            transform: none;
-          }
-        }
-        .card-animate {
-          opacity: 0;
-          transform: translateY(40px) scale(0.98);
-          animation: cardFadeIn 0.7s cubic-bezier(0.39, 0.575, 0.565, 1)
-            forwards;
-        }
-        .card-animate:hover {
-          transform: translateY(-8px) scale(1.03);
-          box-shadow: 0 8px 32px 0 rgba(60, 60, 100, 0.18);
-          transition:
-            box-shadow 0.3s,
-            transform 0.3s;
-        }
-        @keyframes cardFadeIn {
-          to {
-            opacity: 1;
-            transform: none;
-          }
-        }
-        .projects-page-bg {
-          /* Make content area account for footer height so footer sits flush */
-          min-height: calc(100vh - 80px);
-          background: #ffffff;
-          transition: background 0.3s;
-        }
-        .projects-page-bg.dark {
-          background: #1d2127;
-        }
-        .project-hero {
-          position: relative;
-          padding: 3.2rem 0 1.5rem 0;
-          text-align: center;
-          background: none;
-          border-radius: 0 0 24px 24px;
-          overflow: hidden;
-        }
-        @media (max-width: 600px) {
-          .project-hero {
-            margin-top: 1rem;
-            padding: 2rem 1rem 1rem;
-            border-radius: 0 0 12px 12px;
-          }
-        }
-        .hero-bg-visual-soft {
-          position: absolute;
-          left: 50%;
-          top: 0;
-          transform: translateX(-50%);
-          width: 100vw;
-          max-width: 700px;
-          height: 220px;
-          z-index: 0;
-          pointer-events: none;
-          opacity: 0.5;
-          filter: blur(0.5px);
-        }
-        .project-hero-intro.refined-intro {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
-          z-index: 2;
-          position: relative;
-          margin-top: 1.2rem;
-          padding: 0 20px;
-          box-sizing: border-box;
-          text-align: center;
-        }
-        .refined-intro-main {
-          font-family: "Open Sans", sans-serif;
-          font-size: 2.8rem;
-          font-weight: 800;
-          letter-spacing: -1px;
-          margin-bottom: 0.5rem;
-          line-height: 1.1;
-        }
-        .refined-intro-sub {
-          font-family: "Open Sans", sans-serif;
-          font-size: 1.35rem;
-          color: #3b82f6;
-          font-weight: 600;
-          margin-bottom: 0.7rem;
-          letter-spacing: 0.02em;
-        }
-        .refined-intro-desc {
-          font-size: clamp(0.95rem, 2vw, 1.1rem);
-          color: #4b5563;
-          font-weight: 400;
-          max-width: 540px;
-          margin: 0 auto;
-          line-height: 1.65;
-          letter-spacing: 0.01em;
-          padding: 0 16px;
-        }
-        .refined-intro-centered {
-          align-items: center;
-          text-align: center;
-        }
-        .projects-page-bg.dark .hero-bg-visual-soft {
-          opacity: 0.3;
-        }
-        .projects-page-bg.dark .refined-intro-main {
-          color: #60a5fa;
-        }
-        .projects-page-bg.dark .gradient-headline {
-          background: linear-gradient(90deg, #60a5fa 30%, #a5b4fc 70%);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          background-clip: text;
-          text-fill-color: transparent;
-        }
-        .projects-page-bg.dark .refined-intro-sub {
-          color: #b8c0ff;
-        }
-        .projects-page-bg.dark .refined-intro-desc {
-          color: #bbb;
-        }
-        @media (max-width: 600px) {
-          .projects-page-bg {
-            min-height: calc(100vh - 65px);
-          }
-          .refined-intro-main {
-            font-size: 1.2rem;
-          }
-          .refined-intro-sub {
-            font-size: 0.98rem;
-          }
-          .project-hero {
-            padding: 1.3rem 0 0.7rem 0;
-            border-radius: 0 0 12px 12px;
-          }
-          .hero-bg-visual-soft {
-            height: 120px;
-          }
-        }
-        .project-tags {
-          display: flex;
-          flex-wrap: wrap;
-          gap: 0.7rem;
-          justify-content: center;
-          margin: 2rem 0 1.5rem 0;
-        }
-        @media (max-width: 600px) {
-          .project-tags {
-            gap: 0.4rem;
-            margin: 1.2rem 0 1.1rem 0;
-          }
-        }
-        .project-tag-btn {
-          background: #fff;
-          border: 1.5px solid #e0e0e0;
-          border-radius: 20px;
-          padding: 0.5rem 1.1rem;
-          font-family: var(--font-mono, ui-monospace, monospace);
-          font-size: 0.85rem;
-          font-weight: 600;
-          letter-spacing: 0.03em;
-          cursor: pointer;
-          transition:
-            all 0.2s,
-            box-shadow 0.3s;
-          box-shadow: 0 2px 8px 0 rgba(60, 60, 100, 0.06);
-        }
-        @media (max-width: 600px) {
-          .project-tag-btn {
-            font-size: 0.93rem;
-            padding: 0.38rem 0.7rem;
-            margin-bottom: 0.2rem;
-          }
-        }
-        .project-tag-btn.active,
-        .project-tag-btn:hover {
-          background: #4573df;
-          color: #fff;
-          border-color: #4573df;
-          box-shadow: 0 4px 14px 0 rgba(69, 115, 223, 0.28);
-          transform: translateY(-2px);
-        }
-        .projects-page-bg.dark .project-tag-btn {
-          background: rgba(255,255,255,0.06);
-          color: #c9d6e3;
-          border-color: rgba(255,255,255,0.12);
-        }
-        .projects-page-bg.dark .project-tag-btn.active,
-        .projects-page-bg.dark .project-tag-btn:hover {
-          background: #4f8cff;
-          color: #fff;
-          border-color: #4f8cff;
-          box-shadow: 0 4px 14px 0 rgba(79, 140, 255, 0.3);
-        }
-        .project-grid {
-          display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-          gap: 2.5rem;
-          padding: 2rem 0;
-          width: 100%;
-          max-width: 1200px;
-          margin: 0 auto;
-        }
-        @media (max-width: 900px) {
-          .project-grid {
-            grid-template-columns: 1fr;
-            gap: 1.2rem;
-            padding: 1.2rem 1rem;
-          }
-        }
-        @media (max-width: 600px) {
-          .project-grid {
-            grid-template-columns: 1fr;
-            gap: 1.2rem;
-            padding: 1.8rem 1rem 1.2rem 1rem;
-            justify-items: center;
-          }
-        }
-        /* Featured spotlight — the top project spans the row, wider card,
-           conversion-accent keyline. */
-        .project-grid :global(.featured-card) {
-          grid-column: 1 / -1;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          gap: 10px;
-        }
-        .project-grid :global(.featured-card article) {
-          max-width: 640px;
-          width: 100%;
-          border-top: 3px solid var(--cta-accent, #d9480f);
-        }
-        .project-grid :global(.featured-label) {
-          font-family: var(--font-mono, ui-monospace, monospace);
-          font-size: 0.72rem;
-          font-weight: 600;
-          letter-spacing: 0.08em;
-          text-transform: uppercase;
-          color: var(--cta-accent, #d9480f);
-        }
-        .project-grid-card {
-          display: flex;
-          align-items: stretch;
-          background: none !important;
-          box-shadow: none !important;
-          min-width: 0;
-          width: 100%;
-          max-width: 420px;
-        }
-        .loading-wrap {
-          grid-column: 1 / -1;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          padding: 2rem 0;
-        }
-        .sr-only {
-          position: absolute;
-          width: 1px;
-          height: 1px;
-          padding: 0;
-          margin: -1px;
-          overflow: hidden;
-          clip: rect(0, 0, 0, 0);
-          white-space: nowrap;
-          border: 0;
-        }
-        .empty-projects {
-          grid-column: 1 / -1;
-          text-align: center;
-          padding: 2rem 1rem;
-        }
-        @media (max-width: 600px) {
-          .project-grid-card {
-            max-width: 100%;
-            width: 100%;
-            margin: 0 auto;
-            border-radius: 16px;
-            box-shadow: 0 2px 12px 0 rgba(60, 60, 100, 0.1);
-            background: #fff;
-            justify-content: center;
-          }
-          .projects-page-bg.dark .project-grid-card {
-            background: #23272f;
-            box-shadow: 0 2px 12px 0 rgba(34, 34, 59, 0.16);
-          }
-        }
-      `}</style>
     </>
   );
 };
