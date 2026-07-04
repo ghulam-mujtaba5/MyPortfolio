@@ -3,11 +3,13 @@ import Image from "next/image";
 import { motion, useReducedMotion } from "framer-motion";
 import styles from "./profile-picture.module.css"; // Adjust path as per your project structure
 
-// Real proof only — these orbit the portrait on desktop
+// Real proof only — every claim here must be independently defensible:
+// CampusAxis has real user traffic across 260+ universities; the AI/ML years
+// are Meta-platform work via Appen; the client platform was shipped and paid.
 const PROOF_CHIPS = [
   { label: "CampusAxis · 260+ universities", className: "chipTopLeft", drift: 7, duration: 9 },
-  { label: "MegiLance · AI + Blockchain", className: "chipRight", drift: 6, duration: 11 },
-  { label: "15+ products shipped", className: "chipBottomLeft", drift: 5, duration: 8 },
+  { label: "3+ yrs AI/ML · Meta projects", className: "chipRight", drift: 6, duration: 11 },
+  { label: "Client platform · shipped & paid", className: "chipBottomLeft", drift: 5, duration: 8 },
 ];
 
 const debounce = (func, delay) => {

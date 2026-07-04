@@ -274,9 +274,15 @@
   gap: 10px;
 }
 .featuredCard article {
-  max-width: 640px;
+  /* Horizontal spotlight on desktop (CaseCard .cardFeatured variant) */
+  max-width: 960px;
   width: 100%;
   border-top: 3px solid var(--cta-accent, #d9480f);
+}
+@media (max-width: 899px) {
+  .featuredCard article {
+    max-width: 640px;
+  }
 }
 .featuredLabel {
   font-family: var(--font-mono, ui-monospace, monospace);

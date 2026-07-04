@@ -108,7 +108,7 @@ const Resume = () => {
             </div>
             <ul className={commonStyles.bullets}>
               <li>
-                Architected and shipped scalable products end-to-end for startups across web, mobile, and AI verticals.
+                Architected and shipped products end-to-end — including a commercial clinic platform built and paid for by a real client — across web, mobile, and AI.
               </li>
             </ul>
           </div>
@@ -170,7 +170,7 @@ const Resume = () => {
               </span>
             </div>
             <p>
-              Student platform serving 260+ Pakistani universities with past
+              Student platform used by students across 260+ Pakistani universities with past
               papers, GPA tools, faculty reviews, and resources. Production
               SaaS with multi-university data model.
             </p>

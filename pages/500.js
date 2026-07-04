@@ -5,16 +5,16 @@ import Link from "next/link";
 import Head from "next/head";
 import styles from "./404.module.css";
 
-export default function Custom404() {
+export default function Custom500() {
   const { theme } = useTheme();
 
   return (
     <div className={styles.wrapper} data-theme={theme}>
       <Head>
-        <title>Page Not Found — Ghulam Mujtaba</title>
+        <title>Something Went Wrong — Ghulam Mujtaba</title>
         <meta
           name="description"
-          content="This page doesn't exist. Explore Ghulam Mujtaba's projects, insights, or get in touch."
+          content="An unexpected error occurred. Please try again in a moment."
         />
         <meta name="robots" content="noindex, nofollow" />
       </Head>
@@ -43,7 +43,7 @@ export default function Custom404() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7, delay: 0.2, ease: "easeOut" }}
       >
-        404 - Page Not Found
+        500 - Something Went Wrong
       </motion.h1>
       <motion.p
         className={styles.description}
@@ -51,9 +51,8 @@ export default function Custom404() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7, delay: 0.4, ease: "easeOut" }}
       >
-        Oops! The page you are looking for doesn’t exist or has been moved.
-        <br />
-        Let’s get you back to something awesome.
+        An unexpected error occurred on the server. It&rsquo;s not you —
+        please try again in a moment.
       </motion.p>
       <motion.div
         initial={{ opacity: 0, scale: 0.9 }}

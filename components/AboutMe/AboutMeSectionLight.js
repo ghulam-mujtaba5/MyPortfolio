@@ -1,4 +1,5 @@
 import React, { useMemo, useEffect, useRef } from "react";
+import Link from "next/link";
 import { useTheme } from "../../context/ThemeContext";
 import { motion, useAnimation, useInView } from "framer-motion";
 import commonStyles from "./AboutMeSectionCommon.module.css";
@@ -64,7 +65,7 @@ const AboutMeSection = ({ showTitle = true }) => {
           transition={{ duration: 0.5, delay: 0.4, ease: "easeOut" }}
         >
           I founded <strong>Megicode</strong>, a software company that ships
-          products for startups and businesses, and built{" "}
+          products for clients and businesses, and built{" "}
           <strong>CampusAxis</strong>, a study platform now used across 260+
           Pakistani universities. I've worked on various AI/ML projects for
           different companies over the years, while finishing my BSc in
@@ -74,6 +75,33 @@ const AboutMeSection = ({ showTitle = true }) => {
           an idea from notebook to production — model, backend, UI, and ship
           — I'm probably the person you want on the call.
         </motion.p>
+
+        <motion.div
+          className={commonStyles.learnMoreRow}
+          initial={{ opacity: 0, y: 16 }}
+          animate={controls}
+          transition={{ duration: 0.5, delay: 0.55, ease: "easeOut" }}
+        >
+          <Link
+            href="/about"
+            className={`${commonStyles.learnMoreLink} ${themeStyles.learnMoreLink}`}
+          >
+            Learn more about me
+            <svg
+              className={commonStyles.learnMoreArrow}
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
+            >
+              <line x1="5" y1="12" x2="19" y2="12" />
+              <polyline points="12 5 19 12 12 19" />
+            </svg>
+          </Link>
+        </motion.div>
       </div>
     </motion.section>
   );

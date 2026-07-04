@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import Image from "next/image";
 import { useTheme } from "../../context/ThemeContext";
+import Magnetic from "../AnimatedUI/Magnetic";
 
 const NavBar = () => {
   const [hover, setHover] = useState(false);
@@ -262,14 +263,16 @@ const NavBar = () => {
           <span className={styles.projectText}>Projects</span>
         </button>
 
-        {/* Contact section */}
-        <button
-          className={`${styles.contact} ${isContact ? styles.active : ""} ${styles.navItem}`}
-          onClick={() => handleScrollToSection("contact-section")}
-          type="button"
-        >
-          <span className={styles.contactText}>Contact</span>
-        </button>
+        {/* Contact section — conversion CTA, magnetic on desktop */}
+        <Magnetic>
+          <button
+            className={`${styles.contact} ${isContact ? styles.active : ""} ${styles.navItem}`}
+            onClick={() => handleScrollToSection("contact-section")}
+            type="button"
+          >
+            <span className={styles.contactText}>Contact</span>
+          </button>
+        </Magnetic>
       </div>
     </header>
   );

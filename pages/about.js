@@ -24,6 +24,7 @@ import {
 } from "lucide-react";
 import { MAIN_SECTIONS } from "../constants/navigation";
 import ThemeToggleIcon from "../components/Icon/gmicon";
+import FounderJourney from "../components/Journey/FounderJourney";
 
 const NavBarDesktop = dynamic(() => import("../components/NavBar_Desktop/nav-bar"), { ssr: false });
 const NavBarMobile = dynamic(() => import("../components/NavBar_Mobile/NavBar-mobile"), { ssr: false });
@@ -67,7 +68,7 @@ const ventures = [
   },
   {
     name: "CampusAxis",
-    role: "Founder & Product Lead · 260+ universities",
+    role: "Founder & Product Lead · students across 260+ universities",
     description:
       "An academic platform built from my own student pain — past papers, GPA/CGPA tools, merit calculators, and faculty insights for Pakistani universities.",
     link: "/projects/campusaxis-university-portal",
@@ -119,9 +120,9 @@ const timeline = [
 
 const stats = [
   { value: "2", label: "Platforms Founded" },
-  { value: "260+", label: "Universities Served" },
+  { value: "260+", label: "Universities Reached" },
   { value: "3+", label: "Years AI/ML Experience" },
-  { value: "15+", label: "Projects Shipped" },
+  { value: "7", label: "Products Built" },
 ];
 
 /* -------------------------------------------------------
@@ -287,6 +288,13 @@ export default function AboutPage() {
                 project: I care about what happens after the code ships.
               </p>
             </div>
+          </section>
+        </ScrollReveal>
+
+        {/* ==================== FOUNDER JOURNEY ==================== */}
+        <ScrollReveal animation="fadeInUp" width="100%">
+          <section className={common.section} aria-labelledby="journey-title">
+            <FounderJourney />
           </section>
         </ScrollReveal>
 

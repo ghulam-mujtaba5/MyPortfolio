@@ -76,7 +76,7 @@ const Home = ({ previewProjects = [], previewArticles = [] }) => {
       {
         question: "Who is Ghulam Mujtaba?",
         answer:
-          "Ghulam Mujtaba is a Full Stack Developer, Data Scientist, and AI Specialist based in Lahore, Pakistan. He is the founder of Megicode, a software company, and the founder of CampusAxis, a student platform serving 260+ Pakistani universities. He has 3+ years of AI/ML experience working on various projects.",
+          "Ghulam Mujtaba is a Full Stack Developer, Data Scientist, and AI Specialist based in Lahore, Pakistan. He is the founder of Megicode, a software company, and the founder of CampusAxis, a student platform used by students across 260+ Pakistani universities. He has 3+ years of AI/ML experience working on various projects.",
       },
       {
         question: "What is Megicode?",
@@ -86,7 +86,7 @@ const Home = ({ previewProjects = [], previewArticles = [] }) => {
       {
         question: "What is CampusAxis?",
         answer:
-          "CampusAxis (campusaxis.com) is a student-focused platform built by Ghulam Mujtaba that serves students across 260+ Pakistani universities. It provides past papers, GPA calculation, faculty reviews, and study resources, with a decision-first product philosophy designed to reduce student friction during midterms and registration.",
+          "CampusAxis (campusaxis.com) is a student-focused platform built by Ghulam Mujtaba that is used by students across 260+ Pakistani universities. It provides past papers, GPA calculation, faculty reviews, and study resources, with a decision-first product philosophy designed to reduce student friction during midterms and registration.",
       },
       {
         question: "What services does Ghulam Mujtaba offer?",
@@ -120,7 +120,7 @@ const Home = ({ previewProjects = [], previewArticles = [] }) => {
     <>
       <SEO
         title="Ghulam Mujtaba | Founder, Megicode & CampusAxis · Full Stack + AI"
-        description="Founder of Megicode (software company, 10+ shipped products) and CampusAxis (student platform for 260+ Pakistani universities)."
+        description="Founder of Megicode (software company, 10+ shipped products) and CampusAxis (student platform used by students across 260+ Pakistani universities)."
         url="https://ghulammujtaba.com"
         image="https://ghulammujtaba.com/og-image.png"
         imageAlt="Ghulam Mujtaba — Founder of Megicode and CampusAxis, Full Stack Developer and AI Specialist"

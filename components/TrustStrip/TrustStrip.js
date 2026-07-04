@@ -3,12 +3,12 @@ import { motion } from "framer-motion";
 import { fade, VIEWPORT } from "../../lib/motion";
 import styles from "./TrustStrip.module.css";
 
-// Real proof only — no fake clients, no invented awards
+// Real proof only — no fake clients, no invented awards, no inflated status
 const PROOF_ITEMS = [
   { label: "Founder — Megicode" },
-  { label: "Built CampusAxis · 260+ universities" },
-  { label: "MegiLance — AI + blockchain platform" },
-  { label: "Commercial client platforms" },
+  { label: "Built CampusAxis · students across 260+ universities" },
+  { label: "3+ yrs AI/ML — Meta projects via Appen" },
+  { label: "Client work — shipped & paid" },
 ];
 
 /**

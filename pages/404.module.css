@@ -110,6 +110,37 @@
   transition: color 0.2s;
 }
 
+/* Recovery links under the primary CTA */
+.quickLinks {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.6rem 1.6rem;
+  margin-top: 1.8rem;
+}
+
+.quickLink {
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  color: var(--brand-primary, #4573df);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition:
+    color 0.15s,
+    border-color 0.15s;
+}
+
+.quickLink:hover,
+.quickLink:focus-visible {
+  border-bottom-color: currentColor;
+}
+
+[data-theme="dark"] .quickLink {
+  color: #4f8cff;
+}
+
 @media (max-width: 600px) {
   .title {
     font-size: 1.6rem;

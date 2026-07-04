@@ -7,6 +7,7 @@ import lightStyles from "./welcomeLight.module.css"; // Light mode CSS
 import darkStyles from "./welcomeDark.module.css"; // Dark mode CSS
 import WorkWithMeModal from "./WorkWithMeModal";
 import PipelineLine from "../AnimatedUI/PipelineLine";
+import Magnetic from "../AnimatedUI/Magnetic";
 
 const Introduction = () => {
   const { theme } = useTheme(); // Destructure theme from context
@@ -110,26 +111,28 @@ const Introduction = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, ease: "easeOut", delay: 0.7 }}
         >
-          <button
-            type="button"
-            className={`${commonStyles.heroCTA} ${commonStyles.heroCTAPrimary}`}
-            onClick={() => setIsModalOpen(true)}
-          >
-            Start a Project
-            <svg
-              className={commonStyles.heroCTAArrow}
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2.2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              aria-hidden="true"
+          <Magnetic>
+            <button
+              type="button"
+              className={`${commonStyles.heroCTA} ${commonStyles.heroCTAPrimary}`}
+              onClick={() => setIsModalOpen(true)}
             >
-              <line x1="5" y1="12" x2="19" y2="12" />
-              <polyline points="12 5 19 12 12 19" />
-            </svg>
-          </button>
+              Start a Project
+              <svg
+                className={commonStyles.heroCTAArrow}
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden="true"
+              >
+                <line x1="5" y1="12" x2="19" y2="12" />
+                <polyline points="12 5 19 12 12 19" />
+              </svg>
+            </button>
+          </Magnetic>
           <Link
             href="/projects"
             className={`${commonStyles.heroCTA} ${commonStyles.heroCTASecondary}`}

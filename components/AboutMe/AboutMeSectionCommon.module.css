@@ -76,6 +76,54 @@
 }
 
 
+/* ── LEARN MORE CTA ──────────────────────────────────────────
+   "Learn more about me" link under the description, pointing
+   to the full /about page.                                    */
+.learnMoreRow {
+  margin-top: 22px;
+}
+
+.learnMoreLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 20px;
+  border-radius: 10px;
+  font-family: "Open Sans", sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  text-decoration: none;
+  border: 1px solid transparent;
+  transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+}
+
+.learnMoreArrow {
+  width: 16px;
+  height: 16px;
+  transition: transform 0.2s ease;
+}
+
+.learnMoreLink:hover {
+  transform: translateY(-2px);
+}
+
+.learnMoreLink:hover .learnMoreArrow {
+  transform: translateX(4px);
+}
+
+.learnMoreLink:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(69, 115, 223, 0.35);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .learnMoreLink,
+  .learnMoreArrow {
+    transition: none;
+  }
+}
+
+
 /* ── TABLET (≤ 980 px wide) ─────────────────────────────────
    Triggered when the screen is narrower than 980 px (tablets,
    small laptops).

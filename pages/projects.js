@@ -214,8 +214,9 @@ const ProjectsPage = ({ projects = [], projectsError = null }) => {
               </h2>
               <p className={styles.heroDesc}>
                 Each project is a case study: the problem, my role, what I
-                built, and what shipped — from student platforms serving 260+
-                universities to commercial systems for paying clients.
+                built, and what shipped — from a student platform used by
+                students across 260+ universities to a commercial system
+                built for a paying client.
               </p>
             </div>
           </section>
@@ -263,7 +264,7 @@ const ProjectsPage = ({ projects = [], projectsError = null }) => {
                         Featured
                       </span>
                     )}
-                    <Project1 project={project} />
+                    <Project1 project={project} featured={isFeatured} />
                   </ScrollReveal>
                 );
               })

@@ -182,7 +182,7 @@ export function personSchema(overrides = {}) {
       height: 630,
     },
     description:
-      "Founder of Megicode and CampusAxis (student platform serving 260+ Pakistani universities). Full Stack Developer, Data Scientist, and AI Specialist based in Lahore, Pakistan.",
+      "Founder of Megicode and CampusAxis (student platform used by students across 260+ Pakistani universities). Full Stack Developer, Data Scientist, and AI Specialist based in Lahore, Pakistan.",
     jobTitle: "Founder & Technical Co-founder · Full Stack + AI",
     email: "mailto:ghulammujtaba1005@gmail.com",
     telephone: "+923177107849",

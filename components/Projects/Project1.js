@@ -43,7 +43,7 @@ const resolveImage = (project) => {
   };
 };
 
-const ProjectCard = React.memo(({ project }) => {
+const ProjectCard = React.memo(({ project, featured = false }) => {
   const router = useRouter();
 
   const handleCardClick = useCallback(
@@ -82,7 +82,7 @@ const ProjectCard = React.memo(({ project }) => {
 
   return (
     <article
-      className={styles.card}
+      className={`${styles.card} ${featured ? styles.cardFeatured : ""}`}
       aria-labelledby={titleId}
       onClick={handleCardClick}
       onKeyDown={handleKeyDown}
@@ -215,10 +215,10 @@ const ProjectCard = React.memo(({ project }) => {
 ProjectCard.displayName = "ProjectCard";
 
 // Accepts either props.projectOverride or falls back to props.project (for compatibility)
-const Project1 = ({ projectOverride, project }) => {
+const Project1 = ({ projectOverride, project, featured = false }) => {
   const cardProject = projectOverride || project;
   if (!cardProject) return null;
-  return <ProjectCard project={cardProject} />;
+  return <ProjectCard project={cardProject} featured={featured} />;
 };
 
 export default Project1;

@@ -12,3 +12,13 @@
 .aboutMeSection {
   color: #1d2127; /* Ensure text is visible on light background */
 }
+
+.learnMoreLink {
+  background: rgba(69, 115, 223, 0.08);
+  color: #4573df;
+  border-color: rgba(69, 115, 223, 0.24);
+}
+
+.learnMoreLink:hover {
+  background: rgba(69, 115, 223, 0.14);
+}

@@ -6,6 +6,7 @@ import ProjectGallery from "./ProjectGallery";
 import baseStyles from "./ProjectDetailBaseCommon.module.css";
 import lightStyles from "./ProjectDetail.light.module.css";
 import darkStyles from "./ProjectDetail.dark.module.css";
+import caseStyles from "./CaseFacts.module.css";
 
 const ProjectDetail = ({ project, relatedProjects = [] }) => {
   const { theme } = useTheme();
@@ -44,7 +45,31 @@ const ProjectDetail = ({ project, relatedProjects = [] }) => {
     );
   }
 
-  const { title, description, image, showImage, showGallery, gallery, tags, category, links } = project;
+  const {
+    title,
+    description,
+    image,
+    showImage,
+    showGallery,
+    gallery,
+    tags,
+    category,
+    links,
+    role,
+    problem,
+    solution,
+    outcome,
+    status,
+  } = project;
+
+  // Case-study facts — render only what actually exists (plan §5.3)
+  const caseFacts = [
+    { key: "Role", value: role },
+    { key: "Problem", value: problem },
+    { key: "Built", value: solution },
+    { key: "Outcome", value: outcome, outcome: true },
+  ].filter((f) => typeof f.value === "string" && f.value.trim());
+  const inProgress = status === "In Progress";
 
   // Combine styles based on theme
   const themeStyles = theme === "dark" ? darkStyles : lightStyles;
@@ -95,6 +120,14 @@ const ProjectDetail = ({ project, relatedProjects = [] }) => {
       </nav>
 
       {/* ...existing code... */}
+
+      {/* Case-study eyebrow + build status */}
+      <div className={caseStyles.eyebrowRow}>
+        <span className={caseStyles.eyebrow}>
+          Case study{category ? ` · ${category}` : ""}
+        </span>
+        {inProgress && <span className={caseStyles.statusChip}>In build</span>}
+      </div>
 
       {/* Project Title */}
       <h1 className={`${baseStyles.title} ${themeStyles.title || ""}`}>
@@ -174,6 +207,23 @@ const ProjectDetail = ({ project, relatedProjects = [] }) => {
           </button>
         </div>
       </div>
+
+      {/* Case-study facts — Role / Problem / Built / Outcome */}
+      {caseFacts.length > 0 && (
+        <dl className={caseStyles.facts} aria-label="Case study summary">
+          {caseFacts.map((f) => (
+            <div
+              key={f.key}
+              className={`${caseStyles.factRow} ${f.outcome ? caseStyles.factOutcome : ""}`}
+            >
+              <dt className={caseStyles.factKey}>{f.key}</dt>
+              <dd>
+                <span>{f.value}</span>
+              </dd>
+            </div>
+          ))}
+        </dl>
+      )}
 
       {/* Project Description */}
       {description && (

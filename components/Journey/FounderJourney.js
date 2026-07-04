@@ -19,12 +19,12 @@ const MILESTONES = [
   {
     year: "2024",
     title: "Built CampusAxis",
-    text: "Turned my own student pain into a platform — past papers, GPA tools, faculty insights for 260+ universities.",
+    text: "Turned my own student pain into a platform — past papers, GPA tools, faculty insights used by students across 260+ universities.",
   },
   {
     year: "2025",
     title: "Founded Megicode",
-    text: "Started shipping for clients — including a full clinic website and management system for a paying customer.",
+    text: "Started shipping client work — a full clinic website and management system, built and paid for by a real customer.",
   },
   {
     year: "2026",
