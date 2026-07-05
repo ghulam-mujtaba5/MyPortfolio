@@ -181,6 +181,7 @@
   gap: 0.7rem;
   justify-content: center;
   margin: 2rem 0 1.5rem 0;
+  padding: 0 clamp(16px, 2.5vw, 24px);
   opacity: 0;
   transform: translateY(30px);
   animation: fadeInUp 0.7s cubic-bezier(0.39, 0.575, 0.565, 1) forwards;
@@ -240,27 +241,28 @@
 
 /* ---- Grid ---- */
 .grid {
+  --page-gutter: clamp(16px, 2.5vw, 24px);
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
   gap: 2.5rem;
-  padding: 2rem 0;
+  padding: 2rem var(--page-gutter);
   width: 100%;
   max-width: var(--container-max, 1200px);
   margin: 0 auto;
+  justify-items: center;
 }
 @media (max-width: 900px) {
   .grid {
     grid-template-columns: 1fr;
     gap: 1.2rem;
-    padding: 1.2rem 1rem;
+    padding: 1.2rem var(--page-gutter);
   }
 }
 @media (max-width: 600px) {
   .grid {
     grid-template-columns: 1fr;
     gap: 1.2rem;
-    padding: 1.8rem 1rem 1.2rem 1rem;
-    justify-items: center;
+    padding: 1.8rem var(--page-gutter) 1.2rem var(--page-gutter);
   }
 }
 
