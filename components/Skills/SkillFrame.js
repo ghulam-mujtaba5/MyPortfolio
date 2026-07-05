@@ -94,7 +94,7 @@ const SkillFrame = () => {
       <SectionHeader
         eyebrow="How I build"
         title="Capabilities"
-        lede="Fewer logos, more leverage — each group is a capability I use to ship products, not a list of tutorials."
+        lede="each group is a capability I use to ship products, not a list of tutorials."
         id="skills-title"
       />
 

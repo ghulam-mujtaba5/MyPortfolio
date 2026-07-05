@@ -620,7 +620,7 @@
 /* ── Conversion band ── */
 .ctaBand {
   border: 1px solid var(--border-subtle, rgba(0, 0, 0, 0.08));
-  border-top: 3px solid var(--cta-accent, #d9480f);
+  border-top: 3px solid var(--brand-primary, #4573df);
   border-radius: var(--radius-card, 16px);
   background: var(--bg-elevated, #ffffff);
   box-shadow: var(--shadow-card, 0 8px 24px rgba(15, 27, 51, 0.08));
@@ -631,7 +631,7 @@
 :global([data-theme="dark"]) .ctaBand {
   background: #19212c;
   border-color: rgba(126, 179, 255, 0.12);
-  border-top-color: var(--cta-accent, #d9480f);
+  border-top-color: var(--brand-primary, #4573df);
 }
 
 .ctaTitle {

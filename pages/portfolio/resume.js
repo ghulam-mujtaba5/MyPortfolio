@@ -53,9 +53,6 @@ const ResumePage = ({ resume }) => {
         <main id="main-content" className={theme === 'dark' ? 'darkTheme' : 'lightTheme'}>
         {resume && (
           <div className="resumeActions" data-noprint>
-            <span className="resumeHint">
-              ATS-friendly PDF — the same content as this page
-            </span>
             <a
               href={`/api/download-resume?url=${encodeURIComponent(resume.url)}&filename=${encodeURIComponent(resume.filename)}`}
               className="downloadButton"
@@ -68,19 +65,6 @@ const ResumePage = ({ resume }) => {
         <ScrollReveal animation="fadeInUp" width="100%">
           <Resume />
         </ScrollReveal>
-        {resume && (
-          <ScrollReveal animation="fadeInUp" delay={200}>
-            <div style={{ display: 'flex', justifyContent: 'center', width: '100%' }} data-noprint>
-              <a
-                href={`/api/download-resume?url=${encodeURIComponent(resume.url)}&filename=${encodeURIComponent(resume.filename)}`}
-                className="downloadButton"
-                download
-              >
-                Download Resume PDF
-              </a>
-            </div>
-          </ScrollReveal>
-        )}
       </main>
       <Footer />
       </div>
