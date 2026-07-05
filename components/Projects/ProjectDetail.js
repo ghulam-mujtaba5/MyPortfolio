@@ -252,7 +252,7 @@ const ProjectDetail = ({ project }) => {
 
       {/* ── Screenshot(s) in browser-chrome frame ── */}
       {shouldShowGallery && (
-        <figure className={styles.frame}>
+        <figure className={`${styles.frame} ${isMobileApp ? styles.frameMobile : ""}`}>
           <div className={styles.chromeBar} aria-hidden="true">
             <span className={styles.chromeDots}>
               <span />

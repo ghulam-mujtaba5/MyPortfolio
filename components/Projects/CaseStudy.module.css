@@ -235,6 +235,13 @@
   background: var(--bg-elevated, #ffffff);
   box-shadow: var(--shadow-card, 0 8px 24px rgba(15, 27, 51, 0.08));
   margin-bottom: 44px;
+  transition: max-width 0.3s ease;
+}
+
+.frameMobile {
+  max-width: 410px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 :global([data-theme="dark"]) .frame {

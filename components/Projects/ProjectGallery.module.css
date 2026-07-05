@@ -108,8 +108,12 @@
 
 .mainDisplay.mobileApp .imageWrapper {
     min-height: 280px;
-    max-height: 500px;
+    max-height: 700px;
     padding: 8px;
+}
+
+.mainDisplay.mobileApp .mainImage {
+    max-height: 680px;
 }
 
 .mainImage {
