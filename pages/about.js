@@ -275,8 +275,7 @@ export default function AboutPage() {
                 has grown into founding a software company and shipping products used by real people.
               </p>
               <p>
-                I founded MegiCode to build digital products for clients, created CampusAxis to solve
-                real problems in how universities manage their operations, and built MegiLance &mdash;
+                I founded MegiCode to build digital products for clients, created CampusAxis — started from COMSATS student problems and expanded into a Pakistani university platform covering 260+ universities — and built MegiLance &mdash;
                 an AI-powered freelancing platform &mdash; as my final year project. Running these
                 alongside my studies taught me more about product thinking, deadlines, and user needs
                 than any classroom could.

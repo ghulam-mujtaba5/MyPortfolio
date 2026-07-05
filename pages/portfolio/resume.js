@@ -36,7 +36,7 @@ const ResumePage = ({ resume }) => {
               'https://leetcode.com/u/ghulam-mujtaba',
               'https://linktr.ee/ghulam__mujtaba',
               'https://www.megicode.com',
-              'https://www.campusaxis.com',
+              'https://campusaxis.pk',
             ],
           }),
           breadcrumbSchema([

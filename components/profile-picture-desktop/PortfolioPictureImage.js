@@ -7,8 +7,8 @@ import styles from "./profile-picture.module.css"; // Adjust path as per your pr
 // CampusAxis has real user traffic across 260+ universities; the AI/ML years
 // are Meta-platform work via Appen; the client platform was shipped and paid.
 const PROOF_CHIPS = [
-  { label: "CampusAxis · 260+ universities", className: "chipTopLeft", drift: 7, duration: 9 },
-  { label: "3+ yrs AI/ML · Meta projects", className: "chipRight", drift: 6, duration: 11 },
+  { label: "Full-Stack Developer · Product Builder", className: "chipTopLeft", drift: 7, duration: 9 },
+  { label: "Founder · Megicode & CampusAxis", className: "chipRight", drift: 6, duration: 11 },
   { label: "Client platform · shipped & paid", className: "chipBottomLeft", drift: 5, duration: 8 },
 ];
 

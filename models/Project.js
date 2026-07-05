@@ -72,6 +72,24 @@ const ProjectSchema = new mongoose.Schema(
       trim: true,
       default: "",
     },
+    // Who the product is built for (case-study "Users" section)
+    users: {
+      type: String,
+      trim: true,
+      default: "",
+    },
+    // Key features — newline or comma-separated list
+    features: {
+      type: String,
+      trim: true,
+      default: "",
+    },
+    // Reflection — what was learned building this
+    learned: {
+      type: String,
+      trim: true,
+      default: "",
+    },
     status: {
       type: String,
       enum: ["In Progress", "Completed", "Archived"],

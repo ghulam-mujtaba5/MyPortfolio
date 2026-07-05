@@ -86,7 +86,7 @@ const Home = ({ previewProjects = [], previewArticles = [] }) => {
       {
         question: "What is CampusAxis?",
         answer:
-          "CampusAxis (campusaxis.com) is a student-focused platform built by Ghulam Mujtaba that is used by students across 260+ Pakistani universities. It provides past papers, GPA calculation, faculty reviews, and study resources, with a decision-first product philosophy designed to reduce student friction during midterms and registration.",
+          "CampusAxis (campusaxis.pk) — started from COMSATS student problems and expanded into a Pakistani university platform covering 260+ universities. It provides past papers, GPA calculation, faculty reviews, and study resources, with a decision-first product philosophy designed to reduce student friction during midterms and registration.",
       },
       {
         question: "What services does Ghulam Mujtaba offer?",
@@ -106,7 +106,7 @@ const Home = ({ previewProjects = [], previewArticles = [] }) => {
       {
         question: "Where is Ghulam Mujtaba based?",
         answer:
-          "Ghulam Mujtaba is based in Lahore, Punjab, Pakistan (Asia/Karachi, UTC+5). He is currently in his 8th semester of a BSc in Software Engineering at COMSATS University Islamabad, Lahore Campus, with expected graduation in June 2026.",
+          "Ghulam Mujtaba is based in Lahore, Punjab, Pakistan (Asia/Karachi, UTC+5). He graduated in June 2026 with a BSc in Software Engineering from COMSATS University Islamabad, Lahore Campus.",
       },
       {
         question: "What type of software engineering roles is Ghulam Mujtaba seeking?",

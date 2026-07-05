@@ -70,7 +70,7 @@ const Footer = ({
               </a>{" "}
               and{" "}
               <a
-                href="https://www.campusaxis.com"
+                href="https://campusaxis.pk"
                 target="_blank"
                 rel="noopener noreferrer"
               >

@@ -57,15 +57,6 @@ const Introduction = () => {
         ref={ref}
         className={`${commonStyles.textContainer} ${theme === "dark" ? darkStyles.textContainer : lightStyles.textContainer}`}
       >
-        <motion.p
-          className={commonStyles.eyebrow}
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, ease: "easeOut" }}
-        >
-          Founder · Megicode &amp; CampusAxis
-        </motion.p>
-
         <motion.h1
           className={`${commonStyles.text} ${theme === "dark" ? darkStyles.text : lightStyles.text}`}
           initial={{ opacity: 0, y: 30 }}
@@ -111,7 +102,7 @@ const Introduction = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, ease: "easeOut", delay: 0.7 }}
         >
-          <Magnetic>
+          <Magnetic className={commonStyles.magneticWrap}>
             <button
               type="button"
               className={`${commonStyles.heroCTA} ${commonStyles.heroCTAPrimary}`}

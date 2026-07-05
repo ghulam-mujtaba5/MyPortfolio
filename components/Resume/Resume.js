@@ -83,10 +83,10 @@ const Resume = () => {
           <div className={commonStyles.item}>
             <div className={commonStyles.header}>
               <strong>COMSATS University Islamabad, Lahore Campus</strong>
-              <span className={commonStyles.date}>2022 – Present</span>
+              <span className={commonStyles.date}>2022 – 2026</span>
             </div>
             <div className={commonStyles.role}>
-              BSc in Software Engineering · Expected June 2026
+              BSc in Software Engineering · June 2026
             </div>
           </div>
         </div>
@@ -119,7 +119,7 @@ const Resume = () => {
               <span className={commonStyles.date}>2024 – Present</span>
             </div>
             <div className={commonStyles.role}>
-              <a href="https://campusaxis.com" target="_blank" rel="noopener noreferrer">campusaxis.com</a>
+              <a href="https://campusaxis.pk" target="_blank" rel="noopener noreferrer">campusaxis.pk</a>
               <span className={commonStyles.sep}> · </span>
               Used across 260+ Pakistani universities
             </div>

@@ -29,6 +29,7 @@
   letter-spacing: 0.04em;
   color: var(--text-tertiary, #6b7280);
   white-space: nowrap;
+  flex-shrink: 0;
 }
 
 /* Separator dots between items */
@@ -73,6 +74,14 @@
   .inner {
     justify-content: flex-start;
     column-gap: 10px;
+    flex-direction: column;
+    align-items: flex-start;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .item {
+    white-space: normal;
   }
 
   /* Drop the least-important chip on small screens */
@@ -80,7 +89,8 @@
     display: none;
   }
 
+  /* Remove the separator dots in column layout */
   .item + .item::before {
-    margin-right: 10px;
+    display: none;
   }
 }
