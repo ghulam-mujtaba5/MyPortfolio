@@ -6,6 +6,7 @@ import { createAuditLog } from "../../../lib/auditLog";
 // import { apiRateLimiter, applyRateLimiter } from '../../../lib/rate-limiter';
 import { validate } from "../../../lib/validation/validator";
 import { updateProjectSchema } from "../../../lib/validation/schemas";
+import { revalidateProject } from "../../../utils/revalidate";
 
 const slugify = (str) =>
   str
@@ -88,6 +89,9 @@ async function handler(req, res) {
             details: `Project updated: ${project.title || project.name || project.slug}`,
           });
 
+          // Trigger on-demand ISR revalidation for public pages
+          await revalidateProject(res, project.slug);
+
           return res.status(200).json({ success: true, data: project });
         } else {
           const project = await Project.findOneAndDelete(filter);
@@ -104,6 +108,9 @@ async function handler(req, res) {
             entityId: project._id.toString(),
             details: `Project deleted: ${project.title || project.name || project.slug}`,
           });
+
+          // Trigger on-demand ISR revalidation for public pages
+          await revalidateProject(res, project.slug);
 
           return res.status(204).end();
         }

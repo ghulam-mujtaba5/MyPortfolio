@@ -2,6 +2,7 @@
 import { getToken } from "next-auth/jwt";
 import dbConnect from "../../../lib/mongoose";
 import Project from "../../../models/Project";
+import { revalidateProject } from "../../../utils/revalidate";
 
 export default async function handler(req, res) {
   const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
@@ -35,6 +36,9 @@ export default async function handler(req, res) {
     }));
 
     await Project.bulkWrite(ops, { ordered: false });
+
+    // Trigger on-demand revalidation for home page and projects listing
+    await revalidateProject(res);
 
     return res.status(200).json({ success: true, message: "Project order updated." });
   } catch (error) {

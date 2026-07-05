@@ -2,6 +2,7 @@ import { getToken } from "next-auth/jwt";
 import dbConnect from "../../../lib/mongoose";
 import Project from "../../../models/Project";
 import { createAuditLog } from "../../../lib/auditLog";
+import { revalidateProject } from "../../../utils/revalidate";
 
 export default async function handler(req, res) {
   const session = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
@@ -23,12 +24,24 @@ export default async function handler(req, res) {
   }
 
   try {
+    // Fetch slugs of affected projects before mutating for revalidation
+    const affectedProjects = await Project.find({ _id: { $in: ids } }).select("slug").lean();
+
     const result = await Project.deleteMany({ _id: { $in: ids } });
     if (result.deletedCount === 0) {
       return res
         .status(404)
         .json({ message: "No matching projects found to delete." });
     }
+
+    // Trigger revalidation for deleted projects
+    await revalidateProject(res);
+    for (const p of affectedProjects) {
+      if (p.slug) {
+        await revalidateProject(res, p.slug);
+      }
+    }
+
     await createAuditLog({
       session,
       action: "bulk_delete",

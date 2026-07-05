@@ -6,6 +6,7 @@ import { createAuditLog } from "../../../lib/auditLog";
 // import { apiRateLimiter, applyRateLimiter } from '../../../lib/rate-limiter';
 import { validate } from "../../../lib/validation/validator";
 import { bulkActionSchema } from "../../../lib/validation/schemas";
+import { revalidateProject } from "../../../utils/revalidate";
 
 async function handler(req, res) {
   const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
@@ -21,6 +22,9 @@ async function handler(req, res) {
     try {
       let result;
       let auditAction;
+
+      // Fetch slugs of affected projects before mutating for revalidation
+      const affectedProjects = await Project.find({ _id: { $in: projectIds } }).select("slug").lean();
 
       switch (action) {
         case "publish":
@@ -45,6 +49,14 @@ async function handler(req, res) {
           return res
             .status(400)
             .json({ success: false, message: "Invalid action" });
+      }
+
+      // Trigger revalidation for all affected projects
+      await revalidateProject(res);
+      for (const p of affectedProjects) {
+        if (p.slug) {
+          await revalidateProject(res, p.slug);
+        }
       }
 
       // Create a single audit log for the bulk action

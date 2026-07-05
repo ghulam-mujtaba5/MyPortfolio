@@ -5,6 +5,7 @@ import { createAuditLog } from "../../../lib/auditLog";
 // import { apiRateLimiter, applyRateLimiter } from '../../../lib/rate-limiter';
 import { validate } from "../../../lib/validation/validator";
 import { createProjectSchema } from "../../../lib/validation/schemas";
+import { revalidateProject } from "../../../utils/revalidate";
 
 const slugify = (str) =>
   str
@@ -82,6 +83,9 @@ async function handler(req, res) {
           entityId: project._id.toString(),
           details: `Project created: ${project.title || project.name || project.slug}`,
         });
+
+        // Trigger on-demand ISR revalidation for public pages
+        await revalidateProject(res, project.slug);
 
         res.status(201).json({ success: true, data: project });
       } catch (error) {

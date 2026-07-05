@@ -36,10 +36,18 @@ const ProjectGallery = ({
       });
     }
     
-    // Add gallery images sorted by order
+    // Add gallery images sorted by order, filtering out duplicates of the main image
     if (gallery && gallery.length > 0) {
       const sortedGallery = [...gallery].sort((a, b) => (a.order || 0) - (b.order || 0));
-      images.push(...sortedGallery);
+      
+      const normalizedMain = mainImage ? String(mainImage).trim().replace(/^\/+/, "") : "";
+      const filteredGallery = sortedGallery.filter(item => {
+        if (!item || !item.url) return false;
+        const normalizedUrl = String(item.url).trim().replace(/^\/+/, "");
+        return normalizedUrl !== normalizedMain;
+      });
+      
+      images.push(...filteredGallery);
     }
     
     return images;
