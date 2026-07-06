@@ -1,0 +1,40 @@
+/* Tilt — 3D pointer-tilt wrapper + specular glare layer.
+   Single-module pattern: tokens + [data-theme] overrides. */
+
+.tilt {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+/* Specular highlight that tracks the cursor across the card "glass".
+   Positioned by --gx/--gy and faded by --glare-o, all set on the .tilt
+   root by Tilt.js — placed inside the card so overflow:hidden clips it. */
+.glare {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  opacity: var(--glare-o, 0);
+  transition: opacity 0.35s ease;
+  background: radial-gradient(
+    560px circle at var(--gx, 50%) var(--gy, 50%),
+    rgba(255, 255, 255, 0.14),
+    transparent 62%
+  );
+}
+
+:global([data-theme="dark"]) .glare {
+  background: radial-gradient(
+    560px circle at var(--gx, 50%) var(--gy, 50%),
+    rgba(184, 213, 255, 0.09),
+    transparent 62%
+  );
+}
+
+/* Touch devices and reduced motion: no glare ever */
+@media (hover: none), (prefers-reduced-motion: reduce) {
+  .glare {
+    display: none;
+  }
+}

@@ -26,6 +26,8 @@ const ContactSection = dynamic(
 import { useTheme } from "../../context/ThemeContext";
 import ThemeToggleIcon from "../../components/Icon/gmicon";
 import ScrollReveal from "../../components/AnimatedUI/ScrollReveal";
+import HeroDepth from "../../components/AnimatedUI/HeroDepth";
+import AmbientOrbs from "../../components/AnimatedUI/AmbientOrbs";
 
 import Head from "next/head";
 import SEO, {
@@ -172,6 +174,8 @@ const Home = ({ previewProjects = [], previewArticles = [] }) => {
             aria-label="Introduction — Ghulam Mujtaba, Founder of Megicode and CampusAxis"
             style={{ width: "100%" }}
           >
+            <HeroDepth targetId="home-section" />
+            <AmbientOrbs variant="hero" />
             <PortfolioPictureImage
               style={{
                 width: "100%",

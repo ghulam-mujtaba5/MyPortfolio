@@ -8,6 +8,7 @@ import darkStyles from "./ProjectsPreviewDark.module.css";
 
 import Project1 from "./Project1";
 import SectionHeader from "../AnimatedUI/SectionHeader";
+import AmbientOrbs from "../AnimatedUI/AmbientOrbs";
 
 const ProjectsPreview = ({ projects = [] }) => {
   const { theme } = useTheme();
@@ -97,6 +98,7 @@ const ProjectsPreview = ({ projects = [] }) => {
         opacity: hasEntered ? 1 : 0.7,
       }}
     >
+      <AmbientOrbs variant="projects" />
       <SectionHeader
         eyebrow="Proof of work"
         title="Products, not just projects"

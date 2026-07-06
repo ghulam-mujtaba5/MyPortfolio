@@ -2,6 +2,7 @@ import React from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { rise, stagger, VIEWPORT } from "../../lib/motion";
 import SectionHeader from "../AnimatedUI/SectionHeader";
+import AmbientOrbs from "../AnimatedUI/AmbientOrbs";
 import styles from "./FounderJourney.module.css";
 
 // Real milestones only — the same Idea → Launch arc as the hero pipeline
@@ -43,6 +44,7 @@ const FounderJourney = () => {
 
   return (
     <div className={styles.wrapper}>
+      <AmbientOrbs variant="journey" />
       <SectionHeader
         eyebrow="Founder journey"
         title="From student pain to shipped products"

@@ -42,3 +42,8 @@ The kebab-case `.image-container` rules are dead code (component uses `styles.im
 - `aestheticsplace.pk`, `megilance.site`, `campusaxis.site` (project cards' Live links)
 
 Dead outbound links hurt trust and SEO — quick quarterly check.
+
+## 7. Oversized project screenshot — Aesthetics Clinic (3.4 MB)
+`/api/media/file/698883da5ed56565d5cbfeeb` (the Aesthetics Clinic card image) is **3,429,263 bytes** and takes ~2.7s to serve even locally — it's the heaviest asset on the homepage and projects grid (for comparison, the MegiLance shot is 167 KB). GridFS media bypasses `next/image` optimization (`unoptimized`), so the full file ships to every visitor.
+
+**Fix:** re-export/compress the screenshot (target ≤ 250 KB — resize to ~1280px wide, JPEG/WebP q75) and re-upload via the admin media manager, then update the project's `image` field. While in there, spot-check other GridFS images for size (`scripts/audit-media.mjs` could be extended to flag files > 300 KB).

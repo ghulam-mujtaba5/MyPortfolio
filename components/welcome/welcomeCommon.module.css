@@ -355,3 +355,23 @@
     text-align: center;
   }
 }
+
+/* ── Cursor-reactive hero depth (plan §2.1) ──
+   --hx/--hy are set on #home-section by AnimatedUI/HeroDepth.js.
+   The text block is the nearest plane: it drifts gently WITH the cursor.
+   `translate` is the independent CSS property, so the existing transforms
+   are untouched. Desktop fine-pointer only. */
+@media (min-width: 981px) and (hover: hover) and (pointer: fine) {
+  .textContainer {
+    translate: calc(var(--hx, 0) * 6px) calc(var(--hy, 0) * 4px);
+    transition: translate 0.6s var(--ease-out, cubic-bezier(0, 0, 0.2, 1));
+    will-change: translate;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .textContainer {
+    translate: none;
+    transition: none;
+  }
+}

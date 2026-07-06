@@ -1,0 +1,123 @@
+/* AmbientOrbs — CSS-only 3D glass spheres, one motif shared by sections.
+   Single-module pattern: tokens + [data-theme] overrides. */
+
+.orbLayer {
+  position: absolute;
+  inset: 0;
+  z-index: 0; /* behind positioned/animated section content */
+  pointer-events: none;
+  overflow: hidden;
+}
+
+/* Sphere illusion: hard specular highlight + shaded body + contact shadow */
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  background:
+    radial-gradient(
+      circle at 31% 27%,
+      rgba(255, 255, 255, 0.95),
+      rgba(255, 255, 255, 0) 36%
+    ),
+    radial-gradient(
+      circle at 32% 30%,
+      #b7cdfa 0%,
+      #7d9fec 46%,
+      #4a6fd0 76%,
+      #33509f 100%
+    );
+  box-shadow:
+    inset -14px -18px 34px rgba(15, 27, 51, 0.3),
+    inset 7px 9px 20px rgba(255, 255, 255, 0.55),
+    0 26px 44px -18px rgba(15, 27, 51, 0.38);
+  animation: orbFloat 12s ease-in-out infinite alternate;
+}
+
+:global([data-theme="dark"]) .orb {
+  background:
+    radial-gradient(
+      circle at 31% 27%,
+      rgba(235, 244, 255, 0.65),
+      rgba(235, 244, 255, 0) 36%
+    ),
+    radial-gradient(
+      circle at 32% 30%,
+      #7ba3ff 0%,
+      #4670da 46%,
+      #26438a 76%,
+      #17294f 100%
+    );
+  box-shadow:
+    inset -14px -18px 34px rgba(0, 0, 0, 0.55),
+    inset 7px 9px 20px rgba(163, 197, 255, 0.38),
+    0 26px 52px -16px rgba(79, 140, 255, 0.3);
+}
+
+/* ── Hero: single far sphere, blurred for depth of field, rides the
+      cursor-depth vars set on #home-section by HeroDepth ── */
+.heroFar {
+  width: 58px;
+  height: 58px;
+  right: 5%;
+  top: 13%;
+  opacity: 0.8;
+  filter: blur(1.6px);
+  translate: calc(var(--hx, 0) * -8px) calc(var(--hy, 0) * -6px);
+  transition: translate 1s var(--ease-out, cubic-bezier(0, 0, 0.2, 1));
+  animation-duration: 15s;
+}
+
+/* ── Founder Journey: empty band right of the left-aligned header ── */
+.journeyMain {
+  width: 118px;
+  height: 118px;
+  right: 4%;
+  top: 34px;
+  opacity: 0.92;
+}
+
+.journeySmall {
+  width: 46px;
+  height: 46px;
+  right: 19%;
+  top: 118px;
+  opacity: 0.75;
+  filter: blur(1.4px);
+  animation-duration: 15s;
+  animation-delay: -7s;
+}
+
+/* ── Proof of Work: beside the section header ── */
+.projectsMain {
+  width: 92px;
+  height: 92px;
+  right: 6%;
+  top: 44px;
+  opacity: 0.9;
+  animation-duration: 11s;
+  animation-delay: -4s;
+}
+
+@keyframes orbFloat {
+  from {
+    transform: translateY(-9px);
+  }
+  to {
+    transform: translateY(11px);
+  }
+}
+
+/* Mobile/tablet: stacked flow layouts — no ambient layer */
+@media (max-width: 980px) {
+  .orbLayer {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .orb {
+    animation: none;
+    translate: none;
+    transition: none;
+  }
+}

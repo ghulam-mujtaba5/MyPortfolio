@@ -12,7 +12,10 @@
   max-width: 500px;
   height: auto;
   left: 78%;
-  margin-top: 25%;
+  /* 25% scales with viewport width — beyond 1440px that pushed the portrait
+     below the orbit rings and over the trust strip, so cap at the 1440px
+     value (360px) to keep portrait and rings concentric on wide screens */
+  margin-top: min(25%, 360px);
   transform: translate(-50%, -50%);
   padding-bottom: 0;
   z-index: 2;
@@ -180,5 +183,38 @@
 @media (max-width: 576px) {
   .ellipseDiv {
     animation: popUp 2s ease-in-out; /* Slower, calmer entrance on phones */
+  }
+}
+
+/* ── Cursor-reactive hero depth (plan §2.1) ──
+   --hx/--hy are set on #home-section by AnimatedUI/HeroDepth.js.
+   IMPORTANT: on desktop .imageContainer has NO positioning styles — the
+   image/rings/chips anchor to #home-section directly, so the parallax
+   must go on those already-positioned layers, never on the container
+   (translate would turn it into their containing block and break the
+   whole hero geometry). `translate` is the independent property, so the
+   centering transforms and the ring-burst animation stay untouched. */
+@media (min-width: 981px) and (hover: hover) and (pointer: fine) {
+  .image,
+  .baseRing,
+  .ellipseDiv {
+    translate: calc(var(--hx, 0) * -10px) calc(var(--hy, 0) * -7px);
+    transition: translate 0.7s var(--ease-out, cubic-bezier(0, 0, 0.2, 1));
+  }
+
+  /* Chips are the nearest plane — they drift further than the portrait */
+  .chipLayer {
+    translate: calc(var(--hx, 0) * -18px) calc(var(--hy, 0) * -13px);
+    transition: translate 0.9s var(--ease-out, cubic-bezier(0, 0, 0.2, 1));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .image,
+  .baseRing,
+  .ellipseDiv,
+  .chipLayer {
+    translate: none;
+    transition: none;
   }
 }

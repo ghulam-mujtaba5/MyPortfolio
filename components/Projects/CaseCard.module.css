@@ -2,6 +2,7 @@
    Single-module pattern: tokens + [data-theme] overrides. */
 
 .card {
+  position: relative; /* anchors the TiltGlare specular layer */
   display: flex;
   flex-direction: column;
   width: 100%;

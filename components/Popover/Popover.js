@@ -1,7 +1,7 @@
 // components/Popover/Popover.js
 // Native Web Popover API component with smooth animations
 
-import { useRef, useEffect, useState, useCallback } from 'react';
+import { useRef, useEffect, useState, useCallback, useId } from 'react';
 import styles from './Popover.module.css';
 
 /**
@@ -22,7 +22,7 @@ import styles from './Popover.module.css';
  */
 export const Popover = ({
   children,
-  id = `popover-${Math.random().toString(36).substr(2, 9)}`,
+  id,
   placement = 'auto',
   manual = false,
   trigger = null,
@@ -31,10 +31,15 @@ export const Popover = ({
   onShow = null,
   onHide = null,
 }) => {
+  // React's useId() is stable across server and client render passes —
+  // Math.random() here previously produced a different id on each pass,
+  // which is a textbook hydration mismatch (id + CSS anchor-name diverged).
+  const generatedId = useId();
+  const popoverId = id || `popover-${generatedId.replace(/[^a-zA-Z0-9-]/g, '')}`;
   const popoverRef = useRef(null);
   const triggerRef = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
-  const anchorName = `--anchor-${id.replace(/[^a-zA-Z0-9-]/g, '')}`; // Ensure valid CSS identifier
+  const anchorName = `--anchor-${popoverId.replace(/[^a-zA-Z0-9-]/g, '')}`; // Ensure valid CSS identifier
 
   // Toggle popover visibility
   const toggle = useCallback(() => {
@@ -137,7 +142,7 @@ export const Popover = ({
 
       <div
         ref={popoverRef}
-        id={id}
+        id={popoverId}
         popover={manual ? 'manual' : 'auto'}
         className={`${styles.popover} ${styles[`placement-${placement}`]} ${className}`}
         style={{ positionAnchor: anchorName }}

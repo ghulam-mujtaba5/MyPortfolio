@@ -3,6 +3,7 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import styles from "./CaseCard.module.css";
+import Tilt, { TiltGlare } from "../AnimatedUI/Tilt";
 
 /**
  * Case-study project card.
@@ -81,13 +82,14 @@ const ProjectCard = React.memo(({ project, featured = false }) => {
   const inProgress = project?.status === "In Progress";
 
   return (
-    <article
-      className={`${styles.card} ${featured ? styles.cardFeatured : ""}`}
-      aria-labelledby={titleId}
-      onClick={handleCardClick}
-      onKeyDown={handleKeyDown}
-      tabIndex="0"
-    >
+    <Tilt max={featured ? 2 : 4}>
+      <article
+        className={`${styles.card} ${featured ? styles.cardFeatured : ""}`}
+        aria-labelledby={titleId}
+        onClick={handleCardClick}
+        onKeyDown={handleKeyDown}
+        tabIndex="0"
+      >
       {/* Browser chrome — reads as a real, shipped product */}
       <div className={styles.chrome} aria-hidden="true">
         <span className={styles.chromeDots}>
@@ -199,7 +201,10 @@ const ProjectCard = React.memo(({ project, featured = false }) => {
           )}
         </div>
       </div>
-    </article>
+
+        <TiltGlare />
+      </article>
+    </Tilt>
   );
 });
 

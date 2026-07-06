@@ -2,6 +2,7 @@
 .section {
   --section-gutter: clamp(16px, 2vw, 24px);
 
+  position: relative; /* anchors the AmbientOrbs layer */
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
