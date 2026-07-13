@@ -24,10 +24,12 @@ class MyDocument extends Document {
     return (
       <Html lang="en" suppressHydrationWarning>
         <Head>
-          {/* Google Search Console & Bing Webmaster verification */}
-          {/* TODO: Replace with your real verification codes from Search Console and Bing Webmaster Tools */}
-          {/* <meta name="google-site-verification" content="YOUR_REAL_CODE" /> */}
-          {/* <meta name="msvalidate.01" content="YOUR_REAL_CODE" /> */}
+          {process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION && (
+            <meta name="google-site-verification" content={process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION} />
+          )}
+          {process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION && (
+            <meta name="msvalidate.01" content={process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION} />
+          )}
 
           {/* DNS prefetch & preconnects for faster resource loading */}
           <link rel="preconnect" href="https://fonts.googleapis.com" />

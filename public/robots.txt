@@ -4,8 +4,6 @@ Allow: /
 Disallow: /admin/
 Disallow: /api/
 Disallow: /search
-Disallow: /portfolio
-Disallow: /portfolio/
 
 # IMPORTANT: Do NOT block /_next/ — Google needs access to JS/CSS
 # bundles under /_next/static/ to render pages properly.

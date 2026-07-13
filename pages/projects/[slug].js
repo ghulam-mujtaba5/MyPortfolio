@@ -127,8 +127,8 @@ const ProjectPage = ({ project }) => {
           name="twitter:url"
           content={`https://ghulammujtaba.com/projects/${project.slug}`}
         />
-        <meta name="twitter:site" content="@gabormujtaba" />
-        <meta name="twitter:creator" content="@gabormujtaba" />
+        <meta name="twitter:site" content="@ghulammujtaba" />
+        <meta name="twitter:creator" content="@ghulammujtaba" />
 
         {/* JSON-LD: Project as CreativeWork */}
         <script
