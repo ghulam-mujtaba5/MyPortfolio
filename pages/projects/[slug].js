@@ -1,4 +1,4 @@
-import Head from "next/head";
+import SEO from "../../components/SEO";
 import dynamic from "next/dynamic";
 import { useState, useEffect } from "react";
 import { useTheme } from "../../context/ThemeContext";
@@ -60,6 +60,59 @@ const ProjectPage = ({ project }) => {
     );
   }
 
+  const projectSchema = {
+    "@context": "https://schema.org",
+    "@type": "CreativeWork",
+    name: project.metaTitle || project.title,
+    description: project.metaDescription || project.description,
+    url: `https://ghulammujtaba.com/projects/${project.slug}`,
+    image: makeAbsolute(project.ogImage || project.image),
+    author: {
+      "@type": "Person",
+      name: "Ghulam Mujtaba",
+      url: "https://ghulammujtaba.com",
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "Ghulam Mujtaba",
+      logo: {
+        "@type": "ImageObject",
+        url: "https://ghulammujtaba.com/og-image.png",
+      },
+    },
+    datePublished: project.createdAt,
+    dateModified: project.updatedAt,
+    keywords: Array.isArray(project.tags) ? project.tags.join(", ") : undefined,
+  };
+
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: "https://ghulammujtaba.com/" },
+      { "@type": "ListItem", position: 2, name: "Projects", item: "https://ghulammujtaba.com/projects" },
+      { "@type": "ListItem", position: 3, name: project.title, item: `https://ghulammujtaba.com/projects/${project.slug}` },
+    ],
+  };
+
+  const projectSchemas = [projectSchema, breadcrumbSchema];
+
+  if (project?.links?.github) {
+    projectSchemas.push({
+      "@context": "https://schema.org",
+      "@type": "SoftwareSourceCode",
+      name: project.metaTitle || project.title,
+      description: project.metaDescription || project.description,
+      codeRepository: project.links.github,
+      url: `https://ghulammujtaba.com/projects/${project.slug}`,
+      image: makeAbsolute(project.ogImage || project.image),
+      author: { "@type": "Person", name: "Ghulam Mujtaba", url: "https://ghulammujtaba.com" },
+      datePublished: project.createdAt,
+      dateModified: project.updatedAt,
+      keywords: Array.isArray(project.tags) ? project.tags.join(", ") : undefined,
+    });
+  }
+
   return (
     <div style={{
       minHeight: '100vh',
@@ -69,134 +122,16 @@ const ProjectPage = ({ project }) => {
       margin: 0,
       padding: 0
     }}>
-      <Head>
-        <title>
-          {project.metaTitle || `${project.title} | Project by Ghulam Mujtaba`}
-        </title>
-        <meta
-          name="description"
-          content={
-            (project.metaDescription || project.description || "").substring(0, 160)
-          }
-        />
-        <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
-        <meta name="googlebot" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
-        <link
-          rel="canonical"
-          href={`https://ghulammujtaba.com/projects/${project.slug}`}
-        />
-
-        {/* Open Graph / Facebook */}
-        <meta property="og:type" content="article" />
-        <meta property="og:site_name" content="Ghulam Mujtaba Portfolio" />
-        <meta property="og:locale" content="en_US" />
-        <meta
-          property="og:title"
-          content={project.metaTitle || project.title}
-        />
-        <meta
-          property="og:description"
-          content={
-            (project.metaDescription || project.description || "").substring(0, 160)
-          }
-        />
-        <meta property="og:image" content={makeAbsolute(project.ogImage || project.image)} />
-        <meta property="og:image:alt" content={project.metaTitle || project.title} />
-        <meta
-          property="og:url"
-          content={`https://ghulammujtaba.com/projects/${project.slug}`}
-        />
-
-        {/* Twitter — must use name= not property= */}
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta
-          name="twitter:title"
-          content={project.metaTitle || project.title}
-        />
-        <meta
-          name="twitter:description"
-          content={
-            (project.metaDescription || project.description || "").substring(0, 160)
-          }
-        />
-        <meta
-          name="twitter:image"
-          content={makeAbsolute(project.ogImage || project.image)}
-        />
-        <meta
-          name="twitter:url"
-          content={`https://ghulammujtaba.com/projects/${project.slug}`}
-        />
-        <meta name="twitter:site" content="@ghulammujtaba" />
-        <meta name="twitter:creator" content="@ghulammujtaba" />
-
-        {/* JSON-LD: Project as CreativeWork */}
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "CreativeWork",
-              name: project.metaTitle || project.title,
-              description: project.metaDescription || project.description,
-              url: `https://ghulammujtaba.com/projects/${project.slug}`,
-              image: makeAbsolute(project.ogImage || project.image),
-              author: {
-                "@type": "Person",
-                name: "Ghulam Mujtaba",
-                url: "https://ghulammujtaba.com",
-              },
-              publisher: {
-                "@type": "Organization",
-                name: "Ghulam Mujtaba",
-                logo: {
-                  "@type": "ImageObject",
-                  url: "https://ghulammujtaba.com/og-image.png",
-                },
-              },
-              datePublished: project.createdAt,
-              dateModified: project.updatedAt,
-              keywords: Array.isArray(project.tags) ? project.tags.join(", ") : undefined,
-            }),
-          }}
-        />
-        {/* JSON-LD: Breadcrumbs for Project */}
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "BreadcrumbList",
-              itemListElement: [
-                { "@type": "ListItem", position: 1, name: "Home", item: "https://ghulammujtaba.com/" },
-                { "@type": "ListItem", position: 2, name: "Projects", item: "https://ghulammujtaba.com/projects" },
-                { "@type": "ListItem", position: 3, name: project.title, item: `https://ghulammujtaba.com/projects/${project.slug}` },
-              ],
-            }),
-          }}
-        />
-        {/* JSON-LD: SoftwareSourceCode when GitHub link exists */}
-        {project?.links?.github && (
-          <script
-            type="application/ld+json"
-            dangerouslySetInnerHTML={{
-              __html: JSON.stringify({
-                "@context": "https://schema.org",
-                "@type": "SoftwareSourceCode",
-                name: project.metaTitle || project.title,
-                description: project.metaDescription || project.description,
-                codeRepository: project.links.github,
-                url: `https://ghulammujtaba.com/projects/${project.slug}`,
-                image: makeAbsolute(project.ogImage || project.image),
-                author: { "@type": "Person", name: "Ghulam Mujtaba", url: "https://ghulammujtaba.com" },
-                datePublished: project.createdAt,
-                dateModified: project.updatedAt,
-                keywords: Array.isArray(project.tags) ? project.tags.join(", ") : undefined,
-              }),
-            }}
-          />
-        )}
-      </Head>
+      <SEO
+        title={project.metaTitle || `${project.title} | Project by Ghulam Mujtaba`}
+        description={(project.metaDescription || project.description || "").substring(0, 160)}
+        url={`https://ghulammujtaba.com/projects/${project.slug}`}
+        canonical={`https://ghulammujtaba.com/projects/${project.slug}`}
+        image={makeAbsolute(project.ogImage || project.image)}
+        imageAlt={project.metaTitle || project.title}
+        type="article"
+        jsonLd={projectSchemas}
+      />
 
       {isMobile ? <NavBarMobile sections={sections} /> : <NavBarDesktop />}
 

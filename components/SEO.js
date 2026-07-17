@@ -42,6 +42,18 @@ export default function SEO({
 }) {
   const effectiveRobots = noindex ? "noindex, nofollow" : robots;
 
+  let ogImageType = "image/png";
+  if (image) {
+    const ext = image.split(".").pop().split(/[?#]/)[0].toLowerCase();
+    if (ext === "jpg" || ext === "jpeg") {
+      ogImageType = "image/jpeg";
+    } else if (ext === "webp") {
+      ogImageType = "image/webp";
+    } else if (ext === "gif") {
+      ogImageType = "image/gif";
+    }
+  }
+
   return (
     <Head>
       {/* ═══════════ Core Meta ═══════════ */}
@@ -65,7 +77,7 @@ export default function SEO({
       <meta property="og:image:width" content={String(imageWidth)} />
       <meta property="og:image:height" content={String(imageHeight)} />
       <meta property="og:image:alt" content={imageAlt} />
-      <meta property="og:image:type" content="image/png" />
+      <meta property="og:image:type" content={ogImageType} />
       <meta property="og:site_name" content="Ghulam Mujtaba Portfolio" />
       <meta property="og:locale" content={locale} />
       {publishedTime && (

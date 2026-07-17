@@ -164,7 +164,7 @@ export default function AboutPage() {
     {
       question: "What certifications does Ghulam Mujtaba hold?",
       answer:
-        "He holds several professional certifications including Meta Front-End Developer, Google UX Design, Google Data Analytics, Google Project Management, and Google Cybersecurity certificates.",
+        "He holds several professional certifications including the Google Advanced Data Analytics, Google Data Analytics, Google Cybersecurity, Google UX Design, Google Project Management, Meta Front-End Developer, and Meta Android Developer Professional Certificates, as well as the Aspire AI-Integrated Leadership Program (Harvard Faculty).",
     },
     {
       question: "Where did Ghulam Mujtaba study?",
@@ -241,7 +241,7 @@ export default function AboutPage() {
             <div className={common.heroVisual}>
               <div className={`${common.avatarFrame} ${t.avatarFrame}`}>
                 <img
-                  src={scraped.image ? scraped.image.replace(/^\//, "") : "/images/portfolio-picture.png"}
+                  src={scraped.image || "/images/portfolio-picture.png"}
                   alt="Ghulam Mujtaba"
                   className={common.avatar}
                   width={200}
