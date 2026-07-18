@@ -1,6 +1,8 @@
 # All crawlers — default rules
 User-agent: *
 Allow: /
+Allow: /api/media/
+Allow: /api/download-resume
 Disallow: /admin/
 Disallow: /api/
 Disallow: /search

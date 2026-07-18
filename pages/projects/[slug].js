@@ -146,7 +146,25 @@ const ProjectPage = ({ project }) => {
   );
 };
 
-export async function getServerSideProps(context) {
+export async function getStaticPaths() {
+  try {
+    await dbConnect();
+    const projects = await Project.find({ published: true }, { slug: 1 }).lean();
+    const paths = (projects || []).map((p) => ({
+      params: { slug: p.slug },
+    }));
+    return {
+      paths,
+      fallback: "blocking",
+    };
+  } catch (err) {
+    // eslint-disable-next-line no-console
+    console.error("getStaticPaths projects error:", err);
+    return { paths: [], fallback: "blocking" };
+  }
+}
+
+export async function getStaticProps(context) {
   try {
     const { params } = context;
 
@@ -158,19 +176,11 @@ export async function getServerSideProps(context) {
 
     await dbConnect();
 
-    // Set a timeout so SSR doesn't hang
-    const timeoutPromise = new Promise((_, reject) =>
-      setTimeout(() => reject(new Error("DB query timeout")), 8000)
-    );
-
     // For public view, fetch by slug and ensure it's published
-    const project = await Promise.race([
-      Project.findOne({
-        slug: safeSlug,
-        published: true,
-      }).lean(),
-      timeoutPromise,
-    ]);
+    const project = await Project.findOne({
+      slug: safeSlug,
+      published: true,
+    }).lean();
 
     if (!project) {
       return { notFound: true };
@@ -180,11 +190,12 @@ export async function getServerSideProps(context) {
       props: {
         project: JSON.parse(JSON.stringify(project)),
       },
+      revalidate: 3600, // Regenerate every hour
     };
   } catch (err) {
     // eslint-disable-next-line no-console
-    console.error("getServerSideProps project detail error:", err?.message || err);
-    return { notFound: true };
+    console.error("getStaticProps project detail error:", err?.message || err);
+    return { notFound: true, revalidate: 60 };
   }
 }
 

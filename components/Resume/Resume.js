@@ -66,13 +66,9 @@ const Resume = () => {
           <h2 className={commonStyles.sectionHeading}>PROFESSIONAL SUMMARY</h2>
           <hr className={commonStyles.sectionDivider} />
           <p className={commonStyles.summary}>
-            Founder of <strong>Megicode</strong> (software company) and{" "}
+            Results-driven <strong>Computer Software Engineer</strong> and <strong>Full Stack Developer</strong>. Founder of <strong>Megicode</strong> (software company) and{" "}
             <strong>CampusAxis</strong> (student platform, 260+ Pakistani
-            universities). 3+ years delivering AI/ML models and full-stack
-            products end-to-end — model development, backend APIs, and
-            production-ready UIs. Open to engineering roles where I can
-            contribute effectively and provide architect-level
-            solutions for complex, high-impact problems.
+            universities). 3+ years of experience delivering robust full stack software engineer resume skills, machine learning models, and web applications end-to-end. Experienced in custom software developer cv architecture, model evaluation, and production deployment.
           </p>
         </div>
 

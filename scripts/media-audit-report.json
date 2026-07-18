@@ -1,0 +1,151 @@
+{
+  "timestamp": "2026-07-17T15:55:14.969Z",
+  "db": "myportfolio",
+  "gridfsFileCount": 33,
+  "mediaAssetCount": 33,
+  "gridfsBackedCount": 33,
+  "externalCount": 0,
+  "orphanedAssets": [],
+  "orphanedBlobs": [],
+  "projectIssues": [],
+  "projectHealthy": [
+    {
+      "projectId": "68adb51b34d27413ab91f71a",
+      "title": "PulseFocus Desktop App",
+      "field": "image",
+      "url": "/api/media/file/68adbeebe8dab827fc516d57"
+    },
+    {
+      "projectId": "68adb51b34d27413ab91f71a",
+      "title": "PulseFocus Desktop App",
+      "field": "ogImage",
+      "url": "/api/media/file/68adbeebe8dab827fc516d57"
+    },
+    {
+      "projectId": "68adccc37f7ac715a2320c1f",
+      "title": "Megicloth – E-commerce Platform",
+      "field": "image",
+      "url": "/api/media/file/68adcc85e9dccbb9f71ad8c9"
+    },
+    {
+      "projectId": "68adccc37f7ac715a2320c1f",
+      "title": "Megicloth – E-commerce Platform",
+      "field": "ogImage",
+      "url": "/api/media/file/68adcc85e9dccbb9f71ad8c9"
+    },
+    {
+      "projectId": "68add8c5fa469184a53ed6cb",
+      "title": "HealSmart – Mobile App",
+      "field": "image",
+      "url": "/api/media/file/68add8040fad5fa27bf787ba"
+    },
+    {
+      "projectId": "68add8c5fa469184a53ed6cb",
+      "title": "HealSmart – Mobile App",
+      "field": "ogImage",
+      "url": "/api/media/file/68add8040fad5fa27bf787ba"
+    },
+    {
+      "projectId": "68addf83bc1c4db2ad2594bf",
+      "title": "DigiFinSense – Mobile App",
+      "field": "image",
+      "url": "/api/media/file/68add3d320ad0ce75f26fd75"
+    },
+    {
+      "projectId": "68adf909140647205f7de20f",
+      "title": "CampusAxis – University Portal",
+      "field": "image",
+      "url": "/api/media/file/6a4a09660e56e4738c061a03"
+    },
+    {
+      "projectId": "68adf909140647205f7de20f",
+      "title": "CampusAxis – University Portal",
+      "field": "gallery[0]",
+      "url": "/api/media/file/6a4a09660e56e4738c061a03"
+    },
+    {
+      "projectId": "68adf909140647205f7de20f",
+      "title": "CampusAxis – University Portal",
+      "field": "gallery[1]",
+      "url": "/api/media/file/6a4a0a5edb5871bc818d7fa5"
+    },
+    {
+      "projectId": "68adf909140647205f7de20f",
+      "title": "CampusAxis – University Portal",
+      "field": "gallery[2]",
+      "url": "/api/media/file/6a4a09e8bd57137628ce47dd"
+    },
+    {
+      "projectId": "68adf909140647205f7de20f",
+      "title": "CampusAxis – University Portal",
+      "field": "ogImage",
+      "url": "/api/media/file/6a4a09660e56e4738c061a03"
+    },
+    {
+      "projectId": "69788e6b9885a0444de8bd3f",
+      "title": "PakUni App",
+      "field": "image",
+      "url": "/api/media/file/69788d6cc942b72ed8e52707"
+    },
+    {
+      "projectId": "69788e6b9885a0444de8bd3f",
+      "title": "PakUni App",
+      "field": "gallery[0]",
+      "url": "/api/media/file/69788d6cc942b72ed8e52707"
+    },
+    {
+      "projectId": "69788e6b9885a0444de8bd3f",
+      "title": "PakUni App",
+      "field": "gallery[1]",
+      "url": "/api/media/file/69788d68f65585d3bdbe463d"
+    },
+    {
+      "projectId": "69788e6b9885a0444de8bd3f",
+      "title": "PakUni App",
+      "field": "gallery[2]",
+      "url": "/api/media/file/69788d6c6d32c7fb0611dafb"
+    },
+    {
+      "projectId": "69788e6b9885a0444de8bd3f",
+      "title": "PakUni App",
+      "field": "ogImage",
+      "url": "/api/media/file/69788d6cc942b72ed8e52707"
+    },
+    {
+      "projectId": "69789915731e658400f8e480",
+      "title": "MegiLance – AI & Blockchain Freelancing Platform (FYP)",
+      "field": "image",
+      "url": "/api/media/file/6a4a1528f6d76ec212795da1"
+    },
+    {
+      "projectId": "69789915731e658400f8e480",
+      "title": "MegiLance – AI & Blockchain Freelancing Platform (FYP)",
+      "field": "gallery[0]",
+      "url": "/api/media/file/6a4a1528f6d76ec212795da1"
+    },
+    {
+      "projectId": "69789915731e658400f8e480",
+      "title": "MegiLance – AI & Blockchain Freelancing Platform (FYP)",
+      "field": "ogImage",
+      "url": "/api/media/file/69789868731e658400f8e478"
+    },
+    {
+      "projectId": "6988845a5ed56565d5cbfefd",
+      "title": "Aesthetics Clinic Website & Management System",
+      "field": "image",
+      "url": "/api/media/file/698883da5ed56565d5cbfeeb"
+    },
+    {
+      "projectId": "6988845a5ed56565d5cbfefd",
+      "title": "Aesthetics Clinic Website & Management System",
+      "field": "gallery[0]",
+      "url": "/api/media/file/698883da5ed56565d5cbfeeb"
+    },
+    {
+      "projectId": "6988845a5ed56565d5cbfefd",
+      "title": "Aesthetics Clinic Website & Management System",
+      "field": "ogImage",
+      "url": "/api/media/file/698883da5ed56565d5cbfeeb"
+    }
+  ]
+}

@@ -182,8 +182,8 @@ export default function AboutPage() {
   return (
     <div className={`${common.page} ${t.page}`}>
       <SEO
-        title="About Ghulam Mujtaba | Full Stack & AI Specialist"
-        description="Learn about Ghulam Mujtaba — Full Stack Developer & AI Specialist. 3+ years of experience building scalable applications, AI models, and student platforms."
+        title="About Ghulam Mujtaba | Full Stack Developer & AI Specialist"
+        description="Learn about Ghulam Mujtaba, a professional full stack developer, software engineer, and AI specialist. Founder of Megicode and CampusAxis."
         url="https://ghulammujtaba.com/about"
         canonical="https://ghulammujtaba.com/about"
         image="https://ghulammujtaba.com/images/portfolio-picture.png"
@@ -191,6 +191,7 @@ export default function AboutPage() {
         imageHeight={630}
         imageAlt="Ghulam Mujtaba — Full Stack Developer & AI Specialist"
         author="Ghulam Mujtaba"
+        keywords="About Ghulam Mujtaba, full stack developer, AI specialist, computer software engineer, Megicode founder, CampusAxis founder, software engineering portfolio"
         jsonLd={[
           aboutPersonSchema,
           aboutProfilePageSchema,

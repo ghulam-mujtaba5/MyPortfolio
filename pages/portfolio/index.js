@@ -122,13 +122,13 @@ const Home = ({ previewProjects = [], previewArticles = [] }) => {
     <>
       <SEO
         title="Ghulam Mujtaba | Founder, Megicode & CampusAxis · Full Stack + AI"
-        description="Founder of Megicode (software company, 10+ shipped products) and CampusAxis (student platform used by students across 260+ Pakistani universities)."
+        description="Explore the portfolio of Ghulam Mujtaba, Full Stack Developer & AI Specialist. Founder of Megicode and CampusAxis, specializing in Next.js, React, Node.js, and machine learning solutions."
         url="https://ghulammujtaba.com"
         image="https://ghulammujtaba.com/og-image.png"
         imageAlt="Ghulam Mujtaba — Founder of Megicode and CampusAxis, Full Stack Developer and AI Specialist"
         type="website"
         canonical="https://ghulammujtaba.com"
-        keywords="Ghulam Mujtaba, Megicode founder, CampusAxis founder, Full Stack Developer, AI Specialist, Data Scientist, React, Next.js, TensorFlow, PyTorch, Lahore Pakistan, COMSATS"
+        keywords="Ghulam Mujtaba, Megicode founder, CampusAxis founder, Full Stack Developer, AI Specialist, Data Scientist, React, Next.js, TensorFlow, PyTorch, Lahore Pakistan, COMSATS, software engineer portfolio, computer software engineer, full stack developer role, ai specialist"
         jsonLd={homeJsonLd}
       />
 

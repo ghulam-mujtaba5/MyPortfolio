@@ -69,9 +69,9 @@ const AboutMeSection = ({ showTitle = true }) => {
           <strong>CampusAxis</strong>, a study platform now used across 260+
           Pakistani universities. I've worked on various AI/ML projects for
           different companies over the years, while finishing my BSc in
-          Software Engineering at COMSATS Lahore. I'm open to senior
-          engineering roles where I can contribute as a technical leader and
-          provide architect-level solutions. If you need someone who can take
+          Software Engineering at COMSATS Lahore. I'm open to
+          engineering roles where I can contribute and
+          provide high-quality solutions. If you need someone who can take
           an idea from notebook to production — model, backend, UI, and ship
           — I'm probably the person you want on the call.
         </motion.p>

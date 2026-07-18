@@ -129,7 +129,7 @@ const WorkWithMeModal = ({ isOpen, onClose }) => {
           </h2>
           <p className={cls("subtitle")}>
             Pick the path that fits — I build products for clients and I&apos;m
-            open to senior engineering roles.
+            open to engineering roles.
           </p>
         </div>
 

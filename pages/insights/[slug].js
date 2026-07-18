@@ -130,7 +130,25 @@ export default function InsightDetailPage({ article, relatedArticles = [], previ
   );
 }
 
-export async function getServerSideProps(context) {
+export async function getStaticPaths() {
+  try {
+    await dbConnect();
+    const articles = await Article.find({ published: true }, { slug: 1 }).lean();
+    const paths = (articles || []).map((a) => ({
+      params: { slug: a.slug },
+    }));
+    return {
+      paths,
+      fallback: "blocking",
+    };
+  } catch (err) {
+    // eslint-disable-next-line no-console
+    console.error("getStaticPaths insights error:", err);
+    return { paths: [], fallback: "blocking" };
+  }
+}
+
+export async function getStaticProps(context) {
   const { params, preview = false, previewData } = context;
 
   try {
@@ -141,8 +159,9 @@ export async function getServerSideProps(context) {
     if (preview && previewData?.id) {
       article = await Article.findById(previewData.id).lean();
     } else {
+      const safeSlug = String(params?.slug || "").replace(/[^a-z0-9_-]/gi, "").substring(0, 200);
       article = await Article.findOne({
-        slug: params.slug,
+        slug: safeSlug,
         published: true,
       }).lean();
     }
@@ -169,9 +188,11 @@ export async function getServerSideProps(context) {
         relatedArticles: JSON.parse(JSON.stringify(relatedArticles)),
         preview: preview || false,
       },
+      revalidate: 1800, // Regenerate every 30 minutes
     };
   } catch (e) {
-    console.error("[Insight SSR] getServerSideProps failed:", e?.message || e);
-    return { notFound: true };
+    // eslint-disable-next-line no-console
+    console.error("[Insight ISR] getStaticProps failed:", e?.message || e);
+    return { notFound: true, revalidate: 60 };
   }
 }

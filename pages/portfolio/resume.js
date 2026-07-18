@@ -15,13 +15,13 @@ const ResumePage = ({ resume }) => {
   return (
     <>
       <SEO
-        title="Ghulam Mujtaba's Resume | Full Stack Developer & AI Specialist"
-        description="Resume of Ghulam Mujtaba — Full Stack Developer & AI Specialist. Founder of Megicode & CampusAxis. 3+ years of AI/ML work for Meta."
+        title="Software Engineer Resume | Full Stack Developer & AI Specialist | Ghulam Mujtaba"
+        description="View the software engineer and full stack developer resume of Ghulam Mujtaba. Explore professional experience in software engineering, AI/ML, and web development skills."
         url="https://ghulammujtaba.com/resume"
         image="https://ghulammujtaba.com/og-image.png"
         type="profile"
         canonical="https://ghulammujtaba.com/resume"
-        keywords="Ghulam Mujtaba Resume, Full Stack Developer, Data Scientist, AI Specialist, Pakistan, MERN, React, Next.js, TensorFlow"
+        keywords="software engineer resume, full stack developer resume, computer software engineer resume, software engineering resume, software developer resume sample, full stack software engineer resume skills, developer resume, full stack developer resume sample, software developer cv, ai specialist resume, Ghulam Mujtaba resume"
         jsonLd={[
           personSchema({
             url: 'https://ghulammujtaba.com/resume',
@@ -54,7 +54,13 @@ const ResumePage = ({ resume }) => {
         {resume && (
           <div className="resumeActions" data-noprint>
             <a
-              href={`/api/download-resume?url=${encodeURIComponent(resume.url)}&filename=${encodeURIComponent(resume.filename)}`}
+              href={
+                resume.fileId
+                  ? `/api/download-resume?id=${resume.fileId}&filename=${encodeURIComponent(resume.filename)}`
+                  : resume.url
+                  ? `/api/download-resume?url=${encodeURIComponent(resume.url)}&filename=${encodeURIComponent(resume.filename)}`
+                  : "#"
+              }
               className="downloadButton"
               download
             >
