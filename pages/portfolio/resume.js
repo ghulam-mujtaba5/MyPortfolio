@@ -15,7 +15,7 @@ const ResumePage = ({ resume }) => {
   return (
     <>
       <SEO
-        title="Software Engineer Resume | Full Stack Developer & AI Specialist | Ghulam Mujtaba"
+        title="Software Engineer Resume | Ghulam Mujtaba"
         description="View the software engineer and full stack developer resume of Ghulam Mujtaba. Explore professional experience in software engineering, AI/ML, and web development skills."
         url="https://ghulammujtaba.com/resume"
         image="https://ghulammujtaba.com/og-image.png"
