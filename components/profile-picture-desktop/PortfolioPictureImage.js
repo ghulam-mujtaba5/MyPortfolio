@@ -118,10 +118,16 @@ const ImageWithEllipsesBackground = () => {
     };
   }, []);
 
-  // Memoized event handler for hover effect
-  const handleHover = useCallback(() => {
+  // Event handlers for hover effect — explicit true/false to prevent toggle desync
+  const handleMouseEnter = useCallback(() => {
     if (!isMobile) {
-      setHovered((prevHovered) => !prevHovered); // Toggle hovered state
+      setHovered(true);
+    }
+  }, [isMobile]);
+
+  const handleMouseLeave = useCallback(() => {
+    if (!isMobile) {
+      setHovered(false);
     }
   }, [isMobile]);
 
@@ -143,8 +149,8 @@ const ImageWithEllipsesBackground = () => {
   return (
     <div
       className={styles.imageContainer}
-      onMouseEnter={handleHover}
-      onMouseLeave={handleHover}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
     >
       <Image
         className={styles.image}
