@@ -121,6 +121,12 @@ const nextConfig = {
         destination: "/sitemap.xml",
         permanent: true,
       },
+      // Redirect legacy supervision URL to about to resolve 404 in Search Console
+      {
+        source: "/supervision",
+        destination: "/about",
+        permanent: true,
+      },
     ];
   },
 
@@ -140,6 +146,13 @@ const nextConfig = {
             key: "Cache-Control",
             value: "public, s-maxage=3600, stale-while-revalidate=86400",
           },
+        ],
+      },
+      // Prevent indexing of internal search results pages
+      {
+        source: "/search",
+        headers: [
+          { key: "X-Robots-Tag", value: "noindex, follow" },
         ],
       },
       // Prevent search engines from indexing API routes
