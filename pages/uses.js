@@ -1,32 +1,29 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import dynamic from "next/dynamic";
 import { useTheme } from "../context/ThemeContext";
-import SEO, { breadcrumbSchema } from "../components/SEO";
+import SEO, { breadcrumbSchema, webPageSchema } from "../components/SEO";
 import { MAIN_SECTIONS } from "../constants/navigation";
 import styles from "../styles/UsesPage.module.css";
 import { Laptop, Cpu, Server } from "lucide-react";
+import NavBarDesktop from "../components/NavBar_Desktop/nav-bar";
+import NavBarMobile from "../components/NavBar_Mobile/NavBar-mobile";
 
-const NavBarDesktop = dynamic(() => import("../components/NavBar_Desktop/nav-bar"), { ssr: false });
-const NavBarMobile = dynamic(() => import("../components/NavBar_Mobile/NavBar-mobile"), { ssr: false });
 const Footer = dynamic(() => import("../components/Footer/Footer"), { ssr: false });
 
 export default function UsesPage() {
   const { theme } = useTheme();
-  const [isMobile, setIsMobile] = useState(false);
   const sections = MAIN_SECTIONS;
 
-  useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth < 768);
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
-    return () => window.removeEventListener("resize", checkMobile);
-  }, []);
-
   const usesJsonLd = [
+    webPageSchema({
+      name: "My Developer Setup & Tech Stack | Ghulam Mujtaba",
+      description:
+        "What Ghulam Mujtaba uses for software engineering, full-stack web development, and AI coding. Hardware, editor configs, extensions, hosting, and dev tools.",
+      url: "https://ghulammujtaba.com/uses",
+    }),
     breadcrumbSchema([
-      { name: "Home", url: "https://ghulammujtaba.com/" },
-      { name: "Uses", url: "https://ghulammujtaba.com/uses" }
-    ])
+      { name: "Uses", url: "https://ghulammujtaba.com/uses" },
+    ]),
   ];
 
   return (
@@ -47,7 +44,12 @@ export default function UsesPage() {
 
       <div className={styles.pageBg}>
         <header>
-          {isMobile ? <NavBarMobile sections={sections} /> : <NavBarDesktop />}
+          <div className="nav-desktop-wrapper hide-on-mobile">
+            <NavBarDesktop />
+          </div>
+          <div className="show-on-mobile">
+            <NavBarMobile sections={sections} />
+          </div>
         </header>
 
         <main id="main-content" className={styles.contentContainer}>

@@ -92,7 +92,11 @@ const NavBar = () => {
   }, []);
 
   const handleScrollToSection = useCallback(
-    (sectionId) => {
+    (e, sectionId) => {
+      // Allow browser defaults for modifier keys or middle clicks
+      if (e && (e.metaKey || e.ctrlKey || e.shiftKey || e.button === 1)) return;
+      if (e && typeof e.preventDefault === "function") e.preventDefault();
+
       const basePath = currentPath || "/";
       const targetHash = `#${sectionId}`;
 
@@ -135,7 +139,7 @@ const NavBar = () => {
   const isAbout = path === "/about";
   const isResume = path === "/resume";
   const isArticles = path === "/insights" || path.startsWith("/insights/");
-  const isContact = path === "/" && hash === "#contact-section";
+  const isContact = (path === "/" && hash === "#contact-section") || path === "/contact";
 
   // Determine which SVG to use based on theme
   const nameIconSrc =
@@ -172,33 +176,34 @@ const NavBar = () => {
     >
       {/* Left side navigation */}
       <div className={styles.leftNavigation}>
-        {/* Home button */}
-        <button
+        {/* Home link */}
+        <Link
+          href="/#home-section"
           className={`${styles.home} ${isHome ? styles.active : ""} ${styles.navItem}`}
-          onClick={() => handleScrollToSection("home-section")}
-          type="button"
+          onClick={(e) => handleScrollToSection(e, "home-section")}
+          aria-label="Home section"
         >
           <b className={styles.homeText}>Home</b>
-        </button>
+        </Link>
 
         {/* About page */}
-        <button
+        <Link
+          href="/about"
           className={`${styles.about} ${isAbout ? styles.active : ""} ${styles.navItem}`}
-          onClick={() => handleNavigation("/about")}
-          type="button"
+          aria-label="About Ghulam Mujtaba"
         >
           <span className={styles.aboutText}>About</span>
-        </button>
+        </Link>
       </div>
 
-      {/* Articles section */}
-      <button
+      {/* Insights section */}
+      <Link
+        href="/insights"
         className={`${styles.project} ${isArticles ? styles.active : ""} ${styles.navItem}`}
-        onClick={() => handleNavigation("/insights")}
-        type="button"
+        aria-label="Insights and articles"
       >
         <span className={styles.projectText}>Insights</span>
-      </button>
+      </Link>
 
       {/* Logo and Name Animation - Central Element */}
       <Link
@@ -246,32 +251,33 @@ const NavBar = () => {
       {/* Right side navigation */}
       <div className={styles.rightNavigation}>
         {/* Resume section */}
-        <button
+        <Link
+          href="/resume"
           className={`${styles.resume} ${isResume ? styles.active : ""} ${styles.navItem}`}
-          onClick={() => handleNavigation("/resume")}
-          type="button"
+          aria-label="Resume"
         >
           <span className={styles.resumeText}>Resume</span>
-        </button>
+        </Link>
 
         {/* Project section */}
-        <button
+        <Link
+          href="/projects"
           className={`${styles.project} ${isProjects ? styles.active : ""} ${styles.navItem}`}
-          onClick={() => handleNavigation("/projects")}
-          type="button"
+          aria-label="Projects showcase"
         >
           <span className={styles.projectText}>Projects</span>
-        </button>
+        </Link>
 
         {/* Contact section — conversion CTA, magnetic on desktop */}
         <Magnetic>
-          <button
+          <Link
+            href="/#contact-section"
             className={`${styles.contact} ${isContact ? styles.active : ""} ${styles.navItem}`}
-            onClick={() => handleScrollToSection("contact-section")}
-            type="button"
+            onClick={(e) => handleScrollToSection(e, "contact-section")}
+            aria-label="Contact section"
           >
             <span className={styles.contactText}>Contact</span>
-          </button>
+          </Link>
         </Magnetic>
       </div>
     </header>

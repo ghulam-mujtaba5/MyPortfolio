@@ -455,14 +455,14 @@ export function navigationSchema() {
       {
         "@type": "SiteNavigationElement",
         position: 4,
-        name: "Articles",
-        url: `${SITE_URL}/articles`,
+        name: "Insights",
+        url: `${SITE_URL}/insights`,
       },
       {
         "@type": "SiteNavigationElement",
         position: 5,
         name: "Contact",
-        url: `${SITE_URL}/#contact-section`,
+        url: `${SITE_URL}/contact`,
       },
     ],
   };
@@ -561,25 +561,34 @@ export function serviceSchema({ name, description, serviceType, areaServed, url 
 }
 
 /**
- * The three service categories actually presented on the homepage
- * (see components/Services/ServicesFrame.js) — kept as a single source of
- * truth so the schema never drifts from what's on the page.
+ * The four service categories actually presented on the services page
+ * (see pages/services.js) — kept as a single source of truth so the schema
+ * never drifts from what's on the page.
  */
 const CORE_SERVICES = [
   {
-    name: "UI & UX Design",
+    name: "Full-Stack Web Development",
     description:
-      "UI/UX design for desktop, web, and mobile applications — from wireframes to polished interfaces.",
+      "End-to-end, high-performance web applications built with Next.js, React, Node.js, and MongoDB. Specializing in secure, scalable MERN stack apps, startup MVPs, and customized workflows.",
+    url: `${SITE_URL}/services#web-development`,
   },
   {
-    name: "Full-Stack Web & Mobile Development",
+    name: "Custom AI & Chatbot Development",
     description:
-      "End-to-end development of desktop, web, and mobile applications using React, Next.js, Node.js, React Native, and Flutter.",
+      "Integrating advanced generative AI capabilities into business portals. Designing RAG chatbot setups, prompt engineering pipelines, LLM fine-tuning, and automated workflows to save hundreds of operational hours.",
+    url: `${SITE_URL}/services#ai-solutions`,
   },
   {
-    name: "Data Science & AI Solutions",
+    name: "Cross-Platform Mobile Apps",
     description:
-      "Data scraping, data visualization, big data analytics, and AI solution development using TensorFlow, PyTorch, and Scikit-learn.",
+      "Building responsive, modern iOS and Android mobile applications using React Native and Flutter. Supporting clean state management, offline storage, push notifications, and native hardware features.",
+    url: `${SITE_URL}/services#mobile-development`,
+  },
+  {
+    name: "Data Science & Analytics",
+    description:
+      "Processing complex datasets into actionable business dashboards. Expertise in regression models, NLP classification pipelines, Google Analytics integrations, data extraction, and visual reports.",
+    url: `${SITE_URL}/services#data-science`,
   },
 ];
 
@@ -699,4 +708,23 @@ export function articleSchema({
     ...(wordCount ? { wordCount } : {}),
   };
 }
+
+/**
+ * WebPage schema builder for standard content, legal, and utility pages.
+ */
+export function webPageSchema({ name, description, url, inLanguage = "en-US", ...overrides } = {}) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "@id": url ? `${url}/#webpage` : `${SITE_URL}/#webpage`,
+    name: name || `${PERSON_NAME} — Portfolio`,
+    url: url || SITE_URL,
+    ...(description ? { description } : {}),
+    isPartOf: { "@id": `${SITE_URL}/#website` },
+    author: { "@id": `${SITE_URL}/#person` },
+    inLanguage,
+    ...overrides,
+  };
+}
+
 

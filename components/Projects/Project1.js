@@ -36,10 +36,11 @@ const resolveImage = (project) => {
     /^\/\//.test(img) ||
     /^data:image\//i.test(img) ||
     /^blob:/.test(img);
-  const isLocalMedia = /^\/api\/media\//i.test(img);
+  const isDataOrBlob = /^data:image\//i.test(img) || /^blob:/.test(img);
+  const isSvg = /\.svg(\?.*)?$/i.test(img) || /^data:image\/svg\+xml/i.test(img);
   return {
     src: isExternal ? img : img.startsWith("/") ? img : `/${img}`,
-    unoptimized: isExternal || isLocalMedia,
+    unoptimized: Boolean(project?.unoptimized) || isDataOrBlob || isSvg,
     fit: project?.imageFit || "cover",
   };
 };

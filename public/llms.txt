@@ -13,11 +13,15 @@ Ghulam Mujtaba is a technical founder, software engineer, and AI specialist. He 
 
 ## Site Structure
 
-- [Home](https://ghulammujtaba.com) — overview, hero, skills, contact
+- [Home](https://ghulammujtaba.com) — overview, hero, skills, and featured work
 - [About](https://ghulammujtaba.com/about) — biography, languages, tools, and background
 - [Resume](https://ghulammujtaba.com/resume) — experience, education, and certifications
 - [Projects](https://ghulammujtaba.com/projects) — real-world products built for clients and startups
-- [Articles](https://ghulammujtaba.com/articles) — technical writing on full stack development, AI, and startups
+- [Services](https://ghulammujtaba.com/services) — full-stack development, AI engineering, mobile apps, and data analytics services
+- [Insights](https://ghulammujtaba.com/insights) — technical writing on full stack development, AI, and startups
+- [Contact](https://ghulammujtaba.com/contact) — contact details, inquiry form, and collaboration options
+- [Uses](https://ghulammujtaba.com/uses) — hardware, software, developer tools, and workflow setup
+- [Privacy Policy](https://ghulammujtaba.com/privacy-policy) — privacy, data handling, and security practices
 
 ## Skills
 
@@ -50,6 +54,6 @@ Ghulam Mujtaba is a technical founder, software engineer, and AI specialist. He 
 - LinkedIn: https://www.linkedin.com/in/ghulamujtabaofficial
 - GitHub: https://github.com/ghulam-mujtaba5
 - Megicode: https://www.megicode.com
-- CampusAxis: https://www.campusaxis.com
+- CampusAxis: https://campusaxis.pk
 - Coursera: https://www.coursera.org/learner/ghulammujtaba
 - Topmate: https://topmate.io/ghulam_mujtaba

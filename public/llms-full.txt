@@ -97,7 +97,7 @@ University platform serving 260+ Pakistani universities. Built and scaled the pl
 ### CampusAxis — University Portal
 A comprehensive platform for Pakistani universities. Features: student profiles, faculty portals, university feeds, academic resources, event management, notes sharing, and admin dashboards.
 - URL: https://ghulammujtaba.com/projects/campusaxis-university-portal
-- Live: https://www.campusaxis.com
+- Live: https://campusaxis.pk
 
 ### MegiLance — AI + Blockchain Freelancing Platform (FYP)
 Final Year Project. An AI-powered freelancing marketplace with blockchain-based payment escrow, smart contracts for milestones, and an AI assistant for project matching and proposal generation.
@@ -129,10 +129,40 @@ Personal finance tracking mobile application with expense categorization, budget
 
 ---
 
-## Articles & Technical Writing
+## Core Services
+
+1. **Full-Stack Web Development** — End-to-end, high-performance web applications built with Next.js, React, Node.js, and MongoDB. Specializing in secure, scalable MERN stack apps, startup MVPs, and customized workflows.
+   - URL: https://ghulammujtaba.com/services
+
+2. **Custom AI & Chatbot Development** — Integrating advanced generative AI capabilities into business portals. Designing RAG chatbot setups, prompt engineering pipelines, LLM fine-tuning, and automated workflows.
+   - URL: https://ghulammujtaba.com/services
+
+3. **Cross-Platform Mobile Apps** — Building responsive iOS and Android mobile applications using React Native and Flutter with clean state management and native hardware features.
+   - URL: https://ghulammujtaba.com/services
+
+4. **Data Science & Analytics** — Processing complex datasets into actionable business dashboards, regression models, NLP classification pipelines, and visual analytics reports.
+   - URL: https://ghulammujtaba.com/services
+
+---
+
+## Canonical Site Structure & Endpoints
+
+- **Home**: https://ghulammujtaba.com — Overview, hero, featured skills, and portfolio highlights
+- **About**: https://ghulammujtaba.com/about — Biography, tech stack, timeline, and professional ethos
+- **Resume**: https://ghulammujtaba.com/resume — Experience, education, professional certificates, and downloadable CV
+- **Projects**: https://ghulammujtaba.com/projects — Featured client, startup, and open-source applications
+- **Services**: https://ghulammujtaba.com/services — Full-stack development, AI engineering, mobile apps, and data consulting
+- **Insights**: https://ghulammujtaba.com/insights — Technical writing, engineering deep-dives, and startup guides
+- **Contact**: https://ghulammujtaba.com/contact — Project inquiries, collaboration form, and scheduling details
+- **Uses**: https://ghulammujtaba.com/uses — Hardware, software, developer tools, editor setup, and desk gear
+- **Privacy Policy**: https://ghulammujtaba.com/privacy-policy — User privacy standards, data handling, and cookie policies
+
+---
+
+## Insights & Technical Writing
 
 Ghulam writes about full-stack development, AI engineering, and startup topics.
-Browse all articles: https://ghulammujtaba.com/articles
+Browse all insights: https://ghulammujtaba.com/insights
 
 ---
 
@@ -148,13 +178,13 @@ He builds web applications, mobile apps, AI/ML systems, and SaaS products. His w
 Lahore, Punjab, Pakistan. He works remotely for international clients and locally for Pakistani startups.
 
 **How can I hire or collaborate with Ghulam Mujtaba?**
-Contact via: https://ghulammujtaba.com/#contact-section or email ghulammujtaba1005@gmail.com
+Contact via: https://ghulammujtaba.com/contact or email ghulammujtaba1005@gmail.com
 
 **What is Megicode?**
 Megicode (https://www.megicode.com) is Ghulam Mujtaba's software consultancy offering full-stack development, UI/UX design, mobile development, and AI integration services.
 
 **What is CampusAxis?**
-CampusAxis (https://www.campusaxis.com) is a university platform for Pakistan, co-founded by Ghulam Mujtaba, serving students and faculty across 260+ universities.
+CampusAxis (https://campusaxis.pk) is a university platform for Pakistan, co-founded by Ghulam Mujtaba, serving students and faculty across 260+ universities.
 
 ---
 
@@ -165,7 +195,7 @@ CampusAxis (https://www.campusaxis.com) is a university platform for Pakistan, c
 - GitHub: https://github.com/ghulam-mujtaba5
 - Instagram: https://www.instagram.com/ghulamujtabaofficial/
 - Megicode: https://www.megicode.com
-- CampusAxis: https://www.campusaxis.com
+- CampusAxis: https://campusaxis.pk
 - Topmate: https://topmate.io/ghulam_mujtaba
 - Coursera: https://www.coursera.org/learner/ghulammujtaba
 - Behance: https://www.behance.net/ghulam_mujtaba

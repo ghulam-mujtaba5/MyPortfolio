@@ -121,8 +121,8 @@ const Home = ({ previewProjects = [], previewArticles = [] }) => {
   return (
     <>
       <SEO
-        title="Ghulam Mujtaba | Founder, Megicode & CampusAxis · Full Stack + AI"
-        description="Explore the portfolio of Ghulam Mujtaba, Full Stack Developer & AI Specialist. Founder of Megicode and CampusAxis, specializing in Next.js, React, Node.js, and machine learning solutions."
+        title="Ghulam Mujtaba | Full Stack Developer & AI Specialist"
+        description="Explore the portfolio of Ghulam Mujtaba, Full Stack Developer & AI Engineer specializing in Next.js, React, Node.js, and production machine learning solutions."
         url="https://ghulammujtaba.com"
         image="https://ghulammujtaba.com/og-image.png"
         imageAlt="Ghulam Mujtaba — Founder of Megicode and CampusAxis, Full Stack Developer and AI Specialist"

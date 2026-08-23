@@ -10,8 +10,8 @@ import { Mail, Github, Linkedin, MapPin } from "lucide-react";
 import { MAIN_SECTIONS } from "../constants/navigation";
 import ThemeToggleIcon from "../components/Icon/gmicon";
 
-const NavBarDesktop = dynamic(() => import("../components/NavBar_Desktop/nav-bar"), { ssr: false });
-const NavBarMobile = dynamic(() => import("../components/NavBar_Mobile/NavBar-mobile"), { ssr: false });
+import NavBarDesktop from "../components/NavBar_Desktop/nav-bar";
+import NavBarMobile from "../components/NavBar_Mobile/NavBar-mobile";
 const Footer = dynamic(() => import("../components/Footer/Footer"), { ssr: false });
 const ContactSection = dynamic(() => import("../components/Contact/ContactUs"), { ssr: false });
 
@@ -28,7 +28,7 @@ export default function ContactPage() {
   return (
     <div className={`${common.page} ${t.page}`}>
       <SEO
-        title="Contact Ghulam Mujtaba | Full Stack Developer & AI Specialist"
+        title="Contact Ghulam Mujtaba | Full Stack & AI Specialist"
         description="Contact Ghulam Mujtaba for project inquiries, collaborations, or opportunities. Based in Lahore, Pakistan — available for freelance and full-time work."
         url="https://ghulammujtaba.com/contact"
         canonical="https://ghulammujtaba.com/contact"

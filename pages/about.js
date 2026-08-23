@@ -26,8 +26,8 @@ import { MAIN_SECTIONS } from "../constants/navigation";
 import ThemeToggleIcon from "../components/Icon/gmicon";
 import FounderJourney from "../components/Journey/FounderJourney";
 
-const NavBarDesktop = dynamic(() => import("../components/NavBar_Desktop/nav-bar"), { ssr: false });
-const NavBarMobile = dynamic(() => import("../components/NavBar_Mobile/NavBar-mobile"), { ssr: false });
+import NavBarDesktop from "../components/NavBar_Desktop/nav-bar";
+import NavBarMobile from "../components/NavBar_Mobile/NavBar-mobile";
 const Footer = dynamic(() => import("../components/Footer/Footer"), { ssr: false });
 
 /* -------------------------------------------------------

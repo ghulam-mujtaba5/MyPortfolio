@@ -47,6 +47,7 @@ const OptimizedImage = ({
   fill = false,
   quality = 75,
   maxRetries = 2,
+  unoptimized,
   onLoad: externalOnLoad,
   onError: externalOnError,
   ...rest
@@ -136,12 +137,10 @@ const OptimizedImage = ({
     );
   }
 
-  // Is the *current* src external? (retries may have modified it)
-  const currentIsExternal =
-    /^https?:\/\//i.test(currentSrc) ||
-    /^\/\//.test(currentSrc) ||
-    /^data:image\//i.test(currentSrc) ||
-    /^blob:/.test(currentSrc);
+  // Check if current src is unsupported data/blob URI or SVG, or if unoptimized was explicitly requested via prop
+  const isDataOrBlob = /^data:image\//i.test(currentSrc) || /^blob:/i.test(currentSrc);
+  const isSvg = /\.svg(\?.*)?$/i.test(currentSrc) || /^data:image\/svg\+xml/i.test(currentSrc);
+  const shouldUnoptimize = typeof unoptimized === "boolean" ? unoptimized : (isDataOrBlob || isSvg);
 
   return (
     <div style={{ position: "relative", display: "inline-block", ...(!fill ? { width, height } : {}) }}>
@@ -174,7 +173,7 @@ const OptimizedImage = ({
         priority={priority}
         sizes={sizes}
         loading={priority ? undefined : "lazy"}
-        unoptimized={currentIsExternal}
+        unoptimized={shouldUnoptimize}
         placeholder="blur"
         blurDataURL={BLUR_DATA_URL}
         onLoad={handleLoad}

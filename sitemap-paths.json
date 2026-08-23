@@ -1,64 +1,97 @@
 [
   {
-    "loc": "/insights/clinic-website-complete-digital-workflows",
+    "loc": "/projects/automated-test-data-generation-for-the-arc-system",
+    "lastmod": "2026-08-22T06:15:16.846Z",
     "changefreq": "weekly",
     "priority": 0.8
   },
   {
-    "loc": "/insights/megilance-ai-blockchain-freelance-marketplace-payments",
+    "loc": "/projects/sup-analysis-and-detection-of-fraudulent-transactions-using-the-paysim-financial-simulator",
+    "lastmod": "2026-08-22T03:23:13.984Z",
     "changefreq": "weekly",
     "priority": 0.8
   },
   {
-    "loc": "/insights/building-campusaxis-comsats-pakistani-university-platform",
+    "loc": "/projects/test-smell-detection-in-the-arc-system",
+    "lastmod": "2026-08-22T06:15:17.002Z",
     "changefreq": "weekly",
     "priority": 0.8
   },
   {
-    "loc": "/projects/megilance-ai-blockchain-freelancing-platform-fyp",
-    "lastmod": "2026-07-05T08:27:02.635Z",
+    "loc": "/projects/sup-malware-feature-extraction-of-instruction-frequency",
+    "lastmod": "2026-08-22T03:23:14.057Z",
     "changefreq": "weekly",
     "priority": 0.8
   },
   {
-    "loc": "/projects/campusaxis-university-portal",
-    "lastmod": "2026-07-05T08:21:44.773Z",
+    "loc": "/projects/log-based-test-case-slicing",
+    "lastmod": "2026-08-22T06:15:17.163Z",
     "changefreq": "weekly",
     "priority": 0.8
   },
   {
-    "loc": "/projects/pakuni-app",
-    "lastmod": "2026-02-08T13:56:39.130Z",
+    "loc": "/projects/sup-malware-feature-extraction-via-machine-learning-algorithm",
+    "lastmod": "2026-08-22T03:23:14.130Z",
     "changefreq": "weekly",
     "priority": 0.8
   },
   {
-    "loc": "/projects/aesthetics-clinic-website-management-system",
-    "lastmod": "2026-05-08T08:29:07.228Z",
+    "loc": "/projects/obfuscated-code-detection-in-android-applications",
+    "lastmod": "2026-08-22T06:15:17.316Z",
     "changefreq": "weekly",
     "priority": 0.8
   },
   {
-    "loc": "/projects/pulsefocus-desktop-app",
-    "lastmod": "2026-02-08T13:56:39.130Z",
+    "loc": "/projects/sup-elderlycare-an-android-based-elderly-health-assistance-application",
+    "lastmod": "2026-08-22T03:23:14.214Z",
     "changefreq": "weekly",
     "priority": 0.8
   },
   {
-    "loc": "/projects/megicloth-e-commerce-platform",
-    "lastmod": "2026-02-08T13:56:39.130Z",
+    "loc": "/projects/sqvdt-source-code-vulnerability-detection",
+    "lastmod": "2026-08-22T06:15:17.466Z",
     "changefreq": "weekly",
     "priority": 0.8
   },
   {
-    "loc": "/projects/digifinsense-mobile-app",
-    "lastmod": "2026-02-08T13:11:44.244Z",
+    "loc": "/projects/sup-detection-and-defense-of-vulnerability-in-openssl",
+    "lastmod": "2026-08-22T03:23:14.564Z",
     "changefreq": "weekly",
     "priority": 0.8
   },
   {
-    "loc": "/projects/healsmart-mobile-app",
-    "lastmod": "2026-02-08T13:11:44.244Z",
+    "loc": "/projects/vcipr-vulnerability-detection-at-function-level",
+    "lastmod": "2026-08-22T06:15:17.620Z",
+    "changefreq": "weekly",
+    "priority": 0.8
+  },
+  {
+    "loc": "/projects/sup-correlation-attack-on-geffe-generator",
+    "lastmod": "2026-08-22T03:23:14.637Z",
+    "changefreq": "weekly",
+    "priority": 0.8
+  },
+  {
+    "loc": "/projects/patch-analysis-and-vulnerability-research",
+    "lastmod": "2026-08-22T06:15:17.776Z",
+    "changefreq": "weekly",
+    "priority": 0.8
+  },
+  {
+    "loc": "/projects/sup-chess-game-development",
+    "lastmod": "2026-08-22T03:23:14.710Z",
+    "changefreq": "weekly",
+    "priority": 0.8
+  },
+  {
+    "loc": "/projects/droidsd-android-similarity-detection",
+    "lastmod": "2026-08-22T06:15:17.923Z",
+    "changefreq": "weekly",
+    "priority": 0.8
+  },
+  {
+    "loc": "/projects/ibfet-large-scale-code-clone-detection",
+    "lastmod": "2026-08-22T06:15:18.069Z",
     "changefreq": "weekly",
     "priority": 0.8
   }

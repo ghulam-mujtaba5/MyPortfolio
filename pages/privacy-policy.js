@@ -1,4 +1,4 @@
-import SEO, { breadcrumbSchema } from "../components/SEO";
+import SEO, { breadcrumbSchema, webPageSchema } from "../components/SEO";
 import NavBarDesktop from "../components/NavBar_Desktop/nav-bar";
 import NavBar from "../components/NavBar_Mobile/NavBar-mobile";
 import Footer from "../components/Footer/Footer";
@@ -19,17 +19,28 @@ const PrivacyPolicy = () => {
   );
   // Example sections for the mobile navbar; adjust as needed
   const sections = MAIN_SECTIONS;
+
+  const privacyPolicyJsonLd = [
+    webPageSchema({
+      name: "Privacy Policy | Ghulam Mujtaba Portfolio",
+      description:
+        "Read the Privacy Policy for Ghulam Mujtaba's portfolio website. Learn how we handle, collect, and protect your personal data and respect your privacy.",
+      url: "https://ghulammujtaba.com/privacy-policy",
+    }),
+    breadcrumbSchema([
+      { name: "Privacy Policy", url: "https://ghulammujtaba.com/privacy-policy" },
+    ]),
+  ];
+
   return (
     <>
       <SEO
         title="Privacy Policy | Ghulam Mujtaba Portfolio"
-        description="Privacy Policy for Ghulam Mujtaba's Portfolio website. Learn how we collect, use, and protect your information."
+        description="Read the Privacy Policy for Ghulam Mujtaba's portfolio website. Learn how we handle, collect, and protect your personal data and respect your privacy."
         url="https://ghulammujtaba.com/privacy-policy"
         canonical="https://ghulammujtaba.com/privacy-policy"
         keywords="Privacy Policy, Ghulam Mujtaba, Portfolio, Data Protection, User Data"
-        jsonLd={breadcrumbSchema([
-          { name: "Privacy Policy", url: "https://ghulammujtaba.com/privacy-policy" },
-        ])}
+        jsonLd={privacyPolicyJsonLd}
       />
       <div
         style={{

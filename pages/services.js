@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import dynamic from "next/dynamic";
 import { useTheme } from "../context/ThemeContext";
 import SEO, { breadcrumbSchema, professionalServiceSchema } from "../components/SEO";
 import { MAIN_SECTIONS } from "../constants/navigation";
 import styles from "../styles/ServicesPage.module.css";
 import { Code2, Brain, Smartphone, Database, Calendar, Mail, ArrowRight } from "lucide-react";
+import NavBarDesktop from "../components/NavBar_Desktop/nav-bar";
+import NavBarMobile from "../components/NavBar_Mobile/NavBar-mobile";
 
-const NavBarDesktop = dynamic(() => import("../components/NavBar_Desktop/nav-bar"), { ssr: false });
-const NavBarMobile = dynamic(() => import("../components/NavBar_Mobile/NavBar-mobile"), { ssr: false });
 const Footer = dynamic(() => import("../components/Footer/Footer"), { ssr: false });
 
 const servicesList = [
@@ -39,15 +39,7 @@ const servicesList = [
 
 export default function ServicesPage() {
   const { theme } = useTheme();
-  const [isMobile, setIsMobile] = useState(false);
   const sections = MAIN_SECTIONS;
-
-  useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth < 768);
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
-    return () => window.removeEventListener("resize", checkMobile);
-  }, []);
 
   const servicesJsonLd = [
     professionalServiceSchema(),
@@ -75,7 +67,12 @@ export default function ServicesPage() {
 
       <div className={styles.pageBg}>
         <header>
-          {isMobile ? <NavBarMobile sections={sections} /> : <NavBarDesktop />}
+          <div className="nav-desktop-wrapper hide-on-mobile">
+            <NavBarDesktop />
+          </div>
+          <div className="show-on-mobile">
+            <NavBarMobile sections={sections} />
+          </div>
         </header>
 
         <main id="main-content" className={styles.contentContainer}>

@@ -1,14 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
 import Lottie from "lottie-react";
 
-const HoverLottie = ({ src, active, className }) => {
+const HoverLottie = ({ src, className }) => {
   const lottieRef = useRef(null);
   const wrapperRef = useRef(null);
   const [animationData, setAnimationData] = useState(null);
-  const [isLocallyActive, setIsLocallyActive] = useState(false);
-  const [shouldLoad, setShouldLoad] = useState(false);
   const [isReducedMotion, setIsReducedMotion] = useState(false);
-  const isActive = active || isLocallyActive;
 
   useEffect(() => {
     const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -20,42 +17,7 @@ const HoverLottie = ({ src, active, className }) => {
   }, []);
 
   useEffect(() => {
-    const card = wrapperRef.current?.parentElement;
-    if (!card) return;
-
-    const show = () => {
-      setShouldLoad(true);
-      setIsLocallyActive(true);
-    };
-    const hide = () => setIsLocallyActive(false);
-
-    card.addEventListener("mouseenter", show);
-    card.addEventListener("pointerenter", show);
-    card.addEventListener("focusin", show);
-    card.addEventListener("click", show);
-    card.addEventListener("touchstart", show, { passive: true });
-    card.addEventListener("mouseleave", hide);
-    card.addEventListener("pointerleave", hide);
-    card.addEventListener("focusout", hide);
-
-    return () => {
-      card.removeEventListener("mouseenter", show);
-      card.removeEventListener("pointerenter", show);
-      card.removeEventListener("focusin", show);
-      card.removeEventListener("click", show);
-      card.removeEventListener("touchstart", show);
-      card.removeEventListener("mouseleave", hide);
-      card.removeEventListener("pointerleave", hide);
-      card.removeEventListener("focusout", hide);
-    };
-  }, []);
-
-  useEffect(() => {
-    if (active) setShouldLoad(true);
-  }, [active]);
-
-  useEffect(() => {
-    if (!shouldLoad || animationData || isReducedMotion) return;
+    if (!src || isReducedMotion) return;
 
     let cancelled = false;
     fetch(src)
@@ -73,17 +35,7 @@ const HoverLottie = ({ src, active, className }) => {
     return () => {
       cancelled = true;
     };
-  }, [animationData, isReducedMotion, shouldLoad, src]);
-
-  useEffect(() => {
-    if (!lottieRef.current || !animationData) return;
-
-    if (isActive) {
-      lottieRef.current.goToAndPlay(0, true);
-    } else {
-      lottieRef.current.stop();
-    }
-  }, [animationData, isActive]);
+  }, [isReducedMotion, src]);
 
   if (isReducedMotion) return null;
 
@@ -93,8 +45,8 @@ const HoverLottie = ({ src, active, className }) => {
         <Lottie
           lottieRef={lottieRef}
           animationData={animationData}
-          loop
-          autoplay={isActive}
+          loop={true}
+          autoplay={true}
           style={{ width: "100%", height: "100%" }}
         />
       ) : null}
@@ -103,3 +55,4 @@ const HoverLottie = ({ src, active, className }) => {
 };
 
 export default HoverLottie;
+
