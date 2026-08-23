@@ -93,11 +93,9 @@ const OptimizedImage = ({
         // Exponential back-off: 1s, 2s, 4s …
         const delay = Math.pow(2, retriesRef.current - 1) * 1000;
         timerRef.current = setTimeout(() => {
-          // Bust cache by appending a retry param (external only)
+          // Bust cache by appending a retry param
           const separator = resolvedSrc.includes("?") ? "&" : "?";
-          const bustSrc = isExternal
-            ? `${resolvedSrc}${separator}_retry=${retriesRef.current}`
-            : resolvedSrc;
+          const bustSrc = `${resolvedSrc}${separator}_retry=${retriesRef.current}`;
           setCurrentSrc(bustSrc);
           setIsLoading(true);
         }, delay);
@@ -109,7 +107,7 @@ const OptimizedImage = ({
         externalOnError?.(e);
       }
     },
-    [maxRetries, resolvedSrc, isExternal, externalOnError],
+    [maxRetries, resolvedSrc, externalOnError],
   );
 
   // If src was empty from the start, render placeholder immediately
@@ -123,9 +121,9 @@ const OptimizedImage = ({
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          background: "linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 100%)",
+          background: "linear-gradient(135deg, #1f2937 0%, #111827 100%)",
           borderRadius: 8,
-          color: "#94a3b8",
+          color: "#9ca3af",
           fontSize: 13,
           ...style,
         }}
@@ -137,13 +135,22 @@ const OptimizedImage = ({
     );
   }
 
-  // Check if current src is unsupported data/blob URI or SVG, or if unoptimized was explicitly requested via prop
+  // Check if current src is unsupported data/blob URI, SVG, or internal API media stream
   const isDataOrBlob = /^data:image\//i.test(currentSrc) || /^blob:/i.test(currentSrc);
   const isSvg = /\.svg(\?.*)?$/i.test(currentSrc) || /^data:image\/svg\+xml/i.test(currentSrc);
-  const shouldUnoptimize = typeof unoptimized === "boolean" ? unoptimized : (isDataOrBlob || isSvg);
+  const isApiMedia = typeof currentSrc === "string" && (currentSrc.startsWith("/api/media/") || currentSrc.includes("/api/media/file/"));
+  const shouldUnoptimize = typeof unoptimized === "boolean" ? unoptimized : (isDataOrBlob || isSvg || isApiMedia);
+
+  const wrapperStyle = {
+    position: "relative",
+    display: fill || style?.width === "100%" ? "block" : "inline-block",
+    width: fill ? "100%" : (style?.width || width),
+    height: fill ? "100%" : (style?.height || height),
+    overflow: "hidden",
+  };
 
   return (
-    <div style={{ position: "relative", display: "inline-block", ...(!fill ? { width, height } : {}) }}>
+    <div style={wrapperStyle}>
       {/* Loading shimmer overlay */}
       {isLoading && !hasErrored && (
         <div

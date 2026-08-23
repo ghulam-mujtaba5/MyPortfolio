@@ -1,7 +1,7 @@
 import React, { useCallback } from "react";
-import Image from "next/image";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import OptimizedImage from "../OptimizedImage/OptimizedImage";
 import styles from "./CaseCard.module.css";
 import Tilt, { TiltGlare } from "../AnimatedUI/Tilt";
 
@@ -38,9 +38,10 @@ const resolveImage = (project) => {
     /^blob:/.test(img);
   const isDataOrBlob = /^data:image\//i.test(img) || /^blob:/.test(img);
   const isSvg = /\.svg(\?.*)?$/i.test(img) || /^data:image\/svg\+xml/i.test(img);
+  const isApiMedia = img.startsWith("/api/media/") || img.includes("/api/media/file/");
   return {
     src: isExternal ? img : img.startsWith("/") ? img : `/${img}`,
-    unoptimized: Boolean(project?.unoptimized) || isDataOrBlob || isSvg,
+    unoptimized: Boolean(project?.unoptimized) || isDataOrBlob || isSvg || isApiMedia,
     fit: project?.imageFit || "cover",
   };
 };
@@ -101,20 +102,28 @@ const ProjectCard = React.memo(({ project, featured = false }) => {
         <span className={styles.chromeUrl}>{displayUrl(project)}</span>
       </div>
 
-      {image && (
-        <div className={styles.shot}>
-          <Image
+      <div className={styles.shot}>
+        {image ? (
+          <OptimizedImage
             className={styles.shotImg}
             alt={`${project.title || "Project"} screenshot`}
             src={image.src}
             width={640}
             height={400}
-            loading="lazy"
+            priority={featured}
             unoptimized={image.unoptimized}
-            style={{ objectFit: image.fit }}
+            style={{ objectFit: image.fit, width: "100%", height: "100%" }}
+            maxRetries={3}
           />
-        </div>
-      )}
+        ) : (
+          <div className={styles.placeholderShot}>
+            <span className={styles.placeholderInitials}>
+              {(project.title || "Project").slice(0, 2).toUpperCase()}
+            </span>
+            <span className={styles.placeholderTitle}>{project.title}</span>
+          </div>
+        )}
+      </div>
 
       <div className={styles.body}>
         <div className={styles.eyebrowRow}>

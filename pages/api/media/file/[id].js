@@ -38,21 +38,35 @@ export default async function handler(req, res) {
     }
 
     const file = files[0];
+    const etag = `"${file._id}_${file.length || 0}"`;
+
+    if (req.headers["if-none-match"] === etag) {
+      return res.status(304).end();
+    }
+
     if (file.contentType) {
       res.setHeader("Content-Type", file.contentType);
     }
+    if (file.length) {
+      res.setHeader("Content-Length", file.length);
+    }
+    res.setHeader("ETag", etag);
     res.setHeader("Cache-Control", "public, max-age=31536000, immutable");
 
     const downloadStream = bucket.openDownloadStream(objectId);
 
     downloadStream.on("error", () => {
-      res.status(404).end();
+      if (!res.headersSent) {
+        res.status(404).end();
+      }
     });
 
     downloadStream.pipe(res);
   } catch (err) {
-    res
-      .status(500)
-      .json({ message: "Error streaming file", error: err.message });
+    if (!res.headersSent) {
+      res
+        .status(500)
+        .json({ message: "Error streaming file", error: err.message });
+    }
   }
 }
