@@ -7,7 +7,6 @@ import NavBarMobile from "../../components/NavBar_Mobile/NavBar-mobile";
 import WelcomeFrame from "../../components/welcome/welcome";
 import PortfolioPictureImage from "../../components/profile-picture-desktop/PortfolioPictureImage";
 import AboutMeSection from "../../components/AboutMe/AboutMeSectionLight";
-import TrustStrip from "../../components/TrustStrip/TrustStrip";
 import FounderJourney from "../../components/Journey/FounderJourney";
 import Languages from "../../components/Languages/Languages";
 import SkillFrame from "../../components/Skills/SkillFrame";
@@ -194,8 +193,6 @@ const Home = ({ previewProjects = [], previewArticles = [] }) => {
               }}
             />
           </section>
-
-          <TrustStrip />
 
           <section
             id="about-section"

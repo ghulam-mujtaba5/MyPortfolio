@@ -1,15 +1,7 @@
 /* FooterLight.module.css */
 .footerBackground {
-  /* Same --bg-subtle tone as the contact section above for a seamless join,
-     with a soft blue glow under the top accent bar so the footer still
-     feels part of the brand system. */
   background-color: var(--bg-subtle, #e8ebee);
-  background-image: radial-gradient(
-    1200px 200px at 50% 0%,
-    rgba(69, 115, 223, 0.08),
-    transparent 70%
-  );
-  border-top: 1px solid rgba(69, 115, 223, 0.12);
+  border-top: 1px solid var(--border-subtle, rgba(0, 0, 0, 0.08));
 }
 
 .footer {
