@@ -30,3 +30,4 @@ npm-debug.log*
 .next.js
 .vercel
 .env*.local
+.env*
