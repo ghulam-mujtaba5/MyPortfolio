@@ -239,13 +239,7 @@ const NavBar = () => {
                 height="20"
               />
             </span>
-
-            {/* Animated underline */}
-            <span
-              className={`${styles.nameUnderline} ${hover ? styles.nameUnderlineActive : ""}`}
-            />
           </span>
-
       </Link>
 
       {/* Right side navigation */}

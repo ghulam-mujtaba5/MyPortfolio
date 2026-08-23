@@ -25,6 +25,11 @@
     position: relative;
     overflow: hidden;
     cursor: pointer;
+    text-decoration: none !important;
+}
+
+.header a {
+    text-decoration: none !important;
 }
 
 .navItem::before {
@@ -52,6 +57,7 @@
 .active {
     background-color: #4573df !important;
     color: #fff !important;
+    text-decoration: none !important;
     box-shadow: 0 4px 16px 0 rgba(34, 34, 59, 0.18);
     transform: scale(1.05);
     animation: popIn var(--duration-normal, 0.3s)
@@ -64,6 +70,7 @@
 .active .projectText,
 .active .contactText {
     color: #fff !important;
+    text-decoration: none !important;
 }
 
 /* Styles for the Home button text */
@@ -74,6 +81,7 @@
 .header .navItem,
 .header .navItem span,
 .header .navItem b {
+    text-decoration: none !important;
     transition:
         background-color var(--duration-normal, 0.3s) var(--ease-out, ease-out),
         transform var(--duration-normal, 0.3s) var(--ease-out, ease-out),
@@ -90,6 +98,7 @@
     color: #fff;
     text-align: left;
     min-width: 59px;
+    text-decoration: none !important;
 }
 
 /* Styles for the Home button */
@@ -104,6 +113,7 @@
     flex-direction: row;
     align-items: center;
     justify-content: center;
+    text-decoration: none !important;
     animation: fadeInDown var(--duration-normal, 0.3s) var(--ease-out, ease-out);
     font-family: inherit;
     font-size: inherit;
@@ -121,6 +131,7 @@
     font-family: inherit;
     font-size: inherit;
     line-height: inherit;
+    text-decoration: none !important;
     -webkit-appearance: none;
     appearance: none;
 }
@@ -135,6 +146,7 @@
     background-color: #4573df;
     transform: scale(1.05);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    text-decoration: none !important;
 }
 
 /* Focus visible states for keyboard navigation */
@@ -307,20 +319,11 @@
 
 /* Animated underline for the name */
 .nameUnderline {
-    position: absolute;
-    bottom: -4px;
-    left: 0;
-    width: 0;
-    height: 2px;
-    background: linear-gradient(90deg, #4573df, #6b8cef, #4573df);
-    background-size: 200% 100%;
-    border-radius: 2px;
-    transition: width 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    display: none !important;
 }
 
 .nameUnderlineActive {
-    width: 100%;
-    animation: underlineShimmer 1.5s linear infinite;
+    display: none !important;
 }
 
 /* Styles for the Resume section text */

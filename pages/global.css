@@ -97,6 +97,11 @@ body {
     -moz-osx-font-smoothing: grayscale;
 }
 
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
 /* View Transitions API Support */
 @view-transition {
     navigation: auto;
